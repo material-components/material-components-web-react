@@ -3,7 +3,7 @@
   "description": "Material Components React",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "webpack-dev-server --config test/screenshot/webpack.config.js",
+    "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix packages test",
     "lint": "eslint packages test",
