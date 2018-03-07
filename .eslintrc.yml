@@ -1,0 +1,7 @@
+extends: google
+parser: babel-eslint
+rules: 
+  strict: 0
+  require-jsdoc: off
+  valid-jsdoc: off
+  switch-colon-spacing: 0
