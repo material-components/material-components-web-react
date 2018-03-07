@@ -1,4 +1,6 @@
-import TemporaryClass from '../../../packages/temporary-package';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const temporary = new TemporaryClass();
-console.log(temporary.returnOne());
+ReactDOM.render((
+  <div>test</div>
+), document.getElementById('app'));
