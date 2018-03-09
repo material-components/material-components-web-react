@@ -5,15 +5,16 @@
   "scripts": {
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "stop": "./test/screenshot/stop.sh",
-    "capture": "node test/screenshot/take-screenshots.js",
+    "capture": "node test/screenshot/capture-suite.js",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix packages test",
     "lint": "eslint packages test",
     "pretest": "npm run lint && npm stop && ./test/screenshot/start.sh",
-    "test": "npm run test:unit && node test/screenshot/test-screenshots.js",
+    "test": "npm run test:unit && npm run test:image-diff",
     "posttest": "npm stop && istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
     "test:watch": "karma start --auto-watch",
-    "test:unit": "karma start --single-run"
+    "test:unit": "karma start --single-run",
+    "test:image-diff": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd test/screenshot/**/*.test.js"
   },
   "config": {
     "validate-commit-msg": {
