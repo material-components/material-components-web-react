@@ -34,7 +34,6 @@ export default class Screenshot {
       .then(function([newScreenshot, oldScreenshot]) {
         return new Promise(function(resolve) {
             const resolve2 = function(data) {
-              console.log('stuff');
               assert.isBelow(Number(data.misMatchPercentage), 0.01);
               resolve();
             };
