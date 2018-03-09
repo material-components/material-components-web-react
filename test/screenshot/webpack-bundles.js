@@ -1,23 +1,23 @@
-module.exports.sassBundle = function(sassInput, cssOutput) {
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+module.exports.bundle = function(testPath) {
   return {
-    entry: sassInput,
+    entry: './test/screenshot/' + testPath + '/index.js',
     output: {
-      // This is necessary for webpack to compile
-      // But we never use style-bundle.js
-      filename: 'style-bundle.js',
+      filename: testPath + '/bundle.js',
     },
     module: {
       rules: [{
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },{
         test: /\.scss$/,
-        use: [{
-            loader: 'file-loader',
-            options: {
-              name: cssOutput,
-            },
-          },
-          {
-            loader: 'extract-loader'
-          },
+        use: ExtractTextPlugin.extract({
+          use: [
           {
             loader: 'css-loader'
           },
@@ -38,26 +38,12 @@ module.exports.sassBundle = function(sassInput, cssOutput) {
               }
             }
           }
-        ]
+        ]})
       }]
-    }
-  };
-};
-
-module.exports.javaScriptBundle = function(input, output) {
-  return {
-    entry: input,
-    output: {
-      filename: output
     },
-    module: {
-      loaders: [{
-        test: /\.js$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react']
-        }
-      }]
-    }
-  }
+    plugins: [
+      new ExtractTextPlugin(testPath + '/bundle.css'),
+      new OptimizeCssAssetsPlugin()
+    ]
+  };
 };
