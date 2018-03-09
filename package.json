@@ -48,7 +48,7 @@
     "karma-mocha": "^1.3.0",
     "karma-webpack": "^2.0.13",
     "mocha": "^5.0.2",
-    "node-image-compare-promise": "^0.1.4",
+    "node-resemble-js": "^0.2.0",
     "node-sass": "^4.7.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "react": "^16.2.0",

@@ -8,6 +8,7 @@ export default class Screenshot {
   constructor(urlPath, imagePath) {
     this.urlPath_ = urlPath;
     this.imagePath_ = imagePath;
+    // TODO allow clients to specify capture-chrome options, like viewport size
   }
 
   capture() {
