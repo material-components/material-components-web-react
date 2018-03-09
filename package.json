@@ -4,13 +4,14 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
+    "stop": "./test/screenshot/stop.sh",
     "capture": "node test/screenshot/screenshot-suite.js",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix packages test",
     "lint": "eslint packages test",
-    "pretest": "npm run lint",
-    "test": "npm run test:unit",
-    "posttest": "istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
+    "pretest": "npm run lint && npm stop && ./test/screenshot/start.sh",
+    "test": "npm run test:unit && npm run capture",
+    "posttest": "npm stop && istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
     "test:watch": "karma start --auto-watch",
     "test:unit": "karma start --single-run"
   },
