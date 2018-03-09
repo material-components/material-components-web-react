@@ -3,38 +3,44 @@ import fs from 'fs';
 import resemble from 'node-resemble-js';
 import readFilePromise from 'fs-readfile-promise';
 import {assert} from 'chai';
-import {compareImages} from 'node-image-compare-promise';
 
 export default class Screenshot {
-  constructor(path, name) {
-    this.path_ = path;
-    this.name_ = name;
+  constructor(urlPath, imagePath) {
+    this.urlPath_ = urlPath;
+    this.imagePath_ = imagePath;
   }
 
   capture() {
-    capture({
-      url: 'http://localhost:8080/' + this.path_,
-    }).then((screenshot) => {
-      fs.writeFileSync(
-        './test/screenshot/' + this.path_ + '/' + this.name_ + '.png',
-        screenshot);
+    test(this.urlPath_, () => {
+      // TODO check that url resolves with 200 response first
+      return capture({
+        url: 'http://localhost:8080/' + this.urlPath_,
+      }).then((screenshot) => {
+        fs.writeFileSync(
+          './test/screenshot/' + this.imagePath_,
+          screenshot);
+      });
     });
   }
 
   diff() {
-    test(this.name_, () => {
+    test(this.urlPath_, () => {
       const capturePromise = capture({
-        url: 'http://localhost:8080/' + this.path_,
+        url: 'http://localhost:8080/' + this.urlPath_,
       });
       const readPromise = readFilePromise(
-          './test/screenshot/' + this.path_ + '/' + this.name_ + '.png');
-      return Promise.all([capturePromise, readPromise]).then(function([newScreenshot, oldScreenshot]) {
+          './test/screenshot/' + this.imagePath_);
+      return Promise.all([capturePromise, readPromise])
+      .then(function([newScreenshot, oldScreenshot]) {
         return new Promise(function(resolve) {
             const resolve2 = function(data) {
+              console.log('stuff');
               assert.isBelow(Number(data.misMatchPercentage), 0.01);
               resolve();
             };
-            resemble(newScreenshot).compareTo(oldScreenshot).onComplete(resolve2);
+            resemble(newScreenshot)
+            .compareTo(oldScreenshot)
+            .onComplete(resolve2);
         });
       });
     });

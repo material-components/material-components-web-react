@@ -1,11 +1,11 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-module.exports.bundle = function(testPath) {
+module.exports.bundle = function(testPath, outputPath) {
   return {
-    entry: './test/screenshot/' + testPath + '/index.js',
+    entry: './test/screenshot/' + testPath,
     output: {
-      filename: testPath + '/bundle.js',
+      filename: outputPath + '.js',
     },
     module: {
       rules: [{
@@ -42,7 +42,7 @@ module.exports.bundle = function(testPath) {
       }],
     },
     plugins: [
-      new ExtractTextPlugin(testPath + '/bundle.css'),
+      new ExtractTextPlugin(outputPath + '.css'),
       new OptimizeCssAssetsPlugin(),
     ],
   };

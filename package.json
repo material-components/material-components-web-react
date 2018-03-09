@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "stop": "./test/screenshot/stop.sh",
-    "capture": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd test/screenshot/**/*.capture.js",
+    "capture": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd test/screenshot/**/capture.js",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix packages test",
     "lint": "eslint packages test",
@@ -14,7 +14,7 @@
     "posttest": "npm stop && istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
     "test:watch": "karma start --auto-watch",
     "test:unit": "karma start --single-run",
-    "test:image-diff": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd test/screenshot/**/*.diff.js"
+    "test:image-diff": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd --timeout 15000 test/screenshot/**/diff.js"
   },
   "config": {
     "validate-commit-msg": {
