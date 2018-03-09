@@ -1,3 +1,4 @@
+import ScreenshotSuite from '../screenshot-suite';
 import Screenshot from '../screenshot';
 
 const screenshots = [
@@ -5,4 +6,6 @@ const screenshots = [
   new Screenshot('temporary-package/foo.html', 'temporary-package/foo.png'),
 ];
 
-export default screenshots;
+const screenshotSuite = new ScreenshotSuite('TemporaryPackage', screenshots);
+
+export default screenshotSuite;
