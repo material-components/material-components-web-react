@@ -32,6 +32,7 @@
     "css-loader": "^0.28.10",
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.9.1",
+    "eslint-plugin-react": "^7.7.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",

@@ -1,5 +1,9 @@
-extends: google
+extends: 
+  - google
+  - plugin:react/recommended
 parser: babel-eslint
+plugins: 
+  - react
 rules: 
   strict: 0
   require-jsdoc: off

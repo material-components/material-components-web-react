@@ -12,38 +12,38 @@ module.exports.bundle = function(testPath) {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react']
-        }
-      },{
+          presets: ['es2015', 'react'],
+        },
+      }, {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           use: [
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
           },
           {
             loader: 'sass-loader',
             options: {
               importer: function(url, prev) {
                 if (url.indexOf('@material') === 0) {
-                  var filePath = url.split('@material')[1];
-                  var nodeModulePath = `./node_modules/@material/${filePath}`;
+                  let filePath = url.split('@material')[1];
+                  let nodeModulePath = `./node_modules/@material/${filePath}`;
                   return {
-                    file: require('path').resolve(nodeModulePath)
+                    file: require('path').resolve(nodeModulePath),
                   };
                 }
                 return {
-                  file: url
+                  file: url,
                 };
-              }
-            }
-          }
-        ]})
-      }]
+              },
+            },
+          },
+        ]}),
+      }],
     },
     plugins: [
       new ExtractTextPlugin(testPath + '/bundle.css'),
-      new OptimizeCssAssetsPlugin()
-    ]
+      new OptimizeCssAssetsPlugin(),
+    ],
   };
 };
