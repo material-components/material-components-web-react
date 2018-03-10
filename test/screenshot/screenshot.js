@@ -51,7 +51,7 @@ export default class Screenshot {
 
   checkStatusCode_(url, success) {
     return new Promise((resolve) => {
-      get((url, res) => {
+      get(url, (res) => {
         const {statusCode} = res;
         if (statusCode === 200) {
           resolve(success);
