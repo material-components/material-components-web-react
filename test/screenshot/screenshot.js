@@ -37,13 +37,13 @@ export default class Screenshot {
       return Promise.all([capturePromise, readPromise])
       .then(function([newScreenshot, oldScreenshot]) {
         return new Promise(function(resolve) {
-            const resolve2 = function(data) {
+            const onComplete = function(data) {
               assert.isBelow(Number(data.misMatchPercentage), 0.01);
               resolve();
             };
             resemble(newScreenshot)
             .compareTo(oldScreenshot)
-            .onComplete(resolve2);
+            .onComplete(onComplete);
         });
       });
     });
@@ -51,12 +51,12 @@ export default class Screenshot {
 
   checkStatusCode_(url, success) {
     return new Promise((resolve) => {
-      get(url, res => {
+      get((url, res) => {
         const {statusCode} = res;
         if (statusCode === 200) {
           resolve(success);
         }
-      })
+      });
     });
   }
 }
