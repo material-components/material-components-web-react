@@ -1,5 +1,6 @@
-const {bundle} = require('./webpack-bundles');
+const temporaryPackageBundles
+  = require('./temporary-package/webpack.config.js');
 
 module.exports = [
-  bundle('temporary-package'),
+  ...temporaryPackageBundles,
 ];
