@@ -1,4 +1,5 @@
 import capture from 'capture-chrome';
+import {get} from 'http';
 import fs from 'fs';
 import resemble from 'node-resemble-js';
 import readFilePromise from 'fs-readfile-promise';
@@ -13,14 +14,16 @@ export default class Screenshot {
 
   capture() {
     test(this.urlPath_, () => {
-      // TODO check that url resolves with 200 response first
-      return capture({
-        url: 'http://localhost:8080/' + this.urlPath_,
-      }).then((screenshot) => {
-        fs.writeFileSync(
-          './test/screenshot/' + this.imagePath_,
-          screenshot);
-      });
+      const url = 'http://localhost:8080/' + this.urlPath_;
+      return this.checkStatusCode_(url,
+        capture({
+          url,
+        }).then((screenshot) => {
+          fs.writeFileSync(
+            './test/screenshot/' + this.imagePath_,
+            screenshot);
+        })
+      );
     });
   }
 
@@ -43,6 +46,17 @@ export default class Screenshot {
             .onComplete(resolve2);
         });
       });
+    });
+  }
+
+  checkStatusCode_(url, success) {
+    return new Promise((resolve) => {
+      get(url, res => {
+        const {statusCode} = res;
+        if (statusCode === 200) {
+          resolve(success);
+        }
+      })
     });
   }
 }
