@@ -51,7 +51,7 @@
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.7.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
-    "puppeteer": "^1.1.1"
+    "puppeteer": "^1.1.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "sass-loader": "^6.0.7",
