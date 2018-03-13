@@ -53,22 +53,18 @@ export default class Screenshot {
     });
   }
 
-  createScreenshotTask_(url, path) {
-    return new Promise((resolve) => {
-      (async () => {
-        let image;
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        await page.goto(url);
-        if (path) {
-          image = await page.screenshot({path});
-        } else {
-          image = await page.screenshot();
-        }
+  async createScreenshotTask_(url, path) {
+    let image;
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url);
+    if (path) {
+      image = await page.screenshot({path});
+    } else {
+      image = await page.screenshot();
+    }
 
-        await browser.close();
-        resolve(image);
-      })();
-    });
+    await browser.close();
+    return image;
   }
 }
