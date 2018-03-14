@@ -3,7 +3,7 @@
   "description": "Material Components React",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
+    "start": "webpack-dev-server --config test/screenshot/webpack.config.js",
     "stop": "./test/screenshot/stop.sh",
     "capture": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd test/screenshot/capture-suite.js",
     "commitmsg": "validate-commit-msg",
@@ -39,6 +39,9 @@
     "eslint-plugin-react": "^7.7.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "fs-readfile-promise": "^3.0.1",
+    "handlebars": "^4.0.11",
+    "handlebars-loader": "^1.6.0",
+    "html-webpack-plugin": "^3.0.6",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "istanbul-instrumenter-loader": "^3.0.0",
@@ -58,5 +61,8 @@
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.2"
+  },
+  "dependencies": {
+    "react-router-dom": "^4.2.2"
   }
 }
