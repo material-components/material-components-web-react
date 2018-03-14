@@ -1,6 +1,5 @@
-import capture from 'capture-chrome';
-import {get} from 'http';
-import fs from 'fs';
+import puppeteer from 'puppeteer';
+
 import resemble from 'node-resemble-js';
 import readFilePromise from 'fs-readfile-promise';
 import {assert} from 'chai';
@@ -13,50 +12,46 @@ export default class Screenshot {
   }
 
   capture() {
-    test(this.urlPath_, () => {
+    test(this.urlPath_, async () => {
       const url = 'http://localhost:8080/' + this.urlPath_;
-      return this.checkStatusCode_(url,
-        capture({
-          url,
-        }).then((screenshot) => {
-          fs.writeFileSync(
-            './test/screenshot/' + this.imagePath_,
-            screenshot);
-        })
-      );
+      const imagePath = `./test/screenshot/${this.imagePath_}`;
+      await this.createScreenshotTask_(url, imagePath);
     });
   }
 
   diff() {
     test(this.urlPath_, () => {
-      const capturePromise = capture({
-        url: 'http://localhost:8080/' + this.urlPath_,
-      });
+      const url = 'http://localhost:8080/' + this.urlPath_;
+      const capturePromise = this.createScreenshotTask_(url);
       const readPromise = readFilePromise(
           './test/screenshot/' + this.imagePath_);
       return Promise.all([capturePromise, readPromise])
       .then(function([newScreenshot, oldScreenshot]) {
         return new Promise(function(resolve) {
-            const onComplete = function(data) {
-              assert.isBelow(Number(data.misMatchPercentage), 0.01);
-              resolve();
-            };
-            resemble(newScreenshot)
-            .compareTo(oldScreenshot)
-            .onComplete(onComplete);
+          const onComplete = function(data) {
+            assert.isBelow(Number(data.misMatchPercentage), 0.01);
+            resolve();
+          };
+          resemble(newScreenshot)
+          .compareTo(oldScreenshot)
+          .onComplete(onComplete);
         });
       });
     });
   }
 
-  checkStatusCode_(url, success) {
-    return new Promise((resolve) => {
-      get(url, (res) => {
-        const {statusCode} = res;
-        if (statusCode === 200) {
-          resolve(success);
-        }
-      });
-    });
+  async createScreenshotTask_(url, path) {
+    let image;
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url);
+    if (path) {
+      image = await page.screenshot({path});
+    } else {
+      image = await page.screenshot();
+    }
+
+    await browser.close();
+    return image;
   }
 }
