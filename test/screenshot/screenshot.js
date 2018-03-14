@@ -1,6 +1,5 @@
 import puppeteer from 'puppeteer';
 
-import {get} from 'http';
 import resemble from 'node-resemble-js';
 import readFilePromise from 'fs-readfile-promise';
 import {assert} from 'chai';
@@ -13,11 +12,10 @@ export default class Screenshot {
   }
 
   capture() {
-    test(this.urlPath_, () => {
+    test(this.urlPath_, async () => {
       const url = 'http://localhost:8080/' + this.urlPath_;
       const imagePath = `./test/screenshot/${this.imagePath_}`;
-      const capturePromise = this.createScreenshotTask_(url, imagePath);
-      return this.checkStatusCode_(url, capturePromise);
+      await this.createScreenshotTask_(url, imagePath);
     });
   }
 
@@ -38,17 +36,6 @@ export default class Screenshot {
           .compareTo(oldScreenshot)
           .onComplete(onComplete);
         });
-      });
-    });
-  }
-
-  checkStatusCode_(url, success) {
-    return new Promise((resolve) => {
-      get(url, (res) => {
-        const {statusCode} = res;
-        if (statusCode === 200) {
-          resolve(success);
-        }
       });
     });
   }
