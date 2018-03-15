@@ -5,3 +5,4 @@ node_modules
 *.iml
 *.test.png
 *.diff.png
+key.json

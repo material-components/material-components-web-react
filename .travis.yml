@@ -7,8 +7,6 @@ git:
 branches:
   only:
     - experimental/screenshot-testing
-addons:
-  chrome: stable
 
 env:
   - TEST_SUITE=units
@@ -17,4 +15,6 @@ env:
 install:
   - npm i
 script:
-  - ./scripts/run-travis-tests.sh
+  - npm run test:ci
+after_failure:
+  - npm run upload:screenshots
