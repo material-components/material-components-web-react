@@ -6,10 +6,15 @@ git:
   depth: false
 branches:
   only:
-    - experimental/travis
+    - experimental/screenshot-testing
 addons:
   chrome: stable
+
+env:
+  - TEST_SUITE=units
+  - TEST_SUITE=screenshots
+
 install:
   - npm i
 script:
-  - npm run test:ci
+  - ./scripts/run-travis-tests.sh
