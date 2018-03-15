@@ -3,3 +3,5 @@ coverage
 node_modules
 .DS_Store
 *.iml
+*.test.png
+*.diff.png
