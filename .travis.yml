@@ -1,10 +1,15 @@
 language: node_js
+node_js: 8
+dist: trusty
+sudo: required
 git:
   depth: false
 branches:
   only:
     - experimental/travis
-matrix:
-  include:
-    - node_js: 8
-      script: npm run test:ci
+addons:
+  chrome: stable
+install:
+  - npm i
+script:
+  - npm run test:ci
