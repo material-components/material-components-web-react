@@ -32,20 +32,20 @@ const bucket = storage.bucket(BUCKET_NAME);
 
 const screenshots = glob.sync(`${DIR}/**/*.png`);
 
-screenshots.forEach((filename) => {
-  const originalName = path.resolve(fileName);
-  const targetName = fileName.replace(DIR, COMMIT_HASH);
-  const file = bucket.file(targetName);
+screenshots.forEach((fname) => {
+  const fileName = path.resolve(fname);
+  const bucketFileName = fileName.replace(DIR, COMMIT_HASH);
+  const file = bucket.file(bucketFileName);
 
-  console.log('→ Uploading', originalName);
-  fs.createReadStream(originalName)
+  console.log('→ Uploading', fileName);
+  fs.createReadStream(fileName)
     .pipe(file.createWriteStream())
     .on('error', (err) => {
       console.error(err);
     }).on('finish', () => {
-      console.log('✔︎ Done uploading', originalName);
+      console.log('✔︎ Done uploading', fileName);
       file.makePublic().then(() => {
-        console.log('✔︎ Available publicly', originalName);
+        console.log('✔︎ Available publicly', fileName);
       }).catch((err) => {
         console.error(err);
       });
