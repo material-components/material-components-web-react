@@ -1,0 +1,10 @@
+language: node_js
+git:
+  depth: false
+branches:
+  only:
+    - experimental/travis
+matrix:
+  include:
+    - node_js: 8
+      script: npm run test:ci
