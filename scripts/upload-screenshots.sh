@@ -32,8 +32,8 @@ fi
 PATH_TO_KEY=./key.json
 echo $SERVICE_ACCOUNT_KEY > $PATH_TO_KEY
 
-BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-echo 'Uploading screenshot...'
+COMMIT_HASH=$(git rev-parse --short HEAD)
+echo 'Uploading screenshots...'
 
-PATH_TO_KEY=$PATH_TO_KEY BRANCH_NAME=$BRANCH_NAME node ./scripts/upload-screenshots.js
+PATH_TO_KEY=$PATH_TO_KEY COMMIT_HASH=$COMMIT_HASH node ./scripts/upload-screenshots.js
 rm $PATH_TO_KEY
