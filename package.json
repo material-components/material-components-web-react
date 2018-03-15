@@ -12,8 +12,9 @@
     "pretest": "npm run lint && npm stop && ./test/screenshot/start.sh",
     "test": "npm run test:unit && npm run test:image-diff",
     "posttest": "npm stop && istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
-    "test:watch": "karma start --auto-watch",
-    "test:unit": "karma start --single-run",
+    "test:watch": "karma start karma.local.js --auto-watch",
+    "test:unit": "karma start karma.local.js --single-run",
+    "test:ci": "karma start karma.ci.js --single-run",
     "test:image-diff": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd --timeout 15000 test/screenshot/diff-suite.js"
   },
   "config": {
@@ -51,6 +52,7 @@
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.7.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "puppeteer": "^1.1.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "sass-loader": "^6.0.7",
