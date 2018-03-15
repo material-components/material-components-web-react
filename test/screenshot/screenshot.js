@@ -60,9 +60,7 @@ export default class Screenshot {
 
   async createScreenshotTask_(url, path) {
     let image;
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
     if (path) {
