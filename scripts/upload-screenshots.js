@@ -16,7 +16,7 @@
 
 const PATH_TO_KEY = process.env.PATH_TO_KEY;
 const BUCKET_NAME = process.env.BUCKET_NAME;
-const COMMIT_HASH = process.env.COMMIT_HASH;
+const BRANCH_NAME = process.env.BRANCH_NAME;
 const DIR = './test/screenshot';
 
 const Storage = require('@google-cloud/storage');
@@ -34,7 +34,7 @@ const screenshots = glob.sync(`${DIR}/**/*.png`);
 
 screenshots.forEach((fname) => {
   const fileName = path.resolve(fname);
-  const bucketFileName = fileName.replace(DIR, COMMIT_HASH);
+  const bucketFileName = fname.replace(DIR, BRANCH_NAME);
   const file = bucket.file(bucketFileName);
 
   console.log('→ Uploading', fileName);
@@ -43,9 +43,8 @@ screenshots.forEach((fname) => {
     .on('error', (err) => {
       console.error(err);
     }).on('finish', () => {
-      console.log('✔︎ Done uploading', fileName);
       file.makePublic().then(() => {
-        console.log('✔︎ Available publicly', fileName);
+        console.log('✔︎ Done uploading', fileName);
       }).catch((err) => {
         console.error(err);
       });
