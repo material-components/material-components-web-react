@@ -3,4 +3,7 @@
 
 body {
   color: rgb(0, 0, 255);
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: antialiased;
+	font-smoothing: antialiased;
 }
