@@ -26,6 +26,7 @@ fi
 TESTS_TO_RUN="${TEST_SUITE:-default_value}"
 
 if [[ $TESTS_TO_RUN != "screenshots" ]]; then
+  echo 'Not a screenshot test. Exiting...'
   exit 0
 fi
 
