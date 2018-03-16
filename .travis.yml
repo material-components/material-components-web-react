@@ -4,7 +4,7 @@ git:
   depth: false
 branches:
   only:
-    - experimental/screenshot-testing
+    - master
 
 dist: trusty
 sudo: required
