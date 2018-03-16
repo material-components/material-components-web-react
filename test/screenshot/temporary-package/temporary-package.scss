@@ -2,8 +2,7 @@
 @import '../../../packages/temporary-package/b';
 
 body {
-  color: rgb(0, 0, 255);
+  color: blue;
+  -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: antialiased;
-	font-smoothing: antialiased;
 }
