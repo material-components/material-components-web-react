@@ -1,21 +1,26 @@
 language: node_js
-node_js: 8
 git:
   depth: false
 branches:
   only:
     - master
+    - experimental/screenshot-testing
 
 dist: trusty
 sudo: required
 
-env:
-  - TEST_SUITE=screenshots
-  - TEST_SUITE=units
+matrix:
+  include:
+    - node_js: 8
+      env: TEST_SUITE=unit
+      install: npm i
+      script: npm run test:unit-ci
 
-install:
-  - npm i
-script:
-  - npm run test:ci
-after_script:
-  - npm run upload:screenshots
+    - node_js: 8
+      env: TEST_SUITE=screenshots
+      install: npm i
+      script: npm run test:image-diff-ci
+      after_script:
+        - echo $SERVICE_ACCOUNT_KEY > ./key.json
+        - npm run upload:screenshots
+        - rm ./key.json

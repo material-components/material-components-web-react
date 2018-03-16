@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-const PATH_TO_KEY = process.env.PATH_TO_KEY;
-const BUCKET_NAME = process.env.BUCKET_NAME;
-const COMMIT_HASH = process.env.COMMIT_HASH;
+const PR_NUMBER = process.env.TRAVIS_PULL_REQUEST;
+const BUCKET_NAME = 'screenshot-image-captures';
 const DIR = './test/screenshot';
 
 const Storage = require('@google-cloud/storage');
@@ -25,7 +24,7 @@ const path = require('path');
 const fs = require('fs');
 
 const storage = new Storage({
-  keyFilename: PATH_TO_KEY,
+  keyFilename: './key.json',
 });
 
 const bucket = storage.bucket(BUCKET_NAME);
@@ -34,7 +33,7 @@ const screenshots = glob.sync(`${DIR}/**/*.png`);
 
 screenshots.forEach((fname) => {
   const fileName = path.resolve(fname);
-  const bucketFileName = fname.replace(DIR, COMMIT_HASH);
+  const bucketFileName = fname.replace(DIR, PR_NUMBER);
   const file = bucket.file(bucketFileName);
 
   fs.createReadStream(fileName)
