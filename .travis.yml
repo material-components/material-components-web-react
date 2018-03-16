@@ -28,5 +28,5 @@ install:
   - npm i
 script:
   - npm run test:ci
-after_failure:
+after_script:
   - npm run upload:screenshots
