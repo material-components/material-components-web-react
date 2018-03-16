@@ -11,6 +11,8 @@ matrix:
     - os: osx
       env: TEST_SUITE=screenshots
     - os: linux
+      dist: trusty
+      sudo: required
       env: TEST_SUITE=units
 
 install:
