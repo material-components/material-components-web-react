@@ -6,15 +6,23 @@ branches:
   only:
     - experimental/screenshot-testing
 
-matrix:
-  include:
-    - os: osx
-      osx_image: xcode9.3beta # Uses OSX 10.13
-      env: TEST_SUITE=screenshots
-    - os: linux
-      dist: trusty
-      sudo: required
-      env: TEST_SUITE=units
+# os: linux
+dist: trusty
+sudo: required
+
+env:
+  - TEST_SUITE=screenshots
+  - TEST_SUITE=units
+
+# matrix:
+#   include:
+#     - os: osx
+#       osx_image: xcode9.3beta # Uses OSX 10.13
+#       env: TEST_SUITE=screenshots
+#     - os: linux
+#       dist: trusty
+#       sudo: required
+#       env: TEST_SUITE=units
 
 install:
   - npm i

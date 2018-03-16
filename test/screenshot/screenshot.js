@@ -48,6 +48,7 @@ export default class Screenshot {
           errorType: 'movementDifferenceIntensity',
           transparency: 0.3,
         },
+        ignore: ['antialiasing'],
       };
 
       const data = await compareImages(newScreenshot, oldScreenshot, options);
