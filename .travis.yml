@@ -1,16 +1,17 @@
 language: node_js
 node_js: 8
-dist: trusty
-sudo: required
 git:
   depth: false
 branches:
   only:
     - experimental/screenshot-testing
 
-env:
-  - TEST_SUITE=units
-  - TEST_SUITE=screenshots
+matrix:
+  include:
+    - os: osx
+      env: TEST_SUITE=screenshots
+    - os: linux
+      env: TEST_SUITE=units
 
 install:
   - npm i

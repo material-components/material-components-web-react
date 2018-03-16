@@ -4,17 +4,15 @@ import {promisify} from 'util';
 import {readFile, writeFile} from 'fs';
 import {assert} from 'chai';
 
-const PLATFORM = process.platform;
-
 const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
 
 export default class Screenshot {
   constructor(urlPath) {
     this.urlPath_ = urlPath;
-    this.imagePath_ = `${urlPath}.${PLATFORM}.golden.png`;
-    this.testImagePath_ = `${urlPath}.${PLATFORM}.test.png`;
-    this.diffPath_ = `${urlPath}.${PLATFORM}.diff.png`;
+    this.imagePath_ = `${urlPath}.golden.png`;
+    this.testImagePath_ = `${urlPath}.test.png`;
+    this.diffPath_ = `${urlPath}.diff.png`;
     // TODO allow clients to specify capture-chrome options, like viewport size
   }
 
