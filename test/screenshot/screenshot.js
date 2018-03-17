@@ -4,6 +4,8 @@ import {promisify} from 'util';
 import {readFile, writeFile} from 'fs';
 import {assert} from 'chai';
 
+import comparisonOptions from './screenshot-comparison-options';
+
 const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
 
@@ -37,21 +39,8 @@ export default class Screenshot {
         readFilePromise(imagePath),
       ]);
 
-      const options = {
-        output: {
-          errorColor: {
-            red: 255,
-            green: 0,
-            blue: 255,
-            alpha: 150,
-          },
-          errorType: 'movementDifferenceIntensity',
-          transparency: 0.3,
-        },
-        ignore: ['antialiasing'],
-      };
-
-      const data = await compareImages(newScreenshot, oldScreenshot, options);
+      const data = await compareImages(newScreenshot, oldScreenshot,
+        comparisonOptions);
 
       await writeFilePromise(diffPath, data.getBuffer());
 
@@ -61,16 +50,10 @@ export default class Screenshot {
   }
 
   async createScreenshotTask_(url, path) {
-    let image;
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
-    if (path) {
-      image = await page.screenshot({path});
-    } else {
-      image = await page.screenshot();
-    }
-
+    const image = await page.screenshot({path});
     await browser.close();
     return image;
   }

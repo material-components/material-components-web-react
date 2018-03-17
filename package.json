@@ -15,7 +15,6 @@
     "test:watch": "karma start karma.local.js --auto-watch",
     "test:unit": "karma start karma.local.js --single-run",
     "test:unit-ci": "karma start karma.ci.js --single-run",
-    "test:ci": "./scripts/run-ci-tests.sh",
     "test:image-diff": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/diff-suite.js",
     "test:image-diff-ci": "./test/screenshot/start.sh && sleep 10s && npm run test:image-diff",
     "upload:screenshots": "node ./scripts/upload-screenshots.js"

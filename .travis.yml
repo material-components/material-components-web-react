@@ -1,10 +1,10 @@
 language: node_js
 git:
   depth: false
-branches:
-  only:
-    - master
-    - experimental/screenshot-testing
+# branches:
+#   only:
+#     - master
+#     - experimental/screenshot-testing
 
 dist: trusty
 sudo: required
