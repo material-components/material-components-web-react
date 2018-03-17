@@ -15,8 +15,10 @@ matrix:
     - node_js: 8
       env: TEST_SUITE=screenshots
       install: npm i
-      script: npm run test:image-diff-ci
+      script:
+        - echo "Triggered from a $TRAVIS_EVENT_TYPE. Is a PR? $TRAVIS_PULL_REQUEST"
+        - npm run test:image-diff-ci
       after_script:
         - echo $SERVICE_ACCOUNT_KEY > ./key.json
-        - npm run upload:screenshots
+        - COMMIT_HASH=$(git rev-parse --short HEAD) npm run upload:screenshots
         - rm ./key.json

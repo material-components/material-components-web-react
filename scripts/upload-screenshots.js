@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const PR_NUMBER = process.env.TRAVIS_PULL_REQUEST;
+const COMMIT_HASH = process.env.COMMIT_HASH;
 const BUCKET_NAME = 'screenshot-image-captures';
 const DIR = './test/screenshot';
 
@@ -33,7 +33,7 @@ const screenshots = glob.sync(`${DIR}/**/*.png`);
 
 screenshots.forEach((fname) => {
   const fileName = path.resolve(fname);
-  const bucketFileName = fname.replace(DIR, PR_NUMBER);
+  const bucketFileName = fname.replace(DIR, COMMIT_HASH);
   const file = bucket.file(bucketFileName);
 
   fs.createReadStream(fileName)
