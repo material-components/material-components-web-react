@@ -1,62 +1,60 @@
-import capture from 'capture-chrome';
-import {get} from 'http';
-import fs from 'fs';
-import resemble from 'node-resemble-js';
-import readFilePromise from 'fs-readfile-promise';
+import puppeteer from 'puppeteer';
+import compareImages from 'resemblejs/compareImages';
+import {promisify} from 'util';
+import {readFile, writeFile} from 'fs';
 import {assert} from 'chai';
 
+import comparisonOptions from './screenshot-comparison-options';
+
+const readFilePromise = promisify(readFile);
+const writeFilePromise = promisify(writeFile);
+
 export default class Screenshot {
-  constructor(urlPath, imagePath) {
+  constructor(urlPath) {
     this.urlPath_ = urlPath;
-    this.imagePath_ = imagePath;
+    this.imagePath_ = `${urlPath}.golden.png`;
+    this.snapshotImagePath_ = `${urlPath}.snapshot.png`;
+    this.diffPath_ = `${urlPath}.diff.png`;
     // TODO allow clients to specify capture-chrome options, like viewport size
   }
 
   capture() {
-    test(this.urlPath_, () => {
-      const url = 'http://localhost:8080/' + this.urlPath_;
-      return this.checkStatusCode_(url,
-        capture({
-          url,
-        }).then((screenshot) => {
-          fs.writeFileSync(
-            './test/screenshot/' + this.imagePath_,
-            screenshot);
-        })
-      );
+    test(this.urlPath_, async () => {
+      const url = `http://localhost:8080/${this.urlPath_}`;
+      const imagePath = `./test/screenshot/${this.imagePath_}`;
+      await this.createScreenshotTask_(url, imagePath);
+      return;
     });
   }
 
   diff() {
-    test(this.urlPath_, () => {
-      const capturePromise = capture({
-        url: 'http://localhost:8080/' + this.urlPath_,
-      });
-      const readPromise = readFilePromise(
-          './test/screenshot/' + this.imagePath_);
-      return Promise.all([capturePromise, readPromise])
-      .then(function([newScreenshot, oldScreenshot]) {
-        return new Promise(function(resolve) {
-            const onComplete = function(data) {
-              assert.isBelow(Number(data.misMatchPercentage), 0.01);
-              resolve();
-            };
-            resemble(newScreenshot)
-            .compareTo(oldScreenshot)
-            .onComplete(onComplete);
-        });
-      });
+    test(this.urlPath_, async () => {
+      const url = `http://localhost:8080/${this.urlPath_}`;
+      const imagePath = `./test/screenshot/${this.imagePath_}`;
+      const snapshotImagePath = `./test/screenshot/${this.snapshotImagePath_}`;
+      const diffPath = `./test/screenshot/${this.diffPath_}`;
+
+      const [newScreenshot, oldScreenshot] = await Promise.all([
+        this.createScreenshotTask_(url, snapshotImagePath),
+        readFilePromise(imagePath),
+      ]);
+
+      const data = await compareImages(newScreenshot, oldScreenshot,
+        comparisonOptions);
+
+      await writeFilePromise(diffPath, data.getBuffer());
+
+      assert.isBelow(Number(data.misMatchPercentage), 0.01);
+      return;
     });
   }
 
-  checkStatusCode_(url, success) {
-    return new Promise((resolve) => {
-      get(url, (res) => {
-        const {statusCode} = res;
-        if (statusCode === 200) {
-          resolve(success);
-        }
-      });
-    });
+  async createScreenshotTask_(url, path) {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url);
+    const image = await page.screenshot({path});
+    await browser.close();
+    return image;
   }
 }
