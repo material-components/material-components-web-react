@@ -24,8 +24,16 @@ const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
 
+let credentials;
+try {
+  credentials = JSON.parse(SERVICE_ACCOUNT_KEY);
+} catch (err) {
+  console.error('Service account key could not be parsed.');
+  process.exit(1);
+}
+
 const storage = new Storage({
-  credentials: SERVICE_ACCOUNT_KEY,
+  credentials,
 });
 
 const bucket = storage.bucket(BUCKET_NAME);

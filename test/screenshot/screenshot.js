@@ -13,7 +13,7 @@ export default class Screenshot {
   constructor(urlPath) {
     this.urlPath_ = urlPath;
     this.imagePath_ = `${urlPath}.golden.png`;
-    this.testImagePath_ = `${urlPath}.test.png`;
+    this.snapshotImagePath_ = `${urlPath}.snapshot.png`;
     this.diffPath_ = `${urlPath}.diff.png`;
     // TODO allow clients to specify capture-chrome options, like viewport size
   }
@@ -31,11 +31,11 @@ export default class Screenshot {
     test(this.urlPath_, async () => {
       const url = `http://localhost:8080/${this.urlPath_}`;
       const imagePath = `./test/screenshot/${this.imagePath_}`;
-      const testImagePath = `./test/screenshot/${this.testImagePath_}`;
+      const snapshotImagePath = `./test/screenshot/${this.snapshotImagePath_}`;
       const diffPath = `./test/screenshot/${this.diffPath_}`;
 
       const [newScreenshot, oldScreenshot] = await Promise.all([
-        this.createScreenshotTask_(url, testImagePath),
+        this.createScreenshotTask_(url, snapshotImagePath),
         readFilePromise(imagePath),
       ]);
 
