@@ -13,10 +13,16 @@ matrix:
       script: npm run test:unit-ci
 
     - node_js: 8
+      env: TEST_SUITE=lint
+      install: npm i
+      script: npm run lint
+
+    - node_js: 8
       env: TEST_SUITE=screenshots
       install: npm i
-      script: npm run test:image-diff-ci
+      script: 
+        - ./test/screenshot/start.sh
+        - sleep 10s
+        - npm run test:image-diff
       after_script:
-        - echo $SERVICE_ACCOUNT_KEY > ./key.json
         - COMMIT_HASH=$(git rev-parse --short HEAD) npm run upload:screenshots
-        - rm ./key.json

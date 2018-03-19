@@ -15,6 +15,7 @@
  */
 
 const COMMIT_HASH = process.env.COMMIT_HASH;
+const SERVICE_ACCOUNT_KEY = process.env.SERVICE_ACCOUNT_KEY;
 const BUCKET_NAME = 'screenshot-image-captures';
 const DIR = './test/screenshot';
 
@@ -24,7 +25,7 @@ const path = require('path');
 const fs = require('fs');
 
 const storage = new Storage({
-  keyFilename: './key.json',
+  credentials: SERVICE_ACCOUNT_KEY,
 });
 
 const bucket = storage.bucket(BUCKET_NAME);

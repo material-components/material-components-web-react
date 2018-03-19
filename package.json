@@ -16,8 +16,7 @@
     "test:unit": "karma start karma.local.js --single-run",
     "test:unit-ci": "karma start karma.ci.js --single-run",
     "test:image-diff": "./node_modules/.bin/mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/diff-suite.js",
-    "test:image-diff-ci": "./test/screenshot/start.sh && sleep 10s && npm run test:image-diff",
-    "upload:screenshots": "node ./scripts/upload-screenshots.js"
+    "upload:screenshots": "node ./test/screenshot/upload-screenshots.js"
   },
   "config": {
     "validate-commit-msg": {
