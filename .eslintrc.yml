@@ -9,3 +9,4 @@ rules:
   require-jsdoc: off
   valid-jsdoc: off
   switch-colon-spacing: 0
+  max-len: [error, 120]
