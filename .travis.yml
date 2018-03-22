@@ -24,5 +24,3 @@ matrix:
         - ./test/screenshot/start.sh
         - sleep 10s
         - npm run test:image-diff
-      after_script:
-        - COMMIT_HASH=$(git rev-parse --short HEAD) npm run upload:screenshots
