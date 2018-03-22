@@ -43,124 +43,6 @@ export default class Screenshot {
   }
 
   /**
-   * Returns the golden hash
-   * @return {string|undefined}
-   * @private
-   */
-  async getGoldenHash_() {
-    const goldenFile = await readFilePromise(goldensFilePath);
-    const goldenJSON = JSON.parse(goldenFile);
-    return goldenJSON[this.urlPath_];
-  }
-
-  /**
-   * Saves the golden hash
-   * @param {string} goldenHash The hash of the golden image
-   * @private
-   */
-  async saveGoldenHash_(goldenHash) {
-    const goldenFile = await readFilePromise(goldensFilePath);
-    const goldenJSON = JSON.parse(goldenFile);
-    goldenJSON[this.urlPath_] = goldenHash;
-    const goldenContent = JSON.stringify(goldenJSON, null, '  ');
-    await writeFilePromise(goldensFilePath, `${goldenContent}\r\n`);
-  }
-
-  /**
-   * Takes a screenshot of the URL
-   * @return {!Buffer}
-   * @private
-   */
-  async takeScreenshot_() {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(`http://localhost:8080/${this.urlPath_}`);
-    const imageBuffer = await page.screenshot();
-    await browser.close();
-    return imageBuffer;
-  }
-
-  /**
-   * Generates a unique hash from an image's contents
-   * @param {!Buffer} imageBuffer The image buffer to hash
-   * @return {string}
-   * @private
-   */
-  generateImageHash_(imageBuffer) {
-    return createHash('sha256').update(imageBuffer).digest('hex');
-  }
-
-  /**
-   * Returns the correct image path
-   * @param {string} imageHash The image hash
-   * @param {string} imageType The image type
-   * @return {string|undefined}
-   * @private
-   */
-  getImagePath_(imageHash, imageType) {
-    if (imageType === golden) {
-      return `${this.urlPath_}/${imageHash}.golden.png`;
-    }
-
-    if (imageType in {snapshot, diff}) {
-      return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.png`;
-    }
-  }
-
-  /**
-   * Saves the given image to Google Cloud Storage with optional metadata
-   * @param {string} imagePath The path to the image
-   * @param {!Buffer} imageBuffer The image buffer
-   * @param {!Object=} customMetadata Optional custom metadata
-   * @private
-   */
-  async saveImage_(imagePath, imageBuffer, customMetadata={}) {
-    const metadata = Object.assign({}, defaultMetadata, customMetadata);
-    const file = bucket.file(imagePath);
-
-    // Check if file exists and exit if it does
-    const [exists] = await file.exists();
-    if (exists) {
-      console.log('✔︎ No changes', imagePath);
-      return;
-    }
-
-    // Create a new stream from the image buffer
-    let stream = new Readable();
-    stream.push(imageBuffer);
-    stream.push(null);
-
-    // The promise is resolved or rejected inside the stream event callbacks
-    return new Promise((resolve, reject) => {
-      stream.pipe(file.createWriteStream())
-        .on('error', (err) => {
-          reject(err);
-        }).on('finish', async () => {
-          try {
-            // Make the image public and set it's metadata
-            await file.makePublic();
-            await file.setMetadata({metadata});
-            console.log('✔︎ Uploaded', imagePath);
-            resolve();
-          } catch (err) {
-            reject(err);
-          }
-        });
-    });
-  }
-
-  /**
-   * Downloads an image from Google Cloud Storage
-   * @param {string} gcsFilePath The file path on Google Cloud Storage
-   * @return {Buffer}
-   * @private
-   */
-  async readImage_(gcsFilePath) {
-    const data = await bucket.file(gcsFilePath).download();
-    return data[0];
-  }
-
-  /**
    * Captures a screenshot of the test URL and marks it as the new golden image
    */
   capture() {
@@ -209,5 +91,123 @@ export default class Screenshot {
 
       return assert.isBelow(Number(data.misMatchPercentage), 0.01);
     });
+  }
+
+  /**
+   * Generates a unique hash from an image's contents
+   * @param {!Buffer} imageBuffer The image buffer to hash
+   * @return {string}
+   * @private
+   */
+  generateImageHash_(imageBuffer) {
+    return createHash('sha256').update(imageBuffer).digest('hex');
+  }
+
+  /**
+   * Returns the golden hash
+   * @return {string|undefined}
+   * @private
+   */
+  async getGoldenHash_() {
+    const goldenFile = await readFilePromise(goldensFilePath);
+    const goldenJSON = JSON.parse(goldenFile);
+    return goldenJSON[this.urlPath_];
+  }
+
+  /**
+   * Returns the correct image path
+   * @param {string} imageHash The image hash
+   * @param {string} imageType The image type
+   * @return {string|undefined}
+   * @private
+   */
+  getImagePath_(imageHash, imageType) {
+    if (imageType === golden) {
+      return `${this.urlPath_}/${imageHash}.golden.png`;
+    }
+
+    if (imageType in {snapshot, diff}) {
+      return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.png`;
+    }
+  }
+
+  /**
+   * Downloads an image from Google Cloud Storage
+   * @param {string} gcsFilePath The file path on Google Cloud Storage
+   * @return {Buffer}
+   * @private
+   */
+  async readImage_(gcsFilePath) {
+    const data = await bucket.file(gcsFilePath).download();
+    return data[0];
+  }
+
+  /**
+   * Saves the golden hash
+   * @param {string} goldenHash The hash of the golden image
+   * @private
+   */
+  async saveGoldenHash_(goldenHash) {
+    const goldenFile = await readFilePromise(goldensFilePath);
+    const goldenJSON = JSON.parse(goldenFile);
+    goldenJSON[this.urlPath_] = goldenHash;
+    const goldenContent = JSON.stringify(goldenJSON, null, '  ');
+    await writeFilePromise(goldensFilePath, `${goldenContent}\r\n`);
+  }
+
+  /**
+   * Saves the given image to Google Cloud Storage with optional metadata
+   * @param {string} imagePath The path to the image
+   * @param {!Buffer} imageBuffer The image buffer
+   * @param {!Object=} customMetadata Optional custom metadata
+   * @private
+   */
+  async saveImage_(imagePath, imageBuffer, customMetadata={}) {
+    const metadata = Object.assign({}, defaultMetadata, customMetadata);
+    const file = bucket.file(imagePath);
+
+    // Check if file exists and exit if it does
+    const [exists] = await file.exists();
+    if (exists) {
+      console.log('✔︎ No changes', imagePath);
+      return;
+    }
+
+    // Create a new stream from the image buffer
+    let stream = new Readable();
+    stream.push(imageBuffer);
+    stream.push(null);
+
+    // The promise is resolved or rejected inside the stream event callbacks
+    return new Promise((resolve, reject) => {
+      stream.pipe(file.createWriteStream())
+        .on('error', (err) => {
+          reject(err);
+        }).on('finish', async () => {
+          try {
+            // Make the image public and set it's metadata
+            await file.makePublic();
+            await file.setMetadata({metadata});
+            console.log('✔︎ Uploaded', imagePath);
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        });
+    });
+  }
+
+  /**
+   * Takes a screenshot of the URL
+   * @return {!Buffer}
+   * @private
+   */
+  async takeScreenshot_() {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(`http://localhost:8080/${this.urlPath_}`);
+    const imageBuffer = await page.screenshot();
+    await browser.close();
+    return imageBuffer;
   }
 }
