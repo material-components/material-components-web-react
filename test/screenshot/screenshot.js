@@ -12,25 +12,25 @@ import comparisonOptions from './screenshot-comparison-options';
 const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
 
-const SERVICE_ACCOUNT_KEY = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY;
-const BRANCH_NAME = process.env.MDC_BRANCH_NAME;
-const COMMIT_HASH = process.env.MDC_COMMIT_HASH;
-const GOLDENS_FILE_PATH = './test/screenshot/golden.json';
-const BUCKET_NAME = 'screenshot-uploads';
-const DEFAULT_METADATA = {
-  commit: COMMIT_HASH,
-  branch: BRANCH_NAME,
+const serviceAccountKey = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY;
+const branchName = process.env.MDC_BRANCH_NAME;
+const commitHash = process.env.MDC_COMMIT_HASH;
+const goldensFilePath = './test/screenshot/golden.json';
+const bucketName = 'screenshot-uploads';
+const defaultMetadata = {
+  commit: commitHash,
+  branch: branchName,
 };
 
-const GOLDEN = 'golden';
-const SNAPSHOT = 'snapshot';
-const DIFF = 'diff';
+const golden = 'golden';
+const snapshot = 'snapshot';
+const diff = 'diff';
 
 const storage = new Storage({
-  credentials: JSON.parse(SERVICE_ACCOUNT_KEY),
+  credentials: JSON.parse(serviceAccountKey),
 });
 
-const bucket = storage.bucket(BUCKET_NAME);
+const bucket = storage.bucket(bucketName);
 
 export default class Screenshot {
   /**
@@ -48,7 +48,7 @@ export default class Screenshot {
    * @private
    */
   async getGoldenHash_() {
-    const goldenFile = await readFilePromise(GOLDENS_FILE_PATH);
+    const goldenFile = await readFilePromise(goldensFilePath);
     const goldenJSON = JSON.parse(goldenFile);
     return goldenJSON[this.urlPath_];
   }
@@ -59,11 +59,11 @@ export default class Screenshot {
    * @private
    */
   async saveGoldenHash_(goldenHash) {
-    const goldenFile = await readFilePromise(GOLDENS_FILE_PATH);
+    const goldenFile = await readFilePromise(goldensFilePath);
     const goldenJSON = JSON.parse(goldenFile);
     goldenJSON[this.urlPath_] = goldenHash;
     const goldenContent = JSON.stringify(goldenJSON, null, '  ');
-    await writeFilePromise(GOLDENS_FILE_PATH, `${goldenContent}\r\n`);
+    await writeFilePromise(goldensFilePath, `${goldenContent}\r\n`);
   }
 
   /**
@@ -94,16 +94,16 @@ export default class Screenshot {
    * Returns the correct image path
    * @param {string} imageHash The image hash
    * @param {string} imageType The image type
+   * @return {string|undefined}
    * @private
    */
   getImagePath_(imageHash, imageType) {
-    switch (imageType) {
-      case GOLDEN:
-        return `${this.urlPath_}/${imageHash}.golden.png`;
+    if (imageType === golden) {
+      return `${this.urlPath_}/${imageHash}.golden.png`;
+    }
 
-      case SNAPSHOT:
-      case DIFF:
-        return `${this.urlPath_}/${COMMIT_HASH}/${imageHash}.${imageType}.png`;
+    if (imageType in {snapshot, diff}) {
+      return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.png`;
     }
   }
 
@@ -115,7 +115,7 @@ export default class Screenshot {
    * @private
    */
   async saveImage_(imagePath, imageBuffer, customMetadata={}) {
-    const metadata = Object.assign({}, DEFAULT_METADATA, customMetadata);
+    const metadata = Object.assign({}, defaultMetadata, customMetadata);
     const file = bucket.file(imagePath);
 
     // Check if file exists and exit if it does
@@ -167,7 +167,7 @@ export default class Screenshot {
     test(this.urlPath_, async () => {
       const golden = await this.takeScreenshot_();
       const goldenHash = this.generateImageHash_(golden);
-      const goldenPath = this.getImagePath_(goldenHash, GOLDEN);
+      const goldenPath = this.getImagePath_(goldenHash, golden);
       await Promise.all([
         this.saveImage_(goldenPath, golden),
         this.saveGoldenHash_(goldenHash),
@@ -183,7 +183,7 @@ export default class Screenshot {
     test(this.urlPath_, async () => {
       // Get the golden file path from the golden hash
       const goldenHash = await this.getGoldenHash_();
-      const goldenPath = this.getImagePath_(goldenHash, GOLDEN);
+      const goldenPath = this.getImagePath_(goldenHash, golden);
 
       // Take a snapshot and download the golden iamge
       const [snapshot, golden] = await Promise.all([
@@ -195,10 +195,10 @@ export default class Screenshot {
       const data = await compareImages(snapshot, golden, comparisonOptions);
       const diff = data.getBuffer();
 
-      // Use the same hash for the snapshot and diff so it's easy can associate the two
+      // Use the same hash for the snapshot path and diff path so it's easy can associate the two
       const snapshotHash = this.generateImageHash_(snapshot);
-      const snapshotPath = this.getImagePath_(snapshotHash, SNAPSHOT);
-      const diffPath = this.getImagePath_(snapshotHash, DIFF);
+      const snapshotPath = this.getImagePath_(snapshotHash, snapshot);
+      const diffPath = this.getImagePath_(snapshotHash, diff);
       const metadata = {golden: goldenHash};
 
       // Save the snapshot and the diff
