@@ -87,7 +87,7 @@ export default class Screenshot {
    * @private
    */
   generateImageHash_(imageBuffer) {
-    return createHash('sha512').update(imageBuffer).digest('hex');
+    return createHash('sha256').update(imageBuffer).digest('hex');
   }
 
   /**
