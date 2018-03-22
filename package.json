@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "stop": "./test/screenshot/stop.sh",
-    "capture": "COMMIT_HASH=$(git rev-parse --short HEAD) BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/capture-suite.js",
+    "capture": "cross-env MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/capture-suite.js",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix packages test",
     "lint": "eslint packages test",
@@ -15,7 +15,7 @@
     "test:watch": "karma start karma.local.js --auto-watch",
     "test:unit": "karma start karma.local.js --single-run",
     "test:unit-ci": "karma start karma.ci.js --single-run",
-    "test:image-diff": "COMMIT_HASH=$(git rev-parse --short HEAD) BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/diff-suite.js",
+    "test:image-diff": "cross-env MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/diff-suite.js",
     "upload:screenshots": "node ./test/screenshot/upload-screenshots.js"
   },
   "config": {
@@ -36,13 +36,12 @@
     "babel-preset-react": "^6.24.1",
     "capture-chrome": "^2.0.0",
     "chai": "^4.1.2",
+    "cross-env": "^5.1.4",
     "css-loader": "^0.28.10",
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-react": "^7.7.0",
     "extract-text-webpack-plugin": "^3.0.2",
-    "fs-readfile-promise": "^3.0.1",
-    "glob": "^7.1.2",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "istanbul-instrumenter-loader": "^3.0.0",

@@ -12,9 +12,9 @@ import comparisonOptions from './screenshot-comparison-options';
 const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
 
-const SERVICE_ACCOUNT_KEY = process.env.SERVICE_ACCOUNT_KEY;
-const BRANCH_NAME = process.env.BRANCH_NAME;
-const COMMIT_HASH = process.env.COMMIT_HASH;
+const SERVICE_ACCOUNT_KEY = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY;
+const BRANCH_NAME = process.env.MDC_BRANCH_NAME;
+const COMMIT_HASH = process.env.MDC_COMMIT_HASH;
 const GOLDENS_FILE_PATH = './test/screenshot/golden.json';
 const BUCKET_NAME = 'screenshot-uploads';
 const DEFAULT_METADATA = {
@@ -26,16 +26,8 @@ const GOLDEN = 'golden';
 const SNAPSHOT = 'snapshot';
 const DIFF = 'diff';
 
-let credentials;
-try {
-  credentials = JSON.parse(SERVICE_ACCOUNT_KEY);
-} catch (err) {
-  console.error('Service account key could not be parsed.');
-  process.exit(1);
-}
-
 const storage = new Storage({
-  credentials,
+  credentials: JSON.parse(SERVICE_ACCOUNT_KEY),
 });
 
 const bucket = storage.bucket(BUCKET_NAME);
@@ -70,7 +62,8 @@ export default class Screenshot {
     const goldenFile = await readFilePromise(GOLDENS_FILE_PATH);
     const goldenJSON = JSON.parse(goldenFile);
     goldenJSON[this.urlPath_] = goldenId;
-    await writeFilePromise(GOLDENS_FILE_PATH, JSON.stringify(goldenJSON, null, '  '));
+    const goldenContent = JSON.stringify(goldenJSON, null, '  ');
+    await writeFilePromise(GOLDENS_FILE_PATH, `${goldenContent}\r\n`);
   }
 
   /**
@@ -93,24 +86,24 @@ export default class Screenshot {
    * @return {string}
    * @private
    */
-  generateImageID_(imageBuffer) {
-    return createHash('sha256').update(imageBuffer).digest('hex');
+  generateImageHash_(imageBuffer) {
+    return createHash('sha512').update(imageBuffer).digest('hex');
   }
 
   /**
    * Returns the correct image path
-   * @param {string} imageId The image ID
+   * @param {string} imageHash The image hash
    * @param {string} imageType The image type
    * @private
    */
-  getImagePath_(imageId, imageType) {
+  getImagePath_(imageHash, imageType) {
     switch (imageType) {
       case GOLDEN:
-      return `${this.urlPath_}/${imageId}.golden.png`;
+        return `${this.urlPath_}/${imageHash}.golden.png`;
 
       case SNAPSHOT:
       case DIFF:
-      return `${this.urlPath_}/${COMMIT_HASH}/${imageId}.${imageType}.png`;
+        return `${this.urlPath_}/${COMMIT_HASH}/${imageHash}.${imageType}.png`;
     }
   }
 
@@ -118,7 +111,7 @@ export default class Screenshot {
    * Saves the given image to Google Cloud Storage with optional metadata
    * @param {string} imagePath The path to the image
    * @param {!Buffer} imageBuffer The image buffer
-   * @param {Object} customMetadata Optional custom metadata
+   * @param {!Object=} customMetadata Optional custom metadata
    * @private
    */
   async saveImage_(imagePath, imageBuffer, customMetadata={}) {
@@ -168,16 +161,16 @@ export default class Screenshot {
   }
 
   /**
-   * Captures a screenshot of the test URL
+   * Captures a screenshot of the test URL and marks it as the new golden image
    */
   capture() {
     test(this.urlPath_, async () => {
       const golden = await this.createScreenshotTask_();
-      const goldenId = this.generateImageID_(golden);
-      const goldenPath = this.getImagePath_(goldenId, GOLDEN);
+      const goldenHash = this.generateImageHash_(golden);
+      const goldenPath = this.getImagePath_(goldenHash, GOLDEN);
       await Promise.all([
         this.saveImage_(goldenPath, golden),
-        this.saveGoldenID_(goldenId),
+        this.saveGoldenID_(goldenHash),
       ]);
       return;
     });
@@ -189,8 +182,8 @@ export default class Screenshot {
   diff() {
     test(this.urlPath_, async () => {
       // Get the golden file path from the golden ID
-      const goldenID = await this.getGoldenID_();
-      const goldenPath = this.getImagePath_(goldenID, GOLDEN);
+      const goldenHash = await this.getGoldenID_();
+      const goldenPath = this.getImagePath_(goldenHash, GOLDEN);
 
       // Take a snapshot and download the golden iamge
       const [snapshot, golden] = await Promise.all([
@@ -203,10 +196,10 @@ export default class Screenshot {
       const diff = data.getBuffer();
 
       // Use the same ID for the snapshot and diff so it's easy can associate the two
-      const snapshotId = this.generateImageID_(snapshot);
-      const snapshotPath = this.getImagePath_(snapshotId, SNAPSHOT);
-      const diffPath = this.getImagePath_(snapshotId, DIFF);
-      const metadata = {golden: goldenID};
+      const snapshotHash = this.generateImageHash_(snapshot);
+      const snapshotPath = this.getImagePath_(snapshotHash, SNAPSHOT);
+      const diffPath = this.getImagePath_(snapshotHash, DIFF);
+      const metadata = {golden: goldenHash};
 
       // Save the snapshot and the diff
       await Promise.all([

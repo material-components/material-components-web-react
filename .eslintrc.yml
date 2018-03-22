@@ -10,3 +10,4 @@ rules:
   valid-jsdoc: off
   switch-colon-spacing: 0
   max-len: [error, 120]
+  indent:  [error, 2, {"SwitchCase":1}]
