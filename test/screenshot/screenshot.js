@@ -43,25 +43,25 @@ export default class Screenshot {
   }
 
   /**
-   * Returns the golden ID
+   * Returns the golden hash
    * @return {string|undefined}
    * @private
    */
-  async getGoldenID_() {
+  async getGoldenHash_() {
     const goldenFile = await readFilePromise(GOLDENS_FILE_PATH);
     const goldenJSON = JSON.parse(goldenFile);
     return goldenJSON[this.urlPath_];
   }
 
   /**
-   * Saves the golden ID
-   * @param {string} goldenId The hash of the golden image
+   * Saves the golden hash
+   * @param {string} goldenHash The hash of the golden image
    * @private
    */
-  async saveGoldenID_(goldenId) {
+  async saveGoldenHash_(goldenHash) {
     const goldenFile = await readFilePromise(GOLDENS_FILE_PATH);
     const goldenJSON = JSON.parse(goldenFile);
-    goldenJSON[this.urlPath_] = goldenId;
+    goldenJSON[this.urlPath_] = goldenHash;
     const goldenContent = JSON.stringify(goldenJSON, null, '  ');
     await writeFilePromise(GOLDENS_FILE_PATH, `${goldenContent}\r\n`);
   }
@@ -71,7 +71,7 @@ export default class Screenshot {
    * @return {!Buffer}
    * @private
    */
-  async createScreenshotTask_() {
+  async takeScreenshot_() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/${this.urlPath_}`);
@@ -165,12 +165,12 @@ export default class Screenshot {
    */
   capture() {
     test(this.urlPath_, async () => {
-      const golden = await this.createScreenshotTask_();
+      const golden = await this.takeScreenshot_();
       const goldenHash = this.generateImageHash_(golden);
       const goldenPath = this.getImagePath_(goldenHash, GOLDEN);
       await Promise.all([
         this.saveImage_(goldenPath, golden),
-        this.saveGoldenID_(goldenHash),
+        this.saveGoldenHash_(goldenHash),
       ]);
       return;
     });
@@ -181,13 +181,13 @@ export default class Screenshot {
    */
   diff() {
     test(this.urlPath_, async () => {
-      // Get the golden file path from the golden ID
-      const goldenHash = await this.getGoldenID_();
+      // Get the golden file path from the golden hash
+      const goldenHash = await this.getGoldenHash_();
       const goldenPath = this.getImagePath_(goldenHash, GOLDEN);
 
       // Take a snapshot and download the golden iamge
       const [snapshot, golden] = await Promise.all([
-        this.createScreenshotTask_(),
+        this.takeScreenshot_(),
         this.readImage_(goldenPath),
       ]);
 
@@ -195,7 +195,7 @@ export default class Screenshot {
       const data = await compareImages(snapshot, golden, comparisonOptions);
       const diff = data.getBuffer();
 
-      // Use the same ID for the snapshot and diff so it's easy can associate the two
+      // Use the same hash for the snapshot and diff so it's easy can associate the two
       const snapshotHash = this.generateImageHash_(snapshot);
       const snapshotPath = this.getImagePath_(snapshotHash, SNAPSHOT);
       const diffPath = this.getImagePath_(snapshotHash, DIFF);
