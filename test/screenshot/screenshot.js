@@ -15,16 +15,12 @@ const writeFilePromise = promisify(writeFile);
 const serviceAccountKey = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY;
 const branchName = process.env.MDC_BRANCH_NAME;
 const commitHash = process.env.MDC_COMMIT_HASH;
-const goldensFilePath = './test/screenshot/golden.json';
+const goldenFilePath = './test/screenshot/golden.json';
 const bucketName = 'screenshot-uploads';
 const defaultMetadata = {
   commit: commitHash,
   branch: branchName,
 };
-
-const golden = 'golden';
-const snapshot = 'snapshot';
-const diff = 'diff';
 
 const storage = new Storage({
   credentials: JSON.parse(serviceAccountKey),
@@ -49,7 +45,7 @@ export default class Screenshot {
     test(this.urlPath_, async () => {
       const golden = await this.takeScreenshot_();
       const goldenHash = this.generateImageHash_(golden);
-      const goldenPath = this.getImagePath_(goldenHash, golden);
+      const goldenPath = this.getImagePath_(goldenHash, 'golden');
       await Promise.all([
         this.saveImage_(goldenPath, golden),
         this.saveGoldenHash_(goldenHash),
@@ -65,7 +61,7 @@ export default class Screenshot {
     test(this.urlPath_, async () => {
       // Get the golden file path from the golden hash
       const goldenHash = await this.getGoldenHash_();
-      const goldenPath = this.getImagePath_(goldenHash, golden);
+      const goldenPath = this.getImagePath_(goldenHash, 'golden');
 
       // Take a snapshot and download the golden iamge
       const [snapshot, golden] = await Promise.all([
@@ -79,8 +75,8 @@ export default class Screenshot {
 
       // Use the same hash for the snapshot path and diff path so it's easy can associate the two
       const snapshotHash = this.generateImageHash_(snapshot);
-      const snapshotPath = this.getImagePath_(snapshotHash, snapshot);
-      const diffPath = this.getImagePath_(snapshotHash, diff);
+      const snapshotPath = this.getImagePath_(snapshotHash, 'snapshot');
+      const diffPath = this.getImagePath_(snapshotHash, 'diff');
       const metadata = {golden: goldenHash};
 
       // Save the snapshot and the diff
@@ -109,7 +105,7 @@ export default class Screenshot {
    * @private
    */
   async getGoldenHash_() {
-    const goldenFile = await readFilePromise(goldensFilePath);
+    const goldenFile = await readFilePromise(goldenFilePath);
     const goldenJSON = JSON.parse(goldenFile);
     return goldenJSON[this.urlPath_];
   }
@@ -122,11 +118,11 @@ export default class Screenshot {
    * @private
    */
   getImagePath_(imageHash, imageType) {
-    if (imageType === golden) {
+    if (imageType === 'golden') {
       return `${this.urlPath_}/${imageHash}.golden.png`;
     }
 
-    if (imageType in {snapshot, diff}) {
+    if (['snapshot', 'diff'].includes(imageType)) {
       return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.png`;
     }
   }
@@ -148,11 +144,11 @@ export default class Screenshot {
    * @private
    */
   async saveGoldenHash_(goldenHash) {
-    const goldenFile = await readFilePromise(goldensFilePath);
+    const goldenFile = await readFilePromise(goldenFilePath);
     const goldenJSON = JSON.parse(goldenFile);
     goldenJSON[this.urlPath_] = goldenHash;
     const goldenContent = JSON.stringify(goldenJSON, null, '  ');
-    await writeFilePromise(goldensFilePath, `${goldenContent}\r\n`);
+    await writeFilePromise(goldenFilePath, `${goldenContent}\r\n`);
   }
 
   /**
@@ -169,7 +165,7 @@ export default class Screenshot {
     // Check if file exists and exit if it does
     const [exists] = await file.exists();
     if (exists) {
-      console.log('✔︎ No changes', imagePath);
+      console.log('✔︎ No changes to', imagePath);
       return;
     }
 
