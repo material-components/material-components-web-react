@@ -1,0 +1,28 @@
+language: node_js
+git:
+  depth: false
+
+dist: trusty
+sudo: required
+
+matrix:
+  include:
+    - node_js: 8
+      env: TEST_SUITE=unit
+      install: npm i
+      script: npm run test:unit-ci
+
+    - node_js: 8
+      env: TEST_SUITE=lint
+      install: npm i
+      script: npm run lint
+
+    - node_js: 8
+      env: TEST_SUITE=screenshots
+      install: npm i
+      script: 
+        - ./test/screenshot/start.sh
+        - sleep 10s
+        - npm run test:image-diff
+      after_script:
+        - COMMIT_HASH=$(git rev-parse --short HEAD) npm run upload:screenshots
