@@ -5,7 +5,6 @@ export default class Catalog extends React.Component {
     return (
       <div>
         <a href='/temporary-package'>Temporary Package</a>
-        <a href='/temporary-package/foo-test'>Foo Test</a>
       </div>
     );
   }

@@ -53,6 +53,7 @@ export default class Screenshot {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
+    console.log(path)
     const image = await page.screenshot({path});
     await browser.close();
     return image;

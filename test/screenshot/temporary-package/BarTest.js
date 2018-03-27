@@ -1,13 +1,11 @@
-import './foo-test.scss';
-
 import React from 'react';
 
-export default class FooTest extends React.Component {
+export default class BarTest extends React.Component {
 
   render() {
     return (
       <div>
-        foo
+        bar
       </div>
     );
   }

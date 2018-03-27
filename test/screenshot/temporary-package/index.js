@@ -7,7 +7,12 @@ export default class TempPackage extends React.Component {
   render() {
     return (
       <div>
-        TempPackage
+        <a href='/temporary-package/foo-test'>
+          Foo Test
+        </a>
+        <a href='/temporary-package/bar-test'>
+          Bar Test
+        </a>
       </div>
     );
   }
