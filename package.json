@@ -42,8 +42,6 @@
     "eslint-plugin-react": "^7.7.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "fs-readfile-promise": "^3.0.1",
-    "handlebars": "^4.0.11",
-    "handlebars-loader": "^1.6.0",
     "html-webpack-plugin": "^3.0.6",
     "glob": "^7.1.2",
     "husky": "^0.14.3",
@@ -60,13 +58,11 @@
     "puppeteer": "^1.1.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
     "resemblejs": "^2.10.0",
     "sass-loader": "^6.0.7",
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.2"
-  },
-  "dependencies": {
-    "react-router-dom": "^4.2.2"
   }
 }
