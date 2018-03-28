@@ -8,6 +8,6 @@ export default [
     alt='Bookmark this page'
     key="bookmark"
   >
-      bookmark
-    </a>,
+    bookmark
+  </a>,
 ];
