@@ -19,8 +19,7 @@ module.exports = {
 
 
   // list of files / patterns to exclude
-  exclude: [
-  ],
+  exclude: [],
 
 
   // preprocess matching files before serving them to the browser
@@ -32,23 +31,35 @@ module.exports = {
   webpack: {
     devtool: 'inline-source-map',
     module: {
-      loaders: [
-        { test: /\.js?$/, loader: 'babel-loader' }
-      ],
       rules: [
-          // instrument only testing sources with Istanbul
-          {
-            test: /\.js$/,
-            use: {
-              loader: 'istanbul-instrumenter-loader',
-              options: {esModules: true}
-            },
-            include: path.resolve('packages/'),
-            exclude: [
-              /node_modules/
-            ],
-            enforce: 'post'
+        {
+          test: /\.js$/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                'airbnb',
+                'es2015',
+                'react',
+              ],
+              plugins: ['transform-class-properties']
+            }
           }
+        },
+        // instrument only testing sources with Istanbul
+        {
+          test: /\.js$/,
+          use: {
+            loader: 'istanbul-instrumenter-loader',
+            options: {esModules: true}
+          },
+          include: path.resolve('packages/'),
+          exclude: [
+            /\.test\.js$/,
+            /node_modules/
+          ],
+          enforce: 'post'
+        }
       ]
     }
   },
