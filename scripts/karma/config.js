@@ -25,7 +25,7 @@ module.exports = {
   // preprocess matching files before serving them to the browser
   // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
   preprocessors: {
-      'test/unit/index.js': ['webpack']
+    'test/unit/index.js': ['webpack']
   },
 
   webpack: {
@@ -42,23 +42,9 @@ module.exports = {
                 'es2015',
                 'react',
               ],
-              plugins: ['transform-class-properties']
+              plugins: ['transform-class-properties', 'istanbul']
             }
           }
-        },
-        // instrument only testing sources with Istanbul
-        {
-          test: /\.js$/,
-          use: {
-            loader: 'istanbul-instrumenter-loader',
-            options: {esModules: true}
-          },
-          include: path.resolve('packages/'),
-          exclude: [
-            /\.test\.js$/,
-            /node_modules/
-          ],
-          enforce: 'post'
         }
       ]
     }
