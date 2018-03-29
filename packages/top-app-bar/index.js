@@ -68,7 +68,7 @@ export default class TopAppBar extends React.Component {
       deregisterScrollHandler: (handler) =>
         window.removeEventListener('scroll', handler),
       getViewportScrollY: () => window.pageYOffset,
-      getTotalActionItems: () => actionItems && actionItems.length,
+      getTotalActionItems: () => !!(actionItems && actionItems.length),
     };
   }
 
