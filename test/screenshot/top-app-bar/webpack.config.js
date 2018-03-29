@@ -9,5 +9,5 @@ module.exports = [
     'top-app-bar/prominentNoActionItems'),
   bundle('top-app-bar/standardNoActionItems.js',
     'top-app-bar/standardNoActionItems'),
-  bundle('top-app-bar/alwaysCollapsed.js', 'top-app-bar/alwaysCollapsed'),
+  bundle('top-app-bar/shortCollapsed.js', 'top-app-bar/shortCollapsed'),
 ];

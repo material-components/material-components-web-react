@@ -16,27 +16,17 @@ npm install @material/react-top-app-bar
 <TopAppBar />
 ```
 
-### Variants
-
-There are several Top App Bar variants that can be applied to the React Component via props. IE short Top App Bar can be triggered with the follow markup:
-
-```html
-<TopAppBar short />
-```
-
-Variants | Attribute Name
---- | ---
-Short | short
-Always Collapsed | alwaysCollapsed
-Prominent | prominent
-
-> NOTE: As per design guidelines, prominent variant should not be used with short or always collapsed.
 
 ## Props
 
 Prop Name | Type | Description
---- | ---
+--- | --- | ---
 actionItems | Array | Accepts an array of elements that should be rendered to the opposite side of the title. Note that a single action item should also be passed as an array.
 className | String | Classes to be applied to the root element.
 title | String | The title of the Top App Bar.
 navIcon | Element | Appears adjacent to the title. This acts as the main action of the Top App Bar.
+short | n/a | Enables short variant.
+shortCollapsed | n/a | Enables shortCollapsed variant.
+prominent | n/a | Enables prominent variant.
+
+> NOTE: As per design guidelines, prominent variant should not be used with short or always collapsed.

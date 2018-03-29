@@ -18,15 +18,15 @@ export default class TopAppBar extends React.Component {
   get classes() {
     const {classList} = this.state;
     const {
-      alwaysCollapsed,
+      shortCollapsed,
       className,
       short,
       prominent,
     } = this.props;
 
     return classnames('mdc-top-app-bar', Array.from(classList), className, {
-      'mdc-top-app-bar--short': alwaysCollapsed || short,
-      'mdc-top-app-bar--short-collapsed': alwaysCollapsed,
+      'mdc-top-app-bar--short': shortCollapsed || short,
+      'mdc-top-app-bar--short-collapsed': shortCollapsed,
       'mdc-top-app-bar--prominent': prominent,
     });
   }
@@ -36,8 +36,6 @@ export default class TopAppBar extends React.Component {
   }
 
   componentWillUnmount() {
-    // remember to always call destroy when the component is
-    // removed from the DOM.
     this.foundation_.destroy();
   }
 
@@ -73,25 +71,31 @@ export default class TopAppBar extends React.Component {
   }
 
   render() {
+    return (
+      <header className={this.classes}>
+        <div className='mdc-top-app-bar__row'>
+          {this.renderTitleAndNavSection()}
+          {this.renderActionItems()}
+        </div>
+      </header>
+    );
+  }
+
+  renderTitleAndNavSection() {
     const {
       title,
       navIcon,
     } = this.props;
-    const sectionClasses =
+    const classes =
       'mdc-top-app-bar__section mdc-top-app-bar__section--align-start';
 
     return (
-      <header className={this.classes}>
-        <div className='mdc-top-app-bar__row'>
-          <section className={sectionClasses}>
-            {navIcon ? navIcon : null}
-            <span className="mdc-top-app-bar__title">
-              {title}
-            </span>
-          </section>
-          {this.renderActionItems()}
-        </div>
-      </header>
+      <section className={classes}>
+        {navIcon ? navIcon : null}
+        <span className="mdc-top-app-bar__title">
+          {title}
+        </span>
+      </section>
     );
   }
 
@@ -115,7 +119,7 @@ export default class TopAppBar extends React.Component {
 }
 
 TopAppBar.propTypes = {
-  alwaysCollapsed: PropTypes.bool,
+  shortCollapsed: PropTypes.bool,
   short: PropTypes.bool,
   prominent: PropTypes.bool,
   title: PropTypes.string,
@@ -125,7 +129,7 @@ TopAppBar.propTypes = {
 };
 
 TopAppBar.defaultProps = {
-  alwaysCollapsed: false,
+  shortCollapsed: false,
   short: false,
   prominent: false,
   title: '',

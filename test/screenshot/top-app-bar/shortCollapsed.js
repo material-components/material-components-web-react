@@ -10,8 +10,7 @@ import './index.scss';
 ReactDOM.render((
   <div>
     <TopAppBar
-      prominent
-      title='Miami, Fl'
+      shortCollapsed
       navIcon={<NavIcon />}
     />
 

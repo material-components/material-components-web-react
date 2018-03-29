@@ -17,13 +17,8 @@ test('has correct standard class', () => {
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar'));
 });
 
-test('has correct standard class', () => {
-  const wrapper = shallow(<TopAppBar />);
-  assert.isTrue(wrapper.hasClass('mdc-top-app-bar'));
-});
-
-test('has correct alwaysCollapsed class', () => {
-  const wrapper = shallow(<TopAppBar alwaysCollapsed />);
+test('has correct shortCollapsed class', () => {
+  const wrapper = shallow(<TopAppBar shortCollapsed />);
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--short'));
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--short-collapsed'));
 });
@@ -32,11 +27,6 @@ test('has correct short class', () => {
   const wrapper = shallow(<TopAppBar short />);
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--short'));
   assert.isFalse(wrapper.hasClass('mdc-top-app-bar--short-collapsed'));
-});
-
-test('has correct prominent class', () => {
-  const wrapper = shallow(<TopAppBar prominent />);
-  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--prominent'));
 });
 
 test('has correct prominent class', () => {
