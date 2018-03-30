@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import {
   MDCTopAppBarFoundation,
   MDCShortTopAppBarFoundation,
-  util,
 } from '@material/top-app-bar';
 
 export default class TopAppBar extends React.Component {
@@ -62,7 +61,7 @@ export default class TopAppBar extends React.Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       registerScrollHandler: (handler) =>
-        window.addEventListener('scroll', handler, util.applyPassive()),
+        window.addEventListener('scroll', handler),
       deregisterScrollHandler: (handler) =>
         window.removeEventListener('scroll', handler),
       getViewportScrollY: () => window.pageYOffset,
