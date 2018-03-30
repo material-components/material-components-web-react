@@ -5,10 +5,8 @@ const screenshots = [
   new Screenshot('top-app-bar/short.html'),
   new Screenshot('top-app-bar/prominent.html'),
   new Screenshot('top-app-bar/standard.html'),
-  new Screenshot('top-app-bar/shortNoActionItems.html'),
-  new Screenshot('top-app-bar/prominentNoActionItems.html'),
   new Screenshot('top-app-bar/standardNoActionItems.html'),
-  new Screenshot('top-app-bar/alwaysCollapsed.html'),
+  new Screenshot('top-app-bar/shortCollapsed.html'),
 ];
 
 const screenshotSuite = new ScreenshotSuite('TopAppBar', screenshots);
