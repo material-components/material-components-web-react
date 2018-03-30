@@ -9,4 +9,5 @@ rules:
   require-jsdoc: off
   valid-jsdoc: off
   switch-colon-spacing: 0
-  no-invalid-this: off
+  max-len: [error, 120]
+  indent:  [error, 2, {"SwitchCase":1}]
