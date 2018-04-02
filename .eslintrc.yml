@@ -12,4 +12,3 @@ rules:
   max-len: [error, 120]
   indent:  [error, 2, {"SwitchCase":1}]
   no-invalid-this: off
-  max-len: [error, 120]
