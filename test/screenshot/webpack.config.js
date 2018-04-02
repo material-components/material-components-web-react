@@ -1,5 +1,6 @@
 const topAppBarBundles = require('./top-app-bar/webpack.config.js');
+const fabBundles = require('./fab/webpack.config.js');
 
 module.exports = [
-  ...topAppBarBundles,
+  ...topAppBarBundles, ...fabBundles,
 ];

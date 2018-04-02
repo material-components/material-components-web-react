@@ -1,0 +1,17 @@
+@import "@material/fab/mixins";
+
+body {
+  margin: 0;
+}
+
+.demo-button {
+  margin: 10px;
+}
+
+.demo-ink-color {
+  @include mdc-fab-ink-color(orange);
+}
+
+.demo-fill-color {
+  @include mdc-fab-container-color(orange);
+}
