@@ -20,15 +20,19 @@ export default class Fab extends React.Component {
     });
   }
 
-  render() {
-    this.children = React.Children.map(this.props.children, (item) => {
+  setClassOnChildren = () => {
+    return React.Children.map(this.props.children, (item) => {
       const className = `${item.props.className} mdc-fab__icon`;
-      const props = Object.assign({}, item.props, {className: className});
+      const props = Object.assign({}, item.props, {className});
       return React.cloneElement(item, props);
     });
+  };
+
+  render() {
+    const children = this.setClassOnChildren();
     return (
         <button className={this.classes}>
-          {this.children}
+          {children}
         </button>
     );
   }
@@ -37,10 +41,14 @@ export default class Fab extends React.Component {
 Fab.propTypes = {
   mini: PropTypes.bool,
   className: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 Fab.defaultProps = {
   mine: false,
   className: '',
+  children: [],
 };

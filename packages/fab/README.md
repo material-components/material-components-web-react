@@ -1,11 +1,11 @@
-# Top App Bar React
+# Fab React
 
-MDC React Top App Bar acts as a React container around MDC Top App Bar, and implements MDC Top App Bar's foundation layer. Please see [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar).
+MDC React Fab acts as a React container around MDC Fab. Please see [MDC Fab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-fab).
 
 ## Installation
 
 ```
-npm install @material/react-top-app-bar
+npm install @material/react-fab
 ```
 
 ## Usage
