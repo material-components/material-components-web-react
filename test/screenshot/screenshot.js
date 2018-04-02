@@ -200,6 +200,8 @@ export default class Screenshot {
    */
   async takeScreenshot_() {
     const browser = await puppeteer.launch();
+    const version = await browser.version();
+    console.log('VERSION OF BROWSER: ', version);
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/${this.urlPath_}`);
     const imageBuffer = await page.screenshot();
