@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TopAppBar from '../../../packages/top-app-bar';
-import LoremIpsumContent from './LoremIpsumContent';
 import NavIcon from './NavIcon';
 import actionItems from './actionItems';
 
@@ -15,7 +14,5 @@ ReactDOM.render((
       navIcon={<NavIcon />}
       actionItems={actionItems}
     />
-
-    <LoremIpsumContent />
   </div>
 ), document.getElementById('app'));
