@@ -26,7 +26,7 @@ className | String | Classes to be applied to the root element.
 title | String | The title of the Top App Bar.
 navIcon | Element | Appears adjacent to the title. This acts as the main action of the Top App Bar.
 short | n/a | Enables short variant.
-shortCollapsed | n/a | Enables shortCollapsed variant.
+shortCollapsed | n/a | Enables short collapsed variant.
 prominent | n/a | Enables prominent variant.
 
 > NOTE: As per design guidelines, prominent variant should not be used with short or always collapsed.

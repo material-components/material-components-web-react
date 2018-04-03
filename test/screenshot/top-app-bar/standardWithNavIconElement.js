@@ -10,9 +10,13 @@ import './index.scss';
 ReactDOM.render((
   <div>
     <TopAppBar
-      prominent
       title='Miami, Fl'
-      navIcon={<NavIcon />}
+      navIcon={<a
+        className='material-icons'
+        href='#'
+        onClick={() => console.log('click')}>
+        menu
+      </a>}
       actionItems={[<ActionItem />]}
     />
   </div>

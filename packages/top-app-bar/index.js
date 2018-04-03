@@ -48,6 +48,24 @@ export default class TopAppBar extends React.Component {
     this.foundation_.init();
   }
 
+  // TODO: Move to a parent component
+  addClassesToElement(classes, element) {
+    // check if element passed is a user defined React Component
+    const isComponent = typeof element.type === 'function';
+    let elementInstance = element;
+
+    if (isComponent) {
+      // this is needed to get to render method of component
+      const component = new element.type();
+      elementInstance = component.render();
+    }
+
+    const propsWithClasses = {
+      className: `${elementInstance.props.className} ${classes}`
+    };
+    return React.cloneElement(elementInstance, propsWithClasses);
+  }
+
   get adapter() {
     const {actionItems} = this.props;
 
@@ -81,16 +99,13 @@ export default class TopAppBar extends React.Component {
   }
 
   renderTitleAndNavSection() {
-    const {
-      title,
-      navIcon,
-    } = this.props;
+    const {title} = this.props;
     const classes =
       'mdc-top-app-bar__section mdc-top-app-bar__section--align-start';
 
     return (
       <section className={classes}>
-        {navIcon ? navIcon : null}
+        {this.renderNavIcon()}
         <span className="mdc-top-app-bar__title">
           {title}
         </span>
@@ -98,8 +113,20 @@ export default class TopAppBar extends React.Component {
     );
   }
 
+  renderNavIcon() {
+    const {navIcon} = this.props;
+    const navIconClass = 'mdc-top-app-bar__navigation-icon';
+
+    if(!navIcon) {
+      return;
+    }
+
+    return this.addClassesToElement(navIconClass, navIcon);
+  }
+
   renderActionItems() {
     const {actionItems} = this.props;
+    const actionItemClass = 'mdc-top-app-bar__action-item';
     if (!actionItems) {
       return;
     }
@@ -109,8 +136,11 @@ export default class TopAppBar extends React.Component {
         className='mdc-top-app-bar__section mdc-top-app-bar__section--align-end'
         role='toolbar'
       >
-        {/* need to close element to set key */}
-        {actionItems.map((item, key) => React.cloneElement(item, {key}))}
+        {/* to set key on the element, the element needs to be cloned */}
+        {actionItems.map((item, key) => {
+          const elementWithClasses = this.addClassesToElement(actionItemClass, item);
+          return React.cloneElement(elementWithClasses, {key});
+        })}
       </section>
     );
   }
