@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "stop": "./test/screenshot/stop.sh",
-    "capture": "cross-env MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/capture-suite.js",
+    "capture": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/capture-suite.js",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix packages test",
     "lint": "eslint packages test",
@@ -14,9 +14,9 @@
     "posttest": "npm stop && istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
     "postinstall": "lerna bootstrap",
     "test:watch": "karma start karma.local.js --auto-watch",
-    "test:unit": "cross-env NODE_ENV=test karma start karma.local.js --single-run",
+    "test:unit": "NODE_ENV=test karma start karma.local.js --single-run",
     "test:unit-ci": "karma start karma.ci.js --single-run",
-    "test:image-diff": "cross-env MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/diff-suite.js",
+    "test:image-diff": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/diff-suite.js",
     "upload:screenshots": "node ./test/screenshot/upload-screenshots.js"
   },
   "config": {
