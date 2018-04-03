@@ -3,5 +3,6 @@
   "top-app-bar/prominent.html": "24f389bb6d20fb85e522bcfcf4f9fa8062b8e8f1a226334c0b6c6aa7b8875b36",
   "top-app-bar/standard.html": "c6eea084f4404ec0e7a7d723dc700307a7d87f4f010d2034983e57ccfe77c37e",
   "top-app-bar/standardNoActionItems.html": "aac558c893d1257511ab266b6e8603788038947094a91d23ebdfea13d542383f",
-  "top-app-bar/shortCollapsed.html": "d95df9e94851ffc70ccc38daed159e274209c54f3d1d18961f4512504defda6f"
+  "top-app-bar/shortCollapsed.html": "d95df9e94851ffc70ccc38daed159e274209c54f3d1d18961f4512504defda6f",
+  "top-app-bar/standardWithNavIconElement.html": "c6eea084f4404ec0e7a7d723dc700307a7d87f4f010d2034983e57ccfe77c37e"
 }

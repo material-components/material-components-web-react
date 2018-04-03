@@ -6,6 +6,7 @@ const screenshots = [
   new Screenshot('top-app-bar/prominent.html'),
   new Screenshot('top-app-bar/standard.html'),
   new Screenshot('top-app-bar/standardNoActionItems.html'),
+  new Screenshot('top-app-bar/standardWithNavIconElement.html'),
   new Screenshot('top-app-bar/shortCollapsed.html'),
 ];
 
