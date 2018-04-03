@@ -24,7 +24,7 @@ matrix:
     - node_js: 8
       env: TEST_SUITE=screenshots
       install: npm i
-      script: 
+      script:
         - ./test/screenshot/start.sh
-        - sleep 10s
+        - sleep 20s
         - npm run test:image-diff

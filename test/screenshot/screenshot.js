@@ -67,10 +67,7 @@ export default class Screenshot {
       const [snapshot, golden] = await Promise.all([
         this.takeScreenshot_(),
         this.readImage_(goldenPath),
-      ]).catch(reason => {
-        console.log('take screenshot error: ');
-        console.log(reason);
-      });
+      ]);
 
       // Compare the images
       const data = await compareImages(snapshot, golden, comparisonOptions);
@@ -86,10 +83,7 @@ export default class Screenshot {
       await Promise.all([
         this.saveImage_(snapshotPath, snapshot, metadata),
         this.saveImage_(diffPath, diff, metadata),
-      ]).catch(reason => {
-        console.log('save image error: ');
-        console.log(reason);
-      });
+      ]);
 
       return assert.isBelow(Number(data.misMatchPercentage), 0.02);
     });
@@ -207,10 +201,7 @@ export default class Screenshot {
   async takeScreenshot_() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    const path_ = `http://localhost:8080/${this.urlPath_}`;
-    const error = await page.goto(path_);
-    console.log("Traveled to path: ", path_);
-    console.log("take screenshot error in takeScreenshot_: ", error);
+    await page.goto(`http://localhost:8080/${this.urlPath_}`);
     const imageBuffer = await page.screenshot();
     await browser.close();
     return imageBuffer;
