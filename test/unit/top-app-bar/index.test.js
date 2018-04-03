@@ -73,7 +73,7 @@ test('actionItems are rendered as custom component', () => {
   }
   const wrapper = shallow(
     <TopAppBar
-      actionItems={[<CustomActionItem />]} />
+      actionItems={[<CustomActionItem key='item' />]} />
   );
   assert.isTrue(wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item'));
 });

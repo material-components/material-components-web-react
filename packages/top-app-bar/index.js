@@ -56,12 +56,13 @@ export default class TopAppBar extends React.Component {
 
     if (isComponent) {
       // this is needed to get to render method of component
-      const component = new element.type();
+      const Component = element.type;
+      const component = new Component();
       elementInstance = component.render();
     }
 
     const propsWithClasses = {
-      className: `${elementInstance.props.className} ${classes}`
+      className: `${elementInstance.props.className} ${classes}`,
     };
     return React.cloneElement(elementInstance, propsWithClasses);
   }
@@ -117,7 +118,7 @@ export default class TopAppBar extends React.Component {
     const {navIcon} = this.props;
     const navIconClass = 'mdc-top-app-bar__navigation-icon';
 
-    if(!navIcon) {
+    if (!navIcon) {
       return;
     }
 

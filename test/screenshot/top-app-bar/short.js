@@ -12,7 +12,7 @@ ReactDOM.render((
       short
       title='Miami, Fl'
       navIcon={<NavIcon />}
-      actionItems={[<ActionItem />]}
+      actionItems={[<ActionItem key='item'/>]}
     />
   </div>
 ), document.getElementById('app'));
