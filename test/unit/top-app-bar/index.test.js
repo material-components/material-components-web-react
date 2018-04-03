@@ -40,7 +40,20 @@ test('navIcon is rendered', () => {
     <TopAppBar
       navIcon={navIcon} />
   );
-  assert.isTrue(wrapper.contains(navIcon));
+  assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass('mdc-top-app-bar__navigation-icon'));
+});
+
+test('navIcon is rendered as custom component', () => {
+  class CustomNavIcon extends React.Component {
+    render() {
+      return <div className='test-top-app-bar-nav-icon'></div>;
+    }
+  }
+  const wrapper = shallow(
+    <TopAppBar
+      navIcon={<CustomNavIcon />} />
+  );
+  assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass('mdc-top-app-bar__navigation-icon'));
 });
 
 test('actionItems are rendered', () => {
@@ -49,7 +62,20 @@ test('actionItems are rendered', () => {
     <TopAppBar
       actionItems={[actionItem]} />
   );
-  assert.isTrue(wrapper.contains(actionItem));
+  assert.isTrue(wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item'));
+});
+
+test('actionItems are rendered as custom component', () => {
+  class CustomActionItem extends React.Component {
+    render() {
+      return <a href="#" className='test-action-icon-1'></a>;
+    }
+  }
+  const wrapper = shallow(
+    <TopAppBar
+      actionItems={[<CustomActionItem />]} />
+  );
+  assert.isTrue(wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item'));
 });
 
 test('#adapter.addClass adds a class to state', () => {
