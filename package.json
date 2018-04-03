@@ -16,7 +16,7 @@
     "test:watch": "karma start karma.local.js --auto-watch",
     "test:unit": "NODE_ENV=test karma start karma.local.js --single-run",
     "test:unit-ci": "karma start karma.ci.js --single-run",
-    "test:image-diff": "cross-env MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/diff-suite.js",
+    "test:image-diff": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/diff-suite.js",
     "upload:screenshots": "node ./test/screenshot/upload-screenshots.js"
   },
   "config": {
@@ -41,7 +41,6 @@
     "babel-preset-react": "^6.24.1",
     "capture-chrome": "^2.0.0",
     "chai": "^4.1.2",
-    "cross-env": "^5.1.4",
     "css-loader": "^0.28.10",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",

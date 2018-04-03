@@ -67,7 +67,10 @@ export default class Screenshot {
       const [snapshot, golden] = await Promise.all([
         this.takeScreenshot_(),
         this.readImage_(goldenPath),
-      ]);
+      ]).catch(reason => {
+        console.log('take screenshot error: ');
+        console.log(reason);
+      });
 
       // Compare the images
       const data = await compareImages(snapshot, golden, comparisonOptions);
@@ -83,7 +86,10 @@ export default class Screenshot {
       await Promise.all([
         this.saveImage_(snapshotPath, snapshot, metadata),
         this.saveImage_(diffPath, diff, metadata),
-      ]);
+      ]).catch(reason => {
+        console.log('save image error: ');
+        console.log(reason);
+      });
 
       return assert.isBelow(Number(data.misMatchPercentage), 0.02);
     });
