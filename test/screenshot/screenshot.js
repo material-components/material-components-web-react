@@ -207,7 +207,10 @@ export default class Screenshot {
   async takeScreenshot_() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto(`http://localhost:8080/${this.urlPath_}`);
+    const path_ = `http://localhost:8080/${this.urlPath_}`;
+    const error = await page.goto(path_);
+    console.log("Traveled to path: ", path_);
+    console.log("take screenshot error in takeScreenshot_: ", error);
     const imageBuffer = await page.screenshot();
     await browser.close();
     return imageBuffer;
