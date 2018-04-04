@@ -17,7 +17,6 @@ npm install @material/react-fab
 </Fab>
 ```
 
-
 ## Props
 
 Prop Name | Type | Description
@@ -25,3 +24,9 @@ Prop Name | Type | Description
 className | String | Classes to be applied to the root element.
 mini | n/a | Enables the mini variant.
 
+## Sass Mixins
+
+Sass mixins may be available to customize various aspects of the components. Please refer to the 
+MDC Web repository for more information on what mixins are available, and how to use them. 
+
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.34.1/packages/mdc-fab/README.md#advanced-sass-mixins)
