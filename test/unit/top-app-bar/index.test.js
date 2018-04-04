@@ -3,6 +3,9 @@ import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import td from 'testdouble';
 import TopAppBar from '../../../packages/top-app-bar';
+import {cssClasses} from '../../../packages/top-app-bar/constants';
+import asNavIcon from '../../../packages/top-app-bar/asNavIcon';
+import asActionItem from '../../../packages/top-app-bar/asActionItem';
 
 suite('TopAppBar');
 
@@ -34,48 +37,49 @@ test('has correct prominent class', () => {
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--prominent'));
 });
 
-test('navIcon is rendered', () => {
+test('navIcon is rendered with navigation icon class', () => {
   const navIcon = <div className='test-top-app-bar-nav-icon'></div>;
   const wrapper = shallow(
     <TopAppBar
       navIcon={navIcon} />
   );
-  assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass('mdc-top-app-bar__navigation-icon'));
+  assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass(cssClasses.NAV_ICON));
 });
 
-test('navIcon is rendered as custom component', () => {
+test('navIcon is rendered as custom component with the HOC asNavIcon', () => {
   class CustomNavIcon extends React.Component {
     render() {
-      return <div className='test-top-app-bar-nav-icon'></div>;
+      const {className} = this.props; // eslint-disable-line react/prop-types
+      return <div className={`${className} test-top-app-bar-nav-icon`}></div>;
     }
   }
+  const NavIcon = asNavIcon(CustomNavIcon);
   const wrapper = shallow(
     <TopAppBar
-      navIcon={<CustomNavIcon />} />
+      navIcon={<NavIcon />} />
   );
-  assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass('mdc-top-app-bar__navigation-icon'));
+  const navIcon = wrapper.find(NavIcon);
+  assert.equal(navIcon.length, 1);
 });
 
-test('actionItems are rendered', () => {
+test('actionItems are rendered with action item class', () => {
   const actionItem = <a href="#" className='test-action-icon-1'></a>;
   const wrapper = shallow(
     <TopAppBar
       actionItems={[actionItem]} />
   );
-  assert.isTrue(wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item'));
+  assert.isTrue(wrapper.find('.test-action-icon-1').hasClass(cssClasses.ACTION_ITEM));
 });
 
-test('actionItems are rendered as custom component', () => {
-  class CustomActionItem extends React.Component {
-    render() {
-      return <a href="#" className='test-action-icon-1'></a>;
-    }
-  }
+test('actionItems are rendered with the HOC asActionItem', () => {
+  const CustomActionItem = <a href="#" className='test-action-icon-1'></a>;
+  const ActionItem = asActionItem(CustomActionItem);
   const wrapper = shallow(
     <TopAppBar
-      actionItems={[<CustomActionItem key='item' />]} />
+      actionItems={[<ActionItem key='1' />]} />
   );
-  assert.isTrue(wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item'));
+  const actionItem = wrapper.find(ActionItem);
+  assert.equal(actionItem.length, 1);
 });
 
 test('#adapter.addClass adds a class to state', () => {

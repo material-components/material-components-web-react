@@ -5,6 +5,7 @@ import {
   MDCTopAppBarFoundation,
   MDCShortTopAppBarFoundation,
 } from '@material/top-app-bar';
+import {cssClasses} from './constants';
 
 export default class TopAppBar extends React.Component {
 
@@ -48,21 +49,17 @@ export default class TopAppBar extends React.Component {
     this.foundation_.init();
   }
 
-  // TODO: Move to a parent component
   addClassesToElement(classes, element) {
     // check if element passed is a user defined React Component
     const isComponent = typeof element.type === 'function';
     let elementInstance = element;
 
     if (isComponent) {
-      // this is needed to get to render method of component
-      const Component = element.type;
-      const component = new Component();
-      elementInstance = component.render();
+      return element;
     }
 
     const propsWithClasses = {
-      className: `${elementInstance.props.className} ${classes}`,
+      className: classnames(classes, elementInstance.props.className),
     };
     return React.cloneElement(elementInstance, propsWithClasses);
   }
@@ -116,7 +113,7 @@ export default class TopAppBar extends React.Component {
 
   renderNavIcon() {
     const {navIcon} = this.props;
-    const navIconClass = 'mdc-top-app-bar__navigation-icon';
+    const navIconClass = cssClasses.NAV_ICON;
 
     if (!navIcon) {
       return;
@@ -127,7 +124,7 @@ export default class TopAppBar extends React.Component {
 
   renderActionItems() {
     const {actionItems} = this.props;
-    const actionItemClass = 'mdc-top-app-bar__action-item';
+    const actionItemClass = cssClasses.ACTION_ITEM;
     if (!actionItems) {
       return;
     }

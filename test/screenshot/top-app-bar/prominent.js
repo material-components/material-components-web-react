@@ -1,19 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TopAppBar from '../../../packages/top-app-bar';
-import NavIcon from './NavIcon';
-import ActionItem from './ActionItem';
-
 import '../../../packages/top-app-bar/index.scss';
+import '../../../packages/material-icon/index.scss';
 import './index.scss';
+
+import MaterialIcon from '../../../packages/material-icon';
+import asNavIcon from '../../../packages/top-app-bar/asNavIcon';
+import asActionItem from '../../../packages/top-app-bar/asActionItem';
+
+const NavIcon = asNavIcon(MaterialIcon);
+const ActionItem = asActionItem(MaterialIcon);
 
 ReactDOM.render((
   <div>
     <TopAppBar
       prominent
-      title='Miami, Fl'
-      navIcon={<NavIcon />}
-      actionItems={[<ActionItem key='item'/>]}
+      title='Miami, FL'
+      navIcon={<NavIcon icon='menu' onClick={() => console.log('prominent click')}/>}
+      actionItems={[<ActionItem key='item' icon='bookmark'/>]}
     />
   </div>
 ), document.getElementById('app'));
