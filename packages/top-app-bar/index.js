@@ -51,17 +51,17 @@ export default class TopAppBar extends React.Component {
 
   addClassesToElement(classes, element) {
     // check if element passed is a user defined React Component
-    const isComponent = typeof element.type === 'function';
-    let elementInstance = element;
-
-    if (isComponent) {
-      return element;
-    }
+    // const isComponent = typeof element.type === 'function';
+    // let elementInstance = element;
+    //
+    // if (isComponent) {
+    //   return element;
+    // }
 
     const propsWithClasses = {
-      className: classnames(classes, elementInstance.props.className),
+      className: classnames(classes, element.props.className),
     };
-    return React.cloneElement(elementInstance, propsWithClasses);
+    return React.cloneElement(element, propsWithClasses);
   }
 
   get adapter() {
@@ -89,21 +89,21 @@ export default class TopAppBar extends React.Component {
     return (
       <header className={this.classes}>
         <div className='mdc-top-app-bar__row'>
-          {this.renderTitleAndNavSection()}
+          {this.renderTitleAndNavigationSection()}
           {this.renderActionItems()}
         </div>
       </header>
     );
   }
 
-  renderTitleAndNavSection() {
+  renderTitleAndNavigationSection() {
     const {title} = this.props;
     const classes =
       'mdc-top-app-bar__section mdc-top-app-bar__section--align-start';
 
     return (
       <section className={classes}>
-        {this.renderNavIcon()}
+        {this.renderNavigationIcon()}
         <span className="mdc-top-app-bar__title">
           {title}
         </span>
@@ -111,20 +111,18 @@ export default class TopAppBar extends React.Component {
     );
   }
 
-  renderNavIcon() {
-    const {navIcon} = this.props;
-    const navIconClass = cssClasses.NAV_ICON;
+  renderNavigationIcon() {
+    const {navigationIcon} = this.props;
 
-    if (!navIcon) {
+    if (!navigationIcon) {
       return;
     }
 
-    return this.addClassesToElement(navIconClass, navIcon);
+    return this.addClassesToElement(cssClasses.NAVIGATION_ICON, navigationIcon);
   }
 
   renderActionItems() {
     const {actionItems} = this.props;
-    const actionItemClass = cssClasses.ACTION_ITEM;
     if (!actionItems) {
       return;
     }
@@ -136,7 +134,7 @@ export default class TopAppBar extends React.Component {
       >
         {/* to set key on the element, the element needs to be cloned */}
         {actionItems.map((item, key) => {
-          const elementWithClasses = this.addClassesToElement(actionItemClass, item);
+          const elementWithClasses = this.addClassesToElement(cssClasses.ACTION_ITEM, item);
           return React.cloneElement(elementWithClasses, {key});
         })}
       </section>
@@ -151,7 +149,7 @@ TopAppBar.propTypes = {
   prominent: PropTypes.bool,
   title: PropTypes.string,
   actionItems: PropTypes.arrayOf(PropTypes.element),
-  navIcon: PropTypes.element,
+  navigationIcon: PropTypes.element,
   className: PropTypes.string,
 };
 
@@ -161,6 +159,6 @@ TopAppBar.defaultProps = {
   prominent: false,
   title: '',
   actionItems: null,
-  navIcon: null,
+  navigationIcon: null,
   className: '',
 };

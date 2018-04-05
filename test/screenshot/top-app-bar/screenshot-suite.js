@@ -7,7 +7,7 @@ const screenshots = [
   new Screenshot('top-app-bar/shortCollapsed.html'),
   new Screenshot('top-app-bar/standard.html'),
   new Screenshot('top-app-bar/standardNoActionItems.html'),
-  new Screenshot('top-app-bar/standardWithNavIconElement.html'),
+  new Screenshot('top-app-bar/standardWithNavigationIconElement.html'),
 ];
 
 const screenshotSuite = new ScreenshotSuite('TopAppBar', screenshots);
