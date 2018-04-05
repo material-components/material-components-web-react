@@ -79,3 +79,10 @@ If you decide to just pass an element your markup should resemble this:
 > NOTE: `actionItems` prop is expecting an array of elements.
 
 Please see [MDC Web Top App Bar Readme](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar) for more information.
+
+## Sass Mixins
+
+Sass mixins may be available to customize various aspects of the components. Please refer to the
+MDC Web repository for more information on what mixins are available, and how to use them.
+
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.34.1/packages/mdc-top-app-bar/README.md)

@@ -50,14 +50,6 @@ export default class TopAppBar extends React.Component {
   }
 
   addClassesToElement(classes, element) {
-    // check if element passed is a user defined React Component
-    // const isComponent = typeof element.type === 'function';
-    // let elementInstance = element;
-    //
-    // if (isComponent) {
-    //   return element;
-    // }
-
     const propsWithClasses = {
       className: classnames(classes, element.props.className),
     };
