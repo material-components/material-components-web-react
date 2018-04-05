@@ -5,7 +5,6 @@ import {
   MDCTopAppBarFoundation,
   MDCShortTopAppBarFoundation,
 } from '@material/top-app-bar';
-import {cssClasses} from './constants';
 
 export default class TopAppBar extends React.Component {
 
@@ -110,7 +109,7 @@ export default class TopAppBar extends React.Component {
       return;
     }
 
-    return this.addClassesToElement(cssClasses.NAVIGATION_ICON, navigationIcon);
+    return this.addClassesToElement('mdc-top-app-bar__navigation-icon', navigationIcon);
   }
 
   renderActionItems() {
@@ -126,7 +125,7 @@ export default class TopAppBar extends React.Component {
       >
         {/* to set key on the element, the element needs to be cloned */}
         {actionItems.map((item, key) => {
-          const elementWithClasses = this.addClassesToElement(cssClasses.ACTION_ITEM, item);
+          const elementWithClasses = this.addClassesToElement('mdc-top-app-bar__action-item', item);
           return React.cloneElement(elementWithClasses, {key});
         })}
       </section>

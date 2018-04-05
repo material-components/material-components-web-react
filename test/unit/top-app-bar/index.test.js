@@ -3,7 +3,6 @@ import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import td from 'testdouble';
 import TopAppBar from '../../../packages/top-app-bar';
-import {cssClasses} from '../../../packages/top-app-bar/constants';
 
 suite('TopAppBar');
 
@@ -41,7 +40,7 @@ test('navigationIcon is rendered with navigation icon class', () => {
     <TopAppBar
       navigationIcon={navigationIcon} />
   );
-  assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass(cssClasses.NAVIGATION_ICON));
+  assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass('mdc-top-app-bar__navigation-icon'));
 });
 
 test('navigationIcon is rendered as custom component that accepts a className prop', () => {
@@ -56,7 +55,7 @@ test('navigationIcon is rendered as custom component that accepts a className pr
       navigationIcon={<CustomNavigationIcon />} />
   );
   const navigationIcon = wrapper.find(CustomNavigationIcon);
-  assert.isTrue(navigationIcon.hasClass(cssClasses.NAVIGATION_ICON));
+  assert.isTrue(navigationIcon.hasClass('mdc-top-app-bar__navigation-icon'));
 });
 
 test('actionItems are rendered with action item class', () => {
@@ -65,7 +64,7 @@ test('actionItems are rendered with action item class', () => {
     <TopAppBar
       actionItems={[actionItem]} />
   );
-  assert.isTrue(wrapper.find('.test-action-icon-1').hasClass(cssClasses.ACTION_ITEM));
+  assert.isTrue(wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item'));
 });
 
 test('actionItems are rendered as a custom component that accepts a className prop', () => {
@@ -80,7 +79,7 @@ test('actionItems are rendered as a custom component that accepts a className pr
       actionItems={[<CustomActionItem key='1' />]} />
   );
   const actionItem = wrapper.find(CustomActionItem);
-  assert.isTrue(actionItem.hasClass(cssClasses.ACTION_ITEM));
+  assert.isTrue(actionItem.hasClass('mdc-top-app-bar__action-item'));
 });
 
 test('#adapter.addClass adds a class to state', () => {

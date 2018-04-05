@@ -37,13 +37,14 @@ module.exports = {
           use: {
             loader: 'babel-loader',
             options: {
+              compact: true,
               presets: [
                 'airbnb',
                 'es2015',
                 'react',
               ],
               plugins: ['transform-class-properties', 'istanbul']
-            }
+            },
           }
         }
       ]

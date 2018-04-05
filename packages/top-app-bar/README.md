@@ -1,6 +1,6 @@
 # Top App Bar React
 
-MDC React Top App Bar acts as a React container around MDC Top App Bar, and implements MDC Top App Bar's foundation layer. Please see [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar).
+MDC React Top App Bar is a React component which uses MDC [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar)'s CSS and foundation JavaScript.
 
 ## Installation
 
@@ -9,12 +9,6 @@ npm install @material/react-top-app-bar
 ```
 
 ## Usage
-
-### JSX Structure
-
-```html
-<TopAppBar />
-```
 
 ## Props
 
@@ -32,7 +26,7 @@ prominent | n/a | Enables prominent variant.
 
 ### Navigation Icon
 
-The navigation icon can be a `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc. If you decide to pass a non-native `React.Component`, you need to append the prop `className` to the className prop on the parent element. As an example please see the [MaterialIcon Component](../material-icon/index.js).
+The navigation icon can be a `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc.
 
 ```js
 import MyIcon from './myIcon';
@@ -60,7 +54,7 @@ If you decide to just pass an element your markup should resemble this:
 
 ### Action Items
 
-Similar to the [navigation icon](#navigation-icon), it can be `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc. If you decide to pass a non-native `React.Component`, you need to append the prop `className` to the className prop on the parent element. As an example please see the [MaterialIcon Component](../material-icon/index.js).
+Similar to the [navigation icon](#navigation-icon), it can be `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc.
 
 ```js
 import MyIcon from './myIcon';
