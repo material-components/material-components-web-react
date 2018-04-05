@@ -36,6 +36,7 @@
     "babel-preset-react": "^6.24.1",
     "capture-chrome": "^2.0.0",
     "chai": "^4.1.2",
+    "classnames": "^2.2.5",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.10",
     "eslint": "^3.19.0",

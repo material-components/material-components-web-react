@@ -18,7 +18,7 @@ class RouteContainer_ extends React.Component {
   render() {
     return (
       <main>
-        <nav className="mdc-toolbar-fixed-adjust">
+        <nav>
           <Switch>
             <Route exact path="/" component={Catalog} />
             <Route path="/temporary-package" component={TemporaryPackage} />

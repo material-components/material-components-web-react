@@ -20,6 +20,11 @@ module.exports = {
         use: [
         {
           loader: 'css-loader',
+          options: {
+            modules: true,
+            importLoaders: 1,
+            localIdentName: '[sha1:hash:hex:4]',
+          },
         },
         {
           loader: 'sass-loader',
