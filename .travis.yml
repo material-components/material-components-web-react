@@ -18,7 +18,6 @@ matrix:
         - npm i -g codecov
       script:
         - npm run test:unit-ci
-        - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
         - codecov
 
     - node_js: 8
