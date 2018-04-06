@@ -29,46 +29,22 @@ prominent | n/a | Enables prominent variant.
 The navigation icon can be a `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc.
 
 ```js
-import MyIcon from './myIcon';
-
-<TopAppBar
-  navigationIcon={<MyIcon icon='menu' />} />
-
-
-  class MyIcon extends React.Component {
-    render() {
-      const {className} = this.props;
-
-      // here MyIcon has `className` prop appended to the root's classes
-      return <i className={`${className} my-icon-class`} />;
-    }
-  }
-```
-
-If you decide to just pass an element your markup should resemble this:
-
-```js
   <TopAppBar
     navigationIcon={<i className='material-icons'>menu</i>} />
 ```
+
+If you decide to use a React Component please see [Integrating with Components](./../../docs/guidelines.md#integrating-with-components).
 
 ### Action Items
 
 Similar to the [navigation icon](#navigation-icon), it can be `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc.
 
 ```js
-import MyIcon from './myIcon';
-
-<TopAppBar
-  actionItems={[<MyIcon icon='bookmark' />]} />
-```
-
-If you decide to just pass an element your markup should resemble this:
-
-```js
   <TopAppBar
     actionItems={[<i className='material-icons'>bookmark</i>]} />
 ```
+
+If you decide to use a React Component please see [Integrating with Components](./../../docs/guidelines.md#integrating-with-components).
 
 > NOTE: `actionItems` prop is expecting an array of elements.
 
