@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom';
 
 import Catalog from './Catalog';
-import TemporaryPackage from './temporary-package';
+import TopAppBar from './top-app-bar/TopAppBar';
 
 export default class App extends React.Component {
   render() {
@@ -21,7 +21,7 @@ class RouteContainer_ extends React.Component {
         <nav>
           <Switch>
             <Route exact path="/" component={Catalog} />
-            <Route path="/temporary-package" component={TemporaryPackage} />
+            <Route path="/top-app-bar" component={TopAppBar} />
           </Switch>
         </nav>
       </main>

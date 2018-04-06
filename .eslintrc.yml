@@ -1,13 +1,14 @@
-extends: 
+extends:
   - google
   - plugin:react/recommended
 parser: babel-eslint
-plugins: 
+plugins:
   - react
-rules: 
+rules:
   strict: 0
   require-jsdoc: off
   valid-jsdoc: off
   switch-colon-spacing: 0
   max-len: [error, 120]
   indent:  [error, 2, {"SwitchCase":1}]
+  no-invalid-this: off

@@ -13,37 +13,38 @@ module.exports = {
     rules: [{
       test: /\.js$/,
       loader: 'babel-loader',
+      query: {compact: true},
     },
     {
       test: /\.scss$/,
       use: ExtractTextPlugin.extract({
         use: [
-        {
-          loader: 'css-loader',
-          options: {
-            modules: true,
-            importLoaders: 1,
-            localIdentName: '[sha1:hash:hex:4]',
-          },
-        },
-        {
-          loader: 'sass-loader',
-          options: {
-            importer: function(url, prev) {
-              if (url.indexOf('@material') === 0) {
-                let filePath = url.split('@material')[1];
-                let nodeModulePath = `./node_modules/@material/${filePath}`;
-                return {
-                  file: path.resolve(nodeModulePath),
-                };
-              }
-              return {
-                file: url,
-              };
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[sha1:hash:hex:4]',
             },
           },
-        },
-      ]}),
+          {
+            loader: 'sass-loader',
+            options: {
+              importer: function(url, prev) {
+                if (url.indexOf('@material') === 0) {
+                  let filePath = url.split('@material')[1];
+                  let nodeModulePath = `./node_modules/@material/${filePath}`;
+                  return {
+                    file: path.resolve(nodeModulePath),
+                  };
+                }
+                return {
+                  file: url,
+                };
+              },
+            },
+          },
+        ]}),
     }],
   },
   plugins: [
@@ -51,7 +52,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'index.html'),
     }),
-    new OptimizeCssAssetsPlugin(),
+    // new OptimizeCssAssetsPlugin(),
   ],
   devServer: {
     historyApiFallback: true,

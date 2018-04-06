@@ -4,7 +4,12 @@ export default class Catalog extends React.Component {
   render() {
     return (
       <div>
-        <a href='/temporary-package'>Temporary Package</a>
+        <div>
+          <a href='/material-icon'>Material Icon</a>
+        </div>
+        <div>
+          <a href='/top-app-bar'>Top App Bar</a>
+        </div>
       </div>
     );
   }

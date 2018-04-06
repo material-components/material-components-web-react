@@ -1,0 +1,23 @@
+{
+  "name": "@material/material-icon-react",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "material icon",
+    "materialicon"
+  ],
+  "dependencies": {
+    "prop-types": "^15.6.1",
+    "classnames": "^2.2.5",
+    "react": "^16.2.0"
+  }
+}

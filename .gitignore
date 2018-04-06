@@ -6,3 +6,4 @@ node_modules
 *.snapshot.png
 *.diff.png
 key.json
+*.golden.png
