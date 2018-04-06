@@ -13,8 +13,13 @@ matrix:
   include:
     - node_js: 8
       env: TEST_SUITE=unit
-      install: npm i
-      script: npm run test:unit-ci
+      install:
+        - npm i
+        - npm i -g codecov
+      script:
+        - npm run test:unit-ci
+        - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
+        - codecov
 
     - node_js: 8
       env: TEST_SUITE=lint

@@ -9,6 +9,7 @@
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix packages test",
     "lint": "eslint packages test",
+    "report-coverage": "codecov",
     "pretest": "npm run lint && npm stop && ./test/screenshot/start.sh",
     "test": "npm run test:unit && npm run test:image-diff",
     "posttest": "npm stop && istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
