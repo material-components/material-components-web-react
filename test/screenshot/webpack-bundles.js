@@ -11,9 +11,7 @@ module.exports.bundle = function(testPath, outputPath) {
       rules: [{
         test: /\.js$/,
         loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react'],
-        },
+        query: {compact: true},
       }, {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({

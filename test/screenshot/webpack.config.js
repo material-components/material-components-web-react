@@ -1,6 +1,7 @@
-const temporaryPackageBundles
-  = require('./temporary-package/webpack.config.js');
+const materialIconBundles = require('./material-icon/webpack.config.js');
+const topAppBarBundles = require('./top-app-bar/webpack.config.js');
 
 module.exports = [
-  ...temporaryPackageBundles,
+  ...materialIconBundles,
+  ...topAppBarBundles,
 ];
