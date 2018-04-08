@@ -19,12 +19,13 @@ module.exports = {
       test: /\.scss$/,
       use: ExtractTextPlugin.extract({
         use: [
+          'css-loader',
           {
-            loader: 'css-loader',
+            loader: 'postcss-loader',
             options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: '[sha1:hash:hex:4]',
+              plugins: (loader) => [
+                require('postcss-icss-selectors')(),
+              ],
             },
           },
           {
@@ -44,7 +45,8 @@ module.exports = {
               },
             },
           },
-        ]}),
+        ],
+      }),
     }],
   },
   plugins: [
@@ -52,7 +54,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'index.html'),
     }),
-    // new OptimizeCssAssetsPlugin(),
+    new OptimizeCssAssetsPlugin(),
   ],
   devServer: {
     historyApiFallback: true,

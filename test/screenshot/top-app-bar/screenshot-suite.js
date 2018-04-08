@@ -2,12 +2,12 @@ import ScreenshotSuite from '../screenshot-suite';
 import Screenshot from '../screenshot';
 
 const screenshots = [
-  new Screenshot('top-app-bar/prominent.html'),
-  new Screenshot('top-app-bar/short.html'),
-  new Screenshot('top-app-bar/shortCollapsed.html'),
-  new Screenshot('top-app-bar/standard.html'),
-  new Screenshot('top-app-bar/standardNoActionItems.html'),
-  new Screenshot('top-app-bar/standardWithNavigationIconElement.html'),
+  new Screenshot('top-app-bar/prominent'),
+  new Screenshot('top-app-bar/short'),
+  new Screenshot('top-app-bar/shortCollapsed'),
+  new Screenshot('top-app-bar/standard'),
+  new Screenshot('top-app-bar/standardNoActionItems'),
+  new Screenshot('top-app-bar/standardWithNavigationIconElement'),
 ];
 
 const screenshotSuite = new ScreenshotSuite('TopAppBar', screenshots);

@@ -11,16 +11,46 @@ import StandardNoActionItems from './StandardNoActionItems';
 import './index.scss';
 
 export default class TopAppBar extends React.Component {
+
+  links = [{
+    component: ShortCollapsed,
+    pathname: 'shortCollapsed',
+    title: 'Short Collapsed',
+  }, {
+    component: Short,
+    pathname: 'short',
+    title: 'Short',
+  }, {
+    component: Prominent,
+    pathname: 'prominent',
+    title: 'Prominent',
+  }, {
+    component: Standard,
+    pathname: 'standard',
+    title: 'Standard',
+  }, {
+    component: StandardWithNavigationIconElement,
+    pathname: 'standardWithNavigationIconElement',
+    title: 'Standard with Navigation Icon Element',
+  }, {
+    component: StandardNoActionItems,
+    pathname: 'standardNoActionItems',
+    title: 'Standard No Action Items',
+  }];
+
   render() {
     return (
       <Switch>
-        <Route path="/top-app-bar/shortCollapsed" component={ShortCollapsed} />
-        <Route path="/top-app-bar/short" component={Short} />
-        <Route path="/top-app-bar/prominent" component={Prominent} />
-        <Route path="/top-app-bar/standard" component={Standard} />
-        <Route path="/top-app-bar/standardWithNavigationIconElement" component={StandardWithNavigationIconElement} />
-        <Route path="/top-app-bar/standardNoActionItems" component={StandardNoActionItems} />
-        <Route render={this.renderLinks} />
+        {
+          this.links.map((link, index) => (
+            <Route
+              path={`/top-app-bar/${link.pathname}`}
+              component={link.component}
+              key={index}
+            />
+          ))
+        }
+        <Route render={() => this.renderLinks()} />
       </Switch>
     );
   }
@@ -28,41 +58,17 @@ export default class TopAppBar extends React.Component {
   renderLinks() {
     return (
       <div>
-        <div>
-          <a href='./shortCollapsed'>
-            Short Collapsed
-          </a>
-        </div>
+        {this.links.map(this.renderLink)}
+      </div>
+    );
+  }
 
-        <div>
-          <a href='./short'>
-            Short
-          </a>
-        </div>
-
-        <div>
-          <a href='./prominent'>
-            Prominent
-          </a>
-        </div>
-
-        <div>
-          <a href='./standard'>
-            Standard
-          </a>
-        </div>
-
-        <div>
-          <a href='./standardWithNavigationIconElement'>
-            Standard with Navigation Icon Element
-          </a>
-        </div>
-
-        <div>
-          <a href='./standardNoActionItems'>
-            Standard No Action Items
-          </a>
-        </div>
+  renderLink(link, index) {
+    return (
+      <div key={index}>
+        <a href={`./${link.pathname}`}>
+          {link.title}
+        </a>
       </div>
     );
   }
