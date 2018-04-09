@@ -4,6 +4,7 @@ import Fab from '../../../packages/fab';
 
 import '../../../packages/fab/index.scss';
 import './index.scss';
+import MaterialIcon from '../../../packages/material-icon';
 
 ReactDOM.render((
     <div>
@@ -14,6 +15,9 @@ ReactDOM.render((
         <span className="material-icons">directions_transit</span>
       </Fab>
       <Fab className="demo-button">
+        <MaterialIcon icon="add"/>
+      </Fab>
+      <Fab className="demo-button">
         <svg xmlns="http://www.w3.org/2000/svg" className="material-icons" viewBox="0 0 24 24" fill="#000000">
           <path fill="none" d="M0 0h24v24H0z"/>
           <path d="M23 12c0-6.07-4.93-11-11-11S1 5.93 1 12s4.93 11 11 11 11-4.93 11-11zM5 17.64C3.75 16.1 3 14.14 3
@@ -32,6 +36,9 @@ ReactDOM.render((
         <span className="material-icons">directions_transit</span>
       </Fab>
       <Fab mini className="demo-button">
+        <MaterialIcon icon="add"/>
+      </Fab>
+      <Fab mini className="demo-button">
         <svg xmlns="http://www.w3.org/2000/svg" className="material-icons" viewBox="0 0 24 24" fill="#000000">
           <path fill="none" d="M0 0h24v24H0z"/>
           <path d="M23 12c0-6.07-4.93-11-11-11S1 5.93 1 12s4.93 11 11 11 11-4.93 11-11zM5 17.64C3.75 16.1 3 14.14 3
@@ -50,6 +57,9 @@ ReactDOM.render((
         <span className="material-icons">directions_transit</span>
       </Fab>
       <Fab className="demo-ink-color demo-button">
+        <MaterialIcon icon="add"/>
+      </Fab>
+      <Fab className="demo-ink-color demo-button">
         <svg xmlns="http://www.w3.org/2000/svg" className="material-icons" viewBox="0 0 24 24" fill="#000000">
           <path fill="none" d="M0 0h24v24H0z"/>
           <path d="M23 12c0-6.07-4.93-11-11-11S1 5.93 1 12s4.93 11 11 11 11-4.93 11-11zM5 17.64C3.75 16.1 3 14.14 3
@@ -68,6 +78,9 @@ ReactDOM.render((
         <span className="material-icons">directions_transit</span>
       </Fab>
       <Fab mini className="demo-ink-color demo-button">
+        <MaterialIcon icon="add"/>
+      </Fab>
+      <Fab mini className="demo-ink-color demo-button">
         <svg xmlns="http://www.w3.org/2000/svg" className="material-icons" viewBox="0 0 24 24" fill="#000000">
           <path fill="none" d="M0 0h24v24H0z"/>
           <path d="M23 12c0-6.07-4.93-11-11-11S1 5.93 1 12s4.93 11 11 11 11-4.93 11-11zM5 17.64C3.75 16.1 3 14.14 3
@@ -86,6 +99,9 @@ ReactDOM.render((
         <span className="material-icons">directions_transit</span>
       </Fab>
       <Fab className="demo-fill-color demo-button">
+        <MaterialIcon icon="add"/>
+      </Fab>
+      <Fab className="demo-fill-color demo-button">
         <svg xmlns="http://www.w3.org/2000/svg" className="material-icons" viewBox="0 0 24 24" fill="#000000">
           <path fill="none" d="M0 0h24v24H0z"/>
           <path d="M23 12c0-6.07-4.93-11-11-11S1 5.93 1 12s4.93 11 11 11 11-4.93 11-11zM5 17.64C3.75 16.1 3 14.14 3
@@ -102,6 +118,9 @@ ReactDOM.render((
       </Fab>
       <Fab mini className="demo-fill-color demo-button">
         <span className="material-icons">directions_transit</span>
+      </Fab>
+      <Fab mini className="demo-fill-color demo-button">
+        <MaterialIcon icon="add"/>
       </Fab>
       <Fab mini className="demo-fill-color demo-button">
         <svg xmlns="http://www.w3.org/2000/svg" className="material-icons" viewBox="0 0 24 24" fill="#000000">

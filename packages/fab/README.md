@@ -12,8 +12,29 @@ npm install @material/react-fab
 
 ### JSX Structure
 
+The Fab can be used with the `span`, `i`, `img` or `svg` elements. It can also be used with the 
+[Material Icon](../material-icon) react component. 
 ```html
 <Fab>
+  <span className="material-icons">favorite</span>
+</Fab>
+
+<Fab>
+  <i className="material-icons">favorite</i>
+</Fab>
+
+<Fab>
+  <svg xmlns="http://www.w3.org/2000/svg" className="material-icons" viewBox="0 0 24 24">
+  ...
+  </svg>
+</Fab>
+
+<Fab>
+  <img className="material-icons" src="/images/ic_button_24px.svg"/>
+</Fab>
+
+<Fab>
+  <MaterialIcon icon="favorite"/>
 </Fab>
 ```
 
