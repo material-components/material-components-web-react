@@ -1,7 +1,9 @@
 {
-  "top-app-bar/short.html": "9a2ca9960c4e706a26ca70d3a7ccb6ce1f1da71111490a772e7f21c902d5d106",
-  "top-app-bar/prominent.html": "e6bc7523bcc9dfb91a34d7b5cb7e0ec931a40421ec09975776402c04e27152f7",
-  "top-app-bar/standard.html": "c618878234f96779369c4e0f292da750ef1c34ae6a14f9852855a75f54492ce0",
-  "top-app-bar/standardNoActionItems.html": "c681e7d5c47d61c136b168f5e4f9e742aaaf92428b8e0dc1365e109f185fd725",
-  "top-app-bar/shortCollapsed.html": "4fe0cf18d902d8a0daa63b61f8499f4d1ba3c6381f7d889f05d796f640a2b397"
+  "top-app-bar/short.html": "10cceca0dca69b061fc4d47dfd31225b9ca46f35ece1944c8c076eaf80f5c498",
+  "top-app-bar/prominent.html": "52309ab79b5d5adc6e961b1fb79707b38bfdd1a896e020d48ffa1078d6bd0d30",
+  "top-app-bar/standard.html": "1c80b867c6eb077db576d69fb6b8194388269968fe26a99eb1a7c71b9bbdc823",
+  "top-app-bar/standardNoActionItems.html": "46990bdc085b556a61412c9d43fc62ee7283f2db7c53c355210bb02a3aaacc36",
+  "top-app-bar/shortCollapsed.html": "d95df9e94851ffc70ccc38daed159e274209c54f3d1d18961f4512504defda6f",
+  "top-app-bar/standardWithNavigationIconElement.html": "f2171a6e85650530d4809dae75d3509f0bbdc7d4c5caf77af88dc9bc2437415d",
+  "material-icon/menu.html": "790b2076760612c6c91ee0f6bb42aa3603b30c2a60f302de22429c2572645640"
 }

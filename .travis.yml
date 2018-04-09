@@ -13,8 +13,13 @@ matrix:
   include:
     - node_js: 8
       env: TEST_SUITE=unit
-      install: npm i
-      script: npm run test:unit-ci
+      install:
+        - npm i
+        - npm i -g codecov
+      script:
+        - npm run test:unit-ci
+      after_success:
+        - codecov
 
     - node_js: 8
       env: TEST_SUITE=lint
@@ -24,7 +29,7 @@ matrix:
     - node_js: 8
       env: TEST_SUITE=screenshots
       install: npm i
-      script: 
+      script:
         - ./test/screenshot/start.sh
-        - sleep 10s
+        - sleep 60s
         - npm run test:image-diff

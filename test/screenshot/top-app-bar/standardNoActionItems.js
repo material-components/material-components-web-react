@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TopAppBar from '../../../packages/top-app-bar';
-import LoremIpsumContent from './LoremIpsumContent';
-import NavIcon from './NavIcon';
+
+import MaterialIcon from '../../../packages/material-icon';
 
 import '../../../packages/top-app-bar/index.scss';
 import './index.scss';
@@ -10,10 +10,8 @@ import './index.scss';
 ReactDOM.render((
   <div>
     <TopAppBar
-      title='Miami, Fl'
-      navIcon={<NavIcon />}
+      title='Miami, FL'
+      navigationIcon={<MaterialIcon icon='menu' onClick={() => console.log('click')}/>}
     />
-
-    <LoremIpsumContent />
   </div>
 ), document.getElementById('app'));

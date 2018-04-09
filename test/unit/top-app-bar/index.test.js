@@ -34,22 +34,52 @@ test('has correct prominent class', () => {
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--prominent'));
 });
 
-test('navIcon is rendered', () => {
-  const navIcon = <div className='test-top-app-bar-nav-icon'></div>;
+test('navigationIcon is rendered with navigation icon class', () => {
+  const navigationIcon = <div className='test-top-app-bar-nav-icon'></div>;
   const wrapper = shallow(
     <TopAppBar
-      navIcon={navIcon} />
+      navigationIcon={navigationIcon} />
   );
-  assert.isTrue(wrapper.contains(navIcon));
+  assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass('mdc-top-app-bar__navigation-icon'));
 });
 
-test('actionItems are rendered', () => {
+test('navigationIcon is rendered as custom component that accepts a className prop', () => {
+  class CustomNavigationIcon extends React.Component {
+    render() {
+      const {className} = this.props; // eslint-disable-line react/prop-types
+      return <div className={`${className} test-top-app-bar-nav-icon`}></div>;
+    }
+  }
+  const wrapper = shallow(
+    <TopAppBar
+      navigationIcon={<CustomNavigationIcon />} />
+  );
+  const navigationIcon = wrapper.find(CustomNavigationIcon);
+  assert.isTrue(navigationIcon.hasClass('mdc-top-app-bar__navigation-icon'));
+});
+
+test('actionItems are rendered with action item class', () => {
   const actionItem = <a href="#" className='test-action-icon-1'></a>;
   const wrapper = shallow(
     <TopAppBar
       actionItems={[actionItem]} />
   );
-  assert.isTrue(wrapper.contains(actionItem));
+  assert.isTrue(wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item'));
+});
+
+test('actionItems are rendered as a custom component that accepts a className prop', () => {
+  class CustomActionItem extends React.Component {
+    render() {
+      const {className} = this.props; // eslint-disable-line react/prop-types
+      return <div className={`${className} test-action-icon-1`}></div>;
+    }
+  }
+  const wrapper = shallow(
+    <TopAppBar
+      actionItems={[<CustomActionItem key='1' />]} />
+  );
+  const actionItem = wrapper.find(CustomActionItem);
+  assert.isTrue(actionItem.hasClass('mdc-top-app-bar__action-item'));
 });
 
 test('#adapter.addClass adds a class to state', () => {

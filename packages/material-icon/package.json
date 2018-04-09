@@ -1,5 +1,5 @@
 {
-  "name": "@material/top-app-bar-react",
+  "name": "@material/material-icon-react",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -12,13 +12,12 @@
     "mdc web react",
     "material components react",
     "material design",
-    "top app bar",
-    "topappbar"
+    "material icon",
+    "materialicon"
   ],
   "dependencies": {
-    "@material/top-app-bar": "^0.34.1",
-    "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
+    "classnames": "^2.2.5",
     "react": "^16.2.0"
   }
 }

@@ -48,6 +48,13 @@ export default class TopAppBar extends React.Component {
     this.foundation_.init();
   }
 
+  addClassesToElement(classes, element) {
+    const propsWithClasses = {
+      className: classnames(classes, element.props.className),
+    };
+    return React.cloneElement(element, propsWithClasses);
+  }
+
   get adapter() {
     const {actionItems} = this.props;
 
@@ -73,29 +80,36 @@ export default class TopAppBar extends React.Component {
     return (
       <header className={this.classes}>
         <div className='mdc-top-app-bar__row'>
-          {this.renderTitleAndNavSection()}
+          {this.renderTitleAndNavigationSection()}
           {this.renderActionItems()}
         </div>
       </header>
     );
   }
 
-  renderTitleAndNavSection() {
-    const {
-      title,
-      navIcon,
-    } = this.props;
+  renderTitleAndNavigationSection() {
+    const {title} = this.props;
     const classes =
       'mdc-top-app-bar__section mdc-top-app-bar__section--align-start';
 
     return (
       <section className={classes}>
-        {navIcon ? navIcon : null}
+        {this.renderNavigationIcon()}
         <span className="mdc-top-app-bar__title">
           {title}
         </span>
       </section>
     );
+  }
+
+  renderNavigationIcon() {
+    const {navigationIcon} = this.props;
+
+    if (!navigationIcon) {
+      return;
+    }
+
+    return this.addClassesToElement('mdc-top-app-bar__navigation-icon', navigationIcon);
   }
 
   renderActionItems() {
@@ -109,8 +123,11 @@ export default class TopAppBar extends React.Component {
         className='mdc-top-app-bar__section mdc-top-app-bar__section--align-end'
         role='toolbar'
       >
-        {/* need to close element to set key */}
-        {actionItems.map((item, key) => React.cloneElement(item, {key}))}
+        {/* to set key on the element, the element needs to be cloned */}
+        {actionItems.map((item, key) => {
+          const elementWithClasses = this.addClassesToElement('mdc-top-app-bar__action-item', item);
+          return React.cloneElement(elementWithClasses, {key});
+        })}
       </section>
     );
   }
@@ -123,7 +140,7 @@ TopAppBar.propTypes = {
   prominent: PropTypes.bool,
   title: PropTypes.string,
   actionItems: PropTypes.arrayOf(PropTypes.element),
-  navIcon: PropTypes.element,
+  navigationIcon: PropTypes.element,
   className: PropTypes.string,
 };
 
@@ -133,6 +150,6 @@ TopAppBar.defaultProps = {
   prominent: false,
   title: '',
   actionItems: null,
-  navIcon: null,
+  navigationIcon: null,
   className: '',
 };
