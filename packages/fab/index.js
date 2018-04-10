@@ -42,13 +42,12 @@ Fab.propTypes = {
   mini: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]).isRequired,
 };
 
 Fab.defaultProps = {
   mine: false,
   className: '',
-  children: [],
 };
