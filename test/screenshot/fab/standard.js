@@ -8,8 +8,6 @@ import MaterialIcon from '../../../packages/material-icon';
 
 ReactDOM.render((
     <div>
-      <Fab>
-      </Fab>
       <Fab className="demo-button">
         <i className="material-icons">favorite</i>
       </Fab>
