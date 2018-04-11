@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import withRipple from '@material/react-ripple';
@@ -14,8 +14,9 @@ export class MDCButton extends Component {
       icon,
       children,
       initRipple,
-      unbounded, // dismiss warning for converting to a string (for ripple)
-      ...otherProps,
+      // dismiss warning for converting to a string (for ripple)
+      unbounded, // eslint-disable-line no-unused-vars
+      ...otherProps
     } = this.props;
 
     const classes = classnames('mdc-button', className, {
@@ -56,6 +57,9 @@ MDCButton.propTypes = {
   stroked: PropTypes.bool,
   dense: PropTypes.bool,
   disabled: PropTypes.bool,
+  unbounded: PropTypes.bool,
+  initRipple: PropTypes.func.isRequired,
+  className: PropTypes.string,
   icon: PropTypes.element,
   children: PropTypes.string,
 };
@@ -66,6 +70,8 @@ MDCButton.defaultProps = {
   stroked: false,
   dense: false,
   disabled: false,
+  unbounded: false,
+  className: '',
   icon: null,
   children: '',
 };

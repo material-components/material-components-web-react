@@ -5,7 +5,9 @@ import withRipple from '../../../packages/ripple';
 
 import './index.scss';
 
+/*eslint-disable */
 const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) => {
+/*eslint-enable */
   const classes = `ripple-test-component ${className}`;
   return (
     <div
@@ -14,7 +16,7 @@ const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) =
       {children}
     </div>
   );
-}
+};
 
 const DivRipple = withRipple(Div);
 

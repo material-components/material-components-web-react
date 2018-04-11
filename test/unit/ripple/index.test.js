@@ -4,10 +4,11 @@ import td from 'testdouble';
 // must use mount for refs to work
 import {mount} from 'enzyme';
 import withRipple from '../../../packages/ripple';
-import {MDCRippleFoundation} from '@material/ripple';
 import {createMockRaf} from '../helpers/raf';
 
+/*eslint-disable */
 const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) => {
+/*eslint-enable */
   const classes = `ripple-test-component ${className}`;
   return (
     <div
@@ -16,7 +17,7 @@ const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) =
     {children}
     </div>
   );
-}
+};
 
 const DivRipple = withRipple(Div);
 
@@ -193,10 +194,10 @@ test('#adapter.getWindowPageOffset returns height and width', () => {
   assert.deepEqual(wrapper.update().instance().adapter_.getWindowPageOffset(), offset);
 });
 
- test('#componentWillUnmount destroys foundation', () => {
-   const wrapper = mount(<DivRipple />);
-   const foundation = wrapper.instance().foundation_;
-   foundation.destroy = td.func();
-   wrapper.unmount();
-   td.verify(foundation.destroy());
- });
+test('#componentWillUnmount destroys foundation', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.destroy = td.func();
+  wrapper.unmount();
+  td.verify(foundation.destroy());
+});

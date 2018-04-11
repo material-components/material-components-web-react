@@ -5,7 +5,6 @@ import classnames from 'classnames';
 import {MDCRippleFoundation, util} from '@material/ripple';
 
 const withRipple = (WrappedComponent) => {
-
   class RippledComponent extends Component {
 
     foundation_ = null;
@@ -18,15 +17,16 @@ const withRipple = (WrappedComponent) => {
     };
 
     componentDidMount() {
-      if(!this.adapter_) {
-        throw new Error("You must call initRipple from the element's ref prop to initialize the adapter for withRipple");
+      if (!this.adapter_) {
+        throw new Error('You must call initRipple from the element\'s ' +
+          'ref prop to initialize the adapter for withRipple');
       }
       this.foundation_ = new MDCRippleFoundation(this.adapter_);
       this.foundation_.init();
     }
 
     componentWillUnmount() {
-      if(this.foundation_) {
+      if (this.foundation_) {
         this.foundation_.destroy();
       }
     }
@@ -70,7 +70,7 @@ const withRipple = (WrappedComponent) => {
       const {onMouseDown, onMouseUp, onTouchStart, onKeyDown} = this.props;
 
       let action;
-      switch(eventType) {
+      switch (eventType) {
         case 'onMouseDown':
           action = onMouseDown;
           this.setState({isActivated: true});
@@ -93,7 +93,7 @@ const withRipple = (WrappedComponent) => {
       action(e);
     }
 
-    activateRipple = e => {
+    activateRipple = (e) => {
       // https://reactjs.org/docs/events.html#event-pooling
       e.persist();
       this.foundation_.activate(e);
@@ -114,6 +114,7 @@ const withRipple = (WrappedComponent) => {
     render() {
       const {
         /* start black list of otherprops */
+        /* eslint-disable */
         unbounded,
         style,
         className,
@@ -121,15 +122,16 @@ const withRipple = (WrappedComponent) => {
         onMouseUp,
         onTouchStart,
         onKeyDown,
+        /* eslint-enable */
         /* end black list of otherprops */
-        ...otherProps,
+        ...otherProps
       } = this.props;
 
       const updatedProps = Object.assign({
-        onMouseDown: e => this.handleEvent(e, 'onMouseDown'),
-        onMouseUp: e => this.handleEvent(e, 'onMouseUp'),
-        onTouchStart: e => this.handleEvent(e, 'onTouchStart'),
-        onKeyDown: e => this.handleEvent(e, 'onKeyDown'),
+        onMouseDown: (e) => this.handleEvent(e, 'onMouseDown'),
+        onMouseUp: (e) => this.handleEvent(e, 'onMouseUp'),
+        onTouchStart: (e) => this.handleEvent(e, 'onTouchStart'),
+        onKeyDown: (e) => this.handleEvent(e, 'onKeyDown'),
         // call initRipple on ref on root element that needs ripple
         initRipple: this.createAdapter,
         className: this.classes,
@@ -141,7 +143,7 @@ const withRipple = (WrappedComponent) => {
     }
   }
 
-  RippledComponent.propTypes = Object.assign({
+  WrappedComponent.propTypes = Object.assign({
     unbounded: PropTypes.bool,
     disabled: PropTypes.bool,
     style: PropTypes.object,
@@ -152,7 +154,7 @@ const withRipple = (WrappedComponent) => {
     onKeyDown: PropTypes.func,
   }, WrappedComponent.propTypes);
 
-  RippledComponent.defaultProps = Object.assign({
+  WrappedComponent.defaultProps = Object.assign({
     unbounded: false,
     disabled: false,
     style: {},
@@ -163,7 +165,10 @@ const withRipple = (WrappedComponent) => {
     onKeyDown: () => {},
   }, WrappedComponent.defaultProps);
 
+  RippledComponent.propTypes = WrappedComponent.propTypes;
+  RippledComponent.defaultProps = WrappedComponent.defaultProps;
+
   return RippledComponent;
-}
+};
 
 export default withRipple;
