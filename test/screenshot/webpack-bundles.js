@@ -22,18 +22,7 @@ module.exports.bundle = function(testPath, outputPath) {
             {
               loader: 'sass-loader',
               options: {
-                importer: function(url, prev) {
-                  if (url.indexOf('@material') === 0) {
-                    let filePath = url.split('@material')[1];
-                    let nodeModulePath = `./node_modules/@material/${filePath}`;
-                    return {
-                      file: require('path').resolve(nodeModulePath),
-                    };
-                  }
-                  return {
-                    file: url,
-                  };
-                },
+                includePaths: ['./node_modules'],
               },
             },
           ],
