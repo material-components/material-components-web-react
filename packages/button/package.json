@@ -1,21 +1,19 @@
 {
-  "name": "@material/material-icon-react",
+  "name": "@material/react-button",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "Apache-2.0",
   "keywords": [
     "mdc web react",
     "material components react",
     "material design",
-    "material icon",
-    "materialicon"
+    "material button",
+    "materialbutton"
   ],
   "dependencies": {
+    "@material/button": "^0.34.1",
+    "@material/react-ripple": "^0.0.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.2.0"

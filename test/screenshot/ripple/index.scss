@@ -1,0 +1,17 @@
+@import "@material/ripple/common";
+@import "@material/ripple/mixins";
+
+body {
+  margin: 24px;
+}
+
+.ripple-test-component {
+  @include mdc-ripple-surface;
+  @include mdc-ripple-radius-bounded;
+  @include mdc-states(pink);
+
+  border: 1px solid;
+  overflow: hidden;
+  width: 200px;
+  height: 100px;
+}
