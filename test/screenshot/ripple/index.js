@@ -31,5 +31,11 @@ ReactDOM.render((
     <DivRipple disabled>
       Disabled
     </DivRipple>
+
+    <br />
+
+    <DivRipple unbounded className='ripple-unbounded'>
+      Unbounded
+    </DivRipple>
   </div>
 ), document.getElementById('app'));
