@@ -20,7 +20,7 @@ export default class Fab extends React.Component {
     });
   }
 
-  setClassOnChildren = () => {
+  addIconClassToAllChildren = () => {
     return React.Children.map(this.props.children, (item) => {
       const className = `${item.props.className} mdc-fab__icon`;
       const props = Object.assign({}, item.props, {className});
@@ -29,7 +29,7 @@ export default class Fab extends React.Component {
   };
 
   render() {
-    const children = this.setClassOnChildren();
+    const children = this.addIconClassToAllChildren();
     return (
         <button className={this.classes}>
           {children}
@@ -48,6 +48,6 @@ Fab.propTypes = {
 };
 
 Fab.defaultProps = {
-  mine: false,
+  mini: false,
   className: '',
 };
