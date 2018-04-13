@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 
 export default class Media extends React.Component {
   getStyles = () => {
-    const {imageUrl: backgroundUrl, style} = this.props;
-    return Object.assign({}, {backgroundUrl}, style);
+    const {imageUrl, style} = this.props;
+    return Object.assign({}, {
+      backgroundImage: `url(${imageUrl})`,
+    }, style);
   }
 
   render() {

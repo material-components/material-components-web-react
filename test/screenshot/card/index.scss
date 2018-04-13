@@ -1,3 +1,29 @@
+@import "@material/typography/mdc-typography";
+
 body {
   margin: 24px;
+}
+
+.basic-card,
+.horizontal-card {
+  width: 350px;
+  margin-top: 36px;
+}
+
+.basic-card-header {
+  padding: 8px;
+}
+
+.basic-card-title,
+.basic-card-subtitle {
+  margin: 0;
+}
+
+.basic-card-image {
+  height: 300px;
+}
+
+
+.horizontal-card {
+  padding: 16px;
 }

@@ -17,6 +17,7 @@ export default class Content extends React.Component {
         className={classes}
         {...otherProps}
       >
+        {children}
       </div>
     );
   }
