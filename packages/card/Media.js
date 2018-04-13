@@ -17,7 +17,7 @@ export default class Media extends React.Component {
       wide,
       ...otherProps
     } = this.props;
-    const classes = classnames('mdc-card__media ', className, {
+    const classes = classnames('mdc-card__media', className, {
       'mdc-card__media--square': square,
       'mdc-card__media--16-9': wide,
     });

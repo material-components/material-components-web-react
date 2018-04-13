@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@google-cloud/storage": "^1.6.0",
+    "@material/card": "^0.34.1",
     "@material/top-app-bar": "^0.33.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",

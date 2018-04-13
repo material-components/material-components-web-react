@@ -1,11 +1,15 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import ActionButtons from './ActionButtons';
+import ActionIcons from './ActionIcons';
+import Actions from './Actions';
+import Content from './Content';
+import Media from './Media';
 
 export default class Card extends React.Component {
   render() {
     const {
-      icon,
       className,
       children,
       stroked,
@@ -27,31 +31,18 @@ export default class Card extends React.Component {
 }
 
 Card.propTypes = {
-  icon: PropTypes.string,
   className: PropTypes.string,
 };
 
 Card.defaultProps = {
-  icon: '',
   className: '',
 };
 
 
-
-/**
-CardHeader
-  title
-  subtitle
-  avatar
-CardMedia
-  image-urlPath
-  modifiers: square, 16-9 (wide)
-  chilren === __media-content
-CardContent
-  __primary-action
-CardActions
-  modifiers: fullBleed
-CardButtons
-  use material buttons
-CardIcons
-  use material ICons
+export {
+  ActionButtons as CardActionButtons,
+  ActionIcons as CardActionIcons,
+  Actions as CardActions,
+  Content as CardContent,
+  Media as CardMedia,
+};
