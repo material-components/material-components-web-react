@@ -68,6 +68,14 @@ test('touchStart event triggers activateRipple', () => {
   td.verify(touchStartHandler(td.matchers.isA(Object)), {times: 1});
 });
 
+test('touchStart event triggers activateRipple with no onTouchStart handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.activate = td.func();
+  wrapper.simulate('touchStart');
+  td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
+});
+
 test('keyDown event triggers activateRipple', () => {
   const keyDownHandler = td.func();
   const wrapper = mount(<DivRipple onKeyDown={keyDownHandler}/>);
@@ -78,6 +86,13 @@ test('keyDown event triggers activateRipple', () => {
   td.verify(keyDownHandler(td.matchers.isA(Object)), {times: 1});
 });
 
+test('keyDown event triggers activateRipple with no onKeyDown handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.activate = td.func();
+  wrapper.simulate('keyDown');
+  td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
+});
 
 test('#adapter.isUnbounded returns true is prop is set', () => {
   const wrapper = mount(<DivRipple unbounded />);

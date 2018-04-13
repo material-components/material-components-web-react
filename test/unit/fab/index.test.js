@@ -6,18 +6,19 @@ import Fab from '../../../packages/fab';
 suite('Fab');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Fab className='test-class-name'/>);
+  const wrapper = shallow(
+    <Fab className='test-class-name'><i /></Fab>);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-fab'));
 });
 
 test('has correct standard class', () => {
-  const wrapper = shallow(<Fab />);
+  const wrapper = shallow(<Fab><i /></Fab>);
   assert.isTrue(wrapper.hasClass('mdc-fab'));
 });
 
 test('has correct mini class', () => {
-  const wrapper = shallow(<Fab mini />);
+  const wrapper = shallow(<Fab mini><i /></Fab>);
   assert.isTrue(wrapper.hasClass('mdc-fab--mini'));
 });
 
