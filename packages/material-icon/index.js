@@ -8,22 +8,15 @@ export default class MaterialIcon extends React.Component {
   render() {
     const {
       icon,
-      className,
       hasRipple,
-      initRipple,
-      unbounded,
       ...otherProps
     } = this.props;
-    const classes = classnames('material-icons', {
-      [className]: className.length > 0,
-    });
 
     if (hasRipple) {
       return (
         <RippleMaterialIcon
-          classes={classes}
+          unbounded
           icon={icon}
-          initIcon={initRipple}
           {...otherProps}
         />
       );
@@ -31,7 +24,6 @@ export default class MaterialIcon extends React.Component {
 
     return (
       <MaterialIconDefault
-        classes={classes}
         icon={icon}
         {...otherProps}
       />
@@ -54,16 +46,20 @@ MaterialIcon.defaultProps = {
 
 const MaterialIconDefault = (props) => {
   const {
-    classes,
+    className,
     icon,
-    initIcon = () => {},
+    initRipple,
+    unbounded,
     ...otherProps
   } = props;
+  const classes = classnames('material-icons', {
+    [className]: className.length > 0,
+  });
 
   return (
     <i
       className={classes}
-      ref={initIcon}
+      ref={initRipple}
       {...otherProps}
     >
       {icon}

@@ -7,6 +7,7 @@ module.exports.bundle = function(testPath, outputPath) {
     output: {
       filename: outputPath + '.js',
     },
+    devtool: 'eval-source-map',
     module: {
       rules: [{
         test: /\.js$/,

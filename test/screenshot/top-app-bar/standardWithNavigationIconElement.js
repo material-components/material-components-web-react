@@ -12,7 +12,7 @@ ReactDOM.render((
     <TopAppBar
       title='Miami, FL'
       navigationIcon={<a onClick={() => console.log('navigation icon click')}>
-          <svg
+        <svg
           width="24px" height="24px"
           xmlns="http://www.w3.org/2000/svg"
           className="material-icons"

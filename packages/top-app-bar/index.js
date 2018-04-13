@@ -48,18 +48,12 @@ export default class TopAppBar extends React.Component {
     this.foundation_.init();
   }
 
-  addClassesToElement(classes, element) {
+  addClassesAndEnableRippleToElement(classes, element) {
     const propsWithClasses = {
       className: classnames(classes, element.props.className),
-    };
-    return React.cloneElement(element, propsWithClasses);
-  }
-
-  turnOnRippleForElement(element) {
-    const propsWithRipple = {
       hasRipple: true,
     };
-    return React.cloneElement(element, propsWithRipple);
+    return React.cloneElement(element, propsWithClasses);
   }
 
   get adapter() {
@@ -116,8 +110,7 @@ export default class TopAppBar extends React.Component {
       return;
     }
 
-    const iconWithClasses = this.addClassesToElement('mdc-top-app-bar__navigation-icon', navigationIcon);
-    return this.turnOnRippleForElement(iconWithClasses);
+    return this.addClassesAndEnableRippleToElement('mdc-top-app-bar__navigation-icon', navigationIcon);
   }
 
   renderActionItems() {
@@ -133,7 +126,8 @@ export default class TopAppBar extends React.Component {
       >
         {/* to set key on the element, the element needs to be cloned */}
         {actionItems.map((item, key) => {
-          const elementWithClasses = this.addClassesToElement('mdc-top-app-bar__action-item', item);
+          const elementWithClasses = this.addClassesAndEnableRippleToElement(
+            'mdc-top-app-bar__action-item', item);
           return React.cloneElement(elementWithClasses, {key});
         })}
       </section>
