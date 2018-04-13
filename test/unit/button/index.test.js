@@ -31,8 +31,3 @@ test('renders a stroked button', () => {
   const wrapper = shallow(<MDCButton stroked />);
   assert.isTrue(wrapper.hasClass('mdc-button--stroked'));
 });
-
-test('renders a dense button', () => {
-  const wrapper = shallow(<MDCButton dense />);
-  assert.isTrue(wrapper.hasClass('mdc-button--dense'));
-});

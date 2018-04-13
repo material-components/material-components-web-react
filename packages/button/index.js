@@ -10,7 +10,6 @@ export class MDCButton extends Component {
       raised,
       unelevated,
       stroked,
-      dense,
       icon,
       children,
       initRipple,
@@ -23,7 +22,6 @@ export class MDCButton extends Component {
       'mdc-button--raised': raised,
       'mdc-button--unelevated': unelevated,
       'mdc-button--stroked': stroked,
-      'mdc-button--dense': dense,
     });
 
     return (
@@ -55,10 +53,9 @@ MDCButton.propTypes = {
   raised: PropTypes.bool,
   unelevated: PropTypes.bool,
   stroked: PropTypes.bool,
-  dense: PropTypes.bool,
   disabled: PropTypes.bool,
   unbounded: PropTypes.bool,
-  initRipple: PropTypes.func.isRequired,
+  initRipple: PropTypes.func,
   className: PropTypes.string,
   icon: PropTypes.element,
   children: PropTypes.string,
@@ -68,9 +65,9 @@ MDCButton.defaultProps = {
   raised: false,
   unelevated: false,
   stroked: false,
-  dense: false,
   disabled: false,
   unbounded: false,
+  initRipple: () => {},
   className: '',
   icon: null,
   children: '',

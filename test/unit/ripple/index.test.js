@@ -81,40 +81,40 @@ test('keyDown event triggers activateRipple', () => {
 
 test('#adapter.isUnbounded returns true is prop is set', () => {
   const wrapper = mount(<DivRipple unbounded />);
-  assert.isTrue(wrapper.instance().adapter_.isUnbounded());
+  assert.isTrue(wrapper.instance().foundation_.adapter_.isUnbounded());
 });
 
 test('#adapter.isUnbounded returns false prop is not set', () => {
   const wrapper = mount(<DivRipple />);
-  assert.isFalse(wrapper.instance().adapter_.isUnbounded());
+  assert.isFalse(wrapper.instance().foundation_.adapter_.isUnbounded());
 });
 
 test('#adapter.isSurfaceActive returns true onMouseDown event', () => {
   const wrapper = mount(<DivRipple />);
   wrapper.simulate('mouseDown');
-  assert.isTrue(wrapper.instance().adapter_.isSurfaceActive());
+  assert.isTrue(wrapper.instance().foundation_.adapter_.isSurfaceActive());
 });
 
 test('#adapter.isSurfaceActive returns false after onMouseUp event ', () => {
   const wrapper = mount(<DivRipple />);
   wrapper.simulate('mouseDown');
   wrapper.simulate('mouseUp');
-  assert.isFalse(wrapper.instance().adapter_.isSurfaceActive());
+  assert.isFalse(wrapper.instance().foundation_.adapter_.isSurfaceActive());
 });
 
 test('#adapter.isSurfaceDisabled returns true is prop is set', () => {
   const wrapper = mount(<DivRipple disabled />);
-  assert.isTrue(wrapper.instance().adapter_.isSurfaceDisabled());
+  assert.isTrue(wrapper.instance().foundation_.adapter_.isSurfaceDisabled());
 });
 
 test('#adapter.isSurfaceDisabled returns false prop is not set', () => {
   const wrapper = mount(<DivRipple />);
-  assert.isFalse(wrapper.instance().adapter_.isSurfaceDisabled());
+  assert.isFalse(wrapper.instance().foundation_.adapter_.isSurfaceDisabled());
 });
 
 test('#adapter.addClass adds a class to the root element', () => {
   const wrapper = mount(<DivRipple />);
-  wrapper.instance().adapter_.addClass('test-class');
+  wrapper.instance().foundation_.adapter_.addClass('test-class');
   assert.isTrue(
     wrapper.update()
       .find('.ripple-test-component')
@@ -123,10 +123,10 @@ test('#adapter.addClass adds a class to the root element', () => {
 
 test('#adapter.removeClass adds a class to the root element', () => {
   const wrapper = mount(<DivRipple />);
-  wrapper.instance().adapter_.addClass('test-class');
+  wrapper.instance().foundation_.adapter_.addClass('test-class');
 
   wrapper.update();
-  wrapper.instance().adapter_.removeClass('test-class');
+  wrapper.instance().foundation_.adapter_.removeClass('test-class');
 
   assert.isFalse(
     wrapper.update()
@@ -136,14 +136,14 @@ test('#adapter.removeClass adds a class to the root element', () => {
 
 test('#adapter.updateCssVariable updates style', () => {
   const wrapper = mount(<DivRipple />);
-  wrapper.instance().adapter_.updateCssVariable('color', 'blue');
+  wrapper.instance().foundation_.adapter_.updateCssVariable('color', 'blue');
   assert.equal(wrapper.state().style.color, 'blue');
 });
 
 test('#adapter.registerDocumentInteractionHandler triggers handler on document scroll', () => {
   const wrapper = mount(<DivRipple />);
   const testHandler = td.func();
-  wrapper.instance().adapter_.registerDocumentInteractionHandler('scroll', testHandler);
+  wrapper.instance().foundation_.adapter_.registerDocumentInteractionHandler('scroll', testHandler);
   const event = new Event('scroll');
   document.documentElement.dispatchEvent(event);
   td.verify(testHandler(event), {times: 1});
@@ -152,9 +152,9 @@ test('#adapter.registerDocumentInteractionHandler triggers handler on document s
 test('#adapter.deregisterDocumentInteractionHandler does not trigger handler on document scroll', () => {
   const wrapper = mount(<DivRipple />);
   const testHandler = td.func();
-  wrapper.instance().adapter_.registerDocumentInteractionHandler('scroll', testHandler);
+  wrapper.instance().foundation_.adapter_.registerDocumentInteractionHandler('scroll', testHandler);
   const event = new Event('scroll');
-  wrapper.instance().adapter_.deregisterDocumentInteractionHandler('scroll', testHandler);
+  wrapper.instance().foundation_.adapter_.deregisterDocumentInteractionHandler('scroll', testHandler);
   document.documentElement.dispatchEvent(event);
   td.verify(testHandler(event), {times: 0});
 });
@@ -162,7 +162,7 @@ test('#adapter.deregisterDocumentInteractionHandler does not trigger handler on 
 test('#adapter.registerResizeHandler triggers handler on window resize', () => {
   const wrapper = mount(<DivRipple />);
   const testHandler = td.func();
-  wrapper.instance().adapter_.registerResizeHandler(testHandler);
+  wrapper.instance().foundation_.adapter_.registerResizeHandler(testHandler);
   const event = new Event('resize');
   window.dispatchEvent(event);
   td.verify(testHandler(event), {times: 1});
@@ -172,9 +172,9 @@ test('#adapter.deregisterResizeHandler does not trigger handler ' +
   'after registering resize handler', () => {
   const wrapper = mount(<DivRipple />);
   const testHandler = td.func();
-  wrapper.instance().adapter_.registerResizeHandler(testHandler);
+  wrapper.instance().foundation_.adapter_.registerResizeHandler(testHandler);
   const event = new Event('resize');
-  wrapper.instance().adapter_.deregisterResizeHandler(testHandler);
+  wrapper.instance().foundation_.adapter_.deregisterResizeHandler(testHandler);
   window.dispatchEvent(event);
   td.verify(testHandler(event), {times: 0});
 });
@@ -185,19 +185,23 @@ test('#adapter.computeBoundingRect returns height and width', () => {
     x: 0, y: 0, width: 0, height: 0, top: 0,
     right: 0, bottom: 0, left: 0,
   };
-  assert.deepInclude(wrapper.update().instance().adapter_.computeBoundingRect(), domRect);
+  assert.deepInclude(wrapper.update().instance().foundation_.adapter_.computeBoundingRect(), domRect);
 });
 
 test('#adapter.getWindowPageOffset returns height and width', () => {
   const wrapper = mount(<DivRipple />);
   const offset = {x: 0, y: 0};
-  assert.deepEqual(wrapper.update().instance().adapter_.getWindowPageOffset(), offset);
+  assert.deepEqual(wrapper.update().instance().foundation_.adapter_.getWindowPageOffset(), offset);
 });
 
 test('#componentWillUnmount destroys foundation', () => {
+  const mockRaf = createMockRaf();
   const wrapper = mount(<DivRipple />);
+  mockRaf.flush();
+
   const foundation = wrapper.instance().foundation_;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());
+  mockRaf.restore();
 });

@@ -29,9 +29,6 @@ ReactDOM.render((
       <Button raised>Raised</Button>
     </div>
     <div className='button-container'>
-      <Button dense>Dense</Button>
-    </div>
-    <div className='button-container'>
       <Button stroked>Stroked</Button>
     </div>
     <div className='button-container'>

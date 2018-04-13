@@ -8,8 +8,6 @@ const withRipple = (WrappedComponent) => {
   class RippledComponent extends Component {
 
     foundation_ = null;
-    adapter_ = null;
-    instance_ = null;
 
     state = {
       classList: new Set(),
@@ -17,12 +15,10 @@ const withRipple = (WrappedComponent) => {
     };
 
     componentDidMount() {
-      if (!this.adapter_) {
+      if (!this.foundation_) {
         throw new Error('You must call initRipple from the element\'s ' +
           'ref prop to initialize the adapter for withRipple');
       }
-      this.foundation_ = new MDCRippleFoundation(this.adapter_);
-      this.foundation_.init();
     }
 
     componentWillUnmount() {
@@ -31,8 +27,14 @@ const withRipple = (WrappedComponent) => {
       }
     }
 
-    createAdapter = (instance) => {
-      const adapter = {
+    initializeFoundation_ = (instance) => {
+      const adapter = this.getAdapter(instance);
+      this.foundation_ = new MDCRippleFoundation(adapter);
+      this.foundation_.init();
+    }
+
+    getAdapter = (instance) => {
+      return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
         isUnbounded: () => this.props.unbounded,
         isSurfaceActive: () => this.state.isActivated,
@@ -54,43 +56,33 @@ const withRipple = (WrappedComponent) => {
         computeBoundingRect: () => instance.getBoundingClientRect(),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset}),
       };
-
-      this.instance_ = instance;
-      this.adapter_ = adapter;
     }
 
     get classes() {
       const {className: wrappedCompClasses} = this.props;
       const {classList} = this.state;
-
       return classnames(Array.from(classList), wrappedCompClasses);
     }
 
-    handleEvent = (e, eventType) => {
-      const {onMouseDown, onMouseUp, onTouchStart, onKeyDown} = this.props;
+    handleMouseDown = (e) => {
+      this.props.onMouseDown(e);
+      this.setState({isActivated: true});
+      this.activateRipple(e);
+    }
 
-      let action;
-      switch (eventType) {
-        case 'onMouseDown':
-          action = onMouseDown;
-          this.setState({isActivated: true});
-          break;
-        case 'onMouseUp':
-          action = onMouseUp;
-          this.setState({isActivated: false});
-          break;
-        case 'onTouchStart':
-          action = onTouchStart;
-          break;
-        case 'onKeyDown':
-          action = onKeyDown;
-          break;
-      }
+    handleMouseUp = (e) => {
+      this.props.onMouseUp(e);
+      this.setState({isActivated: false});
+    }
 
-      if (eventType !== 'onMouseUp') {
-        this.activateRipple(e);
-      }
-      action(e);
+    handleTouchStart = (e) => {
+      this.props.onTouchStart(e);
+      this.activateRipple(e);
+    }
+
+    handleKeyDown = (e) => {
+      this.props.onKeyDown(e);
+      this.activateRipple(e);
     }
 
     activateRipple = (e) => {
@@ -127,17 +119,16 @@ const withRipple = (WrappedComponent) => {
         ...otherProps
       } = this.props;
 
-      const updatedProps = Object.assign({
-        onMouseDown: (e) => this.handleEvent(e, 'onMouseDown'),
-        onMouseUp: (e) => this.handleEvent(e, 'onMouseUp'),
-        onTouchStart: (e) => this.handleEvent(e, 'onTouchStart'),
-        onKeyDown: (e) => this.handleEvent(e, 'onKeyDown'),
+      const updatedProps = Object.assign(otherProps, {
+        onMouseDown: this.handleMouseDown,
+        onMouseUp: this.handleMouseUp,
+        onTouchStart: this.handleTouchStart,
+        onKeyDown: this.handleKeyDown,
         // call initRipple on ref on root element that needs ripple
-        initRipple: this.createAdapter,
+        initRipple: this.initializeFoundation_,
         className: this.classes,
         style: this.getMergedStyles(),
-      },
-      otherProps);
+      });
 
       return <WrappedComponent {...updatedProps} />;
     }
