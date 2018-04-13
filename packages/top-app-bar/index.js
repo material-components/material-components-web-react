@@ -55,6 +55,13 @@ export default class TopAppBar extends React.Component {
     return React.cloneElement(element, propsWithClasses);
   }
 
+  turnOnRippleForElement(element) {
+    const propsWithRipple = {
+      hasRipple: true,
+    };
+    return React.cloneElement(element, propsWithRipple);
+  }
+
   get adapter() {
     const {actionItems} = this.props;
 
@@ -109,7 +116,8 @@ export default class TopAppBar extends React.Component {
       return;
     }
 
-    return this.addClassesToElement('mdc-top-app-bar__navigation-icon', navigationIcon);
+    const iconWithClasses = this.addClassesToElement('mdc-top-app-bar__navigation-icon', navigationIcon);
+    return this.turnOnRippleForElement(iconWithClasses);
   }
 
   renderActionItems() {

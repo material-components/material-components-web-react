@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "@material/fab": "^0.34.1",
+    "@material/react-ripple": "^0.0.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.2.0"

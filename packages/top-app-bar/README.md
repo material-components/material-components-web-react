@@ -1,4 +1,4 @@
-# Top App Bar React
+# React Top App Bar
 
 MDC React Top App Bar is a React component which uses MDC [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar)'s CSS and foundation JavaScript.
 
