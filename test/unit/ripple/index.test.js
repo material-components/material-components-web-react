@@ -205,3 +205,9 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy());
   mockRaf.restore();
 });
+
+test('throws error if no foundation', () => {
+  const DivNoRef = () => <div />;
+  const DivNoRefRipple = withRipple(DivNoRef);
+  assert.throws(DivNoRefRipple.prototype.componentDidMount);
+});

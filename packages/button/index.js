@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import withRipple from '@material/react-ripple';
 
-export class MDCButton extends Component {
+export class Button extends Component {
   render() {
     const {
       className,
@@ -49,7 +49,7 @@ export class MDCButton extends Component {
   }
 }
 
-MDCButton.propTypes = {
+Button.propTypes = {
   raised: PropTypes.bool,
   unelevated: PropTypes.bool,
   stroked: PropTypes.bool,
@@ -61,7 +61,7 @@ MDCButton.propTypes = {
   children: PropTypes.string,
 };
 
-MDCButton.defaultProps = {
+Button.defaultProps = {
   raised: false,
   unelevated: false,
   stroked: false,
@@ -73,4 +73,4 @@ MDCButton.defaultProps = {
   children: '',
 };
 
-export default withRipple(MDCButton);
+export default withRipple(Button);

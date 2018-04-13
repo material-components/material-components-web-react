@@ -28,12 +28,12 @@ const withRipple = (WrappedComponent) => {
     }
 
     initializeFoundation_ = (instance) => {
-      const adapter = this.getAdapter(instance);
+      const adapter = this.getAdapter_(instance);
       this.foundation_ = new MDCRippleFoundation(adapter);
       this.foundation_.init();
     }
 
-    getAdapter = (instance) => {
+    getAdapter_ = (instance) => {
       return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
         isUnbounded: () => this.props.unbounded,
