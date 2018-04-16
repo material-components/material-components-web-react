@@ -36,6 +36,7 @@ const MaterialIconDefault = (props) => {
     className,
     icon,
     initRipple,
+    hasRipple, // eslint-disable-line no-unused-vars
     ...otherProps
   } = props;
   const classes = classnames('material-icons', {

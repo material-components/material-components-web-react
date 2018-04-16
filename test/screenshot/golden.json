@@ -7,5 +7,6 @@
   "top-app-bar/standardWithNavigationIconElement.html": "f2171a6e85650530d4809dae75d3509f0bbdc7d4c5caf77af88dc9bc2437415d",
   "material-icon/menu.html": "790b2076760612c6c91ee0f6bb42aa3603b30c2a60f302de22429c2572645640",
   "button/index.html": "c21bee86aa600e52fcef413da9109cceed51865b536e1fefec0b84bfb8d9a673",
-  "fab/standard.html": "9acc0b6266a462a2fc31187e152600f221900f10619b42822cd9345f79912d1e"
+  "fab/standard.html": "9acc0b6266a462a2fc31187e152600f221900f10619b42822cd9345f79912d1e",
+  "material-icon/index.html": "596b35b035dc6ce1c9f91d2cb3594eb9c5b3844c5e08bd788cd5764d533e1e3f"
 }

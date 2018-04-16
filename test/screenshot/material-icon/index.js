@@ -6,5 +6,7 @@ import './index.scss';
 import MaterialIcon from '../../../packages/material-icon';
 
 ReactDOM.render((
-  <MaterialIcon icon='menu' />
+  <div>
+    <MaterialIcon icon='menu' />
+  </div>
 ), document.getElementById('app'));
