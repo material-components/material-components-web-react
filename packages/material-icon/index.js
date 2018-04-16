@@ -36,7 +36,6 @@ const MaterialIconDefault = (props) => {
     className,
     icon,
     initRipple,
-    hasRipple,
     ...otherProps
   } = props;
   const classes = classnames('material-icons', {

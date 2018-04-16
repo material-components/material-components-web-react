@@ -1,5 +1,4 @@
 import React from 'react';
-import td from 'testdouble';
 import {assert} from 'chai';
 import {mount} from 'enzyme';
 import MaterialIcon, {RippleMaterialIcon} from '../../../packages/material-icon';
