@@ -31,25 +31,12 @@ export default class MaterialIcon extends React.Component {
   }
 }
 
-MaterialIcon.propTypes = {
-  icon: PropTypes.string,
-  className: PropTypes.string,
-  hasRipple: PropTypes.bool,
-};
-
-MaterialIcon.defaultProps = {
-  icon: '',
-  className: '',
-  hasRipple: false,
-};
-
-
 const MaterialIconDefault = (props) => {
   const {
     className,
     icon,
     initRipple,
-    unbounded,
+    hasRipple,
     ...otherProps
   } = props;
   const classes = classnames('material-icons', {
@@ -65,6 +52,30 @@ const MaterialIconDefault = (props) => {
       {icon}
     </i>
   );
-}
+};
 
-const RippleMaterialIcon = withRipple(MaterialIconDefault);
+export const RippleMaterialIcon = withRipple(MaterialIconDefault);
+
+MaterialIcon.propTypes = {
+  icon: PropTypes.string,
+  hasRipple: PropTypes.bool,
+};
+
+MaterialIcon.defaultProps = {
+  icon: '',
+  hasRipple: false,
+};
+
+MaterialIconDefault.propTypes = {
+  icon: PropTypes.string,
+  className: PropTypes.string,
+  initRipple: PropTypes.func,
+  hasRipple: PropTypes.bool,
+};
+
+MaterialIconDefault.defaultProps = {
+  icon: '',
+  className: '',
+  initRipple: () => {},
+  hasRipple: false,
+};
