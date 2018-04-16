@@ -48,8 +48,6 @@ If you decide to use a React Component please see [Integrating with Components](
 
 > NOTE: `actionItems` prop is expecting an array of elements.
 
-Please see [MDC Web Top App Bar Readme](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar) for more information.
-
 > NOTE: If you use [Material Icon's](../material-icon/README.md) as Action Items or Navigation Icons, you will get the Ripple for free. Using custom elements will require you to
 > wrap the custom element with the [`withRipple` HOC](../ripple/README.md).
 
