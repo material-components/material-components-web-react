@@ -20,7 +20,7 @@ className | string | Classes to appear on className attribute of root element.
 
 ## Usage
 
-To wrap a component with the ripple HOC, please follow formula:
+To wrap a component with the ripple HOC, please follow this example:
 
 ```js
 import withRipple from '@material/react-ripple';
