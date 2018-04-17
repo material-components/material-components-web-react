@@ -202,7 +202,7 @@ export default class Screenshot {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/${this.urlPath_}`, {'waitUntil': 'networkidle2'});
-    const imageBuffer = await page.screenshot();
+    const imageBuffer = await page.screenshot({fullPage: true});
     await browser.close();
     return imageBuffer;
   }

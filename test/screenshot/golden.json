@@ -6,5 +6,6 @@
   "top-app-bar/shortCollapsed.html": "d95df9e94851ffc70ccc38daed159e274209c54f3d1d18961f4512504defda6f",
   "top-app-bar/standardWithNavigationIconElement.html": "f2171a6e85650530d4809dae75d3509f0bbdc7d4c5caf77af88dc9bc2437415d",
   "material-icon/menu.html": "790b2076760612c6c91ee0f6bb42aa3603b30c2a60f302de22429c2572645640",
-  "fab/standard.html": "9acc0b6266a462a2fc31187e152600f221900f10619b42822cd9345f79912d1e"
+  "fab/standard.html": "9acc0b6266a462a2fc31187e152600f221900f10619b42822cd9345f79912d1e",
+  "card/index.html": "7dcf712fd6e4e91271bf1f165911207d26806ac2a6887a202a46b719684b83fd"
 }
