@@ -39,7 +39,6 @@ export default class Media extends React.Component {
 
   renderChildren() {
     const {children, contentClassName} = this.props;
-    // TODO: Check if this check is enough
     if (!children) {
       return;
     }
