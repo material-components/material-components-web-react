@@ -77,7 +77,7 @@ const newsContent = [{
   snippet: 'Four baboons, having clearly read too much dystopian fiction, '
   + 'escaped...',
 }, {
-  title: 'Alabama\'s greatest secret',
+  title: 'Copper on the rise',
   snippet: 'Located within the lower crescent of America '
   + 'sandwiched between what once was colonial France...',
 }, {
