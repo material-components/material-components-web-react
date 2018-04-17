@@ -11,8 +11,12 @@ ReactDOM.render((
   <div>
     <TopAppBar
       title='Miami, FL'
-      navigationIcon={<MaterialIcon icon='menu' onClick={() => console.log('click')}/>}
-      actionItems={[<MaterialIcon key='item' icon='bookmark'/>]}
+      navigationIcon={<MaterialIcon
+        icon='menu'
+        className='material-icons--ripple-surface'
+        onClick={() => console.log('click')}
+      />}
+      actionItems={[<MaterialIcon key='item' icon='bookmark' className='material-icons--ripple-surface'/>]}
     />
   </div>
 ), document.getElementById('app'));

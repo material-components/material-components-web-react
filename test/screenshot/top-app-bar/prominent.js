@@ -12,8 +12,12 @@ ReactDOM.render((
     <TopAppBar
       prominent
       title='Miami, FL'
-      navigationIcon={<MaterialIcon icon='menu' onClick={() => console.log('prominent click')}/>}
-      actionItems={[<MaterialIcon key='item' icon='bookmark'/>]}
+      navigationIcon={<MaterialIcon
+        icon='menu'
+        className='material-icons--ripple-surface'
+        onClick={() => console.log('prominent click')}
+      />}
+      actionItems={[<MaterialIcon key='item' icon='bookmark' className='material-icons--ripple-surface'/>]}
     />
   </div>
 ), document.getElementById('app'));

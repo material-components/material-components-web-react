@@ -5,6 +5,7 @@ import TopAppBar from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
 
 import '../../../packages/top-app-bar/index.scss';
+import '../../../packages/material-icon/index.scss';
 import './index.scss';
 
 ReactDOM.render((
@@ -27,7 +28,7 @@ ReactDOM.render((
           4.1-2 5.64V6.37c1.24 1.55 2 3.5 2 5.63z"/>
         </svg>
       </a>}
-      actionItems={[<MaterialIcon key='item' icon='bookmark'/>]}
+      actionItems={[<MaterialIcon key='item' icon='bookmark' className='material-icons--ripple-surface'/>]}
     />
   </div>
 ), document.getElementById('app'));

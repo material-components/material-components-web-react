@@ -55,5 +55,5 @@ const Icon = (props) => {
 const RippleIcon = withRipple(Icon);
 ```
 
-Wrap your Icon component with the HOC `withRipple`, which returns a new "rippled"
-component.
+Wrap your Icon component with the HOC `withRipple`, which returns a component
+with a ripple capable surface.
