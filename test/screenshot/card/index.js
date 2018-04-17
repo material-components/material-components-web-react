@@ -77,9 +77,9 @@ const newsContent = [{
   snippet: 'Four baboons, having clearly read too much dystopian fiction, '
   + 'escaped...',
 }, {
-  title: 'The French Caribbean\'s greatest secret',
-  snippet: 'Located within the lower crescent of the Caribbean archipelago '
-  + 'between the islands of Montserrat and Dominica...',
+  title: 'Alabama\'s greatest secret',
+  snippet: 'Located within the lower crescent of America '
+  + 'sandwiched between what once was colonial France...',
 }, {
   title: 'Is coffee heatlhy?',
   snippet: 'The reduction in risk was more significant once people reached the'
