@@ -23,7 +23,7 @@ const BasicCard = () => {
       <CardContent>
         <CardMedia className='basic-card-image' imageUrl={imageUrl} />
         <div className='basic-card-header'>
-          <h2 className='mdc-typography--body1 card-title'>Earth</h2>
+          <h2 className='mdc-typography--body1 card-title'>Material Design</h2>
           <h3 className='mdc-typography--subheading1 card-subtitle'>
             Third rock from the Sun
           </h3>
@@ -49,9 +49,9 @@ const HorizontalCard = () => {
         <div className='horizontal-card-content'>
           <CardMedia square className='horizontal-card-image' imageUrl={imageUrl} />
           <div className='horizontal-card-header'>
-            <h2 className='mdc-typography--body1 card-title'>Cardi B</h2>
-            <h3 className='mdc-typography--body1 card-subtitle'>Finesse</h3>
-            <h3 className='mdc-typography--body1 card-subtitle'>(2018)</h3>
+            <h2 className='mdc-typography--body1 card-title'>Temper Trap</h2>
+            <h3 className='mdc-typography--body1 card-subtitle'>Sweet Disposition</h3>
+            <h3 className='mdc-typography--body1 card-subtitle'>(2001)</h3>
           </div>
         </div>
       </CardContent>
@@ -127,7 +127,7 @@ const ContentOnMediaCard = () => {
           imageUrl={imageUrl}
         >
           <div className='content-on-media-content__text mdc-typography--subheading2'>
-            Vacation Photos
+            Vacation Images
           </div>
         </CardMedia>
       </CardContent>
