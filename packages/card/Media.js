@@ -36,14 +36,16 @@ export default class Media extends React.Component {
   }
 
   renderChildren() {
-    const {children} = this.props;
+    const {children, contentClassName} = this.props;
     // TODO: Check if this check is enough
     if (!children) {
       return;
     }
 
+    const classes = classnames('mdc-card__media-content', contentClassName);
+
     return (
-      <div className='mdc-card__media-content'>
+      <div className={classes}>
         {children}
       </div>
     );
@@ -55,10 +57,12 @@ Media.propTypes = {
   children: PropTypes.node,
   square: PropTypes.bool,
   wide: PropTypes.bool,
+  contentClassName: PropTypes.string,
 };
 
 Media.defaultProps = {
   className: '',
+  contentClassName: '',
   children: null,
   square: false,
   wide: false,

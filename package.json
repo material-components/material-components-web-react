@@ -33,6 +33,8 @@
   },
   "devDependencies": {
     "@google-cloud/storage": "^1.6.0",
+    "@material/button": "^0.34.1",
+    "@material/list": "^0.34.1",
     "@material/card": "^0.34.1",
     "@material/fab": "^0.34.1",
     "@material/top-app-bar": "^0.33.0",

@@ -18,7 +18,7 @@ export default class ActionButtons extends React.Component {
       fullBleed,
       ...otherProps
     } = this.props;
-    const classes = classnames('mdc-card__actions-buttons', className);
+    const classes = classnames('mdc-card__action-buttons', className);
 
     return (
       <div
