@@ -23,9 +23,9 @@ const BasicCard = () => {
       <CardContent>
         <CardMedia className='basic-card-image' imageUrl={imageUrl} />
         <div className='basic-card-header'>
-          <h2 className='mdc-typography--body1 card-title'>Pomsky</h2>
+          <h2 className='mdc-typography--body1 card-title'>Earth</h2>
           <h3 className='mdc-typography--subheading1 card-subtitle'>
-            medium sized dog; one part pomeranian, one part husky
+            Third rock from the Sun
           </h3>
         </div>
       </CardContent>
