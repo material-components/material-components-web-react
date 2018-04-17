@@ -23,7 +23,7 @@ const BasicCard = () => {
       <CardContent>
         <CardMedia className='basic-card-image' imageUrl={imageUrl} />
         <div className='basic-card-header'>
-          <h2 className='mdc-typography--title card-title'>Pomsky</h2>
+          <h2 className='mdc-typography--headline2 card-title'>Pomsky</h2>
           <h3 className='mdc-typography--subheading1 card-subtitle'>
             medium sized dog; one part pomeranian, one part husky
           </h3>
@@ -49,7 +49,7 @@ const HorizontalCard = () => {
         <div className='horizontal-card-content'>
           <CardMedia square className='horizontal-card-image' imageUrl={imageUrl} />
           <div className='horizontal-card-header'>
-            <h2 className='mdc-typography--title card-title'>Cardi B</h2>
+            <h2 className='mdc-typography--headline2 card-title'>Cardi B</h2>
             <h3 className='mdc-typography--body1 card-subtitle'>Finesse</h3>
             <h3 className='mdc-typography--body1 card-subtitle'>(2018)</h3>
           </div>
@@ -60,7 +60,6 @@ const HorizontalCard = () => {
         <CardActionButtons>
           <button className='mdc-button'>Rate this album</button>
         </CardActionButtons>
-
         <CardActionIcons>
           <MaterialIcon className='horizontal-card-icon' icon='star_border'/>
           <MaterialIcon className='horizontal-card-icon' icon='star_border'/>
@@ -111,7 +110,7 @@ const NewsRow = ({title, snippet, index}) => {
   return ([
     <hr key={`title-${index}`} className='mdc-list-divider'/>,
     <div key={`snippet-${index}`} className='news-row'>
-      <h2 className='mdc-typography--title card-title'>{title}</h2>
+      <h2 className='mdc-typography--headline2 card-title'>{title}</h2>
       <p className='mdc-typography--body1 card-subtitle'>{snippet}</p>
     </div>,
   ]);
