@@ -31,11 +31,15 @@ export default class Card extends React.Component {
 }
 
 Card.propTypes = {
+  children: PropTypes.node,
   className: PropTypes.string,
+  stroked: PropTypes.bool,
 };
 
 Card.defaultProps = {
+  children: null,
   className: '',
+  stroked: false,
 };
 
 

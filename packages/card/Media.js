@@ -13,9 +13,11 @@ export default class Media extends React.Component {
   render() {
     const {
       className,
-      children,
-      imageUrl,
+      children, // eslint-disable-line no-unused-vars
+      contentClassName, // eslint-disable-line no-unused-vars
       square,
+      imageUrl, // eslint-disable-line no-unused-vars
+      style, // eslint-disable-line no-unused-vars
       wide,
       ...otherProps
     } = this.props;
@@ -58,6 +60,8 @@ Media.propTypes = {
   square: PropTypes.bool,
   wide: PropTypes.bool,
   contentClassName: PropTypes.string,
+  imageUrl: PropTypes.string,
+  style: PropTypes.object,
 };
 
 Media.defaultProps = {
@@ -66,4 +70,6 @@ Media.defaultProps = {
   children: null,
   square: false,
   wide: false,
+  imageUrl: '',
+  style: {},
 };

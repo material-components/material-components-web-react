@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 export default class ActionButtons extends React.Component {
   addButtonClassToChildren = () => {
     return React.Children.map(this.props.children, (item) => {
-      const className = `${item.props.className} mdc-card__action mdc-card__action--button`;
+      const className = classnames(
+        item.props.className, 'mdc-card__action', 'mdc-card__action--button');
       const props = Object.assign({}, item.props, {className});
       return React.cloneElement(item, props);
     });
@@ -14,8 +15,7 @@ export default class ActionButtons extends React.Component {
   render() {
     const {
       className,
-      children,  // eslint-disable
-      fullBleed,
+      children, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
     const classes = classnames('mdc-card__action-buttons', className);
@@ -34,11 +34,9 @@ export default class ActionButtons extends React.Component {
 ActionButtons.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  fullBleed: PropTypes.bool,
 };
 
 ActionButtons.defaultProps = {
   className: '',
   children: null,
-  fullBleed: false,
 };

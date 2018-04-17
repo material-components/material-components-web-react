@@ -76,16 +76,16 @@ const HorizontalCard = () => {
 const newsContent = [{
   title: 'Baboons escape',
   snippet: 'Four baboons, having clearly read too much dystopian fiction, '
-  + 'escaped...'
+  + 'escaped...',
 }, {
   title: 'The French Caribbean\'s greatest secret',
   snippet: 'Located within the lower crescent of the Caribbean archipelago '
-  + 'between the islands of Montserrat and Dominica...'
+  + 'between the islands of Montserrat and Dominica...',
 }, {
   title: 'Is coffee heatlhy?',
   snippet: 'The reduction in risk was more significant once people reached the'
   + ' age of 45, suggesting that it may be even more beneficial to consume coffee'
-  + ' as we get older.'
+  + ' as we get older.',
 }];
 
 const NewsCard = () => {
@@ -105,7 +105,7 @@ const NewsCard = () => {
       </CardActions>
     </Card>
   );
-}
+};
 
 const NewsRow = ({title, snippet, index}) => {
   return ([
@@ -113,9 +113,9 @@ const NewsRow = ({title, snippet, index}) => {
     <div key={`snippet-${index}`} className='news-row'>
       <h2 className='mdc-typography--title card-title'>{title}</h2>
       <p className='mdc-typography--body1 card-subtitle'>{snippet}</p>
-    </div>
+    </div>,
   ]);
-}
+};
 
 const ContentOnMediaCard = () => {
   return (
@@ -141,7 +141,7 @@ const ContentOnMediaCard = () => {
       </CardActions>
     </Card>
   );
-}
+};
 
 ReactDOM.render((
   <div>
