@@ -56,13 +56,15 @@ export default class TopAppBar extends React.Component {
   }
 
   enableRippleOnElement(element) {
-    // If `element` is a Native React Element, we don't want to throw
-    // a warning.
-    const updatedProps = {};
-    if (typeof element.type !== 'string') {
-      updatedProps.hasRipple = true;
+    // If `element` is a Native React Element, throw error to enforce
+    // ripple
+    if (typeof element.type === 'string') {
+      const errorText = 'Material Design requires all Top App Bar Icons to ' +
+        'have ripple. Please use @material/react-ripple HOC with your icons.';
+      throw new Error(errorText);
     }
-    return React.cloneElement(element, updatedProps);
+
+    return React.cloneElement(element, {hasRipple: true});
   }
 
   get adapter() {

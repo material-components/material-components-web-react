@@ -1,6 +1,6 @@
 # React Top App Bar
 
-MDC React Top App Bar is a React component which uses MDC [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar)'s CSS and foundation JavaScript.
+MDC React Top App Bar is a React Component which uses MDC [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar)'s CSS and foundation JavaScript.
 
 ## Installation
 
@@ -24,9 +24,14 @@ prominent | n/a | Enables prominent variant.
 
 > NOTE: As per design guidelines, prominent variant should not be used with short or short collapsed.
 
+
+## Icons
+
+Use of [Material Icon's](../material-icon/README.md) for Action Items and Navigation Icons are recommended, since the Ripple is included with the Component. Using custom Components will require you to wrap the Component with the [`withRipple HOC`](../ripple/README.md). If you do decide to build your own custom Component, it is recommended to use the `hasRipple` prop to toggle between icons with and without ripple. See the [Material Icon's implementation](../material-icon/index.js) to see how to implement the `hasRipple` prop within your custom Component.
+
 ### Navigation Icon
 
-The navigation icon can be a `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc.
+The navigation icon can be a `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc., but again must be wrapped with the `withRipple HOC`.
 
 ```js
   <TopAppBar
@@ -37,7 +42,7 @@ If you decide to use a React Component please see [Integrating with Components](
 
 ### Action Items
 
-Similar to the [navigation icon](#navigation-icon), it can be `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc.
+Similar to the [navigation icon](#navigation-icon), it can be `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc., and must be wrapped with the `withRipple HOC`.
 
 ```js
   <TopAppBar
@@ -48,12 +53,9 @@ If you decide to use a React Component please see [Integrating with Components](
 
 > NOTE: `actionItems` prop is expecting an array of elements.
 
-> NOTE: If you use [Material Icon's](../material-icon/README.md) as Action Items or Navigation Icons, you will get the Ripple for free. Using custom elements will require you to
-> wrap the custom element with the [`withRipple` HOC](../ripple/README.md).
-
 ## Sass Mixins
 
-Sass mixins may be available to customize various aspects of the components. Please refer to the
+Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
 [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.34.1/packages/mdc-top-app-bar/README.md)

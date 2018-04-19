@@ -1,10 +1,34 @@
 import React from 'react';
 import {assert} from 'chai';
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import td from 'testdouble';
 import TopAppBar from '../../../packages/top-app-bar';
+import withRipple from '../../../packages/ripple';
 
 suite('TopAppBar');
+
+const NavigationIcon = ({
+  initRipple, hasRipple, unbounded, className, ...otherProps // eslint-disable-line react/prop-types
+}) => (
+  <div
+    ref={initRipple}
+    className={`${className} test-top-app-bar-nav-icon`}
+    {...otherProps}
+  ></div>
+);
+const RippledNavigationIcon = withRipple(NavigationIcon);
+
+const ActionItem = ({
+  initRipple, hasRipple, unbounded, className, ...otherProps // eslint-disable-line react/prop-types
+}) => (
+  <a
+    href='#'
+    ref={initRipple}
+    className={`${className} test-action-icon-1`}
+    {...otherProps}
+  ></a>
+);
+const RippledActionItem = withRipple(ActionItem);
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<TopAppBar className='test-class-name'/>);
@@ -35,50 +59,52 @@ test('has correct prominent class', () => {
 });
 
 test('navigationIcon is rendered with navigation icon class', () => {
-  const navigationIcon = <div className='test-top-app-bar-nav-icon'></div>;
-  const wrapper = shallow(
+  const wrapper = mount(
     <TopAppBar
-      navigationIcon={navigationIcon} />
+      navigationIcon={<RippledNavigationIcon />} />
   );
   assert.isTrue(wrapper.find('.test-top-app-bar-nav-icon').hasClass('mdc-top-app-bar__navigation-icon'));
 });
 
-test('navigationIcon is rendered as custom component that accepts a className prop', () => {
-  class CustomNavigationIcon extends React.Component {
-    render() {
-      const {className} = this.props; // eslint-disable-line react/prop-types
-      return <div className={`${className} test-top-app-bar-nav-icon`}></div>;
-    }
-  }
-  const wrapper = shallow(
+test('navigationIcon have hasRipple prop', () => {
+  const wrapper = mount(
     <TopAppBar
-      navigationIcon={<CustomNavigationIcon />} />
+      navigationIcon={<RippledNavigationIcon />} />
   );
-  const navigationIcon = wrapper.find(CustomNavigationIcon);
+  assert.isTrue(wrapper.find('.mdc-top-app-bar__navigation-icon').first().props().hasRipple);
+});
+
+test('navigationIcon is rendered as custom component that accepts a className prop', () => {
+  const wrapper = mount(
+    <TopAppBar
+      navigationIcon={<RippledNavigationIcon />} />
+  );
+  const navigationIcon = wrapper.find(RippledNavigationIcon);
   assert.isTrue(navigationIcon.hasClass('mdc-top-app-bar__navigation-icon'));
 });
 
 test('actionItems are rendered with action item class', () => {
-  const actionItem = <a href="#" className='test-action-icon-1'></a>;
-  const wrapper = shallow(
+  const wrapper = mount(
     <TopAppBar
-      actionItems={[actionItem]} />
+      actionItems={[<RippledActionItem key='1' />]} />
   );
   assert.isTrue(wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item'));
 });
 
-test('actionItems are rendered as a custom component that accepts a className prop', () => {
-  class CustomActionItem extends React.Component {
-    render() {
-      const {className} = this.props; // eslint-disable-line react/prop-types
-      return <div className={`${className} test-action-icon-1`}></div>;
-    }
-  }
-  const wrapper = shallow(
+test('actionItems have hasRipple prop', () => {
+  const wrapper = mount(
     <TopAppBar
-      actionItems={[<CustomActionItem key='1' />]} />
+      actionItems={[<RippledActionItem key='1' />]} />
   );
-  const actionItem = wrapper.find(CustomActionItem);
+  assert.isTrue(wrapper.find('.mdc-top-app-bar__action-item').first().props().hasRipple);
+});
+
+test('actionItems are rendered as a custom component that accepts a className prop', () => {
+  const wrapper = mount(
+    <TopAppBar
+      actionItems={[<RippledActionItem key='1' />]} />
+  );
+  const actionItem = wrapper.find(RippledActionItem);
   assert.isTrue(actionItem.hasClass('mdc-top-app-bar__action-item'));
 });
 
@@ -125,7 +151,7 @@ test('#adapter.deregisterScrollHandler does not trigger handler ' +
 test('#adapter.getTotalActionItems returns true with one actionItem ' +
   'passed', () => {
   const wrapper = shallow(
-    <TopAppBar actionItems={[<a key='1'>actionItem</a>]}/>
+    <TopAppBar actionItems={[<RippledActionItem key='1' />]}/>
   );
   assert.isTrue(wrapper.instance().adapter.getTotalActionItems());
 });
