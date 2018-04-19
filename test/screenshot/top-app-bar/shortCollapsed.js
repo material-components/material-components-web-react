@@ -14,7 +14,6 @@ ReactDOM.render((
       shortCollapsed
       navigationIcon={<MaterialIcon
         icon='menu'
-        className='material-icons--ripple-surface'
         onClick={() => console.log('click')}
       />}
     />

@@ -7,6 +7,10 @@ import MaterialIcon from '../../../packages/material-icon';
 
 ReactDOM.render((
   <div>
-    <MaterialIcon icon='menu' className='material-icons--ripple-surface' />
+    <MaterialIcon icon='menu' hasRipple />
+
+    <br />
+
+    <MaterialIcon icon='favorite' />
   </div>
 ), document.getElementById('app'));

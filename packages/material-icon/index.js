@@ -16,6 +16,7 @@ export default class MaterialIcon extends React.Component {
       return (
         <RippleMaterialIcon
           unbounded
+          hasRipple
           icon={icon}
           {...otherProps}
         />
@@ -36,11 +37,11 @@ const MaterialIconDefault = (props) => {
     className,
     icon,
     initRipple,
-    hasRipple, // eslint-disable-line no-unused-vars
+    hasRipple,
     ...otherProps
   } = props;
-  const classes = classnames('material-icons', {
-    [className]: className.length > 0,
+  const classes = classnames('material-icons', className, {
+    'material-icons--ripple-surface': hasRipple,
   });
 
   return (

@@ -40,7 +40,7 @@ ReactDOM.render((
     <TopAppBar
       title='Miami, FL'
       navigationIcon={<NavigationIconWithRipple unbounded />}
-      actionItems={[<MaterialIcon key='item' icon='bookmark' className='material-icons--ripple-surface'/>]}
+      actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
     />
   </div>
 ), document.getElementById('app'));

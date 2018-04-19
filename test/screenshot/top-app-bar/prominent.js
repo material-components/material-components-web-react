@@ -14,10 +14,9 @@ ReactDOM.render((
       title='Miami, FL'
       navigationIcon={<MaterialIcon
         icon='menu'
-        className='material-icons--ripple-surface'
         onClick={() => console.log('prominent click')}
       />}
-      actionItems={[<MaterialIcon key='item' icon='bookmark' className='material-icons--ripple-surface'/>]}
+      actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
     />
   </div>
 ), document.getElementById('app'));
