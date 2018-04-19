@@ -7,3 +7,4 @@ node_modules
 *.diff.png
 key.json
 *.golden.png
+lerna-debug.log
