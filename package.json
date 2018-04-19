@@ -24,7 +24,10 @@
       "helpMessage": "%s\nNOTE: Please see angular's commit message guidelines (https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commits) for information on how to format commit messages.\n\nAs an example, here is a valid commit message: 'docs(slider): Document slider public api'\n\nIf this commit is on a development / WIP branch, you can disable this by running `git commit --no-verify`.",
       "scope": {
         "allowed": [
+          "button",
+          "card",
           "fab",
+          "ripple",
           "top-app-bar"
         ],
         "validate": true
@@ -33,8 +36,13 @@
   },
   "devDependencies": {
     "@google-cloud/storage": "^1.6.0",
+    "@material/button": "^0.34.1",
+    "@material/list": "^0.34.1",
+    "@material/card": "^0.34.1",
     "@material/fab": "^0.34.1",
+    "@material/ripple": "^0.34.1",
     "@material/top-app-bar": "^0.33.0",
+    "@material/typography": "^0.34.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.4",

@@ -8,18 +8,10 @@ MDC React Material Icon is a component for material icons.
 npm install @material/react-material-icon
 ```
 
-## Usage
-
-### JSX Structure
-
-```html
-<MaterialIcon />
-```
-
-
 ## Props
 
 Prop Name | Type | Description
 --- | --- | ---
 icon | string | Type of icon to be displayed.
 className | string | Classes to pass on to the root `<i>` element.
+hasRipple | n/a | If present on element, it will enable the ripple on the icon.
