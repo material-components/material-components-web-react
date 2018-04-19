@@ -1,0 +1,24 @@
+{
+  "name": "@material/react-card",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "material icon",
+    "materialicon"
+  ],
+  "dependencies": {
+    "@material/card": "^0.34.1",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.6.1",
+    "react": "^16.2.0"
+  }
+}
