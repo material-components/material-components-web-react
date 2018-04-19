@@ -1,5 +1,5 @@
 const {bundle} = require('../webpack-bundles');
 
 module.exports = [
-  bundle('material-icon/index.js', 'material-icon/index'),
+  bundle('ripple/index.js', 'ripple/index'),
 ];

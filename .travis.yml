@@ -31,5 +31,5 @@ matrix:
       install: npm i
       script:
         - ./test/screenshot/start.sh
-        - sleep 80s
+        - sleep 110s
         - npm run test:image-diff

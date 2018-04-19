@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default class Fab extends React.Component {
+import withRipple from '@material/react-ripple';
+
+export class Fab extends React.Component {
 
   state = {
     classList: new Set(),
@@ -29,10 +31,23 @@ export default class Fab extends React.Component {
   };
 
   render() {
-    const children = this.addIconClassToAllChildren();
+    const {
+      /* eslint-disable */
+      children,
+      className,
+      unbounded,
+      mini,
+      /* eslint-enable */
+      initRipple,
+      ...otherProps
+    } = this.props;
+
     return (
-        <button className={this.classes}>
-          {children}
+        <button
+          className={this.classes}
+          ref={initRipple}
+          {...otherProps}>
+          {this.addIconClassToAllChildren()}
         </button>
     );
   }
@@ -45,9 +60,13 @@ Fab.propTypes = {
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
   ]).isRequired,
+  initRipple: PropTypes.func,
 };
 
 Fab.defaultProps = {
   mini: false,
   className: '',
+  initRipple: () => {},
 };
+
+export default withRipple(Fab);
