@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ActionButtons from './ActionButtons';
 import ActionIcons from './ActionIcons';
 import Actions from './Actions';
-import Content from './Content';
+import PrimaryContent from './PrimaryContent';
 import Media from './Media';
 
 export default class Card extends React.Component {
@@ -47,6 +47,6 @@ export {
   ActionButtons as CardActionButtons,
   ActionIcons as CardActionIcons,
   Actions as CardActions,
-  Content as CardContent,
+  PrimaryContent as CardPrimaryContent,
   Media as CardMedia,
 };

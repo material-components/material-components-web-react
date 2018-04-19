@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-export default class Content extends React.Component {
+export default class PrimaryContent extends React.Component {
 
   render() {
     const {
@@ -23,12 +23,12 @@ export default class Content extends React.Component {
   }
 }
 
-Content.propTypes = {
+PrimaryContent.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
 };
 
-Content.defaultProps = {
+PrimaryContent.defaultProps = {
   className: '',
   children: null,
 };

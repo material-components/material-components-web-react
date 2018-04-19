@@ -9,7 +9,7 @@ import Card, {
   CardActionButtons,
   CardActionIcons,
   CardActions,
-  CardContent,
+  CardPrimaryContent,
   CardMedia,
 } from '../../../packages/card';
 import MaterialIcon from '../../../packages/material-icon';
@@ -20,7 +20,7 @@ const imageUrl = './../images/1-1.jpg';
 const BasicCard = () => {
   return (
     <Card className='basic-card'>
-      <CardContent>
+      <CardPrimaryContent>
         <CardMedia className='basic-card-image' imageUrl={imageUrl} />
         <div className='basic-card-header'>
           <h2 className='mdc-typography--body1 card-title'>Copper</h2>
@@ -28,7 +28,7 @@ const BasicCard = () => {
             Metal
           </h3>
         </div>
-      </CardContent>
+      </CardPrimaryContent>
       <CardActions>
         <CardActionButtons>
           <button className='mdc-button'>Leave Comment</button>
@@ -45,7 +45,7 @@ const BasicCard = () => {
 const HorizontalCard = () => {
   return (
     <Card className='horizontal-card'>
-      <CardContent>
+      <CardPrimaryContent>
         <div className='horizontal-card-content'>
           <CardMedia square className='horizontal-card-image' imageUrl={imageUrl} />
           <div className='horizontal-card-header'>
@@ -54,7 +54,7 @@ const HorizontalCard = () => {
             <h3 className='mdc-typography--body1 card-subtitle'>(2017)</h3>
           </div>
         </div>
-      </CardContent>
+      </CardPrimaryContent>
       <hr className='mdc-list-divider'/>
       <CardActions fullBleed>
         <CardActionButtons>
@@ -119,7 +119,7 @@ const NewsRow = ({title, snippet, index}) => {
 const ContentOnMediaCard = () => {
   return (
     <Card className='content-on-media-card'>
-      <CardContent>
+      <CardPrimaryContent>
         <CardMedia
           square
           contentClassName='content-on-media-content'
@@ -130,7 +130,7 @@ const ContentOnMediaCard = () => {
             Vacation Images
           </div>
         </CardMedia>
-      </CardContent>
+      </CardPrimaryContent>
       <CardActions>
         <CardActionIcons>
           <MaterialIcon icon='favorite_border'/>
