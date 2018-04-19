@@ -31,7 +31,7 @@ npm install @material/react-card
 
 ## Components
 
-The following components are MDC Card components. Other components outside of this package can be used in conjunction with these components, since there is such large variation of types of cards. For further descriptions, please refer to [MDC Card](https://github.com/material-components/material-components-web/tree/master/packages/mdc-card).
+The following components are MDC Card components. Other components outside of this package also can be used with these components, since there is such a large variety of card types. For further descriptions, please refer to [MDC Card](https://github.com/material-components/material-components-web/tree/master/packages/mdc-card).
 
 > NOTE: All following components will still pass through the props `className` and `style`.
 
@@ -96,7 +96,7 @@ import Card, {CardContent} from '@material/react-card';
 
 ### Card
 
-This is the container component for the entire card. All other components listed in this documentation should be child to this component.
+This is the container component for the entire card. All other components listed in this documentation should be a child to this component.
 
 ```js
 import Card from '@material/react-card';
@@ -114,7 +114,7 @@ stroked | n/a | Enables stroked outline of card.
 
 ### CardMedia
 
-This component is used as a container for an image on the card. Optionally, any children of the `<CardMedia>` component will be passed through with the className `.mdc-card__media-content`.
+This component is a container for an image on the card. Optionally, any children of the `<CardMedia>` component is wrapped with an element with the className `.mdc-card__media-content`.
 
 ```js
 import {CardMedia} from '@material/react-card';
@@ -127,7 +127,7 @@ import {CardMedia} from '@material/react-card';
 #### Props
 Prop Name | Type | Description
 --- | --- | ---
-contentClassName | string | Adds class to the parent element of `children`.
+contentClassName | string | Adds a class to the `.mdc-card__media-content` element.
 square | n/a | Scales the height of the image to be equal to the width of the image.
 wide | n/a | Scales the height of the image maintaining a 16:9 aspect ratio.
 imageUrl | string | Path to the image of the `<CardMedia>` component.

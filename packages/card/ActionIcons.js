@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 export default class ActionIcons extends React.Component {
-  addButtonClassToChildren = () => {
+  addIconClassToChildren = () => {
     return React.Children.map(this.props.children, (item) => {
       const className = classnames(
         item.props.className, 'mdc-card__action', 'mdc-card__action--icon');
@@ -25,7 +25,7 @@ export default class ActionIcons extends React.Component {
         className={classes}
         {...otherProps}
       >
-        {this.addButtonClassToChildren()}
+        {this.addIconClassToChildren()}
       </div>
     );
   }
