@@ -90,12 +90,12 @@ export default class FloatingLabel extends React.Component {
 
   render() {
     const {
-      className,
+      className, // eslint-disable-line no-unused-vars
       children,
-      onShakeEnd,
-      setWidth,
-      shouldFloat,
-      shouldShake,
+      onShakeEnd, // eslint-disable-line no-unused-vars
+      setWidth, // eslint-disable-line no-unused-vars
+      shouldFloat, // eslint-disable-line no-unused-vars
+      shouldShake, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
 

@@ -29,7 +29,7 @@ class Input extends React.Component {
               shouldFloat={shouldFloat}
               shouldShake={shouldShake}
               onShakeEnd={this.toggleShake}
-              setWidth={width => this.setState({width})}
+              setWidth={(width) => this.setState({width})}
             >
               {shouldUsePrimaryLabel ? labelText[0] : labelText[1]}
             </FloatingLabel>
@@ -37,7 +37,7 @@ class Input extends React.Component {
           {this.renderControls()}
         </div>
       </div>
-    )
+    );
   }
 
   renderControls() {
@@ -51,7 +51,7 @@ class Input extends React.Component {
     }, {
       text: 'Label Text',
       action: () => this.setState({shouldUsePrimaryLabel: !this.state.shouldUsePrimaryLabel}),
-    }]
+    }];
 
     return (
       <div className='input__controls'>
