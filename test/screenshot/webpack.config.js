@@ -13,5 +13,5 @@ module.exports = [
   ...rippleBundles,
   ...topAppBarBundles,
   ...fabBundles,
-  ...floatingLabelBundles,
+  // ...floatingLabelBundles,
 ];
