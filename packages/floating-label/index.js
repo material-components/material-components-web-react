@@ -74,7 +74,7 @@ export default class FloatingLabel extends React.Component {
 
   setWidth = () => {
     const {setWidth} = this.props;
-    if (setWidth && typeof setWidth === 'function') {
+    if (setWidth && typeof setWidth === 'function' && this.labelElement.current) {
       setWidth(this.labelElement.current.offsetWidth);
     }
   }

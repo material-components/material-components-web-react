@@ -7,11 +7,11 @@ const fabBundles = require('./fab/webpack.config.js');
 const floatingLabelBundles = require('./floating-label/webpack.config.js');
 
 module.exports = [
-  // ...buttonBundles,
-  // ...cardBundles,
-  // ...materialIconBundles,
-  // ...rippleBundles,
-  // ...topAppBarBundles,
-  // ...fabBundles,
+  ...buttonBundles,
+  ...cardBundles,
+  ...materialIconBundles,
+  ...rippleBundles,
+  ...topAppBarBundles,
+  ...fabBundles,
   ...floatingLabelBundles,
 ];
