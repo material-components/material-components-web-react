@@ -1,17 +1,34 @@
-@import "../../../packages/fab/index.scss";
+@import '@material/button/mdc-button';
 
 body {
-  margin: 0;
+  margin: 24px;
 }
 
-.demo-button {
-  margin: 10px;
+.input__container {
+  display: flex;
 }
 
-.demo-ink-color {
-  @include mdc-fab-ink-color(orange);
+.input__dock {
+  border: 1px solid lightblue;
+  height: 24px;
+  width: 200px;
+  margin-right: 24px;
+  position: relative;
 }
 
-.demo-fill-color {
-  @include mdc-fab-container-color(orange);
+.input__controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.input__control-button {
+  margin-bottom: 24px;
+}
+
+.floated-label-box-example {
+  position: relative;
+  border: 1px solid pink;
+  height: 24px;
+  width: 200px;
+  margin-top: 24px;
 }
