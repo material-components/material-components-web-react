@@ -97,3 +97,11 @@ test('#adapter.removeClass', () => {
   wrapper.instance().foundation_.adapter_.removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
+
+test('#componentWillUnmount destroys foundation', () => {
+  const wrapper = shallow(<FloatingLabel />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.destroy = td.func();
+  wrapper.unmount();
+  td.verify(foundation.destroy());
+});
