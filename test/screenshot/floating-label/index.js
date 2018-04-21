@@ -8,17 +8,17 @@ import './index.scss';
 class Input extends React.Component {
   state = {
     shouldUsePrimaryLabel: true,
-    shouldShake: false,
     shouldFloat: false,
     width: 0,
   };
 
-  toggleShake = () => {
-    this.setState({shouldShake: !this.state.shouldShake});
+  constructor(props) {
+    super(props);
+    this.floatingLabelElement_ = React.createRef();
   }
 
   render() {
-    const {shouldUsePrimaryLabel, shouldFloat, shouldShake} = this.state;
+    const {shouldUsePrimaryLabel, shouldFloat} = this.state;
     const labelText = ['My Label Text', 'Alternate Label Text'];
 
     return (
@@ -27,8 +27,7 @@ class Input extends React.Component {
           <div className='input__dock'>
             <FloatingLabel
               shouldFloat={shouldFloat}
-              shouldShake={shouldShake}
-              onShakeEnd={this.toggleShake}
+              ref={this.floatingLabelElement_}
               setWidth={(width) => this.setState({width})}
             >
               {shouldUsePrimaryLabel ? labelText[0] : labelText[1]}
@@ -47,7 +46,7 @@ class Input extends React.Component {
       action: () => this.setState({shouldFloat: !this.state.shouldFloat}),
     }, {
       text: 'Shake',
-      action: this.toggleShake,
+      action: this.floatingLabelElement_.current && this.floatingLabelElement_.current.shake,
     }, {
       text: 'Label Text',
       action: () => this.setState({shouldUsePrimaryLabel: !this.state.shouldUsePrimaryLabel}),

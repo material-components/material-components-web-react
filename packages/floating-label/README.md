@@ -13,10 +13,8 @@ npm install @material/react-floating-label
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
-onShakeEnd | Function | Callback method called when the shake animation ends.
 setWidth | Function | Callback method to pass the width to a parent Component.
 shouldFloat | Boolean | Floats label depending on value passed.
-shouldShake | Boolean | Shakes label depending on value passed.
 
 ## Usage
 
@@ -36,15 +34,30 @@ Toggling the `shouldFloat` property between true/false will float/dock the label
 
 ### Shake Label
 
-Toggling the `shouldShake` prop to true will start the shake animation. Toggling the `shouldShake` prop to false while animation is animating, will cause animation to end. Once animation ends, the `onShakeEnd()` callback will be called if the parent component needs to be notified. Ex:
+To shake the label you'll need to add a _ref_ to the `<FloatingLabel />` element. Using the ref, you can then call `shake()` to start the shake animation. Ex:
 
 ```js
-<FloatingLabel
-  shouldShake={this.state.shouldShake}
-  onShakeEnd={() => this.setState({shouldShake: false})}
->
-  My Label
-</FloatingLabel>
+
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    // createRef was introduce in React v16.3
+    // https://reactjs.org/docs/refs-and-the-dom.html#creating-refs
+    this.floatingLabelElement = React.createRef();
+  }
+
+  render() {
+    return (
+      <FloatingLabel ref={this.floatingLabelElement}/>
+        My Label
+      </FloatingLabel>
+    );
+  }
+
+  // ... later in code ...
+
+  this.floatingLabelElement.current.shake();
+}
 ```
 
 ### Label Width

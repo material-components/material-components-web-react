@@ -23,9 +23,6 @@ export default class FloatingLabel extends React.Component {
     if (this.props.shouldFloat) {
       this.foundation_.float(true);
     }
-    if (this.props.shouldShake) {
-      this.foundation_.shake(true);
-    }
   }
 
   componentWillUnmount() {
@@ -35,9 +32,6 @@ export default class FloatingLabel extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.shouldFloat !== nextProps.shouldFloat) {
       this.foundation_.float(nextProps.shouldFloat);
-    }
-    if (this.props.shouldShake !== nextProps.shouldShake) {
-      this.foundation_.shake(nextProps.shouldShake);
     }
   }
 
@@ -66,6 +60,11 @@ export default class FloatingLabel extends React.Component {
     };
   }
 
+  // must be called via ref
+  shake = () => {
+    this.foundation_.shake(true);
+  }
+
   removeClassFromClassList = (className) => {
     const {classList} = this.state;
     classList.delete(className);
@@ -80,22 +79,16 @@ export default class FloatingLabel extends React.Component {
   }
 
   onShakeEnd = () => {
-    const {onShakeEnd} = this.props;
     const {LABEL_SHAKE} = MDCFloatingLabelFoundation.cssClasses;
     this.removeClassFromClassList(LABEL_SHAKE);
-    if (onShakeEnd && typeof onShakeEnd === 'function') {
-      onShakeEnd();
-    }
   }
 
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
       children,
-      onShakeEnd, // eslint-disable-line no-unused-vars
       setWidth, // eslint-disable-line no-unused-vars
       shouldFloat, // eslint-disable-line no-unused-vars
-      shouldShake, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
 
@@ -115,16 +108,12 @@ export default class FloatingLabel extends React.Component {
 FloatingLabel.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  onShakeEnd: PropTypes.func,
   setWidth: PropTypes.func,
   shouldFloat: PropTypes.bool,
-  shouldShake: PropTypes.bool,
 };
 
 FloatingLabel.defaultProps = {
   className: '',
-  onShakeEnd: () => {},
   setWidth: () => {},
   shouldFloat: false,
-  shouldShake: false,
 };

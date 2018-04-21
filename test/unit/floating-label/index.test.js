@@ -33,11 +33,6 @@ test('initializing with shouldFloat to true floats the label', () => {
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));
 });
 
-test('initializing with shouldShake to true shakes the label', () => {
-  const wrapper = shallow(<FloatingLabel shouldShake/>);
-  assert.isTrue(wrapper.hasClass('mdc-floating-label--shake'));
-});
-
 test('calls setWidth with the offsetWidth of the labelElement', () => {
   const setWidth = td.func();
   const wrapper = mount(
@@ -49,12 +44,6 @@ test('#componentWillReceiveProps updating shouldFloat to true floats the label',
   const wrapper = shallow(<FloatingLabel/>);
   wrapper.setProps({shouldFloat: true});
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));
-});
-
-test('#componentWillReceiveProps updating shouldShake to true shakes the label', () => {
-  const wrapper = shallow(<FloatingLabel/>);
-  wrapper.setProps({shouldShake: true});
-  assert.isTrue(wrapper.hasClass('mdc-floating-label--shake'));
 });
 
 test('#componentDidUpdate updating the children updates width', () => {
@@ -72,13 +61,13 @@ test('initializing shouldFloat to true, and then updating it to false ' +
   assert.isFalse(wrapper.hasClass('mdc-floating-label--float-above'));
 });
 
-test('on animationend should trigger onShakeEnd and remove the shake class', () => {
-  const onShakeEnd = td.func();
-  const wrapper = shallow(<FloatingLabel onShakeEnd={onShakeEnd}/>);
-  wrapper.setProps({shouldShake: true});
-  assert.isTrue(wrapper.hasClass('mdc-floating-label--shake'));
+test('on animationend should remove the shake class', () => {
+  const wrapper = mount(<FloatingLabel />);
+  const classList = new Set();
+  classList.add('mdc-floating-label--shake');
+  wrapper.setState({classList});
+
   wrapper.simulate('animationEnd');
-  td.verify(onShakeEnd(), {times: 1});
   assert.isFalse(wrapper.hasClass('mdc-floating-label--shake'));
 });
 
