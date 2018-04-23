@@ -14,3 +14,4 @@ Prop Name | Type | Description
 --- | --- | ---
 className | string | Classes to be applied to the root element.
 style | object | Inline styles of root element.
+shouldActivate | boolean | Activates or deactivates the line ripple state.
