@@ -20,17 +20,7 @@ shouldFloat | Boolean | Floats label depending on value passed.
 
 ### Positioning
 
-React Floating Label is meant to be used with other Components, specifically input type elements. Floating label is positioned absolute, which requires the parent element to be position _relative_ or _absolute_.
-
-### Float Label
-
-Toggling the `shouldFloat` property between true/false will float/dock the label. Ex:
-
-```js
-<FloatingLabel shouldFloat={this.state.shouldFloat}>
-  My Label
-</FloatingLabel>
-```
+React Floating Label is meant to be used with other Components, specifically input type elements. Floating label is positioned absolute, which requires the parent element to be position _relative_.
 
 ### Shake Label
 
