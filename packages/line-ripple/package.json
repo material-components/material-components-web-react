@@ -12,7 +12,7 @@
     "materialline-ripple"
   ],
   "dependencies": {
-    "@material/line-ripple": "^0.34.1",
+    "@material/line-ripple": "^0.34.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"

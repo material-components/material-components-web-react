@@ -7,11 +7,11 @@ const fabBundles = require('./fab/webpack.config.js');
 const lineRippleBundles = require('./line-ripple/webpack.config.js');
 
 module.exports = [
-  ...buttonBundles,
-  ...cardBundles,
-  ...materialIconBundles,
-  ...rippleBundles,
-  ...topAppBarBundles,
-  ...fabBundles,
+  // ...buttonBundles,
+  // ...cardBundles,
+  // ...materialIconBundles,
+  // ...rippleBundles,
+  // ...topAppBarBundles,
+  // ...fabBundles,
   ...lineRippleBundles,
 ];

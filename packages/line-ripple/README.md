@@ -12,4 +12,5 @@ npm install @material/react-line-ripple
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the root element.
+className | string | Classes to be applied to the root element.
+style | object | Inline styles of root element.
