@@ -19,7 +19,7 @@ export default class LineRipple extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.shouldActivate !== nextProps.shouldActivate) {
-      if(nextProps.shouldActivate) {
+      if (nextProps.shouldActivate) {
         this.foundation_.activate();
       } else {
         this.foundation_.deactivate();
@@ -65,9 +65,9 @@ export default class LineRipple extends Component {
 
   render() {
     const {
-      style,
-      className,
-      shouldActivate, // ignore
+      style, // eslint-disable-line no-unused-vars
+      className, // eslint-disable-line no-unused-vars
+      shouldActivate, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
     return (
