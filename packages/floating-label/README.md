@@ -52,7 +52,7 @@ class MyComponent extends React.Component {
 
 ### Label Width
 
-Label width is set during mount, and is calculated from the `offsetWidth` property. The Component will call `setWidth()` when mounted. `setWidth()` will execute with a new width value if `this.props.children` changes.
+Label width is set during mount, and is calculated from the `offsetWidth` property. The Component will call `handleWidthChange()` when mounted. `handleWidthChange()` will execute with a new width value if `this.props.children` changes.
 
 ```js
 <FloatingLabel
