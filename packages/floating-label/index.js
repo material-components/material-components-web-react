@@ -18,9 +18,9 @@ export default class FloatingLabel extends React.Component {
 
   componentDidMount() {
     this.initializeFoundation();
-    this.setWidth();
+    this.handleWidthChange();
 
-    if (this.props.shouldFloat) {
+    if (this.props.float) {
       this.foundation_.float(true);
     }
   }
@@ -30,14 +30,14 @@ export default class FloatingLabel extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.shouldFloat !== nextProps.shouldFloat) {
-      this.foundation_.float(nextProps.shouldFloat);
+    if (this.props.float !== nextProps.float) {
+      this.foundation_.float(nextProps.float);
     }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.children !== prevProps.children) {
-      this.setWidth();
+      this.handleWidthChange();
     }
   }
 
@@ -71,10 +71,10 @@ export default class FloatingLabel extends React.Component {
     this.setState({classList});
   }
 
-  setWidth = () => {
-    const {setWidth} = this.props;
-    if (setWidth && typeof setWidth === 'function' && this.labelElement.current) {
-      setWidth(this.labelElement.current.offsetWidth);
+  handleWidthChange = () => {
+    const {handleWidthChange} = this.props;
+    if (this.labelElement.current) {
+      handleWidthChange(this.labelElement.current.offsetWidth);
     }
   }
 
@@ -87,8 +87,8 @@ export default class FloatingLabel extends React.Component {
     const {
       className, // eslint-disable-line no-unused-vars
       children,
-      setWidth, // eslint-disable-line no-unused-vars
-      shouldFloat, // eslint-disable-line no-unused-vars
+      handleWidthChange, // eslint-disable-line no-unused-vars
+      float, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
 
@@ -108,12 +108,12 @@ export default class FloatingLabel extends React.Component {
 FloatingLabel.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  setWidth: PropTypes.func,
-  shouldFloat: PropTypes.bool,
+  handleWidthChange: PropTypes.func,
+  float: PropTypes.bool,
 };
 
 FloatingLabel.defaultProps = {
   className: '',
-  setWidth: () => {},
-  shouldFloat: false,
+  handleWidthChange: () => {},
+  float: false,
 };

@@ -13,8 +13,8 @@ npm install @material/react-floating-label
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
-setWidth | Function | Callback method to pass the width to a parent Component.
-shouldFloat | Boolean | Floats label depending on value passed.
+handleWidthChange | Function | Callback method to pass the width to a parent Component.
+float | Boolean | Floats label depending on value passed.
 
 ## Usage
 
@@ -56,7 +56,7 @@ Label width is set during mount, and is calculated from the `offsetWidth` proper
 
 ```js
 <FloatingLabel
-  setWidth={(width) => this.setState({width})}
+  handleWidthChange={(width) => this.setState({width})}
 >
   My Label
 </FloatingLabel>

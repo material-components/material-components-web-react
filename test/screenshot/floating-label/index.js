@@ -8,7 +8,7 @@ import './index.scss';
 class Input extends React.Component {
   state = {
     shouldUsePrimaryLabel: true,
-    shouldFloat: false,
+    float: false,
     width: 0,
   };
 
@@ -18,7 +18,7 @@ class Input extends React.Component {
   }
 
   render() {
-    const {shouldUsePrimaryLabel, shouldFloat} = this.state;
+    const {shouldUsePrimaryLabel, float} = this.state;
     const labelText = ['My Label Text', 'Alternate Label Text'];
 
     return (
@@ -26,44 +26,13 @@ class Input extends React.Component {
         <div className='input__container'>
           <div className='input__dock'>
             <FloatingLabel
-              shouldFloat={shouldFloat}
+              float={float}
               ref={this.floatingLabelElement_}
-              setWidth={(width) => this.setState({width})}
+              handleWidthChange={(width) => this.setState({width})}
             >
               {shouldUsePrimaryLabel ? labelText[0] : labelText[1]}
             </FloatingLabel>
           </div>
-          {this.renderControls()}
-        </div>
-      </div>
-    );
-  }
-
-  renderControls() {
-    const {width} = this.state;
-    const buttons = [{
-      text: 'Float',
-      action: () => this.setState({shouldFloat: !this.state.shouldFloat}),
-    }, {
-      text: 'Shake',
-      action: this.floatingLabelElement_.current && this.floatingLabelElement_.current.shake,
-    }, {
-      text: 'Label Text',
-      action: () => this.setState({shouldUsePrimaryLabel: !this.state.shouldUsePrimaryLabel}),
-    }];
-
-    return (
-      <div className='input__controls'>
-        {buttons.map((button, index) => (
-          <button
-            key={index}
-            onClick={button.action}
-            className='mdc-button mdc-button--raised input__control-button'>
-            {button.text}
-          </button>
-        ))}
-        <div>
-          Label Width: {width}
         </div>
       </div>
     );
@@ -75,7 +44,7 @@ ReactDOM.render((
       <Input />
 
       <div className='floated-label-box-example'>
-        <FloatingLabel shouldFloat>
+        <FloatingLabel float>
           Floated Label
         </FloatingLabel>
       </div>

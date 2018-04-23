@@ -28,36 +28,36 @@ test('#initializeFoundation creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('initializing with shouldFloat to true floats the label', () => {
-  const wrapper = shallow(<FloatingLabel shouldFloat/>);
+test('initializing with float to true floats the label', () => {
+  const wrapper = shallow(<FloatingLabel float/>);
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));
 });
 
-test('calls setWidth with the offsetWidth of the labelElement', () => {
-  const setWidth = td.func();
+test('calls handleWidthChange with the offhandleWidthChange of the labelElement', () => {
+  const handleWidthChange = td.func();
   const wrapper = mount(
-    <FloatingLabel setWidth={setWidth}>Test</FloatingLabel>);
-  td.verify(setWidth(wrapper.getDOMNode().offsetWidth), {times: 1});
+    <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>);
+  td.verify(handleWidthChange(wrapper.getDOMNode().offsetWidth), {times: 1});
 });
 
-test('#componentWillReceiveProps updating shouldFloat to true floats the label', () => {
+test('#componentWillReceiveProps updating float to true floats the label', () => {
   const wrapper = shallow(<FloatingLabel/>);
-  wrapper.setProps({shouldFloat: true});
+  wrapper.setProps({float: true});
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));
 });
 
 test('#componentDidUpdate updating the children updates width', () => {
-  const setWidth = td.func();
+  const handleWidthChange = td.func();
   const wrapper = mount(
-    <FloatingLabel setWidth={setWidth}>Test</FloatingLabel>);
+    <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>);
   wrapper.setProps({children: 'Test More Text'});
-  td.verify(setWidth(wrapper.getDOMNode().offsetWidth), {times: 2});
+  td.verify(handleWidthChange(wrapper.getDOMNode().offsetWidth), {times: 2});
 });
 
-test('initializing shouldFloat to true, and then updating it to false ' +
+test('initializing float to true, and then updating it to false ' +
   'removes the class', () => {
-  const wrapper = shallow(<FloatingLabel shouldFloat/>);
-  wrapper.setProps({shouldFloat: false});
+  const wrapper = shallow(<FloatingLabel float/>);
+  wrapper.setProps({float: false});
   assert.isFalse(wrapper.hasClass('mdc-floating-label--float-above'));
 });
 
