@@ -15,11 +15,14 @@ export default class LineRipple extends Component {
   componentDidMount() {
     this.foundation_ = new MDCLineRippleFoundation(this.adapter);
     this.foundation_.init();
+    if (this.props.active) {
+      this.foundation_.activate();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.shouldActivate !== nextProps.shouldActivate) {
-      if (nextProps.shouldActivate) {
+    if (this.props.active !== nextProps.active) {
+      if (nextProps.active) {
         this.foundation_.activate();
       } else {
         this.foundation_.deactivate();
@@ -67,7 +70,7 @@ export default class LineRipple extends Component {
     const {
       style, // eslint-disable-line no-unused-vars
       className, // eslint-disable-line no-unused-vars
-      shouldActivate, // eslint-disable-line no-unused-vars
+      active, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
     return (
@@ -83,11 +86,11 @@ export default class LineRipple extends Component {
 LineRipple.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  shouldActivate: PropTypes.bool,
+  active: PropTypes.bool,
 };
 
 LineRipple.defaultProps = {
   className: '',
   style: {},
-  shouldActivate: false,
+  active: false,
 };

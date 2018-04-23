@@ -26,17 +26,22 @@ test('creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
+test('#componentDidMount calls activates line ripple if active is true', () => {
+  const wrapper = shallow(<LineRipple active />);
+  assert.isTrue(wrapper.hasClass('mdc-line-ripple--active'));
+});
+
 test('#componentWillReceiveProps #foundation activate & deactivate ' +
-  'are called when shouldActivate updates', () => {
+  'are called when active updates', () => {
   const wrapper = shallow(<LineRipple />);
   wrapper.instance().foundation_.activate = td.func();
   wrapper.instance().foundation_.deactivate = td.func();
 
-  wrapper.setProps({shouldActivate: true});
+  wrapper.setProps({active: true});
   td.verify(wrapper.instance().foundation_.activate(), {times: 1});
   td.verify(wrapper.instance().foundation_.deactivate(), {times: 0});
 
-  wrapper.setProps({shouldActivate: false});
+  wrapper.setProps({active: false});
   td.verify(wrapper.instance().foundation_.activate(), {times: 1});
   td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
 });

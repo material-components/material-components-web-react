@@ -7,26 +7,34 @@ import LineRipple from '../../../packages/line-ripple';
 
 class Line extends React.Component {
   state = {
-    shouldActivate: false,
+    active: false,
   };
 
   render() {
-    const style = {
-      position: 'relative',
-      width: '200px',
-      height: '40px', border: '1px solid pink',
-    };
-
     return (
       <div
-        onClick={() => this.setState({shouldActivate: !this.state.shouldActivate})}
-        style={style}>
-        <LineRipple shouldActivate={this.state.shouldActivate} />
+        onClick={() => this.setState({active: !this.state.active})}
+        className='line-ripple-container'>
+        <LineRipple active={this.state.active} />
       </div>
     );
   }
 };
 
+class LineActive extends React.Component {
+  render() {
+    return (
+      <div
+        className='line-ripple-container'>
+        <LineRipple active />
+      </div>
+    );
+  }
+}
+
 ReactDOM.render((
-  <Line />
+  <div>
+    <Line />
+    <LineActive />
+  </div>
 ), document.getElementById('app'));
