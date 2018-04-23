@@ -1,29 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../../../packages/line-ripple/index.scss';
+
 import './index.scss';
 
 import LineRipple from '../../../packages/line-ripple';
 
 class Line extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.rippleElement = React.createRef();
-  }
+  state = {
+    shouldActivate: false,
+  };
 
   render() {
-    const style = {position: 'relative', width: '200px', height: '40px', background: 'pink'};
+    const style = {
+      position: 'relative',
+      width: '200px',
+      height: '40px', border: '1px solid pink',
+    };
 
     return (
       <div
-        onClick={() => {console.log(this.rippleElement); this.rippleElement.current && this.rippleElement.current.activate()}}
+        onClick={() => this.setState({shouldActivate: !this.state.shouldActivate})}
         style={style}>
-        <LineRipple ref={this.rippleElement} />
+        <LineRipple shouldActivate={this.state.shouldActivate} />
       </div>
     );
   }
-}
+};
+
 ReactDOM.render((
   <Line />
 ), document.getElementById('app'));

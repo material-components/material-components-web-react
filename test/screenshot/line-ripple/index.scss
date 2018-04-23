@@ -1,3 +1,9 @@
+@import '../../../packages/line-ripple/index.scss';
+
 body {
   margin: 24px;
+}
+
+.mdc-line-ripple {
+  @include mdc-line-ripple-color(brown);
 }

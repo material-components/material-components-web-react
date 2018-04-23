@@ -17,6 +17,16 @@ export default class LineRipple extends Component {
     this.foundation_.init();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.shouldActivate !== nextProps.shouldActivate) {
+      if(nextProps.shouldActivate) {
+        this.foundation_.activate();
+      } else {
+        this.foundation_.deactivate();
+      }
+    }
+  }
+
   componentWillUnmount() {
     this.foundation_.destroy();
   }
@@ -53,14 +63,11 @@ export default class LineRipple extends Component {
     return Object.assign({}, style, wrappedStyle);
   }
 
-  activate() {
-    this.foundation_.activate();
-  }
-
   render() {
     const {
       style,
       className,
+      shouldActivate, // ignore
       ...otherProps
     } = this.props;
     return (
@@ -76,9 +83,11 @@ export default class LineRipple extends Component {
 LineRipple.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
+  shouldActivate: PropTypes.bool,
 };
 
 LineRipple.defaultProps = {
   className: '',
   style: {},
+  shouldActivate: false,
 };
