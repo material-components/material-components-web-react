@@ -35,23 +35,38 @@ test('initializing with float to true floats the label', () => {
 
 test('calls handleWidthChange with the offhandleWidthChange of the labelElement', () => {
   const handleWidthChange = td.func();
+  const div = document.createElement('div');
+  // needs to be attached to real DOM to get width
+  // https://github.com/airbnb/enzyme/issues/1525
+  document.body.append(div);
+  const options = {attachTo: div};
   const wrapper = mount(
-    <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>);
+    <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>, options);
   td.verify(handleWidthChange(wrapper.getDOMNode().offsetWidth), {times: 1});
+  div.remove();
+});
+
+test('#componentDidUpdate updating the children updates width', () => {
+  const handleWidthChange = td.func();
+  const div = document.createElement('div');
+  // needs to be attached to real DOM to get width
+  // https://github.com/airbnb/enzyme/issues/1525
+  document.body.append(div);
+  const options = {attachTo: div};
+  const wrapper = mount(
+    <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>, options);
+  const firstLength = wrapper.getDOMNode().offsetWidth;
+  wrapper.setProps({children: 'Test More Text'});
+  const secondLength = wrapper.getDOMNode().offsetWidth;
+  td.verify(handleWidthChange(firstLength), {times: 1});
+  td.verify(handleWidthChange(secondLength), {times: 1});
+  div.remove();
 });
 
 test('#componentWillReceiveProps updating float to true floats the label', () => {
   const wrapper = shallow(<FloatingLabel/>);
   wrapper.setProps({float: true});
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));
-});
-
-test('#componentDidUpdate updating the children updates width', () => {
-  const handleWidthChange = td.func();
-  const wrapper = mount(
-    <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>);
-  wrapper.setProps({children: 'Test More Text'});
-  td.verify(handleWidthChange(wrapper.getDOMNode().offsetWidth), {times: 2});
 });
 
 test('initializing float to true, and then updating it to false ' +
