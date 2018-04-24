@@ -39,6 +39,7 @@
     "@material/button": "^0.34.1",
     "@material/card": "^0.34.1",
     "@material/fab": "^0.34.1",
+    "@material/line-ripple": "^0.34.0",
     "@material/floating-label": "^0.34.0",
     "@material/list": "^0.34.1",
     "@material/ripple": "^0.34.1",
