@@ -19,12 +19,32 @@ export default class NotchedOutline extends React.Component {
   }
 
   componentDidMount() {
-    this.foundation_ = new MDCNotchedOutlineFoundation();
+    this.foundation_ = new MDCNotchedOutlineFoundation(this.adapter);
     this.foundation_.init();
+
+    const {notch, notchWidth, isRtl} = this.props;
+    if (notch) {
+      this.foundation_.notch(notchWidth, isRtl);
+    }
   }
 
   componentWillUnmount() {
     this.foundation_.destroy();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const hasToggledNotch = this.props.notch !== nextProps.notch;
+    const notchWidthUpdated = this.props.notchWidth !== nextProps.notchWidth;
+    const shouldUpdateNotch = notchWidthUpdated || hasToggledNotch;
+
+    if (shouldUpdateNotch) {
+      if(nextProps.notch) {
+        const {notchWidth, isRtl} = nextProps;
+        this.foundation_.notch(notchWidth, isRtl);
+      } else {
+        this.foundation_.closeNotch();
+      }
+    }
   }
 
   get classes() {
@@ -35,8 +55,8 @@ export default class NotchedOutline extends React.Component {
 
   get adapter() {
     return {
-      getWidth: () => this.outlineElement_.offsetWidth,
-      getHeight: () => this.outlineElement_.offsetHeight,
+      getWidth: () => this.outlineElement_.current.offsetWidth,
+      getHeight: () => this.outlineElement_.current.offsetHeight,
       addClass: (className) =>
         this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className) => {
@@ -44,9 +64,9 @@ export default class NotchedOutline extends React.Component {
         classList.delete(className);
         this.setState({classList});
       },
-      setOutlinePathAttr: (value) => this.pathElement_.setAttribute('d', value),
+      setOutlinePathAttr: (value) => this.pathElement_.current.setAttribute('d', value),
       getIdleOutlineStyleValue: (propertyName) =>
-        window.getComputedStyle(this.idleElement_).getPropertyValue(propertyName),
+        window.getComputedStyle(this.idleElement_.current).getPropertyValue(propertyName),
     };
   }
 
@@ -58,7 +78,7 @@ export default class NotchedOutline extends React.Component {
         ref={this.outlineElement_}>
         <svg>
           <path ref={this.pathElement_}
-            class='mdc-notched-outline__path' />
+            className='mdc-notched-outline__path' />
         </svg>
       </div>,
       <div
@@ -70,9 +90,16 @@ export default class NotchedOutline extends React.Component {
 
 }
 
-TopAppBar.propTypes = {
+NotchedOutline.propTypes = {
+  className: PropTypes.string,
+  isRtl: PropTypes.bool,
+  notch: PropTypes.bool,
+  notchWidth: PropTypes.number,
 };
 
-TopAppBar.defaultProps = {
-
+NotchedOutline.defaultProps = {
+  className: '',
+  isRtl: false,
+  notch: false,
+  notchWidth: 0,
 };

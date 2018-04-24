@@ -8,6 +8,16 @@ import './index.scss';
 
 ReactDOM.render((
   <div>
-    <NotchedOutline />
+    <div className='notched-outline-container'>
+      <NotchedOutline />
+    </div>
+
+    <div className='notched-outline-container'>
+      <NotchedOutline notchWidth={50} notch />
+    </div>
+
+    <div className='notched-outline-container'>
+      <NotchedOutline notchWidth={100} notch isRtl />
+    </div>
   </div>
 ), document.getElementById('app'));

@@ -9,13 +9,13 @@ const lineRippleBundles = require('./line-ripple/webpack.config.js');
 const floatingLabelBundles = require('./floating-label/webpack.config.js');
 
 module.exports = [
-  ...buttonBundles,
-  ...cardBundles,
-  ...materialIconBundles,
-  ...rippleBundles,
-  ...topAppBarBundles,
-  ...fabBundles,
+  // ...buttonBundles,
+  // ...cardBundles,
+  // ...materialIconBundles,
+  // ...rippleBundles,
+  // ...topAppBarBundles,
+  // ...fabBundles,
   ...notchedOutlineBundles,
-  ...lineRippleBundles,
-  ...floatingLabelBundles,
+  // ...lineRippleBundles,
+  // ...floatingLabelBundles,
 ];
