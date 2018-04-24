@@ -4,7 +4,7 @@ import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import NotchedOutline from '../../../packages/notched-outline';
 
-suite.only('NotchedOutline');
+suite('NotchedOutline');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<NotchedOutline className='test-class-name'/>);
@@ -35,9 +35,8 @@ test('initializes foundation', () => {
 
 test('calls #foundation.notch if notch adds the notched class', () => {
   const wrapper = mount(<NotchedOutline notch notchWidth={50} />);
-  wrapper.first().first().hasClass('OUTLINE_NOTCHED')
+  wrapper.first().first().hasClass('mdc-notched-outline--notched');
 });
-
 
 test('#componentWillReceiveProps updating notch to true calls #foundation.notch', () => {
   const wrapper = shallow(<NotchedOutline />);
@@ -81,6 +80,16 @@ test('#componentWillReceiveProps updating notch to true with and initial ' +
   wrapper.instance().foundation_.notch = td.func();
   wrapper.setProps({notch: true});
   td.verify(wrapper.instance().foundation_.notch(100, false), {times: 1});
+});
+
+test('#componentWillReceiveProps shouldn\'t call #foundation notch or closeNotch' +
+  'if another prop changes', () => {
+  const wrapper = shallow(<NotchedOutline />);
+  wrapper.setProps({className: 'test-class-name'});
+  wrapper.instance().foundation_.notch = td.func();
+  wrapper.instance().foundation_.closeNotch = td.func();
+  td.verify(wrapper.instance().foundation_.notch(td.matchers.isA(Number), td.matchers.isA(Boolean)), {times: 0});
+  td.verify(wrapper.instance().foundation_.closeNotch(), {times: 0});
 });
 
 test('#adapter.getWidth returns width of outlineElement_', () => {
@@ -145,4 +154,12 @@ test('#adapter.getIdleOutlineStyleValue add attr to pathElement_', () => {
 
   assert.equal(
     adapter_.getIdleOutlineStyleValue('border-radius'), '5px');
+});
+
+test('#componentWillUnmount destroys foundation', () => {
+  const wrapper = shallow(<NotchedOutline />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.destroy = td.func();
+  wrapper.unmount();
+  td.verify(foundation.destroy(), {times: 1});
 });

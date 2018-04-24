@@ -40,7 +40,7 @@ export default class NotchedOutline extends React.Component {
     const shouldUpdateNotch = notchWidthUpdated || hasToggleRtl || hasToggledNotch;
 
     if (shouldUpdateNotch) {
-      if(nextProps.notch) {
+      if (nextProps.notch) {
         const {notchWidth, isRtl} = nextProps;
         this.foundation_.notch(notchWidth, isRtl);
       } else {
@@ -86,7 +86,7 @@ export default class NotchedOutline extends React.Component {
       <div
         ref={this.idleElement_}
         className='mdc-notched-outline__idle'
-        key='notched-outline-idle'></div>
+        key='notched-outline-idle'></div>,
     ]);
   }
 }
