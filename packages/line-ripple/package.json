@@ -1,0 +1,20 @@
+{
+  "name": "@material/react-line-ripple",
+  "version": "0.0.0",
+  "description": "",
+  "author": "",
+  "license": "Apache-2.0",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "material line-ripple",
+    "materialline-ripple"
+  ],
+  "dependencies": {
+    "@material/line-ripple": "^0.34.0",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.2"
+  }
+}

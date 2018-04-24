@@ -5,6 +5,8 @@ const rippleBundles = require('./ripple/webpack.config.js');
 const topAppBarBundles = require('./top-app-bar/webpack.config.js');
 const fabBundles = require('./fab/webpack.config.js');
 const notchedOutlineBundles = require('./notched-outline/webpack.config.js');
+const lineRippleBundles = require('./line-ripple/webpack.config.js');
+const floatingLabelBundles = require('./floating-label/webpack.config.js');
 
 module.exports = [
   ...buttonBundles,
@@ -14,4 +16,6 @@ module.exports = [
   ...topAppBarBundles,
   ...fabBundles,
   ...notchedOutlineBundles,
+  ...lineRippleBundles,
+  ...floatingLabelBundles,
 ];
