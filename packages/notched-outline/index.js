@@ -13,8 +13,9 @@ export default class NotchedOutline extends React.Component {
 
   constructor(props) {
     super(props);
-    this.outlineElement = React.createRef();
-    this.pathElement = React.createRef();
+    this.outlineElement_ = React.createRef();
+    this.pathElement_ = React.createRef();
+    this.idleElement_ = React.createRef();
   }
 
   componentDidMount() {
@@ -34,8 +35,8 @@ export default class NotchedOutline extends React.Component {
 
   get adapter() {
     return {
-      getWidth: () => this.outlineElement.offsetWidth,
-      getHeight: () => this.outlineElement.offsetHeight,
+      getWidth: () => this.outlineElement_.offsetWidth,
+      getHeight: () => this.outlineElement_.offsetHeight,
       addClass: (className) =>
         this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className) => {
@@ -43,6 +44,9 @@ export default class NotchedOutline extends React.Component {
         classList.delete(className);
         this.setState({classList});
       },
+      setOutlinePathAttr: (value) => this.pathElement_.setAttribute('d', value),
+      getIdleOutlineStyleValue: (propertyName) =>
+        window.getComputedStyle(this.idleElement_).getPropertyValue(propertyName),
     };
   }
 
@@ -51,13 +55,16 @@ export default class NotchedOutline extends React.Component {
       <div
         className={this.classes}
         key='notched-outline'
-        ref={this.outlineElement}>
+        ref={this.outlineElement_}>
         <svg>
-          <path ref={this.pathElement}
+          <path ref={this.pathElement_}
             class='mdc-notched-outline__path' />
         </svg>
       </div>,
-      <div className='mdc-notched-outline__idle' key='notched-outline-idle'></div>
+      <div
+        ref={this.idleElement_}
+        className='mdc-notched-outline__idle'
+        key='notched-outline-idle'></div>
     ]);
   }
 
