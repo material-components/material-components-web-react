@@ -13,6 +13,7 @@ export default class NotchedOutline extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.outlineElement_ = React.createRef();
     this.pathElement_ = React.createRef();
     this.idleElement_ = React.createRef();
@@ -34,8 +35,9 @@ export default class NotchedOutline extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const hasToggledNotch = this.props.notch !== nextProps.notch;
+    const hasToggleRtl = this.props.isRtl !== nextProps.isRtl;
     const notchWidthUpdated = this.props.notchWidth !== nextProps.notchWidth;
-    const shouldUpdateNotch = notchWidthUpdated || hasToggledNotch;
+    const shouldUpdateNotch = notchWidthUpdated || hasToggleRtl || hasToggledNotch;
 
     if (shouldUpdateNotch) {
       if(nextProps.notch) {
@@ -87,7 +89,6 @@ export default class NotchedOutline extends React.Component {
         key='notched-outline-idle'></div>
     ]);
   }
-
 }
 
 NotchedOutline.propTypes = {
