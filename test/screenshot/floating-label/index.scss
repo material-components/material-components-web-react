@@ -1,0 +1,23 @@
+body {
+  margin: 24px;
+}
+
+.input__container {
+  display: flex;
+}
+
+.input__dock {
+  border: 1px solid lightblue;
+  height: 24px;
+  width: 200px;
+  margin-right: 24px;
+  position: relative;
+}
+
+.floated-label-box-example {
+  position: relative;
+  border: 1px solid pink;
+  height: 24px;
+  width: 200px;
+  margin-top: 24px;
+}
