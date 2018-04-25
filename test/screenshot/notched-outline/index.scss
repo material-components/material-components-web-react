@@ -1,0 +1,17 @@
+@import '@material/notched-outline/mixins';
+
+body {
+  margin: 24px;
+}
+
+.notched-outline-container {
+  width: 200px;
+  height: 50px;
+  position: relative;
+
+  &:not(first-child) {
+    margin-top: 24px;
+  }
+
+  @include mdc-notched-outline-color(orange);
+}
