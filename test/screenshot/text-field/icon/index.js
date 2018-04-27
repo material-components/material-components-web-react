@@ -16,9 +16,5 @@ ReactDOM.render((
     <Icon>
       <MaterialIcon tabIndex='0' role='button' icon='favorite'/>
     </Icon>
-
-    <Icon disabled>
-      <MaterialIcon tabIndex='0' role='button' icon='favorite'/>
-    </Icon>
   </div>
 ), document.getElementById('app'));
