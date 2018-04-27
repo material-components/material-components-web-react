@@ -6,6 +6,7 @@ import fabSuite from './fab/screenshot-suite';
 import lineRippleSuite from './line-ripple/screenshot-suite';
 import floatingLabelSuite from './floating-label/screenshot-suite';
 import notchedOutlineSuite from './notched-outline/screenshot-suite';
+import textFieldIconSuite from './text-field/icon/screenshot-suite';
 
 const fullSuite = [
   buttonSuite,
@@ -16,6 +17,7 @@ const fullSuite = [
   lineRippleSuite,
   floatingLabelSuite,
   notchedOutlineSuite,
+  textFieldIconSuite,
 ];
 
 export default fullSuite;
