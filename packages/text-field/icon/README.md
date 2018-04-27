@@ -6,6 +6,8 @@ MDC React Text Field Icon is a React Component which uses MDC [MDC Text Field Ic
 
 Prop Name | Type | Description
 --- | --- | ---
+disabled | Boolean | Toggles the disabled state of the icon.
+children | Element | Required. Expects a single child icon element.
 
 ## Sass Mixins
 
