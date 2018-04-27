@@ -10,14 +10,14 @@ const floatingLabelBundles = require('./floating-label/webpack.config.js');
 const textFieldIconBundles = require('./text-field/icon/webpack.config.js');
 
 module.exports = [
-  // ...buttonBundles,
-  // ...cardBundles,
-  // ...materialIconBundles,
-  // ...rippleBundles,
-  // ...topAppBarBundles,
-  // ...fabBundles,
-  // ...notchedOutlineBundles,
-  // ...lineRippleBundles,
-  // ...floatingLabelBundles,
+  ...buttonBundles,
+  ...cardBundles,
+  ...materialIconBundles,
+  ...rippleBundles,
+  ...topAppBarBundles,
+  ...fabBundles,
+  ...notchedOutlineBundles,
+  ...lineRippleBundles,
+  ...floatingLabelBundles,
   ...textFieldIconBundles,
 ];
