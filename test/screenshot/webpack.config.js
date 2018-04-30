@@ -11,15 +11,15 @@ const textFieldIconBundles = require('./text-field/icon/webpack.config.js');
 const topAppBarBundles = require('./top-app-bar/webpack.config.js');
 
 module.exports = [
-  // ...buttonBundles,
-  // ...cardBundles,
-  // ...fabBundles,
-  // ...floatingLabelBundles,
-  // ...lineRippleBundles,
-  // ...materialIconBundles,
-  // ...notchedOutlineBundles,
-  // ...rippleBundles,
+  ...buttonBundles,
+  ...cardBundles,
+  ...fabBundles,
+  ...floatingLabelBundles,
+  ...lineRippleBundles,
+  ...materialIconBundles,
+  ...notchedOutlineBundles,
+  ...rippleBundles,
   ...textFieldHelperTextBundles,
   ...textFieldIconBundles,
-  // ...topAppBarBundles,
+  ...topAppBarBundles,
 ];
