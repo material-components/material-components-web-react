@@ -4,7 +4,7 @@ import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import HelperText from '../../../../packages/text-field/helper-text';
 
-suite.only('Text Field Helper Text');
+suite('Text Field Helper Text');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(
@@ -59,10 +59,56 @@ test('#componentWillReceiveProps calls #foundation.showToScreenReader if ' +
   const wrapper = shallow(<HelperText />);
   wrapper.instance().foundation_.showToScreenReader = td.func();
   wrapper.setProps({showToScreenReader: true});
-  td.verify(wrapper.instance().foundation_.showToScreenReader, {times: 1});
+  td.verify(wrapper.instance().foundation_.showToScreenReader(true), {times: 1});
 });
 
+test('#componentWillReceiveProps calls #foundation.setValidity if ' +
+  'props.isValid updates', () => {
+  const wrapper = shallow(<HelperText />);
+  wrapper.instance().foundation_.setValidity = td.func();
+  wrapper.setProps({isValid: false});
+  td.verify(wrapper.instance().foundation_.setValidity(false), {times: 1});
+});
 
+test('#componentWillReceiveProps neither calls #showToScreenReader nor ' +
+  'setValidity if another prop updates', () => {
+  const wrapper = shallow(<HelperText />);
+  wrapper.instance().foundation_.showToScreenReader = td.func();
+  wrapper.instance().foundation_.setValidity = td.func();
+  wrapper.setProps({persistent: true});
+
+  td.verify(wrapper.instance().foundation_.showToScreenReader(td.matchers.isA(Boolean)), {times: 0});
+  td.verify(wrapper.instance().foundation_.setValidity(td.matchers.isA(Boolean)), {times: 0});
+});
+
+test('#adapter.hasClass', () => {
+  const wrapper = shallow(<HelperText className='test-class-name'/>);
+  assert.isTrue(wrapper.instance().foundation_.adapter_.hasClass('test-class-name'));
+});
+
+test('#adapter.setAttr sets role', () => {
+  const wrapper = shallow(<HelperText />);
+  wrapper.instance().foundation_.adapter_.setAttr('role', 'button');
+  assert.equal(wrapper.state().role, 'button');
+});
+
+test('#adapter.setAttr sets aria-hidden', () => {
+  const wrapper = shallow(<HelperText />);
+  wrapper.instance().foundation_.adapter_.setAttr('aria-hidden', true);
+  assert.equal(wrapper.state()['aria-hidden'], true);
+});
+
+test('#adapter.removeAttr sets role to null', () => {
+  const wrapper = shallow(<HelperText aria-hidden={false} />);
+  wrapper.instance().foundation_.adapter_.removeAttr('aria-hidden');
+  assert.equal(wrapper.state()['aria-hidden'], null);
+});
+
+test('#adapter.removeAttr sets aria-hidden to null', () => {
+  const wrapper = shallow(<HelperText role='button' />);
+  wrapper.instance().foundation_.adapter_.removeAttr('role');
+  assert.equal(wrapper.state().role, null);
+});
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<HelperText />);

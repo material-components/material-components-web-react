@@ -11,7 +11,7 @@ export default class HelperText extends React.Component {
     super(props);
     this.state = {
       'aria-hidden': props['aria-hidden'],
-      role: props.role,
+      'role': props.role,
     };
   }
 
@@ -29,10 +29,10 @@ export default class HelperText extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.showToScreenReader !== nextProps.showToScreenReader) {
-      this.foundation_.showToScreenReader(nextProps);
+      this.foundation_.showToScreenReader(nextProps.showToScreenReader);
     }
     if (this.props.isValid !== nextProps.isValid) {
-      this.foundation_.setValidity(nextProps);
+      this.foundation_.setValidity(nextProps.isValid);
     }
   }
 
@@ -71,17 +71,23 @@ export default class HelperText extends React.Component {
 }
 
 HelperText.propTypes = {
-  children: PropTypes.node,
-  isValid: PropTypes.bool,
-  persistent: PropTypes.bool,
-  showToScreenReader: PropTypes.bool,
-  validation: PropTypes.bool,
+  'aria-hidden': PropTypes.bool,
+  'children': PropTypes.node,
+  'className': PropTypes.string,
+  'isValid': PropTypes.bool,
+  'persistent': PropTypes.bool,
+  'role': PropTypes.string,
+  'showToScreenReader': PropTypes.bool,
+  'validation': PropTypes.bool,
 };
 
 HelperText.defaultProps = {
-  children: null,
-  isValid: true,
-  persistent: false,
-  showToScreenReader: false,
-  validation: false,
+  'aria-hidden': false,
+  'children': null,
+  'className': '',
+  'isValid': true,
+  'persistent': false,
+  'role': null,
+  'showToScreenReader': false,
+  'validation': false,
 };

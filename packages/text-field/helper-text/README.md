@@ -1,19 +1,19 @@
 # React Text Field Icon
 
-MDC React Text Field Icon is a React Component which uses MDC [MDC Text Field Icon](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/icon/)'s CSS and foundation JavaScript.
+MDC React Text Field Icon is a React Component which uses MDC [MDC Text Field Helper Text](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/helper-text/)'s CSS and foundation JavaScript.
 
 ## Props
 
 Prop Name | Type | Description
 --- | --- | ---
-disabled | Boolean | Toggles the disabled state of the icon.
-children | Element | Required. Expects a single child icon element.
-
-## Icon
-
-The icon can be a `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc.
-
-If you decide to use a React Component please see [Integrating with Components](./../../../docs/guidelines.md#integrating-with-components). It must accept the `classNames` prop so the Text Field Icon Component can add the appropriate classes.
+aria-hidden | Boolean | Toggles aria-hidden functionality.
+children | String | Required. Text to be displayed as helper text.
+className | String | CSS classes for element.
+isValid | Boolean | When toggled will style the helper text based on input validity.
+persistent | Boolean | If true adds persistent CSS class.
+role | String | Sets role on HTML element.
+showToScreenReader | Boolean | toggles the aria-hidden property to allow element to be visible to the screen reader.
+validation | Boolean | If true adds validation CSS class.
 
 ## Sass Mixins
 
