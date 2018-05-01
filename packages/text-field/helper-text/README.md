@@ -7,7 +7,7 @@ MDC React Text Field Helper Text is a React Component which uses MDC [MDC Text F
 Prop Name | Type | Description
 --- | --- | ---
 aria-hidden | Boolean | Toggles aria-hidden functionality.
-children | String | Required. Text to be displayed as helper text.
+children | String or Element | Required. Text to be displayed as helper text.
 className | String | CSS classes for element.
 isValid | Boolean | When toggled will style the helper text component.
 persistent | Boolean | If true, always shows the helper text.
