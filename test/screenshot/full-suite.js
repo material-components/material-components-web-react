@@ -10,3 +10,5 @@ export default [
   require('./text-field/icon/screenshot-suite').default,
   require('./top-app-bar/screenshot-suite').default,
 ];
+
+export default fullSuite;
