@@ -1,21 +1,11 @@
-import buttonSuite from './button/screenshot-suite';
-import cardSuite from './card/screenshot-suite';
-import materialIconSuite from './material-icon/screenshot-suite';
-import topAppBarSuite from './top-app-bar/screenshot-suite';
-import fabSuite from './fab/screenshot-suite';
-import lineRippleSuite from './line-ripple/screenshot-suite';
-import floatingLabelSuite from './floating-label/screenshot-suite';
-import notchedOutlineSuite from './notched-outline/screenshot-suite';
-
-const fullSuite = [
-  buttonSuite,
-  cardSuite,
-  materialIconSuite,
-  topAppBarSuite,
-  fabSuite,
-  lineRippleSuite,
-  floatingLabelSuite,
-  notchedOutlineSuite,
+export default [
+  require('./button/screenshot-suite').default,
+  require('./card/screenshot-suite').default,
+  require('./line-ripple/screenshot-suite').default,
+  require('./fab/screenshot-suite').default,
+  require('./floating-label/screenshot-suite').default,
+  require('./material-icon/screenshot-suite').default,
+  require('./notched-outline/screenshot-suite').default,
+  require('./text-field/icon/screenshot-suite').default,
+  require('./top-app-bar/screenshot-suite').default,
 ];
-
-export default fullSuite;
