@@ -5,7 +5,6 @@ const floatingLabelBundles = require('./floating-label/webpack.config.js');
 const lineRippleBundles = require('./line-ripple/webpack.config.js');
 const materialIconBundles = require('./material-icon/webpack.config.js');
 const notchedOutlineBundles = require('./notched-outline/webpack.config.js');
-const rippleBundles = require('./ripple/webpack.config.js');
 const textFieldHelperTextBundles = require('./text-field/helper-text/webpack.config.js');
 const textFieldIconBundles = require('./text-field/icon/webpack.config.js');
 const topAppBarBundles = require('./top-app-bar/webpack.config.js');
@@ -18,7 +17,6 @@ module.exports = [
   ...lineRippleBundles,
   ...materialIconBundles,
   ...notchedOutlineBundles,
-  ...rippleBundles,
   ...textFieldHelperTextBundles,
   ...textFieldIconBundles,
   ...topAppBarBundles,
