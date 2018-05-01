@@ -6,6 +6,7 @@ export default [
   require('./floating-label/screenshot-suite').default,
   require('./material-icon/screenshot-suite').default,
   require('./notched-outline/screenshot-suite').default,
+  require('./text-field/helper-text/screenshot-suite').default,
   require('./text-field/icon/screenshot-suite').default,
   require('./top-app-bar/screenshot-suite').default,
 ];

@@ -1,21 +1,12 @@
-const buttonBundles = require('./button/webpack.config.js');
-const cardBundles = require('./card/webpack.config.js');
-const fabBundles = require('./fab/webpack.config.js');
-const floatingLabelBundles = require('./floating-label/webpack.config.js');
-const lineRippleBundles = require('./line-ripple/webpack.config.js');
-const materialIconBundles = require('./material-icon/webpack.config.js');
-const notchedOutlineBundles = require('./notched-outline/webpack.config.js');
-const textFieldIconBundles = require('./text-field/icon/webpack.config.js');
-const topAppBarBundles = require('./top-app-bar/webpack.config.js');
-
 module.exports = [
-  ...buttonBundles,
-  ...cardBundles,
-  ...fabBundles,
-  ...floatingLabelBundles,
-  ...lineRippleBundles,
-  ...materialIconBundles,
-  ...notchedOutlineBundles,
-  ...textFieldIconBundles,
-  ...topAppBarBundles,
+  ...require('./button/webpack.config.js'),
+  ...require('./card/webpack.config.js'),
+  ...require('./fab/webpack.config.js'),
+  ...require('./floating-label/webpack.config.js'),
+  ...require('./line-ripple/webpack.config.js'),
+  ...require('./material-icon/webpack.config.js'),
+  ...require('./notched-outline/webpack.config.js'),
+  ...require('./text-field/helper-text/webpack.config.js'),
+  ...require('./text-field/icon/webpack.config.js'),
+  ...require('./top-app-bar/webpack.config.js'),
 ];
