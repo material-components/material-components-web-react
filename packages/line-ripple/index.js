@@ -28,6 +28,9 @@ export default class LineRipple extends Component {
         this.foundation_.deactivate();
       }
     }
+    if (this.props.rippleCenter !== nextProps.rippleCenter) {
+      this.foundation_.setRippleCenter(nextProps.rippleCenter);
+    }
   }
 
   componentWillUnmount() {
@@ -71,6 +74,7 @@ export default class LineRipple extends Component {
       style, // eslint-disable-line no-unused-vars
       className, // eslint-disable-line no-unused-vars
       active, // eslint-disable-line no-unused-vars
+      rippleCenter, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
     return (
@@ -87,10 +91,12 @@ LineRipple.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   active: PropTypes.bool,
+  rippleCenter: PropTypes.number,
 };
 
 LineRipple.defaultProps = {
   className: '',
   style: {},
   active: false,
+  rippleCenter: 0,
 };
