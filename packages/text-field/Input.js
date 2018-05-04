@@ -12,8 +12,12 @@ export default class Input extends React.Component {
   constructor(props) {
     super(props);
     this.inputElement = React.createRef();
-    props.setBadInputHandler(() => this.inputElement.validity.badInput);
-    props.setIsValidHandler(() => this.inputElement.validity.valid);
+    props.setBadInputHandler(() => this.inputElement.current.validity.badInput);
+    props.setIsValidHandler(() => this.inputElement.current.validity.valid);
+  }
+
+  componentWillMount() {
+    this.props.handleValueChange(this.props.value);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,6 +77,10 @@ export default class Input extends React.Component {
       disabled,
       foundation,
       value,
+      updateFocus, // eslint-
+      handleValueChange, // eslint-
+      setBadInputHandler, // eslint-
+      setIsValidHandler, // eslint-
       ...otherProps
     } = this.props;
     return (
@@ -94,23 +102,22 @@ export default class Input extends React.Component {
 Input.propTypes = {
   disabled: PropTypes.bool,
   foundation: PropTypes.shape({
-    activateFocus: PropTypes.function,
-    deactivateFocus: PropTypes.function,
-    autoCompleteFocus: PropTypes.function,
-    setTransformOrigin: PropTypes.function,
-    setTransformOrigin: PropTypes.function,
-    handleValidationAttributeMutation_: PropTypes.function,
+    activateFocus: PropTypes.func,
+    deactivateFocus: PropTypes.func,
+    autoCompleteFocus: PropTypes.func,
+    setTransformOrigin: PropTypes.func,
+    setTransformOrigin: PropTypes.func,
+    handleValidationAttributeMutation_: PropTypes.func,
   }),
-  onBlur: PropTypes.function,
-  onChange: PropTypes.function,
-  onFocus: PropTypes.function,
-  onMouseDown: PropTypes.function,
-  onTouchStart: PropTypes.function,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  onMouseDown: PropTypes.func,
+  onTouchStart: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
-  validationAttributeChangeHandler: PropTypes.function,
 };
 
 Input.defaultProps = {
@@ -129,5 +136,4 @@ Input.defaultProps = {
   onMouseDown: () => {},
   onTouchStart: () => {},
   value: '',
-  validationAttributeChangeHandler: () => {},
 };

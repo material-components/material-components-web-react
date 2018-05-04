@@ -16,6 +16,9 @@
     "textfield"
   ],
   "dependencies": {
+    "@material/react-floating-label": "^0.0.0",
+    "@material/react-line-ripple": "^0.0.0",
+    "@material/react-notched-outline": "^0.0.0",
     "@material/textfield": "^0.35.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
