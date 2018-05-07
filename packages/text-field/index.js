@@ -25,11 +25,13 @@ export default class TextField extends React.Component {
       activeLineRipple: false,
 
       // root state
+      value: null,
       classList: new Set(),
-      inputId: props.children.props.id, // need to generate one if not provided
+      inputId: props.children.props.id,
       isFocused: false,
       isBadInput: false,
-      isValid: true,
+      dir: 'ltr',
+      disabled: false,
 
       // floating label state
       shouldFloatLabel: false, // needs to read off of props if should float
@@ -43,20 +45,21 @@ export default class TextField extends React.Component {
 
       // helper text state
       helperTextShowToScreenReader: false,
-      helperTextValid: false, // This should be the same as this.state.isValid?
-
-      // icon state
-      iconDisabled: false, // this should be the same as this.state.disabled?
+      isValid: true,
     };
   }
 
   componentDidMount() {
-    this.foundation_ = new MDCTextFieldFoundation(this.adapter);
+    const foundationMap = {
+      helperText: this.helperTextAdapter,
+    };
+    this.foundation_ = new MDCTextFieldFoundation(this.adapter, foundationMap);
     this.foundation_.init();
+  }
 
-    const {notch, notchWidth, isRtl} = this.props;
-    if (notch) {
-      this.foundation_.notch(notchWidth, isRtl);
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.value !== prevState.value) {
+      this.foundation_.setValue(this.state.value);
     }
   }
 
@@ -65,18 +68,22 @@ export default class TextField extends React.Component {
   }
 
   get classes() {
-    const {classList} = this.state;
+    const {classList, disabled} = this.state;
     const {className, box, dense, outlined, fullWidth, textarea, trailingIcon, leadingIcon} = this.props;
     return classnames('mdc-text-field', Array.from(classList), className, {
       'mdc-text-field--outlined': outlined,
       'mdc-text-field--textarea': textarea,
       'mdc-text-field--fullwidth': fullWidth,
-      // 'mdc-text-field--disabled': disabled,
+      'mdc-text-field--disabled': disabled,
       'mdc-text-field--with-trailing-icon': trailingIcon,
       'mdc-text-field--with-leading-icon': leadingIcon,
       'mdc-text-field--box': box,
       'mdc-text-field--dense': dense,
     });
+  }
+
+  getIsRtl = () => {
+    return this.props.isRtl !== null ? this.props.isRtl : this.state.dir;
   }
 
   /**
@@ -94,7 +101,7 @@ export default class TextField extends React.Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       isFocused: () => this.state.isFocused,
-      isRtl: () => this.props.isRtl,
+      isRtl: this.getIsRtl,
     };
 
     return Object.assign({},
@@ -103,7 +110,6 @@ export default class TextField extends React.Component {
       this.labelAdapter,
       this.lineRippleAdapter,
       this.notchedOutlineAdapter,
-      this.helperTextAdapter,
     );
   }
 
@@ -117,21 +123,30 @@ export default class TextField extends React.Component {
     // },
 
     return {
-      getNativeInput: () => ({
-        value: () => this.state.value,
-        validity: {
-          badInput: this.getBadInput(),
-          valid: this.getIsValid(),
-        },
-      })
+      getNativeInput: () => {
+        const input = {
+          validity: {
+            badInput: this.getBadInput(),
+            valid: this.getIsValid(),
+          },
+        };
+
+        // https://stackoverflow.com/a/44913378
+        Object.defineProperty(input, 'value', {
+          get: () => this.state.value,
+          set: (value) => this.setState({foundationValue: value}),
+        });
+
+        return input;
+      },
     };
   }
 
   get labelAdapter() {
     return {
-      shakeLabel: () => {
+      shakeLabel: (shakeLabel) => {
         const {floatingLabelElement: floatingLabel} = this;
-        if (floatingLabel && floatingLabel.current) {
+        if (shakeLabel && floatingLabel && floatingLabel.current) {
           floatingLabel.current.shake();
         }
       },
@@ -145,7 +160,7 @@ export default class TextField extends React.Component {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
-      setLineRippleTransformOrigin: (lineRippleCenter) => this.setState({rippleCenter: lineRippleCenter})
+      setLineRippleTransformOrigin: (lineRippleCenter) => this.setState({rippleCenter: lineRippleCenter}),
     };
   }
 
@@ -161,16 +176,9 @@ export default class TextField extends React.Component {
     return {
       showToScreenReader: () =>
         this.setState({helperTextShowToScreenReader: !this.state.helperTextShowToScreenReader}),
-      setValidity: (isValid) => this.setState({helperTextValid: isValid}),
+      setValidity: (isValid) => this.setState({isValid}),
     };
   }
-
-  get iconAdapter() {
-    return {
-      setDisabled: (disabled) => this.setState({iconDisabled: disabled})
-    };
-  }
-
 
   /**
   * render methods
@@ -180,17 +188,19 @@ export default class TextField extends React.Component {
     const {
       label,
       fullWidth,
+      helperText,
       outlined,
       leadingIcon,
       trailingIcon,
       textarea,
     } = this.props;
 
-    return (
+    const textField = [
       <div
         className={this.classes}
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
+        key='text-field-container'
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
         {this.renderInput()}
@@ -198,26 +208,39 @@ export default class TextField extends React.Component {
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
         {trailingIcon ? this.renderIcon(trailingIcon) : null}
-      </div>
-    );
+      </div>,
+    ];
+
+    if (helperText) {
+      textField.push(this.renderHelperText());
+    }
+    return textField;
   }
 
   renderInput() {
+    const {foundationValue} = this.state;
     const child = React.Children.only(this.props.children);
     const className = classnames('mdc-text-field__input', child.props.className);
     const props = Object.assign({}, child.props, {
       className,
+      foundationValue,
       foundation: this.foundation_,
       updateFocus: (isFocused) => this.setState({isFocused}),
       handleValueChange: (value) => this.setState({value}),
+      // These are callbacks for Input, which set validity.badInput &
+      // validity.valid.
       setBadInputHandler: (getBadInput) => this.getBadInput = getBadInput,
       setIsValidHandler: (getIsValid) => this.getIsValid = getIsValid,
+      setDisabled: (disabled) => this.setState({disabled}),
+      setDir: (dir) => this.setState({dir}),
+      setInputId: (id) => this.setState({inputId: id}),
     });
     return React.cloneElement(child, props);
   }
 
   renderLabel() {
     const {label, floatingLabelClassName} = this.props;
+    const {inputId} = this.state;
     return (
       <FloatingLabel
         className={floatingLabelClassName}
@@ -225,6 +248,7 @@ export default class TextField extends React.Component {
         handleWidthChange={
           (labelWidth) => this.setState({labelWidth})}
         ref={this.floatingLabelElement}
+        htmlFor={inputId}
       >
         {label}
       </FloatingLabel>
@@ -244,12 +268,12 @@ export default class TextField extends React.Component {
   }
 
   renderNotchedOutline() {
-    const {notchedOutlineClassName, isRtl} = this.props;
+    const {notchedOutlineClassName} = this.props;
     const {shouldNotchOutline, labelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={isRtl}
+        isRtl={this.getIsRtl()}
         notch={shouldNotchOutline}
         notchWidth={labelWidth}
       />
@@ -257,16 +281,19 @@ export default class TextField extends React.Component {
   }
 
   renderHelperText() {
-    const {helperTextAriaHidden, helperText, helperTextClassName, helperTextPersistent, helperTextRole} = this.props;
-    const {helperTextValid, helperTextShowToScreenReader} = this.state;
+    const {helperTextAriaHidden, helperTextIsValidation, helperText,
+      helperTextClassName, helperTextPersistent, helperTextRole} = this.props;
+    const {isValid, helperTextShowToScreenReader} = this.state;
     return (
       <HelperText
         className={helperTextClassName}
         showToScreenReader={helperTextShowToScreenReader}
-        isValid={helperTextValid}
+        isValid={isValid}
         role={helperTextRole}
+        key='text-field-helper-text'
         aria-hidden={helperTextAriaHidden}
         persistent={helperTextPersistent}
+        isValidation={helperTextIsValidation}
       >
         {helperText}
       </HelperText>
@@ -274,9 +301,10 @@ export default class TextField extends React.Component {
   }
 
   renderIcon(icon) {
-    const {iconDisabled} = this.state;
+    const {disabled} = this.state;
+    // Toggling disabled will trigger icon.foundation.setDisabled()
     return (
-      <Icon disabled={iconDisabled}>
+      <Icon disabled={disabled}>
         {icon}
       </Icon>
     );
@@ -284,33 +312,48 @@ export default class TextField extends React.Component {
 }
 
 TextField.propTypes = {
-  isRtl: PropTypes.bool,
-  leadingIcon: PropTypes.element,
-  trailingIcon: PropTypes.element,
-  label: PropTypes.string,
-  helperTextAriaHidden: PropTypes.bool,
-  helperTextClassName: PropTypes.string,
-  helperTextRole: PropTypes.string,
-  helperTextPersistent: PropTypes.bool,
-  helperTextValidation: PropTypes.bool,
-  lineRippleClassName: PropTypes.string,
-  floatingLabelClassName: PropTypes.string,
-  notchedOutlineClassName: PropTypes.string,
+  'box': PropTypes.bool,
+  'children.props': PropTypes.shape(Input.propTypes),
+  'children': PropTypes.element,
+  'className': PropTypes.string,
+  'dense': PropTypes.bool,
+  'floatingLabelClassName': PropTypes.string,
+  'fullWidth': PropTypes.bool,
+  'helperText': PropTypes.string,
+  'helperTextAriaHidden': PropTypes.bool,
+  'helperTextClassName': PropTypes.string,
+  'helperTextIsValidation': PropTypes.bool,
+  'helperTextPersistent': PropTypes.bool,
+  'helperTextRole': PropTypes.string,
+  'isRtl': PropTypes.bool,
+  'label': PropTypes.string.isRequired,
+  'leadingIcon': PropTypes.element,
+  'lineRippleClassName': PropTypes.string,
+  'notchedOutlineClassName': PropTypes.string,
+  'outlined': PropTypes.bool,
+  'textarea': PropTypes.element,
+  'trailingIcon': PropTypes.element,
 };
 
 TextField.defaultProps = {
-  isRtl: false,
-  leadingIcon: null,
-  trailingIcon: null,
+  box: false,
+  className: '',
+  dense: false,
+  floatingLabelClassName: '',
+  fullWidth: false,
+  helperText: null,
   helperTextAriaHidden: false,
   helperTextClassName: '',
-  herlpTextRole: null,
+  helperTextIsValidation: false,
   helperTextPersistent: false,
-  helperTextValidation: false,
-  label: '',
+  herlpTextRole: null,
+  isRtl: false,
+  leadingIcon: null,
   lineRippleClassName: '',
-  floatingLabelClassName: '',
   notchedOutlineClassName: '',
+  outlined: false,
+  textarea: null,
+  trailingIcon: null,
 };
 
 
