@@ -2,6 +2,12 @@
 
 MDC React Text Field is a React Component which uses MDC [MDC Text Field](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/)'s CSS and foundation JavaScript.
 
+## Installation
+
+```
+npm install @material/react-text-field
+```
+
 ## Props
 
 Prop Name | Type | Description
