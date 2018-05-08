@@ -89,7 +89,7 @@ const textFields = variants.map((variant) => {
 
 
 ReactDOM.render((
-  <div>
+  <div className='text-field-container'>
     {textFields}
   </div>
 ), document.getElementById('app'));
