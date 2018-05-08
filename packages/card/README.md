@@ -138,4 +138,4 @@ import {CardActionIcons} from '@material/react-card';
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-card/README.md)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-card/README.md#sass-mixins)
