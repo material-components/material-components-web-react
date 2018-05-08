@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 // whitelist based off of https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation
 // under section: `Validation-related attributes`
@@ -11,16 +12,21 @@ export default class Input extends React.Component {
   constructor(props) {
     super(props);
     this.inputElement = React.createRef();
-    props.setBadInputHandler(() => this.inputElement.current.validity.badInput);
-    props.setIsValidHandler(() => this.inputElement.current.validity.valid);
+    props.setBadInputHandler(this.setBadInputHandler);
+    props.setIsValidHandler(this.setIsValidHandler);
     this.state = {
       value: props.value,
     };
   }
 
+  setBadInputHandler = () => this.inputElement.current.validity.badInput;
+  setIsValidHandler = () => this.inputElement.current.validity.valid;
+
+  get classes() {
+    return classnames('mdc-text-field__input', this.props.className);
+  }
+
   componentDidMount() {
-    const dir = window.getComputedStyle(this.inputElement.current).getPropertyValue('direction');
-    this.props.setDir(dir);
     this.props.handleValueChange(this.props.value);
     if (this.props.id) {
       this.props.setInputId(this.props.id);
@@ -32,16 +38,7 @@ export default class Input extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const {foundation} = nextProps;
-    VALIDATION_ATTR_WHITELIST.some((attr) => {
-      if (this.props[attr] !== nextProps[attr]) {
-        // TODO: change this to public in MDC Web / create issue on Web
-        foundation.handleValidationAttributeMutation_([{
-          // TODO: MDC Web should be accepting an array of attrs (not a mutationObserver)
-          attributeName: VALIDATION_ATTR_WHITELIST[0],
-        }]);
-        return true;
-      }
-    });
+    this.handleValidationAttributeUpdate(nextProps);
 
     if (this.props.disabled !== nextProps.disabled) {
       nextProps.setDisabled(nextProps.disabled);
@@ -53,6 +50,20 @@ export default class Input extends React.Component {
     }
 
     this.updateValue(nextProps);
+  }
+
+  handleValidationAttributeUpdate = (nextProps) => {
+    const {foundation} = nextProps;
+    VALIDATION_ATTR_WHITELIST.some((attr) => {
+      if (this.props[attr] !== nextProps[attr]) {
+        // TODO: change this to public in MDC Web / create issue on Web
+        foundation.handleValidationAttributeMutation_([{
+          // TODO: MDC Web should be accepting an array of attrs (not a mutationObserver)
+          attributeName: VALIDATION_ATTR_WHITELIST[0],
+        }]);
+        return true;
+      }
+    });
   }
 
   // There are 2 sources that can update the input's value. 1) The end developer
@@ -113,6 +124,7 @@ export default class Input extends React.Component {
 
   render() {
     const {
+      className, // eslint-disable-line no-unused-vars
       disabled,
       foundation, // eslint-disable-line no-unused-vars
       value: _value, // eslint-disable-line no-unused-vars
@@ -123,7 +135,6 @@ export default class Input extends React.Component {
       setIsValidHandler, // eslint-disable-line no-unused-vars
       setDisabled, // eslint-disable-line no-unused-vars
       setInputId, // eslint-disable-line no-unused-vars
-      setDir, // eslint-disable-line no-unused-vars
       onFocus, // eslint-disable-line no-unused-vars
       onBlur, // eslint-disable-line no-unused-vars
       onMouseDown, // eslint-disable-line no-unused-vars
@@ -142,6 +153,7 @@ export default class Input extends React.Component {
         disabled={disabled}
         value={value}
         ref={this.inputElement}
+        className={this.classes}
         {...otherProps}
       />
     );
@@ -149,6 +161,7 @@ export default class Input extends React.Component {
 }
 
 Input.propTypes = {
+  className: PropTypes.string,
   disabled: PropTypes.bool,
   foundation: PropTypes.shape({
     activateFocus: PropTypes.func,
@@ -170,7 +183,6 @@ Input.propTypes = {
   onMouseDown: PropTypes.func,
   onTouchStart: PropTypes.func,
   setBadInputHandler: PropTypes.func,
-  setDir: PropTypes.func,
   setDisabled: PropTypes.func,
   setInputId: PropTypes.func,
   setIsValidHandler: PropTypes.func,
@@ -182,12 +194,12 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  className: '',
   disabled: false,
   foundation: {
     activateFocus: () => {},
     deactivateFocus: () => {},
     autoCompleteFocus: () => {},
-    setTransformOrigin: () => {},
     setTransformOrigin: () => {},
     handleValidationAttributeMutation_: () => {},
   },
@@ -200,7 +212,6 @@ Input.defaultProps = {
   onMouseDown: () => {},
   onTouchStart: () => {},
   setBadInputHandler: () => {},
-  setDir: () => {},
   setDisabled: () => {},
   setInputId: () => {},
   setIsValidHandler: () => {},

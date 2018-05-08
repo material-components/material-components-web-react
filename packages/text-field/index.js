@@ -19,6 +19,7 @@ export default class TextField extends React.Component {
   constructor(props) {
     super(props);
     this.floatingLabelElement = React.createRef();
+    this.textFieldElement = React.createRef();
 
     this.state = {
       // line ripple state
@@ -83,7 +84,10 @@ export default class TextField extends React.Component {
   }
 
   getIsRtl = () => {
-    return this.props.isRtl !== null ? this.props.isRtl : this.state.dir;
+    if (this.textFieldElement.current) {
+      const dir = window.getComputedStyle(this.textFieldElement.current).getPropertyValue('direction');
+      return dir === 'rtl';
+    }
   }
 
   /**
@@ -201,6 +205,7 @@ export default class TextField extends React.Component {
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         key='text-field-container'
+        ref={this.textFieldElement}
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
         {this.renderInput()}
@@ -220,9 +225,7 @@ export default class TextField extends React.Component {
   renderInput() {
     const {foundationValue} = this.state;
     const child = React.Children.only(this.props.children);
-    const className = classnames('mdc-text-field__input', child.props.className);
     const props = Object.assign({}, child.props, {
-      className,
       foundationValue,
       foundation: this.foundation_,
       updateFocus: (isFocused) => this.setState({isFocused}),
@@ -232,7 +235,6 @@ export default class TextField extends React.Component {
       setBadInputHandler: (getBadInput) => this.getBadInput = getBadInput,
       setIsValidHandler: (getIsValid) => this.getIsValid = getIsValid,
       setDisabled: (disabled) => this.setState({disabled}),
-      setDir: (dir) => this.setState({dir}),
       setInputId: (id) => this.setState({inputId: id}),
     });
     return React.cloneElement(child, props);
@@ -347,7 +349,7 @@ TextField.defaultProps = {
   helperTextIsValidation: false,
   helperTextPersistent: false,
   herlpTextRole: null,
-  isRtl: false,
+  isRtl: null,
   leadingIcon: null,
   lineRippleClassName: '',
   notchedOutlineClassName: '',
