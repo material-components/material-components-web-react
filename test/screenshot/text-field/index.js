@@ -8,14 +8,14 @@ import '../../../packages/text-field/index.scss';
 import './index.scss';
 
 class TestField extends React.Component {
-  state = {value: 'MEOW'};
+  state = {value: 'woof'};
   render() {
     const {
       disabled, id, isRtl, ...otherProps // eslint-disable-line react/prop-types
     } = this.props;
     return (
       <div dir={isRtl ? 'rtl' : 'ltr'}>
-        <TextField label='Cat' {...otherProps} className='text-field'>
+        <TextField label='Dog' {...otherProps} className='text-field'>
           <Input value={this.state.value}
             id={id}
             disabled={disabled}
