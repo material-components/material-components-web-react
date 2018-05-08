@@ -34,6 +34,11 @@ test('#componentDidMount creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
+test('#componentDidMount calls setValidation to true if isValidation is set', () => {
+  const wrapper = shallow(<HelperText isValidation />);
+  assert.isTrue(wrapper.state().classList.has('mdc-text-field-helper-text--validation-msg'));
+});
+
 test('initially sets aria-hidden correctly', () => {
   const wrapper = shallow(<HelperText aria-hidden />);
   assert.isTrue(wrapper.state()['aria-hidden']);
@@ -70,15 +75,39 @@ test('#componentWillReceiveProps calls #foundation.setValidity if ' +
   td.verify(wrapper.instance().foundation_.setValidity(false), {times: 1});
 });
 
+test('#componentWillReceiveProps calls setValidation to true if props.isValidation updates', () => {
+  const wrapper = shallow(<HelperText />);
+  wrapper.instance().foundation_.setValidation = td.func();
+  wrapper.setProps({isValidation: true});
+  td.verify(wrapper.instance().foundation_.setValidation(true), {times: 1});
+});
+
 test('#componentWillReceiveProps neither calls #showToScreenReader nor ' +
   'setValidity if another prop updates', () => {
   const wrapper = shallow(<HelperText />);
   wrapper.instance().foundation_.showToScreenReader = td.func();
   wrapper.instance().foundation_.setValidity = td.func();
+  wrapper.instance().foundation_.setValidation = td.func();
   wrapper.setProps({persistent: true});
 
   td.verify(wrapper.instance().foundation_.showToScreenReader(td.matchers.isA(Boolean)), {times: 0});
   td.verify(wrapper.instance().foundation_.setValidity(td.matchers.isA(Boolean)), {times: 0});
+  td.verify(wrapper.instance().foundation_.setValidation(td.matchers.isA(Boolean)), {times: 0});
+});
+
+test('#adapter.addClass updates state.classList', () => {
+  const wrapper = shallow(<HelperText/>);
+  wrapper.instance().foundation_.adapter_.addClass('test-class-name');
+  assert.isTrue(wrapper.state().classList.has('test-class-name'));
+});
+
+test('#adapter.removeClass updates state.classList', () => {
+  const wrapper = shallow(<HelperText/>);
+  const classList = new Set();
+  classList.add('test-class-name');
+  wrapper.setState({classList});
+  wrapper.instance().foundation_.adapter_.removeClass('test-class-name');
+  assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
 test('#adapter.hasClass', () => {

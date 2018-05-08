@@ -12,6 +12,7 @@ export default class HelperText extends React.Component {
     this.state = {
       'aria-hidden': props['aria-hidden'],
       'role': props.role,
+      'classList': new Set(),
     };
   }
 
@@ -57,6 +58,13 @@ export default class HelperText extends React.Component {
 
   get adapter() {
     return {
+      addClass: (className) =>
+        this.setState({classList: this.state.classList.add(className)}),
+      removeClass: (className) => {
+        const {classList} = this.state;
+        classList.delete(className);
+        this.setState({classList});
+      },
       hasClass: (className) => this.classes.split(' ').includes(className),
       setAttr: (attr, value) => this.setState({[attr]: value}),
       removeAttr: (attr) => this.setState({[attr]: null}),
