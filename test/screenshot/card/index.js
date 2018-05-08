@@ -17,28 +17,6 @@ const imageUrl = './../images/1-1.jpg';
 
 // TODO: swap mdc-button for @material/button
 
-const BasicCard = () => {
-  return (
-    <Card className='basic-card'>
-      <CardPrimaryContent>
-        <CardMedia className='basic-card-image' imageUrl={imageUrl} />
-        <div className='basic-card-header'>
-          <h2 className='mdc-typography--body1 card-title'>Copper</h2>
-        </div>
-      </CardPrimaryContent>
-      <CardActions>
-        <CardActionButtons>
-          <button className='mdc-button'>Leave Comment</button>
-        </CardActionButtons>
-        <CardActionIcons>
-          <MaterialIcon icon='thumb_up'/>
-          <MaterialIcon icon='thumb_down'/>
-        </CardActionIcons>
-      </CardActions>
-    </Card>
-  );
-};
-
 const HorizontalCard = () => {
   return (
     <Card className='horizontal-card'>
@@ -138,7 +116,6 @@ const ContentOnMediaCard = () => {
 
 ReactDOM.render((
   <div>
-    <BasicCard />
     <HorizontalCard />
     <NewsCard />
     <ContentOnMediaCard />
