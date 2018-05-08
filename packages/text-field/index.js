@@ -10,7 +10,7 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
-export default class TextField extends React.Component {
+class TextField extends React.Component {
 
   foundation_ = null;
   getBadInput = () => {};
@@ -199,7 +199,7 @@ export default class TextField extends React.Component {
       textarea,
     } = this.props;
 
-    const textField = [
+    const textField = (
       <div
         className={this.classes}
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
@@ -213,19 +213,20 @@ export default class TextField extends React.Component {
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
         {trailingIcon ? this.renderIcon(trailingIcon) : null}
-      </div>,
-    ];
+      </div>
+    );
 
     if (helperText) {
-      textField.push(this.renderHelperText());
+      return ([
+        textField, this.renderHelperText(),
+      ]);
     }
     return textField;
   }
 
-  renderInput() {
+  inputProps = (props) => {
     const {foundationValue} = this.state;
-    const child = React.Children.only(this.props.children);
-    const props = Object.assign({}, child.props, {
+    return Object.assign({}, props, {
       foundationValue,
       foundation: this.foundation_,
       updateFocus: (isFocused) => this.setState({isFocused}),
@@ -237,6 +238,11 @@ export default class TextField extends React.Component {
       setDisabled: (disabled) => this.setState({disabled}),
       setInputId: (id) => this.setState({inputId: id}),
     });
+  }
+
+  renderInput() {
+    const child = React.Children.only(this.props.children);
+    const props = this.inputProps(child.props);
     return React.cloneElement(child, props);
   }
 
@@ -333,7 +339,7 @@ TextField.propTypes = {
   'lineRippleClassName': PropTypes.string,
   'notchedOutlineClassName': PropTypes.string,
   'outlined': PropTypes.bool,
-  'textarea': PropTypes.element,
+  'textarea': PropTypes.bool,
   'trailingIcon': PropTypes.element,
 };
 
@@ -354,9 +360,10 @@ TextField.defaultProps = {
   lineRippleClassName: '',
   notchedOutlineClassName: '',
   outlined: false,
-  textarea: null,
+  textarea: false,
   trailingIcon: null,
 };
 
 
 export {Input};
+export default TextField;
