@@ -117,13 +117,13 @@ test('#adapter.isRtl returns true if the direction is true', () => {
   const div = document.createElement('div');
   // needs to be attached to real DOM to get width
   // https://github.com/airbnb/enzyme/issues/1525
-  document.body.style.direction = "rtl";
+  document.body.style.direction = 'rtl';
   document.body.append(div);
   const options = {attachTo: div};
   const wrapper = mount(
     <TextField label='my label'><Input /></TextField>, options);
   assert.isTrue(wrapper.instance().foundation_.adapter_.isRtl());
-  document.body.style.direction = "initial";
+  document.body.style.direction = 'initial';
   div.remove();
 });
 
@@ -163,7 +163,7 @@ test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
   wrapper.instance().floatingLabelElement = td.object({
     current: td.object({
       shake: td.func(),
-    })
+    }),
   });
 
   wrapper.instance().foundation_.adapter_.shakeLabel(true);
@@ -175,7 +175,7 @@ test('#adapter.label.shakeLabel does not call floatingLabelElement shake if fals
   wrapper.instance().floatingLabelElement = td.object({
     current: td.object({
       shake: td.func(),
-    })
+    }),
   });
 
   wrapper.instance().foundation_.adapter_.shakeLabel(false);

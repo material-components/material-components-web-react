@@ -15,7 +15,7 @@ class TestField extends React.Component {
     } = this.props;
     return (
       <div dir={isRtl ? 'rtl' : 'ltr'}>
-        <TextField label='Cat' {...otherProps}>
+        <TextField label='Cat' {...otherProps} className='text-field'>
           <Input value={this.state.value}
             id={id}
             disabled={disabled}

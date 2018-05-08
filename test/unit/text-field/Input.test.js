@@ -14,7 +14,7 @@ test('classNames adds classes', () => {
 
 test('constructor calls props.setBadInputHandler()', () => {
   const setBadInputHandler = td.func();
-  const wrapper = shallow(<Input setBadInputHandler={setBadInputHandler} />);
+  shallow(<Input setBadInputHandler={setBadInputHandler} />);
   td.verify(setBadInputHandler(td.matchers.isA(Function)), {times: 1});
 });
 
@@ -38,25 +38,25 @@ test('#isValidHandler returns false if input is invalid', () => {
 
 test('constructor calls props.setIsValidHandler()', () => {
   const setIsValidHandler = td.func();
-  const wrapper = shallow(<Input setIsValidHandler={setIsValidHandler} />);
+  shallow(<Input setIsValidHandler={setIsValidHandler} />);
   td.verify(setIsValidHandler(td.matchers.isA(Function)), {times: 1});
 });
 
 test('#componentDidMount should call props.handleValueChange', () => {
   const handleValueChange = td.func();
-  const wrapper = shallow(<Input handleValueChange={handleValueChange} value='woof'/>);
+  shallow(<Input handleValueChange={handleValueChange} value='woof'/>);
   td.verify(handleValueChange('woof'), {times: 1});
 });
 
 test('#componentDidMount should call props.setInputId if props.id exists', () => {
   const setInputId = td.func();
-  const wrapper = shallow(<Input setInputId={setInputId} id='best-id'/>);
+  shallow(<Input setInputId={setInputId} id='best-id'/>);
   td.verify(setInputId('best-id'), {times: 1});
 });
 
 test('#componentDidMount should call props.disabled if props.disabled is true', () => {
   const setDisabled = td.func();
-  const wrapper = shallow(<Input setDisabled={setDisabled} disabled />);
+  shallow(<Input setDisabled={setDisabled} disabled />);
   td.verify(setDisabled(true), {times: 1});
 });
 
@@ -77,7 +77,7 @@ test('#componentDidMount should not call any method if disabled and id do not ex
   const setDisabled = td.func();
   const setInputId = td.func();
 
-  const wrapper = shallow(<Input
+  shallow(<Input
     setInputId={setInputId}
     setDisabled={setDisabled}
     disabled={false} />);
@@ -91,7 +91,7 @@ test('#componentWillReceiveProps calls handleValidationAttributeMutation_ when '
   const wrapper = shallow(<Input foundation={foundation} />);
   wrapper.setProps({required: true});
   td.verify(foundation.handleValidationAttributeMutation_([{
-    attributeName: 'pattern'
+    attributeName: 'pattern',
   }]), {times: 1});
 });
 
