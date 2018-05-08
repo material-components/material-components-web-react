@@ -78,13 +78,11 @@ const newsContent = [{
   + 'escaped...',
 }, {
   title: 'Copper on the rise',
-  snippet: 'Located within the lower crescent of America '
-  + 'sandwiched between what once was colonial France...',
+  snippet: 'Located within the lower crescent of America...',
 }, {
   title: 'Is coffee heatlhy?',
   snippet: 'The reduction in risk was more significant once people reached the'
-  + ' age of 45, suggesting that it may be even more beneficial to consume coffee'
-  + ' as we get older.',
+  + ' age of 45, suggesting that it may be even more beneficial...',
 }];
 
 const NewsCard = () => {
