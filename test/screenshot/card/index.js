@@ -16,6 +16,24 @@ import MaterialIcon from '../../../packages/material-icon';
 const imageUrl = './../images/1-1.jpg';
 
 // TODO: swap mdc-button for @material/button
+const BasicCard = () => {
+  return (
+    <Card className='basic-card'>
+      <CardPrimaryContent>
+        <CardMedia className='basic-card-image' imageUrl={imageUrl} />
+      </CardPrimaryContent>
+      <CardActions>
+        <CardActionButtons>
+          <button className='mdc-button'>Leave Comment</button>
+        </CardActionButtons>
+        <CardActionIcons>
+          <MaterialIcon icon='thumb_up'/>
+          <MaterialIcon icon='thumb_down'/>
+        </CardActionIcons>
+      </CardActions>
+    </Card>
+  );
+};
 
 const HorizontalCard = () => {
   return (
@@ -114,6 +132,7 @@ const ContentOnMediaCard = () => {
 
 ReactDOM.render((
   <div>
+    <BasicCard />
     <HorizontalCard />
     <NewsCard />
     <ContentOnMediaCard />
