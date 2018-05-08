@@ -24,7 +24,7 @@ const BasicCard = () => {
         <CardMedia className='basic-card-image' imageUrl={imageUrl} />
         <div className='basic-card-header'>
           <h2 className='mdc-typography--body1 card-title'>Copper</h2>
-          <h3 className='mdc-typography--subheading1 card-subtitle'>
+          <h3 className='mdc-typography--heading6 card-subtitle'>
             Metal
           </h3>
         </div>
@@ -90,7 +90,6 @@ const newsContent = [{
 const NewsCard = () => {
   return (
     <Card className='news-card' stroked>
-      <h2 className='news-card-headline mdc-typography--subheading1'>Headlines</h2>
       {newsContent.map((content, index) =>
         <NewsRow {...content} key={index} index={index} />)}
       <hr className='mdc-list-divider'/>
@@ -126,7 +125,7 @@ const ContentOnMediaCard = () => {
           className='content-on-media-card-image'
           imageUrl={imageUrl}
         >
-          <div className='content-on-media-content__text mdc-typography--subheading2'>
+          <div className='content-on-media-content__text mdc-typography--subtitle1'>
             Vacation Images
           </div>
         </CardMedia>
