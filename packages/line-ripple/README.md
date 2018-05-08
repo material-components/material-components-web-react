@@ -8,6 +8,18 @@ MDC React Line Ripple is a component for material icons.
 npm install @material/react-line-ripple
 ```
 
+## Usage
+
+```js
+import FloatingLabel from '@material/react-floating-label';
+
+const MyComponent = () => {
+  return (
+    <LineRipple />
+  );
+}
+```
+
 ## Props
 
 Prop Name | Type | Description
@@ -16,3 +28,10 @@ active | boolean | Activates or deactivates the line ripple state.
 className | string | Classes to be applied to the root element.
 rippleCenter | number | Sets the center of the ripple animation.
 style | object | Inline styles of root element.
+
+## Sass Mixins
+
+Sass mixins may be available to customize various aspects of the components. Please refer to the
+MDC Web repository for more information on what mixins are available, and how to use them.
+
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-line-ripple/README.md#advanced-sass-mixins)

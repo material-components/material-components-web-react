@@ -131,3 +131,11 @@ import {CardActionIcons} from '@material/react-card';
   <i onClick={ ... }>Icon 2</i>
 </CardActionIcons>
 ```
+
+
+## Sass Mixins
+
+Sass mixins may be available to customize various aspects of the Components. Please refer to the
+MDC Web repository for more information on what mixins are available, and how to use them.
+
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-card/README.md)
