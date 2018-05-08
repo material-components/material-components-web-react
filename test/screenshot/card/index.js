@@ -75,7 +75,7 @@ const newsContent = [{
   + 'escaped...',
 }, {
   title: 'Copper on the rise',
-  snippet: 'Located within the lower crescent of America...',
+  snippet: 'Located within the lower crescent of...',
 }, {
   title: 'Is coffee heatlhy?',
   snippet: 'The reduction in risk was more significant once people reached the'
