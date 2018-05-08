@@ -16,18 +16,11 @@ import MaterialIcon from '../../../packages/material-icon';
 const imageUrl = './../images/1-1.jpg';
 
 // TODO: swap mdc-button for @material/button
-
 const BasicCard = () => {
   return (
     <Card className='basic-card'>
       <CardPrimaryContent>
         <CardMedia className='basic-card-image' imageUrl={imageUrl} />
-        <div className='basic-card-header'>
-          <h2 className='mdc-typography--body1 card-title'>Copper</h2>
-          <h3 className='mdc-typography--subheading1 card-subtitle'>
-            Metal
-          </h3>
-        </div>
       </CardPrimaryContent>
       <CardActions>
         <CardActionButtons>
@@ -74,23 +67,18 @@ const HorizontalCard = () => {
 
 const newsContent = [{
   title: 'Baboons escape',
-  snippet: 'Four baboons, having clearly read too much dystopian fiction, '
-  + 'escaped...',
+  snippet: 'Four baboons, having clearly read too much dystopian fiction...',
 }, {
   title: 'Copper on the rise',
-  snippet: 'Located within the lower crescent of America '
-  + 'sandwiched between what once was colonial France...',
+  snippet: 'Located within the lower crescent of...',
 }, {
   title: 'Is coffee heatlhy?',
-  snippet: 'The reduction in risk was more significant once people reached the'
-  + ' age of 45, suggesting that it may be even more beneficial to consume coffee'
-  + ' as we get older.',
+  snippet: 'The reduction in risk was more significant once people reached...',
 }];
 
 const NewsCard = () => {
   return (
     <Card className='news-card' stroked>
-      <h2 className='news-card-headline mdc-typography--subheading1'>Headlines</h2>
       {newsContent.map((content, index) =>
         <NewsRow {...content} key={index} index={index} />)}
       <hr className='mdc-list-divider'/>
@@ -126,7 +114,7 @@ const ContentOnMediaCard = () => {
           className='content-on-media-card-image'
           imageUrl={imageUrl}
         >
-          <div className='content-on-media-content__text mdc-typography--subheading2'>
+          <div className='content-on-media-content__text mdc-typography--subtitle1'>
             Vacation Images
           </div>
         </CardMedia>
