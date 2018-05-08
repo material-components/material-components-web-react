@@ -49,15 +49,13 @@ const HorizontalCard = () => {
 
 const newsContent = [{
   title: 'Baboons escape',
-  snippet: 'Four baboons, having clearly read too much dystopian fiction, '
-  + 'escaped...',
+  snippet: 'Four baboons, having clearly read too much dystopian fiction...',
 }, {
   title: 'Copper on the rise',
   snippet: 'Located within the lower crescent of...',
 }, {
   title: 'Is coffee heatlhy?',
-  snippet: 'The reduction in risk was more significant once people reached the'
-  + ' age of 45, suggesting that it may be even more beneficial...',
+  snippet: 'The reduction in risk was more significant once people reached...',
 }];
 
 const NewsCard = () => {
