@@ -18,9 +18,22 @@ test('constructor calls props.setBadInputHandler()', () => {
   td.verify(setBadInputHandler(td.matchers.isA(Function)), {times: 1});
 });
 
-test('#setBadInputHandler returns false if input is ok', () => {
-  const wrapper = shallow(<Input />);
+test('#badInputHandler returns false if input is ok', () => {
+  const wrapper = mount(<Input value='meow'/>);
+  const isBadInput = wrapper.instance().badInputHandler();
+  assert.isFalse(isBadInput);
+});
 
+test('#isValidHandler returns true if input is valid', () => {
+  const wrapper = mount(<Input value='m' pattern='[a-z]'/>);
+  const isValidInput = wrapper.instance().isValidHandler();
+  assert.isTrue(isValidInput);
+});
+
+test('#isValidHandler returns false if input is invalid', () => {
+  const wrapper = mount(<Input value='meow' pattern='[a-z]'/>);
+  const isValidInput = wrapper.instance().isValidHandler();
+  assert.isFalse(isValidInput);
 });
 
 test('constructor calls props.setIsValidHandler()', () => {
@@ -43,8 +56,21 @@ test('#componentDidMount should call props.setInputId if props.id exists', () =>
 
 test('#componentDidMount should call props.disabled if props.disabled is true', () => {
   const setDisabled = td.func();
-  const wrapper = shallow(<Input setDisabled={setDisabled} disabled={true} />);
+  const wrapper = shallow(<Input setDisabled={setDisabled} disabled />);
   td.verify(setDisabled(true), {times: 1});
+});
+
+test('#componentDidMount does not error if props.disabled is true and no setDisabled method is provided', () => {
+  shallow(<Input disabled />);
+});
+
+test('#componentDidMount does not throw errow if props.id is passed', () => {
+  shallow(<Input id='123-best-id' />);
+});
+
+test('#componentDidMount does not throw errow if validation attr is updated', () => {
+  const wrapper = shallow(<Input />);
+  wrapper.setProps({required: true});
 });
 
 test('#componentDidMount should not call any method if disabled and id do not exist', () => {

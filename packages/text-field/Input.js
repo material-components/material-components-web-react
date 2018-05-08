@@ -12,15 +12,15 @@ export default class Input extends React.Component {
   constructor(props) {
     super(props);
     this.inputElement = React.createRef();
-    props.setBadInputHandler(this.setBadInputHandler);
-    props.setIsValidHandler(this.setIsValidHandler);
+    props.setBadInputHandler(this.badInputHandler);
+    props.setIsValidHandler(this.isValidHandler);
     this.state = {
       value: props.value,
     };
   }
 
-  setBadInputHandler = () => this.inputElement.current.validity.badInput;
-  setIsValidHandler = () => this.inputElement.current.validity.valid;
+  badInputHandler = () => this.inputElement.current.validity.badInput;
+  isValidHandler = () => this.inputElement.current.validity.valid;
 
   get classes() {
     return classnames('mdc-text-field__input', this.props.className);
