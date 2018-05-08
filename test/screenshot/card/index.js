@@ -24,9 +24,6 @@ const BasicCard = () => {
         <CardMedia className='basic-card-image' imageUrl={imageUrl} />
         <div className='basic-card-header'>
           <h2 className='mdc-typography--body1 card-title'>Copper</h2>
-          <h3 className='mdc-typography--heading6 card-subtitle'>
-            Metal
-          </h3>
         </div>
       </CardPrimaryContent>
       <CardActions>
