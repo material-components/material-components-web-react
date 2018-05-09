@@ -1,6 +1,6 @@
 # React Floating Label
 
-MDC React Floating Label is as a React container around MDC Floating Label. Please see [MDC Fab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-floating-label).
+A React version of an [MDC Floating Label](https://github.com/material-components/material-components-web/tree/master/packages/mdc-floating-label).
 
 ## Installation
 
