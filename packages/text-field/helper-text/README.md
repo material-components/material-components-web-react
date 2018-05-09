@@ -24,6 +24,7 @@ aria-hidden | Boolean | Toggles aria-hidden functionality.
 children | String or Element | Required. Text to be displayed as helper text.
 className | String | CSS classes for element.
 isValid | Boolean | When toggled will style the helper text component.
+isValidationMessage | Boolean | If true, the helper text is treated as a validation message.
 persistent | Boolean | If true, always shows the helper text.
 role | String | Sets role on HTML element.
 showToScreenReader | Boolean | toggles the aria-hidden property to allow element to be visible to the screen reader.
