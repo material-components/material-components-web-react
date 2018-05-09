@@ -75,11 +75,12 @@ export default class Input extends React.Component {
     const valueChanged = this.props.value !== nextProps.value;
     const foundationValueChanged = this.props.foundationValue !== nextProps.foundationValue;
 
-    if (foundationValueChanged) {
-      this.setState({value: nextProps.foundationValue});
-    }
     if (valueChanged) {
       this.setState({value: nextProps.value});
+      return;
+    }
+    if (foundationValueChanged) {
+      this.setState({value: nextProps.foundationValue});
     }
   }
 
@@ -124,22 +125,24 @@ export default class Input extends React.Component {
 
   render() {
     const {
-      className, // eslint-disable-line no-unused-vars
       disabled,
-      foundation, // eslint-disable-line no-unused-vars
-      value: _value, // eslint-disable-line no-unused-vars
-      foundationValue, // eslint-disable-line no-unused-vars
-      updateFocus, // eslint-disable-line no-unused-vars
-      handleValueChange, // eslint-disable-line no-unused-vars
-      setBadInputHandler, // eslint-disable-line no-unused-vars
-      setIsValidHandler, // eslint-disable-line no-unused-vars
-      setDisabled, // eslint-disable-line no-unused-vars
-      setInputId, // eslint-disable-line no-unused-vars
-      onFocus, // eslint-disable-line no-unused-vars
-      onBlur, // eslint-disable-line no-unused-vars
-      onMouseDown, // eslint-disable-line no-unused-vars
-      onTouchStart, // eslint-disable-line no-unused-vars
-      onChange, // eslint-disable-line no-unused-vars
+      /* eslint-disable no-unused-vars */
+      className,
+      foundation,
+      value: _value,
+      foundationValue,
+      updateFocus,
+      handleValueChange,
+      setBadInputHandler,
+      setIsValidHandler,
+      setDisabled,
+      setInputId,
+      onFocus,
+      onBlur,
+      onMouseDown,
+      onTouchStart,
+      onChange,
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
     const {value} = this.state;

@@ -35,7 +35,7 @@ class TextField extends React.Component {
       disabled: false,
 
       // floating label state
-      shouldFloatLabel: false, // needs to read off of props if should float
+      shouldFloatLabel: false,
       labelWidth: 0,
 
       // line ripple state
@@ -48,6 +48,22 @@ class TextField extends React.Component {
       helperTextShowToScreenReader: false,
       isValid: true,
     };
+  }
+
+  inputProps(props) {
+    const {foundationValue} = this.state;
+    return Object.assign({}, props, {
+      foundationValue,
+      foundation: this.foundation_,
+      updateFocus: (isFocused) => this.setState({isFocused}),
+      handleValueChange: (value) => this.setState({value}),
+      // These are callbacks for Input, which set validity.badInput &
+      // validity.valid.
+      setBadInputHandler: (getBadInput) => this.getBadInput = getBadInput,
+      setIsValidHandler: (getIsValid) => this.getIsValid = getIsValid,
+      setDisabled: (disabled) => this.setState({disabled}),
+      setInputId: (id) => this.setState({inputId: id}),
+    });
   }
 
   componentDidMount() {
@@ -68,6 +84,17 @@ class TextField extends React.Component {
     this.foundation_.destroy();
   }
 
+  getIsRtl = () => {
+    if (this.textFieldElement.current) {
+      const dir = window.getComputedStyle(this.textFieldElement.current).getPropertyValue('direction');
+      return dir === 'rtl';
+    }
+  }
+
+  /**
+  * getters
+  */
+
   get classes() {
     const {classList, disabled} = this.state;
     const {className, box, dense, outlined, fullWidth, textarea, trailingIcon, leadingIcon} = this.props;
@@ -82,17 +109,6 @@ class TextField extends React.Component {
       'mdc-text-field--dense': dense,
     });
   }
-
-  getIsRtl = () => {
-    if (this.textFieldElement.current) {
-      const dir = window.getComputedStyle(this.textFieldElement.current).getPropertyValue('direction');
-      return dir === 'rtl';
-    }
-  }
-
-  /**
-  * adapter methods
-  */
 
   get adapter() {
     const rootAdapterMethods = {
@@ -164,7 +180,7 @@ class TextField extends React.Component {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
-      setLineRippleTransformOrigin: (lineRippleCenter) => this.setState({rippleCenter: lineRippleCenter}),
+      setLineRippleTransformOrigin: (rippleCenter) => this.setState({rippleCenter}),
     };
   }
 
@@ -222,22 +238,6 @@ class TextField extends React.Component {
       ]);
     }
     return textField;
-  }
-
-  inputProps = (props) => {
-    const {foundationValue} = this.state;
-    return Object.assign({}, props, {
-      foundationValue,
-      foundation: this.foundation_,
-      updateFocus: (isFocused) => this.setState({isFocused}),
-      handleValueChange: (value) => this.setState({value}),
-      // These are callbacks for Input, which set validity.badInput &
-      // validity.valid.
-      setBadInputHandler: (getBadInput) => this.getBadInput = getBadInput,
-      setIsValidHandler: (getIsValid) => this.getIsValid = getIsValid,
-      setDisabled: (disabled) => this.setState({disabled}),
-      setInputId: (id) => this.setState({inputId: id}),
-    });
   }
 
   renderInput() {
