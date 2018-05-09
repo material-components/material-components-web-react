@@ -46,12 +46,6 @@ test('#componentDidMount creates foundation', () => {
 });
 
 test('#componentDidMount calls #foundation.setDisabled if disabled prop is true', () => {
-  const wrapper = shallow(<Icon disabled><i /></Icon>);
-  assert.equal(wrapper.state().tabindex, undefined);
-  assert.equal(wrapper.state().role, undefined);
-});
-
-test('#componentDidMount calls #foundation.setDisabled if disabled prop is true', () => {
   const wrapper = shallow(<Icon disabled><i tabIndex='0'/></Icon>);
   assert.equal(wrapper.state().tabindex, '-1');
   assert.equal(wrapper.state().role, undefined);
