@@ -12,6 +12,7 @@ export default class HelperText extends React.Component {
     this.state = {
       'aria-hidden': props['aria-hidden'],
       'role': props.role,
+      'classList': new Set(),
     };
   }
 
@@ -25,6 +26,9 @@ export default class HelperText extends React.Component {
     if (!this.props.isValid) {
       this.foundation_.setValidity(false);
     }
+    if (this.props.isValidationMessage) {
+      this.foundation_.setValidation(true);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,6 +37,9 @@ export default class HelperText extends React.Component {
     }
     if (this.props.isValid !== nextProps.isValid) {
       this.foundation_.setValidity(nextProps.isValid);
+    }
+    if (this.props.isValidationMessage !== nextProps.isValidationMessage) {
+      this.foundation_.setValidation(nextProps.isValidationMessage);
     }
   }
 
@@ -51,6 +58,13 @@ export default class HelperText extends React.Component {
 
   get adapter() {
     return {
+      addClass: (className) =>
+        this.setState({classList: this.state.classList.add(className)}),
+      removeClass: (className) => {
+        const {classList} = this.state;
+        classList.delete(className);
+        this.setState({classList});
+      },
       hasClass: (className) => this.classes.split(' ').includes(className),
       setAttr: (attr, value) => this.setState({[attr]: value}),
       removeAttr: (attr) => this.setState({[attr]: null}),
@@ -75,6 +89,7 @@ HelperText.propTypes = {
   'children': PropTypes.node,
   'className': PropTypes.string,
   'isValid': PropTypes.bool,
+  'isValidationMessage': PropTypes.bool,
   'persistent': PropTypes.bool,
   'role': PropTypes.string,
   'showToScreenReader': PropTypes.bool,
@@ -86,6 +101,7 @@ HelperText.defaultProps = {
   'children': null,
   'className': '',
   'isValid': true,
+  'isValidationMessage': false,
   'persistent': false,
   'role': null,
   'showToScreenReader': false,

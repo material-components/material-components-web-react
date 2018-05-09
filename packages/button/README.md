@@ -30,12 +30,12 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
-raised | n/a | Enables raised variant.
-unelevated | n/a | Enables unelevated variant.
-stroked | n/a | Enables stroked variant.
+raised | Boolean | Enables raised variant.
+unelevated | Boolean | Enables unelevated variant.
+stroked | Boolean | Enables stroked variant.
 icon | Element | Icon to render within root element.
 children | String | Text to be displayed within root element.
-disabled | n/a | Disables button if true.
+disabled | Boolean | Disables button if true.
 
 ## Sass Mixins
 

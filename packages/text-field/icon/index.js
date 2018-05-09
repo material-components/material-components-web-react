@@ -63,7 +63,7 @@ export default class Icon extends React.Component {
 
 Icon.propTypes = {
   children: PropTypes.element.isRequired,
-  disabled: PropTypes.boolean,
+  disabled: PropTypes.bool,
 };
 
 Icon.defaultProps = {
