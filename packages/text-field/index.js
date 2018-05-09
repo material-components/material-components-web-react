@@ -35,17 +35,17 @@ class TextField extends React.Component {
       disabled: false,
 
       // floating label state
-      shouldFloatLabel: false,
+      labelIsFloated: false,
       labelWidth: 0,
 
       // line ripple state
       lineRippleCenter: null,
 
       // notched outline state
-      shouldNotchOutline: false,
+      outlineIsNotched: false,
 
       // helper text state
-      helperTextShowToScreenReader: false,
+      showHelperTextToScreenReader: false,
       isValid: true,
     };
   }
@@ -145,11 +145,12 @@ class TextField extends React.Component {
     return {
       shakeLabel: (shakeLabel) => {
         const {floatingLabelElement: floatingLabel} = this;
-        if (shakeLabel && floatingLabel && floatingLabel.current) {
+        if (!shakeLabel) return;
+        if (floatingLabel && floatingLabel.current) {
           floatingLabel.current.shake();
         }
       },
-      floatLabel: (shouldFloatLabel) => this.setState({shouldFloatLabel}),
+      floatLabel: (labelIsFloated) => this.setState({labelIsFloated}),
       hasLabel: () => !!this.props.label,
       getLabelWidth: () => this.state.labelWidth,
     };
@@ -159,14 +160,14 @@ class TextField extends React.Component {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
-      setLineRippleTransformOrigin: (rippleCenter) => this.setState({rippleCenter}),
+      setLineRippleTransformOrigin: (lineRippleCenter) => this.setState({lineRippleCenter}),
     };
   }
 
   get notchedOutlineAdapter() {
     return {
-      notchOutline: () => this.setState({shouldNotchOutline: true}),
-      closeOutline: () => this.setState({shouldNotchOutline: false}),
+      notchOutline: () => this.setState({outlineIsNotched: true}),
+      closeOutline: () => this.setState({outlineIsNotched: false}),
       hasOutline: () => !!this.props.outlined,
     };
   }
@@ -174,7 +175,7 @@ class TextField extends React.Component {
   get helperTextAdapter() {
     return {
       showToScreenReader: () =>
-        this.setState({helperTextShowToScreenReader: !this.state.helperTextShowToScreenReader}),
+        this.setState({showHelperTextToScreenReader: true}),
       setValidity: (isValid) => this.setState({isValid}),
     };
   }
@@ -252,7 +253,7 @@ class TextField extends React.Component {
     return (
       <FloatingLabel
         className={floatingLabelClassName}
-        float={this.state.shouldFloatLabel}
+        float={this.state.labelIsFloated}
         handleWidthChange={
           (labelWidth) => this.setState({labelWidth})}
         ref={this.floatingLabelElement}
@@ -277,12 +278,12 @@ class TextField extends React.Component {
 
   renderNotchedOutline() {
     const {notchedOutlineClassName} = this.props;
-    const {shouldNotchOutline, labelWidth} = this.state;
+    const {outlineIsNotched, labelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
         isRtl={this.getIsRtl()}
-        notch={shouldNotchOutline}
+        notch={outlineIsNotched}
         notchWidth={labelWidth}
       />
     );
@@ -291,11 +292,11 @@ class TextField extends React.Component {
   renderHelperText() {
     const {helperTextAriaHidden, helperTextIsValidationMessage, helperText,
       helperTextClassName, helperTextPersistent, helperTextRole} = this.props;
-    const {isValid, helperTextShowToScreenReader} = this.state;
+    const {isValid, showHelperTextToScreenReader} = this.state;
     return (
       <HelperText
         className={helperTextClassName}
-        showToScreenReader={helperTextShowToScreenReader}
+        showToScreenReader={showHelperTextToScreenReader}
         isValid={isValid}
         role={helperTextRole}
         key='text-field-helper-text'

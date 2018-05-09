@@ -176,17 +176,17 @@ test('#adapter.label.shakeLabel does not call floatingLabelElement shake if fals
   td.verify(wrapper.instance().floatingLabelElement.current.shake(), {times: 0});
 });
 
-test('#adapter.label.floatLabel updates state.shouldFloatLabel to true', () => {
+test('#adapter.label.floatLabel updates state.labelIsFloated to true', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().foundation_.adapter_.floatLabel(true);
-  assert.isTrue(wrapper.state().shouldFloatLabel);
+  assert.isTrue(wrapper.state().labelIsFloated);
 });
 
-test('#adapter.label.floatLabel updates state.shouldFloatLabel to false', () => {
+test('#adapter.label.floatLabel updates state.labelIsFloated to false', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.setState({shouldFloatLabel: true});
+  wrapper.setState({labelIsFloated: true});
   wrapper.instance().foundation_.adapter_.floatLabel(false);
-  assert.isFalse(wrapper.state().shouldFloatLabel);
+  assert.isFalse(wrapper.state().labelIsFloated);
 });
 
 test('#adapter.label.hasLabel returns true if label exists', () => {
@@ -219,22 +219,22 @@ test('#adapter.lineRipple.deactivateLineRipple sets state.activeLineRipple to fa
   assert.isFalse(wrapper.state().activeLineRipple);
 });
 
-test('#adapter.lineRipple.setLineRippleTransformOrigin sets state.rippleCenter', () => {
+test('#adapter.lineRipple.setLineRippleTransformOrigin sets state.lineRippleCenter', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.setLineRippleTransformOrigin('123');
-  assert.equal(wrapper.state().rippleCenter, '123');
+  wrapper.instance().foundation_.adapter_.setLineRippleTransformOrigin(123);
+  assert.equal(wrapper.state().lineRippleCenter, 123);
 });
 
-test('#adapter.notchedOutline.notchOutline sets state.shouldNotchOutline to true', () => {
+test('#adapter.notchedOutline.notchOutline sets state.outlineIsNotched to true', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().foundation_.adapter_.notchOutline();
-  assert.isTrue(wrapper.state().shouldNotchOutline);
+  assert.isTrue(wrapper.state().outlineIsNotched);
 });
 
-test('#adapter.notchedOutline.closeOutline sets state.shouldNotchOutline to false', () => {
+test('#adapter.notchedOutline.closeOutline sets state.outlineIsNotched to false', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().foundation_.adapter_.closeOutline();
-  assert.isFalse(wrapper.state().shouldNotchOutline);
+  assert.isFalse(wrapper.state().outlineIsNotched);
 });
 
 test('#adapter.notchedOutline.hasOutline returns true if props.outlined is set', () => {
@@ -243,17 +243,10 @@ test('#adapter.notchedOutline.hasOutline returns true if props.outlined is set',
   assert.isTrue(hasOutline);
 });
 
-test('#adapter.helperText.showToScreenReader toggles state.helperTextShowToScreenReader', () => {
+test('#adapter.helperText.showToScreenReader toggles state.showHelperTextToScreenReader', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().foundation_.helperText_.showToScreenReader();
-  assert.isTrue(wrapper.state().helperTextShowToScreenReader);
-});
-
-test('#adapter.helperText.showToScreenReader toggles state.helperTextShowToScreenReader to false', () => {
-  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.setState({helperTextShowToScreenReader: true});
-  wrapper.instance().foundation_.helperText_.showToScreenReader();
-  assert.isFalse(wrapper.state().helperTextShowToScreenReader);
+  assert.isTrue(wrapper.state().showHelperTextToScreenReader);
 });
 
 test('#adapter.helperText.setValidity sets isValid to true', () => {
