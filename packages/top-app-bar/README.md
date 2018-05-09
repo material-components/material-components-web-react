@@ -1,6 +1,5 @@
 # React Top App Bar
 
-
 A React version of an [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar).
 
 ## Installation
