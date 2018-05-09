@@ -9,6 +9,46 @@ const VALIDATION_ATTR_WHITELIST = [
 ];
 
 export default class Input extends React.Component {
+  constructor(props) {
+    super(props);
+    this.inputElement = React.createRef();
+    props.setBadInputHandler(this.badInputHandler);
+    props.setIsValidHandler(this.isValidHandler);
+    this.state = {
+      value: props.value,
+    };
+  }
+
+  componentDidMount() {
+    this.props.handleValueChange(this.props.value);
+    if (this.props.id) {
+      this.props.setInputId(this.props.id);
+    }
+    if (this.props.disabled) {
+      this.props.setDisabled(true);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {foundation} = nextProps;
+    this.handleValidationAttributeUpdate(nextProps);
+
+    if (this.props.disabled !== nextProps.disabled) {
+      nextProps.setDisabled(nextProps.disabled);
+      foundation.setDisabled(nextProps.disabled);
+    }
+
+    if (this.props.id !== nextProps.id) {
+      nextProps.setInputId(nextProps.id);
+    }
+
+    this.updateValue(nextProps);
+  }
+
+  get classes() {
+    return classnames('mdc-text-field__input', this.props.className);
+  }
+
   // There are 2 sources that can update the input's value. 1) The end developer
   // 2) the mdc.textfield.foundation through `this.getNativeInput().value = value`.
   // Because of this, the input's value needs to be on this.state. If
@@ -82,46 +122,6 @@ export default class Input extends React.Component {
 
   badInputHandler = () => this.inputElement.current.validity.badInput;
   isValidHandler = () => this.inputElement.current.validity.valid;
-
-  constructor(props) {
-    super(props);
-    this.inputElement = React.createRef();
-    props.setBadInputHandler(this.badInputHandler);
-    props.setIsValidHandler(this.isValidHandler);
-    this.state = {
-      value: props.value,
-    };
-  }
-
-  componentDidMount() {
-    this.props.handleValueChange(this.props.value);
-    if (this.props.id) {
-      this.props.setInputId(this.props.id);
-    }
-    if (this.props.disabled) {
-      this.props.setDisabled(true);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {foundation} = nextProps;
-    this.handleValidationAttributeUpdate(nextProps);
-
-    if (this.props.disabled !== nextProps.disabled) {
-      nextProps.setDisabled(nextProps.disabled);
-      foundation.setDisabled(nextProps.disabled);
-    }
-
-    if (this.props.id !== nextProps.id) {
-      nextProps.setInputId(nextProps.id);
-    }
-
-    this.updateValue(nextProps);
-  }
-
-  get classes() {
-    return classnames('mdc-text-field__input', this.props.className);
-  }
 
   render() {
     const {
