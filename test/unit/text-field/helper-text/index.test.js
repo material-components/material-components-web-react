@@ -34,8 +34,8 @@ test('#componentDidMount creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('#componentDidMount calls setValidation to true if isValidation is set', () => {
-  const wrapper = shallow(<HelperText isValidation />);
+test('#componentDidMount calls setValidation to true if isValidationMessage is set', () => {
+  const wrapper = shallow(<HelperText isValidationMessage />);
   assert.isTrue(wrapper.state().classList.has('mdc-text-field-helper-text--validation-msg'));
 });
 
@@ -75,10 +75,10 @@ test('#componentWillReceiveProps calls #foundation.setValidity if ' +
   td.verify(wrapper.instance().foundation_.setValidity(false), {times: 1});
 });
 
-test('#componentWillReceiveProps calls setValidation to true if props.isValidation updates', () => {
+test('#componentWillReceiveProps calls setValidation to true if props.isValidationMessage updates', () => {
   const wrapper = shallow(<HelperText />);
   wrapper.instance().foundation_.setValidation = td.func();
-  wrapper.setProps({isValidation: true});
+  wrapper.setProps({isValidationMessage: true});
   td.verify(wrapper.instance().foundation_.setValidation(true), {times: 1});
 });
 

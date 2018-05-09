@@ -14,9 +14,6 @@ export default class Input extends React.Component {
     this.inputElement = React.createRef();
     props.setBadInputHandler(this.badInputHandler);
     props.setIsValidHandler(this.isValidHandler);
-    this.state = {
-      value: props.value,
-    };
   }
 
   componentDidMount() {
@@ -41,43 +38,23 @@ export default class Input extends React.Component {
     if (this.props.id !== nextProps.id) {
       nextProps.setInputId(nextProps.id);
     }
-
-    this.updateValue(nextProps);
   }
 
   get classes() {
     return classnames('mdc-text-field__input', this.props.className);
   }
 
-  // There are 2 sources that can update the input's value. 1) The end developer
-  // 2) the mdc.textfield.foundation through `this.getNativeInput().value = value`.
-  // Because of this, the input's value needs to be on this.state. If
-  // The end developer and the foundation change the value at the same time,
-  // the end developer's value should always win.
-  updateValue = (nextProps) => {
-    const valueChanged = this.props.value !== nextProps.value;
-    const foundationValueChanged = this.props.foundationValue !== nextProps.foundationValue;
-
-    if (valueChanged) {
-      this.setState({value: nextProps.value});
-      return;
-    }
-    if (foundationValueChanged) {
-      this.setState({value: nextProps.foundationValue});
-    }
-  }
-
   handleFocus = (e) => {
-    const {foundation, updateFocus, onFocus} = this.props;
+    const {foundation, handleFocusChange, onFocus} = this.props;
     foundation.activateFocus();
-    updateFocus(true);
+    handleFocusChange(true);
     onFocus(e);
   }
 
   handleBlur = (e) => {
-    const {foundation, updateFocus, onBlur} = this.props;
+    const {foundation, handleFocusChange, onBlur} = this.props;
     foundation.deactivateFocus();
-    updateFocus(false);
+    handleFocusChange(false);
     onBlur(e);
   }
 
@@ -129,9 +106,8 @@ export default class Input extends React.Component {
       /* eslint-disable no-unused-vars */
       className,
       foundation,
-      value: _value,
-      foundationValue,
-      updateFocus,
+      value,
+      handleFocusChange,
       handleValueChange,
       setBadInputHandler,
       setIsValidHandler,
@@ -145,7 +121,6 @@ export default class Input extends React.Component {
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
-    const {value} = this.state;
     return (
       <input
         onFocus={this.handleFocus}
@@ -174,10 +149,6 @@ Input.propTypes = {
     setTransformOrigin: PropTypes.func,
     handleValidationAttributeMutation_: PropTypes.func,
   }),
-  foundationValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
   handleValueChange: PropTypes.func,
   id: PropTypes.string,
   onBlur: PropTypes.func,
@@ -189,7 +160,7 @@ Input.propTypes = {
   setDisabled: PropTypes.func,
   setInputId: PropTypes.func,
   setIsValidHandler: PropTypes.func,
-  updateFocus: PropTypes.func,
+  handleFocusChange: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -206,7 +177,6 @@ Input.defaultProps = {
     setTransformOrigin: () => {},
     handleValidationAttributeMutation_: () => {},
   },
-  foundationValue: '',
   handleValueChange: () => {},
   id: null,
   onBlur: () => {},
@@ -218,6 +188,6 @@ Input.defaultProps = {
   setDisabled: () => {},
   setInputId: () => {},
   setIsValidHandler: () => {},
-  updateFocus: () => {},
+  handleFocusChange: () => {},
   value: '',
 };

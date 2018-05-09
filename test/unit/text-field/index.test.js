@@ -152,12 +152,6 @@ test('#get adapter.input.value returns state.value', () => {
   assert.equal(value, '123');
 });
 
-test('#set adapter.input.value sets state.foundationValue', () => {
-  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.getNativeInput().value = '123';
-  assert.equal(wrapper.state().foundationValue, '123');
-});
-
 test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().floatingLabelElement = td.object({
@@ -342,9 +336,9 @@ test('renders helperText if helperText prop is passed', () => {
   assert.equal(wrapper.find('.mdc-text-field').length, 1);
 });
 
-test('#inputProps.updateFocus updates state.isFocused', () => {
+test('#inputProps.handleFocusChange updates state.isFocused', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().inputProps({}).updateFocus(true);
+  wrapper.instance().inputProps({}).handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
 });
 

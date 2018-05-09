@@ -26,7 +26,7 @@ export default class HelperText extends React.Component {
     if (!this.props.isValid) {
       this.foundation_.setValidity(false);
     }
-    if (this.props.isValidation) {
+    if (this.props.isValidationMessage) {
       this.foundation_.setValidation(true);
     }
   }
@@ -38,8 +38,8 @@ export default class HelperText extends React.Component {
     if (this.props.isValid !== nextProps.isValid) {
       this.foundation_.setValidity(nextProps.isValid);
     }
-    if (this.props.isValidation !== nextProps.isValidation) {
-      this.foundation_.setValidation(nextProps.isValidation);
+    if (this.props.isValidationMessage !== nextProps.isValidationMessage) {
+      this.foundation_.setValidation(nextProps.isValidationMessage);
     }
   }
 
@@ -89,7 +89,7 @@ HelperText.propTypes = {
   'children': PropTypes.node,
   'className': PropTypes.string,
   'isValid': PropTypes.bool,
-  'isValidation': PropTypes.bool,
+  'isValidationMessage': PropTypes.bool,
   'persistent': PropTypes.bool,
   'role': PropTypes.string,
   'showToScreenReader': PropTypes.bool,
@@ -101,7 +101,7 @@ HelperText.defaultProps = {
   'children': null,
   'className': '',
   'isValid': true,
-  'isValidation': false,
+  'isValidationMessage': false,
   'persistent': false,
   'role': null,
   'showToScreenReader': false,

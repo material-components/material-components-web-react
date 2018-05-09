@@ -131,7 +131,9 @@ class TextField extends React.Component {
         // https://stackoverflow.com/a/44913378
         Object.defineProperty(input, 'value', {
           get: () => this.state.value,
-          set: (value) => this.setState({foundationValue: value}),
+          // set value doesn't need to be done, since value is set via <Input>
+          // needs setter here so it browser doesn't throw error
+          set: () => {},
         });
 
         return input;
@@ -185,11 +187,9 @@ class TextField extends React.Component {
   }
 
   inputProps(props) {
-    const {foundationValue} = this.state;
     return Object.assign({}, props, {
-      foundationValue,
       foundation: this.foundation_,
-      updateFocus: (isFocused) => this.setState({isFocused}),
+      handleFocusChange: (isFocused) => this.setState({isFocused}),
       handleValueChange: (value) => this.setState({value}),
       // These are callbacks for Input, which set validity.badInput &
       // validity.valid.
@@ -289,7 +289,7 @@ class TextField extends React.Component {
   }
 
   renderHelperText() {
-    const {helperTextAriaHidden, helperTextIsValidation, helperText,
+    const {helperTextAriaHidden, helperTextIsValidationMessage, helperText,
       helperTextClassName, helperTextPersistent, helperTextRole} = this.props;
     const {isValid, helperTextShowToScreenReader} = this.state;
     return (
@@ -301,7 +301,7 @@ class TextField extends React.Component {
         key='text-field-helper-text'
         aria-hidden={helperTextAriaHidden}
         persistent={helperTextPersistent}
-        isValidation={helperTextIsValidation}
+        isValidationMessage={helperTextIsValidationMessage}
       >
         {helperText}
       </HelperText>
@@ -330,7 +330,7 @@ TextField.propTypes = {
   'helperText': PropTypes.string,
   'helperTextAriaHidden': PropTypes.bool,
   'helperTextClassName': PropTypes.string,
-  'helperTextIsValidation': PropTypes.bool,
+  'helperTextIsValidationMessage': PropTypes.bool,
   'helperTextPersistent': PropTypes.bool,
   'helperTextRole': PropTypes.string,
   'label': PropTypes.string.isRequired,
@@ -351,7 +351,7 @@ TextField.defaultProps = {
   helperText: null,
   helperTextAriaHidden: false,
   helperTextClassName: '',
-  helperTextIsValidation: false,
+  helperTextIsValidationMessage: false,
   helperTextPersistent: false,
   herlpTextRole: null,
   leadingIcon: null,

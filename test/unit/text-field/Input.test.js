@@ -122,28 +122,6 @@ test('#componentWillReceiveProps calls setInputId if id updates', () => {
   td.verify(setInputId('better-id'), {times: 1});
 });
 
-test('#componentWillReceiveProps updates value if props.foundationValue updates', () => {
-  const wrapper = shallow(<Input foundationValue='apple' />);
-  wrapper.setProps({foundationValue: 'orange'});
-  assert(wrapper.state().value, 'orange');
-});
-
-test('#componentWillReceiveProps updates value if props.value updates', () => {
-  const wrapper = shallow(<Input value='apple' />);
-  wrapper.setProps({value: 'orange'});
-  assert(wrapper.state().value, 'orange');
-});
-
-test('#componentWillReceiveProps updates value to props.value if ' +
-  'both props.value and props.foundationValue change simultaneously', () => {
-  const wrapper = shallow(<Input foundationValue='apple' value='apple' />);
-  wrapper.setProps({
-    foundationValue: 'orange',
-    value: 'lemon',
-  });
-  assert(wrapper.state().value, 'lemon');
-});
-
 test('#componentWillReceiveProps does nothing if an unrelated property is ' +
   'updated', () => {
   const setDisabled = td.func();
@@ -165,11 +143,11 @@ test('#componentWillReceiveProps does nothing if an unrelated property is ' +
   td.verify(setInputId(td.matchers.anything), {times: 0});
 });
 
-test('#event.onFocus calls props.updateFocus(true)', () => {
-  const updateFocus = td.func();
-  const wrapper = shallow(<Input updateFocus={updateFocus} />);
+test('#event.onFocus calls props.handleFocusChange(true)', () => {
+  const handleFocusChange = td.func();
+  const wrapper = shallow(<Input handleFocusChange={handleFocusChange} />);
   wrapper.simulate('focus');
-  td.verify(updateFocus(true), {times: 1});
+  td.verify(handleFocusChange(true), {times: 1});
 });
 
 test('#event.onFocus calls foundation.activateFocus()', () => {
@@ -187,11 +165,11 @@ test('#event.onFocus calls props.onFocus()', () => {
   td.verify(onFocus(event), {times: 1});
 });
 
-test('#event.onBlur calls props.updateFocus(false)', () => {
-  const updateFocus = td.func();
-  const wrapper = shallow(<Input updateFocus={updateFocus} />);
+test('#event.onBlur calls props.handleFocusChange(false)', () => {
+  const handleFocusChange = td.func();
+  const wrapper = shallow(<Input handleFocusChange={handleFocusChange} />);
   wrapper.simulate('blur');
-  td.verify(updateFocus(false), {times: 1});
+  td.verify(handleFocusChange(false), {times: 1});
 });
 
 test('#event.onBlur calls foundation.deactivateFocus()', () => {
