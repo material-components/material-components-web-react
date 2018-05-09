@@ -87,9 +87,11 @@ export default class Input extends React.Component {
     const {foundation} = nextProps;
     VALIDATION_ATTR_WHITELIST.some((attr) => {
       if (this.props[attr] !== nextProps[attr]) {
-        // TODO: change this to public in MDC Web / create issue on Web
+        // TODO: Update this when issue is fixed:
+        // https://github.com/material-components/material-components-web/issues/2716
         foundation.handleValidationAttributeMutation_([{
-          // TODO: MDC Web should be accepting an array of attrs (not a mutationObserver)
+          // TODO: Update this when issue is fixed:
+          // https://github.com/material-components/material-components-web/issues/2717
           attributeName: VALIDATION_ATTR_WHITELIST[0],
         }]);
         return true;
