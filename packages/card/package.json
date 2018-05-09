@@ -1,20 +1,19 @@
 {
   "name": "@material/react-card",
   "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "description": "Material Components React Card",
   "license": "Apache-2.0",
   "keywords": [
     "mdc web react",
     "material components react",
     "material design",
-    "material icon",
-    "materialicon"
+    "material card",
+    "materialcard"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-react.git"
+  },
   "dependencies": {
     "@material/card": "^0.34.1",
     "classnames": "^2.2.5",
