@@ -1,6 +1,6 @@
 # React Card
 
-MDC React Card is a component for material design cards. Please see [MDC Cards](https://github.com/material-components/material-components-web/tree/master/packages/mdc-card).
+A React version of an [MDC Card](https://github.com/material-components/material-components-web/tree/master/packages/mdc-card).
 
 ## Installation
 

@@ -1,6 +1,6 @@
 # React Line Ripple
 
-MDC React Line Ripple is a component for MDC Line Ripple. Please see [MDC Line Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-line-ripple).
+A React version of an [MDC Line Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-line-ripple).
 
 ## Installation
 
