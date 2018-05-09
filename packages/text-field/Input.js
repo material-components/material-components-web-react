@@ -66,6 +66,23 @@ export default class Input extends React.Component {
     onChange(e);
   }
 
+  handleValidationAttributeUpdate = (nextProps) => {
+    const {foundation} = nextProps;
+    VALIDATION_ATTR_WHITELIST.some((attr) => {
+      if (this.props[attr] !== nextProps[attr]) {
+        // TODO: change this to public in MDC Web / create issue on Web
+        foundation.handleValidationAttributeMutation_([{
+          // TODO: MDC Web should be accepting an array of attrs (not a mutationObserver)
+          attributeName: VALIDATION_ATTR_WHITELIST[0],
+        }]);
+        return true;
+      }
+    });
+  }
+
+  badInputHandler = () => this.inputElement.current.validity.badInput;
+  isValidHandler = () => this.inputElement.current.validity.valid;
+
   constructor(props) {
     super(props);
     this.inputElement = React.createRef();
@@ -74,13 +91,6 @@ export default class Input extends React.Component {
     this.state = {
       value: props.value,
     };
-  }
-
-  badInputHandler = () => this.inputElement.current.validity.badInput;
-  isValidHandler = () => this.inputElement.current.validity.valid;
-
-  get classes() {
-    return classnames('mdc-text-field__input', this.props.className);
   }
 
   componentDidMount() {
@@ -109,18 +119,8 @@ export default class Input extends React.Component {
     this.updateValue(nextProps);
   }
 
-  handleValidationAttributeUpdate = (nextProps) => {
-    const {foundation} = nextProps;
-    VALIDATION_ATTR_WHITELIST.some((attr) => {
-      if (this.props[attr] !== nextProps[attr]) {
-        // TODO: change this to public in MDC Web / create issue on Web
-        foundation.handleValidationAttributeMutation_([{
-          // TODO: MDC Web should be accepting an array of attrs (not a mutationObserver)
-          attributeName: VALIDATION_ATTR_WHITELIST[0],
-        }]);
-        return true;
-      }
-    });
+  get classes() {
+    return classnames('mdc-text-field__input', this.props.className);
   }
 
   render() {
