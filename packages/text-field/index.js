@@ -290,23 +290,14 @@ class TextField extends React.Component {
   }
 
   renderHelperText() {
-    const {helperTextAriaHidden, helperTextIsValidationMessage, helperText,
-      helperTextClassName, helperTextPersistent, helperTextRole} = this.props;
-    const {isValid, showHelperTextToScreenReader} = this.state;
-    return (
-      <HelperText
-        className={helperTextClassName}
-        showToScreenReader={showHelperTextToScreenReader}
-        isValid={isValid}
-        role={helperTextRole}
-        key='text-field-helper-text'
-        aria-hidden={helperTextAriaHidden}
-        persistent={helperTextPersistent}
-        isValidationMessage={helperTextIsValidationMessage}
-      >
-        {helperText}
-      </HelperText>
-    );
+    const {helperText} = this.props;
+    const {isValid, showHelperTextToScreenReader: showToScreenReader} = this.state;
+    const props = Object.assign({
+      showToScreenReader,
+      isValid,
+      key: 'text-field-helper-text',
+    }, helperText.props);
+    return React.cloneElement(helperText, props);
   }
 
   renderIcon(icon) {
@@ -328,12 +319,7 @@ TextField.propTypes = {
   'dense': PropTypes.bool,
   'floatingLabelClassName': PropTypes.string,
   'fullWidth': PropTypes.bool,
-  'helperText': PropTypes.string,
-  'helperTextAriaHidden': PropTypes.bool,
-  'helperTextClassName': PropTypes.string,
-  'helperTextIsValidationMessage': PropTypes.bool,
-  'helperTextPersistent': PropTypes.bool,
-  'helperTextRole': PropTypes.string,
+  'helperText': PropTypes.element,
   'label': PropTypes.string.isRequired,
   'leadingIcon': PropTypes.element,
   'lineRippleClassName': PropTypes.string,
@@ -350,11 +336,6 @@ TextField.defaultProps = {
   floatingLabelClassName: '',
   fullWidth: false,
   helperText: null,
-  helperTextAriaHidden: false,
-  helperTextClassName: '',
-  helperTextIsValidationMessage: false,
-  helperTextPersistent: false,
-  herlpTextRole: null,
   leadingIcon: null,
   lineRippleClassName: '',
   notchedOutlineClassName: '',
@@ -364,5 +345,5 @@ TextField.defaultProps = {
 };
 
 
-export {Input};
+export {HelperText, Input};
 export default TextField;

@@ -14,7 +14,7 @@ React Text Field accepts one child element which is the input element. For ease 
 
 ```js
 import React from 'react';
-import TextField, {Input} from '@material/react-text-field';
+import TextField, {HelperText, Input} from '@material/react-text-field';
 
 class MyApp extends React.Component {
   state = {value: 'Woof'};
@@ -22,7 +22,10 @@ class MyApp extends React.Component {
   render() {
     return (
       <div>
-        <TextField label='Dog'>
+        <TextField
+          label='Dog'
+          HelperText={<HelperText>Help Me!</HelperText>}
+        >
           <Input
             value={this.state.value}
             onChange={(e) => this.setState({value: e.target.value})}/>
@@ -44,12 +47,7 @@ className | String | An optional class added to the `.mdc-text-field` element.
 dense | Boolean | Enables dense variant.
 floatingLabelClassName | String | An optional class added to the floating label element fo the text field.
 fullWidth | Boolean | Enables fullWidth variant.
-helperText | String | Helper text that appears below the text field.
-helperTextAriaHidden | Boolean | Sets the helper text element's aria-hidden value.
-helperTextClassName | String | An optional class added to the helper text element.
-helperTextIsValidationMessage | Boolean | Treats the helper text as a validation message.
-helperTextPersistent | Boolean | Enables the helper text to always appear.
-helperTextRole | String | Sets the aria role value of the helper text element.
+helperText | Element | Helper text that appears below the text field. Use the `<HelperText>` component that comes with this package.
 label | String | Mandatory. Label text that appears as the floating label or placeholder.
 leadingIcon | Element | An icon element that appears as the leading icon.
 lineRippleClassName | String | An optional class added to the line ripple element.

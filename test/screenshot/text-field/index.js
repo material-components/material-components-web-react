@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import TextField, {Input} from '../../../packages/text-field';
+import TextField, {Input, HelperText} from '../../../packages/text-field';
 import MaterialIcon from '../../../packages/material-icon/index';
 
 import '../../../packages/text-field/index.scss';
@@ -56,7 +56,9 @@ const disabledMap = [
 
 const helperTextMap = [
   {},
-  {helperText: 'Help me', helperTextPersistent: true},
+  {helperText: (
+    <HelperText persistent>Help me</HelperText>
+  )},
 ];
 
 const textFields = variants.map((variant) => {

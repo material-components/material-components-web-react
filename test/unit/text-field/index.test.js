@@ -2,7 +2,7 @@ import React from 'react';
 import td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-import TextField, {Input} from '../../../packages/text-field';
+import TextField, {HelperText, Input} from '../../../packages/text-field';
 
 suite('Text Field');
 
@@ -324,7 +324,8 @@ test('does not render line ripple if fullWidth variant', () => {
 });
 
 test('renders helperText if helperText prop is passed', () => {
-  const wrapper = mount(<TextField label='my label' helperText='my helper text'><Input /></TextField>);
+  const helperText = <HelperText>my helper text</HelperText>;
+  const wrapper = mount(<TextField label='my label' helperText={helperText}><Input /></TextField>);
   assert.equal(wrapper.find('.mdc-text-field-helper-text').length, 1);
   assert.equal(wrapper.find('.mdc-text-field').length, 1);
 });
