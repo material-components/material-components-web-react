@@ -1,6 +1,6 @@
 # React Line Ripple
 
-MDC React Line Ripple is a component for material icons.
+MDC React Line Ripple is a component for MDC Line Ripple. Please see [MDC Line Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-line-ripple).
 
 ## Installation
 
@@ -11,7 +11,7 @@ npm install @material/react-line-ripple
 ## Usage
 
 ```js
-import FloatingLabel from '@material/react-floating-label';
+import LineRipple from '@material/react-line-ripple';
 
 const MyComponent = () => {
   return (

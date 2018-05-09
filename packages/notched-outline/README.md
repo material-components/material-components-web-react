@@ -1,6 +1,6 @@
 # React Notched Outline
 
-MDC React Notched Outline is a React Component which uses MDC [MDC Notched Outline](https://github.com/material-components/material-components-web/tree/master/packages/mdc-notched-outline)'s CSS and foundation JavaScript.
+MDC React Notched Outline is a component for MDC Notched Outline. Please see [MDC Notched Outline](https://github.com/material-components/material-components-web/tree/master/packages/mdc-notched-outline).
 
 ## Installation
 
