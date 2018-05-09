@@ -47,7 +47,7 @@ fullWidth | Boolean | Enables fullWidth variant.
 helperText | String | Helper text that appears below the text field.
 helperTextAriaHidden | Boolean | Sets the helper text element's aria-hidden value.
 helperTextClassName | String | An optional class added to the helper text element.
-helperTextIsValidation | Boolean | Treats the helper text as a validation message.
+helperTextIsValidationMessage | Boolean | Treats the helper text as a validation message.
 helperTextPersistent | Boolean | Enables the helper text to always appear.
 helperTextRole | String | Sets the aria role value of the helper text element.
 label | String | Mandatory. Label text that appears as the floating label or placeholder.
@@ -60,14 +60,13 @@ trailingIcon | Element | An icon element that appears as the trailing icon.
 
 ### Input Props
 
-Not all the props below are used for majority of cases. Properties like `foundation` and `foundationValue` shouldn't be used when implementing the text field, but is used internally in React Text Field.
+Not all the props below are used for majority of cases. Properties like `foundation` shouldn't be used when implementing the text field, but is used internally in React Text Field.
 
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the input element.
 disabled | Function | Disables the input and the parent text field.
 foundation | Function | The text field foundation.
-foundationValue | Number/String | A property that the textField.foundation can use to update the `<input>` value.
 handleValueChange | Function | A callback function to update React Text Field's value.
 id | String | The `<input>` id attribute.
 onBlur | Function | Blur event handler.
@@ -79,7 +78,7 @@ setBadInputHandler | Function | Function to set access to `<input>` `validity.ba
 setDisabled | Function | Callback function that is called when the `disabled` prop updates.
 setInputId | Function | Callback function that is called when the `id` attribute updates.
 setIsValidHandler | Function | Function to set access to `<input>` `validity.valid` property.
-updateFocus | Function | Callback function that is called when `focus` or `blur` events occur
+handleFocusChange | Function | Callback function that is called when `focus` or `blur` events occur
 value | Number/String | Value of the input.
 
 >NOTE: the `<Input>` component will receive all properties that a standard `<input>` accepts.
