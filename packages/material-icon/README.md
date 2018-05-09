@@ -1,6 +1,6 @@
-# Material Icon React
+# React Material Icon
 
-MDC React Material Icon is a component for material icons.
+A React wrapper for [Material Icons](http://material.io/tools/icons).
 
 ## Installation
 

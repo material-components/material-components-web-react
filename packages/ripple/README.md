@@ -1,6 +1,6 @@
 # React Ripple
 
-MDC React Ripple is a component for MDC Ripple. Please see [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple).
+A React version of an [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple).
 
 ## Installation
 
