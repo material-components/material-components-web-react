@@ -13,12 +13,11 @@ import NotchedOutline from '@material/react-notched-outline';
 class TextField extends React.Component {
 
   foundation_ = null;
-  getBadInput = () => {};
-  getIsValid = () => {};
 
   constructor(props) {
     super(props);
     this.floatingLabelElement = React.createRef();
+    this.inputElement = React.createRef();
     this.textFieldElement = React.createRef();
 
     this.state = {
@@ -30,7 +29,6 @@ class TextField extends React.Component {
       classList: new Set(),
       inputId: props.children.props.id,
       isFocused: false,
-      isBadInput: false,
       dir: 'ltr',
       disabled: false,
 
@@ -111,21 +109,27 @@ class TextField extends React.Component {
   }
 
   get inputAdapter() {
-    // value: string,
-    // disabled: boolean, --> doesn't need to be implemented since the <INPUT> handles it
-    // also the `get disabled` isn't actually used, except in the vanilla component
-    // validity: {
-    //   badInput: boolean,
-    //   valid: boolean,
-    // },
+    // For reference: This is the shape of what the vanilla component `getNativeInput` returns
+    // {
+    //  value: string,
+    //  disabled: boolean, --> doesn't need to be implemented since the <INPUT> handles it
+    //  also the `get disabled` isn't actually used, except in the vanilla component
+    //  validity: {
+    //    badInput: boolean,
+    //    valid: boolean,
+    //  },
+    // }
 
     return {
       getNativeInput: () => {
+        let badInput;
+        let valid;
+        if (this.inputElement && this.inputElement.current) {
+          badInput = this.inputElement.current.isBadInput();
+          valid = this.inputElement.current.isValid();
+        }
         const input = {
-          validity: {
-            badInput: this.getBadInput(),
-            valid: this.getIsValid(),
-          },
+          validity: {badInput, valid},
         };
 
         // https://stackoverflow.com/a/44913378
@@ -192,12 +196,9 @@ class TextField extends React.Component {
       foundation: this.foundation_,
       handleFocusChange: (isFocused) => this.setState({isFocused}),
       handleValueChange: (value) => this.setState({value}),
-      // These are callbacks for Input, which set validity.badInput &
-      // validity.valid.
-      setBadInputHandler: (getBadInput) => this.getBadInput = getBadInput,
-      setIsValidHandler: (getIsValid) => this.getIsValid = getIsValid,
       setDisabled: (disabled) => this.setState({disabled}),
       setInputId: (id) => this.setState({inputId: id}),
+      ref: this.inputElement,
     });
   }
 

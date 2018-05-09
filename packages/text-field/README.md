@@ -72,10 +72,8 @@ onChange | Function | Change event handler.
 onFocus | Function | Focus event handler.
 onMouseDown | Function | Mouse down event handler.
 onTouchStart | Function | Touch start event handler.
-setBadInputHandler | Function | Function to set access to `<input>` `validity.badInput` property.
 setDisabled | Function | Callback function that is called when the `disabled` prop updates.
 setInputId | Function | Callback function that is called when the `id` attribute updates.
-setIsValidHandler | Function | Function to set access to `<input>` `validity.valid` property.
 handleFocusChange | Function | Callback function that is called when `focus` or `blur` events occur
 value | Number/String | Value of the input.
 

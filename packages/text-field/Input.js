@@ -12,8 +12,6 @@ export default class Input extends React.Component {
   constructor(props) {
     super(props);
     this.inputElement = React.createRef();
-    props.setBadInputHandler(this.badInputHandler);
-    props.setIsValidHandler(this.isValidHandler);
   }
 
   componentDidMount() {
@@ -99,8 +97,8 @@ export default class Input extends React.Component {
     });
   }
 
-  badInputHandler = () => this.inputElement.current.validity.badInput;
-  isValidHandler = () => this.inputElement.current.validity.valid;
+  isBadInput = () => this.inputElement.current.validity.badInput;
+  isValid = () => this.inputElement.current.validity.valid;
 
   render() {
     const {
@@ -111,8 +109,6 @@ export default class Input extends React.Component {
       value,
       handleFocusChange,
       handleValueChange,
-      setBadInputHandler,
-      setIsValidHandler,
       setDisabled,
       setInputId,
       onFocus,
@@ -158,10 +154,8 @@ Input.propTypes = {
   onFocus: PropTypes.func,
   onMouseDown: PropTypes.func,
   onTouchStart: PropTypes.func,
-  setBadInputHandler: PropTypes.func,
   setDisabled: PropTypes.func,
   setInputId: PropTypes.func,
-  setIsValidHandler: PropTypes.func,
   handleFocusChange: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
@@ -186,10 +180,8 @@ Input.defaultProps = {
   onFocus: () => {},
   onMouseDown: () => {},
   onTouchStart: () => {},
-  setBadInputHandler: () => {},
   setDisabled: () => {},
   setInputId: () => {},
-  setIsValidHandler: () => {},
   handleFocusChange: () => {},
   value: '',
 };

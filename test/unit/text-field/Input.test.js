@@ -12,34 +12,22 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('mdc-text-field__input'));
 });
 
-test('constructor calls props.setBadInputHandler()', () => {
-  const setBadInputHandler = td.func();
-  shallow(<Input setBadInputHandler={setBadInputHandler} />);
-  td.verify(setBadInputHandler(td.matchers.isA(Function)), {times: 1});
-});
-
-test('#badInputHandler returns false if input is ok', () => {
+test('#isBadInput returns false if input is ok', () => {
   const wrapper = mount(<Input value='meow'/>);
-  const isBadInput = wrapper.instance().badInputHandler();
+  const isBadInput = wrapper.instance().isBadInput();
   assert.isFalse(isBadInput);
 });
 
-test('#isValidHandler returns true if input is valid', () => {
+test('#isValid returns true if input is valid', () => {
   const wrapper = mount(<Input value='m' pattern='[a-z]'/>);
-  const isValidInput = wrapper.instance().isValidHandler();
+  const isValidInput = wrapper.instance().isValid();
   assert.isTrue(isValidInput);
 });
 
-test('#isValidHandler returns false if input is invalid', () => {
+test('#isValid returns false if input is invalid', () => {
   const wrapper = mount(<Input value='meow' pattern='[a-z]'/>);
-  const isValidInput = wrapper.instance().isValidHandler();
+  const isValidInput = wrapper.instance().isValid();
   assert.isFalse(isValidInput);
-});
-
-test('constructor calls props.setIsValidHandler()', () => {
-  const setIsValidHandler = td.func();
-  shallow(<Input setIsValidHandler={setIsValidHandler} />);
-  td.verify(setIsValidHandler(td.matchers.isA(Function)), {times: 1});
 });
 
 test('#componentDidMount should call props.handleValueChange', () => {

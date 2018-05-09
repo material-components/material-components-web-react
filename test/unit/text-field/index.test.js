@@ -342,20 +342,6 @@ test('#inputProps.handleValueChange updates state.value', () => {
   assert.equal(wrapper.state().value, 'meow');
 });
 
-test('#inputProps.setBadInputHandler updates the getBadInput method', () => {
-  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  const myFunction = () => true;
-  wrapper.instance().inputProps({}).setBadInputHandler(myFunction);
-  assert.equal(wrapper.instance().getBadInput, myFunction);
-});
-
-test('#inputProps.setIsValidHandler updates the getBadInput method', () => {
-  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  const myFunction = () => true;
-  wrapper.instance().inputProps({}).setIsValidHandler(myFunction);
-  assert.equal(wrapper.instance().getIsValid, myFunction);
-});
-
 test('#inputProps.setDisabled updates state.disabled', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().inputProps({}).setDisabled(true);
