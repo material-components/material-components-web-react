@@ -1,12 +1,8 @@
 {
   "name": "@material/react-floating-label",
   "version": "0.0.0",
-  "description": "The Material Components Web - React Floating Label component",
+  "description": "Material Components React Floating Label",
   "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/material-components/material-components-web-react.git"
-  },
   "keywords": [
     "mdc web react",
     "material components react",
@@ -15,6 +11,10 @@
     "text field floating label",
     "floating label react"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-react.git"
+  },
   "dependencies": {
     "@material/floating-label": "^0.34.0",
     "classnames": "^2.2.5",
