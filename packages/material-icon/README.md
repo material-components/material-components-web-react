@@ -8,6 +8,18 @@ MDC React Material Icon is a component for material icons.
 npm install @material/react-material-icon
 ```
 
+## Usage
+
+```js
+import MaterialIcon from '@material/react-material-icon';
+
+const MyComponent = () => {
+  return (
+    <MaterialIcon icon='menu' />
+  );
+}
+```
+
 ## Props
 
 Prop Name | Type | Description

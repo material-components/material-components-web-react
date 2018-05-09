@@ -12,8 +12,8 @@ npm install @material/react-fab
 
 ### JSX Structure
 
-The Fab can be used with the `span`, `i`, `img` or `svg` elements. It can also be used with the 
-[Material Icon](../material-icon) react component. 
+The Fab can be used with the `span`, `i`, `img` or `svg` elements. It can also be used with the
+[Material Icon](../material-icon) react component.
 ```html
 <Fab>
   <span className="material-icons">favorite</span>
@@ -47,7 +47,7 @@ mini | n/a | Enables the mini variant.
 
 ## Sass Mixins
 
-Sass mixins may be available to customize various aspects of the components. Please refer to the 
+Sass mixins may be available to customize various aspects of the components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them. 
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.34.1/packages/mdc-fab/README.md#advanced-sass-mixins)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-fab/README.md#advanced-sass-mixins)

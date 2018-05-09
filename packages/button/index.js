@@ -13,7 +13,6 @@ export class Button extends Component {
       icon,
       children,
       initRipple,
-      // dismiss warning for converting to a string (for ripple)
       unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
