@@ -22,7 +22,7 @@ module.exports.bundle = function(testPath, outputPath) {
             {
               loader: 'sass-loader',
               options: {
-                includePaths: ['./node_modules', './**/node_modules'],
+                includePaths: ['./node_modules'],
               },
             },
           ],
