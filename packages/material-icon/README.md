@@ -1,4 +1,4 @@
-# Material Icon React
+# React Material Icon
 
 A React wrapper for [Material Icons](http://material.io/tools/icons).
 
