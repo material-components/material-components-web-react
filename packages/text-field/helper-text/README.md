@@ -2,6 +2,20 @@
 
 MDC React Text Field Helper Text is a React Component which uses MDC [MDC Text Field Helper Text](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/helper-text/)'s CSS and foundation JavaScript.
 
+## Usage
+
+```js
+import HelperText from '@material/react-text-field/helper-text/index.js';
+
+const MyComponent = () => {
+  return (
+    <HelperText>
+      Really fun helper text
+    </HelperText>
+  );
+}
+```
+
 ## Props
 
 Prop Name | Type | Description
@@ -20,4 +34,4 @@ validation | Boolean | If true, alters the helper text to an error message.
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-textfield/icon/README.md)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-textfield/helper-text/README.md#sass-mixins)

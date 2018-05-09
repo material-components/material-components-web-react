@@ -8,14 +8,6 @@ MDC React Floating Label is as a React container around MDC Floating Label. Plea
 npm install @material/react-floating-label
 ```
 
-## Props
-
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the root element.
-handleWidthChange | Function | Callback method to pass the width to a parent Component.
-float | Boolean | Floats label depending on value passed.
-
 ## Usage
 
 ### Positioning
@@ -27,6 +19,7 @@ React Floating Label is meant to be used with other Components, specifically inp
 To shake the label you'll need to add a _ref_ to the `<FloatingLabel />` element. Using the ref, you can then call `shake()` to start the shake animation. Ex:
 
 ```js
+import FloatingLabel from '@material/react-floating-label';
 
 class MyComponent extends React.Component {
   constructor(props) {
@@ -62,10 +55,17 @@ Label width is set during mount, and is calculated from the `offsetWidth` proper
 </FloatingLabel>
 ```
 
+## Props
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the root element.
+handleWidthChange | Function | Callback method to pass the width to a parent Component.
+float | Boolean | Floats label depending on value passed.
 
 ## Sass Mixins
 
 Sass mixins may be available to customize various aspects of the components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.34.1/packages/mdc-fab/README.md#advanced-sass-mixins)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-floating-label/README.md#scss-mixins)

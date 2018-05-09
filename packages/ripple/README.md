@@ -1,22 +1,12 @@
 # React Ripple
 
-MDC React Ripple is a component for material icons.
+MDC React Ripple is a component for MDC Ripple. Please see [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple).
 
 ## Installation
 
 ```
 npm install @material/react-ripple
 ```
-
-
-## Props
-
-Prop Name | Type | Description
---- | --- | ---
-unbounded | boolean | Ripple is unbounded if true.
-disabled | n/a | Disables ripple if true.
-style | object | Inline styles of root element.
-className | string | Classes to appear on className attribute of root element.
 
 ## Usage
 
@@ -57,3 +47,20 @@ const RippleIcon = withRipple(Icon);
 
 Wrap your Icon component with the HOC `withRipple`, which returns a component
 with a ripple capable surface.
+
+## Props
+
+Prop Name | Type | Description
+--- | --- | ---
+unbounded | boolean | Ripple is unbounded if true.
+disabled | n/a | Disables ripple if true.
+style | object | Inline styles of root element.
+className | string | Classes to appear on className attribute of root element.
+
+
+## Sass Mixins
+
+Sass mixins may be available to customize various aspects of the components. Please refer to the
+MDC Web repository for more information on what mixins are available, and how to use them.
+
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-ripple/README.md#sass-apis)
