@@ -16,6 +16,22 @@ class TextField extends React.Component {
   getBadInput = () => {};
   getIsValid = () => {};
 
+  inputProps(props) {
+    const {foundationValue} = this.state;
+    return Object.assign({}, props, {
+      foundationValue,
+      foundation: this.foundation_,
+      updateFocus: (isFocused) => this.setState({isFocused}),
+      handleValueChange: (value) => this.setState({value}),
+      // These are callbacks for Input, which set validity.badInput &
+      // validity.valid.
+      setBadInputHandler: (getBadInput) => this.getBadInput = getBadInput,
+      setIsValidHandler: (getIsValid) => this.getIsValid = getIsValid,
+      setDisabled: (disabled) => this.setState({disabled}),
+      setInputId: (id) => this.setState({inputId: id}),
+    });
+  }
+
   constructor(props) {
     super(props);
     this.floatingLabelElement = React.createRef();
@@ -48,22 +64,6 @@ class TextField extends React.Component {
       helperTextShowToScreenReader: false,
       isValid: true,
     };
-  }
-
-  inputProps(props) {
-    const {foundationValue} = this.state;
-    return Object.assign({}, props, {
-      foundationValue,
-      foundation: this.foundation_,
-      updateFocus: (isFocused) => this.setState({isFocused}),
-      handleValueChange: (value) => this.setState({value}),
-      // These are callbacks for Input, which set validity.badInput &
-      // validity.valid.
-      setBadInputHandler: (getBadInput) => this.getBadInput = getBadInput,
-      setIsValidHandler: (getIsValid) => this.getIsValid = getIsValid,
-      setDisabled: (disabled) => this.setState({disabled}),
-      setInputId: (id) => this.setState({inputId: id}),
-    });
   }
 
   componentDidMount() {

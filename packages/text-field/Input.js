@@ -9,63 +9,6 @@ const VALIDATION_ATTR_WHITELIST = [
 ];
 
 export default class Input extends React.Component {
-  constructor(props) {
-    super(props);
-    this.inputElement = React.createRef();
-    props.setBadInputHandler(this.badInputHandler);
-    props.setIsValidHandler(this.isValidHandler);
-    this.state = {
-      value: props.value,
-    };
-  }
-
-  badInputHandler = () => this.inputElement.current.validity.badInput;
-  isValidHandler = () => this.inputElement.current.validity.valid;
-
-  get classes() {
-    return classnames('mdc-text-field__input', this.props.className);
-  }
-
-  componentDidMount() {
-    this.props.handleValueChange(this.props.value);
-    if (this.props.id) {
-      this.props.setInputId(this.props.id);
-    }
-    if (this.props.disabled) {
-      this.props.setDisabled(true);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {foundation} = nextProps;
-    this.handleValidationAttributeUpdate(nextProps);
-
-    if (this.props.disabled !== nextProps.disabled) {
-      nextProps.setDisabled(nextProps.disabled);
-      foundation.setDisabled(nextProps.disabled);
-    }
-
-    if (this.props.id !== nextProps.id) {
-      nextProps.setInputId(nextProps.id);
-    }
-
-    this.updateValue(nextProps);
-  }
-
-  handleValidationAttributeUpdate = (nextProps) => {
-    const {foundation} = nextProps;
-    VALIDATION_ATTR_WHITELIST.some((attr) => {
-      if (this.props[attr] !== nextProps[attr]) {
-        // TODO: change this to public in MDC Web / create issue on Web
-        foundation.handleValidationAttributeMutation_([{
-          // TODO: MDC Web should be accepting an array of attrs (not a mutationObserver)
-          attributeName: VALIDATION_ATTR_WHITELIST[0],
-        }]);
-        return true;
-      }
-    });
-  }
-
   // There are 2 sources that can update the input's value. 1) The end developer
   // 2) the mdc.textfield.foundation through `this.getNativeInput().value = value`.
   // Because of this, the input's value needs to be on this.state. If
@@ -121,6 +64,63 @@ export default class Input extends React.Component {
     foundation.autoCompleteFocus();
     handleValueChange(value);
     onChange(e);
+  }
+
+  constructor(props) {
+    super(props);
+    this.inputElement = React.createRef();
+    props.setBadInputHandler(this.badInputHandler);
+    props.setIsValidHandler(this.isValidHandler);
+    this.state = {
+      value: props.value,
+    };
+  }
+
+  badInputHandler = () => this.inputElement.current.validity.badInput;
+  isValidHandler = () => this.inputElement.current.validity.valid;
+
+  get classes() {
+    return classnames('mdc-text-field__input', this.props.className);
+  }
+
+  componentDidMount() {
+    this.props.handleValueChange(this.props.value);
+    if (this.props.id) {
+      this.props.setInputId(this.props.id);
+    }
+    if (this.props.disabled) {
+      this.props.setDisabled(true);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {foundation} = nextProps;
+    this.handleValidationAttributeUpdate(nextProps);
+
+    if (this.props.disabled !== nextProps.disabled) {
+      nextProps.setDisabled(nextProps.disabled);
+      foundation.setDisabled(nextProps.disabled);
+    }
+
+    if (this.props.id !== nextProps.id) {
+      nextProps.setInputId(nextProps.id);
+    }
+
+    this.updateValue(nextProps);
+  }
+
+  handleValidationAttributeUpdate = (nextProps) => {
+    const {foundation} = nextProps;
+    VALIDATION_ATTR_WHITELIST.some((attr) => {
+      if (this.props[attr] !== nextProps[attr]) {
+        // TODO: change this to public in MDC Web / create issue on Web
+        foundation.handleValidationAttributeMutation_([{
+          // TODO: MDC Web should be accepting an array of attrs (not a mutationObserver)
+          attributeName: VALIDATION_ATTR_WHITELIST[0],
+        }]);
+        return true;
+      }
+    });
   }
 
   render() {

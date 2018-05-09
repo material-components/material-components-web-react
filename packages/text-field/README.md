@@ -1,36 +1,12 @@
 # React Text Field
 
-MDC React Text Field is a React Component which uses MDC [MDC Text Field](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/)'s CSS and foundation JavaScript.
+MDC React Text Field is component for MDC Text Field. Please see [MDC Text Field](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/).
 
 ## Installation
 
 ```
 npm install @material/react-text-field
 ```
-
-## Props
-
-Prop Name | Type | Description
---- | --- | ---
-box | Boolean | Enables box variant.
-children | Element | Mandatory. The input element of the text field.
-className | String | An optional class added to the `.mdc-text-field` element.
-dense | Boolean | Enables dense variant.
-floatingLabelClassName | String | An optional class added to the floating label element fo the text field.
-fullWidth | Boolean | Enables fullWidth variant.
-helperText | String | Helper text that appears below the text field.
-helperTextAriaHidden | Boolean | Sets the helper text element's aria-hidden value.
-helperTextClassName | String | An optional class added to the helper text element.
-helperTextIsValidation | Boolean | Treats the helper text as a validation message.
-helperTextPersistent | Boolean | Enables the helper text to always appear.
-helperTextRole | String | Sets the aria role value of the helper text element.
-label | String | Mandatory. Label text that appears as the floating label or placeholder.
-leadingIcon | Element | An icon element that appears as the leading icon.
-lineRippleClassName | String | An optional class added to the line ripple element.
-notchedOutlineClassName | String | An optional class added to the notched outline element.
-outlined | Boolean | Enables outlined variant.
-textarea | Boolean | Enables textarea variant.
-trailingIcon | Element | An icon element that appears as the trailing icon.
 
 ## Usage
 
@@ -58,7 +34,29 @@ class MyApp extends React.Component {
 ```
 
 > NOTE: In order to get access to the value, you must add an onChange handler, which accepts an event and updates the value of the input as shown above.
+## Props
 
+Prop Name | Type | Description
+--- | --- | ---
+box | Boolean | Enables box variant.
+children | Element | Mandatory. The input element of the text field.
+className | String | An optional class added to the `.mdc-text-field` element.
+dense | Boolean | Enables dense variant.
+floatingLabelClassName | String | An optional class added to the floating label element fo the text field.
+fullWidth | Boolean | Enables fullWidth variant.
+helperText | String | Helper text that appears below the text field.
+helperTextAriaHidden | Boolean | Sets the helper text element's aria-hidden value.
+helperTextClassName | String | An optional class added to the helper text element.
+helperTextIsValidation | Boolean | Treats the helper text as a validation message.
+helperTextPersistent | Boolean | Enables the helper text to always appear.
+helperTextRole | String | Sets the aria role value of the helper text element.
+label | String | Mandatory. Label text that appears as the floating label or placeholder.
+leadingIcon | Element | An icon element that appears as the leading icon.
+lineRippleClassName | String | An optional class added to the line ripple element.
+notchedOutlineClassName | String | An optional class added to the notched outline element.
+outlined | Boolean | Enables outlined variant.
+textarea | Boolean | Enables textarea variant.
+trailingIcon | Element | An icon element that appears as the trailing icon.
 
 ### Input Props
 
