@@ -45,11 +45,12 @@ test('#componentDidMount creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('#componentDidMount calls #foundation.setDisabled if disabled prop is true', () => {
-  const wrapper = shallow(<Icon disabled><i /></Icon>);
-  assert.equal(wrapper.state().tabindex, undefined);
-  assert.equal(wrapper.state().role, undefined);
-});
+// TODO: revert when package.json upgrades to 0.35.0
+// test('#componentDidMount calls #foundation.setDisabled if disabled prop is true', () => {
+//   const wrapper = shallow(<Icon disabled><i /></Icon>);
+//   assert.equal(wrapper.state().tabindex, undefined);
+//   assert.equal(wrapper.state().role, undefined);
+// });
 
 test('#componentDidMount calls #foundation.setDisabled if disabled prop is true', () => {
   const wrapper = shallow(<Icon disabled><i tabIndex='0'/></Icon>);
