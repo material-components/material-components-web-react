@@ -5,7 +5,9 @@
   "scripts": {
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "stop": "./test/screenshot/stop.sh",
+    "build": "npm run clean && mkdirp build && webpack --config packages/webpack.config.js --progress --colors",
     "capture": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 30000 test/screenshot/capture-suite.js",
+    "clean": "rm -rf build/** build",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix packages test",
     "lint": "eslint packages test",
@@ -59,6 +61,7 @@
     "babel-preset-react": "^6.24.1",
     "capture-chrome": "^2.0.0",
     "chai": "^4.1.2",
+    "cp-file": "^5.0.0",
     "css-loader": "^0.28.10",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -83,6 +86,7 @@
     "resemblejs": "^2.10.0",
     "sass-loader": "^6.0.7",
     "testdouble": "^3.6.0",
+    "to-slug-case": "^1.0.0",
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.2"
