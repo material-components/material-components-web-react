@@ -9,3 +9,4 @@ key.json
 *.golden.png
 lerna-debug.log
 build/**
+**/dist/*

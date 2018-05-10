@@ -42,8 +42,7 @@ if (!isValidCwd) {
 }
 
 function getAssetEntry(asset) {
-  const [entryName] = path.parse(asset).name.replace(PKG_RE);
-  console.log(entryName)
+  const entryName = path.parse(asset).name.replace(PKG_RE, '').replace(/\.min$/, '');
   const [MDC, componentName] = entryName.split('.');
   const dealingWithSubpackage = Boolean(MDC && componentName);
   if (!dealingWithSubpackage) {
