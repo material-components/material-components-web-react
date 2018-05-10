@@ -28,7 +28,8 @@
           "card",
           "fab",
           "ripple",
-          "top-app-bar"
+          "top-app-bar",
+          "infrastructure"
         ],
         "validate": true
       }
