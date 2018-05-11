@@ -22,10 +22,9 @@
 const path = require('path');
 const fs = require('fs');
 const cpFile = require('cp-file');
-const toSlugCase = require('to-slug-case');
 const {sync: globSync} = require('glob');
 
-const PKG_RE = /^react-/;
+const PKG_RE = /^react-(([a-z]*\-?)*)/;
 
 const isValidCwd = (
   path.basename(process.cwd()) === 'material-components-web-react' &&
@@ -42,13 +41,8 @@ if (!isValidCwd) {
 }
 
 function getAssetEntry(asset) {
-  const entryName = path.parse(asset).name.replace(PKG_RE, '').replace(/\.min$/, '');
-  const [MDC, componentName] = entryName.split('.');
-  const dealingWithSubpackage = Boolean(MDC && componentName);
-  if (!dealingWithSubpackage) {
-    return entryName;
-  }
-  return [MDC, toSlugCase(componentName)].join('-');
+  const [fileName, entryName] = path.parse(asset).name.match(PKG_RE);
+  return entryName;
 }
 
 function cpAsset(asset) {
@@ -60,7 +54,7 @@ function cpAsset(asset) {
   return cpFile(asset, destDir).then(() => console.log(`cp ${asset} -> ${destDir}`));
 }
 
-Promise.all(globSync('build/*.{css,js}').map(cpAsset)).catch((err) => {
+Promise.all(globSync('build/*.{css,js,map}').map(cpAsset)).catch((err) => {
   console.error(`Error encountered copying assets: ${err}`);
   process.exit(1);
 });

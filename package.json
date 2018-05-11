@@ -86,7 +86,6 @@
     "resemblejs": "^2.10.0",
     "sass-loader": "^6.0.7",
     "testdouble": "^3.6.0",
-    "to-slug-case": "^1.0.0",
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.2"
