@@ -16,78 +16,89 @@ const chunks = [
 
 const getAbsolutePath = (url) => require('path').resolve(__dirname, url);
 const filename = 'react-[name]';
-const outputPath = getAbsolutePath('../build');
 
-const minifiedChunks = {};
-const minifiedChunkStyles = {};
-chunks.forEach((chunk) => {
-  const path = getAbsolutePath(`${chunk}/index.js`);
-  const stylePath = getAbsolutePath(`${chunk}/index.scss`);
-  minifiedChunks[chunk] = path;
-  minifiedChunks[`${chunk}.min`] = path;
+function getWebpackConfigs() {
+  const webpackConfigs = [];
 
-  if (chunk === 'ripple') return;
-  minifiedChunkStyles[chunk] = stylePath;
-  minifiedChunkStyles[`${chunk}.min`] = stylePath;
-});
+  chunks.forEach((chunk) => {
+    const jsPath = getAbsolutePath(`${chunk}/index.js`);
+    const cssPath = getAbsolutePath(`${chunk}/index.scss`);
 
-const jsWebpackConfig = {
-  entry: minifiedChunks,
-  output: {
-    path: outputPath,
-    filename: `${filename}.js`,
-    libraryTarget: 'umd',
-  },
-  devtool: 'source-map',
-  module: {
-    rules: [{
-      test: /\.js$/,
-      loader: 'babel-loader',
-      options: {
-        cacheDirectory: true,
-      },
-    }],
-  },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      include: /\.min\.js$/,
-    }),
-  ],
-};
+    webpackConfigs.push(getJavaScriptWebpackConfig(jsPath, chunk));
+    webpackConfigs.push(getJavaScriptWebpackConfig(jsPath, `${chunk}.min`));
 
-const cssWebpackConfig = {
-  entry: minifiedChunkStyles,
-  output: {
-    path: outputPath,
-    filename: `${filename}.css.js`,
-    libraryTarget: 'umd',
-  },
-  devtool: 'source-map',
-  module: {
-    rules: [{
-      test: /\.scss$/,
-      use: ExtractTextPlugin.extract({
-        use: [
-          {
-            loader: 'css-loader',
-            minimize: 
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: [getAbsolutePath('../node_modules')],
-            },
-          },
-        ],
-      }),
-    }],
-  },
-  plugins: [
-    new ExtractTextPlugin(`${filename}.css`),
-  ],
+
+    if (chunk === 'ripple') return;
+    webpackConfigs.push(getCssWebpackConfig(cssPath, chunk));
+    webpackConfigs.push(getCssWebpackConfig(cssPath, `${chunk}.min`));
+  });
+
+  return webpackConfigs;
 }
 
-module.exports = [
-  jsWebpackConfig,
-  cssWebpackConfig,
-];
+function getCommonWebpackParams(entryPath, chunk, isCss) {
+  const entry = {[chunk]: entryPath};
+  return {
+    entry,
+    output: {
+      path: getAbsolutePath('../build'),
+      filename: `${filename}${isCss ? '.css' : ''}.js`,
+      libraryTarget: 'umd',
+    },
+    devtool: 'source-map',
+  };
+}
+
+function getJavaScriptWebpackConfig(entryPath, chunk) {
+  return Object.assign(
+    getCommonWebpackParams(entryPath, chunk), {
+    module: {
+      rules: [{
+        test: /\.js$/,
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+        },
+      }],
+    },
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        include: /\.min\.js$/,
+      }),
+    ],
+  });
+}
+
+function getCssWebpackConfig(entryPath, chunk) {
+  const shouldMinify = chunk.includes('.min');
+  return Object.assign(
+    getCommonWebpackParams(entryPath, chunk, true), {
+    module: {
+      rules: [{
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: shouldMinify,
+              },
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                includePaths: [getAbsolutePath('../node_modules')],
+              },
+            },
+          ],
+        }),
+      }],
+    },
+    plugins: [
+      new ExtractTextPlugin(`${filename}.css`),
+    ],
+  });
+}
+
+
+module.exports = getWebpackConfigs();
