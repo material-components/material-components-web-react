@@ -24,7 +24,7 @@ const fs = require('fs');
 const cpFile = require('cp-file');
 const {sync: globSync} = require('glob');
 
-const PKG_RE = /^react-(([a-z]*\-?)*)/;
+const PKG_RE = /^(([a-z]*\-?)*)/;
 
 const isValidCwd = (
   path.basename(process.cwd()) === 'material-components-web-react' &&

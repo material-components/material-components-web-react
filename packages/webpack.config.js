@@ -1,21 +1,19 @@
 const webpack = require('webpack');
+const {readdirSync, lstatSync} = require('fs');
+const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const chunks = [
-  'button',
-  'card',
-  'fab',
-  'floating-label',
-  'line-ripple',
-  'material-icon',
-  'notched-outline',
-  'ripple',
-  'text-field',
-  'top-app-bar',
-];
+const isDirectory = (source) => lstatSync(source).isDirectory();
+const getChunks = (source) =>
+  readdirSync(source)
+    .map((filename) => path.join(source, filename))
+    .filter(isDirectory)
+    .map((directoryPath) => directoryPath.replace('packages\/', ''));
 
-const getAbsolutePath = (url) => require('path').resolve(__dirname, url);
-const filename = 'react-[name]';
+const chunks = getChunks('./packages');
+
+const getAbsolutePath = (url) => path.resolve(__dirname, url);
+const filename = '[name]';
 
 function getWebpackConfigs() {
   const webpackConfigs = [];
@@ -52,52 +50,49 @@ function getCommonWebpackParams(entryPath, chunk, isCss) {
 function getJavaScriptWebpackConfig(entryPath, chunk) {
   return Object.assign(
     getCommonWebpackParams(entryPath, chunk), {
-    module: {
-      rules: [{
-        test: /\.js$/,
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-        },
-      }],
-    },
-    plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-        include: /\.min\.js$/,
-      }),
-    ],
-  });
+      module: {
+        rules: [{
+          test: /\.js$/,
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+          },
+        }],
+      },
+      plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+          include: /\.min\.js$/,
+        }),
+      ],
+    });
 }
 
 function getCssWebpackConfig(entryPath, chunk) {
   const shouldMinify = chunk.includes('.min');
   return Object.assign(
     getCommonWebpackParams(entryPath, chunk, true), {
-    module: {
-      rules: [{
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
+      module: {
+        rules: [{
+          test: /\.scss$/,
+          use: ExtractTextPlugin.extract({
+            use: [{
               loader: 'css-loader',
               options: {
                 minimize: shouldMinify,
               },
-            },
-            {
+            }, {
               loader: 'sass-loader',
               options: {
                 includePaths: [getAbsolutePath('../node_modules')],
               },
-            },
-          ],
-        }),
-      }],
-    },
-    plugins: [
-      new ExtractTextPlugin(`${filename}.css`),
-    ],
-  });
+            }],
+          }),
+        }],
+      },
+      plugins: [
+        new ExtractTextPlugin(`${filename}.css`),
+      ],
+    });
 }
 
 
