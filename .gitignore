@@ -8,5 +8,5 @@ node_modules
 key.json
 *.golden.png
 lerna-debug.log
-build/**
-**/dist/*
+build
+dist
