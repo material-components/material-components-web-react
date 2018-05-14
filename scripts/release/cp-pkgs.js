@@ -50,7 +50,16 @@ function cpAsset(asset) {
   if (!fs.existsSync(assetPkg)) {
     Promise.reject(new Error(`Non-existent asset package path ${assetPkg} for ${asset}`));
   }
-  const destDir = path.join(assetPkg, 'dist', path.basename(asset));
+
+  const basename = path.basename(asset);
+  let destDir = path.join(assetPkg, 'dist', basename);
+  if (path.extname(asset) === '.js' && !basename.includes('.css')) {
+    if (basename.includes('.min')) {
+      destDir = path.join(assetPkg, 'dist', 'index.min.js');    
+    } else {
+      destDir = path.join(assetPkg, 'dist', 'index.js');
+    }
+  }
   return cpFile(asset, destDir).then(() => console.log(`cp ${asset} -> ${destDir}`));
 }
 
