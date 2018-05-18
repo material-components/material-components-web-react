@@ -37,7 +37,7 @@ const withRipple = (WrappedComponent) => {
       return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
         isUnbounded: () => this.props.unbounded,
-        isSurfaceActive: () => this.isActivated,
+        isSurfaceActive: () => this.state.isActivated,
         isSurfaceDisabled: () => this.props.disabled,
         addClass: (className) =>
           this.setState({classList: this.state.classList.add(className)}),
@@ -66,15 +66,13 @@ const withRipple = (WrappedComponent) => {
 
     handleMouseDown = (e) => {
       this.props.onMouseDown(e);
-      // this.setState({isActivated: true});
-      this.isActivated = true;
+      this.setState({isActivated: true});
       this.activateRipple(e);
     }
 
     handleMouseUp = (e) => {
       this.props.onMouseUp(e);
-      this.isActivated = false;
-      // this.setState({isActivated: false});
+      this.setState({isActivated: false});
     }
 
     handleTouchStart = (e) => {
@@ -92,7 +90,7 @@ const withRipple = (WrappedComponent) => {
       e.persist();
       requestAnimationFrame(() => {
         this.foundation_.activate(e);
-      })
+      });
     }
 
     updateCssVariable = (varName, value) => {
