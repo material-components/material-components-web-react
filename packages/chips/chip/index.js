@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {MDCChipFoundation} from '@material/chips';
 // import withRipple from '@material/react-ripple';
 
@@ -29,7 +28,7 @@ export class Chip extends React.Component {
   }
 
   get classes() {
-    return this.state.classList;
+    return 'mdc-chip'; // to be replaced with classnames
   }
 
   get adapter() {
@@ -49,21 +48,11 @@ export class Chip extends React.Component {
 
   render() {
     return (
-      <div className={this.classes} key={this.props.index} tabindex='0'>
+      <div className={this.classes} tabIndex='0'>
         <div className='mdc-chip__text'>{this.props.name}</div>
       </div>
     );
   }
 }
-
-Chip.propTypes = {
-};
-
-Chip.defaultProps = {
-  'index': 0,
-  'className': '',
-  'name': '',
-  'removeChip': null,
-};
 
 export default Chip;
