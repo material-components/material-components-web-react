@@ -26,7 +26,7 @@ class Dog extends React.Component {
 
 ## Importing with ES5
 
-The NPM packages all contain a `/dist` directory, which includes:
+The NPM packages each contain a `/dist` directory, which includes:
 
 1. The component transpiled to ES5 (`@material/react-foo/dist/index.js`).
 1. The component minified and transpiled to ES5 (`@material/react-foo/dist/index.min.js`).

@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 Google Inc. All Rights Reserved.
+ * Copyright 2018 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ function cpAsset(asset) {
   let destDir = path.join(assetPkg, 'dist', basename);
   if (path.extname(asset) === '.js' && !basename.includes('.css')) {
     if (basename.includes('.min')) {
-      destDir = path.join(assetPkg, 'dist', 'index.min.js');    
+      destDir = path.join(assetPkg, 'dist', 'index.min.js');
     } else {
       destDir = path.join(assetPkg, 'dist', 'index.js');
     }
