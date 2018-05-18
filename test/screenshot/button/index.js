@@ -22,6 +22,10 @@ const svgIcon = (<svg
 
 ReactDOM.render((
   <div>
+    <form>
+      <input type='text' value='mattgoo' />
+      <Button>Click</Button>
+    </form>
     <div className='button-container'>
       <Button>Click</Button>
     </div>
