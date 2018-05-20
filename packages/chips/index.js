@@ -7,10 +7,17 @@ class ChipSet extends React.Component {
   constructor(props) {
     super(props);
     this.chipSetEl = React.createRef();
+    this.maxId = 0;
 
     this.state = {
       inputValue: '',
-      chipNames: ['Jane Smith', 'John Doe']
+      chips: [{
+        name: 'Jane Smith',
+        id: this.maxId++
+      }, {
+        name: 'John Doe',
+        id: this.maxId++
+      }]
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
@@ -42,30 +49,34 @@ class ChipSet extends React.Component {
       && this.state.inputValue !== '') {
         this.addInputChip();
     } else if ((e.key === 'Backspace' || e.keyCode === 8) && this.state.inputValue == '') {
-      const chipName = this.state.chipNames[this.state.chipNames.length - 1];
-      this.removeChip(chipName);
+      const chip = this.state.chips[this.state.chips.length - 1];
+      this.removeChip(chip);
     }
   }
 
   addInputChip() {
-    const {chipNames} = this.state;
-    chipNames.push(this.state.inputValue);
+    const chips = [...this.state.chips];
+    const newChip = {
+      name: this.state.inputValue,
+      id: this.maxId++
+    }
+    chips.push(newChip);
     this.setState({
       inputValue: '',
-      chipNames: chipNames
+      chips: chips
     });
   }
 
-  removeChip(chipName) {
-    const {chipNames} = this.state;
-    const index = chipNames.indexOf(chipName);
-    chipNames.splice(index, 1);
-    this.setState({chipNames});
+  removeChip(chip) {
+    const chips = [...this.state.chips];
+    const index = chips.indexOf(chip);
+    chips.splice(index, 1);
+    this.setState({chips});
   }
 
-  renderInputChip(name, index) {
+  renderInputChip(chip) {
     return (
-      <Chip key={index} name={name} />
+      <Chip key={chip.id} chip={chip} removeChip={this.removeChip}/>
     );
   }
 
@@ -73,7 +84,7 @@ class ChipSet extends React.Component {
     return (
       <div className='catalog-input-chips'>
         <div className='mdc-chip-set mdc-chip-set--input' ref={this.chipSetEl}>
-          {this.state.chipNames.map(this.renderInputChip)}
+          {this.state.chips.map(this.renderInputChip.bind(this))}
           <input type="text" value={this.state.inputValue} onChange={this.handleChange} onKeyDown={this.handleInputKeyDown} />
         </div>
       </div>

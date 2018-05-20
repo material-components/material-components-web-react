@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@material/chips": "^0.35.1",
-    "@material/react-ripple": "^0.0.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"

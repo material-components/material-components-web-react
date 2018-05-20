@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import {MDCChipFoundation} from '@material/chips';
 // import withRipple from '@material/react-ripple';
 
@@ -9,9 +10,12 @@ export class Chip extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'classList': new Set(['mdc-chip']),
+      'classList': new Set()
     };
+    this.chipElement = React.createRef();
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleTrailingIcon = this.handleTrailingIcon.bind(this);
+    this.handleTransitionEnd = this.handleTransitionEnd.bind(this);
   }
 
   componentDidMount() {
@@ -23,12 +27,24 @@ export class Chip extends React.Component {
     this.foundation_.destroy();
   }
 
+  handleTrailingIcon(e) {
+    this.foundation_.handleTrailingIconInteraction_(e);
+  }
+
+  handleTransitionEnd(e) {
+    this.foundation_.handleTransitionEnd_(e);
+  }
+
   handleRemove() {
-    this.props.removeChip(this.props.name);
+    this.props.removeChip(this.props.chip);
   }
 
   get classes() {
-    return 'mdc-chip'; // to be replaced with classnames
+    const {classList} = this.state;
+    const {className, selected} = this.props;
+    return classnames('mdc-chip', Array.from(classList), className, {
+      'mdc-chip--selected': selected,
+    });
   }
 
   get adapter() {
@@ -43,13 +59,18 @@ export class Chip extends React.Component {
       hasClass: (className) => this.classes.split(' ').includes(className),
       eventTargetHasClass: (target, className) => this.classes.split(' ').includes(className), // Assume for now that the target is always the chip.
       notifyRemoval: () => this.handleRemove(),
+      getComputedStyleValue: (propertyName) => window.getComputedStyle(this.chipElement.current).getPropertyValue(propertyName),
+      setStyleProperty: (propertyName, value) => this.chipElement.current.style.setProperty(propertyName, value),
     };
   }
 
   render() {
     return (
-      <div className={this.classes} tabIndex='0'>
-        <div className='mdc-chip__text'>{this.props.name}</div>
+      <div className={this.classes} tabIndex='0' onTransitionEnd={this.handleTransitionEnd} ref={this.chipElement}>
+        <div className='mdc-chip__text'>{this.props.chip.name}</div>
+        <i className='material-icons mdc-chip__icon mdc-chip__icon--trailing' tabIndex='0' role='button'
+          onClick={this.handleTrailingIcon}>
+          cancel</i>
       </div>
     );
   }
