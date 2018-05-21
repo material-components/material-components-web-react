@@ -12,9 +12,10 @@ class ChipSet extends React.Component {
     this.state = {
       'classList': new Set(),
       inputValue: '',
-      chips: this.props.names.map((name) => {
+      chips: this.props.chips.map((chip) => {
         return {
-          name: name,
+          name: chip.name,
+          class: chip.class,
           id: this.maxId++
         }
       })
@@ -58,7 +59,7 @@ class ChipSet extends React.Component {
         this.addInputChip();
     } else if ((e.key === 'Backspace' || e.keyCode === 8) && this.state.inputValue == '') {
       const chip = this.state.chips[this.state.chips.length - 1];
-      this.removeChip(chip); // TODO: change this to exitChip()
+      this.exitChip(chip);
     }
   }
 
@@ -75,6 +76,17 @@ class ChipSet extends React.Component {
     });
   }
 
+  exitChip(chip) {
+    const chips = [...this.state.chips];
+    const index = chips.indexOf(chip);
+    chips.splice(index, 1, {
+      name: chip.name,
+      id: chip.id,
+      class: 'mdc-chip--exit'
+    });
+    this.setState({chips});
+  }
+
   removeChip(chip) {
     const chips = [...this.state.chips];
     const index = chips.indexOf(chip);
@@ -84,7 +96,7 @@ class ChipSet extends React.Component {
 
   renderInputChip(chip) {
     return (
-      <Chip key={chip.id} chip={chip} removeChip={this.removeChip}/>
+      <Chip key={chip.id} chip={chip} className={chip.class} removeChip={this.removeChip}/>
     );
   }
 

@@ -7,6 +7,9 @@ import ChipSet from '../../../packages/chips';
 
 ReactDOM.render((
   <div>
-    <ChipSet names={['Jane Smith', 'John Doe']} />
+    <ChipSet chips={[
+      {name: 'Jane Smith'},
+      {name: 'John Doe'}]}
+    />
   </div>
 ), document.getElementById('app'));

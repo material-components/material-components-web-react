@@ -69,7 +69,7 @@ export class Chip extends React.Component {
       <div className={this.classes} tabIndex='0' onTransitionEnd={this.handleTransitionEnd} ref={this.chipElement}>
         <div className='mdc-chip__text'>{this.props.chip.name}</div>
         <i className='material-icons mdc-chip__icon mdc-chip__icon--trailing' tabIndex='0' role='button'
-          onClick={this.handleTrailingIcon}>
+          onClick={this.handleTrailingIcon} onKeyPress={this.handleTrailingIcon}>
           cancel</i>
       </div>
     );
