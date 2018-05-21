@@ -10,14 +10,14 @@ class ChipSet extends React.Component {
     this.maxId = 0;
 
     this.state = {
+      'classList': new Set(),
       inputValue: '',
-      chips: [{
-        name: 'Jane Smith',
-        id: this.maxId++
-      }, {
-        name: 'John Doe',
-        id: this.maxId++
-      }]
+      chips: this.props.names.map((name) => {
+        return {
+          name: name,
+          id: this.maxId++
+        }
+      })
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
@@ -34,6 +34,14 @@ class ChipSet extends React.Component {
     this.foundation_.destroy();
   }
 
+  get classes() {
+    const classList = [...this.state.classList];
+    const {className, selected} = this.props;
+    return classnames('mdc-chip', Array.from(classList), className, {
+      'mdc-chip--selected': selected,
+    });
+  }
+
   get adapter() {
     return {
       hasClass: (className) => this.classes.split(' ').includes(className),
@@ -45,12 +53,12 @@ class ChipSet extends React.Component {
   }
 
   handleInputKeyDown(e) {
-    if ((e.key === 'Enter' || e.keyCode === 13) || (e.key === 'Tab' || e.keyCode === 9)
+    if (((e.key === 'Enter' || e.keyCode === 13) || (e.key === 'Tab' || e.keyCode === 9))
       && this.state.inputValue !== '') {
         this.addInputChip();
     } else if ((e.key === 'Backspace' || e.keyCode === 8) && this.state.inputValue == '') {
       const chip = this.state.chips[this.state.chips.length - 1];
-      this.removeChip(chip);
+      this.removeChip(chip); // TODO: change this to exitChip()
     }
   }
 
