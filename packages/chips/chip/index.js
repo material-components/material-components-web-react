@@ -57,7 +57,7 @@ export class Chip extends React.Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
-      eventTargetHasClass: (target, className) => this.classes.split(' ').includes(className), // Assume for now that the target is always the chip.
+      eventTargetHasClass: (target, className) => target.classList.contains(className),
       notifyRemoval: () => this.handleRemove(),
       getComputedStyleValue: (propertyName) => window.getComputedStyle(this.chipElement.current).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.chipElement.current.style.setProperty(propertyName, value),
