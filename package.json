@@ -29,6 +29,7 @@
           "button",
           "card",
           "fab",
+          "line-ripple",
           "ripple",
           "top-app-bar",
           "infrastructure"
