@@ -34,10 +34,14 @@ const withRipple = (WrappedComponent) => {
     }
 
     createAdapter_ = (instance) => {
+      const MATCHES = [
+        'webkitMatchesSelector', 'msMatchesSelector', 'matches'
+      ].filter((p) => p in HTMLElement.prototype).pop();
+
       return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
         isUnbounded: () => this.props.unbounded,
-        isSurfaceActive: () => this.state.isActivated,
+        isSurfaceActive: () => instance[MATCHES](':active'),
         isSurfaceDisabled: () => this.props.disabled,
         addClass: (className) =>
           this.setState({classList: this.state.classList.add(className)}),
@@ -64,15 +68,24 @@ const withRipple = (WrappedComponent) => {
       return classnames(Array.from(classList), wrappedCompClasses);
     }
 
+    handleFocus = (e) => {
+      this.props.onFocus(e);
+      this.foundation_.focusHandler_(e);
+    }
+
+    handleBlur = (e) => {
+      this.props.onBlur(e);
+      this.foundation_.blurHandler_(e);
+    }
+
     handleMouseDown = (e) => {
       this.props.onMouseDown(e);
-      this.setState({isActivated: true});
       this.activateRipple(e);
     }
 
     handleMouseUp = (e) => {
       this.props.onMouseUp(e);
-      this.setState({isActivated: false});
+      this.deactivateRipple(e);
     }
 
     handleTouchStart = (e) => {
@@ -80,15 +93,29 @@ const withRipple = (WrappedComponent) => {
       this.activateRipple(e);
     }
 
+    handleTouchEnd = (e) => {
+      this.props.onTouchEnd(e);
+      this.deactivateRipple(e);
+    }
+
     handleKeyDown = (e) => {
       this.props.onKeyDown(e);
       this.activateRipple(e);
+    }
+
+    handleKeyUp = (e) => {
+      this.props.onKeyUp(e);
+      this.deactivateRipple(e);
     }
 
     activateRipple = (e) => {
       // https://reactjs.org/docs/events.html#event-pooling
       e.persist();
       this.foundation_.activate(e);
+    }
+
+    deactivateRipple = (e) => {
+      this.foundation_.deactivate(e);
     }
 
     updateCssVariable = (varName, value) => {
@@ -110,20 +137,28 @@ const withRipple = (WrappedComponent) => {
         unbounded,
         style,
         className,
+        onFocus,
+        onBlur,
         onMouseDown,
         onMouseUp,
         onTouchStart,
+        onTouchEnd,
         onKeyDown,
+        onKeyUp,
         /* eslint-enable */
         /* end black list of otherprops */
         ...otherProps
       } = this.props;
 
       const updatedProps = Object.assign(otherProps, {
+        onFocus: this.handleFocus,
+        onBlur: this.handleBlur,
         onMouseDown: this.handleMouseDown,
         onMouseUp: this.handleMouseUp,
         onTouchStart: this.handleTouchStart,
+        onTouchEnd: this.handleTouchEnd,
         onKeyDown: this.handleKeyDown,
+        onKeyUp: this.handleKeyUp,
         // call initRipple on ref on root element that needs ripple
         initRipple: this.initializeFoundation_,
         className: this.classes,
@@ -139,10 +174,14 @@ const withRipple = (WrappedComponent) => {
     disabled: PropTypes.bool,
     style: PropTypes.object,
     className: PropTypes.string,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
     onTouchStart: PropTypes.func,
+    onTouchEnd: PropTypes.func,
     onKeyDown: PropTypes.func,
+    onKeyUp: PropTypes.func,
   }, WrappedComponent.propTypes);
 
   WrappedComponent.defaultProps = Object.assign({
@@ -150,10 +189,14 @@ const withRipple = (WrappedComponent) => {
     disabled: false,
     style: {},
     className: '',
+    onFocus: () => {},
+    onBlur: () => {},
     onMouseDown: () => {},
     onMouseUp: () => {},
     onTouchStart: () => {},
+    onTouchEnd: () => {},
     onKeyDown: () => {},
+    onKeyUp: () => {},
   }, WrappedComponent.defaultProps);
 
   RippledComponent.propTypes = WrappedComponent.propTypes;
