@@ -48,13 +48,13 @@ test('mouseDown event triggers activateRipple', () => {
   td.verify(mouseDownHandler(td.matchers.isA(Object)), {times: 1});
 });
 
-test('mouseUp event does not trigger activateRipple', () => {
+test('mouseUp event triggers deactivateRipple', () => {
   const mouseUpHandler = td.func();
   const wrapper = mount(<DivRipple onMouseUp={mouseUpHandler}/>);
   const foundation = wrapper.instance().foundation_;
   foundation.activate = td.func();
   wrapper.simulate('mouseUp');
-  td.verify(foundation.activate(td.matchers.isA(Object)), {times: 0});
+  td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
   td.verify(mouseUpHandler(td.matchers.isA(Object)), {times: 1});
 });
 
@@ -76,6 +76,16 @@ test('touchStart event triggers activateRipple with no onTouchStart handler', ()
   td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
 });
 
+test('touchEnd event triggers deactivateRipple', () => {
+  const touchEndHandler = td.func();
+  const wrapper = mount(<DivRipple ontouchEnd={touchEndHandler}/>);
+  const foundation = wrapper.instance().foundation_;
+  foundation.activate = td.func();
+  wrapper.simulate('touchEnd');
+  td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
+  td.verify(touchEndHandler(td.matchers.isA(Object)), {times: 1});
+});
+
 test('keyDown event triggers activateRipple', () => {
   const keyDownHandler = td.func();
   const wrapper = mount(<DivRipple onKeyDown={keyDownHandler}/>);
@@ -92,6 +102,16 @@ test('keyDown event triggers activateRipple with no onKeyDown handler', () => {
   foundation.activate = td.func();
   wrapper.simulate('keyDown');
   td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
+});
+
+test('keyUp event triggers deactivateRipple', () => {
+  const keyUpHandler = td.func();
+  const wrapper = mount(<DivRipple onkeyUp={keyUpHandler}/>);
+  const foundation = wrapper.instance().foundation_;
+  foundation.activate = td.func();
+  wrapper.simulate('keyUp');
+  td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
+  td.verify(keyUpHandler(td.matchers.isA(Object)), {times: 1});
 });
 
 test('#adapter.isUnbounded returns true is prop is set', () => {

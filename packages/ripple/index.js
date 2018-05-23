@@ -68,16 +68,6 @@ const withRipple = (WrappedComponent) => {
       return classnames(Array.from(classList), wrappedCompClasses);
     }
 
-    handleFocus = (e) => {
-      this.props.onFocus(e);
-      this.foundation_.focusHandler_(e);
-    }
-
-    handleBlur = (e) => {
-      this.props.onBlur(e);
-      this.foundation_.blurHandler_(e);
-    }
-
     handleMouseDown = (e) => {
       this.props.onMouseDown(e);
       this.activateRipple(e);
@@ -137,8 +127,6 @@ const withRipple = (WrappedComponent) => {
         unbounded,
         style,
         className,
-        onFocus,
-        onBlur,
         onMouseDown,
         onMouseUp,
         onTouchStart,
@@ -151,8 +139,6 @@ const withRipple = (WrappedComponent) => {
       } = this.props;
 
       const updatedProps = Object.assign(otherProps, {
-        onFocus: this.handleFocus,
-        onBlur: this.handleBlur,
         onMouseDown: this.handleMouseDown,
         onMouseUp: this.handleMouseUp,
         onTouchStart: this.handleTouchStart,
@@ -174,8 +160,6 @@ const withRipple = (WrappedComponent) => {
     disabled: PropTypes.bool,
     style: PropTypes.object,
     className: PropTypes.string,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
     onTouchStart: PropTypes.func,
@@ -189,8 +173,6 @@ const withRipple = (WrappedComponent) => {
     disabled: false,
     style: {},
     className: '',
-    onFocus: () => {},
-    onBlur: () => {},
     onMouseDown: () => {},
     onMouseUp: () => {},
     onTouchStart: () => {},
