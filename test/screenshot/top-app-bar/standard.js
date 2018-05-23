@@ -8,7 +8,7 @@ import './index.scss';
 import MaterialIcon from '../../../packages/material-icon';
 
 ReactDOM.render((
-  <div>
+  <div className='top-app-bar-container'>
     <TopAppBar
       title='Miami, FL'
       navigationIcon={<MaterialIcon

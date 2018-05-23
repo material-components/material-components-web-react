@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {
+  MDCFixedTopAppBarFoundation,
   MDCTopAppBarFoundation,
   MDCShortTopAppBarFoundation,
 } from '@material/top-app-bar';
@@ -17,13 +18,15 @@ export default class TopAppBar extends React.Component {
   get classes() {
     const {classList} = this.state;
     const {
-      shortCollapsed,
       className,
-      short,
+      fixed,
       prominent,
+      short,
+      shortCollapsed,
     } = this.props;
 
     return classnames('mdc-top-app-bar', Array.from(classList), className, {
+      'mdc-top-app-bar--fixed': fixed,
       'mdc-top-app-bar--short': shortCollapsed || short,
       'mdc-top-app-bar--short-collapsed': shortCollapsed,
       'mdc-top-app-bar--prominent': prominent,
@@ -41,6 +44,8 @@ export default class TopAppBar extends React.Component {
   initializeFoundation = () => {
     if (this.props.short) {
       this.foundation_ = new MDCShortTopAppBarFoundation(this.adapter);
+    } else if (this.props.fixed) {
+      this.foundation_ = new MDCFixedTopAppBarFoundation(this.adapter);
     } else {
       this.foundation_ = new MDCTopAppBarFoundation(this.adapter);
     }
