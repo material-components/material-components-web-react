@@ -35,7 +35,7 @@ const withRipple = (WrappedComponent) => {
 
     createAdapter_ = (instance) => {
       const MATCHES = [
-        'webkitMatchesSelector', 'msMatchesSelector', 'matches'
+        'webkitMatchesSelector', 'msMatchesSelector', 'matches',
       ].filter((p) => p in HTMLElement.prototype).pop();
 
       return {

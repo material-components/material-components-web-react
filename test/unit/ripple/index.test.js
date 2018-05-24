@@ -52,10 +52,18 @@ test('mouseUp event triggers deactivateRipple', () => {
   const mouseUpHandler = td.func();
   const wrapper = mount(<DivRipple onMouseUp={mouseUpHandler}/>);
   const foundation = wrapper.instance().foundation_;
-  foundation.activate = td.func();
+  foundation.deactivate = td.func();
   wrapper.simulate('mouseUp');
   td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
   td.verify(mouseUpHandler(td.matchers.isA(Object)), {times: 1});
+});
+
+test('mouseUp event triggers deactivateRipple with no onMouseUp handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.deactivate = td.func();
+  wrapper.simulate('mouseUp');
+  td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
 });
 
 test('touchStart event triggers activateRipple', () => {
@@ -78,12 +86,20 @@ test('touchStart event triggers activateRipple with no onTouchStart handler', ()
 
 test('touchEnd event triggers deactivateRipple', () => {
   const touchEndHandler = td.func();
-  const wrapper = mount(<DivRipple ontouchEnd={touchEndHandler}/>);
+  const wrapper = mount(<DivRipple onTouchEnd={touchEndHandler}/>);
   const foundation = wrapper.instance().foundation_;
-  foundation.activate = td.func();
+  foundation.deactivate = td.func();
   wrapper.simulate('touchEnd');
   td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
   td.verify(touchEndHandler(td.matchers.isA(Object)), {times: 1});
+});
+
+test('touchEnd event triggers deactivateRipple with no onTouchEnd handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.deactivate = td.func();
+  wrapper.simulate('touchEnd');
+  td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
 });
 
 test('keyDown event triggers activateRipple', () => {
@@ -106,12 +122,20 @@ test('keyDown event triggers activateRipple with no onKeyDown handler', () => {
 
 test('keyUp event triggers deactivateRipple', () => {
   const keyUpHandler = td.func();
-  const wrapper = mount(<DivRipple onkeyUp={keyUpHandler}/>);
+  const wrapper = mount(<DivRipple onKeyUp={keyUpHandler}/>);
   const foundation = wrapper.instance().foundation_;
-  foundation.activate = td.func();
+  foundation.deactivate = td.func();
   wrapper.simulate('keyUp');
   td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
   td.verify(keyUpHandler(td.matchers.isA(Object)), {times: 1});
+});
+
+test('keyUp event triggers deactivateRipple with no onKeyUp handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.deactivate = td.func();
+  wrapper.simulate('keyUp');
+  td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
 });
 
 test('#adapter.isUnbounded returns true is prop is set', () => {
@@ -122,19 +146,6 @@ test('#adapter.isUnbounded returns true is prop is set', () => {
 test('#adapter.isUnbounded returns false prop is not set', () => {
   const wrapper = mount(<DivRipple />);
   assert.isFalse(wrapper.instance().foundation_.adapter_.isUnbounded());
-});
-
-test('#adapter.isSurfaceActive returns true onMouseDown event', () => {
-  const wrapper = mount(<DivRipple />);
-  wrapper.simulate('mouseDown');
-  assert.isTrue(wrapper.instance().foundation_.adapter_.isSurfaceActive());
-});
-
-test('#adapter.isSurfaceActive returns false after onMouseUp event ', () => {
-  const wrapper = mount(<DivRipple />);
-  wrapper.simulate('mouseDown');
-  wrapper.simulate('mouseUp');
-  assert.isFalse(wrapper.instance().foundation_.adapter_.isSurfaceActive());
 });
 
 test('#adapter.isSurfaceDisabled returns true is prop is set', () => {
