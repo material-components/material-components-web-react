@@ -58,6 +58,11 @@ test('has correct prominent class', () => {
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--prominent'));
 });
 
+test('has correct fixed class', () => {
+  const wrapper = shallow(<TopAppBar fixed />);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--fixed'));
+});
+
 test('navigationIcon is rendered with navigation icon class', () => {
   const wrapper = mount(
     <TopAppBar
@@ -106,6 +111,12 @@ test('actionItems are rendered as a custom component that accepts a className pr
   );
   const actionItem = wrapper.find(RippledActionItem);
   assert.isTrue(actionItem.hasClass('mdc-top-app-bar__action-item'));
+});
+
+test('top app bar style should be set by state', () => {
+  const wrapper = mount(<TopAppBar/>);
+  wrapper.setState({style: {color: 'blue'}});
+  assert.equal(wrapper.getDOMNode().style.color, 'blue');
 });
 
 test('#adapter.addClass adds a class to state', () => {
@@ -160,6 +171,34 @@ test('#adapter.getTotalActionItems returns false with no actionItem ' +
   'passed', () => {
   const wrapper = shallow(<TopAppBar />);
   assert.isFalse(wrapper.instance().adapter.getTotalActionItems());
+});
+
+test('#adapter.setStyle should update state', () => {
+  const wrapper = shallow(<TopAppBar />);
+  wrapper.instance().adapter.setStyle('display', 'block');
+  assert.equal(wrapper.state().style.display, 'block');
+});
+
+test('#adapter.getTopAppBarHeight should return clientHeight', () => {
+  const div = document.createElement('div');
+  // needs to be attached to real DOM to get width
+  // https://github.com/airbnb/enzyme/issues/1525
+  document.body.append(div);
+  const options = {attachTo: div};
+  const wrapper = mount(<TopAppBar title='Hi' />, options);
+  const topAppBarHeight = wrapper.instance().adapter.getTopAppBarHeight();
+  assert.equal(topAppBarHeight, 18);
+  div.remove();
+});
+
+test('#enableRippleOnElement throws error if a native element', () => {
+  const wrapper = mount(<TopAppBar title='Hi' />);
+  assert.throws(
+    () => wrapper.instance().enableRippleOnElement({type: 'test'}),
+    Error,
+    'Material Design requires all Top App Bar Icons to have ripple. '
+      + 'Please use @material/react-ripple HOC with your icons.'
+  );
 });
 
 test('#componentWillUnmount destroys foundation', () => {

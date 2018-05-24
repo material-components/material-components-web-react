@@ -15,6 +15,11 @@ export default class TopAppBar extends React.Component {
     classList: new Set(),
   };
 
+  constructor(props) {
+    super(props);
+    this.topAppBarElement = React.createRef();
+  }
+
   get classes() {
     const {classList} = this.state;
     const {
@@ -72,6 +77,17 @@ export default class TopAppBar extends React.Component {
     return React.cloneElement(element, {hasRipple: true});
   }
 
+  setStyle = (varName, value) => {
+    const updatedStyle = Object.assign({}, this.state.style);
+    updatedStyle[varName] = value;
+    this.setState({style: updatedStyle});
+  }
+
+  getMergedStyles = () => {
+    const {style} = this.state;
+    return Object.assign({}, style, this.props.style);
+  }
+
   get adapter() {
     const {actionItems} = this.props;
 
@@ -84,6 +100,12 @@ export default class TopAppBar extends React.Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
+      setStyle: this.setStyle,
+      getTopAppBarHeight: () => {
+        if (this.topAppBarElement && this.topAppBarElement.current) {
+          return this.topAppBarElement.current.clientHeight;
+        }
+      },
       registerScrollHandler: (handler) =>
         window.addEventListener('scroll', handler),
       deregisterScrollHandler: (handler) =>
@@ -95,7 +117,9 @@ export default class TopAppBar extends React.Component {
 
   render() {
     return (
-      <header className={this.classes}>
+      <header className={this.classes}
+        style={this.getMergedStyles()}
+        ref={this.topAppBarElement}>
         <div className='mdc-top-app-bar__row'>
           {this.renderTitleAndNavigationSection()}
           {this.renderActionItems()}
@@ -155,21 +179,25 @@ export default class TopAppBar extends React.Component {
 }
 
 TopAppBar.propTypes = {
-  shortCollapsed: PropTypes.bool,
-  short: PropTypes.bool,
-  prominent: PropTypes.bool,
-  title: PropTypes.string,
   actionItems: PropTypes.arrayOf(PropTypes.element),
-  navigationIcon: PropTypes.element,
   className: PropTypes.string,
+  fixed: PropTypes.bool,
+  navigationIcon: PropTypes.element,
+  prominent: PropTypes.bool,
+  short: PropTypes.bool,
+  shortCollapsed: PropTypes.bool,
+  style: PropTypes.object,
+  title: PropTypes.string,
 };
 
 TopAppBar.defaultProps = {
-  shortCollapsed: false,
-  short: false,
-  prominent: false,
-  title: '',
   actionItems: null,
-  navigationIcon: null,
   className: '',
+  fixed: false,
+  navigationIcon: null,
+  prominent: false,
+  short: false,
+  shortCollapsed: false,
+  style: {},
+  title: '',
 };
