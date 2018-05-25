@@ -34,9 +34,7 @@ const withRipple = (WrappedComponent) => {
     }
 
     createAdapter_ = (instance) => {
-      const MATCHES = [
-        'webkitMatchesSelector', 'msMatchesSelector', 'matches',
-      ].filter((p) => p in HTMLElement.prototype).pop();
+      const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
 
       return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
