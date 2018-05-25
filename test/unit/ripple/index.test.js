@@ -39,13 +39,16 @@ test('classNames adds classes', () => {
 });
 
 test('mouseDown event triggers activateRipple', () => {
+  const mockRaf = createMockRaf();
   const mouseDownHandler = td.func();
   const wrapper = mount(<DivRipple onMouseDown={mouseDownHandler}/>);
   const foundation = wrapper.instance().foundation_;
   foundation.activate = td.func();
   wrapper.simulate('mouseDown');
+  mockRaf.flush();
   td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
   td.verify(mouseDownHandler(td.matchers.isA(Object)), {times: 1});
+  mockRaf.restore();
 });
 
 test('mouseUp event triggers deactivateRipple', () => {
@@ -67,21 +70,27 @@ test('mouseUp event triggers deactivateRipple with no onMouseUp handler', () => 
 });
 
 test('touchStart event triggers activateRipple', () => {
+  const mockRaf = createMockRaf();
   const touchStartHandler = td.func();
   const wrapper = mount(<DivRipple onTouchStart={touchStartHandler}/>);
   const foundation = wrapper.instance().foundation_;
   foundation.activate = td.func();
   wrapper.simulate('touchStart');
+  mockRaf.flush();
   td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
   td.verify(touchStartHandler(td.matchers.isA(Object)), {times: 1});
+  mockRaf.restore();
 });
 
 test('touchStart event triggers activateRipple with no onTouchStart handler', () => {
+  const mockRaf = createMockRaf();
   const wrapper = mount(<DivRipple />);
   const foundation = wrapper.instance().foundation_;
   foundation.activate = td.func();
   wrapper.simulate('touchStart');
+  mockRaf.flush();
   td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
+  mockRaf.restore();
 });
 
 test('touchEnd event triggers deactivateRipple', () => {
@@ -103,21 +112,27 @@ test('touchEnd event triggers deactivateRipple with no onTouchEnd handler', () =
 });
 
 test('keyDown event triggers activateRipple', () => {
+  const mockRaf = createMockRaf();
   const keyDownHandler = td.func();
   const wrapper = mount(<DivRipple onKeyDown={keyDownHandler}/>);
   const foundation = wrapper.instance().foundation_;
   foundation.activate = td.func();
   wrapper.simulate('keyDown');
+  mockRaf.flush();
   td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
   td.verify(keyDownHandler(td.matchers.isA(Object)), {times: 1});
+  mockRaf.restore();
 });
 
 test('keyDown event triggers activateRipple with no onKeyDown handler', () => {
+  const mockRaf = createMockRaf();
   const wrapper = mount(<DivRipple />);
   const foundation = wrapper.instance().foundation_;
   foundation.activate = td.func();
   wrapper.simulate('keyDown');
+  mockRaf.flush();
   td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
+  mockRaf.restore();
 });
 
 test('keyUp event triggers deactivateRipple', () => {

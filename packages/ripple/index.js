@@ -101,7 +101,9 @@ const withRipple = (WrappedComponent) => {
     activateRipple = (e) => {
       // https://reactjs.org/docs/events.html#event-pooling
       e.persist();
-      this.foundation_.activate(e);
+      requestAnimationFrame(() => {
+        this.foundation_.activate(e);
+      });
     }
 
     deactivateRipple = (e) => {
