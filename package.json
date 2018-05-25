@@ -29,6 +29,8 @@
           "button",
           "card",
           "fab",
+          "floating-label",
+          "line-ripple",
           "ripple",
           "top-app-bar",
           "infrastructure"
