@@ -9,7 +9,7 @@ export class Button extends Component {
       className,
       raised,
       unelevated,
-      stroked,
+      outlined,
       icon,
       children,
       initRipple,
@@ -20,7 +20,7 @@ export class Button extends Component {
     const classes = classnames('mdc-button', className, {
       'mdc-button--raised': raised,
       'mdc-button--unelevated': unelevated,
-      'mdc-button--stroked': stroked,
+      'mdc-button--outlined': outlined,
     });
 
     return (
@@ -51,7 +51,7 @@ export class Button extends Component {
 Button.propTypes = {
   raised: PropTypes.bool,
   unelevated: PropTypes.bool,
-  stroked: PropTypes.bool,
+  outlined: PropTypes.bool,
   disabled: PropTypes.bool,
   unbounded: PropTypes.bool,
   initRipple: PropTypes.func,
@@ -63,7 +63,7 @@ Button.propTypes = {
 Button.defaultProps = {
   raised: false,
   unelevated: false,
-  stroked: false,
+  outlined: false,
   disabled: false,
   unbounded: false,
   initRipple: () => {},
