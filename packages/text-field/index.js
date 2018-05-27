@@ -227,7 +227,7 @@ class TextField extends React.Component {
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
         {this.renderInput()}
-        {label && !fullWidth ? this.renderLabel() : null}
+        {label ? this.renderLabel() : null}
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
         {trailingIcon ? this.renderIcon(trailingIcon) : null}
