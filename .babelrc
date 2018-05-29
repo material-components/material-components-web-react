@@ -1,6 +1,6 @@
 {
   "presets": [
-    "env",
+    ["env", {"targets": {"node": "current"}}],
     "react"
   ],
   "plugins": [
