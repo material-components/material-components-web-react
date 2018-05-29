@@ -33,7 +33,7 @@ test('renders a unelevated button', () => {
   assert.isTrue(wrapper.hasClass('mdc-button--unelevated'));
 });
 
-test('renders a outlined button', () => {
+test('renders an outlined button', () => {
   const wrapper = shallow(<Button outlined />);
   assert.isTrue(wrapper.hasClass('mdc-button--outlined'));
 });
