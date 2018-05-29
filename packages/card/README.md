@@ -51,7 +51,7 @@ import Card from '@material/react-card';
 #### Props
 Prop Name | Type | Description
 --- | --- | ---
-stroked | n/a | Enables stroked outline of card.
+outlined | n/a | Enables outlined outline of card.
 
 ### CardPrimaryContent
 

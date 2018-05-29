@@ -11,8 +11,8 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('mdc-card'));
 });
 
-test('stroked prop adds correct classname', () => {
-  const wrapper = shallow(<Card stroked/>);
+test('outlined prop adds correct classname', () => {
+  const wrapper = shallow(<Card outlined/>);
   assert.isTrue(wrapper.hasClass('mdc-card'));
-  assert.isTrue(wrapper.hasClass('mdc-card--stroked'));
+  assert.isTrue(wrapper.hasClass('mdc-card--outlined'));
 });
