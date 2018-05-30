@@ -77,12 +77,6 @@ export default class TopAppBar extends React.Component {
     return React.cloneElement(element, {hasRipple: true});
   }
 
-  setStyle = (varName, value) => {
-    const updatedStyle = Object.assign({}, this.state.style);
-    updatedStyle[varName] = value;
-    this.setState({style: updatedStyle});
-  }
-
   getMergedStyles = () => {
     const {style} = this.state;
     return Object.assign({}, style, this.props.style);
@@ -100,7 +94,11 @@ export default class TopAppBar extends React.Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
-      setStyle: this.setStyle,
+      setStyle: (varName, value) => {
+        const updatedStyle = Object.assign({}, this.state.style);
+        updatedStyle[varName] = value;
+        this.setState({style: updatedStyle});
+      },
       getTopAppBarHeight: () => {
         if (this.topAppBarElement && this.topAppBarElement.current) {
           return this.topAppBarElement.current.clientHeight;
