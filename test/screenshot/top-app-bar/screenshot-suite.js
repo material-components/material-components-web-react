@@ -2,6 +2,7 @@ import ScreenshotSuite from '../screenshot-suite';
 import Screenshot from '../screenshot';
 
 const screenshots = [
+  new Screenshot('top-app-bar/fixed.html'),
   new Screenshot('top-app-bar/prominent.html'),
   new Screenshot('top-app-bar/short.html'),
   new Screenshot('top-app-bar/shortCollapsed.html'),
