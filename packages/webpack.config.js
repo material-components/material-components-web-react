@@ -72,6 +72,11 @@ function getJavaScriptWebpackConfig(entryPath, chunk) {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
+            presets: ['env', 'react'],
+            plugins: [
+              'transform-class-properties',
+              'transform-object-rest-spread',
+            ],
           },
         }],
       },
@@ -95,6 +100,13 @@ function getCssWebpackConfig(entryPath, chunk) {
               loader: 'css-loader',
               options: {
                 minimize: shouldMinify,
+              },
+            }, {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  require('autoprefixer')(),
+                ],
               },
             }, {
               loader: 'sass-loader',
