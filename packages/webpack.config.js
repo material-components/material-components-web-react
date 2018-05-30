@@ -72,6 +72,11 @@ function getJavaScriptWebpackConfig(entryPath, chunk) {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
+            presets: ['env', 'react'],
+            plugins: [
+              'transform-class-properties',
+              'transform-object-rest-spread',
+            ],
           },
         }],
       },

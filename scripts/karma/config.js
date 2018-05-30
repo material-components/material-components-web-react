@@ -40,7 +40,7 @@ module.exports = {
               compact: true,
               presets: [
                 'airbnb',
-                'es2015',
+                'env',
                 'react',
               ],
               plugins: ['transform-class-properties', 'istanbul']
