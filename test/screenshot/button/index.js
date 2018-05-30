@@ -29,7 +29,7 @@ ReactDOM.render((
       <Button raised>Raised</Button>
     </div>
     <div className='button-container'>
-      <Button stroked>Stroked</Button>
+      <Button outlined>Outlined</Button>
     </div>
     <div className='button-container'>
       <Button unelevated>Unelevated</Button>

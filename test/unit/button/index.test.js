@@ -33,9 +33,9 @@ test('renders a unelevated button', () => {
   assert.isTrue(wrapper.hasClass('mdc-button--unelevated'));
 });
 
-test('renders a stroked button', () => {
-  const wrapper = shallow(<Button stroked />);
-  assert.isTrue(wrapper.hasClass('mdc-button--stroked'));
+test('renders an outlined button', () => {
+  const wrapper = shallow(<Button outlined />);
+  assert.isTrue(wrapper.hasClass('mdc-button--outlined'));
 });
 
 test('default initRipple function', () => {
