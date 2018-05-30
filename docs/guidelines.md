@@ -54,3 +54,7 @@ class MyApp extends React.Component {
   }
 }
 ```
+
+## Building Sass Files
+
+If using Sass instead of the pre-compiled CSS, we recommend you use [Autoprefixer](https://github.com/postcss/autoprefixer) for improved browser support. For an example of use, please see our [Webpack config](../packages/webpack.config.js).
