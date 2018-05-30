@@ -57,4 +57,4 @@ class MyApp extends React.Component {
 
 ## Building Sass Files
 
-If you use the Sass files instead of the built CSS files found in the `/dist` directory, we recommend you use a package like [Autoprefixer](https://github.com/postcss/autoprefixer). Autoprefixer adds vendor prefixes to your CSS Output (ie. -moz-xyz, -webkit-xyz, etc). We use it in our [webpack config](../packages/webpack.config.js) as well in our [MDC-Web repository](https://github.com/material-components/material-components-web).
+If using Sass instead of the pre-compiled CSS, we recommend you use [Autoprefixer](https://github.com/postcss/autoprefixer) for improved browser support. For an example of use, please see our [Webpack config](../packages/webpack.config.js).
