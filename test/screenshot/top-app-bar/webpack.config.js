@@ -1,6 +1,7 @@
 const {bundle} = require('../webpack-bundles');
 
 module.exports = [
+  bundle('top-app-bar/fixed.js', 'top-app-bar/fixed'),
   bundle('top-app-bar/short.js', 'top-app-bar/short'),
   bundle('top-app-bar/prominent.js', 'top-app-bar/prominent'),
   bundle('top-app-bar/standard.js', 'top-app-bar/standard'),

@@ -36,7 +36,7 @@ const NavigationIcon = ({
 const NavigationIconWithRipple = withRipple(NavigationIcon);
 
 ReactDOM.render((
-  <div>
+  <div className='top-app-bar-container'>
     <TopAppBar
       title='Miami, FL'
       navigationIcon={<NavigationIconWithRipple unbounded />}
