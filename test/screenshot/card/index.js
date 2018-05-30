@@ -78,7 +78,7 @@ const newsContent = [{
 
 const NewsCard = () => {
   return (
-    <Card className='news-card' stroked>
+    <Card className='news-card' outlined>
       {newsContent.map((content, index) =>
         <NewsRow {...content} key={index} index={index} />)}
       <hr className='mdc-list-divider'/>
