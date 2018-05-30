@@ -10,7 +10,7 @@ MDC React is a wrapper library for [MDC Web](https://github.com/material-compone
 The following is a list of the components we've built, with corresponding links to the [material.io](https://material.io/) design spec and [MDC Web code](https://github.com/material-components/material-components-web).
 
 Component | Spec | MDC Web
-- | - | -
+---- | ---- | ----
 [Button](./packages/button) | [Button Design Page](https://material.io/design/components/buttons.html) | [MDC Button](https://github.com/material-components/material-components-web/tree/master/packages/mdc-button)
 [Card](./packages/card) | [Card Design Page](https://material.io/design/components/cards.html) | [MDC Card](https://github.com/material-components/material-components-web/tree/master/packages/mdc-card)
 [Fab](./packages/fab) | [Fab Design Page](https://material.io/design/components/buttons-floating-action-button.html) | [MDC Fab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-fab)
