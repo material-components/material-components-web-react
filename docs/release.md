@@ -1,7 +1,7 @@
 # Release
 
 
-### Setup Local Environment
+#### Setup Local Environment
 > Employees are supposed to do this as part of onboarding, but we've put it here as a reminder.
 
 ```
