@@ -20,7 +20,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const isDirectory = (source) => lstatSync(source).isDirectory();
-const containsJsFile = (source) => readdirSync(source).some(file => path.parse(file).ext === '.js');
+const containsJsFile = (source) => readdirSync(source).some((file) => path.extname(file) === '.js');
 
 const getChunks = (source) =>
   readdirSync(source)
