@@ -3,7 +3,7 @@
 
 # Material Components for React (MDC React)
 
-MDC React is a wrapper library for [MDC Web](https://github.com/material-components/material-components-web). We aim for MDC React Components to mirror MDC Web Components. Please refer to our [MDC Web Catalog](https://material-components.github.io/material-components-web-catalog/#/) to interact with the Components. This repo also serves as an example of how to use MDC Web's _Foundation_ and _Adapter_ classes.
+MDC React is a wrapper library for [MDC Web](https://github.com/material-components/material-components-web). We're aiming for MDC React Components to mirror MDC Web Components. Please refer to our [MDC Web Catalog](https://material-components.github.io/material-components-web-catalog/#/) to interact with the Components. This repo also serves as an example of how to use MDC Web's _Foundation_ and _Adapter_ classes.
 
 ## Components
 
