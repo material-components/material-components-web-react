@@ -52,5 +52,5 @@ node scripts/release/cp-pkgs.js
 echo ""
 
 log "Pre-release steps done! Next, you should run:" \
-    "\$(npm bin)/lerna publish --skip-git --skip-npm --conventional-commits"
+    "\$(npm bin)/lerna publish --skip-git --conventional-commits"
 echo ""
