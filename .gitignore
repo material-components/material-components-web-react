@@ -10,3 +10,4 @@ key.json
 lerna-debug.log
 build
 dist
+packages/**/CHANGELOG.md
