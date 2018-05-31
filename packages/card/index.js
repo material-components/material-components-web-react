@@ -12,11 +12,11 @@ export default class Card extends React.Component {
     const {
       className,
       children,
-      stroked,
+      outlined,
       ...otherProps
     } = this.props;
     const classes = classnames('mdc-card', className, {
-      'mdc-card--stroked': stroked,
+      'mdc-card--outlined': outlined,
     });
 
     return (
@@ -33,13 +33,13 @@ export default class Card extends React.Component {
 Card.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  stroked: PropTypes.bool,
+  outlined: PropTypes.bool,
 };
 
 Card.defaultProps = {
   children: null,
   className: '',
-  stroked: false,
+  outlined: false,
 };
 
 
