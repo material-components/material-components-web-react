@@ -11,9 +11,12 @@
 > 3. HTML/CSS
 > 4. ES6
 
+> _NOTE:_ If you haven't used `create-react-app` before, you may want to read the [Overview Guide](https://github.com/facebook/create-react-app#quick-overview).
+
+
 ### Step 1: Install create-react-app
 
-Before starting if you are new to `create-react-app` you may want to read over the [Overview Guide](https://github.com/facebook/create-react-app#quick-overview). But you're comfortable go ahead and install `create-react-app`:
+Install `create-react-app`:
 
 ```
 npm i -g create-react-app
@@ -24,12 +27,13 @@ npm i
 
 > NOTE: all npm commands can be replaced with yarn
 
-
 ### Step 2: Using Sass
 
-You will most likely want to start using our Sass to customize and utilize our [mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass). There are a few ways to achieve this. `create-react-app` does have a [recommended approach](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc), but at the time of writing this guide it doesn't work.
+If you want to use the compiled CSS and not customize any colors, text, etc. you can skip to Step 2a.
 
-So instead we need a different route, which is running [`eject`](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-run-eject).
+Most likely you'll want to start using the [Sass mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass) to customize your app. There are a few ways to achieve this. `create-react-app` does have a [recommended approach](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc), but at the time of writing this guide it doesn't work.
+
+The alternative route is to [`eject`](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-run-eject), which is what this step will cover.
 
 > Cautionary note: this is irreversible and may not work in your case. You may need to do some searching to find a method that works for you.
 
@@ -119,6 +123,22 @@ npm i -D sass-loader node-sass
 
 Phew! That was the tough part. Your app is now configured to compile any Sass you throw at it, and ready for some MDC-React action.
 
+### Step 2a: Use Compiled CSS
+
+If you performed [Step 2](#step-2-using-sass), then you can skip to [Step 3](##step-3-use-mdc-react-button).
+
+If you don't need to customize your app, then using the CSS is a quicker way to get started with MDC React Components. Each package comes with a `/dist` directory, which includes compiled ES5 and CSS files. `create-react-app` is ready to import CSS files. To import the Button CSS copy the following line into `./src/App.js` imports:
+
+```js
+import '@material/react-button/dist/button.css';
+```
+
+If you want to use the minified version, the import instead looks like:
+
+```js
+import '@material/react-button/dist/button.min.css';
+```
+
 ### Step 3: Use MDC React Button
 
 Open `./src/App.js`. Then replace the boilerplate App code (entire file) with the barebones MDC React Button:
@@ -126,6 +146,8 @@ Open `./src/App.js`. Then replace the boilerplate App code (entire file) with th
 ```js
 import React, {Component} from 'react';
 import Button from '@material/react-button';
+
+// replace this line with the line in Step 2a if you are using compiled CSS instead  
 import '@material/react-button/index.scss';
 
 class App extends Component {
