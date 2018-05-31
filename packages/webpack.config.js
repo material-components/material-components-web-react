@@ -20,10 +20,12 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const isDirectory = (source) => lstatSync(source).isDirectory();
+const containsJsFile = (source) => readdirSync(source).some(file => path.parse(file).ext === '.js');
+
 const getChunks = (source) =>
   readdirSync(source)
     .map((filename) => path.join(source, filename))
-    .filter(isDirectory)
+    .filter((source) => isDirectory(source) && containsJsFile(source))
     .map((directoryPath) => directoryPath.replace('packages\/', ''));
 
 const chunks = getChunks('./packages');
