@@ -28,9 +28,9 @@ export default class Icon extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.disabled !== nextProps.disabled) {
-      this.foundation_.setDisabled(nextProps.disabled);
+  componentDidUpdate(prevProps) {
+    if (this.props.disabled !== prevProps.disabled) {
+      this.foundation_.setDisabled(this.props.disabled);
     }
   }
 

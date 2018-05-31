@@ -24,17 +24,17 @@ export default class Input extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {foundation} = nextProps;
-    this.handleValidationAttributeUpdate(nextProps);
+  componentDidUpdate(prevProps) {
+    this.handleValidationAttributeUpdate(prevProps);
 
-    if (this.props.disabled !== nextProps.disabled) {
-      nextProps.setDisabled(nextProps.disabled);
-      foundation.setDisabled(nextProps.disabled);
+    if (this.props.disabled !== prevProps.disabled) {
+      const {disabled} = this.props;
+      this.props.setDisabled(disabled);
+      this.props.foundation.setDisabled(disabled);
     }
 
-    if (this.props.id !== nextProps.id) {
-      nextProps.setInputId(nextProps.id);
+    if (this.props.id !== prevProps.id) {
+      this.props.setInputId(this.props.id);
     }
   }
 
@@ -81,13 +81,12 @@ export default class Input extends React.Component {
     onChange(e);
   }
 
-  handleValidationAttributeUpdate = (nextProps) => {
-    const {foundation} = nextProps;
+  handleValidationAttributeUpdate = (prevProps) => {
     VALIDATION_ATTR_WHITELIST.some((attr) => {
-      if (this.props[attr] !== nextProps[attr]) {
+      if (this.props[attr] !== prevProps[attr]) {
         // TODO: Update this when issue is fixed:
         // https://github.com/material-components/material-components-web/issues/2716
-        foundation.handleValidationAttributeMutation_([{
+        this.props.foundation.handleValidationAttributeMutation_([{
           // TODO: Update this when issue is fixed:
           // https://github.com/material-components/material-components-web/issues/2717
           attributeName: VALIDATION_ATTR_WHITELIST[0],
@@ -143,7 +142,7 @@ Input.propTypes = {
     activateFocus: PropTypes.func,
     deactivateFocus: PropTypes.func,
     autoCompleteFocus: PropTypes.func,
-    setTransformOrigin: PropTypes.func,
+    setDisabled: PropTypes.func,
     setTransformOrigin: PropTypes.func,
     handleValidationAttributeMutation_: PropTypes.func,
   }),
@@ -170,6 +169,7 @@ Input.defaultProps = {
     activateFocus: () => {},
     deactivateFocus: () => {},
     autoCompleteFocus: () => {},
+    setDisabled: () => {},
     setTransformOrigin: () => {},
     handleValidationAttributeMutation_: () => {},
   },
