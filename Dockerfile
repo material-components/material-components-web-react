@@ -45,7 +45,3 @@ RUN cd /home/pptruser/ \
   && npm i
 
 WORKDIR /home/pptruser/material-components-web-react
-
-CMD [".", "./test/screenshot/start.sh"]
-CMD ["sleep", "200s"]
-CMD ["npm", "run", "test:image-diff"]
