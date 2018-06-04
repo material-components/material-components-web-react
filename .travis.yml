@@ -33,8 +33,9 @@ matrix:
       env: TEST_SUITE=screenshots
       before_install:
         - docker build -t screenshots .
-        - docker ps -a
+        - docker image ls
         - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" screenshots /bin/sh
+        - docker ps -a
       script:
         - ./test/screenshot/start.sh
         - sleep 200s
