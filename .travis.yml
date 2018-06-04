@@ -34,7 +34,7 @@ matrix:
       before_install:
         - docker build -t screenshots .
         - docker image ls
-        - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" screenshots /bin/sh
+        - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" screenshots /bin/sh -c
         - docker ps -a
       script:
         - ./test/screenshot/start.sh
