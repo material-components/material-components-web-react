@@ -10,29 +10,28 @@ Screenshot testing is an important ingredient in building and maintaining the MD
 
 ## Running Tests Locally
 
-> If this is your first time using Docker, you may find it helpful to sift through the [Getting Started Guide](https://docs.docker.com/get-started/#images-and-containers). This [3rd Party Guide][http://odewahn.github.io/docker-jumpstart/building-images-with-dockerfiles.html] is also a helpful quick reference for some terms.
+> If this is your first time using Docker, you may find it helpful to sift through the [Getting Started Guide](https://docs.docker.com/get-started/#images-and-containers). This [3rd Party Guide](http://odewahn.github.io/docker-jumpstart/building-images-with-dockerfiles.html) is also a helpful quick reference for some terms.
 
 You should have docker already installed on your machine. Please follow [instructions](https://docs.docker.com/install/) to install.
 
-#### STEP 1: Build the Docker Image
+#### STEP 1: Build pull the Docker Image
 
-From the project's root directory run the following command:
+If you already pulled this image before you can skip this step. If there has been a change to the `Dockerfile`, please follow [these steps](#build-docker-image).
 
 ```
-docker build -t screenshots .
+docker pull mdcreact/screenshots
 ```
 
-This command builds a Docker image named `screenshots` based off the `Dockerfile` found in the root directory.
 
 #### STEP 2: Run a Docker Container
 
 Ensure that you have a `MDC_GCLOUD_SERVICE_ACCOUNT_KEY` environment variable (ie. ~/.bashrc, ~/.bash_profile). Otherwise you will need to paste it inline in the command below. You can get this off of the Google Cloud Platform Admin Tool (3rd party contributors will not be able to download/upload screenshots until this is part of the process is changed).
 
 ```
-docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" screenshots /bin/sh
+docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" mdcreact/screenshots /bin/sh
 ```
 
-This command opens a container based from the `screenshots` image you created in Step 1.
+This command opens a container based from the `mdcreact/screenshots` image you created in Step 1.
 
 ##### Breaking it down
 
@@ -60,4 +59,37 @@ git checkout <INSERT_YOUR_BRANCH_NAME>
 npm run test:image-diff
 ```
 
-This will kick off the screenshot tests. You will see the regular terminal output from mocha. 
+This will kick off the screenshot tests. You will see the regular terminal output from mocha.
+
+
+## Troubleshooting
+
+### Building New Docker Image
+
+You may need to update the Docker image. Follow these steps:
+
+From the project's root directory run the following command:
+
+```
+docker build -t screenshots .
+```
+
+This command builds a Docker image named `screenshots` based off the `Dockerfile` found in the root directory. Next push this to the Docker Hub for Travis tests. If you are testing you may want to use a different [tag](https://hub.docker.com/r/mdcreact/screenshots/tags/) in the interim.
+
+```
+docker images
+```
+
+This will output a list of your local images. You will want to grab the most recent `IMAGE_ID` with the `REPOSITORY` name `screenshots` (the name you used in the `docker build` step). Next create the tag:
+
+```
+docker tag <IMAGE_ID> mdcreact/screenshots:<YOUR_TAG_NAME> # defaults to :latest
+```
+
+This will create the tag, which you can then push to Docker Hub:
+
+```
+docker push mdcreact/screenshots:<YOUR_TAG_NAME>
+```
+
+Now you're ready to share the image with the world!
