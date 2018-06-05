@@ -27,9 +27,13 @@ matrix:
       script: npm run lint
 
     - node_js: 8
-      env: TEST_SUITE=screenshots
-      install: npm i
+      services:
+        - docker
+      env:
+        - TEST_SUITE=screenshots
+        - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+      before_install:
+        - docker pull mdcreact/screenshots
+        - docker image ls
       script:
-        - ./test/screenshot/start.sh
-        - sleep 200s
-        - npm run test:image-diff
+        - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" mdcreact/screenshots /bin/sh -c "git fetch --all; git checkout \"${CURRENT_BRANCH}\"; npm i; /home/pptruser/material-components-web-react/test/screenshot/start.sh; sleep 200s; npm run test:image-diff"
