@@ -34,14 +34,7 @@ matrix:
         - TEST_SUITE=screenshots
         - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
       before_install:
-        - echo "$CURRENT_BRANCH"
-        - echo "$PR"
-        - echo "$TRAVIS_BRANCH"
-        - echo "$TRAVIS_PULL_REQUEST_BRANCH"
-        - echo "ENDENDMATT"
         - docker build -t screenshots .
         - docker image ls
-        - docker run -it --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" screenshots /bin/sh -c "git checkout docker-redux; /home/pptruser/material-components-web-react/test/screenshot/start.sh; sleep 200s; npm run test:image-diff"
-        - docker ps -a
       script:
-        - npm run test:image-diff
+        - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" screenshots /bin/sh -c "git checkout '${CURRENT_BRANCH}'; /home/pptruser/material-components-web-react/test/screenshot/start.sh; sleep 200s; npm run test:image-diff"
