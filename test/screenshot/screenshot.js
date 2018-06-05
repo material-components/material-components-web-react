@@ -85,7 +85,6 @@ export default class Screenshot {
         this.saveImage_(diffPath, diff, metadata),
       ]);
 
-
       return assert.isBelow(Number(data.misMatchPercentage), 0);
     });
   }
