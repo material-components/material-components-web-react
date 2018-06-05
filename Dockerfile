@@ -1,3 +1,4 @@
+# based off https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-in-docker
 FROM node:8-slim
 
 # See https://crbug.com/795759
