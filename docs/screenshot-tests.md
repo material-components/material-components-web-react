@@ -16,7 +16,7 @@ You should have docker already installed on your machine. Please follow [instruc
 
 #### STEP 1: Build pull the Docker Image
 
-If you already pulled this image before you can skip this step. If there has been a change to the `Dockerfile`, please follow [these steps](#build-docker-image).
+If you already pulled this image before you can skip this step. If there has been a change to the `Dockerfile`, please follow [these steps](#building-new-docker-image).
 
 ```
 docker pull mdcreact/screenshots
@@ -49,18 +49,18 @@ At this point you are ready to run. This Docker container is mainly designed for
 The next thing you need to do is start the server and run the tests.
 
 ```
+git checkout <INSERT_YOUR_BRANCH_NAME>
+npm install
 ./test/screenshot/start.sh
 ```
 
 Wait for about 2 - 3 minutes for the server to start up (we know the long wait is an issue). The `start.sh` script is a proxy to `npm start`, but doesn't output to the terminal so you can run other commands.
 
 ```
-git checkout <INSERT_YOUR_BRANCH_NAME>
 npm run test:image-diff
 ```
 
 This will kick off the screenshot tests. You will see the regular terminal output from mocha.
-
 
 ## Troubleshooting
 
