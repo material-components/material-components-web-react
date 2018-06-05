@@ -5,9 +5,6 @@ git:
 dist: trusty
 sudo: required
 
-services:
-  - docker
-
 branches:
   only:
     - master
@@ -30,6 +27,8 @@ matrix:
       script: npm run lint
 
     - node_js: 8
+      services:
+        - docker
       env:
         - TEST_SUITE=screenshots
         - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
