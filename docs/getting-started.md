@@ -70,7 +70,7 @@ Then rename `./src/App.css` --> `./src/App.scss`. The `build-css` and `watch-css
 ```sass
 // ./src/App.scss
 
-@import "../node_modules/@material/react-button/index"; // the .scss extension is implied
+@import "@material/react-button/index"; // the .scss extension is implied
 @import "./react-button-overrides";
 
 ...
@@ -79,7 +79,7 @@ Then rename `./src/App.css` --> `./src/App.scss`. The `build-css` and `watch-css
 ```sass
 // ./react-button-overrides.scss
 
-@import "../node_modules/@material/button/mixins";
+@import "@material/button/mixins";
 
 .button-alternate {
   @include mdc-button-container-fill-color(lightblue);
@@ -110,7 +110,7 @@ Open `./src/App.js`. Then replace the boilerplate App code (entire file) with th
 
 ```js
 import React, {Component} from 'react';
-import Button from '@material/react-button/dist/index';
+import Button from '@material/react-button/dist'; // /index.js is implied
 
 import './App.css';
 // add the appropriate line(s) in Step 2a if you are using compiled CSS instead.
