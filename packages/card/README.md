@@ -24,7 +24,7 @@ npm install @material/react-card
 
     <CardActionIcons>
       <i>Click Me Too!</i>
-    <CardActionIcons>
+    </CardActionIcons>
   </CardActions>
 </Card>
 ```
