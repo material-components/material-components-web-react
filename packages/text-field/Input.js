@@ -82,7 +82,7 @@ export default class Input extends React.Component {
 
     VALIDATION_ATTR_WHITELIST.some((attr) => {
       if (this.props[attr] !== nextProps[attr]) {
-        foundation.handleValidationAttributeMutation_([{
+        foundation.handleValidationAttributeMutation([{
           attributeName: attr,
         }]);
         return true;
