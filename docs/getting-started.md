@@ -31,97 +31,62 @@ npm i
 
 If you want to use the compiled CSS and not customize any colors, text, etc. you can skip to Step 2a.
 
-Most likely you'll want to start using the [Sass mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass) to customize your app. There are a few ways to achieve this. `create-react-app` does have a [recommended approach](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc), but at the time of writing this guide it doesn't work.
+Most likely you'll want to start using the [Sass mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass) to customize your app. There are a few ways to achieve this. `create-react-app` does have a [recommended approach](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc), which we also recommend.
 
-The alternative route is to [`eject`](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-run-eject), which is what this step will cover.
-
-> Cautionary note: this is irreversible and may not work in your case. You may need to do some searching to find a method that works for you.
+The following is an alternate version of the `create-react-app` approach. The difference being all the your `node_modules` imports will go into `./src/App.scss`. First install `node-sass-chokidar`:
 
 ```
-npm run eject
+npm install -D node-sass-chokidar npm-run-all
 ```
-Answer `yes` to the prompt to continue.
 
-You will then see some output, which will produce a `/scripts` and `/config` directory. Open the `/config/webpack.config.dev.js` file. Scroll down to the CSS loader. It should look something like this:
+In `package.json` replace the following:
 
 ```js
-{
-  test: /\.css$/,
-  use: [
-    require.resolve('style-loader'),
-    {
-      loader: require.resolve('css-loader'),
-      options: {
-        importLoaders: 1,
-      },
-    },
-    {
-      loader: require.resolve('postcss-loader'),
-      options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebookincubator/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          autoprefixer({
-            browsers: [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 9', // React doesn't support IE8 anyway
-            ],
-            flexbox: 'no-2009',
-          }),
-        ],
-      },
-    },
-  ],
+"scripts": {
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test --env=jsdom",
+  "eject": "react-scripts eject"
 }
 ```
 
-Update this to import Sass instead of CSS. Replace the above object with:
+with:
 
 ```js
-{
-  test: /\.scss$/,
-  use: [
-    require.resolve('style-loader'),
-    require.resolve('css-loader'),
-    {
-      loader: require.resolve('postcss-loader'),
-      options: {
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          autoprefixer({
-            browsers: [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 9', // React doesn't support IE8 anyway
-            ],
-            flexbox: 'no-2009',
-          }),
-        ],
-      },
-    },
-    {
-      loader: require.resolve('sass-loader'),
-      options: {
-        includePaths: ['./node_modules'], // this tells sass-loader to look at /node_modules to find @material/foo sass files
-      }
-    },
-  ]
+"scripts": {
+  "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules ./src/App.scss -o ./src/App.css",
+  "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules --watch ./src/App.scss ./src/App.css",
+  "start-js": "react-scripts start",
+  "start": "npm-run-all -p watch-css start-js",
+  "build-js": "react-scripts build",
+  "build": "npm-run-all build-css build-js",
+  "test": "react-scripts test --env=jsdom",
+  "eject": "react-scripts eject"
 }
 ```
 
-Run the follow in the command line:
+Then rename `./src/App.css` --> `./src/App.scss`. The `build-css` and `watch-css` tasks will now watch App.scss file changes, which holds all your Sass imports. You can now import Sass files from `node_modules` like so:
+
+```sass
+// ./src/App.scss
+
+@import "@material/react-button/index"; // the .scss extension is implied
+@import "./react-button-overrides";
+
+...
+```
+
+```sass
+// ./react-button-overrides.scss
+
+@import "@material/button/mixins";
+
+.button-alternate {
+  @include mdc-button-container-fill-color(lightblue);
+}
 
 ```
-npm i -D sass-loader node-sass
-```
 
-Phew! That was the tough part. Your app is now configured to compile any Sass you throw at it, and ready for some MDC-React action.
 
 ### Step 2a: Use Compiled CSS
 
@@ -145,10 +110,10 @@ Open `./src/App.js`. Then replace the boilerplate App code (entire file) with th
 
 ```js
 import React, {Component} from 'react';
-import Button from '@material/react-button';
+import Button from '@material/react-button/dist'; // /index.js is implied
 
-// replace this line with the line in Step 2a if you are using compiled CSS instead  
-import '@material/react-button/index.scss';
+import './App.css';
+// add the appropriate line(s) in Step 2a if you are using compiled CSS instead.
 
 class App extends Component {
   render() {
@@ -156,6 +121,7 @@ class App extends Component {
       <div>
         <Button
           raised
+          className='button-alternate'
           onClick={() => console.log('clicked!')}
         >
           Click Me!

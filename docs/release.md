@@ -27,11 +27,10 @@ This will pull the latest of master onto your git clone.
 #### Pre-Release
 
 ```
-./scripts/pre-release.sh
+. ./scripts/release/pre-release.sh
 ```
 
 This will ensure you can publish/tag, build all release files, and ensure all tests pass prior to releasing (lerna will update versions for us in the next step).
-
 
 #### Release
 
@@ -40,6 +39,26 @@ $(npm bin)/lerna publish --skip-git --conventional-commits
 ```
 
 When lerna prompts for version, just go with it recommends as it uses the [Conventional Changelog Package](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-recommended-bump).
+
+This command will update the `package-lock.json` file and `package.json` files of the updated packages. The `CHANGELOG.md` will also be updated with the new version's changes. If you need to **edit** `CHANGELOG.md` now is the time.
+
+#### Commit Changes
+
+```
+git add packages/ package-lock.json
+git commit -m "chore: Publish"
+
+git add CHANGELOG.md
+git commit -m "docs: Update CHANGELOG.md"
+```
+
+#### Create Git Tag (post-release.sh)
+
+```
+. ./scripts/release/post-release.sh
+```
+
+This script will create the new version's Git tag.
 
 #### Push
 
