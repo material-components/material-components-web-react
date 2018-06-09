@@ -54,7 +54,7 @@ with:
 
 ```js
 "scripts": {
-  "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules ./src/App.scss -o ./src/App.css",
+  "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules ./src/App.scss -o ./src",
   "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules --watch ./src/App.scss ./src/App.css",
   "start-js": "react-scripts start",
   "start": "npm-run-all -p watch-css start-js",
