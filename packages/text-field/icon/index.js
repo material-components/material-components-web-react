@@ -10,13 +10,15 @@ export default class Icon extends React.Component {
   constructor(props) {
     super(props);
     const {
-      tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
+      children,
       role,
+      tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
     } = props.children.props;
 
     this.state = {
-      tabindex,
+      children,
       role,
+      tabindex,
     };
   }
 
@@ -43,16 +45,18 @@ export default class Icon extends React.Component {
       getAttr: (attr) => this.state[attr],
       setAttr: (attr, value) => this.setState({[attr]: value}),
       removeAttr: (attr) => this.setState({[attr]: null}),
+      setContent: (children) => this.setState({children}),
     };
   }
 
   addIconAttrsToChildren = () => {
-    const {tabindex: tabIndex, role} = this.state;
+    const {children, tabindex: tabIndex, role} = this.state;
     const child = React.Children.only(this.props.children);
     const className = classnames('mdc-text-field__icon', child.props.className);
     const props = Object.assign({}, child.props, {
-      className, tabIndex, role,
+      className, tabIndex, role, children,
     });
+
     return React.cloneElement(child, props);
   }
 
