@@ -33,7 +33,8 @@
           "line-ripple",
           "ripple",
           "top-app-bar",
-          "infrastructure"
+          "infrastructure",
+          "text-field"
         ],
         "validate": true
       }
