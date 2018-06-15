@@ -10,13 +10,13 @@ export default class Icon extends React.Component {
   constructor(props) {
     super(props);
     const {
-      role,
       tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
+      role,
     } = props.children.props;
 
     this.state = {
-      role,
       tabindex,
+      role,
     };
   }
 
@@ -53,7 +53,6 @@ export default class Icon extends React.Component {
     const props = Object.assign({}, child.props, {
       className, tabIndex, role,
     });
-
     return React.cloneElement(child, props);
   }
 
