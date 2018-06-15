@@ -85,6 +85,13 @@ test('#adapter.setStyle updates style', () => {
   assert.equal(wrapper.state().style.color, 'blue');
 });
 
+test('#adapter.setStyle updates transform-origin to transformOrigin', () => {
+  const wrapper = shallow(<LineRipple />);
+  wrapper.instance().foundation_.adapter_.setStyle('transform-origin', 25);
+  assert.equal(wrapper.state().style.transformOrigin, 25);
+  assert.equal(wrapper.state().style['transform-origin'], undefined);
+});
+
 test('onTransitionEnd calls the #foundation.handleTransitionEnd', () => {
   const wrapper = shallow(<LineRipple />);
   wrapper.instance().foundation_.handleTransitionEnd = td.func();
