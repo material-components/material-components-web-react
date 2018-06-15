@@ -79,12 +79,15 @@ export default class Input extends React.Component {
 
   handleValidationAttributeUpdate = (nextProps) => {
     const {foundation} = nextProps;
-
-    VALIDATION_ATTR_WHITELIST.some((attr) => {
+    VALIDATION_ATTR_WHITELIST.some((attributeName) => {
+      let attr = attributeName;
+      if (attributeName === 'minlength') {
+        attr = 'minLength';
+      } else if (attributeName === 'maxlength') {
+        attr = 'maxLength';
+      }
       if (this.props[attr] !== nextProps[attr]) {
-        foundation.handleValidationAttributeMutation([{
-          attributeName: attr,
-        }]);
+        foundation.handleValidationAttributeChange([attributeName]);
         return true;
       }
     });
