@@ -59,6 +59,9 @@ export default class LineRipple extends Component {
 
   setStyle = (varName, value) => {
     const updatedStyle = Object.assign({}, this.state.style);
+    if (varName === 'transform-origin') {
+      varName = 'transformOrigin';  // react throws warning for transform-origin
+    }
     updatedStyle[varName] = value;
     this.setState({style: updatedStyle});
   }
