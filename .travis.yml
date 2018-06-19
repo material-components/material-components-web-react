@@ -11,7 +11,7 @@ branches:
 
 matrix:
   include:
-    - node_js: 8
+    - node_js: 10
       env: TEST_SUITE=unit
       install:
         - npm i
@@ -21,12 +21,12 @@ matrix:
       after_success:
         - codecov
 
-    - node_js: 8
+    - node_js: 10
       env: TEST_SUITE=lint
       install: npm i
       script: npm run lint
 
-    - node_js: 8
+    - node_js: 10
       services:
         - docker
       env:
