@@ -56,11 +56,6 @@ test('#componentDidMount does not throw errow if props.id is passed', () => {
   shallow(<Input id='123-best-id' />);
 });
 
-test('#componentDidMount does not throw errow if validation attr is updated', () => {
-  const wrapper = shallow(<Input />);
-  wrapper.setProps({required: true});
-});
-
 test('#componentDidMount should not call any method if disabled and id do not exist', () => {
   const setDisabled = td.func();
   const setInputId = td.func();
@@ -73,14 +68,19 @@ test('#componentDidMount should not call any method if disabled and id do not ex
   td.verify(setDisabled(td.matchers.isA(Boolean)), {times: 0});
 });
 
-test('#componentWillReceiveProps calls handleValidationAttributeMutation_ when ' +
+test('change to minLength calls handleValidationAttributeChange', () => {
+  const handleValidationAttributeChange = td.func();
+  const wrapper = shallow(<Input foundation={{handleValidationAttributeChange}} />);
+  wrapper.setProps({minLength: 20});
+  td.verify(handleValidationAttributeChange(['minlength']), {times: 1});
+});
+
+test('#componentWillReceiveProps calls handleValidationAttributeChange when ' +
   'a whitelisted attr updates', () => {
-  const foundation = {handleValidationAttributeMutation_: td.func()};
-  const wrapper = shallow(<Input foundation={foundation} />);
+  const handleValidationAttributeChange = td.func();
+  const wrapper = shallow(<Input foundation={{handleValidationAttributeChange}} />);
   wrapper.setProps({required: true});
-  td.verify(foundation.handleValidationAttributeMutation_([{
-    attributeName: 'pattern',
-  }]), {times: 1});
+  td.verify(handleValidationAttributeChange(['required']), {times: 1});
 });
 
 test('#componentWillReceiveProps calls setDisabled and foundation.setDisabled when ' +
