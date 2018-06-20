@@ -66,7 +66,7 @@
     "babel-preset-react": "^6.24.1",
     "capture-chrome": "^2.0.0",
     "chai": "^4.1.2",
-    "cp-file": "^5.0.0",
+    "cp-file": "^6.0.0",
     "css-loader": "^0.28.10",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",

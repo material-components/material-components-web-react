@@ -67,15 +67,43 @@ function getCommonWebpackParams(entryPath, chunk, isCss) {
   };
 }
 
+function getMaterialExternals() {
+  const externals = {};
+  [
+    'base',
+    'button',
+    'card',
+    'fab',
+    'floating-label',
+    'line-ripple',
+    'list',
+    'notched-outline',
+    'ripple',
+    'textfield',
+    'top-app-bar',
+    'typography',
+  ].forEach((name) => externals[`@material/${name}`] = `@material/${name}`);
+  return externals;
+}
+
 function getJavaScriptWebpackConfig(entryPath, chunk) {
   return Object.assign(
     getCommonWebpackParams(entryPath, chunk), {
+      externals: Object.assign(
+        {
+          'react': 'react',
+          'classnames': 'classnames',
+          'prop-types': 'prop-types',
+        },
+        getMaterialExternals(),
+      ),
       module: {
         rules: [{
           test: /\.js$/,
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true,
+            babelrc: false,
+            compact: true,
             presets: ['env', 'react'],
             plugins: [
               'transform-class-properties',

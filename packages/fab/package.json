@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Material Components React Floating Action Button (FAB)",
   "license": "Apache-2.0",
+  "main": "dist/index.js",
   "keywords": [
     "mdc web react",
     "material components react",

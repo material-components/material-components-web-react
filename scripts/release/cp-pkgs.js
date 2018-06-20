@@ -60,10 +60,15 @@ function cpAsset(asset) {
       destDir = path.join(assetPkg, 'dist', 'index.js');
     }
   }
-  return cpFile(asset, destDir).then(() => console.log(`cp ${asset} -> ${destDir}`));
+  return cpFile(asset, destDir)
+    .then(() => console.log(`cp ${asset} -> ${destDir}`));
 }
 
-Promise.all(globSync('build/*.{css,js,map}').map(cpAsset)).catch((err) => {
-  console.error(`Error encountered copying assets: ${err}`);
-  process.exit(1);
-});
+Promise.all(globSync('build/*.{css,js,map}').map(cpAsset))
+  .then(() => {
+    console.log('done!');
+  })
+  .catch((err) => {
+    console.error(`Error encountered copying assets: ${err}`);
+    process.exit(1);
+  });
