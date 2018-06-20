@@ -27,6 +27,7 @@ matrix:
       script: npm run lint
 
     - node_js: 10
+      install: npm i
       services:
         - docker
       env:
