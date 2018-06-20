@@ -19,6 +19,8 @@ const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const {importer} = require('./webpack.util');
+
 const isDirectory = (source) => lstatSync(source).isDirectory();
 const containsJsFile = (source) => readdirSync(source).some((file) => path.extname(file) === '.js');
 
@@ -112,9 +114,7 @@ function getCssWebpackConfig(entryPath, chunk) {
               },
             }, {
               loader: 'sass-loader',
-              options: {
-                includePaths: [getAbsolutePath('../node_modules')],
-              },
+              options: {importer},
             }],
           }),
         }],
