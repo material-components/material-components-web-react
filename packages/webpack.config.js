@@ -42,8 +42,9 @@ function getWebpackConfigs() {
     const jsPath = getAbsolutePath(`${chunk}/index.js`);
     const cssPath = getAbsolutePath(`${chunk}/index.scss`);
 
-    webpackConfigs.push(getJavaScriptWebpackConfig(jsPath, chunk));
-    webpackConfigs.push(getJavaScriptWebpackConfig(jsPath, `${chunk}.min`));
+    webpackConfigs.push(getJavaScriptWebpackConfig(jsPath, chunk, 'commonjs'));
+    webpackConfigs.push(getJavaScriptWebpackConfig(jsPath, chunk, false));
+    webpackConfigs.push(getJavaScriptWebpackConfig(jsPath, `${chunk}.min`, 'commonjs'));
 
 
     if (chunk === 'ripple') return;
@@ -54,13 +55,13 @@ function getWebpackConfigs() {
   return webpackConfigs;
 }
 
-function getCommonWebpackParams(entryPath, chunk, isCss) {
+function getCommonWebpackParams(entryPath, chunk, {isCss, modules}) {
   const entry = {[chunk]: entryPath};
   return {
     entry,
     output: {
       path: getAbsolutePath('../build'),
-      filename: `${filename}${isCss ? '.css' : ''}.js`,
+      filename: `${filename}${isCss ? '.css' : ''}${modules === false ? '.es' : ''}.js`,
       libraryTarget: 'umd',
     },
     devtool: 'source-map',
@@ -86,9 +87,9 @@ function getMaterialExternals() {
   return externals;
 }
 
-function getJavaScriptWebpackConfig(entryPath, chunk) {
+function getJavaScriptWebpackConfig(entryPath, chunk, modules) {
   return Object.assign(
-    getCommonWebpackParams(entryPath, chunk), {
+    getCommonWebpackParams(entryPath, chunk, {modules}), {
       externals: Object.assign(
         {
           'react': 'react',
@@ -104,7 +105,7 @@ function getJavaScriptWebpackConfig(entryPath, chunk) {
           options: {
             babelrc: false,
             compact: true,
-            presets: ['env', 'react'],
+            presets: [['env', {modules}], 'react'],
             plugins: [
               'transform-class-properties',
               'transform-object-rest-spread',
@@ -123,7 +124,7 @@ function getJavaScriptWebpackConfig(entryPath, chunk) {
 function getCssWebpackConfig(entryPath, chunk) {
   const shouldMinify = chunk.includes('.min');
   return Object.assign(
-    getCommonWebpackParams(entryPath, chunk, true), {
+    getCommonWebpackParams(entryPath, chunk, {isCss: true}), {
       module: {
         rules: [{
           test: /\.scss$/,
