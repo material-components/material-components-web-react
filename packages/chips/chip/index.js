@@ -53,12 +53,14 @@ export class Chip extends Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
+      eventTargetHasClass: (target, className) => target.classList.contains(className),
     };
   }
 
   render() {
     const {
-      label,
+      chip,
+      key,
       initRipple,
     } = this.props;
 
@@ -67,10 +69,10 @@ export class Chip extends Component {
         className={this.classes}
         onClick={(e) => this.foundation_ && this.foundation_.handleInteraction_(e)}
         onKeyDown={(e) => this.foundation_ && this.foundation_.handleInteraction_(e)}
-        // key={'mdc-chip ' + label}
+        key={key}
         ref={initRipple}
       >
-        <div className='mdc-chip__text'>{label}</div>
+        <div className='mdc-chip__text'>{chip.label}</div>
       </div>
     );
   }
@@ -78,7 +80,7 @@ export class Chip extends Component {
 
 Chip.propTypes = {
   className: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  chip: PropTypes.object.isRequired,
   selected: PropTypes.bool,
   initRipple: PropTypes.func,
 };
