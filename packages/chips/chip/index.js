@@ -11,20 +11,13 @@ export class Chip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      classList: new Set(),
-      selected: this.props.selected,
+      classList: new Set()
     };
   }
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
     this.foundation_.init();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.selected !== prevState.selected) {
-      this.foundation_.setSelected(this.state.selected);
-    }
   }
 
   componentWillUnmount() {
@@ -36,11 +29,9 @@ export class Chip extends Component {
   */
 
   get classes() {
-    const {classList, selected} = this.state;
+    const {classList} = this.state;
     const {className} = this.props;
-    return classnames('mdc-chip', Array.from(classList), className, {
-      'mdc-chip--selected': selected,
-    });
+    return classnames('mdc-chip', Array.from(classList), className);
   }
 
   get adapter() {
@@ -81,13 +72,11 @@ export class Chip extends Component {
 Chip.propTypes = {
   className: PropTypes.string,
   chip: PropTypes.object.isRequired,
-  selected: PropTypes.bool,
   initRipple: PropTypes.func,
 };
 
 Chip.defaultProps = {
   className: '',
-  selected: false,
   initRipple: () => {},
 };
 
