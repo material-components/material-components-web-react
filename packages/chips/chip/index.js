@@ -30,7 +30,7 @@ export class Chip extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {className} = this.props.chip;
+    const {className} = this.props;
     return classnames('mdc-chip', Array.from(classList), className);
   }
 
