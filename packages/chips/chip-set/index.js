@@ -17,7 +17,7 @@ export default class ChipSet extends Component {
       chips: this.props.chips.map((chip) => {
         return {
           label: chip.label,
-          class: chip.class,
+          className: chip.className,
           id: this.maxId++
         }
       })
@@ -51,7 +51,7 @@ export default class ChipSet extends Component {
 
   renderInputChip(chip) {
     return (
-      <Chip key={chip.id} chip={chip} className={chip.class}/>
+      <Chip key={chip.id} chip={chip} className={chip.className}/>
     );
   }
 
@@ -64,15 +64,11 @@ export default class ChipSet extends Component {
   }
 }
 
-// Chip.propTypes = {
-//   className: PropTypes.string,
-//   label: PropTypes.string.isRequired,
-//   selected: PropTypes.bool,
-//   initRipple: PropTypes.func,
-// };
+ChipSet.propTypes = {
+  className: PropTypes.string,
+  chips: PropTypes.array.isRequired,
+};
 
-// Chip.defaultProps = {
-//   className: '',
-//   selected: false,
-//   initRipple: () => {},
-// };
+Chip.defaultProps = {
+  className: '',
+};
