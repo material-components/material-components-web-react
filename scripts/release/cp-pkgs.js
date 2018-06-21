@@ -51,15 +51,22 @@ function cpAsset(asset) {
     Promise.reject(new Error(`Non-existent asset package path ${assetPkg} for ${asset}`));
   }
 
-  const basename = path.basename(asset);
-  let destDir = path.join(assetPkg, 'dist', basename);
-  if (path.extname(asset) === '.js' && !basename.includes('.css')) {
-    if (basename.includes('.min')) {
-      destDir = path.join(assetPkg, 'dist', 'index.min.js');
+  let basename = path.basename(asset);
+  const extname = path.extname(asset);
+  const isMap = extname === '.map';
+  if (extname === '.js' || isMap && !basename.includes('.css')) {
+    if (isMap) {
+      basename = 'index.js.map';
     } else {
-      destDir = path.join(assetPkg, 'dist', 'index.js');
+      if (basename.includes('.min')) {
+        basename = 'index.min.js';
+      } else {
+        basename = 'index.js';
+      }
     }
   }
+
+  const destDir = path.join(assetPkg, 'dist', basename);
   return cpFile(asset, destDir)
     .then(() => console.log(`cp ${asset} -> ${destDir}`));
 }
