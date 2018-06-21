@@ -50,9 +50,12 @@ export class Chip extends Component {
 
   render() {
     const {
+      className,
+      unbounded,
       chip,
       key,
       initRipple,
+      ...otherProps
     } = this.props;
 
     return (
@@ -62,6 +65,7 @@ export class Chip extends Component {
         onKeyDown={(e) => this.foundation_ && this.foundation_.handleInteraction_(e)}
         key={key}
         ref={initRipple}
+        {...otherProps}
       >
         <div className='mdc-chip__text'>{chip.label}</div>
       </div>
