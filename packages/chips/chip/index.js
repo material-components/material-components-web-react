@@ -48,7 +48,7 @@ export class Chip extends Component {
     const {
       className,
       unbounded,
-      chip,
+      label,
       initRipple,
       ...otherProps
     } = this.props;
@@ -61,7 +61,7 @@ export class Chip extends Component {
         ref={initRipple}
         {...otherProps}
       >
-        <div className='mdc-chip__text'>{chip.label}</div>
+        <div className='mdc-chip__text'>{label}</div>
       </div>
     );
   }
@@ -69,7 +69,7 @@ export class Chip extends Component {
 
 Chip.propTypes = {
   className: PropTypes.string,
-  chip: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
   initRipple: PropTypes.func,
 };
 

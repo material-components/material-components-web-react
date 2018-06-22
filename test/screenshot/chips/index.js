@@ -7,17 +7,11 @@ import ChipSet from '../../../packages/chips';
 ReactDOM.render((
   <div>
     <ChipSet 
-      chips={[
-        {label: 'Jane Smith'},
-        {label: 'John Doe'}
-      ]}
+      chipLabels={['Jane Smith', 'John Doe']}
     />
     <ChipSet
       className='demo-custom-color' 
-      chips={[
-        {label: 'Custom color'},
-        {label: 'Custom color'}
-      ]}
+      chipLabels={['Custom color', 'Custom color']}
     />
   </div>
 ), document.getElementById('app'));
