@@ -17,12 +17,7 @@ import ChipSet from '@material/react-chips';
 class MyApp extends React.Component {
   render() {
     return (
-      <ChipSet 
-      chips={[
-        {label: 'Chip One'},
-        {label: 'Chip Two'}
-      ]}
-    />
+      <ChipSet chips={['Chip One', 'Chip Two']} />
     );
   }
 }
