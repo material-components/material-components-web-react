@@ -58,8 +58,9 @@ export default class LineRipple extends Component {
   }
 
   setStyle = (varName, value) => {
+    const styleName = varName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
     const updatedStyle = Object.assign({}, this.state.style);
-    updatedStyle[varName] = value;
+    updatedStyle[styleName] = value;
     this.setState({style: updatedStyle});
   }
 

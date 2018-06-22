@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Material Components React Top App Bar",
   "license": "Apache-2.0",
+  "main": "dist/index.js",
   "keywords": [
     "mdc web react",
     "material components react",
@@ -11,7 +12,7 @@
     "topappbar"
   ],
   "dependencies": {
-    "@material/top-app-bar": "^0.35.0",
+    "@material/top-app-bar": "^0.36.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"
