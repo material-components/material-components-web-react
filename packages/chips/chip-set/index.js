@@ -32,10 +32,6 @@ export default class ChipSet extends Component {
     this.foundation_.destroy();
   }
 
-  /**
-  * getters
-  */
-
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;

@@ -24,10 +24,6 @@ export class Chip extends Component {
     this.foundation_.destroy();
   }
 
-  /**
-  * getters
-  */
-
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;
@@ -53,7 +49,6 @@ export class Chip extends Component {
       className,
       unbounded,
       chip,
-      key,
       initRipple,
       ...otherProps
     } = this.props;
@@ -63,7 +58,6 @@ export class Chip extends Component {
         className={this.classes}
         onClick={(e) => this.foundation_ && this.foundation_.handleInteraction_(e)}
         onKeyDown={(e) => this.foundation_ && this.foundation_.handleInteraction_(e)}
-        key={key}
         ref={initRipple}
         {...otherProps}
       >

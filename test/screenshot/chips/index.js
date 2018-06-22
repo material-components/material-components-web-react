@@ -1,15 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// import Chip from '../../../packages/chips/chip';
-import ChipSet from '../../../packages/chips/chip-set';
-
-import '../../../packages/chips/index.scss';
 import './index.scss';
 
+import ChipSet from '../../../packages/chips';
+
 ReactDOM.render((
-  <ChipSet chips={[
-    {label: 'Jane Smith'},
-    {label: 'John Doe'}]}
-  />
+  <div>
+    <ChipSet 
+      chips={[
+        {label: 'Jane Smith'},
+        {label: 'John Doe'}
+      ]}
+    />
+    <ChipSet
+      className='demo-custom-color' 
+      chips={[
+        {label: 'Custom color'},
+        {label: 'Custom color'}
+      ]}
+    />
+  </div>
 ), document.getElementById('app'));
