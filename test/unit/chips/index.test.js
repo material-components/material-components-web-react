@@ -6,13 +6,13 @@ import ChipSet from '../../../packages/chips';
 suite('ChipSet');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<ChipSet className='test-class-name' chipLabels={['Chip1']} />);
+  const wrapper = shallow(<ChipSet className='test-class-name' labels={[]} />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-chip-set'));
 });
 
-test('renders chips', () => {
-  const wrapper = shallow(<ChipSet chipLabels={['Chip1']} />);
+test('renders chip set and chip', () => {
+  const wrapper = shallow(<ChipSet labels={['Hello']} />);
+  assert.isOk(wrapper.find('.mdc-chip-set'));
   assert.isOk(wrapper.find('.mdc-chip'));
-  assert.equal(wrapper.find('.mdc-chip__text').textContent, 'Chip1');
 });
