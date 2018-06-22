@@ -272,3 +272,12 @@ test('throws error if no foundation', () => {
   const DivNoRefRipple = withRipple(DivNoRef);
   assert.throws(DivNoRefRipple.prototype.componentDidMount);
 });
+
+test('doesn\'t call #Component.setState after unmount', () => {
+  const wrapper = mount(<DivRipple />);
+
+  wrapper.setState = td.func();
+  wrapper.unmount();
+  td.verify(wrapper.setState(), {times: 0, ignoreExtraArgs: true});
+});
+
