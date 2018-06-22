@@ -30,14 +30,13 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
-chipLabels | Array | Array of chip labels.
+labels | Array | Array of text to be displayed in each chip.
 
 ### Chip
 
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
-label | String | Text to be displayed within the chip.
 
 ## Sass Mixins
 

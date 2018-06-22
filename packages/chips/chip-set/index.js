@@ -14,7 +14,7 @@ export default class ChipSet extends Component {
     this.maxId = 0;
     this.state = {
       classList: new Set(),
-      chips: this.props.chipLabels.map((label) => {
+      chips: this.props.labels.map((label) => {
         return {
           label: label,
           id: this.maxId++
@@ -46,7 +46,7 @@ export default class ChipSet extends Component {
 
   renderInputChip(chip) {
     return (
-      <Chip key={chip.id} label={chip.label}/>
+      <Chip key={chip.id}>{chip.label}</Chip>
     );
   }
 
@@ -61,7 +61,7 @@ export default class ChipSet extends Component {
 
 ChipSet.propTypes = {
   className: PropTypes.string,
-  chipLabels: PropTypes.array.isRequired,
+  labels: PropTypes.array.isRequired,
 };
 
 ChipSet.defaultProps = {
