@@ -33,7 +33,7 @@ If you want to use the compiled CSS and not customize any colors, text, etc. you
 
 Most likely you'll want to start using the [Sass mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass) to customize your app. There are a few ways to achieve this. `create-react-app` does have a [recommended approach](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc), which we also recommend.
 
-The following is an alternate version of the `create-react-app` approach. The difference being all the your `node_modules` imports will go into `./src/App.scss`. First install `node-sass-chokidar`:
+The following is an alternate version of the `create-react-app` approach. The difference being all the `node_modules` imports will go into `./src/App.scss`. First install `node-sass-chokidar`:
 
 ```
 npm install -D node-sass-chokidar npm-run-all
