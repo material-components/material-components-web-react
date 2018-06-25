@@ -101,3 +101,11 @@ test('#componentWillUnmount destroys foundation', () => {
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
+
+test('#adapter.setStyle updates style names to camel case', () => {
+  const wrapper = shallow(<LineRipple />);
+  wrapper.instance().foundation_.adapter_.setStyle('transform-origin', 25);
+  assert.equal(wrapper.state().style.transformOrigin, 25);
+  assert.equal(wrapper.state().style['transform-origin'], undefined);
+});
+

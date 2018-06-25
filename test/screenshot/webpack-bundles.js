@@ -1,6 +1,8 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const {importer} = require('../../packages/webpack.util');
+
 module.exports.bundle = function(testPath, outputPath) {
   return {
     entry: ['babel-polyfill', `./test/screenshot/${testPath}`],
@@ -21,9 +23,7 @@ module.exports.bundle = function(testPath, outputPath) {
             },
             {
               loader: 'sass-loader',
-              options: {
-                includePaths: ['./node_modules'],
-              },
+              options: {importer},
             },
           ],
         }),

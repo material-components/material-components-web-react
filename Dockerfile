@@ -1,5 +1,5 @@
 # based off https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-in-docker
-FROM node:8-slim
+FROM node:10-slim
 
 # See https://crbug.com/795759
 RUN apt-get update && apt-get install -yq libgconf-2-4 git
@@ -43,6 +43,7 @@ USER pptruser
 RUN cd /home/pptruser/ \
   && git clone https://github.com/material-components/material-components-web-react.git \
   && cd material-components-web-react \
+  && git checkout . \
   && npm i
 
 WORKDIR /home/pptruser/material-components-web-react
