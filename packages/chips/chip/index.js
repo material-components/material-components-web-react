@@ -56,8 +56,6 @@ export class Chip extends Component {
     return (
       <div
         className={this.classes}
-        onClick={(e) => this.foundation_ && this.foundation_.handleInteraction_(e)}
-        onKeyDown={(e) => this.foundation_ && this.foundation_.handleInteraction_(e)}
         ref={initRipple}
         {...otherProps}
       >
