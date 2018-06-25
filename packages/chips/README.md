@@ -17,7 +17,7 @@ import ChipSet from '@material/react-chips';
 class MyApp extends React.Component {
   render() {
     return (
-      <ChipSet chips={['Chip One', 'Chip Two']} />
+      <ChipSet labels={['Chip One', 'Chip Two']} />
     );
   }
 }
@@ -29,14 +29,14 @@ class MyApp extends React.Component {
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the root element.
+className | String | Classes to be applied to the chip set element.
 labels | Array | Array of text to be displayed in each chip.
 
 ### Chip
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the root element.
+className | String | Classes to be applied to the chip element.
 
 ## Sass Mixins
 
