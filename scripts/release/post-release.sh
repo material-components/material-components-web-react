@@ -17,9 +17,9 @@
 #
 
 # Extract repo version from updated lerna.json
-REPO_VERSION=$(grep 'version' lerna.json | sed 's/ *"version": "//' | sed 's/",//')
+REPO_VERSION=$(grep 'version' lerna.json | sed 's/ *"version": "//' | sed 's/"//')
 SEMVER_TAG="v$REPO_VERSION"
-log "Tagging repo using semver tag $SEMVER_TAG"
+echo "Tagging repo using semver tag $SEMVER_TAG"
 git tag $SEMVER_TAG -m "Material Components for React release $SEMVER_TAG"
 
-log "Done! You should now git push to master and git push --tags"
+echo "Done! You should now git push to master and git push --tags"
