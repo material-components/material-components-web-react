@@ -6,11 +6,11 @@ import ChipSet from '../../../packages/chips';
 
 ReactDOM.render((
   <div>
-    <ChipSet 
+    <ChipSet
       labels={['Jane Smith', 'John Doe']}
     />
     <ChipSet
-      className='demo-custom-color' 
+      className='demo-custom-color'
       labels={['Custom color', 'Custom color']}
     />
   </div>

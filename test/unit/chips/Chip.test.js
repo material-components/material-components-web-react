@@ -1,6 +1,5 @@
 import React from 'react';
 import {assert} from 'chai';
-import td from 'testdouble';
 import {mount} from 'enzyme';
 import {Chip} from '../../../packages/chips';
 

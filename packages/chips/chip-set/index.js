@@ -17,9 +17,9 @@ export default class ChipSet extends Component {
       chips: this.props.labels.map((label) => {
         return {
           label: label,
-          id: this.maxId++
-        }
-      })
+          id: this.maxId++,
+        };
+      }),
     };
   }
 

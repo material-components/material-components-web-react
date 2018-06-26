@@ -11,7 +11,7 @@ export class Chip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      classList: new Set()
+      classList: new Set(),
     };
   }
 
@@ -46,10 +46,10 @@ export class Chip extends Component {
 
   render() {
     const {
-      className,
+      className, // eslint-disable-line no-unused-vars
       children,
       initRipple,
-      unbounded,
+      unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
 
@@ -68,11 +68,15 @@ export class Chip extends Component {
 Chip.propTypes = {
   className: PropTypes.string,
   initRipple: PropTypes.func,
+  unbounded: PropTypes.bool,
+  children: PropTypes.string,
 };
 
 Chip.defaultProps = {
   className: '',
+  unbounded: false,
   initRipple: () => {},
+  children: '',
 };
 
 export default withRipple(Chip);
