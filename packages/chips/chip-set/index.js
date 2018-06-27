@@ -6,21 +6,7 @@ import {MDCChipSetFoundation} from '@material/chips';
 import Chip from '../chip';
 
 export default class ChipSet extends Component {
-
   foundation_ = null;
-
-  constructor(props) {
-    super(props);
-    this.maxId = 0;
-    this.state = {
-      chips: props.labels.map((label) => {
-        return {
-          label,
-          id: this.maxId++,
-        };
-      }),
-    };
-  }
 
   componentDidMount() {
     this.foundation_ = new MDCChipSetFoundation(this.adapter);
@@ -42,16 +28,18 @@ export default class ChipSet extends Component {
     };
   }
 
-  renderChip(chip) {
+  renderChip(label, index) {
     return (
-      <Chip key={chip.id}>{chip.label}</Chip>
+      <Chip key={index}>
+        {label}
+      </Chip>
     );
   }
 
   render() {
     return (
       <div className={this.classes}>
-        {this.state.chips.map(this.renderChip)}
+        {this.props.labels.map((label, index) => this.renderChip(label, index))}
       </div>
     );
   }
@@ -60,8 +48,4 @@ export default class ChipSet extends Component {
 ChipSet.propTypes = {
   className: PropTypes.string,
   labels: PropTypes.array.isRequired,
-};
-
-ChipSet.defaultProps = {
-  className: '',
 };

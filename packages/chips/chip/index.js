@@ -5,7 +5,6 @@ import withRipple from '@material/react-ripple';
 import {MDCChipFoundation} from '@material/chips';
 
 export class Chip extends Component {
-
   foundation_ = null;
   state = {
     classList: new Set(),
@@ -64,13 +63,6 @@ Chip.propTypes = {
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
   children: PropTypes.string,
-};
-
-Chip.defaultProps = {
-  className: '',
-  unbounded: false,
-  initRipple: () => {},
-  children: '',
 };
 
 export default withRipple(Chip);

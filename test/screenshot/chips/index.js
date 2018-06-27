@@ -4,12 +4,25 @@ import './index.scss';
 
 import ChipSet from '../../../packages/chips';
 
+class TestChipSet extends React.Component {
+  render() {
+    const {
+      className, labels, // eslint-disable-line react/prop-types
+    } = this.props;
+
+    return <ChipSet
+      className={className}
+      labels={labels}
+    />;
+  }
+}
+
 ReactDOM.render((
   <div>
-    <ChipSet
+    <TestChipSet
       labels={['Jane Smith', 'John Doe']}
     />
-    <ChipSet
+    <TestChipSet
       className='demo-custom-color'
       labels={['Custom color', 'Custom color']}
     />
