@@ -35,8 +35,6 @@ export class Chip extends Component {
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
-      eventTargetHasClass: (target, className) => target.classList.contains(className),
     };
   }
 
