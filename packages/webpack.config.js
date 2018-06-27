@@ -74,6 +74,7 @@ function getMaterialExternals() {
     'base',
     'button',
     'card',
+    'chips',
     'fab',
     'floating-label',
     'line-ripple',

@@ -13,10 +13,9 @@ export default class ChipSet extends Component {
     super(props);
     this.maxId = 0;
     this.state = {
-      classList: new Set(),
-      chips: this.props.labels.map((label) => {
+      chips: props.labels.map((label) => {
         return {
-          label: label,
+          label,
           id: this.maxId++,
         };
       }),
@@ -33,9 +32,8 @@ export default class ChipSet extends Component {
   }
 
   get classes() {
-    const {classList} = this.state;
     const {className} = this.props;
-    return classnames('mdc-chip-set', Array.from(classList), className);
+    return classnames('mdc-chip-set', className);
   }
 
   get adapter() {
@@ -44,7 +42,7 @@ export default class ChipSet extends Component {
     };
   }
 
-  renderInputChip(chip) {
+  renderChip(chip) {
     return (
       <Chip key={chip.id}>{chip.label}</Chip>
     );
@@ -53,7 +51,7 @@ export default class ChipSet extends Component {
   render() {
     return (
       <div className={this.classes}>
-        {this.state.chips.map(this.renderInputChip.bind(this))}
+        {this.state.chips.map(this.renderChip)}
       </div>
     );
   }

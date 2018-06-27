@@ -7,13 +7,9 @@ import {MDCChipFoundation} from '@material/chips';
 export class Chip extends Component {
 
   foundation_ = null;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      classList: new Set(),
-    };
-  }
+  state = {
+    classList: new Set(),
+  };
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);

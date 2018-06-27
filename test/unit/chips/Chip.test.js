@@ -12,5 +12,5 @@ test('classNames adds classes', () => {
 
 test('renders chip', () => {
   const wrapper = mount(<Chip>Hello world</Chip>);
-  assert.isOk(wrapper.find('.mdc-chip'));
+  assert.exists(wrapper.find('.mdc-chip'));
 });
