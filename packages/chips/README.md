@@ -5,16 +5,16 @@ A React version of an [MDC Chips](https://github.com/material-components/materia
 ## Installation
 
 ```
-npm install @material/react-chips
+npm install --save @material/react-chips
 ```
 
 ## Usage
 
 ```js
-import React from 'react';
+import React, {Component} from 'react';
 import ChipSet from '@material/react-chips';
 
-class MyApp extends React.Component {
+class MyApp extends Component {
   render() {
     return (
       <ChipSet labels={['Chip One', 'Chip Two']} />
@@ -30,7 +30,7 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the chip set element.
-labels | Array | Array of text to be displayed in each chip.
+labels | Array | An array of strings. Each string has a corresponding chip whose label will be set to the value of that string.
 
 ### Chip
 
