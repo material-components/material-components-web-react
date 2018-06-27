@@ -13,6 +13,6 @@ test('classNames adds classes', () => {
 
 test('renders chip set and chip', () => {
   const wrapper = shallow(<ChipSet labels={['Hello']} />);
-  assert.isOk(wrapper.find('.mdc-chip-set'));
-  assert.isOk(wrapper.find('.mdc-chip'));
+  assert.exists(wrapper.find('.mdc-chip-set'));
+  assert.exists(wrapper.find('.mdc-chip'));
 });
