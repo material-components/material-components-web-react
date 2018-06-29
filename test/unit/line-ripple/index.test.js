@@ -31,7 +31,7 @@ test('#componentDidMount calls activates line ripple if active is true', () => {
   assert.isTrue(wrapper.hasClass('mdc-line-ripple--active'));
 });
 
-test('#componentWillReceiveProps #foundation activate & deactivate ' +
+test('#componentDidUpdate #foundation activate & deactivate ' +
   'are called when active updates', () => {
   const wrapper = shallow(<LineRipple />);
   wrapper.instance().foundation_.activate = td.func();
@@ -46,7 +46,7 @@ test('#componentWillReceiveProps #foundation activate & deactivate ' +
   td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
 });
 
-test('#componentWillReceiveProps when rippleCenter updates it calls ' +
+test('#componentDidUpdate when rippleCenter updates it calls ' +
   '#foundation.setRippleCenter', () => {
   const wrapper = shallow(<LineRipple />);
   wrapper.instance().foundation_.setRippleCenter = td.func();

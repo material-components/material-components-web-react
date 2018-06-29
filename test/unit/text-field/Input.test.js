@@ -75,7 +75,7 @@ test('change to minLength calls handleValidationAttributeChange', () => {
   td.verify(handleValidationAttributeChange(['minlength']), {times: 1});
 });
 
-test('#componentWillReceiveProps calls handleValidationAttributeChange when ' +
+test('#componentDidUpdate calls handleValidationAttributeChange when ' +
   'a whitelisted attr updates', () => {
   const handleValidationAttributeChange = td.func();
   const wrapper = shallow(<Input foundation={{handleValidationAttributeChange}} />);
@@ -83,7 +83,7 @@ test('#componentWillReceiveProps calls handleValidationAttributeChange when ' +
   td.verify(handleValidationAttributeChange(['required']), {times: 1});
 });
 
-test('#componentWillReceiveProps calls setDisabled and foundation.setDisabled when ' +
+test('#componentDidUpdate calls setDisabled and foundation.setDisabled when ' +
   'disabled changes to true', () => {
   const foundation = {setDisabled: td.func()};
   const setDisabled = td.func();
@@ -93,7 +93,7 @@ test('#componentWillReceiveProps calls setDisabled and foundation.setDisabled wh
   td.verify(setDisabled(true), {times: 1});
 });
 
-test('#componentWillReceiveProps calls setDisabled and foundation.setDisabled when ' +
+test('#componentDidUpdate calls setDisabled and foundation.setDisabled when ' +
   'disabled changes to false', () => {
   const foundation = {setDisabled: td.func()};
   const setDisabled = td.func();
@@ -103,14 +103,14 @@ test('#componentWillReceiveProps calls setDisabled and foundation.setDisabled wh
   td.verify(setDisabled(false), {times: 1});
 });
 
-test('#componentWillReceiveProps calls setInputId if id updates', () => {
+test('#componentDidUpdate calls setInputId if id updates', () => {
   const setInputId = td.func();
   const wrapper = shallow(<Input setInputId={setInputId} id='best-id'/>);
   wrapper.setProps({id: 'better-id'});
   td.verify(setInputId('better-id'), {times: 1});
 });
 
-test('#componentWillReceiveProps does nothing if an unrelated property is ' +
+test('#componentDidUpdate does nothing if an unrelated property is ' +
   'updated', () => {
   const setDisabled = td.func();
   const foundation = {
