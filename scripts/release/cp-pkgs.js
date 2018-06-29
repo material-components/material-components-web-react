@@ -51,19 +51,34 @@ function cpAsset(asset) {
     Promise.reject(new Error(`Non-existent asset package path ${assetPkg} for ${asset}`));
   }
 
-  const basename = path.basename(asset);
-  let destDir = path.join(assetPkg, 'dist', basename);
-  if (path.extname(asset) === '.js' && !basename.includes('.css')) {
-    if (basename.includes('.min')) {
-      destDir = path.join(assetPkg, 'dist', 'index.min.js');
+  let basename = path.basename(asset);
+  const extname = path.extname(asset);
+  const isMap = extname === '.map';
+  const isJs = extname === '.js';
+  const isEs = basename.includes('.es');
+  const isCss = basename.includes('.css');
+  if (!isEs && !isCss && (isJs || isMap )) {
+    if (isMap) {
+      basename = 'index.js.map';
     } else {
-      destDir = path.join(assetPkg, 'dist', 'index.js');
+      if (basename.includes('.min')) {
+        basename = 'index.min.js';
+      } else {
+        basename = 'index.js';
+      }
     }
   }
-  return cpFile(asset, destDir).then(() => console.log(`cp ${asset} -> ${destDir}`));
+
+  const destDir = path.join(assetPkg, 'dist', basename);
+  return cpFile(asset, destDir)
+    .then(() => console.log(`cp ${asset} -> ${destDir}`));
 }
 
-Promise.all(globSync('build/*.{css,js,map}').map(cpAsset)).catch((err) => {
-  console.error(`Error encountered copying assets: ${err}`);
-  process.exit(1);
-});
+Promise.all(globSync('build/*.{css,js,map}').map(cpAsset))
+  .then(() => {
+    console.log('done!');
+  })
+  .catch((err) => {
+    console.error(`Error encountered copying assets: ${err}`);
+    process.exit(1);
+  });
