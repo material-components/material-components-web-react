@@ -6,9 +6,13 @@ import {MDCChipFoundation} from '@material/chips';
 
 export class Chip extends Component {
   foundation_ = null;
-  state = {
-    classList: new Set(),
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      classList: new Set(props.selected ? ['mdc-chip--selected'] : []),
+    }
+  }
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
@@ -22,9 +26,7 @@ export class Chip extends Component {
   get classes() {
     const {classList} = this.state;
     const {className, selected} = this.props;
-    return classnames('mdc-chip', Array.from(classList), className, {
-      'mdc-chip--selected': selected,
-    });
+    return classnames('mdc-chip', Array.from(classList), className);
   }
 
   get adapter() {

@@ -11,6 +11,7 @@ ReactDOM.render((
     <ChipSet choice>
       <Chip
         label='Jane Smith'
+        selected
       />
       <Chip
         label='John Doe'
@@ -21,6 +22,7 @@ ReactDOM.render((
     <ChipSet filter className='demo-custom-color'>
       <Chip
         label='Jane Smith'
+        selected
       />
       <Chip
         label='John Doe'
