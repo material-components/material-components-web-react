@@ -37,20 +37,19 @@ class ShoppingPage extends React.Component {
 
 class SearchPage extends React.Component {
   state = {
-    selectedChipIds: [0, 1],
+    selectedChipIds: new Set([0, 1]),
   }
 
   isSelected = (id) => {
-    return this.state.selectedChipIds.indexOf(id) > -1;
+    return this.state.selectedChipIds.has(id);
   }
 
   handleSelect = (id) => {
-    const selectedChipIds = [...this.state.selectedChipIds];
+    const selectedChipIds = new Set(this.state.selectedChipIds);
     if (this.isSelected(id)) {
-      const index = selectedChipIds.indexOf(id);
-      selectedChipIds.splice(index, 1);
+      selectedChipIds.delete(id);
     } else {
-      selectedChipIds.push(id);
+      selectedChipIds.add(id);
     }
     this.setState({selectedChipIds});
 
