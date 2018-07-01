@@ -7,10 +7,14 @@ import Chip from '../chip';
 
 export default class ChipSet extends Component {
   foundation_ = null;
+  preSelectedChipFoundations_ = [];
 
   componentDidMount() {
     this.foundation_ = new MDCChipSetFoundation(this.adapter);
     this.foundation_.init();
+    this.preSelectedChipFoundations_.forEach(
+      chipFoundation => this.foundation_.select(chipFoundation));
+    this.preSelectedChipFoundations_ = [];
   }
 
   componentWillUnmount() {
@@ -36,9 +40,22 @@ export default class ChipSet extends Component {
     this.foundation_.chipInteractionHandler_(e);
   }
 
+  handlePreSelect(chipFoundation) {
+    if (this.foundation_) {
+      // This case occurs when input chips are added to an existing chip set.
+      this.foundation_.select(chipFoundation);
+    } else {
+      this.preSelectedChipFoundations_.push(chipFoundation);
+    }
+  }
+
   renderChip(chip) {
     return (
-      <Chip {...chip.props} handleChipInteration={this.handleChipInteration.bind(this)}/>
+      <Chip
+        handleChipInteration={this.handleChipInteration.bind(this)}
+        handlePreSelect={this.handlePreSelect.bind(this)}
+        {...chip.props}
+      />
     );
   }
 

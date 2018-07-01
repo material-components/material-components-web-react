@@ -17,6 +17,9 @@ export class Chip extends Component {
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
     this.foundation_.init();
+    if (this.props.selected) {
+      this.props.handlePreSelect(this.foundation_);
+    }
   }
 
   componentWillUnmount() {
@@ -57,6 +60,7 @@ export class Chip extends Component {
       className, // eslint-disable-line no-unused-vars
       label,
       handleChipInteration,
+      handlePreSelect,
       initRipple,
       unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
