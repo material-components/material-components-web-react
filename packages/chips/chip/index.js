@@ -21,8 +21,10 @@ export class Chip extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {className} = this.props;
-    return classnames('mdc-chip', Array.from(classList), className);
+    const {className, selected} = this.props;
+    return classnames('mdc-chip', Array.from(classList), className, {
+      'mdc-chip--selected': selected,
+    });
   }
 
   get adapter() {
@@ -34,13 +36,25 @@ export class Chip extends Component {
         classList.delete(className);
         this.setState({classList});
       },
+      hasClass: (className) => this.classes.split(' ').includes(className),
     };
+  }
+
+  handleInteraction = () => {
+    this.props.handleChipInteration({
+      detail: {
+        chip: {
+          foundation: this.foundation_,
+        }
+      }
+    });
   }
 
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
-      children,
+      label,
+      handleChipInteration,
       initRipple,
       unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
@@ -49,10 +63,11 @@ export class Chip extends Component {
     return (
       <div
         className={this.classes}
+        onClick={this.handleInteraction}
         ref={initRipple}
         {...otherProps}
       >
-        <div className='mdc-chip__text'>{children}</div>
+        <div className='mdc-chip__text'>{label}</div>
       </div>
     );
   }
@@ -62,7 +77,8 @@ Chip.propTypes = {
   className: PropTypes.string,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
-  children: PropTypes.string,
+  label: PropTypes.string,
+  selected: PropTypes.bool,
 };
 
 export default withRipple(Chip);

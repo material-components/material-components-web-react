@@ -18,8 +18,11 @@ export default class ChipSet extends Component {
   }
 
   get classes() {
-    const {className} = this.props;
-    return classnames('mdc-chip-set', className);
+    const {className, choice, filter} = this.props;
+    return classnames('mdc-chip-set', className, {
+      'mdc-chip-set--choice': choice,
+      'mdc-chip-set--filter': filter,
+    });
   }
 
   get adapter() {
@@ -28,18 +31,21 @@ export default class ChipSet extends Component {
     };
   }
 
-  renderChip(label, index) {
+  handleChipInteration(e) {
+    // TODO: add toggleSelection(chipFoundation) method to MDC Web Chip Set
+    this.foundation_.chipInteractionHandler_(e);
+  }
+
+  renderChip(chip) {
     return (
-      <Chip key={index}>
-        {label}
-      </Chip>
+      <Chip {...chip.props} handleChipInteration={this.handleChipInteration.bind(this)}/>
     );
   }
 
   render() {
     return (
       <div className={this.classes}>
-        {this.props.labels.map((label, index) => this.renderChip(label, index))}
+        {React.Children.map(this.props.children, (chip) => this.renderChip(chip))}
       </div>
     );
   }
@@ -47,5 +53,6 @@ export default class ChipSet extends Component {
 
 ChipSet.propTypes = {
   className: PropTypes.string,
-  labels: PropTypes.array.isRequired,
+  choice: PropTypes.bool,
+  filter: PropTypes.bool,
 };

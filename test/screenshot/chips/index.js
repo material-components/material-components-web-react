@@ -2,29 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 
+import {Chip} from '../../../packages/chips';
 import ChipSet from '../../../packages/chips';
-
-class TestChipSet extends React.Component {
-  render() {
-    const {
-      className, labels, // eslint-disable-line react/prop-types
-    } = this.props;
-
-    return <ChipSet
-      className={className}
-      labels={labels}
-    />;
-  }
-}
 
 ReactDOM.render((
   <div>
-    <TestChipSet
-      labels={['Jane Smith', 'John Doe']}
-    />
-    <TestChipSet
-      className='demo-custom-color'
-      labels={['Custom color', 'Custom color']}
-    />
+    Choice chips
+    <ChipSet choice>
+      <Chip
+        label='Jane Smith'
+      />
+      <Chip
+        label='John Doe'
+      />
+    </ChipSet>
+
+    Filter chips
+    <ChipSet filter className='demo-custom-color'>
+      <Chip
+        label='Jane Smith'
+      />
+      <Chip
+        label='John Doe'
+      />
+    </ChipSet>
   </div>
 ), document.getElementById('app'));
