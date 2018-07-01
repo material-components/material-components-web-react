@@ -5,45 +5,64 @@ import './index.scss';
 import {Chip} from '../../../packages/chips';
 import ChipSet from '../../../packages/chips';
 
-class TestChoiceChips extends React.Component {
+class ShoppingPage extends React.Component {
   state = {
-    selectedChipId: -1,
+    selectedChipId: 0,
   }
 
-  componentDidMount() {
-    React.Children.map(this.props.children, chip => {
-      if (chip.props.selected) {
-        this.setState({selectedChipId: chip.props.id});
-      }
-    });
+  isSelected = (id) => {
+    return this.state.selectedChipId == id;
   }
 
   handleSelect = (id) => {
-    if (this.state.selectedChipId == id) {
+    if (this.isSelected(id)) {
       this.setState({selectedChipId: -1});
     } else {
       this.setState({selectedChipId: id});
     }
-  }
 
-  renderChip = (chip) => {
-    const {
-      selected,
-      id,
-      ...otherProps
-    } = chip.props;
-
-    if (this.state.selectedChipId == id) {
-      return <Chip selected id={id} {...otherProps} handleSelect={this.handleSelect} />;
-    } else {
-      return <Chip id={id} {...otherProps} handleSelect={this.handleSelect} />;
-    }
+    // Do something, like update page based on selected size
   }
 
   render() {
     return (
-      <ChipSet choice>
-        {React.Children.map(this.props.children, chip => this.renderChip(chip))}
+      <ChipSet>
+        <Chip selected={this.isSelected(0)} id={0} label='Small' handleSelect={this.handleSelect}/>
+        <Chip selected={this.isSelected(1)} id={1} label='Medium' handleSelect={this.handleSelect}/>
+        <Chip selected={this.isSelected(2)} id={2} label='Large' handleSelect={this.handleSelect}/>
+      </ChipSet>
+    )
+  }
+}
+
+class SearchPage extends React.Component {
+  state = {
+    selectedChipIds: [0, 1],
+  }
+
+  isSelected = (id) => {
+    return this.state.selectedChipIds.indexOf(id) > -1;
+  }
+
+  handleSelect = (id) => {
+    const selectedChipIds = [...this.state.selectedChipIds];
+    if (this.isSelected(id)) {
+      const index = selectedChipIds.indexOf(id);
+      selectedChipIds.splice(index, 1);
+    } else {
+      selectedChipIds.push(id);
+    }
+    this.setState({selectedChipIds});
+
+    // Do something, like filter page by selected results
+  }
+
+  render() {
+    return (
+      <ChipSet>
+        <Chip selected={this.isSelected(0)} id={0} label='Tops' handleSelect={this.handleSelect}/>
+        <Chip selected={this.isSelected(1)} id={1} label='Bottoms' handleSelect={this.handleSelect}/>
+        <Chip selected={this.isSelected(2)} id={2} label='Shoes' handleSelect={this.handleSelect}/>
       </ChipSet>
     )
   }
@@ -52,20 +71,8 @@ class TestChoiceChips extends React.Component {
 ReactDOM.render((
   <div>
     Choice chips
-    <TestChoiceChips choice>
-      <Chip
-        label='Jane Smith'
-        id={0}
-      />
-      <Chip
-        label='John Doe'
-        id={1}
-        selected
-      />
-      <Chip
-        label='Mary Smith'
-        id={2}
-      />
-    </TestChoiceChips>
+    <ShoppingPage />
+    Filter chips
+    <SearchPage />
   </div>
 ), document.getElementById('app'));

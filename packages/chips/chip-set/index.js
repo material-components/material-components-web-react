@@ -19,10 +19,7 @@ export default class ChipSet extends Component {
 
   get classes() {
     const {className, choice, filter} = this.props;
-    return classnames('mdc-chip-set', className, {
-      'mdc-chip-set--choice': choice,
-      'mdc-chip-set--filter': filter,
-    });
+    return classnames('mdc-chip-set', className);
   }
 
   get adapter() {
