@@ -6,20 +6,13 @@ import {MDCChipFoundation} from '@material/chips';
 
 export class Chip extends Component {
   foundation_ = null;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      classList: new Set(props.selected ? ['mdc-chip--selected'] : []),
-    }
+  state = {
+    classList: new Set(),
   }
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
     this.foundation_.init();
-    if (this.props.selected) {
-      this.props.handlePreSelect(this.foundation_);
-    }
   }
 
   componentWillUnmount() {
@@ -29,7 +22,9 @@ export class Chip extends Component {
   get classes() {
     const {classList} = this.state;
     const {className, selected} = this.props;
-    return classnames('mdc-chip', Array.from(classList), className);
+    return classnames('mdc-chip', Array.from(classList), className, {
+      'mdc-chip--selected': selected,
+    });
   }
 
   get adapter() {
@@ -46,21 +41,14 @@ export class Chip extends Component {
   }
 
   handleInteraction = () => {
-    this.props.handleChipInteration({
-      detail: {
-        chip: {
-          foundation: this.foundation_,
-        }
-      }
-    });
+    this.props.handleSelect(this.props.id);
   }
 
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
       label,
-      handleChipInteration,
-      handlePreSelect,
+      handleSelect,
       initRipple,
       unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
