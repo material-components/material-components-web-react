@@ -18,7 +18,7 @@ export default class ChipSet extends Component {
   }
 
   get classes() {
-    const {className, choice, filter} = this.props;
+    const {className} = this.props;
     return classnames('mdc-chip-set', className);
   }
 
@@ -39,6 +39,4 @@ export default class ChipSet extends Component {
 
 ChipSet.propTypes = {
   className: PropTypes.string,
-  choice: PropTypes.bool,
-  filter: PropTypes.bool,
 };

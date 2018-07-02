@@ -8,7 +8,7 @@ export class Chip extends Component {
   foundation_ = null;
   state = {
     classList: new Set(),
-  }
+  };
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
