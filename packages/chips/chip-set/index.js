@@ -39,7 +39,7 @@ export default class ChipSet extends Component {
   render() {
     return (
       <div className={this.classes}>
-        {this.props.labels.map((label, index) => this.renderChip(label, index))}
+        {this.props.labels.map(this.renderChip)}
       </div>
     );
   }
