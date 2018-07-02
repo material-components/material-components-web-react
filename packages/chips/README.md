@@ -5,7 +5,7 @@ A React version of an [MDC Chips](https://github.com/material-components/materia
 ## Installation
 
 ```
-npm install --save @material/react-chips
+npm install @material/react-chips
 ```
 
 ## Usage
@@ -29,14 +29,17 @@ class MyApp extends Component {
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the chip set element.
-labels | Array | An array of strings. Each string has a corresponding chip whose label will be set to the value of that string.
+className | String | Classes to be applied to the chip set element
 
 ### Chip
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the chip element.
+className | String | Classes to be applied to the chip element
+id | Number | Unique identifier for the chip
+label | String | Text to be shown on the chip
+selected | Boolean | Whether the chip is selected
+handleSelect | String | Callback to call when the chip is selected
 
 ## Sass Mixins
 

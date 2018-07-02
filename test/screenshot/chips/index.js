@@ -5,10 +5,10 @@ import './index.scss';
 import {Chip} from '../../../packages/chips';
 import ChipSet from '../../../packages/chips';
 
-class ShoppingPage extends React.Component {
+class ShirtSizes extends React.Component {
   state = {
     selectedChipId: 0,
-  }
+  };
 
   isSelected = (id) => {
     return this.state.selectedChipId == id;
@@ -20,8 +20,6 @@ class ShoppingPage extends React.Component {
     } else {
       this.setState({selectedChipId: id});
     }
-
-    // Do something, like update page based on selected size
   }
 
   render() {
@@ -35,10 +33,10 @@ class ShoppingPage extends React.Component {
   }
 }
 
-class SearchPage extends React.Component {
+class ShoppingFilters extends React.Component {
   state = {
     selectedChipIds: new Set([0, 1]),
-  }
+  };
 
   isSelected = (id) => {
     return this.state.selectedChipIds.has(id);
@@ -52,8 +50,6 @@ class SearchPage extends React.Component {
       selectedChipIds.add(id);
     }
     this.setState({selectedChipIds});
-
-    // Do something, like filter page by selected results
   }
 
   render() {
@@ -70,8 +66,8 @@ class SearchPage extends React.Component {
 ReactDOM.render((
   <div>
     Choice chips
-    <ShoppingPage />
+    <ShirtSizes />
     Filter chips
-    <SearchPage />
+    <ShoppingFilters />
   </div>
 ), document.getElementById('app'));
