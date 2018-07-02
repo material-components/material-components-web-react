@@ -1,5 +1,5 @@
-import Chip from './chip';
-import ChipSet from './chip-set';
+import Chip from './Chip';
+import ChipSet from './ChipSet';
 
 export {Chip};
 export default ChipSet;

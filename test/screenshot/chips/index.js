@@ -54,7 +54,7 @@ class ShoppingFilters extends React.Component {
 
   render() {
     return (
-      <ChipSet>
+      <ChipSet filter>
         <Chip selected={this.isSelected(0)} id={0} label='Tops' handleSelect={this.handleSelect}/>
         <Chip selected={this.isSelected(1)} id={1} label='Bottoms' handleSelect={this.handleSelect}/>
         <Chip selected={this.isSelected(2)} id={2} label='Shoes' handleSelect={this.handleSelect}/>

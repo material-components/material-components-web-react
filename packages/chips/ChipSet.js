@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import {MDCChipSetFoundation} from '@material/chips';
 
-import Chip from '../chip';
+import Chip from './Chip';
 
 export default class ChipSet extends Component {
   foundation_ = null;
@@ -28,10 +28,14 @@ export default class ChipSet extends Component {
     };
   }
 
+  renderChip = (chip) => {
+    return <Chip hasFilterCheckmark={this.props.filter} {...chip.props} />;
+  }
+
   render() {
     return (
       <div className={this.classes}>
-        {this.props.children}
+        {React.Children.map(this.props.children, this.renderChip)}
       </div>
     );
   }
@@ -39,4 +43,5 @@ export default class ChipSet extends Component {
 
 ChipSet.propTypes = {
   className: PropTypes.string,
+  filter: PropTypes.bool,
 };

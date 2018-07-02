@@ -44,11 +44,26 @@ export class Chip extends Component {
     this.props.handleSelect(this.props.id);
   }
 
+  renderCheckmark = () => {
+    return (
+      <div className='mdc-chip__checkmark'>
+        <svg className='mdc-chip__checkmark-svg' viewBox='-2 -3 30 30'>
+          <path
+            className='mdc-chip__checkmark-path'
+            fill='none'
+            stroke='black'
+            d='M1.73,12.91 8.1,19.28 22.79,4.59'/>
+        </svg>
+      </div>
+    );
+  }
+
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
       label,
       handleSelect,
+      hasFilterCheckmark,
       initRipple,
       unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
@@ -61,6 +76,7 @@ export class Chip extends Component {
         ref={initRipple}
         {...otherProps}
       >
+        {hasFilterCheckmark ? this.renderCheckmark() : null}
         <div className='mdc-chip__text'>{label}</div>
       </div>
     );
@@ -73,6 +89,8 @@ Chip.propTypes = {
   unbounded: PropTypes.bool,
   label: PropTypes.string,
   selected: PropTypes.bool,
+  handleSelect: PropTypes.func,
+  hasFilterCheckmark: PropTypes.bool,
 };
 
 export default withRipple(Chip);
