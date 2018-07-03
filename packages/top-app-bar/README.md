@@ -13,8 +13,6 @@ npm install @material/react-top-app-bar
 ```js
 import TopAppBar from '@material/react-top-app-bar';
 import MaterialIcon from '@material/react-material-icon';
-import "@material/react-top-app-bar/dist/top-app-bar.css";
-import "@material/react-material-icon/dist/material-icon.css";
 
 const MyComponent = () => {
   return (
@@ -28,6 +26,19 @@ const MyComponent = () => {
     />
   );
 }
+```
+
+### Styles
+
+with Sass:
+```js
+import '@material/react-top-app-bar/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-top-app-bar/dist/top-app-bar.css';
+import '@material/react-material-icon/dist/material-icon.css';
 ```
 
 ## Props
