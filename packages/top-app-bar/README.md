@@ -10,6 +10,20 @@ npm install @material/react-top-app-bar
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-top-app-bar/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-top-app-bar/dist/top-app-bar.css';
+import '@material/react-material-icon/dist/material-icon.css';
+```
+
+### Javascript Instantiation
 ```js
 import TopAppBar from '@material/react-top-app-bar';
 import MaterialIcon from '@material/react-material-icon';
@@ -28,30 +42,19 @@ const MyComponent = () => {
 }
 ```
 
-### Styles
 
-with Sass:
-```js
-import '@material/react-top-app-bar/index.scss';
-```
-
-with CSS:
-```js
-import '@material/react-top-app-bar/dist/top-app-bar.css';
-import '@material/react-material-icon/dist/material-icon.css';
-```
 
 ## Props
 
-Prop Name | Type | Description
---- | --- | ---
-actionItems | Array | Accepts an array of elements that should be rendered to the opposite side of the title. Note that a single action item should also be passed as an array.
-className | String | Classes to be applied to the root element.
-title | String | The title of the Top App Bar.
-navigationIcon | Element | Appears adjacent to the title. This acts as the main action of the Top App Bar.
-short | n/a | Enables short variant.
-shortCollapsed | n/a | Enables short collapsed variant.
-prominent | n/a | Enables prominent variant.
+| Prop Name      | Type    | Description                                                                                                                                               |
+| -------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| actionItems    | Array   | Accepts an array of elements that should be rendered to the opposite side of the title. Note that a single action item should also be passed as an array. |
+| className      | String  | Classes to be applied to the root element.                                                                                                                |
+| title          | String  | The title of the Top App Bar.                                                                                                                             |
+| navigationIcon | Element | Appears adjacent to the title. This acts as the main action of the Top App Bar.                                                                           |
+| short          | n/a     | Enables short variant.                                                                                                                                    |
+| shortCollapsed | n/a     | Enables short collapsed variant.                                                                                                                          |
+| prominent      | n/a     | Enables prominent variant.                                                                                                                                |
 
 > NOTE: As per design guidelines, prominent variant should not be used with short or short collapsed.
 
