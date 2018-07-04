@@ -10,6 +10,20 @@ npm install @material/react-ripple
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-ripple/index.scss';
+```
+
+with CSS:
+```js
+import "@material/react-ripple/dist/ripple.css";
+```
+
+### Javascript Instantiation
+
 To wrap a component with the ripple HOC, please follow this example:
 
 ```js

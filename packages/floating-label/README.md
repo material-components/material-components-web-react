@@ -10,6 +10,18 @@ npm install @material/react-floating-label
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-floating-label/index.scss';
+```
+
+with CSS:
+```js
+import "@material/react-floating-label/dist/floating-label.css";
+```
+
 ### Positioning
 
 React Floating Label is meant to be used with other Components, specifically input type elements. Floating label is positioned absolute, which requires the parent element to be position _relative_.
