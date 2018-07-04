@@ -10,6 +10,19 @@ npm install @material/react-button
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import "@material/react-button/index.scss"
+```
+
+with CSS:
+```js
+import "@material/react-button/dist/button.css"
+```
+
+### Javascript Instantiation
 ```js
 import React from 'react';
 import Button from '@material/react-button';
