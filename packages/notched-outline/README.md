@@ -19,7 +19,7 @@ import '@material/react-notched-outline/index.scss';
 
 with CSS:
 ```js
-import "@material/react-notched-outline/dist/notched-outline.css";
+import '@material/react-notched-outline/dist/notched-outline.css';
 ```
 
 ### Javascript Instantiation
