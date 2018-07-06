@@ -19,7 +19,7 @@ import '@material/react-floating-label/index.scss';
 
 with CSS:
 ```js
-import "@material/react-floating-label/dist/floating-label.css";
+import '@material/react-floating-label/dist/floating-label.css';
 ```
 
 ### Positioning
