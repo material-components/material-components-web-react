@@ -19,7 +19,7 @@ import '@material/react-fab/index.scss';
 
 with CSS:
 ```js
-import "@material/react-fab/dist/fab.css";
+import '@material/react-fab/dist/fab.css';
 ```
 
 ### JSX Structure
