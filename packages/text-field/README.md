@@ -19,7 +19,7 @@ import '@material/react-text-field/index.scss';
 
 with CSS:
 ```js
-import "@material/react-text-field/dist/text-field.css";
+import '@material/react-text-field/dist/text-field.css';
 ```
 
 ### Javascript Instantiation
