@@ -10,6 +10,18 @@ npm install @material/react-fab
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-fab/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-fab/dist/fab.css';
+```
+
 ### JSX Structure
 
 The Fab can be used with the `span`, `i`, `img` or `svg` elements. It can also be used with the
