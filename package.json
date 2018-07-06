@@ -45,6 +45,7 @@
     "@google-cloud/storage": "^1.6.0",
     "@material/button": "^0.36.0",
     "@material/card": "^0.36.0",
+    "@material/chips": "^0.36.0",
     "@material/fab": "^0.36.0",
     "@material/floating-label": "^0.36.0",
     "@material/line-ripple": "^0.35.0",

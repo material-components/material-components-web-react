@@ -1,0 +1,7 @@
+@import "../../../packages/chips/index.scss";
+
+.demo-custom-color .mdc-chip {
+  @include mdc-chip-ink-color(primary);
+  @include mdc-chip-fill-color(white);
+  @include mdc-chip-outline(2px, solid, primary);
+}
