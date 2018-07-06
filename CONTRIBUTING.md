@@ -19,7 +19,7 @@ Even better: propose a fix with a pull request and link it to the issue!
 
 ## Feature or Component Requests
 
-If you want to request a new component, or change to the UX of an existing component, you must first make this request in our [MDC Web repository](https://github.com/material-components/material-components-web/issues/new). Please read the general [Material Design Components Request Policy](COMPONENTS_REQUEST_POLICY.md) before you request any changes.
+If you want to request a new component, or change to the UX of an existing component, you must first make this request in our [MDC Web repository](https://github.com/material-components/material-components-web/issues/new). Please read the general [Material Design Components Request Policy](https://github.com/material-components/material-components/blob/develop/COMPONENTS_REQUEST_POLICY.md) before you request any changes.
 
 Once the issue is resolve and the component built, we will update our [roadmap](ROADMAP.md) with a timeline that includes wrapping the MDC Web component in MDC React.
 
