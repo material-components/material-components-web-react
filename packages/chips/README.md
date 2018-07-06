@@ -10,6 +10,20 @@ npm install --save @material/react-chips
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-chips/index.scss';
+```
+
+with CSS:
+```js
+import "@material/react-chips/dist/chips.css";
+```
+
+### Javascript Instantiation
+
 ```js
 import React, {Component} from 'react';
 import ChipSet from '@material/react-chips';

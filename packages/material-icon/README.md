@@ -10,6 +10,20 @@ npm install @material/react-material-icon
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-material-icon/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-material-icon/dist/material-icon.css';
+```
+
+### Javascript Instantiation
+
 ```js
 import MaterialIcon from '@material/react-material-icon';
 

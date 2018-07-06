@@ -10,23 +10,49 @@ npm install @material/react-card
 
 ## Usage
 
-```html
-<Card>
-  <CardPrimaryContent>
-    <h1>Header</h1>
-    <CardMedia imageUrl='./my/fancy/image.png' />
-  </CardPrimaryContent>
+### Syles
 
-  <CardActions>
-    <CardActionButtons>
-      <button>Click Me</button>
-    </CardActionButtons>
+with Sass:
+```js
+import '@material/react-card/index.scss';
+```
 
-    <CardActionIcons>
-      <i>Click Me Too!</i>
-    </CardActionIcons>
-  </CardActions>
-</Card>
+with CSS:
+```js
+import '@material/react-card/dist/card.css';
+```
+
+### Javascript Instantiation
+```js
+import React from 'react';
+import Card, {
+  CardPrimaryContent,
+  CardMedia,
+  CardActions,
+  CardActionButtons,
+  CardActionIcons
+} from "@material/react-card";
+
+const MyApp = () => {
+  return (
+    <Card>
+      <CardPrimaryContent>
+        <h1>Header</h1>
+        <CardMedia imageUrl='./my/fancy/image.png' />
+      </CardPrimaryContent>
+
+      <CardActions>
+        <CardActionButtons>
+          <button>Click Me</button>
+        </CardActionButtons>
+
+        <CardActionIcons>
+          <i>Click Me Too!</i>
+        </CardActionIcons>
+      </CardActions>
+    </Card>
+  );
+}
 ```
 
 ## Components
