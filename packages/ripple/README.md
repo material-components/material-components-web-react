@@ -19,7 +19,7 @@ import '@material/react-ripple/index.scss';
 
 with CSS:
 ```js
-import "@material/react-ripple/dist/ripple.css";
+import '@material/react-ripple/dist/ripple.css';
 ```
 
 ### Javascript Instantiation
