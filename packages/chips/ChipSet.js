@@ -6,17 +6,6 @@ import {MDCChipSetFoundation} from '@material/chips';
 import Chip from './Chip';
 
 export default class ChipSet extends Component {
-  foundation_ = null;
-
-  componentDidMount() {
-    this.foundation_ = new MDCChipSetFoundation(this.adapter);
-    this.foundation_.init();
-  }
-
-  componentWillUnmount() {
-    this.foundation_.destroy();
-  }
-
   get classes() {
     const {className} = this.props;
     return classnames('mdc-chip-set', className);
@@ -44,4 +33,5 @@ export default class ChipSet extends Component {
 ChipSet.propTypes = {
   className: PropTypes.string,
   filter: PropTypes.bool,
+  children: PropTypes.node,
 };

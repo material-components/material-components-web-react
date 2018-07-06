@@ -87,6 +87,7 @@ Chip.propTypes = {
   className: PropTypes.string,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
+  id: PropTypes.number,
   label: PropTypes.string,
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,

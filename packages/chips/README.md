@@ -30,6 +30,8 @@ class MyApp extends Component {
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the chip set element
+filter | Boolean | Indicates that the chips in the set are filter chips, which allow multiple selection from a set of options
+
 
 ### Chip
 
@@ -38,7 +40,7 @@ Prop Name | Type | Description
 className | String | Classes to be applied to the chip element
 id | Number | Unique identifier for the chip
 label | String | Text to be shown on the chip
-selected | Boolean | Whether the chip is selected
+selected | Boolean | Indicates whether the chip is selected
 handleSelect | String | Callback to call when the chip is selected
 
 ## Sass Mixins
