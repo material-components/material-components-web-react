@@ -58,7 +58,7 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true'
   assert.equal(wrapper.state().role, undefined);
 });
 
-test('#componentWillReceiveProps calls #foundation.setDisabled if ' +
+test('#componentDidUpdate calls #foundation.setDisabled if ' +
   'props.disabled updates', () => {
   const wrapper = shallow(<Icon><i tabIndex='0'/></Icon>);
   wrapper.instance().foundation_.setDisabled = td.func();
@@ -66,7 +66,7 @@ test('#componentWillReceiveProps calls #foundation.setDisabled if ' +
   td.verify(wrapper.instance().foundation_.setDisabled(true), {times: 1});
 });
 
-test('#componentWillReceiveProps calls #foundation.setDisabled if ' +
+test('#componentDidUpdate calls #foundation.setDisabled if ' +
   'props.disabled updates from true to false', () => {
   const wrapper = shallow(<Icon disabled><i tabIndex='0'/></Icon>);
   wrapper.instance().foundation_.setDisabled = td.func();
@@ -74,7 +74,7 @@ test('#componentWillReceiveProps calls #foundation.setDisabled if ' +
   td.verify(wrapper.instance().foundation_.setDisabled(false), {times: 1});
 });
 
-test('#componentWillReceiveProps doesn\'t call #foundation.setDisabled if ' +
+test('#componentDidUpdate doesn\'t call #foundation.setDisabled if ' +
   'props.disabled is not updated', () => {
   const wrapper = shallow(<Icon disabled><i tabIndex='0'/></Icon>);
   wrapper.instance().foundation_.setDisabled = td.func();

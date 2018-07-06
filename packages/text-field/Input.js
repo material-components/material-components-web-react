@@ -20,17 +20,17 @@ export default class Input extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {foundation} = nextProps;
-    this.handleValidationAttributeUpdate(nextProps);
+  componentDidUpdate(prevProps) {
+    this.handleValidationAttributeUpdate(prevProps);
 
-    if (this.props.disabled !== nextProps.disabled) {
-      nextProps.setDisabled(nextProps.disabled);
-      foundation.setDisabled(nextProps.disabled);
+    if (this.props.disabled !== prevProps.disabled) {
+      const {disabled} = this.props;
+      this.props.setDisabled(disabled);
+      this.props.foundation.setDisabled(disabled);
     }
 
-    if (this.props.id !== nextProps.id) {
-      nextProps.setInputId(nextProps.id);
+    if (this.props.id !== prevProps.id) {
+      this.props.setInputId(this.props.id);
     }
   }
 
@@ -139,7 +139,7 @@ Input.propTypes = {
     activateFocus: PropTypes.func,
     deactivateFocus: PropTypes.func,
     autoCompleteFocus: PropTypes.func,
-    setTransformOrigin: PropTypes.func,
+    setDisabled: PropTypes.func,
     setTransformOrigin: PropTypes.func,
     handleValidationAttributeMutation_: PropTypes.func,
   }),
@@ -166,6 +166,7 @@ Input.defaultProps = {
     activateFocus: () => {},
     deactivateFocus: () => {},
     autoCompleteFocus: () => {},
+    setDisabled: () => {},
     setTransformOrigin: () => {},
     handleValidationAttributeMutation_: () => {},
   },

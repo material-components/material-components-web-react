@@ -20,16 +20,16 @@ export default class LineRipple extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.active !== nextProps.active) {
-      if (nextProps.active) {
+  componentDidUpdate(prevProps) {
+    if (this.props.active !== prevProps.active) {
+      if (this.props.active) {
         this.foundation_.activate();
       } else {
         this.foundation_.deactivate();
       }
     }
-    if (this.props.rippleCenter !== nextProps.rippleCenter) {
-      this.foundation_.setRippleCenter(nextProps.rippleCenter);
+    if (this.props.rippleCenter !== prevProps.rippleCenter) {
+      this.foundation_.setRippleCenter(this.props.rippleCenter);
     }
   }
 

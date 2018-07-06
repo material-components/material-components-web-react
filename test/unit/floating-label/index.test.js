@@ -63,7 +63,7 @@ test('#componentDidUpdate updating the children updates width', () => {
   div.remove();
 });
 
-test('#componentWillReceiveProps updating float to true floats the label', () => {
+test('#componentDidUpdate updating float to true floats the label', () => {
   const wrapper = shallow(<FloatingLabel/>);
   wrapper.setProps({float: true});
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));

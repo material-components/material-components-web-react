@@ -38,14 +38,14 @@ test('calls #foundation.notch if notch adds the notched class', () => {
   wrapper.first().first().hasClass('mdc-notched-outline--notched');
 });
 
-test('#componentWillReceiveProps updating notch to true calls #foundation.notch', () => {
+test('#componentDidUpdate updating notch to true calls #foundation.notch', () => {
   const wrapper = shallow(<NotchedOutline />);
   wrapper.instance().foundation_.notch = td.func();
   wrapper.setProps({notch: true});
   td.verify(wrapper.instance().foundation_.notch(0, false), {times: 1});
 });
 
-test('#componentWillReceiveProps updating notch to false calls ' +
+test('#componentDidUpdate updating notch to false calls ' +
   '#foundation.closeNotch', () => {
   const wrapper = mount(<NotchedOutline notch />);
   wrapper.instance().foundation_.closeNotch = td.func();
@@ -55,7 +55,7 @@ test('#componentWillReceiveProps updating notch to false calls ' +
   td.verify(wrapper.instance().foundation_.closeNotch(), {times: 1});
 });
 
-test('#componentWillReceiveProps updating notchWidth calls ' +
+test('#componentDidUpdate updating notchWidth calls ' +
   '#foundation.notch with correct arguments', () => {
   const wrapper = mount(<NotchedOutline notch />);
   wrapper.instance().foundation_.notch = td.func();
@@ -65,7 +65,7 @@ test('#componentWillReceiveProps updating notchWidth calls ' +
   td.verify(wrapper.instance().foundation_.notch(100, false), {times: 1});
 });
 
-test('#componentWillReceiveProps updating isRtl calls #foundation.notch', () => {
+test('#componentDidUpdate updating isRtl calls #foundation.notch', () => {
   const wrapper = mount(<NotchedOutline notch />);
   wrapper.instance().foundation_.notch = td.func();
   td.when(wrapper.instance().foundation_.adapter_.getIdleOutlineStyleValue)
@@ -74,7 +74,7 @@ test('#componentWillReceiveProps updating isRtl calls #foundation.notch', () => 
   td.verify(wrapper.instance().foundation_.notch(0, true), {times: 1});
 });
 
-test('#componentWillReceiveProps updating notch to true with and initial ' +
+test('#componentDidUpdate updating notch to true with and initial ' +
   'notchWidth calls #foundation.notch with correct arguments', () => {
   const wrapper = mount(<NotchedOutline notchWidth={100} />);
   wrapper.instance().foundation_.notch = td.func();
@@ -82,7 +82,7 @@ test('#componentWillReceiveProps updating notch to true with and initial ' +
   td.verify(wrapper.instance().foundation_.notch(100, false), {times: 1});
 });
 
-test('#componentWillReceiveProps shouldn\'t call #foundation notch or closeNotch' +
+test('#componentDidUpdate shouldn\'t call #foundation notch or closeNotch' +
   'if another prop changes', () => {
   const wrapper = shallow(<NotchedOutline />);
   wrapper.setProps({className: 'test-class-name'});
