@@ -19,7 +19,7 @@ import '@material/react-material-icon/index.scss';
 
 with CSS:
 ```js
-import "@material/react-material-icon/dist/material-icon.css";
+import '@material/react-material-icon/dist/material-icon.css';
 ```
 
 ### Javascript Instantiation
