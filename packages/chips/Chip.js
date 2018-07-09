@@ -48,9 +48,9 @@ export class Chip extends Component {
     const {
       className, // eslint-disable-line no-unused-vars
       label,
-      handleSelect,
+      handleSelect, // eslint-disable-line no-unused-vars
       chipCheckmark,
-      computeBoundingRect,
+      computeBoundingRect, // eslint-disable-line no-unused-vars
       initRipple,
       unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
