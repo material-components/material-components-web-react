@@ -13,13 +13,23 @@ test('className prop adds classes', () => {
 
 test('renders chip set and chip', () => {
   const wrapper = shallow(
-    <ChipSet labels={['Hello', 'World']}>
+    <ChipSet>
       <Chip id={0} label='Bonnie'/>
       <Chip id={1} label='Clyde'/>
     </ChipSet>
   );
   assert.exists(wrapper.find('.mdc-chip-set'));
   assert.lengthOf(wrapper.find(Chip), 2);
+});
+
+test('selected filter chip renders checkmark', () => {
+  const wrapper = shallow(
+    <ChipSet filter>
+      <Chip selected id={0} label='Minnie'/>
+      <Chip id={1} label='Mickey'/>
+    </ChipSet>
+  );
+  assert.exists(wrapper.find('.mdc-chip__checkmark'));
 });
 
 test('#adapter.hasClass returns true if class was added in className prop', () => {

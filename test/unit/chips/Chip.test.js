@@ -47,3 +47,8 @@ test('renders chip checkmark if it exists', () => {
   const wrapper = mount(<Chip chipCheckmark={<ChipCheckmark/>}>Jane Doe</Chip>);
   assert.exists(wrapper.find('.mdc-chip__checkmark'));
 });
+
+test('adds mndc-chip--selected class if selected prop is true', () => {
+  const wrapper = mount(<Chip selected>Jane Doe</Chip>);
+  assert.exists(wrapper.hasClass('.mdc-chip--selected'));
+});
