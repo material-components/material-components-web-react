@@ -1,7 +1,7 @@
 import React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import ChipSet, {Chip} from '../../../packages/chips';
+import {Chip, ChipSet} from '../../../packages/chips';
 
 suite('ChipSet');
 
@@ -12,7 +12,12 @@ test('className prop adds classes', () => {
 });
 
 test('renders chip set and chip', () => {
-  const wrapper = shallow(<ChipSet labels={['Hello', 'World']} />);
+  const wrapper = shallow(
+    <ChipSet labels={['Hello', 'World']}>
+      <Chip id={0} label='Bonnie'/>
+      <Chip id={1} label='Clyde'/>
+    </ChipSet>
+  );
   assert.exists(wrapper.find('.mdc-chip-set'));
   assert.lengthOf(wrapper.find(Chip), 2);
 });
