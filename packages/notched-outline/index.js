@@ -33,18 +33,18 @@ export default class NotchedOutline extends React.Component {
     this.foundation_.destroy();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const hasToggledNotch = this.props.notch !== nextProps.notch;
-    const hasToggleRtl = this.props.isRtl !== nextProps.isRtl;
-    const notchWidthUpdated = this.props.notchWidth !== nextProps.notchWidth;
+  componentDidUpdate(prevProps) {
+    const hasToggledNotch = this.props.notch !== prevProps.notch;
+    const hasToggleRtl = this.props.isRtl !== prevProps.isRtl;
+    const notchWidthUpdated = this.props.notchWidth !== prevProps.notchWidth;
     const shouldUpdateNotch = notchWidthUpdated || hasToggleRtl || hasToggledNotch;
 
     if (!shouldUpdateNotch) {
       return;
     }
 
-    if (nextProps.notch) {
-      const {notchWidth, isRtl} = nextProps;
+    if (this.props.notch) {
+      const {notchWidth, isRtl} = this.props;
       this.foundation_.notch(notchWidth, isRtl);
     } else {
       this.foundation_.closeNotch();

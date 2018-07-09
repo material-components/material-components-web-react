@@ -11,3 +11,4 @@ lerna-debug.log
 build
 dist
 packages/**/CHANGELOG.md
+.vscode/

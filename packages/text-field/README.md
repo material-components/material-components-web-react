@@ -10,6 +10,20 @@ npm install @material/react-text-field
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-text-field/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-text-field/dist/text-field.css';
+```
+
+### Javascript Instantiation
+
 React Text Field accepts one child element which is the input element. For ease of integration, we have provided an input component to be used with React Text Field.
 
 ```js
