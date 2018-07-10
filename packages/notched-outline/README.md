@@ -10,6 +10,20 @@ npm install @material/react-notched-outline
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-notched-outline/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-notched-outline/dist/notched-outline.css';
+```
+
+### Javascript Instantiation
+
 ```js
 import NotchedOutline from '@material/react-notched-outline';
 

@@ -1,8 +1,9 @@
 {
   "name": "@material/react-line-ripple",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Material Components React Line Ripple",
   "license": "Apache-2.0",
+  "main": "dist/index.js",
   "keywords": [
     "mdc web react",
     "material components react",

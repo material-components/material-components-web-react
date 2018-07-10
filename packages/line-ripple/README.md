@@ -10,6 +10,20 @@ npm install @material/react-line-ripple
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-line-ripple/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-line-ripple/dist/line-ripple.css';
+```
+
+### Javascript Instantiation
+
 ```js
 import LineRipple from '@material/react-line-ripple';
 

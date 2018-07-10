@@ -31,15 +31,15 @@ export default class HelperText extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.showToScreenReader !== nextProps.showToScreenReader) {
-      this.foundation_.showToScreenReader(nextProps.showToScreenReader);
+  componentDidUpdate(prevProps) {
+    if (this.props.showToScreenReader !== prevProps.showToScreenReader) {
+      this.foundation_.showToScreenReader(this.props.showToScreenReader);
     }
-    if (this.props.isValid !== nextProps.isValid) {
-      this.foundation_.setValidity(nextProps.isValid);
+    if (this.props.isValid !== prevProps.isValid) {
+      this.foundation_.setValidity(this.props.isValid);
     }
-    if (this.props.isValidationMessage !== nextProps.isValidationMessage) {
-      this.foundation_.setValidation(nextProps.isValidationMessage);
+    if (this.props.isValidationMessage !== prevProps.isValidationMessage) {
+      this.foundation_.setValidation(this.props.isValidationMessage);
     }
   }
 

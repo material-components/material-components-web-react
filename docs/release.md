@@ -45,7 +45,7 @@ This command will update the `package-lock.json` file and `package.json` files o
 #### Commit Changes
 
 ```
-git add packages/ package-lock.json
+git add packages/ package-lock.json lerna.json
 git commit -m "chore: Publish"
 
 git add CHANGELOG.md

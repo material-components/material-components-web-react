@@ -10,6 +10,21 @@ npm install @material/react-top-app-bar
 
 ## Usage
 
+### Styles
+
+with Sass:
+```js
+import '@material/react-top-app-bar/index.scss';
+import '@material/react-material-icon/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-top-app-bar/dist/top-app-bar.css';
+import '@material/react-material-icon/dist/material-icon.css';
+```
+
+### Javascript Instantiation
 ```js
 import TopAppBar from '@material/react-top-app-bar';
 import MaterialIcon from '@material/react-material-icon';

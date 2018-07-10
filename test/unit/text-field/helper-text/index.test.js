@@ -59,7 +59,7 @@ test('sets validity to false if props.isValid is initially false', () => {
   assert.equal(wrapper.state().role, undefined);
 });
 
-test('#componentWillReceiveProps calls #foundation.showToScreenReader if ' +
+test('#componentDidUpdate calls #foundation.showToScreenReader if ' +
   'props.showToScreenReader updates', () => {
   const wrapper = shallow(<HelperText />);
   wrapper.instance().foundation_.showToScreenReader = td.func();
@@ -67,7 +67,7 @@ test('#componentWillReceiveProps calls #foundation.showToScreenReader if ' +
   td.verify(wrapper.instance().foundation_.showToScreenReader(true), {times: 1});
 });
 
-test('#componentWillReceiveProps calls #foundation.setValidity if ' +
+test('#componentDidUpdate calls #foundation.setValidity if ' +
   'props.isValid updates', () => {
   const wrapper = shallow(<HelperText />);
   wrapper.instance().foundation_.setValidity = td.func();
@@ -75,14 +75,14 @@ test('#componentWillReceiveProps calls #foundation.setValidity if ' +
   td.verify(wrapper.instance().foundation_.setValidity(false), {times: 1});
 });
 
-test('#componentWillReceiveProps calls setValidation to true if props.isValidationMessage updates', () => {
+test('#componentDidUpdate calls setValidation to true if props.isValidationMessage updates', () => {
   const wrapper = shallow(<HelperText />);
   wrapper.instance().foundation_.setValidation = td.func();
   wrapper.setProps({isValidationMessage: true});
   td.verify(wrapper.instance().foundation_.setValidation(true), {times: 1});
 });
 
-test('#componentWillReceiveProps neither calls #showToScreenReader nor ' +
+test('#componentDidUpdate neither calls #showToScreenReader nor ' +
   'setValidity if another prop updates', () => {
   const wrapper = shallow(<HelperText />);
   wrapper.instance().foundation_.showToScreenReader = td.func();

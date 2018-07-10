@@ -29,15 +29,12 @@ export default class FloatingLabel extends React.Component {
     this.foundation_.destroy();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.float !== nextProps.float) {
-      this.foundation_.float(nextProps.float);
-    }
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.children !== prevProps.children) {
       this.handleWidthChange();
+    }
+    if (this.props.float !== prevProps.float) {
+      this.foundation_.float(this.props.float);
     }
   }
 

@@ -346,5 +346,5 @@ TextField.defaultProps = {
 };
 
 
-export {HelperText, Input};
+export {Icon, HelperText, Input};
 export default TextField;
