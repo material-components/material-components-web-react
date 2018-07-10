@@ -44,8 +44,12 @@ const withRipple = (WrappedComponent) => {
         isUnbounded: () => this.props.unbounded,
         isSurfaceActive: () => instance[MATCHES](':active'),
         isSurfaceDisabled: () => this.props.disabled,
-        addClass: (className) =>
-          this.setState({classList: this.state.classList.add(className)}),
+        addClass: (className) => {
+          if (!this.isMounted_) {
+            return;
+          }
+          this.setState({classList: this.state.classList.add(className)});
+        },
         removeClass: (className) => {
           if (!this.isMounted_) {
             return;
