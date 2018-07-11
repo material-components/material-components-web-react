@@ -115,9 +115,9 @@ Then rename `./src/App.css` --> `./src/App.scss`. The `build-css` and `watch-css
 
 #### Step 2a: Use Compiled CSS
 
-If you performed [Step 2](#step-2-using-sass), then you can skip to [Step 3](##step-3-use-mdc-react-button).
+If you performed [Step 2](#step-2-using-sass), then you can skip to [Step 3](#step-3-use-mdc-react-button).
 
-If you don't need to customize your app, then using the CSS is a quicker way to get started with MDC React Components. Each package comes with a `/dist` directory, which includes compiled ES5 and CSS files. `create-react-app` is ready to import CSS files. To import the Button CSS copy the following line into `./src/App.js` imports:
+If you don't need to customize your app, then using the CSS is a quicker way to get started with MDC React Components. Each package comes with a `/dist` directory, which includes the CSS files compiled from our Sass files. `create-react-app` is ready to import CSS files. To import the Button CSS copy the following line into `./src/App.js` imports:
 
 ```js
 import '@material/react-button/dist/button.css';
