@@ -182,7 +182,17 @@ test('#adapter.addClass adds a class to the root element', () => {
       .hasClass('test-class'));
 });
 
-test('#adapter.removeClass adds a class to the root element', () => {
+test('#adapter.addClass does not add class if isMounted is false', () => {
+  const wrapper = mount(<DivRipple />);
+  wrapper.instance().isMounted_ = false;
+  wrapper.instance().foundation_.adapter_.addClass('test-class');
+  assert.isFalse(
+    wrapper.update()
+      .find('.ripple-test-component')
+      .hasClass('test-class'));
+});
+
+test('#adapter.removeClass removes a class to the root element', () => {
   const wrapper = mount(<DivRipple />);
   wrapper.instance().foundation_.adapter_.addClass('test-class');
 
@@ -195,10 +205,31 @@ test('#adapter.removeClass adds a class to the root element', () => {
       .hasClass('test-class'));
 });
 
+test('#adapter.removeClass removes a class to the root element', () => {
+  const wrapper = mount(<DivRipple />);
+  wrapper.instance().foundation_.adapter_.addClass('test-class');
+
+  wrapper.instance().isMounted_ = false;
+  wrapper.update();
+  wrapper.instance().foundation_.adapter_.removeClass('test-class');
+
+  assert.isTrue(
+    wrapper.update()
+      .find('.ripple-test-component')
+      .hasClass('test-class'));
+});
+
 test('#adapter.updateCssVariable updates style', () => {
   const wrapper = mount(<DivRipple />);
   wrapper.instance().foundation_.adapter_.updateCssVariable('color', 'blue');
   assert.equal(wrapper.state().style.color, 'blue');
+});
+
+test('#adapter.updateCssVariable does not update style if isMounted_ is false', () => {
+  const wrapper = mount(<DivRipple />);
+  wrapper.instance().isMounted_ = false;
+  wrapper.instance().foundation_.adapter_.updateCssVariable('color', 'blue');
+  assert.notEqual(wrapper.state().style.color, 'blue');
 });
 
 test('#adapter.registerDocumentInteractionHandler triggers handler on document scroll', () => {

@@ -9,6 +9,8 @@ const withRipple = (WrappedComponent) => {
 
     foundation_ = null;
 
+    isMounted_ = true;
+
     state = {
       classList: new Set(),
       style: {},
@@ -23,6 +25,7 @@ const withRipple = (WrappedComponent) => {
 
     componentWillUnmount() {
       if (this.foundation_) {
+        this.isMounted_ = false;
         this.foundation_.destroy();
       }
     }
@@ -41,9 +44,17 @@ const withRipple = (WrappedComponent) => {
         isUnbounded: () => this.props.unbounded,
         isSurfaceActive: () => instance[MATCHES](':active'),
         isSurfaceDisabled: () => this.props.disabled,
-        addClass: (className) =>
-          this.setState({classList: this.state.classList.add(className)}),
+        addClass: (className) => {
+          if (!this.isMounted_) {
+            return;
+          }
+          this.setState({classList: this.state.classList.add(className)});
+        },
         removeClass: (className) => {
+          if (!this.isMounted_) {
+            return;
+          }
+
           const {classList} = this.state;
           classList.delete(className);
           this.setState({classList});
@@ -109,6 +120,10 @@ const withRipple = (WrappedComponent) => {
     }
 
     updateCssVariable = (varName, value) => {
+      if (!this.isMounted_) {
+        return;
+      }
+
       const updatedStyle = Object.assign({}, this.state.style);
       updatedStyle[varName] = value;
       this.setState({style: updatedStyle});
