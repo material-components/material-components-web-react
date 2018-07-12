@@ -153,6 +153,42 @@ test('keyUp event triggers deactivateRipple with no onKeyUp handler', () => {
   td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
 });
 
+test('focus event proxies to foundation focus handler', () => {
+  const focusHandler = td.func();
+  const wrapper = mount(<DivRipple onFocus={focusHandler}/>);
+  const foundation = wrapper.instance().foundation_;
+  foundation.handleFocus = td.func();
+  wrapper.simulate('focus');
+  td.verify(foundation.handleFocus(), {times: 1});
+  td.verify(focusHandler(td.matchers.isA(Object)), {times: 1});
+});
+
+test('focus event proxies to foundation focus handler with no onFocus handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.handleFocus = td.func();
+  wrapper.simulate('focus');
+  td.verify(foundation.handleFocus(), {times: 1});
+});
+
+test('blur event proxies to foundation blur handler', () => {
+  const blurHandler = td.func();
+  const wrapper = mount(<DivRipple onBlur={blurHandler}/>);
+  const foundation = wrapper.instance().foundation_;
+  foundation.handleBlur = td.func();
+  wrapper.simulate('blur');
+  td.verify(foundation.handleBlur(), {times: 1});
+  td.verify(blurHandler(td.matchers.isA(Object)), {times: 1});
+});
+
+test('blur event proxies to foundation blur handler with no onBlur handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.handleBlur = td.func();
+  wrapper.simulate('blur');
+  td.verify(foundation.handleBlur(), {times: 1});
+});
+
 test('#adapter.isUnbounded returns true is prop is set', () => {
   const wrapper = mount(<DivRipple unbounded />);
   assert.isTrue(wrapper.instance().foundation_.adapter_.isUnbounded());
@@ -182,7 +218,17 @@ test('#adapter.addClass adds a class to the root element', () => {
       .hasClass('test-class'));
 });
 
-test('#adapter.removeClass adds a class to the root element', () => {
+test('#adapter.addClass does not add class if isMounted is false', () => {
+  const wrapper = mount(<DivRipple />);
+  wrapper.instance().isMounted_ = false;
+  wrapper.instance().foundation_.adapter_.addClass('test-class');
+  assert.isFalse(
+    wrapper.update()
+      .find('.ripple-test-component')
+      .hasClass('test-class'));
+});
+
+test('#adapter.removeClass removes a class to the root element', () => {
   const wrapper = mount(<DivRipple />);
   wrapper.instance().foundation_.adapter_.addClass('test-class');
 
@@ -195,10 +241,31 @@ test('#adapter.removeClass adds a class to the root element', () => {
       .hasClass('test-class'));
 });
 
+test('#adapter.removeClass removes a class to the root element', () => {
+  const wrapper = mount(<DivRipple />);
+  wrapper.instance().foundation_.adapter_.addClass('test-class');
+
+  wrapper.instance().isMounted_ = false;
+  wrapper.update();
+  wrapper.instance().foundation_.adapter_.removeClass('test-class');
+
+  assert.isTrue(
+    wrapper.update()
+      .find('.ripple-test-component')
+      .hasClass('test-class'));
+});
+
 test('#adapter.updateCssVariable updates style', () => {
   const wrapper = mount(<DivRipple />);
   wrapper.instance().foundation_.adapter_.updateCssVariable('color', 'blue');
   assert.equal(wrapper.state().style.color, 'blue');
+});
+
+test('#adapter.updateCssVariable does not update style if isMounted_ is false', () => {
+  const wrapper = mount(<DivRipple />);
+  wrapper.instance().isMounted_ = false;
+  wrapper.instance().foundation_.adapter_.updateCssVariable('color', 'blue');
+  assert.notEqual(wrapper.state().style.color, 'blue');
 });
 
 test('#adapter.registerDocumentInteractionHandler triggers handler on document scroll', () => {
