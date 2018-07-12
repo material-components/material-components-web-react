@@ -77,6 +77,16 @@ const withRipple = (WrappedComponent) => {
       return classnames(Array.from(classList), wrappedCompClasses);
     }
 
+    handleFocus = (e) => {
+      this.props.onFocus(e);
+      this.foundation_.handleFocus();
+    }
+
+    handleBlur = (e) => {
+      this.props.onBlur(e);
+      this.foundation_.handleBlur();
+    }
+
     handleMouseDown = (e) => {
       this.props.onMouseDown(e);
       this.activateRipple(e);
@@ -148,6 +158,8 @@ const withRipple = (WrappedComponent) => {
         onTouchEnd,
         onKeyDown,
         onKeyUp,
+        onFocus,
+        onBlur,
         /* eslint-enable */
         /* end black list of otherprops */
         ...otherProps
@@ -160,6 +172,8 @@ const withRipple = (WrappedComponent) => {
         onTouchEnd: this.handleTouchEnd,
         onKeyDown: this.handleKeyDown,
         onKeyUp: this.handleKeyUp,
+        onFocus: this.handleFocus,
+        onBlur: this.handleBlur,
         // call initRipple on ref on root element that needs ripple
         initRipple: this.initializeFoundation_,
         className: this.classes,
@@ -181,6 +195,8 @@ const withRipple = (WrappedComponent) => {
     onTouchEnd: PropTypes.func,
     onKeyDown: PropTypes.func,
     onKeyUp: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
   }, WrappedComponent.propTypes);
 
   WrappedComponent.defaultProps = Object.assign({
@@ -194,6 +210,8 @@ const withRipple = (WrappedComponent) => {
     onTouchEnd: () => {},
     onKeyDown: () => {},
     onKeyUp: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
   }, WrappedComponent.defaultProps);
 
   RippledComponent.propTypes = WrappedComponent.propTypes;

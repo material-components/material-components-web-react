@@ -153,6 +153,42 @@ test('keyUp event triggers deactivateRipple with no onKeyUp handler', () => {
   td.verify(foundation.deactivate(td.matchers.isA(Object)), {times: 1});
 });
 
+test('focus event proxies to foundation focus handler', () => {
+  const focusHandler = td.func();
+  const wrapper = mount(<DivRipple onFocus={focusHandler}/>);
+  const foundation = wrapper.instance().foundation_;
+  foundation.handleFocus = td.func();
+  wrapper.simulate('focus');
+  td.verify(foundation.handleFocus(), {times: 1});
+  td.verify(focusHandler(td.matchers.isA(Object)), {times: 1});
+});
+
+test('focus event proxies to foundation focus handler with no onFocus handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.handleFocus = td.func();
+  wrapper.simulate('focus');
+  td.verify(foundation.handleFocus(), {times: 1});
+});
+
+test('blur event proxies to foundation blur handler', () => {
+  const blurHandler = td.func();
+  const wrapper = mount(<DivRipple onBlur={blurHandler}/>);
+  const foundation = wrapper.instance().foundation_;
+  foundation.handleBlur = td.func();
+  wrapper.simulate('blur');
+  td.verify(foundation.handleBlur(), {times: 1});
+  td.verify(blurHandler(td.matchers.isA(Object)), {times: 1});
+});
+
+test('blur event proxies to foundation blur handler with no onBlur handler', () => {
+  const wrapper = mount(<DivRipple />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.handleBlur = td.func();
+  wrapper.simulate('blur');
+  td.verify(foundation.handleBlur(), {times: 1});
+});
+
 test('#adapter.isUnbounded returns true is prop is set', () => {
   const wrapper = mount(<DivRipple unbounded />);
   assert.isTrue(wrapper.instance().foundation_.adapter_.isUnbounded());
