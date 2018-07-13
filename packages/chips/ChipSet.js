@@ -55,3 +55,9 @@ ChipSet.propTypes = {
   filter: PropTypes.bool,
   children: PropTypes.node,
 };
+
+ChipSet.defaultProps = {
+  className: '',
+  filter: false,
+  children: null,
+};
