@@ -44,7 +44,7 @@ class MyApp extends Component {
 
 ### Selection
 
-There are two types of chips that allow for selection: [choice chips](https://material.io/design/components/chips.html#choice-chips) for single selection, and [filter chips](https://material.io/design/components/chips.html#filter-chips) for multiple selection. You can indicate a `Chip` is selected by adding the `selected` prop. Due to React's uni-directional data flow, you are expected write your own selection logic.
+There are two types of chips that allow for selection: [choice chips](https://material.io/design/components/chips.html#choice-chips) for single selection, and [filter chips](https://material.io/design/components/chips.html#filter-chips) for multiple selection. You can indicate a `Chip` is selected by adding the `selected` prop. Due to React's uni-directional data flow, you are expected write your own selection logic and pass a callback to the `Chip` through the `handleSelect` prop.
 
 #### Choice chips
 
