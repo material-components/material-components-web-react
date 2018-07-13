@@ -1,6 +1,6 @@
 {
   "presets": [
-    ["env", {"targets": {"node": "current"}}],
+    ["es2015", {"targets": {"node": "current"}}],
     "react"
   ],
   "plugins": [
