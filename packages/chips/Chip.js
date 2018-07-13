@@ -74,25 +74,24 @@ export class Chip extends Component {
 }
 
 Chip.propTypes = {
-  id: PropTypes.number.required,
-  label: PropTypes.string.required,
+  id: PropTypes.number,
+  label: PropTypes.string,
   className: PropTypes.string,
-  initRipple: PropTypes.func,
-  unbounded: PropTypes.bool,
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,
+  // The following props are handled by withRipple and do not require defaults.
+  initRipple: PropTypes.func,
+  unbounded: PropTypes.bool,
   chipCheckmark: PropTypes.node,
   computeBoundingRect: PropTypes.func,
 };
 
 Chip.defaultProps = {
+  id: -1,
+  label: '',
   className: '',
-  initRipple: () => {},
-  unbounded: false,
   selected: false,
   handleSelect: () => {},
-  chipCheckmark: null,
-  computeBoundingRect: () => {},
 };
 
 export default withRipple(Chip);
