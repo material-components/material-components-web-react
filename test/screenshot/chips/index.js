@@ -10,7 +10,7 @@ class ShirtSizes extends React.Component {
   };
 
   isSelected = (id) => {
-    return this.state.selectedChipId == id;
+    return this.state.selectedChipId === id;
   }
 
   handleSelect = (id) => {
