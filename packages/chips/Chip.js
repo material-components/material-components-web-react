@@ -29,10 +29,13 @@ export class Chip extends Component {
 
   get adapter() {
     return {
-      addClass: (className) =>
-        this.setState({classList: this.state.classList.add(className)}),
+      addClass: (className) => {
+        const classList = new Set(this.state.classList);
+        classList.add(className);
+        this.setState({classList});
+      },
       removeClass: (className) => {
-        const {classList} = this.state;
+        const classList = new Set(this.state.classList);
         classList.delete(className);
         this.setState({classList});
       },
