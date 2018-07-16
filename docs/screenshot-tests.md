@@ -80,7 +80,7 @@ https://storage.googleapis.com/screenshot-uploads/<path>/<to>/<file>.html/<commi
 
 where `<commit-hash>` is the [short eight character hash of the commit](https://stackoverflow.com/a/5694416) and `/<path>/<to>/<file>` is the path to the HTML file you wish to view, relative to the `/test/screenshot` folder. You can copy/paste the terminal output from STEP 3 to quickly go to the URL. Compare screenshots and make sure everything looks as expected.
 
-> **Note**: Neither the `*.snapshot.png` nor `*.diff.png` get checked in to the repo. This helps to keep the repo clean and makes it serve as the single source of truth for how components should look. To keep Google Cloud Storage costs low, screenshots will need to be cleaned up periodically, perhaps through a cron job.
+> _NOTE_: Neither the `*.snapshot.png` nor `*.diff.png` get checked in to the repo. This helps to keep the repo clean and makes it serve as the single source of truth for how components should look. To keep Google Cloud Storage costs low, screenshots will need to be cleaned up periodically, perhaps through a cron job.
 
 ### STEP 5: Commit Screenshot Goldens
 
