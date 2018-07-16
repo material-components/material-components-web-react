@@ -1,6 +1,6 @@
 # Screenshot Testing
 
-Unit tests are great for JavaScript. But how do you test CSS? With screenshots! We use a [headless](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md) instance of Chrome controlled through [Puppeteer](https://github.com/GoogleChrome/puppeteer) to generate screenshots of our test pages. Those generated screenshots are compared through [Resemble.js](https://github.com/HuddleEng/Resemble.js) for [pixel-perfect](#about-pixel-perfect-comparison) accuracy. The golden screenshots (ones deemed to be correct) are then checked in the repository, ensuring we have a reference for how a component should look.
+Unit tests are great for JavaScript, but how do you test CSS? With screenshots! We use a [headless](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md) instance of Chrome controlled through [Puppeteer](https://github.com/GoogleChrome/puppeteer) to generate screenshots of our test pages. Those generated screenshots are compared through [Resemble.js](https://github.com/HuddleEng/Resemble.js) for [pixel-perfect](#about-pixel-perfect-comparison) accuracy. The golden screenshots (ones deemed to be correct) are then checked into the repository, ensuring we have a reference for how a component should look.
 
 ## Tech Stack
 
@@ -43,7 +43,7 @@ Option | Description
 
 ### STEP 3: Run Tests
 
-At this point you are ready to run. This Docker container is mainly designed for running the screenshot tests. The container already has 1) cloned the repo and 2) `npm install` the project dependencies.
+This Docker container is mainly designed for running the screenshot tests. The container already has 1) cloned the repo and 2) `npm install` the project dependencies.
 
 In the Docker container, start the server:
 
@@ -62,7 +62,7 @@ After waiting 2 - 3 minutes, run the screenshot tests:
 npm run test:image-diff
 ```
 
-You will see the regular terminal output from mocha. Most importantly, it will output two partial URLs for every screenshot test file, which you will use to compare screenshots in STEP 4:
+You will see the regular terminal output from mocha. Most importantly, it will output two partial URLs for every screenshot test, which you will use to compare screenshots in STEP 4:
 
 ```
 <path>/<to>/<file>.html/<commit-hash>/<screenshot-test-id>.diff.png
@@ -84,15 +84,15 @@ where `<commit-hash>` is the [short eight character hash of the commit](https://
 
 ### STEP 5: Commit Screenshot Goldens
 
-If you updated any of the screenshot tests, run this command inside the Docker container to modify `test/screenshot/golden.json`:
+If you modified any of the screenshot test files, run this command inside the Docker container to update `test/screenshot/golden.json`:
 
 ```
 npm run capture
 ```
 
-Then commit and push this change to your PR.
+Then commit and push this change to your PR!
 
-> _NOTE_: If you have two-factor authentication turned on for your GitHub account, you'll need to use a [Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to `git push`.
+> _NOTE_: If you have two-factor authentication turned on for your GitHub account, you'll need to use a [Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to push.
 
 ## Troubleshooting
 
