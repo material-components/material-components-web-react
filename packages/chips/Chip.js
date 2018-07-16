@@ -83,6 +83,7 @@ Chip.propTypes = {
   className: PropTypes.string,
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,
+  onClick: PropTypes.func,
   // The following props are handled by withRipple and do not require defaults.
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
