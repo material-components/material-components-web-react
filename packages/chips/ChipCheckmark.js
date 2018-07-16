@@ -4,6 +4,10 @@ export default class ChipCheckmark extends Component {
   width = null;
 
   init = (element) => {
+    if (!element) {
+      return;
+    }
+
     // The checkmark's width may initially be set to 0, so use the checkmark's height as a proxy since the
     // checkmark should always be square.
     this.width = element.getBoundingClientRect().height;
