@@ -43,7 +43,10 @@ export class Chip extends Component {
     };
   }
 
-  handleInteraction = () => {
+  handleClick = (e) => {
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick(e);
+    }
     this.props.handleSelect(this.props.id);
   }
 
@@ -52,6 +55,7 @@ export class Chip extends Component {
       className, // eslint-disable-line no-unused-vars
       label,
       handleSelect, // eslint-disable-line no-unused-vars
+      onClick, // eslint-disable-line no-unused-vars
       chipCheckmark,
       computeBoundingRect, // eslint-disable-line no-unused-vars
       initRipple,
@@ -62,7 +66,7 @@ export class Chip extends Component {
     return (
       <div
         className={this.classes}
-        onClick={this.handleInteraction}
+        onClick={this.handleClick}
         ref={initRipple}
         {...otherProps}
       >

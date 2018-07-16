@@ -132,7 +132,7 @@ className | String | Classes to be applied to the chip element
 id | Number | Unique identifier for the chip
 label | String | Text to be shown on the chip
 selected | Boolean | Indicates whether the chip is selected
-handleSelect | String | Callback to call when the chip is selected
+handleSelect | Function(id: number) => void | Callback to call when the chip with the given id is selected
 
 ## Sass Mixins
 
