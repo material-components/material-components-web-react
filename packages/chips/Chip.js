@@ -5,10 +5,16 @@ import withRipple from '../ripple';
 import {MDCChipFoundation} from '@material/chips';
 
 export class Chip extends Component {
+  root_ = null;
   foundation_ = null;
   state = {
     classList: new Set(),
   };
+
+  init = (el) => {
+    this.root_ = el;
+    this.props.initRipple(el);
+  }
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
@@ -40,6 +46,9 @@ export class Chip extends Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
+      eventTargetHasClass: (target, className) => target.classList.contains(className),
+      getComputedStyleValue: (propertyName) => window.getComputedStyle(this.root_).getPropertyValue(propertyName),
+      setStyleProperty: (propertyName, value) => this.root_.style.setProperty(propertyName, value),
     };
   }
 
@@ -50,6 +59,18 @@ export class Chip extends Component {
     this.props.handleSelect(this.props.id);
   }
 
+  handleRemoveIconClick = (e) => {
+    this.foundation_.trailingIconInteractionHandler_(e);
+  }
+
+  handleTransitionEnd = (e) => {
+    this.foundation_.transitionEndHandler_(e);
+  }
+
+  renderRemoveIcon() {
+    return <i onClick={this.handleRemoveIconClick} className="material-icons">cancel</i>;
+  }
+
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
@@ -57,6 +78,8 @@ export class Chip extends Component {
       handleSelect, // eslint-disable-line no-unused-vars
       onClick, // eslint-disable-line no-unused-vars
       chipCheckmark,
+      leadingIcon,
+      removeIcon,
       computeBoundingRect, // eslint-disable-line no-unused-vars
       initRipple,
       unbounded, // eslint-disable-line no-unused-vars
@@ -67,11 +90,14 @@ export class Chip extends Component {
       <div
         className={this.classes}
         onClick={this.handleClick}
-        ref={initRipple}
+        onTransitionEnd={this.handleTransitionEnd}
+        ref={this.init}
         {...otherProps}
       >
+        {leadingIcon}
         {chipCheckmark}
         <div className='mdc-chip__text'>{label}</div>
+        {removeIcon ? this.renderRemoveIcon() : null}
       </div>
     );
   }
