@@ -38,7 +38,7 @@ export class IconButtonBase extends Component {
       addClass: (className) =>
         this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className) => {
-        const {classList} = this.state;
+        const classList = new Set(this.state.classList);
         classList.delete(className);
         this.setState({classList});
       },
@@ -49,33 +49,31 @@ export class IconButtonBase extends Component {
     };
   }
 
-  handleClick = (e) => {
-    if (typeof this.props.onClick === 'function') {
-      this.props.onClick(e);
-    }
+  handleClick_ = (e) => {
+    this.props.onClick(e);
     this.foundation_.toggle();
   }
 
   render() {
     const {childContent} = this.state;
     const {
-      className,
+      className, // eslint-disable-line no-unused-vars
       initRipple,
       isLink,
       children, // eslint-disable-line no-unused-vars
       onClick, // eslint-disable-line no-unused-vars
       unbounded, // eslint-disable-line no-unused-vars
-      [strings.ARIA_LABEL]: ariaLabel,
-      [strings.ARIA_PRESSED]: ariaPressed,
-      ...otherProps,
+      [strings.ARIA_LABEL]: ariaLabel, // eslint-disable-line no-unused-vars
+      [strings.ARIA_PRESSED]: ariaPressed, // eslint-disable-line no-unused-vars
+      ...otherProps
     } = this.props;
 
     const props = {
-      'className': this.classes,
-      'ref': initRipple,
+      className: this.classes,
+      ref: initRipple,
       [strings.ARIA_LABEL]: this.state[strings.ARIA_LABEL],
       [strings.ARIA_PRESSED]: this.state[strings.ARIA_PRESSED],
-      'onClick': this.handleClick,
+      onClick: this.handleClick_,
       ...otherProps,
     };
 
@@ -96,18 +94,31 @@ export class IconButtonBase extends Component {
 }
 
 IconButtonBase.propTypes = {
-  initRipple: PropTypes.func,
+  children: PropTypes.node,
   className: PropTypes.string,
+  className: PropTypes.string,
+  initRipple: PropTypes.func,
+  isLink: PropTypes.bool,
+  onClick: PropTypes.func,
+  unbounded: PropTypes.bool,
 };
 
 IconButtonBase.defaultProps = {
-  initRipple: () => {},
+  children: '',
   className: '',
+  className: '',
+  initRipple: () => {},
+  isLink: false,
+  onClick: () => {},
+  unbounded: true,
 };
 
 const RippledIconButton = withRipple(IconButtonBase);
 
-const IconButton = ({children, ...otherProps}) => {
+const IconButton = ({
+  children, // eslint-disable-line react/prop-types
+  ...otherProps
+}) => {
   return (
     <RippledIconButton unbounded {...otherProps}>
       {children}

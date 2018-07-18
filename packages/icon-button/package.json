@@ -1,14 +1,14 @@
 {
-  "name": "@material/react-button",
-  "version": "0.2.0",
-  "description": "Material Components React Button",
+  "name": "@material/react-icon-button",
+  "version": "0.0.0",
+  "description": "Material Components React Icon Button",
   "license": "Apache-2.0",
   "keywords": [
     "mdc web react",
     "material components react",
     "material design",
-    "material button",
-    "materialbutton"
+    "material icon button",
+    "materialiconbutton"
   ],
   "repository": {
     "type": "git",

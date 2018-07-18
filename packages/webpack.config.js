@@ -77,6 +77,7 @@ function getMaterialExternals() {
     'chips',
     'fab',
     'floating-label',
+    'icon-button',
     'line-ripple',
     'list',
     'notched-outline',
