@@ -66,7 +66,9 @@ const withRipple = (WrappedComponent) => {
         registerResizeHandler: (handler) => window.addEventListener('resize', handler),
         deregisterResizeHandler: (handler) => window.removeEventListener('resize', handler),
         updateCssVariable: this.updateCssVariable,
-        computeBoundingRect: () => instance.getBoundingClientRect(),
+        computeBoundingRect: this.props.computeBoundingRect ?
+          (() => this.props.computeBoundingRect(instance)) :
+          (() => instance.getBoundingClientRect()),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset}),
       };
     }
