@@ -33,7 +33,7 @@ ReactDOM.render((
     <IconButton
       className='mdc-icon-button material-icons'
       aria-label='Add to favorites'
-      aria-pressed={false}
+      aria-pressed='false'
       data-demo-toggle
       data-toggle-on-content='favorite'
       data-toggle-on-label='Remove From Favorites'

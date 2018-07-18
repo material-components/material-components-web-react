@@ -65,7 +65,9 @@ export class IconButtonBase extends Component {
       children, // eslint-disable-line no-unused-vars
       onClick, // eslint-disable-line no-unused-vars
       unbounded, // eslint-disable-line no-unused-vars
-      ...otherProps
+      [strings.ARIA_LABEL]: ariaLabel,
+      [strings.ARIA_PRESSED]: ariaPressed,
+      ...otherProps,
     } = this.props;
 
     const props = {
