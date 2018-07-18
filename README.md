@@ -1,5 +1,6 @@
 [![Build Status](https://img.shields.io/travis/material-components/material-components-web-react/master.svg)](https://travis-ci.org/material-components/material-components-web-react/)
 [![codecov](https://codecov.io/gh/material-components/material-components-web-react/branch/master/graph/badge.svg)](https://codecov.io/gh/material-components/material-components-web-react)
+[![Chat](https://img.shields.io/discord/259087343246508035.svg)](https://discord.gg/material-components)
 
 # Material Components for React (MDC React)
 
