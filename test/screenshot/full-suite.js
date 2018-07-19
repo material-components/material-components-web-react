@@ -5,6 +5,7 @@ export default [
   require('./line-ripple/screenshot-suite').default,
   require('./fab/screenshot-suite').default,
   require('./floating-label/screenshot-suite').default,
+  require('./icon-button/screenshot-suite').default,
   require('./material-icon/screenshot-suite').default,
   require('./notched-outline/screenshot-suite').default,
   require('./text-field/screenshot-suite').default,

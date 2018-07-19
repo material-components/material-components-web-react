@@ -12,7 +12,7 @@ ReactDOM.render((
       <MaterialIcon icon='favorite' />
     </IconButton>
 
-    <span class='demo-custom-color'>
+    <span className='demo-custom-color'>
       <IconButton>
         <MaterialIcon icon='favorite' />
       </IconButton>
