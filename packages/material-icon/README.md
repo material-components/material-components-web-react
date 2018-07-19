@@ -22,6 +22,16 @@ with CSS:
 import '@material/react-material-icon/dist/material-icon.css';
 ```
 
+#### Importing Icons
+
+The React material icon package does not come packaged with [Google Font's Material Icons](https://google.github.io/material-design-icons/). If it was included in the Sass package this would block rendering of the page until the icons download.
+We recommend following the two methods of adding the Material Icons to your app documented [here](https://google.github.io/material-design-icons/#getting-icons). We have personally taken the `<link>` tag approach as it doesn't block page render. Code is pasted here for your convenience.
+
+```
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+```
+
 ### Javascript Instantiation
 
 ```js
