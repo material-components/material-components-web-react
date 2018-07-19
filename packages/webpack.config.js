@@ -107,7 +107,7 @@ function getJavaScriptWebpackConfig(entryPath, chunk, modules) {
           options: {
             babelrc: false,
             compact: true,
-            presets: [['env', {modules}], 'react'],
+            presets: [['es2015', {modules}], 'react'],
             plugins: [
               'transform-class-properties',
               'transform-object-rest-spread',
