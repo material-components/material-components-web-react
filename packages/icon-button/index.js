@@ -53,14 +53,16 @@ export class IconButtonBase extends Component {
   render() {
     const {childContent} = this.state;
     const {
-      className, // eslint-disable-line no-unused-vars
       initRipple,
       isLink,
-      children, // eslint-disable-line no-unused-vars
-      onClick, // eslint-disable-line no-unused-vars
-      unbounded, // eslint-disable-line no-unused-vars
-      [strings.ARIA_LABEL]: ariaLabel, // eslint-disable-line no-unused-vars
-      [strings.ARIA_PRESSED]: ariaPressed, // eslint-disable-line no-unused-vars
+      /* eslint-disable no-unused-vars */
+      children,
+      className,
+      onClick,
+      unbounded,
+      [strings.ARIA_LABEL]: ariaLabel,
+      [strings.ARIA_PRESSED]: ariaPressed,
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
 
