@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import {MDCRippleFoundation, util} from '@material/ripple';
 
-const withRipple = (WrappedComponent) => {
+const withRipple = (WrappedComponent, isUnbounded = false) => {
   class RippledComponent extends Component {
 
     foundation_ = null;
@@ -41,7 +41,7 @@ const withRipple = (WrappedComponent) => {
 
       return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
-        isUnbounded: () => this.props.unbounded,
+        isUnbounded: () => isUnbounded || this.props.unbounded,
         isSurfaceActive: () => instance[MATCHES](':active'),
         isSurfaceDisabled: () => this.props.disabled,
         addClass: (className) => {

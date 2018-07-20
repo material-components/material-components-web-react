@@ -107,17 +107,4 @@ IconButtonBase.defaultProps = {
   unbounded: true,
 };
 
-const RippledIconButton = withRipple(IconButtonBase);
-
-const IconButton = ({
-  children, // eslint-disable-line react/prop-types
-  ...otherProps
-}) => {
-  return (
-    <RippledIconButton unbounded {...otherProps}>
-      {children}
-    </RippledIconButton>
-  );
-};
-
-export default IconButton;
+export default withRipple(IconButtonBase, true);
