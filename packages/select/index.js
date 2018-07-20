@@ -1,36 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCSelectFoundation} from '@material/select';
 
-import FloatingLabel from '@material/react-floating-label';
-import LineRipple from '@material/react-line-ripple';
-import NotchedOutline from '@material/react-notched-outline';
 import Wrapper from './Select';
 import NativeControl from './NativeControl';
 
 export default class Select extends React.Component {
   render() {
     const {
+      box,
+      children,
+      className,
       disabled,
-      onChange,
+      floatingLabelClassName,
       id,
       label,
-      outlined,
-      box,
-      dense,
-      className,
-      nativeControlClassName,
-      floatingLabelClassName,
       lineRippleClassName,
+      nativeControlClassName,
       notchedOutlineClassName,
-      children,
+      onChange,
+      outlined,
       ...otherProps,
     } = this.props;
 
     return (
       <Wrapper
-        dense={dense}
         outlined={outlined}
         box={box}
         label={label}
@@ -52,5 +46,36 @@ export default class Select extends React.Component {
     );
   }
 }
+
+
+Select.propTypes = {
+  box: PropTypes.bool,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  floatingLabelClassName: PropTypes.string,
+  id: PropTypes.string,
+  label: PropTypes.string,
+  lineRippleClassName: PropTypes.string,
+  nativeControlClassName: PropTypes.string,
+  notchedOutlineClassName: PropTypes.string,
+  onChange: PropTypes.func,
+  outlined: PropTypes.bool,
+};
+
+Select.defaultProps = {
+  box: false,
+  children: null,
+  className: '',
+  disabled: false,
+  floatingLabelClassName: '',
+  id: '',
+  label: '',
+  lineRippleClassName: '',
+  nativeControlClassName: '',
+  notchedOutlineClassName: '',
+  onChange: () => {},
+  outlined: false,
+};
 
 export {Wrapper, NativeControl};
