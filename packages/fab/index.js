@@ -29,7 +29,10 @@ export class Fab extends React.Component {
       return;
     }
 
-    return this.addClassesToElement('mdc-fab__icon', icon);
+    const updatedProps = {
+      className: classnames('mdc-fab__icon', icon.props.className),
+    };
+    return React.cloneElement(icon, updatedProps);
   }
 
   render() {
@@ -52,13 +55,6 @@ export class Fab extends React.Component {
           {this.renderIcon()}
         </button>
     );
-  }
-
-  addClassesToElement(classes, element) {
-    const updatedProps = {
-      className: classnames(classes, element.props.className),
-    };
-    return React.cloneElement(element, updatedProps);
   }
 }
 

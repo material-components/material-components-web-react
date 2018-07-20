@@ -24,9 +24,7 @@ test('has correct mini class', () => {
 test('i tag is rendered', () => {
   const icon = <i className='test-action-icon-1'></i>;
   const wrapper = mount(
-    <Fab>
-      {icon}
-    </Fab>
+    <Fab icon={icon}/>
   );
   assert.isTrue(wrapper.find('button').children('.mdc-fab__icon').length !== 0);
 });
@@ -34,9 +32,7 @@ test('i tag is rendered', () => {
 test('span tag is rendered', () => {
   const icon = <span className='test-action-icon-1'></span>;
   const wrapper = mount(
-      <Fab>
-        {icon}
-      </Fab>
+    <Fab icon={icon}/>
   );
   assert.isTrue(wrapper.find('button').children('.mdc-fab__icon').length !== 0);
 });
@@ -44,24 +40,22 @@ test('span tag is rendered', () => {
 test('a tag is rendered', () => {
   const icon = <a href="#" className='test-action-icon-1'></a>;
   const wrapper = mount(
-      <Fab>
-        {icon}
-      </Fab>
+    <Fab icon={icon}/>
   );
   assert.isTrue(wrapper.find('button').children('.mdc-fab__icon').length !== 0);
 });
 
 test('i tag is rendered with mdc-fab__icon class', () => {
-  const wrapper = mount(<Fab><i className="test-class-1"></i></Fab>);
+  const wrapper = mount(<Fab icon={<i className="test-class-1"></i>}/>);
   assert.isTrue(wrapper.find('button').find('.test-class-1').hasClass('mdc-fab__icon'));
 });
 
 test('span tag is rendered with mdc-fab__icon class', () => {
-  const wrapper = mount(<Fab><span className="test-class-1"></span></Fab>);
+  const wrapper = mount(<Fab icon={<span className="test-class-1"></span>}/>);
   assert.isTrue(wrapper.find('.test-class-1').hasClass('mdc-fab__icon'));
 });
 
 test('a tag is rendered with mdc-fab__icon class', () => {
-  const wrapper = mount(<Fab><a className="test-class-1"></a></Fab>);
+  const wrapper = mount(<Fab icon={<a className="test-class-1"></a>}/>);
   assert.isTrue(wrapper.find('.test-class-1').hasClass('mdc-fab__icon'));
 });
