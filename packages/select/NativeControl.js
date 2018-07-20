@@ -93,8 +93,15 @@ export default class NativeControl extends React.Component {
 
 NativeControl.propTypes = {
   className: PropTypes.string,
+  children: PropTypes.node,
   disabled: PropTypes.bool,
   handleValueChange: PropTypes.func,
+  foundation: PropTypes.shape({
+    setDisabled: PropTypes.func,
+    focusHandler_: PropTypes.func,
+    blurHandler_: PropTypes.func,
+    selectionHandler_: PropTypes.func,
+  }),
   id: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
@@ -109,7 +116,14 @@ NativeControl.propTypes = {
 
 NativeControl.defaultProps = {
   className: '',
+  children: null,
   disabled: false,
+  foundation: {
+    setDisabled: () => {},
+    focusHandler_: () => {},
+    blurHandler_: () => {},
+    selectionHandler_: () => {},
+  },
   handleValueChange: () => {},
   id: null,
   onBlur: () => {},

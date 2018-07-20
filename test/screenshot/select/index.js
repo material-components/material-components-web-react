@@ -9,7 +9,7 @@ import './index.scss';
 class SelectTest extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: props.value || ''};
+    this.state = {value: props.value || ''}; // eslint-disable-line react/prop-types
   }
 
   render() {
@@ -22,6 +22,7 @@ class SelectTest extends React.Component {
           {...otherProps}
           className='test-select'
           label='Dog'
+          id={id}
           disabled={disabled}
           onChange={(evt) => this.setState({value: evt.target.value})}
           value={this.state.value}

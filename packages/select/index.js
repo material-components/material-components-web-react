@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 import Wrapper from './Select';
 import NativeControl from './NativeControl';
@@ -20,7 +19,7 @@ export default class Select extends React.Component {
       notchedOutlineClassName,
       onChange,
       outlined,
-      ...otherProps,
+      ...otherProps
     } = this.props;
 
     return (

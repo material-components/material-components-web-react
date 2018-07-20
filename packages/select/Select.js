@@ -12,7 +12,6 @@ export default class Select extends React.Component {
 
   foundation_ = null;
   selectContainerElement = React.createRef();
-  nativeControlElement = React.createRef();
 
   constructor(props) {
     super(props);
@@ -141,10 +140,6 @@ export default class Select extends React.Component {
   */
 
   render() {
-    const {
-      outlined,
-    } = this.props;
-
     return (
       <div
         className={this.classes}
@@ -210,6 +205,7 @@ Select.propTypes = {
   'children': PropTypes.element,
   'className': PropTypes.string,
   'dense': PropTypes.bool,
+  'disabled': PropTypes.bool,
   'floatingLabelClassName': PropTypes.string,
   'label': PropTypes.string.isRequired,
   'lineRippleClassName': PropTypes.string,
@@ -221,6 +217,7 @@ Select.defaultProps = {
   box: false,
   className: '',
   dense: false,
+  disabled: false,
   floatingLabelClassName: '',
   lineRippleClassName: '',
   notchedOutlineClassName: '',
