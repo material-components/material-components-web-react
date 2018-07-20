@@ -19,10 +19,6 @@ export class IconButtonBase extends Component {
   }
 
   componentDidMount() {
-    this.initializeFoundation();
-  }
-
-  initializeFoundation = () => {
     this.foundation_ = new MDCIconButtonToggleFoundation(this.adapter);
     this.foundation_.init();
   }
@@ -96,7 +92,6 @@ export class IconButtonBase extends Component {
 IconButtonBase.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  className: PropTypes.string,
   initRipple: PropTypes.func,
   isLink: PropTypes.bool,
   onClick: PropTypes.func,
@@ -105,7 +100,6 @@ IconButtonBase.propTypes = {
 
 IconButtonBase.defaultProps = {
   children: '',
-  className: '',
   className: '',
   initRipple: () => {},
   isLink: false,
