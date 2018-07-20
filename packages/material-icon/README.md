@@ -26,9 +26,7 @@ import '@material/react-material-icon/dist/material-icon.css';
 
 The React material icon package does not come packaged with [Google Font's Material Icons](https://google.github.io/material-design-icons/). If it was included in the Sass package this would block rendering of the page until the icons download.
 
-
-We recommend following either of the 2 ways of adding Material Icons to your app, which are both documented [here](https://google.github.io/material-design-icons/#icon-font-for-the-web). The 1st documented solution is the route our team has taken, since its not bundled with our CSS. This allows for quicker rendering, but a possibility of a Flash Of Unstyled Content (**FOUC**). Code is pasted here for your convenience.
-
+There are two different ways to add Material Icons to your website, both of which are documented in [Material Icons Documentation](https://google.github.io/material-design-icons/#icon-font-for-the-web). We recommend "Method 1: via Google Web Fonts", because it renders faster, but there can be Flash Of Unstyled Content (**FOUC**). The code to load Material Icons via Google Web Fonts is pasted here for your convenience.
 ```
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
