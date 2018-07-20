@@ -22,13 +22,15 @@ export class Fab extends React.Component {
     });
   }
 
-  addIconClassToAllChildren = () => {
-    return React.Children.map(this.props.children, (item) => {
-      const className = `${item.props.className} mdc-fab__icon`;
-      const props = Object.assign({}, item.props, {className});
-      return React.cloneElement(item, props);
-    });
-  };
+  renderIcon() {
+    const {icon} = this.props;
+
+    if (!icon) {
+      return;
+    }
+
+    return this.addClassesToElement('mdc-fab__icon', icon);
+  }
 
   render() {
     const {
@@ -47,14 +49,22 @@ export class Fab extends React.Component {
           className={this.classes}
           ref={initRipple}
           {...otherProps}>
-          {this.addIconClassToAllChildren()}
+          {this.renderIcon()}
         </button>
     );
+  }
+
+  addClassesToElement(classes, element) {
+    const updatedProps = {
+      className: classnames(classes, element.props.className),
+    };
+    return React.cloneElement(element, updatedProps);
   }
 }
 
 Fab.propTypes = {
   mini: PropTypes.bool,
+  icon: PropTypes.element,
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
@@ -65,6 +75,7 @@ Fab.propTypes = {
 
 Fab.defaultProps = {
   mini: false,
+  icon: null,
   className: '',
   initRipple: () => {},
 };
