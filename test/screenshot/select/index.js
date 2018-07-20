@@ -1,21 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Select from '../../../packages/select';
+import Select from '../../../packages/select/index';
 
 import '../../../packages/select/index.scss';
 import './index.scss';
 
-class Select extends React.Component {
-  state = {value: 'woof'};
+class SelectTest extends React.Component {
+  state = {value: 'grapefruit'};
+
   render() {
     const {
       disabled, id, isRtl, ...otherProps // eslint-disable-line react/prop-types
     } = this.props;
     return (
       <div dir={isRtl ? 'rtl' : 'ltr'}>
-        <Select {...otherProps} className='text-field'>
-
+        <Select
+          {...otherProps}
+          className='select'
+          label='Favorite'
+          value={this.state.value}
+        >
+          <option value='grapefruit'>Grapefruit</option>
+          <option value='lime'>Lime</option>
+          <option value='coconut'>Coconut</option>
+          <option value='mango'>Mango</option>
         </Select>
       </div>
     );
@@ -82,6 +91,6 @@ class Select extends React.Component {
 
 ReactDOM.render((
   <div className='select-container'>
-    {textFields}
+    <SelectTest />
   </div>
 ), document.getElementById('app'));
