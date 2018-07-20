@@ -81,11 +81,9 @@ export default class Select extends React.Component {
       hasClass: (className) => this.classes.split(' ').includes(className),
       isRtl: this.getIsRtl,
       getValue: (value) => this.state.value,
-      // setValue: (value) => this.setState({value}),
-      // dont think these are needed since end dev should change value
+      // setValue, getSelectedIndex, setSelectedIndex are needed
+      // since end dev should change value
       // and selectedindex themselves
-      // getSelectedIndex: this.nativeControl_.selectedIndex,
-      // setSelectedIndex: this.nativeControl_.selectedIndex,
     };
 
     return Object.assign({},

@@ -4,7 +4,7 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import TextField, {HelperText, Input} from '../../../packages/text-field';
 
-suite('Text Field');
+suite('Select');
 
 test('classNames adds classes', () => {
   const wrapper = mount(<TextField

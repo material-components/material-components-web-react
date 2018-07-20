@@ -5,10 +5,11 @@ import Wrapper from './Select';
 import NativeControl from './NativeControl';
 
 export default class Select extends React.Component {
+
   render() {
     const {
       box,
-      children,
+      children, // eslint-disable-line no-unused-vars
       className,
       disabled,
       floatingLabelClassName,
@@ -18,6 +19,7 @@ export default class Select extends React.Component {
       nativeControlClassName,
       notchedOutlineClassName,
       onChange,
+      options, // eslint-disable-line no-unused-vars
       outlined,
       ...otherProps
     } = this.props;
@@ -39,10 +41,33 @@ export default class Select extends React.Component {
           className={nativeControlClassName}
           {...otherProps}
         >
-          {children}
+          {this.renderOptions()}
         </NativeControl>
       </Wrapper>
     );
+  }
+
+  renderOptions() {
+    const {children, options} = this.props;
+    if (!(options && options.length)) {
+      return children;
+    }
+
+    return options.map((option, index) => {
+      if (typeof option === 'string') {
+        option = {value: option, label: value};
+      }
+
+      return (
+        <option
+          disabled={option.disabled}
+          value={option.value}
+          key={index}
+        >
+          {option.labe}
+        </option>
+      );
+    });
   }
 }
 
@@ -59,6 +84,7 @@ Select.propTypes = {
   nativeControlClassName: PropTypes.string,
   notchedOutlineClassName: PropTypes.string,
   onChange: PropTypes.func,
+  options: PropTypes.arrayOf(PropTypes.node),
   outlined: PropTypes.bool,
 };
 
@@ -74,6 +100,7 @@ Select.defaultProps = {
   nativeControlClassName: '',
   notchedOutlineClassName: '',
   onChange: () => {},
+  options: [],
   outlined: false,
 };
 
