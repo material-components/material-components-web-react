@@ -67,9 +67,34 @@ export class Chip extends Component {
     this.foundation_.transitionEndHandler_(e);
   }
 
-  renderRemoveIcon() {
-    return <i onClick={this.handleRemoveIconClick} className="material-icons">cancel</i>;
-  }
+  renderLeadingIcon = (leadingIcon) => {
+    if (!leadingIcon){
+      return null;
+    }
+    const className = classnames(
+      leadingIcon.props.className,
+      'mdc-chip__icon',
+      'mdc-chip__icon--leading');
+    const props = Object.assign({},
+      leadingIcon.props,
+      {className});
+    return React.cloneElement(leadingIcon, props);
+  };
+
+  renderRemoveIcon = (removeIcon) => {
+    if (!removeIcon){
+      return null;
+    }
+    const className = classnames(
+      removeIcon.props.className,
+      'mdc-chip__icon',
+      'mdc-chip__icon--trailing');
+    const props = Object.assign({},
+      removeIcon.props,
+      {className},
+      {'onClick': this.handleRemoveIconClick});
+    return React.cloneElement(removeIcon, props);
+  };
 
   render() {
     const {
@@ -94,10 +119,10 @@ export class Chip extends Component {
         ref={this.init}
         {...otherProps}
       >
-        {leadingIcon}
+        {this.renderLeadingIcon(leadingIcon)}
         {chipCheckmark}
         <div className='mdc-chip__text'>{label}</div>
-        {removeIcon ? this.renderRemoveIcon() : null}
+        {this.renderRemoveIcon(removeIcon)}
       </div>
     );
   }
