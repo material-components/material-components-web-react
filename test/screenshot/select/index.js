@@ -7,7 +7,10 @@ import '../../../packages/select/index.scss';
 import './index.scss';
 
 class SelectTest extends React.Component {
-  state = {value: 'grapefruit'};
+  constructor(props) {
+    super(props);
+    this.state = {value: props.value || ''};
+  }
 
   render() {
     const {
@@ -17,80 +20,57 @@ class SelectTest extends React.Component {
       <div dir={isRtl ? 'rtl' : 'ltr'}>
         <Select
           {...otherProps}
-          className='select'
-          label='Favorite'
+          className='test-select'
+          label='Dog'
+          disabled={disabled}
+          onChange={(evt) => this.setState({value: evt.target.value})}
           value={this.state.value}
         >
-          <option value='grapefruit'>Grapefruit</option>
-          <option value='lime'>Lime</option>
-          <option value='coconut'>Coconut</option>
-          <option value='mango'>Mango</option>
+          <option value="" disabled></option>
+          <option value='labradoodle'>Labradoodle</option>
+          <option value='pomsky'>Pomsky</option>
+          <option value='aussiepom'>Aussiepom</option>
+          <option value='bullmation'>Bullmation</option>
         </Select>
       </div>
     );
   }
 }
 
-// const variants = [
-//   {},
-//   {box: true},
-//   {outlined: true},
-//   {fullWidth: true},
-// ];
-//
-// const denseMap = [
-//   {},
-//   {dense: true},
-// ];
-//
-// const rtlMap = [
-//   {},
-//   {isRtl: true},
-// ];
-//
-// const disabledMap = [
-//   {},
-//   {disabled: true},
-// ];
-//
-// const helperTextMap = [
-//   {},
-//   {helperText: (
-//     <HelperText persistent>Help me</HelperText>
-//   )},
-// ];
-//
-// const textFields = variants.map((variant) => {
-//   return icons.map((icon) => {
-//     return denseMap.map((dense) => {
-//       return rtlMap.map((isRtl) => {
-//         return disabledMap.map((disabled) => {
-//           return helperTextMap.map((helperText) => {
-//             const props = Object.assign({}, variant, icon, dense, disabled, helperText, isRtl);
-//             const variantKey = Object.keys(variant)[0] || '';
-//             const iconKey = Object.keys(icon)[0] || '';
-//             const denseKey = Object.keys(dense)[0] || '';
-//             const rtlKey = Object.keys(isRtl)[0] || '';
-//             const disabledKey = Object.keys(disabled)[0] || '';
-//             const helperTextKey = Object.keys(helperText)[0] || '';
-//             const key = `${variantKey}-${iconKey}-${denseKey}-${disabledKey}-${helperTextKey}--${rtlKey}`;
-//
-//             const hasIcon = iconKey === 'leadingIcon' || iconKey === 'trailingIcon';
-//             if (variantKey === 'fullWidth' && hasIcon) {
-//               return;
-//             }
-//
-//             return <TestField {...props} key={key} id={key} />;
-//           });
-//         });
-//       });
-//     });
-//   });
-// });
+const variants = [
+  {},
+  {box: true},
+  {outlined: true},
+];
+
+const rtlMap = [
+  {},
+  {isRtl: true},
+];
+
+const disabledMap = [
+  {},
+  {value: 'pomsky'},
+  {disabled: true},
+];
+
+const selects = variants.map((variant) => {
+  return rtlMap.map((isRtl) => {
+    return disabledMap.map((disabled) => {
+      const props = Object.assign({}, variant, disabled, isRtl);
+      const variantKey = Object.keys(variant)[0] || '';
+      const rtlKey = Object.keys(isRtl)[0] || '';
+      const disabledKey = Object.keys(disabled)[0] || '';
+      const key = `${variantKey}-${disabledKey}--${rtlKey}`;
+
+      return <SelectTest {...props} key={key} id={key} />;
+    });
+  });
+});
 
 
 ReactDOM.render((
   <div className='select-container'>
-    <SelectTest />
+    {selects}
   </div>
 ), document.getElementById('app'));

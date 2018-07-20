@@ -41,12 +41,10 @@ export default class Select extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.value)
-    console.log(this.nativeControlElement.current.value)
     if (this.state.value !== prevState.value) {
       // This react component doesn't keep track of selectedIndex
       // but this is the only public foundation method that floats the label
-      this.foundation_.setValue(this.nativeControlElement.current.value);
+      this.foundation_.setValue(this.state.value);
     }
   }
 
@@ -83,8 +81,8 @@ export default class Select extends React.Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       isRtl: this.getIsRtl,
-      getValue: () => this.nativeControlElement.current.value,
-      setValue: this.setValue,
+      getValue: (value) => this.state.value,
+      // setValue: (value) => this.setState({value}),
       // dont think these are needed since end dev should change value
       // and selectedindex themselves
       // getSelectedIndex: this.nativeControl_.selectedIndex,
@@ -129,19 +127,12 @@ export default class Select extends React.Component {
     }
   }
 
-  setValue = (value) => {
-    if (this.nativeControlElement.current) {
-      this.nativeControlElement.current.value = value;
-    }
-  }
-
   selectProps(props) {
     return Object.assign({}, props, {
       foundation: this.foundation_,
-      handleValueChange: this.setValue,
+      handleValueChange: (value) => this.setState({value}),
       setDisabled: (disabled) => this.setState({disabled}),
       setSelectId: (id) => this.setState({selectId: id}),
-      setNativeControl: this.nativeControlElement,
     });
   }
 

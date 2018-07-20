@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default class Select extends React.Component {
+export default class NativeControl extends React.Component {
 
   componentDidMount() {
     this.props.handleValueChange(this.props.value);
@@ -21,6 +21,10 @@ export default class Select extends React.Component {
 
     if (this.props.id !== prevProps.id) {
       this.props.setSelectId(this.props.id);
+    }
+
+    if (this.props.value !== prevProps.value) {
+      this.props.handleValueChange(this.props.value);
     }
   }
 
@@ -68,7 +72,6 @@ export default class Select extends React.Component {
       onBlur,
       onChange,
       /* eslint-enable no-unused-vars */
-      setNativeControl,
       ...otherProps
     } = this.props;
 
@@ -80,7 +83,6 @@ export default class Select extends React.Component {
         disabled={disabled}
         value={value}
         className={this.classes}
-        ref={setNativeControl}
         {...otherProps}
       >
         {children}
@@ -89,7 +91,7 @@ export default class Select extends React.Component {
   }
 }
 
-Select.propTypes = {
+NativeControl.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   handleValueChange: PropTypes.func,
@@ -105,7 +107,7 @@ Select.propTypes = {
   ]),
 };
 
-Select.defaultProps = {
+NativeControl.defaultProps = {
   className: '',
   disabled: false,
   handleValueChange: () => {},
