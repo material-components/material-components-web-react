@@ -6,18 +6,13 @@ import withRipple from '@material/react-ripple';
 
 export class Fab extends React.Component {
 
-  state = {
-    classList: new Set(),
-  };
-
   get classes() {
-    const {classList} = this.state;
     const {
       mini,
       className,
     } = this.props;
 
-    return classnames('mdc-fab', Array.from(classList), className, {
+    return classnames('mdc-fab', className, {
       'mdc-fab--mini': mini,
     });
   }
@@ -38,7 +33,6 @@ export class Fab extends React.Component {
   render() {
     const {
       /* eslint-disable */
-      children,
       className,
       unbounded,
       mini,
@@ -62,10 +56,6 @@ Fab.propTypes = {
   mini: PropTypes.bool,
   icon: PropTypes.element,
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element,
-  ]).isRequired,
   initRipple: PropTypes.func,
 };
 
