@@ -6,34 +6,33 @@ import withRipple from '@material/react-ripple';
 
 export class Fab extends React.Component {
 
-  state = {
-    classList: new Set(),
-  };
-
   get classes() {
-    const {classList} = this.state;
     const {
       mini,
       className,
     } = this.props;
 
-    return classnames('mdc-fab', Array.from(classList), className, {
+    return classnames('mdc-fab', className, {
       'mdc-fab--mini': mini,
     });
   }
 
-  addIconClassToAllChildren = () => {
-    return React.Children.map(this.props.children, (item) => {
-      const className = `${item.props.className} mdc-fab__icon`;
-      const props = Object.assign({}, item.props, {className});
-      return React.cloneElement(item, props);
-    });
-  };
+  renderIcon() {
+    const {icon} = this.props;
+
+    if (!icon) {
+      return;
+    }
+
+    const updatedProps = {
+      className: classnames('mdc-fab__icon', icon.props.className),
+    };
+    return React.cloneElement(icon, updatedProps);
+  }
 
   render() {
     const {
       /* eslint-disable */
-      children,
       className,
       unbounded,
       mini,
@@ -47,7 +46,7 @@ export class Fab extends React.Component {
           className={this.classes}
           ref={initRipple}
           {...otherProps}>
-          {this.addIconClassToAllChildren()}
+          {this.renderIcon()}
         </button>
     );
   }
@@ -55,16 +54,14 @@ export class Fab extends React.Component {
 
 Fab.propTypes = {
   mini: PropTypes.bool,
+  icon: PropTypes.element,
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element,
-  ]).isRequired,
   initRipple: PropTypes.func,
 };
 
 Fab.defaultProps = {
   mini: false,
+  icon: null,
   className: '',
   initRipple: () => {},
 };
