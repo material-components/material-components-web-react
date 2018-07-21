@@ -27,27 +27,19 @@ import '@material/react-fab/dist/fab.css';
 The Fab can be used with the `span`, `i`, `img` or `svg` elements. It can also be used with the
 [Material Icon](../material-icon) react component.
 ```html
-<Fab>
-  <span className="material-icons">favorite</span>
-</Fab>
+<Fab icon={<span className="material-icons">favorite</span>}/>
 
-<Fab>
-  <i className="material-icons">favorite</i>
-</Fab>
+<Fab icon={<i className="material-icons">favorite</i>}/>
 
-<Fab>
+<Fab icon={
   <svg xmlns="http://www.w3.org/2000/svg" className="material-icons" viewBox="0 0 24 24">
   ...
   </svg>
-</Fab>
+  }/>
 
-<Fab>
-  <img className="material-icons" src="/images/ic_button_24px.svg"/>
-</Fab>
+<Fab icon={<img className="material-icons" src="/images/ic_button_24px.svg"/>}/>
 
-<Fab>
-  <MaterialIcon icon="favorite"/>
-</Fab>
+<Fab icon={<MaterialIcon icon="favorite"/>}/>
 ```
 
 ## Props
@@ -56,6 +48,7 @@ Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
 mini | n/a | Enables the mini variant.
+icon | Element | The icon.
 
 ## Sass Mixins
 
