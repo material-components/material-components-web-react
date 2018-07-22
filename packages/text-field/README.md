@@ -38,7 +38,7 @@ class MyApp extends React.Component {
       <div>
         <TextField
           label='Dog'
-          HelperText={<HelperText>Help Me!</HelperText>}
+          helperText={<HelperText>Help Me!</HelperText>}
         >
           <Input
             value={this.state.value}
