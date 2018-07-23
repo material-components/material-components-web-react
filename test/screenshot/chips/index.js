@@ -25,9 +25,9 @@ class ShirtSizes extends React.Component {
   render() {
     return (
       <ChipSet>
-        <Chip selected={this.isSelected(0)} id={0} label='Small' handleSelect={this.handleSelect}/>
-        <Chip selected={this.isSelected(1)} id={1} label='Medium' handleSelect={this.handleSelect}/>
-        <Chip selected={this.isSelected(2)} id={2} label='Large' handleSelect={this.handleSelect}/>
+        <Chip selected={this.isSelected(0)} id={0} label='Small' handleSelect={() => this.handleSelect(0)}/>
+        <Chip selected={this.isSelected(1)} id={1} label='Medium' handleSelect={() => this.handleSelect(1)}/>
+        <Chip selected={this.isSelected(2)} id={2} label='Large' handleSelect={() => this.handleSelect(2)}/>
       </ChipSet>
     );
   }
@@ -55,9 +55,9 @@ class ShoppingFilters extends React.Component {
   render() {
     return (
       <ChipSet filter>
-        <Chip selected={this.isSelected(0)} id={0} label='Tops' handleSelect={this.handleSelect}/>
-        <Chip selected={this.isSelected(1)} id={1} label='Bottoms' handleSelect={this.handleSelect}/>
-        <Chip selected={this.isSelected(2)} id={2} label='Shoes' handleSelect={this.handleSelect}/>
+        <Chip selected={this.isSelected(0)} id={0} label='Tops' handleSelect={() => this.handleSelect(0)}/>
+        <Chip selected={this.isSelected(1)} id={1} label='Bottoms' handleSelect={() => this.handleSelect(1)}/>
+        <Chip selected={this.isSelected(2)} id={2} label='Shoes' handleSelect={() => this.handleSelect(2)}/>
       </ChipSet>
     );
   }

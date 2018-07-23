@@ -61,7 +61,7 @@ export class Chip extends Component {
     if (typeof this.props.onClick === 'function') {
       this.props.onClick(e);
     }
-    this.props.handleSelect(this.props.id);
+    this.props.handleSelect();
   }
 
   handleRemoveIconClick = (e) => {
@@ -135,7 +135,6 @@ export class Chip extends Component {
 }
 
 Chip.propTypes = {
-  id: PropTypes.number,
   label: PropTypes.string,
   className: PropTypes.string,
   selected: PropTypes.bool,
@@ -149,7 +148,6 @@ Chip.propTypes = {
 };
 
 Chip.defaultProps = {
-  id: -1,
   label: '',
   className: '',
   selected: false,
