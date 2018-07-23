@@ -74,23 +74,27 @@ class ContactsEntry extends React.Component {
      }],
   };
 
-  renderChip = (chip, index) => {
-    const faceIcon = <MaterialIcon icon='face' />;
-    const cancelIcon = <MaterialIcon icon='cancel' />;
-    return (
-      <Chip
-        key={index}
-        id={chip.id}
-        label={chip.label}
-        leadingIcon={faceIcon}
-        removeIcon={cancelIcon} />
-    );
+  removeChip = (id) => {
+    const chips = [...this.state.chips];
+    const index = chips.findIndex(chip => chip.id === id);
+    chips.splice(index, 1);
+    this.setState({chips});
   }
 
   render() {
     return (
       <ChipSet>
-        {this.state.chips.map((chip, index) => this.renderChip(chip, index))}
+        {this.state.chips.map((chip) =>
+          <Chip
+            // The chip's key cannot be its index, because its index may change due to adding/removing other chips.
+            key={chip.id}
+            id={chip.id}
+            label={chip.label}
+            leadingIcon={<MaterialIcon icon='face' />}
+            removeIcon={<MaterialIcon icon='cancel' />}
+            handleRemove={this.removeChip}
+          />
+        )}
       </ChipSet>
     );
   }

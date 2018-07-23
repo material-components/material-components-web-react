@@ -49,7 +49,12 @@ export class Chip extends Component {
       eventTargetHasClass: (target, className) => target.classList.contains(className),
       getComputedStyleValue: (propertyName) => window.getComputedStyle(this.root_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.root_.style.setProperty(propertyName, value),
+      notifyRemoval: () => this.handleRemove(),
     };
+  }
+
+  handleRemove = () => {
+    this.props.handleRemove(this.props.id);
   }
 
   handleClick = (e) => {
@@ -105,6 +110,7 @@ export class Chip extends Component {
       chipCheckmark,
       leadingIcon,
       removeIcon,
+      handleRemove, // eslint-disable-line no-unused-vars
       computeBoundingRect, // eslint-disable-line no-unused-vars
       initRipple,
       unbounded, // eslint-disable-line no-unused-vars
