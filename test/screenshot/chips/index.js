@@ -5,8 +5,6 @@ import './index.scss';
 
 import {Chip, ChipSet} from '../../../packages/chips';
 
-// const removeIcon = (<i className="material-icons">cancel</i>);
-
 class ShirtSizes extends React.Component {
   state = {
     selectedChipId: 0,
@@ -66,13 +64,33 @@ class ShoppingFilters extends React.Component {
 }
 
 class ContactsEntry extends React.Component {
+  state = {
+    chips: [{
+      label: 'Jane Smith',
+      id: 0
+     }, {
+      label: 'John Doe',
+      id: 1
+     }],
+  };
+
+  renderChip = (chip, index) => {
+    const faceIcon = <MaterialIcon icon='face' />;
+    const cancelIcon = <MaterialIcon icon='cancel' />;
+    return (
+      <Chip
+        key={index}
+        id={chip.id}
+        label={chip.label}
+        leadingIcon={faceIcon}
+        removeIcon={cancelIcon} />
+    );
+  }
+
   render() {
     return (
       <ChipSet>
-        <Chip leadingIcon={<MaterialIcon icon='face' />} id={0} label='Jane Smith' removeIcon={<MaterialIcon icon='cancel' />} />
-        <Chip leadingIcon={<MaterialIcon icon='face' />} id={1} label='John Doe' removeIcon={<MaterialIcon icon='cancel' />} />
-        <Chip leadingIcon={<MaterialIcon icon='face' />} id={2} label='Minnie Mouse' removeIcon={<MaterialIcon icon='cancel' />} />
-        <Chip leadingIcon={<MaterialIcon icon='face' />} id={3} label='Mickey Mouse' removeIcon={<MaterialIcon icon='cancel' />} />
+        {this.state.chips.map((chip, index) => this.renderChip(chip, index))}
       </ChipSet>
     );
   }
