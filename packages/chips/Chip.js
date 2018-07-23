@@ -65,11 +65,11 @@ export class Chip extends Component {
   }
 
   handleRemoveIconClick = (e) => {
-    this.foundation_.trailingIconInteractionHandler_(e);
+    this.foundation_.trailingIconInteractionHandler_(e); // TODO: Update with public MDCChipFoundation handler.
   }
 
   handleTransitionEnd = (e) => {
-    this.foundation_.transitionEndHandler_(e);
+    this.foundation_.transitionEndHandler_(e); // TODO: Update with public MDCChipFoundation handler.
   }
 
   renderLeadingIcon = (leadingIcon) => {
@@ -139,6 +139,7 @@ Chip.propTypes = {
   className: PropTypes.string,
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,
+  handleRemove: PropTypes.func,
   onClick: PropTypes.func,
   // The following props are handled by withRipple and do not require defaults.
   initRipple: PropTypes.func,
@@ -152,6 +153,7 @@ Chip.defaultProps = {
   className: '',
   selected: false,
   handleSelect: () => {},
+  handleRemove: () => {},
 };
 
 export default withRipple(Chip);
