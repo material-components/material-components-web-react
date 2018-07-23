@@ -231,7 +231,7 @@ Select.propTypes = {
   box: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
-    PropTypes.object,
+    PropTypes.element,
   ]),
   className: PropTypes.string,
   disabled: PropTypes.bool,
@@ -242,7 +242,10 @@ Select.propTypes = {
   nativeControlClassName: PropTypes.string,
   notchedOutlineClassName: PropTypes.string,
   outlined: PropTypes.bool,
-  options: PropTypes.arrayOf(PropTypes.object),
+  options: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ])),
 };
 
 Select.defaultProps = {

@@ -154,7 +154,7 @@ test('#adapter.deactivateBottomLine sets state.activeLineRipple to false', () =>
 });
 
 test('#adapter.closeOutline sets state.outlineIsNotched to false', () => {
-  const wrapper = shallow(<Select label='my label' />)
+  const wrapper = shallow(<Select label='my label' />);
   wrapper.setState({outlineIsNotched: true});
   wrapper.instance().adapter.closeOutline();
   assert.isFalse(wrapper.state().outlineIsNotched);
@@ -236,17 +236,17 @@ test('renders options passed as children', () => {
 });
 
 test('renders options passed as array of 1 string', () => {
-  const wrapper = shallow(<Select label='my label' options={['opt 1']}/>)
+  const wrapper = shallow(<Select label='my label' options={['opt 1']}/>);
   assert.equal(wrapper.find('option[value="opt 1"]').length, 1);
 });
 
 test('renders options passed as array of strings', () => {
-  const wrapper = shallow(<Select label='my label' options={['opt 1', 'opt 2', 'opt 3']}/>)
+  const wrapper = shallow(<Select label='my label' options={['opt 1', 'opt 2', 'opt 3']}/>);
   assert.equal(wrapper.find('option').length, 3);
 });
 
 test('renders options passed as array of 1 object', () => {
-  const wrapper = shallow(<Select label='my label' options={[{label: 'opt 1', value: 'opt-1'}]}/>)
+  const wrapper = shallow(<Select label='my label' options={[{label: 'opt 1', value: 'opt-1'}]}/>);
   assert.equal(wrapper.find('option[value="opt-1"]').length, 1);
 });
 
@@ -255,7 +255,7 @@ test('renders options passed as array of objects', () => {
     {label: 'opt 1', value: 'opt-1'},
     {label: 'opt 2', value: 'opt-2'},
     {label: 'opt 3', value: 'opt-3'},
-  ]}/>)
+  ]}/>);
   assert.equal(wrapper.find('option').length, 3);
 });
 
@@ -264,7 +264,7 @@ test('renders options as disabled', () => {
     {label: 'opt 1', value: 'opt-1', disabled: true},
     {label: 'opt 2', value: 'opt-2'},
     {label: 'opt 3', value: 'opt-3'},
-  ]}/>)
+  ]}/>);
   assert.equal(wrapper.find('option[disabled]').length, 1);
 });
 
