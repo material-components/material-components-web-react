@@ -173,19 +173,16 @@ export default class Select extends React.Component {
       return children;
     }
 
-    return options.map((option, index) => {
-      if (typeof option === 'string') {
-        option = {value: option, label: value};
+    return options.map((optionData, index) => {
+      if (typeof optionData === 'string') {
+        return (
+          <option key={index} value={optionData}>{optionData}</option>
+        );
       }
 
+      const {label, ...nonLabelOptionData} = optionData;
       return (
-        <option
-          disabled={option.disabled}
-          value={option.value}
-          key={index}
-        >
-          {option.label}
-        </option>
+        <option key={index} {...nonLabelOptionData}>{label}</option>
       );
     });
   }
@@ -232,7 +229,10 @@ export default class Select extends React.Component {
 
 Select.propTypes = {
   box: PropTypes.bool,
-  children: PropTypes.arrayOf(PropTypes.element),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.object,
+  ]),
   className: PropTypes.string,
   disabled: PropTypes.bool,
   floatingLabelClassName: PropTypes.string,
