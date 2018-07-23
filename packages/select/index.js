@@ -84,35 +84,29 @@ export default class Select extends React.Component {
       // and selectedindex themselves
     };
 
-    return Object.assign({},
-      rootAdapterMethods,
-      this.labelAdapter,
-      this.lineRippleAdapter,
-      this.notchedOutlineAdapter,
-    );
-  }
-
-  get labelAdapter() {
-    return {
+    const labelAdapter = {
       floatLabel: (labelIsFloated) => this.setState({labelIsFloated}),
       hasLabel: () => !!this.props.label,
       getLabelWidth: () => this.state.labelWidth,
     };
-  }
 
-  get lineRippleAdapter() {
-    return {
+    const lineRippleAdapter = {
       activateBottomLine: () => this.setState({activeLineRipple: true}),
       deactivateBottomLine: () => this.setState({activeLineRipple: false}),
     };
-  }
 
-  get notchedOutlineAdapter() {
-    return {
+    const notchedOutlineAdapter = {
       notchOutline: () => this.setState({outlineIsNotched: true}),
       closeOutline: () => this.setState({outlineIsNotched: false}),
       hasOutline: () => !!this.props.outlined,
     };
+
+    return Object.assign({},
+      rootAdapterMethods,
+      labelAdapter,
+      lineRippleAdapter,
+      notchedOutlineAdapter,
+    );
   }
 
   getIsRtl = () => {

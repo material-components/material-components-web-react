@@ -37,10 +37,6 @@ export default class NativeControl extends React.Component {
     onBlur(e);
   }
 
-  // To stay in sync with the MDC React Select Field Component, handleValueChange()
-  // is called to update MDC React Select Field's state. That state variable
-  // is used to let other subcomponents and the foundation know what the current
-  // value of the input is.
   handleChange = (e) => {
     const {foundation, handleValueChange, onChange} = this.props;
     const {value} = e.target;
