@@ -19,9 +19,25 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('child component gets foundation', () => {
-  const child = (<div></div>);
-  const wrapper = mount(<Select label='my label'>{child}</Select>);
-  debugger
-  assert.isTrue()
+test('creates foundation', () => {
+  const wrapper = mount(<Select label='my label' />);
+  assert.exists(wrapper.instance().foundation_);
 });
+
+test('#foundation_setValue gets called when state.value updates', () => {
+  const wrapper = shallow(<Select label='my label' />);
+  wrapper.instance().foundation_.setValue = td.func();
+  const value = 'value';
+  wrapper.setState({value});
+  td.verify(wrapper.instance().foundation_.setValue(value), {times: 1});
+});
+
+test('#componentWillUnmount destroys foundation', () => {
+  const wrapper = shallow(<Select label='my label' />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.destroy = td.func();
+  wrapper.unmount();
+  td.verify(foundation.destroy(), {times: 1});
+});
+
+test('props.outlined will add')
