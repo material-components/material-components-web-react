@@ -9,8 +9,10 @@ export default class ChipSet extends Component {
   checkmarkWidth_ = 0;
 
   get classes() {
-    const {className} = this.props;
-    return classnames('mdc-chip-set', className);
+    const {className, input} = this.props;
+    return classnames('mdc-chip-set', className, {
+      'mdc-chip-set--input': input,
+    });
   }
 
   get adapter() {

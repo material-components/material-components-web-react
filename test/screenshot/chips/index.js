@@ -85,7 +85,7 @@ class ContactsEntry extends React.Component {
   }
 
   handleKeyDown = (e) => {
-    if (!(e.key === 'Enter')) {
+    if (!(e.key === 'Enter') || !e.target.value) {
       return;
     }
     this.addChip(e.target.value);
@@ -103,7 +103,7 @@ class ContactsEntry extends React.Component {
     return (
       <div>
         <input type="text" onKeyDown={this.handleKeyDown} />
-        <ChipSet>
+        <ChipSet input>
           {this.state.chips.map((chip) =>
             <Chip
               key={chip.id} // The chip's key cannot be its index, because its index may change.

@@ -116,7 +116,7 @@ class MyFilterChips extends React.Component {
 
 ### Input chips
 
-Input chips are a variant of chips which enable user input by converting text into chips. Chips may be dynamically added to and removed from the chip set. To remove a chip, pass a callback to the `Chip` through the `handleRemove` prop.
+Input chips are a variant of chips which enable user input by converting text into chips. Chips may be dynamically added and removed from the chip set. To define a set of chips as input chips, add the `input` prop to the `ChipSet`. To remove a chip, pass a callback to the `Chip` through the `handleRemove` prop.
 
 > _NOTE_: We recommend you store an array of chip labels and their respective IDs in the `state` to manage adding/removing chips. Do _NOT_ use the chip's index as its ID or key, because its index may change due to the addition/removal of other chips.
 
@@ -139,7 +139,7 @@ class MyInputChips extends React.Component {
   }
 
   handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter') && e.target.value) {
       this.addChip(e.target.value);
       e.target.value = '';
     }
@@ -156,7 +156,7 @@ class MyInputChips extends React.Component {
     return (
       <div>
         <input type="text" onKeyDown={this.handleKeyDown} />
-        <ChipSet>
+        <ChipSet input>
           {this.state.chips.map((chip) =>
             <Chip
               key={chip.id} // The chip's key cannot be its index, because its index may change.
@@ -180,6 +180,7 @@ Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the chip set element
 filter | Boolean | Indicates that the chips in the set are filter chips, which allow multiple selection from a set of options
+input | Boolean | Indicates that the chips in the set are input chips, which allow dynamic adding/removing of chips
 
 ### Chip
 
