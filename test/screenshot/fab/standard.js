@@ -11,6 +11,9 @@ ReactDOM.render((
       <Fab className="demo-button"
         icon={<i className="material-icons">favorite</i>} />
       <Fab className="demo-button"
+        icon={<i className="material-icons">favorite</i>}
+        textLabel="Favorite" />
+      <Fab className="demo-button"
         icon={<i className="material-icons">directions_transit</i>} />
       <Fab className="demo-button"
         icon={<MaterialIcon icon="add"/>} />

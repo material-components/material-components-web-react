@@ -49,6 +49,7 @@ Prop Name | Type | Description
 className | String | Classes to be applied to the root element.
 mini | n/a | Enables the mini variant.
 icon | Element | The icon.
+textLabel | String | The label, which makes the FAB extended.
 
 ## Sass Mixins
 
