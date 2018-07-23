@@ -47,7 +47,7 @@ class MyApp extends React.Component {
 }
 ```
 
-> NOTE: In order to get access to the value, you must add an `onChange` handler, which accepts an event and updates the value of the input as shown above.
+> NOTE: In order to get access to the value, you must add an `onChange` handler, which accepts an event and updates the value of the select as shown above.
 
 #### Shorthand options
 
@@ -86,17 +86,17 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 box | Boolean | Enables box variant.
-children | (Array<Element>|Element) | Array of `<option>` elements or a single `<option>` element.
+children | Array{Element}/Element | Array of `<option>` elements or a single `<option>` element.
 className | String | An optional class added to the `.mdc-select` element.
 disabled | Boolean | Disables the select.
-floatingLabelClassName | String | An optional class added to the floating label element of the text field.
+floatingLabelClassName | String | An optional class added to the floating label element.
 id | String | Id of the select element.
 label | String | Mandatory. Label text that appears as the floating label.
 lineRippleClassName | String | An optional class added to the line ripple element.
 nativeControlClassName | String | An optional class added to the native `<select>` element.
 notchedOutlineClassName | String | An optional class added to the notched outline element. Only applied if `props.outlined` is enabled.
 outlined | Boolean | Enables outlined variant.
-options | Array<String|Object> | Array of strings or objects to be used as options. To be used instead of `<option>` elements passed as `this.props.children`. If its an array of strings, then the string value will be used as the `label` and `value` of the `<option>` tag.
+options | Array{String/Object} | Array of strings or objects to be used as options. To be used instead of `<option>` elements passed as `this.props.children`. If its an array of strings, then the string value will be used as the `label` and `value` of the `<option>` tag.
 
 ### Sass Mixins
 
