@@ -1,11 +1,11 @@
-# React Text Field
+# React Select
 
-MDC React Text Field is component for MDC Text Field. Please see [MDC Text Field](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/).
+MDC React Select is component for MDC Select. Please see [MDC Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/).
 
 ## Installation
 
 ```
-npm install @material/react-text-field
+npm install @material/react-select
 ```
 
 ## Usage
@@ -14,101 +14,93 @@ npm install @material/react-text-field
 
 with Sass:
 ```js
-import '@material/react-text-field/index.scss';
+import '@material/react-select/index.scss';
 ```
 
 with CSS:
 ```js
-import '@material/react-text-field/dist/text-field.css';
+import '@material/react-select/dist/select.css';
 ```
 
 ### Javascript Instantiation
 
-React Text Field accepts one child element which is the input element. For ease of integration, we have provided an input component to be used with React Text Field.
+React Select requires at least one `<option>` element as a child and a label prop.
 
 ```js
 import React from 'react';
-import TextField, {HelperText, Input} from '@material/react-text-field';
+import Select from '@material/react-select';
 
 class MyApp extends React.Component {
-  state = {value: 'Woof'};
+  state = {value: 'pomsky'};
 
   render() {
     return (
-      <div>
-        <TextField
-          label='Dog'
-          HelperText={<HelperText>Help Me!</HelperText>}
-        >
-          <Input
-            value={this.state.value}
-            onChange={(e) => this.setState({value: e.target.value})}/>
-        </TextField>
-      </div>
+      <Select
+        label='Choose Dog'
+        onChange={(evt) => this.setState({value: evt.target.value})}
+      >
+        <option value='pomsky'>Pomsky</option>
+        <option value='goldenDoodle'>Golden Doodle</option>
+      </Select>
     );
   }
 }
 ```
 
-> NOTE: In order to get access to the value, you must add an onChange handler, which accepts an event and updates the value of the input as shown above.
+> NOTE: In order to get access to the value, you must add an `onChange` handler, which accepts an event and updates the value of the input as shown above.
+
+#### Shorthand options
+
+If the option elements do not require anything unique, you can omit passing `this.props.children` and set the `option` attribute.
+
+```js
+import React from 'react';
+import Select from '@material/react-select';
+
+class MyApp extends React.Component {
+  state = {value: 'pomsky'};
+
+  render() {
+    const options = [{
+      label: 'Pomsky',
+      value: 'pomsky',
+    }, {
+      label: 'Golden Doodle',
+      value: 'goldenDoodle',
+      disabled: true,
+    }];
+
+    return (
+      <Select
+        label='Choose Dog'
+        onChange={(evt) => this.setState({value: evt.target.value})}
+        options={options}
+      />
+    );
+  }
+}
+```
+
 ## Props
 
 Prop Name | Type | Description
 --- | --- | ---
 box | Boolean | Enables box variant.
-children | Element | Mandatory. The input element of the text field.
-className | String | An optional class added to the `.mdc-text-field` element.
-dense | Boolean | Enables dense variant.
-floatingLabelClassName | String | An optional class added to the floating label element fo the text field.
-fullWidth | Boolean | Enables fullWidth variant.
-helperText | Element | Helper text that appears below the text field. Use the `<HelperText>` component that comes with this package.
-label | String | Mandatory. Label text that appears as the floating label or placeholder.
-leadingIcon | Element | An icon element that appears as the leading icon.
+children | (Array<Element>|Element) | Array of `<option>` elements or a single `<option>` element.
+className | String | An optional class added to the `.mdc-select` element.
+disabled | Boolean | Disables the select.
+floatingLabelClassName | String | An optional class added to the floating label element of the text field.
+id | String | Id of the select element.
+label | String | Mandatory. Label text that appears as the floating label.
 lineRippleClassName | String | An optional class added to the line ripple element.
-notchedOutlineClassName | String | An optional class added to the notched outline element.
+nativeControlClassName | String | An optional class added to the native `<select>` element.
+notchedOutlineClassName | String | An optional class added to the notched outline element. Only applied if `props.outlined` is enabled.
 outlined | Boolean | Enables outlined variant.
-textarea | Boolean | Enables textarea variant.
-trailingIcon | Element | An icon element that appears as the trailing icon.
-
-### Input Props
-
-Not all the props below are used for majority of cases. Properties like `foundation` shouldn't be used when implementing the text field, but is used internally in React Text Field.
-
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the input element.
-disabled | Function | Disables the input and the parent text field.
-foundation | Function | The text field foundation.
-handleValueChange | Function | A callback function to update React Text Field's value.
-id | String | The `<input>` id attribute.
-onBlur | Function | Blur event handler.
-onChange | Function | Change event handler.
-onFocus | Function | Focus event handler.
-onMouseDown | Function | Mouse down event handler.
-onTouchStart | Function | Touch start event handler.
-setDisabled | Function | Callback function that is called when the `disabled` prop updates.
-setInputId | Function | Callback function that is called when the `id` attribute updates.
-handleFocusChange | Function | Callback function that is called when `focus` or `blur` events occur
-value | Number/String | Value of the input.
-
->NOTE: the `<Input>` component will receive all properties that a standard `<input>` accepts.
-
-
-## Styles
-
-To style [Notched Outline](../notched-outline), [Floating Label](../floating-label), and [Line Ripple](../line-ripple) correctly, please include the Sass imports along with the Text Field sass imports. For reference your Sass file should include imports like so:
-
-```scss
-@import "@material/react-floating-label/index.scss";
-@import "@material/react-line-ripple/index.scss";
-@import "@material/react-notched-outline/index.scss";
-
-@import "@material/react-text-field/index.scss";
-```
+options | Array<String|Object> | Array of strings or objects to be used as options. To be used instead of `<option>` elements passed as `this.props.children`. If its an array of strings, then the string value will be used as the `label` and `value` of the `<option>` tag.
 
 ### Sass Mixins
 
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-textfield/README.md)
+[Advanced Sass Mixins]([Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.37.1/packages/mdc-select/README.md#sass-mixins))
