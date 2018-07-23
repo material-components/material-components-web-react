@@ -9,11 +9,15 @@ export class Fab extends React.Component {
   get classes() {
     const {
       mini,
+      textLabel,
       className,
     } = this.props;
 
+    const expanded = textLabel.length > 0;
+
     return classnames('mdc-fab', className, {
       'mdc-fab--mini': mini,
+      'mdc-fab--extended': expanded,
     });
   }
 
@@ -28,6 +32,20 @@ export class Fab extends React.Component {
       className: classnames('mdc-fab__icon', icon.props.className),
     };
     return React.cloneElement(icon, updatedProps);
+  }
+
+  renderTextLabel() {
+    const {textLabel} = this.props;
+
+    if (textLabel.length == 0) {
+      return;
+    }
+
+    return (
+      <span className='mdc-fab__label'>
+        {textLabel}
+      </span>
+    );
   }
 
   render() {
@@ -47,6 +65,7 @@ export class Fab extends React.Component {
           ref={initRipple}
           {...otherProps}>
           {this.renderIcon()}
+          {this.renderTextLabel()}
         </button>
     );
   }
@@ -55,6 +74,7 @@ export class Fab extends React.Component {
 Fab.propTypes = {
   mini: PropTypes.bool,
   icon: PropTypes.element,
+  textLabel: PropTypes.string,
   className: PropTypes.string,
   initRipple: PropTypes.func,
 };
@@ -62,6 +82,7 @@ Fab.propTypes = {
 Fab.defaultProps = {
   mini: false,
   icon: null,
+  textLabel: '',
   className: '',
   initRipple: () => {},
 };
