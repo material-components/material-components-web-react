@@ -7,9 +7,6 @@ export default class NativeControl extends React.Component {
   componentDidMount() {
     this.props.handleValueChange(this.props.value);
     this.props.setDisabled(this.props.disabled);
-    if (this.props.id) {
-      this.props.setSelectId(this.props.id);
-    }
   }
 
   componentDidUpdate(prevProps) {
@@ -17,10 +14,6 @@ export default class NativeControl extends React.Component {
       const {disabled} = this.props;
       this.props.setDisabled(disabled);
       this.props.foundation.setDisabled(disabled);
-    }
-
-    if (this.props.id !== prevProps.id) {
-      this.props.setSelectId(this.props.id);
     }
 
     if (this.props.value !== prevProps.value) {
@@ -67,7 +60,6 @@ export default class NativeControl extends React.Component {
       value,
       handleValueChange,
       setDisabled,
-      setSelectId,
       onFocus,
       onBlur,
       onChange,
@@ -107,7 +99,6 @@ NativeControl.propTypes = {
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   setDisabled: PropTypes.func,
-  setSelectId: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -130,6 +121,5 @@ NativeControl.defaultProps = {
   onChange: () => {},
   onFocus: () => {},
   setDisabled: () => {},
-  setSelectId: () => {},
   value: '',
 };
