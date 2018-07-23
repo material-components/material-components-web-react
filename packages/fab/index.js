@@ -13,11 +13,11 @@ export class Fab extends React.Component {
       className,
     } = this.props;
 
-    const expanded = textLabel.length > 0;
+    const extended = textLabel.length > 0;
 
     return classnames('mdc-fab', className, {
       'mdc-fab--mini': mini,
-      'mdc-fab--extended': expanded,
+      'mdc-fab--extended': extended,
     });
   }
 
@@ -37,7 +37,7 @@ export class Fab extends React.Component {
   renderTextLabel() {
     const {textLabel} = this.props;
 
-    if (textLabel.length == 0) {
+    if (textLabel.length === 0) {
       return;
     }
 

@@ -34,7 +34,7 @@ test('text label is rendered', () => {
   const wrapper = mount(
     <Fab icon={icon} textLabel='Text Label'/>
   );
-  assert.isTrue(wrapper.find('button').children('.mdc-fab__label').length !== 0);
+  assert.isTrue(wrapper.find('button').children('.mdc-fab__label').length === 1);
 });
 
 test('i tag is rendered', () => {
