@@ -54,6 +54,7 @@ export class Fab extends React.Component {
       className,
       unbounded,
       mini,
+      textLabel,
       /* eslint-enable */
       initRipple,
       ...otherProps
