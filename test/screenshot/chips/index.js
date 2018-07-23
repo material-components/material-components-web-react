@@ -65,16 +65,34 @@ class ShoppingFilters extends React.Component {
 
 class ContactsEntry extends React.Component {
   state = {
-    chips: [{
-      label: 'Jane Smith',
-      id: 0
-     }, {
-      label: 'John Doe',
-      id: 1
-     }],
+    chips: [
+      {label: 'Jane Smith', id: 0},
+      {label: 'John Doe', id: 1}
+    ],
+    nextId: 2,
   };
 
-  removeChip = (id) => {
+  addChip(label) {
+    const id = this.state.nextId;
+    const newChip = {label, id};
+
+    const chips = [...this.state.chips];
+    chips.push(newChip);
+    this.setState({
+      chips,
+      nextId: id + 1,
+    });
+  }
+
+  handleKeyDown = (e) => {
+    if (!(e.key === 'Enter')) {
+      return;
+    }
+    this.addChip(e.target.value);
+    e.target.value = '';
+  }
+
+  handleRemoveChip = (id) => {
     const chips = [...this.state.chips];
     const index = chips.findIndex(chip => chip.id === id);
     chips.splice(index, 1);
@@ -83,19 +101,20 @@ class ContactsEntry extends React.Component {
 
   render() {
     return (
-      <ChipSet>
-        {this.state.chips.map((chip) =>
-          <Chip
-            // The chip's key cannot be its index, because its index may change due to adding/removing other chips.
-            key={chip.id}
-            id={chip.id}
-            label={chip.label}
-            leadingIcon={<MaterialIcon icon='face' />}
-            removeIcon={<MaterialIcon icon='cancel' />}
-            handleRemove={this.removeChip}
-          />
-        )}
-      </ChipSet>
+      <div>
+        <input type="text" onKeyDown={this.handleKeyDown} />
+        <ChipSet>
+          {this.state.chips.map((chip) =>
+            <Chip
+              key={chip.id} // The chip's key cannot be its index, because its index may change.
+              label={chip.label}
+              leadingIcon={<MaterialIcon icon='face' />}
+              removeIcon={<MaterialIcon icon='cancel' />}
+              handleRemove={() => this.handleRemoveChip(chip.id)}
+            />
+          )}
+        </ChipSet>
+      </div>
     );
   }
 }

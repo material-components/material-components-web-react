@@ -54,7 +54,7 @@ export class Chip extends Component {
   }
 
   handleRemove = () => {
-    this.props.handleRemove(this.props.id);
+    this.props.handleRemove();
   }
 
   handleClick = (e) => {
