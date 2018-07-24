@@ -32,6 +32,10 @@ export default class Input extends React.Component {
     if (this.props.id !== prevProps.id) {
       this.props.setInputId(this.props.id);
     }
+
+    if (this.props.value !== prevProps.value) {
+      this.props.handleValueChange(this.props.value);
+    }
   }
 
   get classes() {
@@ -69,11 +73,8 @@ export default class Input extends React.Component {
   // is used to let other subcomponents and the foundation know what the current
   // value of the input is.
   handleChange = (e) => {
-    const {foundation, handleValueChange, onChange} = this.props;
-    const {value} = e.target;
-
+    const {foundation, onChange} = this.props;
     foundation.autoCompleteFocus();
-    handleValueChange(value);
     onChange(e);
   }
 
