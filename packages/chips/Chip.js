@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import withRipple from '../ripple';
 import {MDCChipFoundation} from '@material/chips';
 
-export class Chip extends Component {
+export class ChipBase extends Component {
   root_ = null;
   foundation_ = null;
   state = {
@@ -134,7 +134,7 @@ export class Chip extends Component {
   }
 }
 
-Chip.propTypes = {
+ChipBase.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
   selected: PropTypes.bool,
@@ -148,7 +148,7 @@ Chip.propTypes = {
   computeBoundingRect: PropTypes.func,
 };
 
-Chip.defaultProps = {
+ChipBase.defaultProps = {
   label: '',
   className: '',
   selected: false,
@@ -156,4 +156,4 @@ Chip.defaultProps = {
   handleRemove: () => {},
 };
 
-export default withRipple(Chip);
+export default withRipple(ChipBase);
