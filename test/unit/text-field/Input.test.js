@@ -131,6 +131,13 @@ test('#componentDidUpdate does nothing if an unrelated property is ' +
   td.verify(setInputId(td.matchers.anything), {times: 0});
 });
 
+test('props.handleValueChange() is called if this.props.value updates', () => {
+  const handleValueChange = td.func();
+  const wrapper = shallow(<Input handleValueChange={handleValueChange} />);
+  wrapper.setProps({value: 'meow'});
+  td.verify(handleValueChange('meow'), {times: 1});
+});
+
 test('#event.onFocus calls props.handleFocusChange(true)', () => {
   const handleFocusChange = td.func();
   const wrapper = shallow(<Input handleFocusChange={handleFocusChange} />);
@@ -213,14 +220,6 @@ test('#event.onChange calls foundation.autoCompleteFocus()', () => {
   const event = {target: {value: 'apple'}};
   wrapper.simulate('change', event);
   td.verify(foundation.autoCompleteFocus(), {times: 1});
-});
-
-test('#event.onChange calls props.handleValueChange()', () => {
-  const handleValueChange = td.func();
-  const wrapper = shallow(<Input handleValueChange={handleValueChange} />);
-  const event = {target: {value: 'apple'}};
-  wrapper.simulate('change', event);
-  td.verify(handleValueChange('apple'), {times: 1});
 });
 
 test('#event.onChange calls props.onChange()', () => {
