@@ -6,37 +6,55 @@ import withRipple from '@material/react-ripple';
 
 export class Fab extends React.Component {
 
-  state = {
-    classList: new Set(),
-  };
-
   get classes() {
-    const {classList} = this.state;
     const {
       mini,
+      textLabel,
       className,
     } = this.props;
 
-    return classnames('mdc-fab', Array.from(classList), className, {
+    const extended = textLabel.length > 0;
+
+    return classnames('mdc-fab', className, {
       'mdc-fab--mini': mini,
+      'mdc-fab--extended': extended,
     });
   }
 
-  addIconClassToAllChildren = () => {
-    return React.Children.map(this.props.children, (item) => {
-      const className = `${item.props.className} mdc-fab__icon`;
-      const props = Object.assign({}, item.props, {className});
-      return React.cloneElement(item, props);
-    });
-  };
+  renderIcon() {
+    const {icon} = this.props;
+
+    if (!icon) {
+      return;
+    }
+
+    const updatedProps = {
+      className: classnames('mdc-fab__icon', icon.props.className),
+    };
+    return React.cloneElement(icon, updatedProps);
+  }
+
+  renderTextLabel() {
+    const {textLabel} = this.props;
+
+    if (textLabel.length === 0) {
+      return;
+    }
+
+    return (
+      <span className='mdc-fab__label'>
+        {textLabel}
+      </span>
+    );
+  }
 
   render() {
     const {
       /* eslint-disable */
-      children,
       className,
       unbounded,
       mini,
+      textLabel,
       /* eslint-enable */
       initRipple,
       ...otherProps
@@ -47,7 +65,8 @@ export class Fab extends React.Component {
           className={this.classes}
           ref={initRipple}
           {...otherProps}>
-          {this.addIconClassToAllChildren()}
+          {this.renderIcon()}
+          {this.renderTextLabel()}
         </button>
     );
   }
@@ -55,16 +74,16 @@ export class Fab extends React.Component {
 
 Fab.propTypes = {
   mini: PropTypes.bool,
+  icon: PropTypes.element,
+  textLabel: PropTypes.string,
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element,
-  ]).isRequired,
   initRipple: PropTypes.func,
 };
 
 Fab.defaultProps = {
   mini: false,
+  icon: null,
+  textLabel: '',
   className: '',
   initRipple: () => {},
 };
