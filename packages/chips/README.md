@@ -133,13 +133,16 @@ class MyInputChips extends React.Component {
   addChip(label) {
     const id = this.state.nextId;
     const newChip = {label, id};
-    const chips = [...this.state.chips];
+
+    // Create a new chips array to ensure that a re-render occurs.
+    // See: https://reactjs.org/docs/state-and-lifecycle.html#do-not-modify-state-directly
+    const chips = [...this.state.chips]; 
     chips.push(newChip);
     this.setState({chips, nextId: id + 1});
   }
 
   handleKeyDown = (e) => {
-    if (e.key === 'Enter') && e.target.value) {
+    if (e.key === 'Enter' && e.target.value) {
       this.addChip(e.target.value);
       e.target.value = '';
     }
