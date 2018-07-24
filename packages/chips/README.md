@@ -142,6 +142,7 @@ class MyInputChips extends React.Component {
   }
 
   handleKeyDown = (e) => {
+    // If you have a more complex input element or component, you may want to store the value in the state.
     if (e.key === 'Enter' && e.target.value) {
       this.addChip(e.target.value);
       e.target.value = '';
