@@ -1,5 +1,4 @@
-import {ChipBase} from './Chip';
-import Chip from './Chip';
+import Chip, {ChipBase} from './Chip';
 import ChipCheckmark from './ChipCheckmark';
 import ChipSet from './ChipSet';
 
