@@ -15,12 +15,6 @@ export default class ChipSet extends Component {
     });
   }
 
-  get adapter() {
-    return {
-      hasClass: (className) => this.classes.split(' ').includes(className),
-    };
-  }
-
   setCheckmarkWidth = (checkmark) => {
     if (!!this.checkmarkWidth_) {
       return;
@@ -55,11 +49,13 @@ export default class ChipSet extends Component {
 ChipSet.propTypes = {
   className: PropTypes.string,
   filter: PropTypes.bool,
+  input: PropTypes.bool,
   children: PropTypes.node,
 };
 
 ChipSet.defaultProps = {
   className: '',
   filter: false,
+  input: false,
   children: null,
 };

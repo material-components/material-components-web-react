@@ -4,7 +4,7 @@ import {shallow} from 'enzyme';
 import td from 'testdouble';
 import {ChipBase as Chip, ChipCheckmark} from '../../../packages/chips';
 
-suite.only('Chip');
+suite('Chip');
 
 test('creates foundation', () => {
   const wrapper = shallow(<Chip />);

@@ -32,8 +32,4 @@ test('selected filter chip renders checkmark', () => {
   assert.exists(wrapper.find('.mdc-chip__checkmark'));
 });
 
-test('#adapter.hasClass returns true if class was added in className prop', () => {
-  const wrapper = shallow(<ChipSet className='test-class-name' labels={[]} />);
-  assert.isTrue(wrapper.instance().adapter.hasClass('test-class-name'));
-  assert.isTrue(wrapper.instance().adapter.hasClass('mdc-chip-set'));
-});
+
