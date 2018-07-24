@@ -21,6 +21,22 @@ test('has correct mini class', () => {
   assert.isTrue(wrapper.find('button').hasClass('mdc-fab--mini'));
 });
 
+test('has correct extended class', () => {
+  const icon = <i className='test-action-icon-1'></i>;
+  const wrapper = mount(
+    <Fab icon={icon} textLabel='Text Label'/>
+  );
+  assert.isTrue(wrapper.find('button').hasClass('mdc-fab--extended'));
+});
+
+test('text label is rendered', () => {
+  const icon = <i className='test-action-icon-1'></i>;
+  const wrapper = mount(
+    <Fab icon={icon} textLabel='Text Label'/>
+  );
+  assert.isTrue(wrapper.find('button').children('.mdc-fab__label').length === 1);
+});
+
 test('i tag is rendered', () => {
   const icon = <i className='test-action-icon-1'></i>;
   const wrapper = mount(
