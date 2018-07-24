@@ -73,7 +73,7 @@ export class ChipBase extends Component {
   }
 
   renderLeadingIcon = (leadingIcon) => {
-    if (!leadingIcon){
+    if (!leadingIcon) {
       return null;
     }
     const className = classnames(
@@ -87,7 +87,7 @@ export class ChipBase extends Component {
   };
 
   renderRemoveIcon = (removeIcon) => {
-    if (!removeIcon){
+    if (!removeIcon) {
       return null;
     }
     const className = classnames(
@@ -103,17 +103,19 @@ export class ChipBase extends Component {
 
   render() {
     const {
-      className, // eslint-disable-line no-unused-vars
       label,
-      handleSelect, // eslint-disable-line no-unused-vars
-      onClick, // eslint-disable-line no-unused-vars
       chipCheckmark,
       leadingIcon,
       removeIcon,
-      handleRemove, // eslint-disable-line no-unused-vars
-      computeBoundingRect, // eslint-disable-line no-unused-vars
+      /* eslint-disable no-unused-vars */
+      className,
+      onClick,
+      handleSelect,
+      handleRemove,
       initRipple,
-      unbounded, // eslint-disable-line no-unused-vars
+      unbounded,
+      computeBoundingRect,
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
 
@@ -136,6 +138,8 @@ export class ChipBase extends Component {
 
 ChipBase.propTypes = {
   label: PropTypes.string,
+  leadingIcon: PropTypes.element,
+  removeIcon: PropTypes.element,
   className: PropTypes.string,
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,
@@ -150,6 +154,8 @@ ChipBase.propTypes = {
 
 ChipBase.defaultProps = {
   label: '',
+  leadingIcon: null,
+  removeIcon: null,
   className: '',
   selected: false,
   handleSelect: () => {},

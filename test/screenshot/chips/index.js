@@ -67,7 +67,7 @@ class ContactsEntry extends React.Component {
   state = {
     chips: [
       {label: 'Jane Smith', id: 0},
-      {label: 'John Doe', id: 1}
+      {label: 'John Doe', id: 1},
     ],
     nextId: 2,
   };
@@ -94,7 +94,7 @@ class ContactsEntry extends React.Component {
 
   handleRemoveChip = (id) => {
     const chips = [...this.state.chips];
-    const index = chips.findIndex(chip => chip.id === id);
+    const index = chips.findIndex((chip) => chip.id === id);
     chips.splice(index, 1);
     this.setState({chips});
   }
