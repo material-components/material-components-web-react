@@ -31,5 +31,3 @@ test('selected filter chip renders checkmark', () => {
   );
   assert.exists(wrapper.find('.mdc-chip__checkmark'));
 });
-
-
