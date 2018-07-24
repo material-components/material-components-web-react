@@ -49,12 +49,8 @@ export class ChipBase extends Component {
       eventTargetHasClass: (target, className) => target.classList.contains(className),
       getComputedStyleValue: (propertyName) => window.getComputedStyle(this.root_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.root_.style.setProperty(propertyName, value),
-      notifyRemoval: () => this.handleRemove(),
+      notifyRemoval: () => this.props.handleRemove(),
     };
-  }
-
-  handleRemove = () => {
-    this.props.handleRemove();
   }
 
   handleClick = (e) => {
@@ -94,10 +90,10 @@ export class ChipBase extends Component {
       removeIcon.props.className,
       'mdc-chip__icon',
       'mdc-chip__icon--trailing');
-    const props = Object.assign({},
-      removeIcon.props,
-      {className},
-      {'onClick': this.handleRemoveIconClick});
+    const props = Object.assign({}, removeIcon.props, {
+      className,
+      'onClick': this.handleRemoveIconClick,
+    });
     return React.cloneElement(removeIcon, props);
   };
 
