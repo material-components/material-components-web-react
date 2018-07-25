@@ -9,14 +9,10 @@ export default class ChipSet extends Component {
   checkmarkWidth_ = 0;
 
   get classes() {
-    const {className} = this.props;
-    return classnames('mdc-chip-set', className);
-  }
-
-  get adapter() {
-    return {
-      hasClass: (className) => this.classes.split(' ').includes(className),
-    };
+    const {className, input} = this.props;
+    return classnames('mdc-chip-set', className, {
+      'mdc-chip-set--input': input,
+    });
   }
 
   setCheckmarkWidth = (checkmark) => {
@@ -53,11 +49,13 @@ export default class ChipSet extends Component {
 ChipSet.propTypes = {
   className: PropTypes.string,
   filter: PropTypes.bool,
+  input: PropTypes.bool,
   children: PropTypes.node,
 };
 
 ChipSet.defaultProps = {
   className: '',
   filter: false,
+  input: false,
   children: null,
 };

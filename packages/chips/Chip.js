@@ -4,11 +4,17 @@ import PropTypes from 'prop-types';
 import withRipple from '../ripple';
 import {MDCChipFoundation} from '@material/chips';
 
-export class Chip extends Component {
+export class ChipBase extends Component {
+  root_ = null;
   foundation_ = null;
   state = {
     classList: new Set(),
   };
+
+  init = (el) => {
+    this.root_ = el;
+    this.props.initRipple(el);
+  }
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
@@ -40,6 +46,10 @@ export class Chip extends Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
+      eventTargetHasClass: (target, className) => target.classList.contains(className),
+      getComputedStyleValue: (propertyName) => window.getComputedStyle(this.root_).getPropertyValue(propertyName),
+      setStyleProperty: (propertyName, value) => this.root_.style.setProperty(propertyName, value),
+      notifyRemoval: () => this.props.handleRemove(),
     };
   }
 
@@ -47,19 +57,61 @@ export class Chip extends Component {
     if (typeof this.props.onClick === 'function') {
       this.props.onClick(e);
     }
-    this.props.handleSelect(this.props.id);
+    this.props.handleSelect();
   }
+
+  handleRemoveIconClick = (e) => {
+    this.foundation_.trailingIconInteractionHandler_(e); // TODO: Update with public MDCChipFoundation handler.
+  }
+
+  handleTransitionEnd = (e) => {
+    this.foundation_.transitionEndHandler_(e); // TODO: Update with public MDCChipFoundation handler.
+  }
+
+  renderLeadingIcon = (leadingIcon) => {
+    if (!leadingIcon) {
+      return null;
+    }
+    const className = classnames(
+      leadingIcon.props.className,
+      'mdc-chip__icon',
+      'mdc-chip__icon--leading');
+    const props = Object.assign({},
+      leadingIcon.props,
+      {className});
+    return React.cloneElement(leadingIcon, props);
+  };
+
+  renderRemoveIcon = (removeIcon) => {
+    if (!removeIcon) {
+      return null;
+    }
+    const className = classnames(
+      removeIcon.props.className,
+      'mdc-chip__icon',
+      'mdc-chip__icon--trailing');
+    const props = Object.assign({}, removeIcon.props, {
+      className,
+      'onClick': this.handleRemoveIconClick,
+    });
+    return React.cloneElement(removeIcon, props);
+  };
 
   render() {
     const {
-      className, // eslint-disable-line no-unused-vars
       label,
-      handleSelect, // eslint-disable-line no-unused-vars
-      onClick, // eslint-disable-line no-unused-vars
       chipCheckmark,
-      computeBoundingRect, // eslint-disable-line no-unused-vars
+      leadingIcon,
+      removeIcon,
+      /* eslint-disable no-unused-vars */
+      className,
+      onClick,
+      handleSelect,
+      handleRemove,
       initRipple,
-      unbounded, // eslint-disable-line no-unused-vars
+      unbounded,
+      computeBoundingRect,
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
 
@@ -67,22 +119,27 @@ export class Chip extends Component {
       <div
         className={this.classes}
         onClick={this.handleClick}
-        ref={initRipple}
+        onTransitionEnd={this.handleTransitionEnd}
+        ref={this.init}
         {...otherProps}
       >
+        {this.renderLeadingIcon(leadingIcon)}
         {chipCheckmark}
         <div className='mdc-chip__text'>{label}</div>
+        {this.renderRemoveIcon(removeIcon)}
       </div>
     );
   }
 }
 
-Chip.propTypes = {
-  id: PropTypes.number,
+ChipBase.propTypes = {
   label: PropTypes.string,
+  leadingIcon: PropTypes.element,
+  removeIcon: PropTypes.element,
   className: PropTypes.string,
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,
+  handleRemove: PropTypes.func,
   onClick: PropTypes.func,
   // The following props are handled by withRipple and do not require defaults.
   initRipple: PropTypes.func,
@@ -91,12 +148,14 @@ Chip.propTypes = {
   computeBoundingRect: PropTypes.func,
 };
 
-Chip.defaultProps = {
-  id: -1,
+ChipBase.defaultProps = {
   label: '',
+  leadingIcon: null,
+  removeIcon: null,
   className: '',
   selected: false,
   handleSelect: () => {},
+  handleRemove: () => {},
 };
 
-export default withRipple(Chip);
+export default withRipple(ChipBase);

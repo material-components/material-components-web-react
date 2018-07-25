@@ -32,8 +32,8 @@ class MyApp extends Component {
   render() {
     return (
       <ChipSet>
-        <Chip id={0} label='Summer'/>
-        <Chip id={1} label='Winter'/>
+        <Chip label='Summer'/>
+        <Chip label='Winter'/>
       </ChipSet>
     );
   }
@@ -69,9 +69,9 @@ class MyChoiceChips extends React.Component {
   render() {
     return (
       <ChipSet>
-        <Chip selected={this.isSelected(0)} id={0} label='Small' handleSelect={this.handleSelect}/>
-        <Chip selected={this.isSelected(1)} id={1} label='Medium' handleSelect={this.handleSelect}/>
-        <Chip selected={this.isSelected(2)} id={2} label='Large' handleSelect={this.handleSelect}/>
+        <Chip label='Small' selected={this.isSelected(0)} handleSelect={() => this.handleSelect(0)}/>
+        <Chip label='Medium' selected={this.isSelected(1)} handleSelect={() => this.handleSelect(1)}/>
+        <Chip label='Large' selected={this.isSelected(2)} handleSelect={() => this.handleSelect(2)}/>
       </ChipSet>
     );
   }
@@ -105,10 +105,72 @@ class MyFilterChips extends React.Component {
   render() {
     return (
       <ChipSet filter>
-        <Chip selected={this.isSelected(0)} id={0} label='Tops' handleSelect={this.handleSelect}/>
-        <Chip selected={this.isSelected(1)} id={1} label='Bottoms' handleSelect={this.handleSelect}/>
-        <Chip selected={this.isSelected(2)} id={2} label='Shoes' handleSelect={this.handleSelect}/>
+        <Chip label='Tops' selected={this.isSelected(0)} handleSelect={() => this.handleSelect(0)}/>
+        <Chip label='Bottoms' selected={this.isSelected(1)} handleSelect={() => this.handleSelect(1)}/>
+        <Chip label='Shoes' selected={this.isSelected(2)} handleSelect={() => this.handleSelect(2)}/>
       </ChipSet>
+    );
+  }
+}
+```
+
+### Input chips
+
+Input chips are a variant of chips which enable user input by converting text into chips. Chips may be dynamically added and removed from the chip set. To define a set of chips as input chips, add the `input` prop to the `ChipSet`. To remove a chip, pass a callback to the `Chip` through the `handleRemove` prop.
+
+> _NOTE_: We recommend you store an array of chip labels and their respective IDs in the `state` to manage adding/removing chips. Do _NOT_ use the chip's index as its ID or key, because its index may change due to the addition/removal of other chips.
+
+```js
+class MyInputChips extends React.Component {
+  state = {
+    chips: [
+      {label: 'Jane Smith', id: 0},
+      {label: 'John Doe', id: 1}
+    ],
+    nextId: 2,
+  };
+
+  addChip(label) {
+    const id = this.state.nextId;
+    const newChip = {label, id};
+
+    // Create a new chips array to ensure that a re-render occurs.
+    // See: https://reactjs.org/docs/state-and-lifecycle.html#do-not-modify-state-directly
+    const chips = [...this.state.chips]; 
+    chips.push(newChip);
+    this.setState({chips, nextId: id + 1});
+  }
+
+  handleKeyDown = (e) => {
+    // If you have a more complex input, you may want to store the value in the state.
+    if (e.key === 'Enter' && e.target.value) {
+      this.addChip(e.target.value);
+      e.target.value = '';
+    }
+  }
+
+  handleRemoveChip = (id) => {
+    const chips = [...this.state.chips];
+    const index = chips.findIndex(chip => chip.id === id);
+    chips.splice(index, 1);
+    this.setState({chips});
+  }
+
+  render() {
+    return (
+      <div>
+        <input type="text" onKeyDown={this.handleKeyDown} />
+        <ChipSet input>
+          {this.state.chips.map((chip) =>
+            <Chip
+              key={chip.id} // The chip's key cannot be its index, because its index may change.
+              label={chip.label}
+              removeIcon={<MaterialIcon icon='cancel' />}
+              handleRemove={() => this.handleRemoveChip(chip.id)}
+            />
+          )}
+        </ChipSet>
+      </div>
     );
   }
 }
@@ -122,17 +184,19 @@ Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the chip set element
 filter | Boolean | Indicates that the chips in the set are filter chips, which allow multiple selection from a set of options
-
+input | Boolean | Indicates that the chips in the set are input chips, which allow dynamic adding/removing of chips
 
 ### Chip
 
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the chip element
-id | Number | Unique identifier for the chip
 label | String | Text to be shown on the chip
+leadingIcon | Element | An icon element that appears as the leading icon.
+removeIcon | Element | An icon element that appears as the remove icon. Clicking on it should remove the chip.
 selected | Boolean | Indicates whether the chip is selected
-handleSelect | Function(id: number) => void | Callback to call when the chip with the given id is selected
+handleSelect | Function() => void | Callback for selecting the chip
+handleRemove | Function() => void | Callback for removing the chip
 
 ## Sass Mixins
 
