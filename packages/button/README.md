@@ -49,7 +49,7 @@ outlined | Boolean | Enables outlined variant.
 icon | Element | Icon to render within root element.
 children | String | Text to be displayed within root element.
 disabled | Boolean | Disables button if true.
-href | String | Sets a hyperlink & converts the button into an anchor tag.
+href | String | Sets a hyperlink & uses anchor tag instead of a button.
 
 ## Sass Mixins
 
