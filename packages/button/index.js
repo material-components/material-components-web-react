@@ -23,7 +23,7 @@ export class Button extends Component {
       'mdc-button--outlined': outlined,
     });
 
-    const SemanticButton = props.href ? 'a' : 'button';
+    const SemanticButton = this.props.href ? 'a' : 'button';
 
     return (
       <SemanticButton
