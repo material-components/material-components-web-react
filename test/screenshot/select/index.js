@@ -27,7 +27,7 @@ class SelectTest extends React.Component {
           onChange={(evt) => this.setState({value: evt.target.value})}
           value={this.state.value}
         >
-          <option value="" disabled></option>
+          <option value='' disabled></option>
           <option value='labradoodle'>Labradoodle</option>
           <option value='pomsky'>Pomsky</option>
           <option value='aussiepom'>Aussiepom</option>

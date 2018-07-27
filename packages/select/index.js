@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCSelectFoundation} from '@material/select';
+import {MDCSelectFoundation} from './temp';//'@material/select';
 
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
@@ -40,9 +40,11 @@ export default class Select extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
-      // This react component doesn't keep track of selectedIndex
-      // but this is the only public foundation method that floats the label
-      this.foundation_.setValue(this.state.value);
+      this.foundation_.handleChange();
+    }
+    // this is mainly to layout if dir='rtl' / vice versa
+    if (this.props.layout !== prevProps.layout) {
+      this.foundation_.notchOutline(this.state.value.length > 0);
     }
   }
 
@@ -79,9 +81,6 @@ export default class Select extends React.Component {
       hasClass: (className) => this.classes.split(' ').includes(className),
       isRtl: this.getIsRtl,
       getValue: (value) => this.state.value,
-      // setValue, getSelectedIndex, setSelectedIndex aren't needed
-      // since end dev should change value
-      // and selectedindex themselves
     };
 
     const labelAdapter = {
@@ -143,6 +142,7 @@ export default class Select extends React.Component {
       floatingLabelClassName,
       lineRippleClassName,
       notchedOutlineClassName,
+      layout,
       /* eslint-enable */
       ...otherProps
     } = this.props;
@@ -232,6 +232,7 @@ Select.propTypes = {
   floatingLabelClassName: PropTypes.string,
   id: PropTypes.string,
   label: PropTypes.string.isRequired,
+  layout: PropTypes.bool,
   lineRippleClassName: PropTypes.string,
   nativeControlClassName: PropTypes.string,
   notchedOutlineClassName: PropTypes.string,
@@ -248,6 +249,7 @@ Select.defaultProps = {
   disabled: false,
   floatingLabelClassName: '',
   id: null,
+  layout: false,
   lineRippleClassName: '',
   nativeControlClassName: '',
   notchedOutlineClassName: '',

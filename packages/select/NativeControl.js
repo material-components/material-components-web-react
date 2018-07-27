@@ -11,9 +11,8 @@ export default class NativeControl extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.disabled !== prevProps.disabled) {
-      const {disabled} = this.props;
-      this.props.setDisabled(disabled);
-      this.props.foundation.setDisabled(disabled);
+      const {disabled, setDisabled} = this.props;
+      setDisabled(disabled);
     }
 
     if (this.props.value !== prevProps.value) {
@@ -27,21 +26,19 @@ export default class NativeControl extends React.Component {
 
   handleFocus = (e) => {
     const {foundation, onFocus} = this.props;
-    foundation.focusHandler_(e);
+    foundation.handleFocus(e);
     onFocus(e);
   }
 
   handleBlur = (e) => {
     const {foundation, onBlur} = this.props;
-    foundation.blurHandler_(e);
+    foundation.handleBlur(e);
     onBlur(e);
   }
 
   handleChange = (e) => {
     const {foundation, handleValueChange, onChange} = this.props;
     const {value} = e.target;
-
-    foundation.selectionHandler_(e);
     handleValueChange(value);
     onChange(e);
   }
@@ -85,10 +82,8 @@ NativeControl.propTypes = {
   disabled: PropTypes.bool,
   handleValueChange: PropTypes.func,
   foundation: PropTypes.shape({
-    setDisabled: PropTypes.func,
-    focusHandler_: PropTypes.func,
-    blurHandler_: PropTypes.func,
-    selectionHandler_: PropTypes.func,
+    handleFocus: PropTypes.func,
+    handleBlur: PropTypes.func,
   }),
   id: PropTypes.string,
   onBlur: PropTypes.func,
@@ -106,10 +101,8 @@ NativeControl.defaultProps = {
   children: null,
   disabled: false,
   foundation: {
-    setDisabled: () => {},
-    focusHandler_: () => {},
-    blurHandler_: () => {},
-    selectionHandler_: () => {},
+    handleFocus: () => {},
+    handleBlur: () => {},
   },
   handleValueChange: () => {},
   id: null,

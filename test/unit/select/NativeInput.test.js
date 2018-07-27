@@ -42,13 +42,6 @@ test('calls props.setDisabled if props.disabled updates', () => {
   td.verify(setDisabled(true), {times: 1});
 });
 
-test('calls props.foundation.setDisabled if props.disabled updates', () => {
-  const foundation = {setDisabled: td.func()};
-  const wrapper = shallow(<NativeControl foundation={foundation} />);
-  wrapper.setProps({disabled: true});
-  td.verify(foundation.setDisabled(true), {times: 1});
-});
-
 test('calls props.handleValueChange if props.value updates', () => {
   const handleValueChange = td.func();
   const wrapper = shallow(<NativeControl handleValueChange={handleValueChange} />);
@@ -57,12 +50,12 @@ test('calls props.handleValueChange if props.value updates', () => {
   td.verify(handleValueChange(value), {times: 1});
 });
 
-test('#event.focus calls #foundation.focusHandler_', () => {
-  const foundation = {focusHandler_: td.func()};
+test('#event.focus calls #foundation.handleFocus', () => {
+  const foundation = {handleFocus: td.func()};
   const wrapper = shallow(<NativeControl foundation={foundation} />);
   const evt = {test: 'test'};
   wrapper.simulate('focus', evt);
-  td.verify(foundation.focusHandler_(evt), {times: 1});
+  td.verify(foundation.handleFocus(evt), {times: 1});
 });
 
 test('#event.focus calls #props.onFocus', () => {
@@ -73,12 +66,12 @@ test('#event.focus calls #props.onFocus', () => {
   td.verify(onFocus(evt), {times: 1});
 });
 
-test('#event.blur calls #foundation.blurHandler_', () => {
-  const foundation = {blurHandler_: td.func()};
+test('#event.blur calls #foundation.handleBlur', () => {
+  const foundation = {handleBlur: td.func()};
   const wrapper = shallow(<NativeControl foundation={foundation} />);
   const evt = {test: 'test'};
   wrapper.simulate('blur', evt);
-  td.verify(foundation.blurHandler_(evt), {times: 1});
+  td.verify(foundation.handleBlur(evt), {times: 1});
 });
 
 test('#event.blur calls #props.onBlur', () => {
@@ -89,14 +82,6 @@ test('#event.blur calls #props.onBlur', () => {
   td.verify(onBlur(evt), {times: 1});
 });
 
-test('#event.change calls #foundation.selectionHandler_', () => {
-  const foundation = {selectionHandler_: td.func()};
-  const wrapper = shallow(<NativeControl foundation={foundation} />);
-  const evt = {test: 'test', target: {value: 'value'}};
-  wrapper.simulate('change', evt);
-  td.verify(foundation.selectionHandler_(evt), {times: 1});
-});
-
 test('#event.change calls #props.handleValueChange', () => {
   const handleValueChange = td.func();
   const wrapper = shallow(<NativeControl handleValueChange={handleValueChange} />);
@@ -105,7 +90,7 @@ test('#event.change calls #props.handleValueChange', () => {
   td.verify(handleValueChange(evt.target.value), {times: 1});
 });
 
-test('#event.change calls #props.handleValueChange', () => {
+test('#event.change calls #props.onChange', () => {
   const onChange = td.func();
   const wrapper = shallow(<NativeControl onChange={onChange} />);
   const evt = {test: 'test', target: {value: 'value'}};

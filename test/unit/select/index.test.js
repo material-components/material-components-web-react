@@ -28,12 +28,12 @@ test('creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('#foundation_setValue gets called when state.value updates', () => {
+test('#foundation_.handleChange gets called when state.value updates', () => {
   const wrapper = shallow(<Select label='my label' />);
-  wrapper.instance().foundation_.setValue = td.func();
+  wrapper.instance().foundation_.handleChange = td.func();
   const value = 'value';
   wrapper.setState({value});
-  td.verify(wrapper.instance().foundation_.setValue(value), {times: 1});
+  td.verify(wrapper.instance().foundation_.handleChange(), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {
@@ -172,12 +172,14 @@ test('#adapter.hasOutline returns false if props.outlined is false', () => {
 
 test('renders notchedOutline if props.outlined is true', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
-  assert.equal(wrapper.childAt(2).type(), NotchedOutline);
+  const NotchedOutlinePackage = require('../../../packages/notched-outline');
+  assert.equal(wrapper.childAt(2).type(), NotchedOutlinePackage.default);
 });
 
 test('renders lineRipple if props.outlined is false', () => {
   const wrapper = shallow(<Select label='my label' />);
-  assert.equal(wrapper.childAt(2).type(), LineRipple);
+  const LineRipplePackage = require('../../../packages/line-ripple');
+  assert.equal(wrapper.childAt(2).type(), LineRipplePackage.default);
 });
 
 test('renders NativeControl for select', () => {
@@ -187,7 +189,8 @@ test('renders NativeControl for select', () => {
 
 test('renders FloatingLabel after NativeControl', () => {
   const wrapper = shallow(<Select label='my label' />);
-  assert.equal(wrapper.childAt(1).type(), FloatingLabel);
+  const FloatingLabelPackage = require('../../../packages/floating-label');
+  assert.equal(wrapper.childAt(1).type(), FloatingLabelPackage.default);
 });
 
 test('passes classNames to NativeControl through props.nativeControlClassName', () => {
