@@ -215,11 +215,13 @@ class TextField extends React.Component {
       leadingIcon,
       trailingIcon,
       textarea,
+      style,
     } = this.props;
 
     const textField = (
       <div
         className={this.classes}
+        style={style}
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         key='text-field-container'
@@ -317,6 +319,7 @@ TextField.propTypes = {
   'children.props': PropTypes.shape(Input.propTypes),
   'children': PropTypes.element,
   'className': PropTypes.string,
+  'style': PropTypes.object,
   'dense': PropTypes.bool,
   'floatingLabelClassName': PropTypes.string,
   'fullWidth': PropTypes.bool,
@@ -333,6 +336,7 @@ TextField.propTypes = {
 TextField.defaultProps = {
   box: false,
   className: '',
+  style: {},
   dense: false,
   floatingLabelClassName: '',
   fullWidth: false,
