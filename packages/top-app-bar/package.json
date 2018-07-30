@@ -12,7 +12,7 @@
     "topappbar"
   ],
   "dependencies": {
-    "@material/top-app-bar": "^0.37.0",
+    "@material/top-app-bar": "^0.38.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"
