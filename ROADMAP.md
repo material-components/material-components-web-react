@@ -10,12 +10,13 @@ We release a new version of MDC React every 2 weeks. We try and keep MDC React w
 
 ### 0.5.0 - August 2018
 - Depend on MDC Web 0.38.x
-- New chips
 - New select
 - New tabs
 - New switch
 
 ### 0.6.0 - September 2018
 - Depend on MDC Web 0.39.x
+- New chips
 - New navigation drawer
 - New menu
+- New icon button
