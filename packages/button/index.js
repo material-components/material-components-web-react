@@ -23,15 +23,17 @@ export class Button extends Component {
       'mdc-button--outlined': outlined,
     });
 
+    const SemanticButton = this.props.href ? 'a' : 'button';
+
     return (
-      <button
+      <SemanticButton
         className={classes}
         ref={initRipple}
         {...otherProps}
       >
         {icon ? this.renderIcon() : null}
         {children}
-      </button>
+      </SemanticButton>
     );
   }
 
@@ -57,6 +59,7 @@ Button.propTypes = {
   initRipple: PropTypes.func,
   className: PropTypes.string,
   icon: PropTypes.element,
+  href: PropTypes.string,
   children: PropTypes.string,
 };
 

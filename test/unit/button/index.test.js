@@ -38,6 +38,16 @@ test('renders an outlined button', () => {
   assert.isTrue(wrapper.hasClass('mdc-button--outlined'));
 });
 
+test('renders a button tag', () => {
+  const wrapper = shallow(<Button />);
+  assert.equal(wrapper.type(), 'button');
+});
+
+test('renders a button with an anchor tag', () => {
+  const wrapper = shallow(<Button href="https://www.google.com" />);
+  assert.equal(wrapper.type(), 'a');
+});
+
 test('default initRipple function', () => {
   Button.defaultProps.initRipple = td.func();
   mount(<Button />);

@@ -1,6 +1,6 @@
 {
   "name": "@material/react-fab",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Material Components React Floating Action Button (FAB)",
   "license": "Apache-2.0",
   "main": "dist/index.js",
@@ -16,8 +16,8 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/fab": "^0.37.0",
-    "@material/react-ripple": "^0.3.0",
+    "@material/fab": "^0.38.0",
+    "@material/react-ripple": "^0.4.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"

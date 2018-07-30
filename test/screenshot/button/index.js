@@ -4,7 +4,7 @@ import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/button/index.scss';
 import './index.scss';
 
-import Button from '../../../packages/button';
+import Button from '../../../packages/button/index';
 const svgIcon = (<svg
   width="24px" height="24px"
   xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +37,10 @@ ReactDOM.render((
 
     <div className='button-container'>
       <Button disabled raised>Disabled Raised</Button>
+    </div>
+
+    <div className='button-container'>
+      <Button href='https://google.com' raised>Anchor Tag</Button>
     </div>
 
     <div className='button-container'>

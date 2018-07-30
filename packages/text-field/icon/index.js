@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCTextFieldIconFoundation} from '@material/textfield';
+import {MDCTextFieldIconFoundation} from '@material/textfield/dist/mdc.textfield';
 
 export default class Icon extends React.Component {
 
