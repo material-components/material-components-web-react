@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import {MDCLineRippleFoundation} from '@material/line-ripple';
+import {MDCLineRippleFoundation} from '@material/line-ripple/dist/mdc.lineRipple';
 
 export default class LineRipple extends Component {
 

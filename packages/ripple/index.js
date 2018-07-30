@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import {MDCRippleFoundation, util} from '@material/ripple';
+import {MDCRippleFoundation, util} from '@material/ripple/dist/mdc.ripple';
 
 const withRipple = (WrappedComponent) => {
   class RippledComponent extends Component {
