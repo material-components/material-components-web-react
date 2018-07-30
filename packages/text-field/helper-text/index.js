@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
+import {MDCTextFieldHelperTextFoundation} from '@material/textfield/dist/mdc.textfield';
 
 export default class HelperText extends React.Component {
 
