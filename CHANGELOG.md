@@ -1,7 +1,36 @@
-# Change Log
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/material-components/material-components-web-react/compare/v0.3.0...v0.4.0) (2018-07-30)
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+### Bug Fixes
+
+* **infrastructure:** updated deploy steps to run with docker ([#116](https://github.com/material-components/material-components-web-react/issues/116)) ([a53fc7d](https://github.com/material-components/material-components-web-react/commit/a53fc7d))
+* downgraded to es2015 preset to work on ie11 ([#133](https://github.com/material-components/material-components-web-react/issues/133)) ([05c0184](https://github.com/material-components/material-components-web-react/commit/05c0184))
+* **material-icon:** removed blocking line and updated documentation ([#155](https://github.com/material-components/material-components-web-react/issues/155)) ([8f3cef5](https://github.com/material-components/material-components-web-react/commit/8f3cef5))
+* **ripple:** setState warning when unmounting the component ([#112](https://github.com/material-components/material-components-web-react/issues/112)) ([841a1c8](https://github.com/material-components/material-components-web-react/commit/841a1c8))
+* **text-field:** move handleValueChange call when this.props.value updates ([#170](https://github.com/material-components/material-components-web-react/issues/170)) ([f46a34d](https://github.com/material-components/material-components-web-react/commit/f46a34d))
+* **top-app-bar:** add material icon imports in screenshot tests ([#168](https://github.com/material-components/material-components-web-react/issues/168)) ([526400b](https://github.com/material-components/material-components-web-react/commit/526400b))
+* point packages to MDC Web /dist ES5 files ([#182](https://github.com/material-components/material-components-web-react/issues/182)) ([9d387d3](https://github.com/material-components/material-components-web-react/commit/9d387d3))
+
+
+### Chores
+
+* **fab:** Pass icon as a prop, not a child element ([#159](https://github.com/material-components/material-components-web-react/issues/159)) ([1569f97](https://github.com/material-components/material-components-web-react/commit/1569f97))
+
+
+### Features
+
+* **button:** Add an href prop to use anchor tag instead of button ([#174](https://github.com/material-components/material-components-web-react/issues/174)) ([0df9967](https://github.com/material-components/material-components-web-react/commit/0df9967))
+* **chips:** Add new component ([#117](https://github.com/material-components/material-components-web-react/issues/117)) ([410da30](https://github.com/material-components/material-components-web-react/commit/410da30))
+* **chips:** Add selection to chips ([#121](https://github.com/material-components/material-components-web-react/issues/121)) ([3ef1123](https://github.com/material-components/material-components-web-react/commit/3ef1123))
+* **ripple:** Call focus/blur handlers from foundation ([#135](https://github.com/material-components/material-components-web-react/issues/135)) ([c438333](https://github.com/material-components/material-components-web-react/commit/c438333))
+
+
+### BREAKING CHANGES
+
+* **fab:** Please update your FAB to pass icon as a prop, not as a child element.
+* **chips:** Users should render `Chip` components directly instead of passing a `labels` prop to `ChipSet`.
+
+
 
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/material-components/material-components-web-react/compare/v0.2.0...v0.3.0) (2018-06-25)
@@ -16,7 +45,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **text-field:** Added SASS importer to lookup the package folder first then fallback to default npm resolve. ([bf7f849](https://github.com/material-components/material-components-web-react/commit/bf7f849))
 * **text-field:** Added text-field to valid commit msg list ([3922e2c](https://github.com/material-components/material-components-web-react/commit/3922e2c))
 * **text-field:** Updated Input.js to use new public API of foundation ([df0b5ed](https://github.com/material-components/material-components-web-react/commit/df0b5ed))
-* **text-field:** Used new public API handleValidationAttributeChange to handle attribute changes ([#64](https://github.com/material-components/material-components-web-react/issues/64)) ([f421637](https://github.com/material-components/material-components-web-react/commit/f421637))
 
 
 ### Features
@@ -25,7 +53,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * updated all packages to 0.36.0 ([#104](https://github.com/material-components/material-components-web-react/issues/104)) ([a1d8b66](https://github.com/material-components/material-components-web-react/commit/a1d8b66))
 * **infrastructure:** add .npmignores to packages ([#110](https://github.com/material-components/material-components-web-react/issues/110)) ([ab7009d](https://github.com/material-components/material-components-web-react/commit/ab7009d))
 * **infrastructure:** default npm entry point to ES5 ([#108](https://github.com/material-components/material-components-web-react/issues/108)) ([1f0446f](https://github.com/material-components/material-components-web-react/commit/1f0446f))
-
 
 
 
@@ -46,5 +73,36 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 * **top-app-bar:** Add top app bar fixed variant ([#68](https://github.com/material-components/material-components-web-react/issues/68)) ([fd5790c](https://github.com/material-components/material-components-web-react/commit/fd5790c))
 * Added changelog.md ([#88](https://github.com/material-components/material-components-web-react/issues/88)) ([983ca89](https://github.com/material-components/material-components-web-react/commit/983ca89))
-* Update MDC Web dependencies to v0.35.1 ([#52](https://github.com/material-components/material-components-web-react/pull/52))([203cf34](https://github.com/material-components/material-components-web-react/commit/203cf34))
-* transpile es6 --> es5 and sass --> css ([#46](https://github.com/material-components/material-components-web-react/pull/46))([a45c75a](https://github.com/material-components/material-components-web-react/commit/a45c75a))
+
+
+
+<a name="0.1.0"></a>
+# [0.1.0](https://github.com/material-components/material-components-web-react/compare/5fd6d86...v0.1.0) (2018-05-09)
+
+
+### Bug Fixes
+
+* **button:** Update package.json ([507298e](https://github.com/material-components/material-components-web-react/commit/507298e))
+* **card:** Update package.json ([fc7a4dd](https://github.com/material-components/material-components-web-react/commit/fc7a4dd))
+* **fab:** Update package.json ([efd4703](https://github.com/material-components/material-components-web-react/commit/efd4703))
+* **floating-label:** Update package.json ([92cbf2c](https://github.com/material-components/material-components-web-react/commit/92cbf2c))
+* **line-ripple:** Update package.json ([b6fc89c](https://github.com/material-components/material-components-web-react/commit/b6fc89c))
+* **material-icon:** Update package.json ([18e2508](https://github.com/material-components/material-components-web-react/commit/18e2508))
+* **notched-outline:** Update package.json ([8b18779](https://github.com/material-components/material-components-web-react/commit/8b18779))
+* **ripple:** Update package.json ([044c308](https://github.com/material-components/material-components-web-react/commit/044c308))
+* **text-field:** Update package.json ([fda82fb](https://github.com/material-components/material-components-web-react/commit/fda82fb))
+* **top-app-bar:** Update package.json ([06e9d66](https://github.com/material-components/material-components-web-react/commit/06e9d66))
+
+
+### Features
+
+* remote hosted screenshot testing ([#12](https://github.com/material-components/material-components-web-react/issues/12)) ([98bcdfe](https://github.com/material-components/material-components-web-react/commit/98bcdfe))
+* screenshot testing ([#10](https://github.com/material-components/material-components-web-react/issues/10)) ([5fd6d86](https://github.com/material-components/material-components-web-react/commit/5fd6d86))
+* **fab:** Add new tests for svg/img ([1f536b7](https://github.com/material-components/material-components-web-react/commit/1f536b7))
+* **fab:** Change node to element. ([2b4960e](https://github.com/material-components/material-components-web-react/commit/2b4960e))
+* **fab:** Remove empty fab from test. Add waitUntil idle to wait until the stylesheets finish ([43e58d4](https://github.com/material-components/material-components-web-react/commit/43e58d4))
+* **fab:** Update class name ([96c2d61](https://github.com/material-components/material-components-web-react/commit/96c2d61))
+* **fab:** Update for comments ([9b041d6](https://github.com/material-components/material-components-web-react/commit/9b041d6))
+* **fab:** Update for comments ([676ae32](https://github.com/material-components/material-components-web-react/commit/676ae32))
+* **fab:** Update for lint ([3748f31](https://github.com/material-components/material-components-web-react/commit/3748f31))
+* **fab:** Update package name ([02b7140](https://github.com/material-components/material-components-web-react/commit/02b7140))
