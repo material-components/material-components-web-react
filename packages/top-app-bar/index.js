@@ -5,7 +5,7 @@ import {
   MDCFixedTopAppBarFoundation,
   MDCTopAppBarFoundation,
   MDCShortTopAppBarFoundation,
-} from '@material/top-app-bar';
+} from '@material/top-app-bar/dist/mdc.topAppBar';
 
 export default class TopAppBar extends React.Component {
 
