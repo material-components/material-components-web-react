@@ -34,4 +34,4 @@ class MyApp extends React.Component {
 ## Methods
 
 Method Name | Description
-isElementRtl(element: Element) => Boolean | Returns true if a parent element of the `element` argument has the attribute `dir='rtl'`. Returns false if `element` is undefined/null
+isElementRtl(element: Element) => Boolean | Returns true if a parent element of the `element` argument has the attribute `dir='rtl'`. Returns false if `element` is undefined/null.
