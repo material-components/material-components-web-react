@@ -1,34 +1,21 @@
-# React Select
+# Bidirection
 
-MDC React Select is component for MDC Select. Please see [MDC Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/).
+MDC Bidirection is a group of methods to give bidirectional support to components.
 
 ## Installation
 
 ```
-npm install @material/react-select
+npm install @material/bidirection
 ```
 
 ## Usage
 
-### Styles
-
-with Sass:
-```js
-import '@material/react-select/index.scss';
-```
-
-with CSS:
-```js
-import '@material/react-select/dist/select.css';
-```
-
 ### Javascript Instantiation
-
-React Select requires at least one `<option>` element as a child and a label prop.
 
 ```js
 import React from 'react';
-import Select from '@material/react-select';
+import Button from '@material/react-button';
+import Button from '@material/react-button';
 
 class MyApp extends React.Component {
   state = {value: 'pomsky'};
@@ -92,7 +79,6 @@ disabled | Boolean | Disables the select.
 floatingLabelClassName | String | An optional class added to the floating label element.
 id | String | Id of the select element.
 label | String | Mandatory. Label text that appears as the floating label.
-isRtl | Boolean | If toggle from false to true or vice-versa, it will recalculate the notched outline element to the appropriate width and positioning.
 lineRippleClassName | String | An optional class added to the line ripple element.
 nativeControlClassName | String | An optional class added to the native `<select>` element.
 notchedOutlineClassName | String | An optional class added to the notched outline element. Only applied if `props.outlined` is enabled.

@@ -5,7 +5,7 @@ import classnames from 'classnames';
 export default class NativeControl extends React.Component {
 
   componentDidMount() {
-    this.props.handleValueChange(this.props.value);
+    this.props.syncSelectValue(this.props.value);
     this.props.setDisabled(this.props.disabled);
   }
 
@@ -16,7 +16,7 @@ export default class NativeControl extends React.Component {
     }
 
     if (this.props.value !== prevProps.value) {
-      this.props.handleValueChange(this.props.value);
+      this.props.syncSelectValue(this.props.value);
     }
   }
 
@@ -37,9 +37,9 @@ export default class NativeControl extends React.Component {
   }
 
   handleChange = (e) => {
-    const {foundation, handleValueChange, onChange} = this.props;
+    const {syncSelectValue, onChange} = this.props;
     const {value} = e.target;
-    handleValueChange(value);
+    syncSelectValue(value);
     onChange(e);
   }
 
@@ -51,7 +51,7 @@ export default class NativeControl extends React.Component {
       children,
       foundation,
       value,
-      handleValueChange,
+      syncSelectValue,
       setDisabled,
       onFocus,
       onBlur,
@@ -80,7 +80,7 @@ NativeControl.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   disabled: PropTypes.bool,
-  handleValueChange: PropTypes.func,
+  syncSelectValue: PropTypes.func,
   foundation: PropTypes.shape({
     handleFocus: PropTypes.func,
     handleBlur: PropTypes.func,
@@ -104,7 +104,7 @@ NativeControl.defaultProps = {
     handleFocus: () => {},
     handleBlur: () => {},
   },
-  handleValueChange: () => {},
+  syncSelectValue: () => {},
   id: null,
   onBlur: () => {},
   onChange: () => {},

@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCSelectFoundation} from './temp';//'@material/select';
+import {MDCSelectFoundation} from '@material/select';
 
+import {isElementRtl} from '@material/react-bidirection';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
 
-export default class Select extends React.Component {
+class Select extends React.Component {
 
   foundation_ = null;
   selectContainerElement_ = React.createRef();
@@ -61,7 +62,7 @@ export default class Select extends React.Component {
     const {className, box, outlined} = this.props;
     return classnames('mdc-select', Array.from(classList), className, {
       'mdc-select--outlined': outlined,
-      'mdc-select--disabled': disabled,
+      'mdc-select--disbled': disabled,
       'mdc-select--box': box,
     });
   }
@@ -79,7 +80,7 @@ export default class Select extends React.Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
-      isRtl: this.getIsRtl,
+      isRtl: () => isElementRtl(this.selectContainerElement_.current),
       getValue: (value) => this.state.value,
     };
 
@@ -108,13 +109,6 @@ export default class Select extends React.Component {
     );
   }
 
-  getIsRtl = () => {
-    if (this.selectContainerElement_.current) {
-      const dir = window.getComputedStyle(this.selectContainerElement_.current).getPropertyValue('direction');
-      return dir === 'rtl';
-    }
-  }
-
   /**
   * render methods
   */
@@ -126,7 +120,7 @@ export default class Select extends React.Component {
         ref={this.selectContainerElement_}
       >
         {this.renderSelect()}
-        {this.renderWithLabel()}
+        {this.renderLabel()}
         {this.props.outlined ? this.renderNotchedOutline() : this.renderLineRipple()}
       </div>
     );
@@ -138,11 +132,11 @@ export default class Select extends React.Component {
       /* eslint-disable */
       box,
       className,
-      outlined,
       floatingLabelClassName,
+      layout,
       lineRippleClassName,
       notchedOutlineClassName,
-      layout,
+      outlined,
       /* eslint-enable */
       ...otherProps
     } = this.props;
@@ -151,7 +145,7 @@ export default class Select extends React.Component {
       <NativeControl
         className={nativeControlClassName}
         foundation={this.foundation_}
-        handleValueChange={(value) => this.setState({value})}
+        syncSelectValue={(value) => this.setState({value})}
         setDisabled={(disabled) => this.setState({disabled})}
         {...otherProps}
       >
@@ -181,7 +175,7 @@ export default class Select extends React.Component {
     });
   }
 
-  renderWithLabel(selectContainer) {
+  renderLabel(selectContainer) {
     const {id, label, floatingLabelClassName} = this.props;
     return (
       <FloatingLabel
@@ -213,7 +207,7 @@ export default class Select extends React.Component {
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={this.getIsRtl()}
+        isRtl={isElementRtl(this.selectContainerElement_.current)}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
       />
@@ -230,6 +224,7 @@ Select.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   floatingLabelClassName: PropTypes.string,
+  layout: PropTypes.bool,
   id: PropTypes.string,
   label: PropTypes.string.isRequired,
   layout: PropTypes.bool,
@@ -256,3 +251,5 @@ Select.defaultProps = {
   outlined: false,
   options: [],
 };
+
+export default Select;
