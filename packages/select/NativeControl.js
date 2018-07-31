@@ -11,8 +11,7 @@ export default class NativeControl extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.disabled !== prevProps.disabled) {
-      const {disabled, setDisabled} = this.props;
-      setDisabled(disabled);
+      this.props.setDisabled(this.props.disabled);
     }
 
     if (this.props.value !== prevProps.value) {

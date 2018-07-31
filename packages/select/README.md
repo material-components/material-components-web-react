@@ -90,7 +90,7 @@ children | Array{Element}/Element | Array of `<option>` elements or a single `<o
 className | String | An optional class added to the `.mdc-select` element.
 disabled | Boolean | Disables the select.
 floatingLabelClassName | String | An optional class added to the floating label element.
-id | String | Id of the select element.
+id | String | Id of the `<select>` element.
 label | String | Mandatory. Label text that appears as the floating label.
 isRtl | Boolean | If toggle from false to true or vice-versa, it will recalculate the notched outline element to the appropriate width and positioning.
 lineRippleClassName | String | An optional class added to the line ripple element.
