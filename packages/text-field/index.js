@@ -85,6 +85,30 @@ class TextField extends React.Component {
     });
   }
 
+  get otherProps() {
+    const {
+      /* eslint-disable no-unused-vars */
+      box,
+      children,
+      className,
+      dense,
+      floatingLabelClassName,
+      fullWidth,
+      helperText,
+      label,
+      leadingIcon,
+      lineRippleClassName,
+      notchedOutlineClassName,
+      outlined,
+      textarea,
+      trailingIcon,
+      /* eslint-enable no-unused-vars */
+      ...otherProps
+    } = this.props;
+
+    return otherProps;
+  }
+
   get adapter() {
     const rootAdapterMethods = {
       addClass: (className) =>
@@ -215,13 +239,12 @@ class TextField extends React.Component {
       leadingIcon,
       trailingIcon,
       textarea,
-      style,
     } = this.props;
 
     const textField = (
       <div
+        {...this.otherProps}
         className={this.classes}
-        style={style}
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         key='text-field-container'
@@ -319,7 +342,6 @@ TextField.propTypes = {
   'children.props': PropTypes.shape(Input.propTypes),
   'children': PropTypes.element,
   'className': PropTypes.string,
-  'style': PropTypes.object,
   'dense': PropTypes.bool,
   'floatingLabelClassName': PropTypes.string,
   'fullWidth': PropTypes.bool,
@@ -336,7 +358,6 @@ TextField.propTypes = {
 TextField.defaultProps = {
   box: false,
   className: '',
-  style: {},
   dense: false,
   floatingLabelClassName: '',
   fullWidth: false,
