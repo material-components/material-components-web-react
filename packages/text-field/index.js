@@ -96,7 +96,7 @@ class TextField extends React.Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       isFocused: () => this.state.isFocused,
-      isRtl: this.getIsRtl,
+      isRtl: () => this.props.isRtl,
     };
 
     return Object.assign({},
@@ -182,13 +182,6 @@ class TextField extends React.Component {
         this.setState({showHelperTextToScreenReader: true}),
       setValidity: (isValid) => this.setState({isValid}),
     };
-  }
-
-  getIsRtl = () => {
-    if (this.textFieldElement.current) {
-      const dir = window.getComputedStyle(this.textFieldElement.current).getPropertyValue('direction');
-      return dir === 'rtl';
-    }
   }
 
   inputProps(props) {
@@ -283,7 +276,7 @@ class TextField extends React.Component {
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={this.getIsRtl()}
+        isRtl={this.props.isRtl}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
       />
@@ -321,6 +314,7 @@ TextField.propTypes = {
   'floatingLabelClassName': PropTypes.string,
   'fullWidth': PropTypes.bool,
   'helperText': PropTypes.element,
+  'isRtl': PropTypes.bool,
   'label': PropTypes.string.isRequired,
   'leadingIcon': PropTypes.element,
   'lineRippleClassName': PropTypes.string,
@@ -337,6 +331,7 @@ TextField.defaultProps = {
   floatingLabelClassName: '',
   fullWidth: false,
   helperText: null,
+  isRtl: false,
   leadingIcon: null,
   lineRippleClassName: '',
   notchedOutlineClassName: '',
