@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import withRipple from '../ripple';
-import {MDCChipFoundation} from '@material/chips';
+import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
 
 export class Chip extends Component {
   foundation_ = null;

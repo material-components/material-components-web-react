@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCTextFieldFoundation} from '@material/textfield';
+import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
 
 import Input from './Input';
 import Icon from './icon';
