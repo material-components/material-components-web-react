@@ -134,6 +134,12 @@ test('#adapter.deactivateBottomLine sets state.activeLineRipple to false', () =>
   assert.isFalse(wrapper.state().activeLineRipple);
 });
 
+test('#adapter.setLineRippleTransformOrigin sets state.lineRippleCenter', () => {
+  const wrapper = shallow(<Select label='my label' />);
+  wrapper.instance().foundation_.adapter_.setLineRippleTransformOrigin(123);
+  assert.equal(wrapper.state().lineRippleCenter, 123);
+});
+
 test('#adapter.notchOutline sets state.outlineIsNotched to true', () => {
   const wrapper = shallow(<Select label='my label' />);
   wrapper.instance().adapter.notchOutline();
