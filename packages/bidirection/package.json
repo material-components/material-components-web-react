@@ -1,27 +1,21 @@
 {
-  "name": "@material/react-text-field",
-  "version": "0.4.0",
-  "description": "Material Components React Text Field",
+  "name": "@material/bidirection",
+  "version": "0.0.0",
+  "description": "Material Components Bidirection",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "keywords": [
     "mdc web react",
     "material components react",
     "material design",
-    "text field",
-    "textfield"
+    "bidirection",
+    "rtl"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/bidirection": "^0.0.0",
-    "@material/react-floating-label": "^0.4.0",
-    "@material/react-line-ripple": "^0.4.0",
-    "@material/react-notched-outline": "^0.4.0",
-    "@material/textfield": "^0.38.0",
-    "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"
   },
