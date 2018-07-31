@@ -23,6 +23,7 @@ class SelectTest extends React.Component {
           className='test-select'
           label='Dog'
           id={id}
+          isRtl={isRtl}
           disabled={disabled}
           onChange={(evt) => this.setState({value: evt.target.value})}
           value={this.state.value}

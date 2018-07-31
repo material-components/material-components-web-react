@@ -33,22 +33,6 @@ test('#foundation_.handleChange gets called when state.value updates', () => {
   td.verify(wrapper.instance().foundation_.handleChange(), {times: 1});
 });
 
-test('#foundation_.notchOutline gets called with true when state.layout updates', () => {
-  const wrapper = shallow(<Select label='my label' />);
-  wrapper.instance().foundation_.notchOutline = td.func();
-  wrapper.setState({value: 'value'});
-  wrapper.setProps({layout: true});
-  td.verify(wrapper.instance().foundation_.notchOutline(true), {times: 1});
-});
-
-test('#foundation_.notchOutline gets called with false when state.layout updates and value is empty', () => {
-  const wrapper = shallow(<Select label='my label' />);
-  wrapper.instance().foundation_.notchOutline = td.func();
-  wrapper.setState({value: ''});
-  wrapper.setProps({layout: true});
-  td.verify(wrapper.instance().foundation_.notchOutline(false), {times: 1});
-});
-
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<Select label='my label' />);
   const foundation = wrapper.instance().foundation_;
@@ -102,30 +86,14 @@ test('#adapter.hasClass returns false if the string is not in state.classList', 
   assert.isFalse(wrapper.instance().adapter.hasClass('my-added-class'));
 });
 
-test('#adapter.isRtl returns true if parent has dir="rtl"', () => {
-  const div = document.createElement('div');
-  // needs to be attached to real DOM to get width
-  // https://github.com/airbnb/enzyme/issues/1525
-  document.body.style.direction = 'rtl';
-  document.body.append(div);
-  const options = {attachTo: div};
-  const wrapper = mount(<Select label='my label' />, options);
+test('#adapter.isRtl returns true if props.isRtl is true', () => {
+  const wrapper = mount(<Select label='my label' isRtl />);
   assert.isTrue(wrapper.instance().foundation_.adapter_.isRtl());
-  document.body.style.direction = 'initial';
-  div.remove();
 });
 
 test('#adapter.isRtl returns false if parent is not dir="rtl"', () => {
-  const div = document.createElement('div');
-  // needs to be attached to real DOM to get width
-  // https://github.com/airbnb/enzyme/issues/1525
-  document.body.style.direction = 'ltr';
-  document.body.append(div);
-  const options = {attachTo: div};
-  const wrapper = mount(<Select label='my label' />, options);
+  const wrapper = mount(<Select label='my label' />);
   assert.isFalse(wrapper.instance().foundation_.adapter_.isRtl());
-  document.body.style.direction = 'initial';
-  div.remove();
 });
 
 test('adapter.getValue returns state.value', () => {
@@ -167,7 +135,7 @@ test('#adapter.deactivateBottomLine sets state.activeLineRipple to false', () =>
 });
 
 test('#adapter.notchOutline sets state.outlineIsNotched to true', () => {
-  const wrapper = shallow(<Select label='my label' />);;
+  const wrapper = shallow(<Select label='my label' />);
   wrapper.instance().adapter.notchOutline();
   assert.isTrue(wrapper.state().outlineIsNotched);
 });
@@ -339,12 +307,7 @@ test('updates notchWidth prop with state.labelWidth', () => {
 });
 
 test('notchedOutline props.isRtl updates with parent element dir attribute', () => {
-  const div = document.createElement('div');
-  document.body.style.direction = 'rtl';
-  document.body.append(div);
-  const options = {attachTo: div};
-  const wrapper = mount(<Select label='my label' outlined />, options);
-  assert.isTrue(wrapper.childAt(0).childAt(2).props().isRtl);
-  document.body.style.direction = 'initial';
-  div.remove();
+  const wrapper = mount(<Select label='my label' outlined isRtl />);
+  const NotchedOutline = wrapper.childAt(0).childAt(2);
+  assert.isTrue(NotchedOutline.props().isRtl);
 });

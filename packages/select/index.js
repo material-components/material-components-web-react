@@ -42,10 +42,6 @@ export default class Select extends React.Component {
     if (this.state.value !== prevState.value) {
       this.foundation_.handleChange();
     }
-    // this is mainly to layout if dir='rtl' / vice versa
-    if (this.props.layout !== prevProps.layout) {
-      this.foundation_.notchOutline(this.state.value.length > 0);
-    }
   }
 
   componentWillUnmount() {
@@ -79,7 +75,7 @@ export default class Select extends React.Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
-      isRtl: this.getIsRtl,
+      isRtl: () => this.props.isRtl,
       getValue: (value) => this.state.value,
     };
 
@@ -108,13 +104,6 @@ export default class Select extends React.Component {
     );
   }
 
-  getIsRtl = () => {
-    if (this.selectContainerElement_.current) {
-      const dir = window.getComputedStyle(this.selectContainerElement_.current).getPropertyValue('direction');
-      return dir === 'rtl';
-    }
-  }
-
   /**
   * render methods
   */
@@ -139,7 +128,7 @@ export default class Select extends React.Component {
       box,
       className,
       floatingLabelClassName,
-      layout,
+      isRtl,
       lineRippleClassName,
       notchedOutlineClassName,
       outlined,
@@ -208,12 +197,12 @@ export default class Select extends React.Component {
   }
 
   renderNotchedOutline() {
-    const {notchedOutlineClassName} = this.props;
+    const {isRtl, notchedOutlineClassName} = this.props;
     const {outlineIsNotched, labelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={this.getIsRtl()}
+        isRtl={isRtl}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
       />
@@ -230,10 +219,9 @@ Select.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   floatingLabelClassName: PropTypes.string,
-  layout: PropTypes.bool,
   id: PropTypes.string,
+  isRtl: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  layout: PropTypes.bool,
   lineRippleClassName: PropTypes.string,
   nativeControlClassName: PropTypes.string,
   notchedOutlineClassName: PropTypes.string,
@@ -250,7 +238,7 @@ Select.defaultProps = {
   disabled: false,
   floatingLabelClassName: '',
   id: null,
-  layout: false,
+  isRtl: false,
   lineRippleClassName: '',
   nativeControlClassName: '',
   notchedOutlineClassName: '',
