@@ -16,14 +16,14 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('calls props.handleValueChange with props.value onMount', () => {
-  const handleValueChange = td.func();
+test('calls props.syncSelectValue with props.value onMount', () => {
+  const syncSelectValue = td.func();
   const value = 'test value';
   shallow(<NativeControl
-    handleValueChange={handleValueChange}
+    syncSelectValue={syncSelectValue}
     value={value}
   />);
-  td.verify(handleValueChange(value), {times: 1});
+  td.verify(syncSelectValue(value), {times: 1});
 });
 
 test('calls props.setDisabled props.disabed', () => {
@@ -42,12 +42,12 @@ test('calls props.setDisabled if props.disabled updates', () => {
   td.verify(setDisabled(true), {times: 1});
 });
 
-test('calls props.handleValueChange if props.value updates', () => {
-  const handleValueChange = td.func();
-  const wrapper = shallow(<NativeControl handleValueChange={handleValueChange} />);
+test('calls props.syncSelectValue if props.value updates', () => {
+  const syncSelectValue = td.func();
+  const wrapper = shallow(<NativeControl syncSelectValue={syncSelectValue} />);
   const value = 'orange-peel';
   wrapper.setProps({value});
-  td.verify(handleValueChange(value), {times: 1});
+  td.verify(syncSelectValue(value), {times: 1});
 });
 
 test('#event.focus calls #foundation.handleFocus', () => {
@@ -82,12 +82,12 @@ test('#event.blur calls #props.onBlur', () => {
   td.verify(onBlur(evt), {times: 1});
 });
 
-test('#event.change calls #props.handleValueChange', () => {
-  const handleValueChange = td.func();
-  const wrapper = shallow(<NativeControl handleValueChange={handleValueChange} />);
+test('#event.change calls #props.syncSelectValue', () => {
+  const syncSelectValue = td.func();
+  const wrapper = shallow(<NativeControl syncSelectValue={syncSelectValue} />);
   const evt = {test: 'test', target: {value: 'value'}};
   wrapper.simulate('change', evt);
-  td.verify(handleValueChange(evt.target.value), {times: 1});
+  td.verify(syncSelectValue(evt.target.value), {times: 1});
 });
 
 test('#event.change calls #props.onChange', () => {

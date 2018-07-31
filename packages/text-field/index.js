@@ -96,7 +96,7 @@ class TextField extends React.Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       isFocused: () => this.state.isFocused,
-      isRtl: isElementRtl(this.textFieldElement.current),
+      isRtl: this.getIsRtl,
     };
 
     return Object.assign({},
@@ -117,7 +117,7 @@ class TextField extends React.Component {
     //  validity: {
     //    badInput: boolean,
     //    valid: boolean,
-    //  },current
+    //  },
     // }
 
     return {
@@ -182,6 +182,13 @@ class TextField extends React.Component {
         this.setState({showHelperTextToScreenReader: true}),
       setValidity: (isValid) => this.setState({isValid}),
     };
+  }
+
+  getIsRtl = () => {
+    if (this.textFieldElement.current) {
+      const dir = window.getComputedStyle(this.textFieldElement.current).getPropertyValue('direction');
+      return dir === 'rtl';
+    }
   }
 
   inputProps(props) {
@@ -276,7 +283,7 @@ class TextField extends React.Component {
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={isElementRtl(this.textFieldElement.current)}
+        isRtl={this.getIsRtl()}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
       />

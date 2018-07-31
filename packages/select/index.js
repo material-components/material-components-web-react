@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {MDCSelectFoundation} from '@material/select';
 
-import {isElementRtl} from '@material/react-bidirection';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
 
-class Select extends React.Component {
+export default class Select extends React.Component {
 
   foundation_ = null;
   selectContainerElement_ = React.createRef();
@@ -62,7 +61,7 @@ class Select extends React.Component {
     const {className, box, outlined} = this.props;
     return classnames('mdc-select', Array.from(classList), className, {
       'mdc-select--outlined': outlined,
-      'mdc-select--disbled': disabled,
+      'mdc-select--disabled': disabled,
       'mdc-select--box': box,
     });
   }
@@ -80,7 +79,7 @@ class Select extends React.Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
-      isRtl: () => isElementRtl(this.selectContainerElement_.current),
+      isRtl: this.getIsRtl,
       getValue: (value) => this.state.value,
     };
 
@@ -107,6 +106,13 @@ class Select extends React.Component {
       lineRippleAdapter,
       notchedOutlineAdapter,
     );
+  }
+
+  getIsRtl = () => {
+    if (this.selectContainerElement_.current) {
+      const dir = window.getComputedStyle(this.selectContainerElement_.current).getPropertyValue('direction');
+      return dir === 'rtl';
+    }
   }
 
   /**
@@ -207,7 +213,7 @@ class Select extends React.Component {
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={isElementRtl(this.selectContainerElement_.current)}
+        isRtl={this.getIsRtl()}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
       />
@@ -251,5 +257,3 @@ Select.defaultProps = {
   outlined: false,
   options: [],
 };
-
-export default Select;

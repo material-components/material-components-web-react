@@ -4,9 +4,6 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import Select from '../../../packages/select/index';
 import NativeControl from '../../../packages/select/NativeControl';
-import FloatingLabel from '../../../packages/floating-label/index';
-import LineRipple from '../../../packages/line-ripple/index';
-import NotchedOutline from '../../../packages/notched-outline/index';
 
 suite('Select');
 
@@ -34,6 +31,22 @@ test('#foundation_.handleChange gets called when state.value updates', () => {
   const value = 'value';
   wrapper.setState({value});
   td.verify(wrapper.instance().foundation_.handleChange(), {times: 1});
+});
+
+test('#foundation_.notchOutline gets called with true when state.layout updates', () => {
+  const wrapper = shallow(<Select label='my label' />);
+  wrapper.instance().foundation_.notchOutline = td.func();
+  wrapper.setState({value: 'value'});
+  wrapper.setProps({layout: true});
+  td.verify(wrapper.instance().foundation_.notchOutline(true), {times: 1});
+});
+
+test('#foundation_.notchOutline gets called with false when state.layout updates and value is empty', () => {
+  const wrapper = shallow(<Select label='my label' />);
+  wrapper.instance().foundation_.notchOutline = td.func();
+  wrapper.setState({value: ''});
+  wrapper.setProps({layout: true});
+  td.verify(wrapper.instance().foundation_.notchOutline(false), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {
@@ -153,6 +166,12 @@ test('#adapter.deactivateBottomLine sets state.activeLineRipple to false', () =>
   assert.isFalse(wrapper.state().activeLineRipple);
 });
 
+test('#adapter.notchOutline sets state.outlineIsNotched to true', () => {
+  const wrapper = shallow(<Select label='my label' />);;
+  wrapper.instance().adapter.notchOutline();
+  assert.isTrue(wrapper.state().outlineIsNotched);
+});
+
 test('#adapter.closeOutline sets state.outlineIsNotched to false', () => {
   const wrapper = shallow(<Select label='my label' />);
   wrapper.setState({outlineIsNotched: true});
@@ -199,9 +218,9 @@ test('passes classNames to NativeControl through props.nativeControlClassName', 
   assert.isTrue(wrapper.childAt(0).hasClass(className));
 });
 
-test('#NativeControl.handleValueChange will update state.value', () => {
+test('#NativeControl.syncSelectValue will update state.value', () => {
   const wrapper = shallow(<Select label='my label' />);
-  wrapper.childAt(0).props().handleValueChange('orange');
+  wrapper.childAt(0).props().syncSelectValue('orange');
   assert.equal(wrapper.state().value, 'orange');
 });
 
