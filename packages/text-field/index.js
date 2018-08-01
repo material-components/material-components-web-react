@@ -20,9 +20,6 @@ class TextField extends React.Component {
     this.inputElement = React.createRef();
 
     this.state = {
-      // line ripple state
-      activeLineRipple: false,
-
       // root state
       value: null,
       classList: new Set(),
@@ -36,6 +33,7 @@ class TextField extends React.Component {
       labelWidth: 0,
 
       // line ripple state
+      activeLineRipple: false,
       lineRippleCenter: null,
 
       // notched outline state

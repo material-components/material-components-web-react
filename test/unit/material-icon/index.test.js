@@ -1,7 +1,7 @@
 import React from 'react';
 import {assert} from 'chai';
 import {mount} from 'enzyme';
-import MaterialIcon, {RippleMaterialIcon} from '../../../packages/material-icon';
+import MaterialIcon, {RippleMaterialIcon} from '../../../packages/material-icon/index';
 
 suite('MaterialIcon');
 
