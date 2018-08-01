@@ -2,7 +2,7 @@ import React from 'react';
 import td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-import {Input} from '../../../packages/text-field';
+import {Input} from '../../../packages/text-field/index';
 
 suite('Text Field Input');
 
