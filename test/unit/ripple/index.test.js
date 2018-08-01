@@ -339,3 +339,26 @@ test('throws error if no foundation', () => {
   const DivNoRefRipple = withRipple(DivNoRef);
   assert.throws(DivNoRefRipple.prototype.componentDidMount);
 });
+
+test('unmounting component does not throw errors', (done) => {
+  // related to
+  // https://github.com/material-components/material-components-web-react/issues/199
+  class TestComp extends React.Component {
+    state = {showRippleElement: true};
+
+    render() {
+      if (!this.state.showRippleElement) return (<span>hi</span>);
+
+      return (
+        <DivRipple onMouseDown={() => this.setState({showRippleElement: false})} />
+      );
+    }
+  };
+
+  const wrapper = mount(<TestComp />);
+  wrapper.simulate('mouseDown');
+  requestAnimationFrame(() => {
+    assert.equal(wrapper.getDOMNode().innerText, 'hi');
+    done();
+  });
+});
