@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import td from 'testdouble';
 // must use mount for refs to work
 import {mount} from 'enzyme';
-import withRipple from '../../../packages/ripple';
+import withRipple from '../../../packages/ripple/index';
 import {createMockRaf} from '../helpers/raf';
 
 /*eslint-disable */

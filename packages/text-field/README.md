@@ -59,7 +59,7 @@ box | Boolean | Enables box variant.
 children | Element | Mandatory. The input element of the text field.
 className | String | An optional class added to the `.mdc-text-field` element.
 dense | Boolean | Enables dense variant.
-floatingLabelClassName | String | An optional class added to the floating label element fo the text field.
+floatingLabelClassName | String | An optional class added to the floating label element of the text field.
 fullWidth | Boolean | Enables fullWidth variant.
 helperText | Element | Helper text that appears below the text field. Use the `<HelperText>` component that comes with this package.
 label | String | Mandatory. Label text that appears as the floating label or placeholder.
@@ -111,4 +111,4 @@ To style [Notched Outline](../notched-outline), [Floating Label](../floating-lab
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-textfield/README.md)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-textfield/README.md)
