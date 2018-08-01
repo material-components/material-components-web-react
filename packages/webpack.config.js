@@ -81,6 +81,7 @@ function getMaterialExternals() {
     'list',
     'notched-outline',
     'ripple',
+    'switch',
     'textfield',
     'top-app-bar',
     'typography',

@@ -52,6 +52,7 @@
     "@material/list": "^0.38.0",
     "@material/notched-outline": "^0.38.0",
     "@material/ripple": "^0.38.0",
+    "@material/switch": "^0.38.0",
     "@material/textfield": "^0.38.0",
     "@material/top-app-bar": "^0.38.0",
     "@material/typography": "^0.38.0",
