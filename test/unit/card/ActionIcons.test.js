@@ -1,7 +1,7 @@
 import React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import {CardActionIcons} from '../../../packages/card';
+import {CardActionIcons} from '../../../packages/card/index';
 
 suite('CardActionIcons');
 

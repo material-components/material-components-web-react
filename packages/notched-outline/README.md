@@ -48,4 +48,4 @@ notchWidth | Number | Width of the notch in the outline.
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-notched-outline/README.md#sass-mixins)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-notched-outline/README.md#sass-mixins)

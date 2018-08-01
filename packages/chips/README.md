@@ -80,7 +80,7 @@ class MyChoiceChips extends React.Component {
 
 #### Filter chips
 
-Filter chips include a leading checkmark to indicate selection. To define a set of chips as filter chips, add the `filter` prop to the `ChipSet`. 
+Filter chips include a leading checkmark to indicate selection. To define a set of chips as filter chips, add the `filter` prop to the `ChipSet`.
 
 ```js
 class MyFilterChips extends React.Component {
@@ -139,4 +139,4 @@ handleSelect | Function(id: number) => void | Callback to call when the chip wit
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-chips/README.md#sass-mixins)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-chips/README.md#sass-mixins)
