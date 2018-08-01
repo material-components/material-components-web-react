@@ -2,22 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 
-import {Switch} from '../../../packages/switch';
-
-class SwitchTest extends React.Component {
-  state = {
-  };
-
-  render() {
-    return (
-      <Switch />
-    );
-  }
-}
+import Switch from '../../../packages/switch';
 
 ReactDOM.render((
   <div>
-    Switch
-    <SwitchTest />
+    <Switch />
   </div>
 ), document.getElementById('app'));

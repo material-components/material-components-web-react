@@ -35,7 +35,6 @@ export default class NativeControl extends React.Component {
       disabled,
       /* eslint-disable no-unused-vars */
       className,
-      foundation,
       checked,
       syncChecked,
       setDisabled,
@@ -59,28 +58,21 @@ export default class NativeControl extends React.Component {
 }
 
 NativeControl.propTypes = {
+  checked: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  foundation: PropTypes.shape({
-    handleChange: PropTypes.func,
-  }),
   id: PropTypes.string,
-  syncChecked: PropTypes.func,
   onChange: PropTypes.func,
   setDisabled: PropTypes.func,
-  checked: PropTypes.bool,
+  syncChecked: PropTypes.func,
 };
 
 NativeControl.defaultProps = {
+  checked: false,
   className: '',
   disabled: false,
-  foundation: {
-    handleFocus: () => {},
-    handleBlur: () => {},
-  },
   id: null,
-  syncChecked: () => {},
   onChange: () => {},
   setDisabled: () => {},
-  checked: false,
+  syncChecked: () => {},
 };
