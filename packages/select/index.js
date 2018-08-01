@@ -11,7 +11,6 @@ import NativeControl from './NativeControl';
 export default class Select extends React.Component {
 
   foundation_ = null;
-  selectContainerElement_ = React.createRef();
 
   constructor(props) {
     super(props);
@@ -24,7 +23,6 @@ export default class Select extends React.Component {
       // floating label state
       labelIsFloated: false,
       labelWidth: 0,
-      setLineRippleTransformOrigin: (lineRippleCenter) => this.setState({lineRippleCenter}),
 
       // line ripple state
       activeLineRipple: false,
@@ -78,7 +76,7 @@ export default class Select extends React.Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       isRtl: () => this.props.isRtl,
-      getValue: (value) => this.state.value,
+      getValue: () => this.state.value,
     };
 
     const labelAdapter = {
@@ -116,10 +114,7 @@ export default class Select extends React.Component {
 
   render() {
     return (
-      <div
-        className={this.classes}
-        ref={this.selectContainerElement_}
-      >
+      <div className={this.classes} >
         {this.renderSelect()}
         {this.renderLabel()}
         {this.props.outlined ? this.renderNotchedOutline() : this.renderLineRipple()}
@@ -176,7 +171,7 @@ export default class Select extends React.Component {
     });
   }
 
-  renderLabel(selectContainer) {
+  renderLabel() {
     const {id, label, floatingLabelClassName} = this.props;
     return (
       <FloatingLabel
