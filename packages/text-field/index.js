@@ -18,7 +18,6 @@ class TextField extends React.Component {
     super(props);
     this.floatingLabelElement = React.createRef();
     this.inputElement = React.createRef();
-    this.textFieldElement = React.createRef();
 
     this.state = {
       // line ripple state
@@ -216,7 +215,6 @@ class TextField extends React.Component {
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         key='text-field-container'
-        ref={this.textFieldElement}
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
         {this.renderInput()}

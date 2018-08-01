@@ -80,7 +80,7 @@ test('#componentDidUpdate calls setValue if state.value updates', () => {
 test('#componentDidUpdate does not call setValue if another property updates', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().foundation_.setValue = td.func();
-  wrapper.setState({dir: 'rtl'}); // could be anything
+  wrapper.setState({dir: 'rtl'});
   td.verify(wrapper.instance().foundation_.setValue(td.matchers.isA(String)), {times: 0});
 });
 
@@ -113,13 +113,13 @@ test('#adapter.isFocused returns true if state.isFocused updates to true', () =>
   assert.isTrue(wrapper.instance().foundation_.adapter_.isFocused());
 });
 
-test('#adapter.isRtl returns true props.isRtl is true', () => {
+test('#adapter.isRtl returns true props.isRtl if is true', () => {
   const wrapper = shallow(
     <TextField isRtl label='my label'><Input /></TextField>);
   assert.isTrue(wrapper.instance().foundation_.adapter_.isRtl());
 });
 
-test('#adapter.isRtl returns false props.isRtl is false', () => {
+test('#adapter.isRtl returns false props.isRtl if is false', () => {
   const wrapper = mount(
     <TextField label='my label'><Input /></TextField>);
   assert.isFalse(wrapper.instance().foundation_.adapter_.isRtl());
