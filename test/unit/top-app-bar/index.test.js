@@ -2,8 +2,8 @@ import React from 'react';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import td from 'testdouble';
-import TopAppBar from '../../../packages/top-app-bar';
-import withRipple from '../../../packages/ripple';
+import TopAppBar from '../../../packages/top-app-bar/index';
+import withRipple from '../../../packages/ripple/index';
 
 suite('TopAppBar');
 
