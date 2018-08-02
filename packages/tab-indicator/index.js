@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import {MDCFadingTabIndicatorFoundation, MDCSlidingTabIndicatorFoundation} from '@material/tab-indicator/dist/mdc.tabIndicator';
+import {
+  MDCFadingTabIndicatorFoundation,
+  MDCSlidingTabIndicatorFoundation,
+} from '@material/tab-indicator/dist/mdc.tabIndicator';
 
 export default class TabIndicator extends Component {
   tabIndicatorContentElement_ = React.createRef();
@@ -47,10 +50,10 @@ export default class TabIndicator extends Component {
   }
 
   get contentClasses() {
-    const {contentClassName, icon, underline} = this.props;
+    const {contentClassName, icon} = this.props;
     return classnames('mdc-tab-indicator__content', contentClassName, {
-      'mdc-tab-indicator__content--icon	': icon,
-      'mdc-tab-indicator__content--underline': underline,
+      'mdc-tab-indicator__content--icon': icon,
+      'mdc-tab-indicator__content--underline': !icon,
     });
   }
 
@@ -91,7 +94,8 @@ export default class TabIndicator extends Component {
       contentClassName,
       fade,
       icon,
-      underline,
+      onTransitionEnd,
+      previousIndicatorClientRect,
       /* eslint-enable */
       children,
       ...otherProps
@@ -114,3 +118,25 @@ export default class TabIndicator extends Component {
     );
   }
 }
+
+TabIndicator.propTypes = {
+  active: PropTypes.bool,
+  className: PropTypes.string,
+  contentClassName: PropTypes.string,
+  children: PropTypes.node,
+  fade: PropTypes.bool,
+  icon: PropTypes.bool,
+  previousIndicatorClientRect: PropTypes.object,
+  onTransitionEnd: PropTypes.func,
+};
+
+TabIndicator.defaultProps = {
+  active: false,
+  className: '',
+  contentClassName: '',
+  children: null,
+  fade: false,
+  icon: false,
+  previousIndicatorClientRect: {},
+  onTransitionEnd: () => {},
+};

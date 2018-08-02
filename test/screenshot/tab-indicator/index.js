@@ -4,29 +4,31 @@ import TabIndicator from '../../../packages/tab-indicator';
 
 import './index.scss';
 
-const Tab = (props)  => {
+const Tab = ({
+  index, active, icon, // eslint-disable-line react/prop-types
+}) => {
   return (
     <div
       className='tab'>
-      <span>Tab {props.index}</span>
+      <span>Tab {index}</span>
       <TabIndicator
-        active={props.active}
-        icon={props.icon}
-        underline={props.underline}
+        active={active}
+        icon={icon}
         contentClassName='material-icons'
       >
-       {props.icon}
+       {icon}
       </TabIndicator>
     </div>
   );
-}
+};
 
-const Tabs = ({underline, icon, activeIndex}) => {
+const Tabs = ({
+  icon, activeIndex, // eslint-disable-line react/prop-types
+}) => {
   return (
     <div className='tabs'>
       {[1, 2, 3].map((number, index) =>
         <Tab
-          underline={underline}
           icon={icon}
           key={index}
           index={number}
@@ -34,11 +36,11 @@ const Tabs = ({underline, icon, activeIndex}) => {
         />)}
     </div>
   );
-}
+};
 
 ReactDOM.render((
   <div>
     <Tabs icon='star' activeIndex={2}/>
-    <Tabs underline activeIndex={1} />
+    <Tabs activeIndex={1} />
   </div>
 ), document.getElementById('app'));
