@@ -18,14 +18,16 @@ export class ThumbUnderlay extends React.Component {
 
   render() {
     const {
-      className, // eslint-disable-line no-unused-vars
+      /* eslint-disable */
+      className,
+      initRipple,
+      unbounded,
+      /* eslint-enable */
+      checked,
       disabled,
-      initRipple, // eslint-disable-line no-unused-vars
       id,
-      unbounded, // eslint-disable-line no-unused-vars
       handleChange,
       handleDisabled,
-      checked,
       ...otherProps
     } = this.props;
 

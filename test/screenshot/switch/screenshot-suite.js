@@ -5,3 +5,4 @@ import Screenshot from '../screenshot';
 ];
  const screenshotSuite = new ScreenshotSuite('Switch', screenshots);
  export default screenshotSuite;
+ 
