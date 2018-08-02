@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import NativeControl from './NativeControl';
-import withRipple from '../ripple';
 import {MDCSwitchFoundation} from '@material/switch/dist/mdc.switch';
+import ThumbUnderlay from './ThumbUnderlay';
 
 export class SwitchBase extends Component {
   foundation_ = null;
-  rippleActiveEl = null;
   state = {
     checked: this.props.checked,
     classList: new Set(),
@@ -51,18 +49,10 @@ export class SwitchBase extends Component {
     };
   }
 
-  init = (el) => {
-    this.props.initRipple(el, this.rippleActiveEl);
-  }
-
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
-      rippleClassName,
-      rippleStyle,
       id,
-      initRipple,
-      unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
 
@@ -72,23 +62,10 @@ export class SwitchBase extends Component {
         {...otherProps}
       >
         <div className='mdc-switch__track' />
-        <div
-          className={classnames('mdc-switch__thumb-underlay', rippleClassName)}
-          style={rippleStyle}
-          ref={this.init}
-        >
-          <div className='mdc-switch__thumb'>
-            <NativeControl
-              id={id}
-              checked={this.state.checked}
-              syncChecked={(checked) => this.setState({checked})}
-              setDisabled={(disabled) => this.setState({disabled})}
-              setRippleActiveEl={(el) => {
-                this.rippleActiveEl = el;
-              }}
-            />
-          </div>
-        </div>
+        <ThumbUnderlay
+          checked={this.state.checked}
+          syncChecked={(checked) => this.setState({checked})}
+          setDisabled={(disabled) => this.setState({disabled})}/>
       </div>
     );
   }
@@ -104,4 +81,4 @@ SwitchBase.defaultProps = {
   id: null,
 };
 
-export default withRipple(SwitchBase); // TODO: add ripple
+export default SwitchBase;

@@ -136,13 +136,15 @@ const withRipple = (WrappedComponent) => {
     }
 
     get classes() {
+      const {className: wrappedCompClasses} = this.props;
       const {classList} = this.state;
-      return classnames(Array.from(classList));
+      return classnames(Array.from(classList), wrappedCompClasses);
     }
 
     get style() {
+      const {style: wrappedStyle} = this.props;
       const {style} = this.state;
-      return Object.assign({}, style);
+      return Object.assign({}, style, wrappedStyle);
     }
 
     render() {
@@ -176,10 +178,8 @@ const withRipple = (WrappedComponent) => {
         onBlur: this.handleBlur,
         // call initRipple on ref on root element that needs ripple
         initRipple: this.initializeFoundation_,
-        className: this.props.classes,
-        rippleClassName: this.classes,
-        style: this.props.style,
-        rippleStyle: this.style,
+        className: this.classes,
+        style: this.style,
       });
 
       return <WrappedComponent {...updatedProps} />;
@@ -191,7 +191,6 @@ const withRipple = (WrappedComponent) => {
     disabled: PropTypes.bool,
     style: PropTypes.object,
     className: PropTypes.string,
-    rippleClassName: PropTypes.string,
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
     onTouchStart: PropTypes.func,
@@ -207,7 +206,6 @@ const withRipple = (WrappedComponent) => {
     disabled: false,
     style: {},
     className: '',
-    rippleClassName: '',
     onMouseDown: () => {},
     onMouseUp: () => {},
     onTouchStart: () => {},
