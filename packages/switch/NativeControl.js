@@ -8,17 +8,17 @@ export default class NativeControl extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setChecked(this.props.checked);
-    this.props.setDisabled(this.props.disabled);
+    this.props.handleChange(this.props.checked);
+    this.props.handleDisabled(this.props.disabled);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.disabled !== prevProps.disabled) {
-      this.props.setDisabled(this.props.disabled);
+      this.props.handleDisabled(this.props.disabled);
     }
 
     if (this.props.checked !== prevProps.checked) {
-      this.props.setChecked(this.props.checked);
+      this.props.handleChange(this.props.checked);
     }
   }
 
@@ -27,9 +27,9 @@ export default class NativeControl extends React.Component {
   }
 
   handleChange = (e) => {
-    const {setChecked, onChange} = this.props;
+    const {handleChange, onChange} = this.props;
     const {checked} = e.target;
-    setChecked(checked);
+    handleChange(checked);
     onChange(e);
   }
 
@@ -39,8 +39,8 @@ export default class NativeControl extends React.Component {
       /* eslint-disable no-unused-vars */
       className,
       checked,
-      setChecked,
-      setDisabled,
+      handleChange,
+      handleDisabled,
       onChange,
       setRippleActiveEl,
       /* eslint-enable no-unused-vars */
@@ -68,8 +68,8 @@ NativeControl.propTypes = {
   disabled: PropTypes.bool,
   id: PropTypes.string,
   onChange: PropTypes.func,
-  setDisabled: PropTypes.func,
-  setChecked: PropTypes.func,
+  handleDisabled: PropTypes.func,
+  handleChange: PropTypes.func,
 };
 
 NativeControl.defaultProps = {
@@ -78,6 +78,6 @@ NativeControl.defaultProps = {
   disabled: false,
   id: null,
   onChange: () => {},
-  setDisabled: () => {},
-  setChecked: () => {},
+  handleDisabled: () => {},
+  handleChange: () => {},
 };

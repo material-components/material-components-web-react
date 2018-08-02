@@ -23,8 +23,8 @@ export class ThumbUnderlay extends React.Component {
       initRipple, // eslint-disable-line no-unused-vars
       id,
       unbounded, // eslint-disable-line no-unused-vars
-      setChecked,
-      setDisabled,
+      handleChange,
+      handleDisabled,
       checked,
       ...otherProps
     } = this.props;
@@ -40,8 +40,8 @@ export class ThumbUnderlay extends React.Component {
             id={id}
             checked={checked}
             disabled={disabled}
-            setChecked={setChecked}
-            setDisabled={setDisabled}
+            handleChange={handleChange}
+            handleDisabled={handleDisabled}
             setRippleActiveEl={(el) => {
               this.rippleActiveEl = el;
             }}
@@ -57,8 +57,8 @@ ThumbUnderlay.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   id: PropTypes.string,
-  setDisabled: PropTypes.func,
-  setChecked: PropTypes.func,
+  handleDisabled: PropTypes.func,
+  handleChange: PropTypes.func,
   unbounded: PropTypes.bool,
 };
 
@@ -67,8 +67,8 @@ ThumbUnderlay.defaultProps = {
   className: '',
   disabled: false,
   id: null,
-  setDisabled: () => {},
-  setChecked: () => {},
+  handleDisabled: () => {},
+  handleChange: () => {},
   unbounded: true,
 };
 
