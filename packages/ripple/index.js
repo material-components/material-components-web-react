@@ -30,19 +30,19 @@ const withRipple = (WrappedComponent) => {
       }
     }
 
-    initializeFoundation_ = (instance, nativeControl) => {
-      const adapter = this.createAdapter_(instance, nativeControl);
+    initializeFoundation_ = (surface, activator) => {
+      const adapter = this.createAdapter_(surface, activator);
       this.foundation_ = new MDCRippleFoundation(adapter);
       this.foundation_.init();
     }
 
-    createAdapter_ = (instance, nativeControl) => {
+    createAdapter_ = (surface, activator) => {
       const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
 
       return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
         isUnbounded: () => this.props.unbounded,
-        isSurfaceActive: () => nativeControl ? nativeControl[MATCHES](':active') : instance[MATCHES](':active'),
+        isSurfaceActive: () => activator ? activator[MATCHES](':active') : surface[MATCHES](':active'),
         isSurfaceDisabled: () => this.props.disabled,
         addClass: (className) => {
           if (!this.isMounted_) {
@@ -67,8 +67,8 @@ const withRipple = (WrappedComponent) => {
         deregisterResizeHandler: (handler) => window.removeEventListener('resize', handler),
         updateCssVariable: this.updateCssVariable,
         computeBoundingRect: this.props.computeBoundingRect ?
-          (() => this.props.computeBoundingRect(instance)) :
-          (() => instance.getBoundingClientRect()),
+          (() => this.props.computeBoundingRect(surface)) :
+          (() => surface.getBoundingClientRect()),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset}),
       };
     }
