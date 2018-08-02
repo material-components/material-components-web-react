@@ -8,7 +8,7 @@ export default class NativeControl extends React.Component {
   }
 
   componentDidMount() {
-    this.props.syncChecked(this.props.checked);
+    this.props.setChecked(this.props.checked);
     this.props.setDisabled(this.props.disabled);
   }
 
@@ -18,7 +18,7 @@ export default class NativeControl extends React.Component {
     }
 
     if (this.props.checked !== prevProps.checked) {
-      this.props.syncChecked(this.props.checked);
+      this.props.setChecked(this.props.checked);
     }
   }
 
@@ -27,9 +27,9 @@ export default class NativeControl extends React.Component {
   }
 
   handleChange = (e) => {
-    const {syncChecked, onChange} = this.props;
+    const {setChecked, onChange} = this.props;
     const {checked} = e.target;
-    syncChecked(checked);
+    setChecked(checked);
     onChange(e);
   }
 
@@ -39,7 +39,7 @@ export default class NativeControl extends React.Component {
       /* eslint-disable no-unused-vars */
       className,
       checked,
-      syncChecked,
+      setChecked,
       setDisabled,
       onChange,
       setRippleActiveEl,
@@ -69,7 +69,7 @@ NativeControl.propTypes = {
   id: PropTypes.string,
   onChange: PropTypes.func,
   setDisabled: PropTypes.func,
-  syncChecked: PropTypes.func,
+  setChecked: PropTypes.func,
 };
 
 NativeControl.defaultProps = {
@@ -79,5 +79,5 @@ NativeControl.defaultProps = {
   id: null,
   onChange: () => {},
   setDisabled: () => {},
-  syncChecked: () => {},
+  setChecked: () => {},
 };

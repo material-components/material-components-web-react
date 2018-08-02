@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import withRipple from '../ripple';
-import NativeControl from './NativeControl';
 
+import NativeControl from './NativeControl';
 
 export class ThumbUnderlay extends React.Component {
   rippleActiveEl = null;
@@ -19,10 +19,11 @@ export class ThumbUnderlay extends React.Component {
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
-      initRipple,
+      disabled,
+      initRipple, // eslint-disable-line no-unused-vars
       id,
       unbounded, // eslint-disable-line no-unused-vars
-      syncChecked,
+      setChecked,
       setDisabled,
       checked,
       ...otherProps
@@ -38,7 +39,8 @@ export class ThumbUnderlay extends React.Component {
           <NativeControl
             id={id}
             checked={checked}
-            syncChecked={syncChecked}
+            disabled={disabled}
+            setChecked={setChecked}
             setDisabled={setDisabled}
             setRippleActiveEl={(el) => {
               this.rippleActiveEl = el;
@@ -56,7 +58,7 @@ ThumbUnderlay.propTypes = {
   disabled: PropTypes.bool,
   id: PropTypes.string,
   setDisabled: PropTypes.func,
-  syncChecked: PropTypes.func,
+  setChecked: PropTypes.func,
   unbounded: PropTypes.bool,
 };
 
@@ -66,7 +68,7 @@ ThumbUnderlay.defaultProps = {
   disabled: false,
   id: null,
   setDisabled: () => {},
-  syncChecked: () => {},
+  setChecked: () => {},
   unbounded: true,
 };
 

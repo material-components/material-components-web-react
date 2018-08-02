@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import {MDCSwitchFoundation} from '@material/switch/dist/mdc.switch';
+
 import ThumbUnderlay from './ThumbUnderlay';
 
 export class SwitchBase extends Component {
@@ -29,8 +30,10 @@ export class SwitchBase extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {className} = this.props;
-    return classnames('mdc-switch', Array.from(classList), className);
+    const {className, disabled} = this.props;
+    return classnames('mdc-switch', Array.from(classList), className, {
+      'mdc-switch--disabled': disabled,
+    });
   }
 
   get adapter() {
@@ -52,6 +55,7 @@ export class SwitchBase extends Component {
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
+      disabled,
       id,
       ...otherProps
     } = this.props;
@@ -64,7 +68,9 @@ export class SwitchBase extends Component {
         <div className='mdc-switch__track' />
         <ThumbUnderlay
           checked={this.state.checked}
-          syncChecked={(checked) => this.setState({checked})}
+          disabled={disabled}
+          id={id}
+          setChecked={(checked) => this.setState({checked})}
           setDisabled={(disabled) => this.setState({disabled})}/>
       </div>
     );
@@ -72,12 +78,16 @@ export class SwitchBase extends Component {
 }
 
 SwitchBase.propTypes = {
+  checked: PropTypes.bool,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   id: PropTypes.string,
 };
 
 SwitchBase.defaultProps = {
+  checked: false,
   className: '',
+  disabled: false,
   id: null,
 };
 
