@@ -6,10 +6,10 @@ import withRipple from '../ripple';
 import NativeControl from './NativeControl';
 
 export class ThumbUnderlay extends React.Component {
-  rippleActiveEl = null;
+  rippleActivatorEl = null;
 
   init = (el) => {
-    this.props.initRipple(el, this.rippleActiveEl);
+    this.props.initRipple(el, this.rippleActivatorEl);
   }
 
   get classes() {
@@ -42,8 +42,8 @@ export class ThumbUnderlay extends React.Component {
             disabled={disabled}
             handleChange={handleChange}
             handleDisabled={handleDisabled}
-            setRippleActiveEl={(el) => {
-              this.rippleActiveEl = el;
+            setrippleActivatorEl={(el) => {
+              this.rippleActivatorEl = el;
             }}
           />
         </div>

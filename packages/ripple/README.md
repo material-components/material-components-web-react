@@ -33,7 +33,7 @@ const Icon = (props) => {
   const {
     children,
     className = '',
-    // call `initRipple` from the root element's ref. This attaches the ripple
+    // You must call `initRipple` from the root element's ref. This attaches the ripple
     // to the element.
     initRipple,
     // include `unbounded` to remove warnings when passing `otherProps` to the
@@ -61,6 +61,61 @@ const RippleIcon = withRipple(Icon);
 
 Wrap your Icon component with the HOC `withRipple`, which returns a component
 with a ripple capable surface.
+
+## Advanced Usage
+
+### Ripple surface and ripple activator
+
+You may want to apply the visual treatment (CSS classes and styles) of a ripple surface on one element, but have its activation rely on a different element. For example, this occurs when you want to put a ripple on a `<div>` which is activated by an inner `<input>`. We call the visual element the "ripple surface" and the activating element the "ripple activator".
+
+The `initRipple` prop takes in an extra `activator` parameter in the case that the ripple activator differs from the ripple surface.
+
+```js
+import withRipple from '@material/react-ripple';
+
+const MyInput = (props) => {
+  const {
+    setRippleActivator,
+    ...otherProps
+  } = props;
+
+  return (
+    <input ref={setRippleActivator} {...otherProps} />
+  );
+}
+
+class MyComponent extends React.Component {
+  rippleActivatorElement = null;
+
+  init = (el) => {
+    this.props.initRipple(el, this.rippleActivatorElement);
+  }
+
+  setRippleActivator = (el) => {
+    this.rippleActivatorElement = el;
+  }
+
+  render() {
+    const {
+      className,
+      initRipple,
+      unbounded,
+      ...otherProps
+    } = this.props;
+
+    return (
+      <div
+        className={`my-component ${className}`}
+        ref={this.init}
+        {...otherProps}>
+        <MyInput setRippleActivator={this.setRippleActivator} />
+      </div>
+    );
+  }
+};
+
+const MyRippledComponent = withRipple(MyComponent);
+```
 
 ## Props
 

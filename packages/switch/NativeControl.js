@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 export default class NativeControl extends React.Component {
-  init = (el) => {
-    this.props.setRippleActiveEl(el);
-  }
-
   componentDidMount() {
     this.props.handleChange(this.props.checked);
     this.props.handleDisabled(this.props.disabled);
@@ -42,7 +38,7 @@ export default class NativeControl extends React.Component {
       handleChange,
       handleDisabled,
       onChange,
-      setRippleActiveEl,
+      setrippleActivatorEl,
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
@@ -55,7 +51,7 @@ export default class NativeControl extends React.Component {
         disabled={disabled}
         checked={checked}
         className={this.classes}
-        ref={this.init}
+        ref={this.props.setrippleActivatorEl}
         {...otherProps}
       />
     );

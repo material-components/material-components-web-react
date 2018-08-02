@@ -30,6 +30,9 @@ const withRipple = (WrappedComponent) => {
       }
     }
 
+    // surface: This element receives the visual treatment (classes and style) of the ripple.
+    // activator: This element is used to detect whether to activate the ripple. If this is not
+    // provided, the ripple surface will be used to detect activation.
     initializeFoundation_ = (surface, activator) => {
       const adapter = this.createAdapter_(surface, activator);
       this.foundation_ = new MDCRippleFoundation(adapter);
