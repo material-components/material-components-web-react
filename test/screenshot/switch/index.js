@@ -6,6 +6,6 @@ import Switch from '../../../packages/switch';
 
 ReactDOM.render((
   <div>
-    <Switch />
+    <Switch unbounded />
   </div>
 ), document.getElementById('app'));

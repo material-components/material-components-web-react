@@ -30,19 +30,19 @@ const withRipple = (WrappedComponent) => {
       }
     }
 
-    initializeFoundation_ = (instance) => {
-      const adapter = this.createAdapter_(instance);
+    initializeFoundation_ = (instance, nativeControl) => {
+      const adapter = this.createAdapter_(instance, nativeControl);
       this.foundation_ = new MDCRippleFoundation(adapter);
       this.foundation_.init();
     }
 
-    createAdapter_ = (instance) => {
+    createAdapter_ = (instance, nativeControl) => {
       const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
 
       return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
         isUnbounded: () => this.props.unbounded,
-        isSurfaceActive: () => instance[MATCHES](':active'),
+        isSurfaceActive: () => nativeControl ? nativeControl[MATCHES](':active') : instance[MATCHES](':active'),
         isSurfaceDisabled: () => this.props.disabled,
         addClass: (className) => {
           if (!this.isMounted_) {
@@ -71,12 +71,6 @@ const withRipple = (WrappedComponent) => {
           (() => instance.getBoundingClientRect()),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset}),
       };
-    }
-
-    get classes() {
-      const {className: wrappedCompClasses} = this.props;
-      const {classList} = this.state;
-      return classnames(Array.from(classList), wrappedCompClasses);
     }
 
     handleFocus = (e) => {
@@ -141,10 +135,14 @@ const withRipple = (WrappedComponent) => {
       this.setState({style: updatedStyle});
     }
 
-    getMergedStyles = () => {
-      const {style: wrappedStyle} = this.props;
+    get classes() {
+      const {classList} = this.state;
+      return classnames(Array.from(classList));
+    }
+
+    get style() {
       const {style} = this.state;
-      return Object.assign({}, style, wrappedStyle);
+      return Object.assign({}, style);
     }
 
     render() {
@@ -178,8 +176,10 @@ const withRipple = (WrappedComponent) => {
         onBlur: this.handleBlur,
         // call initRipple on ref on root element that needs ripple
         initRipple: this.initializeFoundation_,
-        className: this.classes,
-        style: this.getMergedStyles(),
+        className: this.props.classes,
+        rippleClassName: this.classes,
+        style: this.props.style,
+        rippleStyle: this.style,
       });
 
       return <WrappedComponent {...updatedProps} />;
@@ -191,6 +191,7 @@ const withRipple = (WrappedComponent) => {
     disabled: PropTypes.bool,
     style: PropTypes.object,
     className: PropTypes.string,
+    rippleClassName: PropTypes.string,
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
     onTouchStart: PropTypes.func,
@@ -206,6 +207,7 @@ const withRipple = (WrappedComponent) => {
     disabled: false,
     style: {},
     className: '',
+    rippleClassName: '',
     onMouseDown: () => {},
     onMouseUp: () => {},
     onTouchStart: () => {},

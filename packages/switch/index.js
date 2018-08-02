@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import NativeControl from './NativeControl';
-// import withRipple from '../ripple';
+import withRipple from '../ripple';
 import {MDCSwitchFoundation} from '@material/switch/dist/mdc.switch';
 
-export class Switch extends Component {
+export class SwitchBase extends Component {
   foundation_ = null;
+  rippleActiveEl = null;
   state = {
     checked: this.props.checked,
     classList: new Set(),
@@ -50,10 +51,18 @@ export class Switch extends Component {
     };
   }
 
+  init = (el) => {
+    this.props.initRipple(el, this.rippleActiveEl);
+  }
+
   render() {
     const {
       className, // eslint-disable-line no-unused-vars
+      rippleClassName,
+      rippleStyle,
       id,
+      initRipple,
+      unbounded, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
 
@@ -63,13 +72,20 @@ export class Switch extends Component {
         {...otherProps}
       >
         <div className='mdc-switch__track' />
-        <div className='mdc-switch__thumb-underlay'>
+        <div
+          className={classnames('mdc-switch__thumb-underlay', rippleClassName)}
+          style={rippleStyle}
+          ref={this.init}
+        >
           <div className='mdc-switch__thumb'>
             <NativeControl
               id={id}
               checked={this.state.checked}
               syncChecked={(checked) => this.setState({checked})}
               setDisabled={(disabled) => this.setState({disabled})}
+              setRippleActiveEl={(el) => {
+                this.rippleActiveEl = el;
+              }}
             />
           </div>
         </div>
@@ -78,14 +94,14 @@ export class Switch extends Component {
   }
 }
 
-Switch.propTypes = {
+SwitchBase.propTypes = {
   className: PropTypes.string,
   id: PropTypes.string,
 };
 
-Switch.defaultProps = {
+SwitchBase.defaultProps = {
   className: '',
   id: null,
 };
 
-export default Switch; // TODO: add ripple
+export default withRipple(SwitchBase); // TODO: add ripple
