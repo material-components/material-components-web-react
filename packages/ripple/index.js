@@ -225,8 +225,13 @@ const withRipple = (WrappedComponent) => {
 
   RippledComponent.propTypes = WrappedComponent.propTypes;
   RippledComponent.defaultProps = WrappedComponent.defaultProps;
+  RippledComponent.displayName = `WithRipple(${getDisplayName(WrappedComponent)})`;
 
   return RippledComponent;
 };
+
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+}
 
 export default withRipple;
