@@ -2,7 +2,7 @@ import React from 'react';
 import td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-import TextField, {HelperText, Input} from '../../../packages/text-field';
+import TextField, {HelperText, Input} from '../../../packages/text-field/index';
 
 suite('Text Field');
 
@@ -107,24 +107,22 @@ test('#adapter.removeClass removes class from state.classList', () => {
   assert.isTrue(wrapper.instance().foundation_.adapter_.hasClass('test-class-name'));
 });
 
-test('#adapter.isFocused returns true if wrapped in an rtl element', () => {
+test('#adapter.isFocused returns true if state.isFocused updates to true', () => {
   const wrapper = mount(<TextField label='my label'><Input /></TextField>);
   wrapper.setState({isFocused: true});
   assert.isTrue(wrapper.instance().foundation_.adapter_.isFocused());
 });
 
-test('#adapter.isRtl returns true if the direction is true', () => {
-  const div = document.createElement('div');
-  // needs to be attached to real DOM to get width
-  // https://github.com/airbnb/enzyme/issues/1525
-  document.body.style.direction = 'rtl';
-  document.body.append(div);
-  const options = {attachTo: div};
-  const wrapper = mount(
-    <TextField label='my label'><Input /></TextField>, options);
+test('#adapter.isRtl returns true props.isRtl if is true', () => {
+  const wrapper = shallow(
+    <TextField isRtl label='my label'><Input /></TextField>);
   assert.isTrue(wrapper.instance().foundation_.adapter_.isRtl());
-  document.body.style.direction = 'initial';
-  div.remove();
+});
+
+test('#adapter.isRtl returns false props.isRtl if is false', () => {
+  const wrapper = mount(
+    <TextField label='my label'><Input /></TextField>);
+  assert.isFalse(wrapper.instance().foundation_.adapter_.isRtl());
 });
 
 test('#adapter.input.getNativeInput.validity.badInput return false for valid input', () => {

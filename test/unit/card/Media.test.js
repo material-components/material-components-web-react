@@ -1,7 +1,7 @@
 import React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import {CardMedia} from '../../../packages/card';
+import {CardMedia} from '../../../packages/card/index';
 
 suite('CardMedia');
 
