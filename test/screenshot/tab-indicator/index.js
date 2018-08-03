@@ -5,7 +5,7 @@ import TabIndicator from '../../../packages/tab-indicator';
 import './index.scss';
 
 const Tab = ({
-  index, active, icon, // eslint-disable-line react/prop-types
+  children, index, active, icon, // eslint-disable-line react/prop-types
 }) => {
   return (
     <div
@@ -14,33 +14,37 @@ const Tab = ({
       <TabIndicator
         active={active}
         icon={icon}
-        contentClassName='material-icons'
       >
-       {icon}
+        {children}
       </TabIndicator>
     </div>
   );
 };
 
 const Tabs = ({
-  icon, activeIndex, // eslint-disable-line react/prop-types
+  children, activeIndex, // eslint-disable-line react/prop-types
 }) => {
   return (
     <div className='tabs'>
       {[1, 2, 3].map((number, index) =>
         <Tab
-          icon={icon}
+          icon={!!children}
           key={index}
           index={number}
           active={index === activeIndex}
-        />)}
+        >
+          {children}
+        </Tab>
+      )}
     </div>
   );
 };
 
 ReactDOM.render((
   <div>
-    <Tabs icon='star' activeIndex={2}/>
+    <Tabs activeIndex={2}>
+      <i className='material-icons'>star</i>
+    </Tabs>
     <Tabs activeIndex={1} />
   </div>
 ), document.getElementById('app'));

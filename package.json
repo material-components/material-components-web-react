@@ -35,6 +35,7 @@
           "ripple",
           "top-app-bar",
           "infrastructure",
+          "tab-indicator",
           "text-field"
         ],
         "validate": true

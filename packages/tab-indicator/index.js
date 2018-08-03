@@ -50,8 +50,8 @@ export default class TabIndicator extends Component {
   }
 
   get contentClasses() {
-    const {contentClassName, icon} = this.props;
-    return classnames('mdc-tab-indicator__content', contentClassName, {
+    const {icon} = this.props;
+    return classnames('mdc-tab-indicator__content', {
       'mdc-tab-indicator__content--icon': icon,
       'mdc-tab-indicator__content--underline': !icon,
     });
@@ -86,10 +86,10 @@ export default class TabIndicator extends Component {
   }
 
   render() {
-    const {contentStyle} = this.state;
     const {
       /* eslint-disable */
       active,
+      children,
       className,
       contentClassName,
       fade,
@@ -97,7 +97,6 @@ export default class TabIndicator extends Component {
       onTransitionEnd,
       previousIndicatorClientRect,
       /* eslint-enable */
-      children,
       ...otherProps
     } = this.props;
 
@@ -107,14 +106,28 @@ export default class TabIndicator extends Component {
         onTransitionEnd={this.handleTransitionEnd}
         {...otherProps}
       >
-        <span
-          className={this.contentClasses}
-          ref={this.tabIndicatorContentElement_}
-          style={contentStyle}
-        >
-          {children}
-        </span>
+        {this.renderContent()}
       </span>
+    );
+  }
+
+  addContentClassesToChildren = () => {
+    const child = React.Children.only(this.props.children);
+    const className = classnames(child.props.className, this.contentClasses);
+    const props = Object.assign({}, child.props, {className});
+    return React.cloneElement(child, props);
+  };
+
+  renderContent() {
+    if (this.props.children) {
+      return this.addContentClassesToChildren();
+    }
+    return (
+      <span
+        className={this.contentClasses}
+        ref={this.tabIndicatorContentElement_}
+        style={this.state.contentStyle}
+      />
     );
   }
 }
@@ -123,7 +136,7 @@ TabIndicator.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
   contentClassName: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.element,
   fade: PropTypes.bool,
   icon: PropTypes.bool,
   previousIndicatorClientRect: PropTypes.object,

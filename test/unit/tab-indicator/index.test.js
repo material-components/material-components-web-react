@@ -22,13 +22,6 @@ test('adds the fade class if props.active is true', () => {
   assert.isTrue(wrapper.hasClass('mdc-tab-indicator--active'));
 });
 
-test('contentClassName adds classes to content element', () => {
-  const wrapper = shallow(<TabIndicator contentClassName='text-class-name' />);
-  const contentElement = wrapper.children().first();
-  assert.isTrue(contentElement.hasClass('text-class-name'));
-  assert.isTrue(contentElement.hasClass('mdc-tab-indicator__content'));
-});
-
 test('adds the icon class to the content element if props.icon is true', () => {
   const wrapper = shallow(<TabIndicator icon />);
   const contentElement = wrapper.children().first();
@@ -126,9 +119,21 @@ test('transitionEnd event should update allowTransitionEnd_ to false if allowTra
   assert.isFalse(wrapper.instance().allowTransitionEnd_);
 });
 
-test('inner content should be rendered', () => {
-  const wrapper = shallow(<TabIndicator>test string</TabIndicator>);
-  assert.equal(wrapper.children().first().text(), 'test string');
+test('child element should be rendered', () => {
+  const wrapper = shallow(<TabIndicator>
+    <i>meow</i>
+  </TabIndicator>);
+  assert.equal(wrapper.children().first().type(), 'i');
+  assert.equal(wrapper.children().first().text(), 'meow');
+});
+
+test('child element should include props.className and contentClasses', () => {
+  const wrapper = shallow(<TabIndicator>
+    <i className='test-class-name'>meow</i>
+  </TabIndicator>);
+  assert.isTrue(wrapper.children().first().hasClass('test-class-name'));
+  assert.isTrue(wrapper.children().first().hasClass('mdc-tab-indicator__content'));
+  assert.isTrue(wrapper.children().first().hasClass('mdc-tab-indicator__content--underline'));
 });
 
 test('tab indicator content should receive styles from state', () => {

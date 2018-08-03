@@ -1,11 +1,11 @@
-# React Ripple
+# React Tab Indicator
 
-A React version of an [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple).
+A React version of an [MDC Tab Indicator](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab-indicator).
 
 ## Installation
 
 ```
-npm install @material/react-ripple
+npm install @material/react-tab-indicator
 ```
 
 ## Usage
@@ -14,53 +14,35 @@ npm install @material/react-ripple
 
 with Sass:
 ```js
-import '@material/react-ripple/index.scss';
+import '@material/react-tab-indicator/index.scss';
 ```
 
 with CSS:
 ```js
-import '@material/react-ripple/dist/ripple.css';
+import '@material/react-tab-indicator/dist/tab-indicator.css';
 ```
 
 ### Javascript Instantiation
 
-To wrap a component with the ripple HOC, please follow this example:
-
 ```js
-import withRipple from '@material/react-ripple';
+import React from 'react';
+import TabIndicator from '@material/react-tab-indicator';
 
-const Icon = (props) => {
-  const {
-    children,
-    className = '',
-    // call `initRipple` from the root element's ref. This attaches the ripple
-    // to the element.
-    initRipple,
-    // include `unbounded` to remove warnings when passing `otherProps` to the
-    // root element.
-    unbounded,
-    ...otherProps
-  } = props;
+class MyApp extends React.Component {
+  state = {active: false};
 
-  // any classes needed on your component needs to be merged with
-  // `className` passed from `props`.
-  const classes = `ripple-icon-component ${className}`;
-
-  return (
-    <div
-      className={classes}
-      ref={initRipple}
-      {...otherProps}>
-      {children}
-    </div>
-  );
-};
-
-const RippleIcon = withRipple(Icon);
+  render() {
+    return (
+      <div>
+        <TabIndicator
+          active={this.state.active}
+          icon={icon}
+        >
+      </div>
+    );
+  }
+}
 ```
-
-Wrap your Icon component with the HOC `withRipple`, which returns a component
-with a ripple capable surface.
 
 ## Props
 
@@ -77,4 +59,4 @@ className | string | Classes to appear on className attribute of root element.
 Sass mixins may be available to customize various aspects of the components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-ripple/README.md#sass-apis)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-tab-indicator/README.md#sass-mixins)
