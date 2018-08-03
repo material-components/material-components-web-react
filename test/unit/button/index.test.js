@@ -2,7 +2,7 @@ import React from 'react';
 import {assert} from 'chai';
 import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
-import {Button} from '../../../packages/button';
+import {Button} from '../../../packages/button/index';
 
 suite('Button');
 

@@ -1,7 +1,7 @@
 // import React from 'react';
 // import {assert} from 'chai';
 // import {shallow} from 'enzyme';
-// import {Chip, ChipSet} from '../../../packages/chips';
+// import {Chip, ChipSet} from '../../../packages/chips/index';
 //
 // suite('ChipSet');
 

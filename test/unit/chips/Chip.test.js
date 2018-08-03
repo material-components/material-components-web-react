@@ -2,7 +2,7 @@
 // import {assert} from 'chai';
 // import {mount} from 'enzyme';
 // import td from 'testdouble';
-// import {Chip, ChipCheckmark} from '../../../packages/chips';
+// import {Chip, ChipCheckmark} from '../../../packages/chips/index';
 //
 // suite('Chip');
 //
