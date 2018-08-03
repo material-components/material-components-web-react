@@ -91,7 +91,6 @@ export default class TabIndicator extends Component {
       active,
       children,
       className,
-      contentClassName,
       fade,
       icon,
       onTransitionEnd,
@@ -135,7 +134,6 @@ export default class TabIndicator extends Component {
 TabIndicator.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
-  contentClassName: PropTypes.string,
   children: PropTypes.element,
   fade: PropTypes.bool,
   icon: PropTypes.bool,
@@ -146,7 +144,6 @@ TabIndicator.propTypes = {
 TabIndicator.defaultProps = {
   active: false,
   className: '',
-  contentClassName: '',
   children: null,
   fade: false,
   icon: false,

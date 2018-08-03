@@ -24,6 +24,31 @@ import '@material/react-tab-indicator/dist/tab-indicator.css';
 
 ### Javascript Instantiation
 
+#### With an Underline (default)
+
+```js
+import React from 'react';
+import TabIndicator from '@material/react-tab-indicator';
+
+class MyApp extends React.Component {
+  state = {active: false};
+
+  render() {
+    return (
+      <div>
+        <TabIndicator active={this.state.active} />
+      </div>
+    );
+  }
+}
+```
+
+
+#### With Icon
+
+If you want the underline instead of an icon, pass the icon element as a child
+of the Tab Indicator component.
+
 ```js
 import React from 'react';
 import TabIndicator from '@material/react-tab-indicator';
@@ -36,8 +61,10 @@ class MyApp extends React.Component {
       <div>
         <TabIndicator
           active={this.state.active}
-          icon={icon}
+          icon
         >
+          <i className='material-icons'>star</i>
+        </TabIndicator>
       </div>
     );
   }
@@ -48,11 +75,12 @@ class MyApp extends React.Component {
 
 Prop Name | Type | Description
 --- | --- | ---
-unbounded | boolean | Ripple is unbounded if true.
-disabled | n/a | Disables ripple if true.
-style | object | Inline styles of root element.
+active | boolean | If true will activate the indicator.
 className | string | Classes to appear on className attribute of root element.
-
+fade | boolean | If enabled will use the fade animation for transitioning to other tabs.
+icon | boolean | Indicates that the indicator is an icon instead of an underline.
+previousIndicatorClientRect | ClientRect | The indicator's clientRect that was previously activated.
+onTransitionEnd | function | transitionend event callback handler.
 
 ## Sass Mixins
 
