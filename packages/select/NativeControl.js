@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 export default class NativeControl extends React.Component {
-
-  componentDidMount() {
-    this.props.handleDisabled(this.props.disabled);
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.disabled !== prevProps.disabled) {
       this.props.handleDisabled(this.props.disabled);

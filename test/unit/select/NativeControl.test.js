@@ -16,15 +16,6 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('calls props.handleDisabled if props.disabled is true', () => {
-  const handleDisabled = td.func();
-  shallow(<NativeControl
-    handleDisabled={handleDisabled}
-    disabled
-  />);
-  td.verify(handleDisabled(true), {times: 1});
-});
-
 test('calls props.handleDisabled if props.disabled updates', () => {
   const handleDisabled = td.func();
   const wrapper = shallow(<NativeControl handleDisabled={handleDisabled} />);
