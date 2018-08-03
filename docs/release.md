@@ -35,21 +35,34 @@ This will ensure you can publish/tag, build all release files, and ensure all te
 #### Release
 
 ```
-$(npm bin)/lerna publish --skip-git --conventional-commits
+$(npm bin)/lerna publish --skip-git
 ```
 
-When lerna prompts for version, just go with it recommends as it uses the [Conventional Changelog Package](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-recommended-bump).
+When lerna prompts for version, go with the next minor release (or patch if its a bug fix release).
 
-This command will update the `package-lock.json` file and `package.json` files of the updated packages. The `CHANGELOG.md` will also be updated with the new version's changes. If you need to **edit** `CHANGELOG.md` now is the time.
+This command will update the `package-lock.json` file(maybe), `package.json` files of the updated packages, and `lerna.json`.
+
+#### CHANGELOG
+
+To update the CHANGELOG.md file, you will need to install (conventional-changelog-cli)[https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-cli].
+
+```
+npm install -g conventional-changelog-cli
+```
+
+Once installed run:
+
+```
+conventional-changelog -p angular -i CHANGELOG.md -s -r 0
+```
+
+The `CHANGELOG.md` will also be updated with the new version's changes. You will need to edit the header of the file at the very least. If you need to **edit** any other parts of the `CHANGELOG.md`, now is the time.
 
 #### Commit Changes
 
 ```
-git add packages/ package-lock.json lerna.json
+git add packages/ package-lock.json lerna.json CHANGELOG.md
 git commit -m "chore: Publish"
-
-git add CHANGELOG.md
-git commit -m "docs: Update CHANGELOG.md"
 ```
 
 #### Create Git Tag (post-release.sh)
@@ -67,7 +80,6 @@ git push && git push --tags
 ```
 
 This will ensure the commits and tags are pushed to the remote git repository.
-
 
 > If you run into CLI errors such as:
 ```
