@@ -2,7 +2,7 @@ import React from 'react';
 import td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import LineRipple from '../../../packages/line-ripple';
+import LineRipple from '../../../packages/line-ripple/index';
 
 suite('LineRipple');
 
@@ -108,4 +108,3 @@ test('#adapter.setStyle updates style names to camel case', () => {
   assert.equal(wrapper.state().style.transformOrigin, 25);
   assert.equal(wrapper.state().style['transform-origin'], undefined);
 });
-
