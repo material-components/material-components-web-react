@@ -143,3 +143,11 @@ test('tab indicator content should receive styles from state', () => {
   const tabIndicatorContent = wrapper.children().first();
   assert.equal(tabIndicatorContent.props().style.transform, transform);
 });
+
+test('#componentWillUnmount destroys foundation', () => {
+  const wrapper = shallow(<TabIndicator />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.destroy = td.func();
+  wrapper.unmount();
+  td.verify(foundation.destroy(), {times: 1});
+});
