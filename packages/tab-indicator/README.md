@@ -63,7 +63,7 @@ class MyApp extends React.Component {
           active={this.state.active}
           icon
         >
-          <i className='material-icons'>star</i>
+          <MaterialIcon icon='star' />
         </TabIndicator>
       </div>
     );
