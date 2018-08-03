@@ -22,6 +22,14 @@ module.exports.bundle = function(testPath, outputPath) {
               loader: 'css-loader',
             },
             {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  require('autoprefixer')(),
+                ],
+              },
+            },
+            {
               loader: 'sass-loader',
               options: {importer},
             },

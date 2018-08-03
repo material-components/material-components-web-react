@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import {MDCRippleFoundation, util} from '@material/ripple';
+import {MDCRippleFoundation, util} from '@material/ripple/dist/mdc.ripple';
 
 const withRipple = (WrappedComponent) => {
   class RippledComponent extends Component {
@@ -66,9 +66,16 @@ const withRipple = (WrappedComponent) => {
         registerResizeHandler: (handler) => window.addEventListener('resize', handler),
         deregisterResizeHandler: (handler) => window.removeEventListener('resize', handler),
         updateCssVariable: this.updateCssVariable,
-        computeBoundingRect: this.props.computeBoundingRect ?
-          (() => this.props.computeBoundingRect(instance)) :
-          (() => instance.getBoundingClientRect()),
+        computeBoundingRect: () => {
+          if (!this.isMounted_) {
+            // need to return object since foundation expects it
+            return {};
+          }
+          if (this.props.computeBoundingRect) {
+            return this.props.computeBoundingRect(instance);
+          }
+          return instance.getBoundingClientRect();
+        },
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset}),
       };
     }
@@ -218,8 +225,13 @@ const withRipple = (WrappedComponent) => {
 
   RippledComponent.propTypes = WrappedComponent.propTypes;
   RippledComponent.defaultProps = WrappedComponent.defaultProps;
+  RippledComponent.displayName = `WithRipple(${getDisplayName(WrappedComponent)})`;
 
   return RippledComponent;
 };
+
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+}
 
 export default withRipple;

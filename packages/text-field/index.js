@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCTextFieldFoundation} from '@material/textfield';
+import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
 
 import Input from './Input';
 import Icon from './icon';
@@ -18,12 +18,8 @@ class TextField extends React.Component {
     super(props);
     this.floatingLabelElement = React.createRef();
     this.inputElement = React.createRef();
-    this.textFieldElement = React.createRef();
 
     this.state = {
-      // line ripple state
-      activeLineRipple: false,
-
       // root state
       value: null,
       classList: new Set(),
@@ -37,6 +33,7 @@ class TextField extends React.Component {
       labelWidth: 0,
 
       // line ripple state
+      activeLineRipple: false,
       lineRippleCenter: null,
 
       // notched outline state
@@ -120,7 +117,7 @@ class TextField extends React.Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       isFocused: () => this.state.isFocused,
-      isRtl: this.getIsRtl,
+      isRtl: () => this.props.isRtl,
     };
 
     return Object.assign({},
@@ -208,13 +205,6 @@ class TextField extends React.Component {
     };
   }
 
-  getIsRtl = () => {
-    if (this.textFieldElement.current) {
-      const dir = window.getComputedStyle(this.textFieldElement.current).getPropertyValue('direction');
-      return dir === 'rtl';
-    }
-  }
-
   inputProps(props) {
     return Object.assign({}, props, {
       foundation: this.foundation_,
@@ -248,7 +238,6 @@ class TextField extends React.Component {
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         key='text-field-container'
-        ref={this.textFieldElement}
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
         {this.renderInput()}
@@ -308,7 +297,7 @@ class TextField extends React.Component {
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={this.getIsRtl()}
+        isRtl={this.props.isRtl}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
       />
@@ -346,6 +335,7 @@ TextField.propTypes = {
   'floatingLabelClassName': PropTypes.string,
   'fullWidth': PropTypes.bool,
   'helperText': PropTypes.element,
+  'isRtl': PropTypes.bool,
   'label': PropTypes.string.isRequired,
   'leadingIcon': PropTypes.element,
   'lineRippleClassName': PropTypes.string,
@@ -362,6 +352,7 @@ TextField.defaultProps = {
   floatingLabelClassName: '',
   fullWidth: false,
   helperText: null,
+  isRtl: false,
   leadingIcon: null,
   lineRippleClassName: '',
   notchedOutlineClassName: '',

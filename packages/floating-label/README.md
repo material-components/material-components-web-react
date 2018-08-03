@@ -80,4 +80,4 @@ float | Boolean | Floats label depending on value passed.
 Sass mixins may be available to customize various aspects of the components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-floating-label/README.md#scss-mixins)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-floating-label/README.md#scss-mixins)
