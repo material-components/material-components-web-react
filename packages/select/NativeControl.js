@@ -5,17 +5,16 @@ import classnames from 'classnames';
 export default class NativeControl extends React.Component {
 
   componentDidMount() {
-    this.props.syncSelectValue(this.props.value);
-    this.props.setDisabled(this.props.disabled);
+    this.props.handleDisabled(this.props.disabled);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.disabled !== prevProps.disabled) {
-      this.props.setDisabled(this.props.disabled);
+      this.props.handleDisabled(this.props.disabled);
     }
 
     if (this.props.value !== prevProps.value) {
-      this.props.syncSelectValue(this.props.value);
+      this.props.onChange({target: {value: this.props.value}});
     }
   }
 
@@ -35,13 +34,6 @@ export default class NativeControl extends React.Component {
     onBlur(e);
   }
 
-  handleChange = (e) => {
-    const {syncSelectValue, onChange} = this.props;
-    const {value} = e.target;
-    syncSelectValue(value);
-    onChange(e);
-  }
-
   render() {
     const {
       disabled,
@@ -50,8 +42,7 @@ export default class NativeControl extends React.Component {
       children,
       foundation,
       value,
-      syncSelectValue,
-      setDisabled,
+      handleDisabled,
       onFocus,
       onBlur,
       onChange,
@@ -63,7 +54,7 @@ export default class NativeControl extends React.Component {
       <select
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        onChange={this.handleChange}
+        onChange={onChange}
         disabled={disabled}
         value={value}
         className={this.classes}
@@ -79,7 +70,6 @@ NativeControl.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   disabled: PropTypes.bool,
-  syncSelectValue: PropTypes.func,
   foundation: PropTypes.shape({
     handleFocus: PropTypes.func,
     handleBlur: PropTypes.func,
@@ -88,7 +78,7 @@ NativeControl.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
-  setDisabled: PropTypes.func,
+  handleDisabled: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -103,11 +93,10 @@ NativeControl.defaultProps = {
     handleFocus: () => {},
     handleBlur: () => {},
   },
-  syncSelectValue: () => {},
   id: null,
   onBlur: () => {},
   onChange: () => {},
   onFocus: () => {},
-  setDisabled: () => {},
+  handleDisabled: () => {},
   value: '',
 };

@@ -53,6 +53,8 @@ class MyApp extends React.Component {
 
 If the option elements do not require anything unique, you can omit passing `this.props.children` and set the `option` attribute.
 
+This shorthand option is most useful when you're select options come in the form of JSON. Typically when building a select, the options will be backed by an array of objects or strings (either from an API endpoint or a JSON File). If the label/value key names, you can run a `map` function over your options.
+
 ```js
 import React from 'react';
 import Select from '@material/react-select';
@@ -81,6 +83,9 @@ class MyApp extends React.Component {
 }
 ```
 
+> NOTE: If you want a the floating label to act as a placeholder, you will need
+> an empty option as documented in the [MDC Web Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/#using-the-floating-label-as-the-placeholder).
+
 ## Props
 
 Prop Name | Type | Description
@@ -92,7 +97,8 @@ disabled | Boolean | Disables the select.
 floatingLabelClassName | String | An optional class added to the floating label element.
 id | String | Id of the `<select>` element.
 label | String | Mandatory. Label text that appears as the floating label.
-isRtl | Boolean | If toggle from false to true or vice-versa, it will recalculate the notched outline element to the appropriate width and positioning.
+Whether the direction of the select is set to RTL.
+isRtl | Boolean | Whether the direction of the select is set to RTL.
 lineRippleClassName | String | An optional class added to the line ripple element.
 nativeControlClassName | String | An optional class added to the native `<select>` element.
 notchedOutlineClassName | String | An optional class added to the notched outline element. Only applied if `props.outlined` is enabled.
@@ -104,4 +110,4 @@ options | Array{String/Object} | Array of strings or objects to be used as optio
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins]([Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-select/README.md#sass-mixins))
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-select/README.md#sass-mixins)

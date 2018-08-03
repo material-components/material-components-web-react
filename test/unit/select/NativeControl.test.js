@@ -16,38 +16,28 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('calls props.syncSelectValue with props.value onMount', () => {
-  const syncSelectValue = td.func();
-  const value = 'test value';
+test('calls props.handleDisabled if props.disabled is true', () => {
+  const handleDisabled = td.func();
   shallow(<NativeControl
-    syncSelectValue={syncSelectValue}
-    value={value}
-  />);
-  td.verify(syncSelectValue(value), {times: 1});
-});
-
-test('calls props.setDisabled props.disabed', () => {
-  const setDisabled = td.func();
-  shallow(<NativeControl
-    setDisabled={setDisabled}
+    handleDisabled={handleDisabled}
     disabled
   />);
-  td.verify(setDisabled(true), {times: 1});
+  td.verify(handleDisabled(true), {times: 1});
 });
 
-test('calls props.setDisabled if props.disabled updates', () => {
-  const setDisabled = td.func();
-  const wrapper = shallow(<NativeControl setDisabled={setDisabled} />);
+test('calls props.handleDisabled if props.disabled updates', () => {
+  const handleDisabled = td.func();
+  const wrapper = shallow(<NativeControl handleDisabled={handleDisabled} />);
   wrapper.setProps({disabled: true});
-  td.verify(setDisabled(true), {times: 1});
+  td.verify(handleDisabled(true), {times: 1});
 });
 
-test('calls props.syncSelectValue if props.value updates', () => {
-  const syncSelectValue = td.func();
-  const wrapper = shallow(<NativeControl syncSelectValue={syncSelectValue} />);
+test('calls props.onChange if props.value updates', () => {
+  const onChange = td.func();
+  const wrapper = shallow(<NativeControl onChange={onChange} />);
   const value = 'orange-peel';
   wrapper.setProps({value});
-  td.verify(syncSelectValue(value), {times: 1});
+  td.verify(onChange({target: {value}}), {times: 1});
 });
 
 test('#event.focus calls #foundation.handleFocus', () => {
@@ -82,12 +72,13 @@ test('#event.blur calls #props.onBlur', () => {
   td.verify(onBlur(evt), {times: 1});
 });
 
-test('#event.change calls #props.syncSelectValue', () => {
-  const syncSelectValue = td.func();
-  const wrapper = shallow(<NativeControl syncSelectValue={syncSelectValue} />);
-  const evt = {test: 'test', target: {value: 'value'}};
+test('#event.change calls #props.onChange', () => {
+  const onChange = td.func();
+  const wrapper = shallow(<NativeControl onChange={onChange} />);
+  const value = 'value';
+  const evt = {test: 'test', target: {value}};
   wrapper.simulate('change', evt);
-  td.verify(syncSelectValue(evt.target.value), {times: 1});
+  td.verify(onChange(evt), {times: 1});
 });
 
 test('#event.change calls #props.onChange', () => {

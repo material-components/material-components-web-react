@@ -192,15 +192,24 @@ test('passes classNames to NativeControl through props.nativeControlClassName', 
   assert.isTrue(wrapper.childAt(0).hasClass(className));
 });
 
-test('#NativeControl.syncSelectValue will update state.value', () => {
+test('#NativeControl.onChange will update state.value', () => {
   const wrapper = shallow(<Select label='my label' />);
-  wrapper.childAt(0).props().syncSelectValue('orange');
+  const evt = {target: {value: 'orange'}};
+  wrapper.childAt(0).props().onChange(evt);
   assert.equal(wrapper.state().value, 'orange');
 });
 
-test('#NativeControl.setDisabled will update state.disabled', () => {
+test('#NativeControl.onChange will call this.props.onChange', () => {
+  const onChange = td.func();
+  const wrapper = shallow(<Select label='my label' onChange={onChange} />);
+  const evt = {target: {value: 'orange'}};
+  wrapper.childAt(0).props().onChange(evt);
+  td.verify(onChange(evt), {times: 1});
+});
+
+test('#NativeControl.handleDisabled will update state.disabled', () => {
   const wrapper = shallow(<Select label='my label' />);
-  wrapper.childAt(0).props().setDisabled(true);
+  wrapper.childAt(0).props().handleDisabled(true);
   assert.equal(wrapper.state().disabled, true);
 });
 

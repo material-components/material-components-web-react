@@ -18,7 +18,7 @@ export default class Select extends React.Component {
     this.state = {
       classList: new Set(),
       disabled: props.disabled,
-      value: null,
+      value: props.value,
 
       // floating label state
       labelIsFloated: false,
@@ -36,6 +36,7 @@ export default class Select extends React.Component {
   componentDidMount() {
     this.foundation_ = new MDCSelectFoundation(this.adapter);
     this.foundation_.init();
+    this.foundation_.handleChange();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -46,6 +47,12 @@ export default class Select extends React.Component {
 
   componentWillUnmount() {
     this.foundation_.destroy();
+  }
+
+  onChange = (evt) => {
+    this.props.onChange(evt);
+    const {value} = evt.target;
+    this.setState({value});
   }
 
   /**
@@ -133,6 +140,7 @@ export default class Select extends React.Component {
       lineRippleClassName,
       notchedOutlineClassName,
       outlined,
+      onChange,
       /* eslint-enable */
       ...otherProps
     } = this.props;
@@ -141,8 +149,8 @@ export default class Select extends React.Component {
       <NativeControl
         className={nativeControlClassName}
         foundation={this.foundation_}
-        syncSelectValue={(value) => this.setState({value})}
-        setDisabled={(disabled) => this.setState({disabled})}
+        handleDisabled={(disabled) => this.setState({disabled})}
+        onChange={this.onChange}
         {...otherProps}
       >
         {this.renderOptions()}
@@ -227,11 +235,17 @@ Select.propTypes = {
   lineRippleClassName: PropTypes.string,
   nativeControlClassName: PropTypes.string,
   notchedOutlineClassName: PropTypes.string,
+  onChange: PropTypes.func,
   outlined: PropTypes.bool,
   options: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
   ])),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool,
+  ]),
 };
 
 Select.defaultProps = {
@@ -244,6 +258,8 @@ Select.defaultProps = {
   lineRippleClassName: '',
   nativeControlClassName: '',
   notchedOutlineClassName: '',
+  onChange: () => {},
   outlined: false,
   options: [],
+  value: '',
 };
