@@ -5,7 +5,7 @@ import {MDCSwitchFoundation} from '@material/switch/dist/mdc.switch';
 
 import ThumbUnderlay from './ThumbUnderlay';
 
-export class Switch extends Component {
+export default class Switch extends Component {
   foundation_ = null;
   state = {
     checked: this.props.checked,
@@ -90,5 +90,3 @@ Switch.defaultProps = {
   disabled: false,
   id: null,
 };
-
-export default Switch;
