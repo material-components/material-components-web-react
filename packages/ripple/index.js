@@ -69,9 +69,16 @@ const withRipple = (WrappedComponent) => {
         registerResizeHandler: (handler) => window.addEventListener('resize', handler),
         deregisterResizeHandler: (handler) => window.removeEventListener('resize', handler),
         updateCssVariable: this.updateCssVariable,
-        computeBoundingRect: this.props.computeBoundingRect ?
-          (() => this.props.computeBoundingRect(surface)) :
-          (() => surface.getBoundingClientRect()),
+        computeBoundingRect: () => {
+          if (!this.isMounted_) {
+            // need to return object since foundation expects it
+            return {};
+          }
+          if (this.props.computeBoundingRect) {
+            return this.props.computeBoundingRect(surface);
+          }
+          return surface.getBoundingClientRect();
+        },
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset}),
       };
     }
@@ -221,8 +228,13 @@ const withRipple = (WrappedComponent) => {
 
   RippledComponent.propTypes = WrappedComponent.propTypes;
   RippledComponent.defaultProps = WrappedComponent.defaultProps;
+  RippledComponent.displayName = `WithRipple(${getDisplayName(WrappedComponent)})`;
 
   return RippledComponent;
 };
+
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+}
 
 export default withRipple;
