@@ -31,15 +31,15 @@ export default class NativeControl extends React.Component {
 
   render() {
     const {
-      disabled,
       /* eslint-disable no-unused-vars */
       className,
-      checked,
       handleChange,
       handleDisabled,
       onChange,
-      setrippleActivatorEl,
       /* eslint-enable no-unused-vars */
+      checked,
+      disabled,
+      setrippleActivatorEl,
       ...otherProps
     } = this.props;
 
@@ -51,7 +51,7 @@ export default class NativeControl extends React.Component {
         disabled={disabled}
         checked={checked}
         className={this.classes}
-        ref={this.props.setrippleActivatorEl}
+        ref={setrippleActivatorEl}
         {...otherProps}
       />
     );

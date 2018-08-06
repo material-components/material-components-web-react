@@ -9,5 +9,10 @@ ReactDOM.render((
     <Switch />
     <Switch checked />
     <Switch disabled />
+    <div dir='rtl'>
+      <Switch />
+      <Switch checked />
+      <Switch disabled />
+    </div>
   </div>
 ), document.getElementById('app'));
