@@ -92,6 +92,7 @@ class TextField extends React.Component {
       floatingLabelClassName,
       fullWidth,
       helperText,
+      isRtl,
       label,
       leadingIcon,
       lineRippleClassName,
