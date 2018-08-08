@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import {
   MDCFadingTabIndicatorFoundation,
   MDCSlidingTabIndicatorFoundation,
-} from '@material/tab-indicator/dist/mdc.tabIndicator';
+} from '@material/tab-indicator';///dist/mdc.tabIndicator';
 
 export default class TabIndicator extends Component {
   tabIndicatorContentElement_ = React.createRef();
@@ -45,7 +45,6 @@ export default class TabIndicator extends Component {
     const {active, className, fade} = this.props;
     return classnames('mdc-tab-indicator', Array.from(classList), className, {
       'mdc-tab-indicator--fade': fade,
-      'mdc-tab-indicator--active': active,
     });
   }
 
