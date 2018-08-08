@@ -68,7 +68,7 @@ with a ripple capable surface.
 
 You may want to apply the visual treatment (CSS classes and styles) for a ripple surface on one element, but have its activation rely on a different element. For example, putting a ripple on a `<div>` which will be activated by focusing on a child `<input>` element. We call the visual element the "ripple surface" and the activating element the "ripple activator".
 
-The `initRipple` callback prop will take in an extra `activator` argument for the case where the ripple activator differs from the ripple surface. If the `activator` argument is not provided, the ripple surface will also serve as the ripple activator.
+The `initRipple` callback prop can take in an extra `activator` argument for the case where the ripple activator differs from the ripple surface. If the `activator` argument is not provided, the ripple surface will also serve as the ripple activator.
 
 ```js
 import withRipple from '@material/react-ripple';

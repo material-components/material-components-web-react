@@ -16,17 +16,24 @@ export class ThumbUnderlay extends React.Component {
     return classnames('mdc-switch__thumb-underlay', this.props.className);
   }
 
+  handleChange = (e) => {
+    const {handleChange, onChange} = this.props;
+    const {checked} = e.target;
+    handleChange(checked);
+    onChange(e);
+  }
+
   render() {
     const {
       /* eslint-disable */
       className,
+      handleChange,
       initRipple,
       unbounded,
       /* eslint-enable */
       checked,
       disabled,
       id,
-      handleChange,
       handleDisabled,
       ...otherProps
     } = this.props;
@@ -42,8 +49,8 @@ export class ThumbUnderlay extends React.Component {
             id={id}
             checked={checked}
             disabled={disabled}
-            handleChange={handleChange}
             handleDisabled={handleDisabled}
+            onChange={this.handleChange}
             setRippleActivator={this.rippleActivator}
           />
         </div>
