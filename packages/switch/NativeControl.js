@@ -1,17 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 export default class NativeControl extends React.Component {
-  get classes() {
-    return classnames('mdc-switch__native-control', this.props.className);
-  }
-
   render() {
     const {
-      /* eslint-disable no-unused-vars */
-      className,
-      /* eslint-enable no-unused-vars */
       setRippleActivator,
       ...otherProps
     } = this.props;
@@ -20,7 +12,7 @@ export default class NativeControl extends React.Component {
       <input
         type='checkbox'
         role='switch'
-        className={this.classes}
+        className='mdc-switch__native-control'
         ref={setRippleActivator}
         {...otherProps}
       />
@@ -30,7 +22,6 @@ export default class NativeControl extends React.Component {
 
 NativeControl.propTypes = {
   checked: PropTypes.bool,
-  className: PropTypes.string,
   disabled: PropTypes.bool,
   id: PropTypes.string,
   onChange: PropTypes.func,
@@ -42,7 +33,6 @@ NativeControl.propTypes = {
 
 NativeControl.defaultProps = {
   checked: false,
-  className: '',
   disabled: false,
   id: null,
   onChange: () => {},

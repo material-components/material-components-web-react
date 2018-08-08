@@ -17,10 +17,9 @@ export class ThumbUnderlay extends React.Component {
   }
 
   handleChange = (e) => {
-    const {handleChange, onChange} = this.props;
+    const {handleChange} = this.props;
     const {checked} = e.target;
     handleChange(checked);
-    onChange(e);
   }
 
   render() {
@@ -62,7 +61,6 @@ ThumbUnderlay.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   nativeControlId: PropTypes.string,
-  onChange: PropTypes.func,
   handleChange: PropTypes.func,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
@@ -73,7 +71,6 @@ ThumbUnderlay.defaultProps = {
   className: '',
   disabled: false,
   nativeControlId: null,
-  onChange: () => {},
   handleChange: () => {},
   initRipple: () => {},
   unbounded: true,
