@@ -1,0 +1,55 @@
+# React Switch
+
+A React version of an [MDC Switch](https://github.com/material-components/material-components-web/tree/master/packages/mdc-switch).
+
+## Installation
+
+```
+npm install @material/react-switch
+```
+
+## Usage
+
+### Styles
+
+with Sass:
+```js
+import '@material/react-switch/index.scss';
+```
+
+with CSS:
+```js
+import "@material/react-switch/dist/switch.css";
+```
+
+### Javascript Instantiation
+
+```js
+import React, {Component} from 'react';
+import Switch from '@material/react-switch';
+
+class MyApp extends Component {
+  render() {
+    return (
+      <Switch nativeControlId='my-switch' />
+      <label for='my-switch'>My Switch</label>
+    );
+  }
+}
+```
+
+## Props
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the chip element
+checked | Boolean | Indicates whether the switch is checked ("on")
+disabled | Boolean | Indicates whether the switch is disabled
+nativeControlId | String | Id attached to the native control for relationship with the label
+
+## Sass Mixins
+
+Sass mixins may be available to customize various aspects of the Components. Please refer to the
+MDC Web repository for more information on what mixins are available, and how to use them.
+
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-switch/README.md#sass-mixins)

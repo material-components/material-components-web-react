@@ -33,8 +33,8 @@ export class ThumbUnderlay extends React.Component {
       /* eslint-enable */
       checked,
       disabled,
-      id,
       handleDisabled,
+      nativeControlId,
       ...otherProps
     } = this.props;
 
@@ -46,7 +46,7 @@ export class ThumbUnderlay extends React.Component {
       >
         <div className='mdc-switch__thumb'>
           <NativeControl
-            id={id}
+            id={nativeControlId}
             checked={checked}
             disabled={disabled}
             handleDisabled={handleDisabled}
@@ -63,7 +63,7 @@ ThumbUnderlay.propTypes = {
   checked: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  id: PropTypes.string,
+  nativeControlId: PropTypes.string,
   handleDisabled: PropTypes.func,
   handleChange: PropTypes.func,
   unbounded: PropTypes.bool,
@@ -73,7 +73,7 @@ ThumbUnderlay.defaultProps = {
   checked: false,
   className: '',
   disabled: false,
-  id: null,
+  nativeControlId: null,
   handleDisabled: () => {},
   handleChange: () => {},
   unbounded: true,

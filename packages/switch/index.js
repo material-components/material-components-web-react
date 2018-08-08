@@ -56,7 +56,7 @@ export default class Switch extends Component {
     const {
       className, // eslint-disable-line no-unused-vars
       disabled,
-      id,
+      nativeControlId,
       ...otherProps
     } = this.props;
 
@@ -69,7 +69,7 @@ export default class Switch extends Component {
         <ThumbUnderlay
           checked={this.state.checked}
           disabled={disabled}
-          id={id}
+          nativeControlId={nativeControlId}
           handleChange={(checked) => this.setState({checked})}
           handleDisabled={(disabled) => this.setState({disabled})}/>
       </div>
@@ -81,12 +81,12 @@ Switch.propTypes = {
   checked: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  id: PropTypes.string,
+  nativeControlId: PropTypes.string,
 };
 
 Switch.defaultProps = {
   checked: false,
   className: '',
   disabled: false,
-  id: null,
+  nativeControlId: null,
 };
