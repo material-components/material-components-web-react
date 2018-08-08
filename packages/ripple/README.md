@@ -91,10 +91,6 @@ class MyComponent extends React.Component {
     this.props.initRipple(el /* surface */, this.rippleActivator.current /* activator */);
   }
 
-  setRippleActivator = (el) => {
-    this.rippleActivatorElement = el;
-  }
-
   render() {
     const {
       className,
