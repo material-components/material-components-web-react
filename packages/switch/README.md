@@ -29,14 +29,21 @@ import React, {Component} from 'react';
 import Switch from '@material/react-switch';
 
 class MyApp extends Component {
+  state = {checked: false};
+
   render() {
     return (
-      <Switch nativeControlId='my-switch' />
+      <Switch
+        nativeControlId='my-switch'
+        checked={this.state.checked}
+        onChange={(e) => this.setState({checked: e.target.checked})} />
       <label for='my-switch'>My Switch</label>
     );
   }
 }
 ```
+
+> _NOTE_: In order to get access to the checked value, you must add an `onChange` handler that accepts an `Event` and updates a checked state as shown above.
 
 ## Props
 
