@@ -39,12 +39,12 @@ export default class Switch extends Component {
   get adapter() {
     return {
       addClass: (className) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
       removeClass: (className) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
