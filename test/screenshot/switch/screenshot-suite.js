@@ -1,8 +1,7 @@
 import ScreenshotSuite from '../screenshot-suite';
 import Screenshot from '../screenshot';
- const screenshots = [
+const screenshots = [
   new Screenshot('switch/index.html'),
 ];
- const screenshotSuite = new ScreenshotSuite('Switch', screenshots);
- export default screenshotSuite;
- 
+const screenshotSuite = new ScreenshotSuite('Switch', screenshots);
+export default screenshotSuite;

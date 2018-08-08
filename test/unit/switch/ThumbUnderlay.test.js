@@ -1,7 +1,6 @@
 import React from 'react';
 import {assert} from 'chai';
 import {mount} from 'enzyme';
-import td from 'testdouble';
 import ThumbUnderlay from '../../../packages/switch/ThumbUnderlay';
 
 suite('Switch Thumb Underlay');
