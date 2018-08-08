@@ -6,7 +6,7 @@ import ThumbUnderlay from '../../../packages/switch/ThumbUnderlay';
 
 suite('Switch Thumb Underlay');
 
-test('renders thumb underlay', () => {
+test('has mdc-switch__thumb-underlay class', () => {
   const wrapper = mount(<ThumbUnderlay />);
   assert.exists(wrapper.find('.mdc-switch__thumb-underlay'));
 });
@@ -22,8 +22,8 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('passes id to NativeControl through props', () => {
-  const wrapper = mount(<ThumbUnderlay id={'test-id'} />);
+test('passes nativeControlId to NativeControl through props', () => {
+  const wrapper = mount(<ThumbUnderlay nativeControlId={'test-id'} />);
   const nativeControl = wrapper.find('.mdc-switch__thumb').childAt(0);
   assert.equal(nativeControl.props().id, 'test-id');
 });
@@ -38,18 +38,4 @@ test('passes disabled to NativeControl through props', () => {
   const wrapper = mount(<ThumbUnderlay disabled />);
   const nativeControl = wrapper.find('.mdc-switch__thumb').childAt(0);
   assert.isTrue(nativeControl.props().disabled);
-});
-
-test('passes handleChange to NativeControl through props', () => {
-  const handleChange = td.func();
-  const wrapper = mount(<ThumbUnderlay handleChange={handleChange} />);
-  const nativeControl = wrapper.find('.mdc-switch__thumb').childAt(0);
-  assert.equal(nativeControl.props().handleChange, handleChange);
-});
-
-test('passes handleDisabled to NativeControl through props', () => {
-  const handleDisabled = td.func();
-  const wrapper = mount(<ThumbUnderlay handleDisabled={handleDisabled} />);
-  const nativeControl = wrapper.find('.mdc-switch__thumb').childAt(0);
-  assert.equal(nativeControl.props().handleDisabled, handleDisabled);
 });

@@ -11,7 +11,7 @@ test('creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('renders switch', () => {
+test('has mdc-switch class', () => {
   const wrapper = shallow(<Switch />);
   assert.exists(wrapper.find('.mdc-switch'));
 });

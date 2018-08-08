@@ -70,8 +70,7 @@ export default class Switch extends Component {
           checked={this.state.checked}
           disabled={disabled}
           nativeControlId={nativeControlId}
-          handleChange={(checked) => this.setState({checked})}
-          handleDisabled={(disabled) => this.setState({disabled})}/>
+          handleChange={(checked) => this.setState({checked})} />
       </div>
     );
   }

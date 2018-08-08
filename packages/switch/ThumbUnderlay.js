@@ -33,7 +33,6 @@ export class ThumbUnderlay extends React.Component {
       /* eslint-enable */
       checked,
       disabled,
-      handleDisabled,
       nativeControlId,
       ...otherProps
     } = this.props;
@@ -49,7 +48,6 @@ export class ThumbUnderlay extends React.Component {
             id={nativeControlId}
             checked={checked}
             disabled={disabled}
-            handleDisabled={handleDisabled}
             onChange={this.handleChange}
             setRippleActivator={this.rippleActivator}
           />
@@ -64,7 +62,6 @@ ThumbUnderlay.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   nativeControlId: PropTypes.string,
-  handleDisabled: PropTypes.func,
   handleChange: PropTypes.func,
   unbounded: PropTypes.bool,
 };
@@ -74,7 +71,6 @@ ThumbUnderlay.defaultProps = {
   className: '',
   disabled: false,
   nativeControlId: null,
-  handleDisabled: () => {},
   handleChange: () => {},
   unbounded: true,
 };

@@ -11,7 +11,6 @@ export default class NativeControl extends React.Component {
     const {
       /* eslint-disable no-unused-vars */
       className,
-      handleDisabled,
       /* eslint-enable no-unused-vars */
       setRippleActivator,
       ...otherProps
@@ -35,7 +34,6 @@ NativeControl.propTypes = {
   disabled: PropTypes.bool,
   id: PropTypes.string,
   onChange: PropTypes.func,
-  handleDisabled: PropTypes.func,
   setRippleActivator: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
@@ -48,6 +46,5 @@ NativeControl.defaultProps = {
   disabled: false,
   id: null,
   onChange: () => {},
-  handleDisabled: () => {},
   setRippleActivator: () => {},
 };
