@@ -65,6 +65,12 @@ test('classNames get dense class when prop.dense is true', () => {
   assert.equal(textField.length, 1);
 });
 
+test('style prop adds style attribute', () => {
+  const wrapper = mount(<TextField label='my label' style={{backgroundColor: 'red'}}><Input /></TextField>);
+  const textField = wrapper.find('.mdc-text-field[style]');
+  assert.equal(textField.length, 1);
+});
+
 test('#componentDidMount creates foundation', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   assert.exists(wrapper.instance().foundation_);
