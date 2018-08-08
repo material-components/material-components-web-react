@@ -7,7 +7,6 @@ export default [
   require('./floating-label/screenshot-suite').default,
   require('./material-icon/screenshot-suite').default,
   require('./notched-outline/screenshot-suite').default,
-  require('./switch/screenshot-suite').default,
   require('./select/screenshot-suite').default,
   require('./switch/screenshot-suite').default,
   require('./tab-indicator/screenshot-suite').default,

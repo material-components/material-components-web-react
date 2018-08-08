@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 export default class NativeControl extends React.Component {
-  componentDidMount() {
-    this.props.handleChange(this.props.checked);
-    this.props.handleDisabled(this.props.disabled);
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.disabled !== prevProps.disabled) {
       this.props.handleDisabled(this.props.disabled);
@@ -39,7 +34,7 @@ export default class NativeControl extends React.Component {
       /* eslint-enable no-unused-vars */
       checked,
       disabled,
-      rippleActivator,
+      setRippleActivator,
       ...otherProps
     } = this.props;
 
@@ -51,7 +46,7 @@ export default class NativeControl extends React.Component {
         disabled={disabled}
         checked={checked}
         className={this.classes}
-        ref={rippleActivator}
+        ref={setRippleActivator}
         {...otherProps}
       />
     );
@@ -66,6 +61,10 @@ NativeControl.propTypes = {
   onChange: PropTypes.func,
   handleDisabled: PropTypes.func,
   handleChange: PropTypes.func,
+  setRippleActivator: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+  ]),
 };
 
 NativeControl.defaultProps = {
@@ -76,4 +75,5 @@ NativeControl.defaultProps = {
   onChange: () => {},
   handleDisabled: () => {},
   handleChange: () => {},
+  setRippleActivator: () => {},
 };
