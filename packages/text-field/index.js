@@ -82,6 +82,31 @@ class TextField extends React.Component {
     });
   }
 
+  get otherProps() {
+    const {
+      /* eslint-disable no-unused-vars */
+      box,
+      children,
+      className,
+      dense,
+      floatingLabelClassName,
+      fullWidth,
+      helperText,
+      isRtl,
+      label,
+      leadingIcon,
+      lineRippleClassName,
+      notchedOutlineClassName,
+      outlined,
+      textarea,
+      trailingIcon,
+      /* eslint-enable no-unused-vars */
+      ...otherProps
+    } = this.props;
+
+    return otherProps;
+  }
+
   get adapter() {
     const rootAdapterMethods = {
       addClass: (className) =>
@@ -209,6 +234,7 @@ class TextField extends React.Component {
 
     const textField = (
       <div
+        {...this.otherProps}
         className={this.classes}
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
