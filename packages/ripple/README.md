@@ -75,20 +75,20 @@ import withRipple from '@material/react-ripple';
 
 const MyInput = (props) => {
   const {
-    setRippleActivator,
+    rippleActivator,
     ...otherProps
   } = props;
 
   return (
-    <input ref={setRippleActivator} {...otherProps} />
+    <input ref={rippleActivator} {...otherProps} />
   );
 }
 
 class MyComponent extends React.Component {
-  rippleActivatorElement = null;
+  rippleActivator = React.createRef();
 
   init = (el) => {
-    this.props.initRipple(el /* surface */, this.rippleActivatorElement /* activator */);
+    this.props.initRipple(el /* surface */, this.rippleActivator.current /* activator */);
   }
 
   setRippleActivator = (el) => {
@@ -108,7 +108,7 @@ class MyComponent extends React.Component {
         className={`my-component ${className}`}
         ref={this.init}
         {...otherProps}>
-        <MyInput setRippleActivator={this.setRippleActivator} />
+        <MyInput rippleActivator={this.rippleActivator} />
       </div>
     );
   }

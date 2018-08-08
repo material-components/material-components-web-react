@@ -39,7 +39,7 @@ export default class NativeControl extends React.Component {
       /* eslint-enable no-unused-vars */
       checked,
       disabled,
-      setrippleActivatorEl,
+      rippleActivator,
       ...otherProps
     } = this.props;
 
@@ -51,7 +51,7 @@ export default class NativeControl extends React.Component {
         disabled={disabled}
         checked={checked}
         className={this.classes}
-        ref={setrippleActivatorEl}
+        ref={rippleActivator}
         {...otherProps}
       />
     );

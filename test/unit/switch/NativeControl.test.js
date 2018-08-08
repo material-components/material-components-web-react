@@ -29,9 +29,3 @@ test('calls props.handleChange if props.checked updates', () => {
   wrapper.setProps({checked: true});
   td.verify(handleChange(true), {times: 1});
 });
-
-test('calls props.setrippleActivatorEl on mount', () => {
-  const setrippleActivatorEl = td.func();
-  mount(<NativeControl setrippleActivatorEl={setrippleActivatorEl} />);
-  td.verify(setrippleActivatorEl(td.matchers.isA(Object)), {times: 1});
-});
