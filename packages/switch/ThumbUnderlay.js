@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import withRipple from '../ripple';
+import withRipple from '@material/react-ripple';
 
 import NativeControl from './NativeControl';
 
