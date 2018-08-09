@@ -3,6 +3,7 @@ import {assert} from 'chai';
 import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import Tab from '../../../packages/tab/index';
+import TabIndicator from '../../../packages/tab-indicator/index';
 
 suite('Tab');
 
@@ -207,4 +208,73 @@ test('should render content with icon and text children', () => {
   assert.equal(icon.type(), 'i');
   assert.equal(textLabel.text(), 'meow');
   assert.equal(textLabel.type(), 'span');
+});
+
+test('should render mdc tab ripple', () => {
+  const wrapper = shallow(<Tab />);
+  const ripple = wrapper.children().last();
+  assert.isTrue(ripple.hasClass('mdc-tab__ripple'));
+});
+
+test('should render default TabIndicator', () => {
+  const wrapper = shallow(<Tab />);
+  const indicator = wrapper.childAt(1);
+  assert.equal(indicator.type(), TabIndicator);
+});
+
+test('props.active should render indicator with props.active true', () => {
+  const wrapper = shallow(<Tab active />);
+  const indicator = wrapper.childAt(1);
+  assert.isTrue(indicator.props().active);
+});
+
+test('props.fadeIndicator should render indicator with props.fade true', () => {
+  const wrapper = shallow(<Tab fadeIndicator />);
+  const indicator = wrapper.childAt(1);
+  assert.isTrue(indicator.props().fade);
+});
+
+test('props.previousActiveClientRect should render indicator with same props.previousIndicatorClientRect', () => {
+  const clientRect = {test: 1};
+  const wrapper = shallow(<Tab previousActiveClientRect={clientRect} />);
+  const indicator = wrapper.childAt(1);
+  assert.equal(indicator.props().previousIndicatorClientRect, clientRect);
+});
+
+
+test('custom tabIndicator should render indicator with props.active true if props.active is true', () => {
+  const wrapper = shallow(<Tab
+    active
+    indicator={(props) => <TabIndicator active={props.active} />}
+  />);
+  const indicator = wrapper.childAt(1);
+  assert.isTrue(indicator.props().active);
+});
+
+test('custom tabIndicator should render indicator with same props.previousIndicatorClientRect as props.previousActiveClientRect', () => {
+  const clientRect = {test: 1};
+  const wrapper = shallow(<Tab
+    previousActiveClientRect={clientRect}
+    indicator={(props) => <TabIndicator previousIndicatorClientRect={props.previousIndicatorClientRect} />}
+  />);
+  const indicator = wrapper.childAt(1);
+  assert.equal(indicator.props().previousIndicatorClientRect, clientRect);
+});
+
+test('custom tabIndicator should render with a ref attached', () => {
+  const wrapper = mount(<Tab
+    indicator={(props) => <TabIndicator ref={props.ref} />}
+  />);
+
+  assert.instanceOf(wrapper.instance().tabIndicatorElement_.current, TabIndicator);
+});
+
+test('custom tabIndicator should throw error if TabIndicator is not returned', () => {
+  const wrapper = () => shallow(<Tab indicator={(props) => <i className='test' />} />);
+  assert.throws(wrapper, /this.props.indicator must be a function/);
+});
+
+test('custom tabIndicator should throw error if props.indicator is not a function', () => {
+  const wrapper = () => shallow(<Tab indicator={<i className='test' />} />);
+  assert.throws(wrapper);
 });

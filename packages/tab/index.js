@@ -144,15 +144,21 @@ export default class Tab extends Component {
     const {
       active,
       fadeIndicator,
+      indicator,
       previousActiveClientRect,
     } = this.props;
 
-    if (this.props.indicator) {
-      return this.props.indicator({
+    if (indicator) {
+      const indicatorProps = {
         active,
         previousIndicatorClientRect: previousActiveClientRect,
         ref: this.tabIndicatorElement_,
-      });
+      }
+      const Indicator = indicator(indicatorProps);
+      if (Indicator.type !== TabIndicator) {
+        throw 'this.props.indicator must be a function that returns an instance of TabIndicator';
+      };
+      return Indicator;
     }
 
     return (
