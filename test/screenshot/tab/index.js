@@ -20,7 +20,7 @@ class TabsController extends React.Component {
   state = {activeIndex: 0, previousActiveIndex: 0};
 
   render() {
-    const {tabContent, minWidth, stacked} = this.props;
+    const {tabContent, minWidth, stacked, fadeIndicator} = this.props;
     const {activeIndex, previousActiveIndex} = this.state;
     return (
       <Tabs activeIndex={activeIndex}>
@@ -29,6 +29,7 @@ class TabsController extends React.Component {
             active={index === activeIndex}
             key={index}
             minWidth={minWidth}
+            fadeIndicator={fadeIndicator}
             stacked={stacked}
             previousActiveClientRect={this.tabBoundingRects[previousActiveIndex]}
             ref={ tabEl => {if(tabEl) {this.tabBoundingRects.push(tabEl.computeIndicatorClientRect())}} }
@@ -81,6 +82,12 @@ ReactDOM.render((
     <h3>Tabs Stacked</h3>
     <TabsController
       stacked
+      tabContent={(num) => <TabContent num={num}/>}
+    />
+
+    <h3>Tabs w/ Fading Tab Indicator</h3>
+    <TabsController
+      fadeIndicator
       tabContent={(num) => <TabContent num={num}/>}
     />
   </div>
