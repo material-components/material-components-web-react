@@ -13,7 +13,6 @@ export default class TabIndicator extends Component {
 
   state = {
     classList: new Set(),
-    contentStyle: {},
   };
 
   componentDidMount() {
@@ -23,6 +22,10 @@ export default class TabIndicator extends Component {
       this.foundation_ = new MDCSlidingTabIndicatorFoundation(this.adapter);
     }
     this.foundation_.init();
+
+    if (this.props.active) {
+      this.foundation_.activate();
+    }
   }
 
   componentWillUnmount() {
@@ -59,20 +62,25 @@ export default class TabIndicator extends Component {
   get adapter() {
     return {
       addClass: (className) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
       removeClass: (className) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      computeContentClientRect:
-        () => this.tabIndicatorContentElement_.current
-          && this.tabIndicatorContentElement_.current.getBoundingClientRect(),
-      setContentStyleProperty: (prop, value) => this.setState({contentStyle: {[prop]: value}}),
+      computeContentClientRect: this.computeContentClientRect,
+      // setContentStyleProperty was using setState, but due to the method's
+      // async nature, its not condusive to the FLIP technique
+      setContentStyleProperty: (prop, value) => this.tabIndicatorContentElement_.current.style[prop] = value,
     };
+  }
+
+  computeContentClientRect = () => {
+    if (!(this.tabIndicatorContentElement_ && this.tabIndicatorContentElement_.current)) return;
+    return this.tabIndicatorContentElement_.current.getBoundingClientRect();
   }
 
   handleTransitionEnd = (e) => {
@@ -109,24 +117,13 @@ export default class TabIndicator extends Component {
     );
   }
 
-  addContentClassesToChildren = () => {
-    const child = React.Children.only(this.props.children);
-    const className = classnames(child.props.className, this.contentClasses);
-    const props = Object.assign({}, child.props, {className});
-    return React.cloneElement(child, props);
-  };
-
   renderContent() {
-    if (this.props.children) {
-      return this.addContentClassesToChildren();
-    }
-    return (
-      <span
-        className={this.contentClasses}
-        ref={this.tabIndicatorContentElement_}
-        style={this.state.contentStyle}
-      />
-    );
+    return (<span
+      className={this.contentClasses}
+      ref={this.tabIndicatorContentElement_}
+    >
+      {this.props.children ? this.props.children : null}
+    </span>);
   }
 }
 

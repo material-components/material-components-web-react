@@ -12,16 +12,19 @@ export default class Tab extends Component {
   tabContentElement_ = React.createRef();
   tabIndicatorElement_ = React.createRef();
 
-  // constructor(props) {
-  //   super(props);
-    state = {
-      classList: new Set(),
-    };
-  // }
+  state = {
+    'classList': new Set(),
+    'aria-hidden': undefined,
+    'tabIndex': undefined,
+  };
 
   componentDidMount() {
     this.foundation_ = new MDCTabFoundation(this.adapter);
     this.foundation_.init();
+
+    if (this.props.active) {
+      this.foundation_.activate();
+    }
   }
 
   componentWillUnmount() {
@@ -31,8 +34,7 @@ export default class Tab extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
-        //computeIndicatorClientRect
-        this.foundation_.activate({});
+        this.foundation_.activate(this.props.previousActiveClientRect);
       } else {
         this.foundation_.deactivate();
       }
@@ -44,7 +46,6 @@ export default class Tab extends Component {
     const {active, className, minWidth, stacked} = this.props;
     return classnames('mdc-tab', Array.from(classList), className, {
       'mdc-tab--min-width	': minWidth,
-      // 'mdc-tab--active': active,
       'mdc-tab--stacked': stacked,
     });
   }
@@ -62,11 +63,8 @@ export default class Tab extends Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
+      setAttr: (attr, value) => this.setState({[attr]: value}),
 
-      activateIndicator: (previousIndicatorClientRect) => this.previousIndicatorClientRect = previousIndicatorClientRect,
-      // deactivateIndicator
-      computeIndicatorClientRect: () => {debugger; this.tabIndicator_.computeContentClientRect()},
-      // notifyInteracted: () => this.emit(MDCTabFoundation.strings.INTERACTED_EVENT, {tab: this}, true /* bubble */),
       registerEventHandler: () => this.allowTransitionEnd_ = true,
       deregisterEventHandler: () => this.allowTransitionEnd_ = false,
       getOffsetLeft: () => this.tabElement_.current && this.tabElement_.current.offsetLeft,
@@ -74,8 +72,23 @@ export default class Tab extends Component {
       getContentOffsetLeft: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetLeft,
       getContentOffsetWidth: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetWidth,
       focus: () => this.tabElement_.current && this.tabElement_.current.focus(),
+
+      // activateIndicator, deactivateIndicator, and computeIndicatorClientRect
+      // are not needed in the adapter. TabIndicator keeps calls foundation.active
+      // and foundation.deactivate when this.props.activate updates.
+      // computeIndicatorClientRect seems redundant in mdc-tab
     };
   }
+
+  computeIndicatorClientRect = () => {
+    if (!this.tabIndicatorElement_.current) return;
+    return this.tabIndicatorElement_.current.computeContentClientRect();
+  }
+
+  computeDimensions = () => {
+    return this.foundation_.computeDimensions();
+  }
+
 
   handleTransitionEnd(evt) {
     this.props.onTransitionEnd(evt);
@@ -88,17 +101,27 @@ export default class Tab extends Component {
   render() {
     const {
       active,
+      previousActiveClientRect,
       children,
       className,
       fadeIndicator,
+      indicator,
+      minWidth,
+      stacked,
       ...otherProps,
     } = this.props;
 
+    const {
+      tabIndex,
+      ['aria-selected']: ariaSelected
+    } = this.state;
+
     return (
       <button
-        className='mdc-tab'
+        className={this.classes}
         role='tab'
-        aria-selected='true'
+        aria-selected={ariaSelected}
+        tabIndex={tabIndex}
         ref={this.tabElement_}
         onTransitionEnd={this.handleTransitionEnd}
         {...otherProps}
@@ -108,17 +131,35 @@ export default class Tab extends Component {
           ref={this.tabContentElement_}
         >
           {children}
-          {/* <span className='mdc-tab__icon'>heart</span>
-          <span className='mdc-tab__text-label'>Favorites</span> */}
         </span>
-        <TabIndicator
-          active={active}
-          fade={fadeIndicator}
-          ref={this.tabIndicatorElement_}
-          previousIndicatorClientRect={this.previousIndicatorClientRect}
-        />
+        {this.renderIndicator()}
         <span className='mdc-tab__ripple'></span>
       </button>
+    );
+  }
+
+  renderIndicator() {
+    const {
+      active,
+      fadeIndicator,
+      previousActiveClientRect,
+    } = this.props;
+
+    if (this.props.indicator) {
+      return this.props.indicator({
+        active,
+        previousIndicatorClientRect: previousActiveClientRect,
+        ref: this.tabIndicatorElement_,
+      });
+    }
+
+    return (
+      <TabIndicator
+        active={active}
+        fade={fadeIndicator}
+        ref={this.tabIndicatorElement_}
+        previousIndicatorClientRect={previousActiveClientRect}
+      />
     );
   }
 }
