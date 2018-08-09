@@ -30,7 +30,7 @@ test('adds the active class if props.active is true on mount', () => {
 
 test('adds a class from state.classList', () => {
   const wrapper = shallow(<Tab />);
-  wrapper.setState({classList: new Set(['test-class'])})
+  wrapper.setState({classList: new Set(['test-class'])});
   assert.isTrue(wrapper.hasClass('test-class'));
 });
 
@@ -117,12 +117,16 @@ test('#adapter.getOffsetWidth returns tabElement_.offsetWidth', () => {
 
 test('#adapter.getContentOffsetLeft returns tabContentElement_.offsetLeft', () => {
   const wrapper = mount(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getContentOffsetLeft(), wrapper.instance().tabContentElement_.current.offsetLeft);
+  assert.equal(
+    wrapper.instance().adapter.getContentOffsetLeft(),
+    wrapper.instance().tabContentElement_.current.offsetLeft);
 });
 
 test('#adapter.getContentOffsetWidth returns tabContentElement_.offsetWidth', () => {
   const wrapper = mount(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getContentOffsetWidth(), wrapper.instance().tabContentElement_.current.offsetWidth);
+  assert.equal(
+    wrapper.instance().adapter.getContentOffsetWidth(),
+    wrapper.instance().tabContentElement_.current.offsetWidth);
 });
 
 test('#adapter.focus focuses the tabElement_', () => {
@@ -251,7 +255,8 @@ test('custom tabIndicator should render indicator with props.active true if prop
   assert.isTrue(indicator.props().active);
 });
 
-test('custom tabIndicator should render indicator with same props.previousIndicatorClientRect as props.previousActiveClientRect', () => {
+test('custom tabIndicator should render indicator with same ' +
+  'props.previousIndicatorClientRect as props.previousActiveClientRect', () => {
   const clientRect = {test: 1};
   const wrapper = shallow(<Tab
     previousActiveClientRect={clientRect}
@@ -277,4 +282,13 @@ test('custom tabIndicator should throw error if TabIndicator is not returned', (
 test('custom tabIndicator should throw error if props.indicator is not a function', () => {
   const wrapper = () => shallow(<Tab indicator={<i className='test' />} />);
   assert.throws(wrapper);
+});
+
+
+test('#componentWillUnmount destroys foundation', () => {
+  const wrapper = shallow(<Tab />);
+  const foundation = wrapper.instance().foundation_;
+  foundation.destroy = td.func();
+  wrapper.unmount();
+  td.verify(foundation.destroy(), {times: 1});
 });

@@ -43,9 +43,9 @@ export default class Tab extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {active, className, minWidth, stacked} = this.props;
+    const {className, minWidth, stacked} = this.props;
     return classnames('mdc-tab', Array.from(classList), className, {
-      'mdc-tab--min-width	': minWidth,
+      'mdc-tab--min-width': minWidth,
       'mdc-tab--stacked': stacked,
     });
   }
@@ -99,7 +99,7 @@ export default class Tab extends Component {
 
   render() {
     const {
-      // eslint-disable
+      /* eslint-disable */
       active,
       previousActiveClientRect,
       className,
@@ -108,14 +108,14 @@ export default class Tab extends Component {
       minWidth,
       onTransitionEnd,
       stacked,
-      // eslint-enable
+      /* eslint-enable */
       children,
-      ...otherProps,
+      ...otherProps
     } = this.props;
 
     const {
       tabIndex,
-      ['aria-selected']: ariaSelected
+      ['aria-selected']: ariaSelected,
     } = this.state;
 
     return (
@@ -153,10 +153,10 @@ export default class Tab extends Component {
         active,
         previousIndicatorClientRect: previousActiveClientRect,
         ref: this.tabIndicatorElement_,
-      }
+      };
       const Indicator = indicator(indicatorProps);
       if (Indicator.type !== TabIndicator) {
-        throw 'this.props.indicator must be a function that returns an instance of TabIndicator';
+        new Error('this.props.indicator must be a function that returns an instance of TabIndicator');
       };
       return Indicator;
     }
@@ -175,11 +175,18 @@ export default class Tab extends Component {
 Tab.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
+  children: PropTypes.node,
+  minWidth: PropTypes.bool,
+  stacked: PropTypes.bool,
+  previousActiveClientRect: PropTypes.object,
   onTransitionEnd: PropTypes.func,
 };
 
 Tab.defaultProps = {
   active: false,
   className: '',
+  minWidth: false,
+  stacked: false,
   onTransitionEnd: () => {},
+  previousActiveClientRect: {},
 };

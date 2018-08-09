@@ -20,7 +20,9 @@ class TabsController extends React.Component {
   state = {activeIndex: 0, previousActiveIndex: 0};
 
   render() {
-    const {tabContent, minWidth, stacked, fadeIndicator} = this.props;
+    const {
+      tabContent, indicator, minWidth, stacked, fadeIndicator, // eslint-disable-line react/prop-types
+    } = this.props;
     const {activeIndex, previousActiveIndex} = this.state;
     return (
       <Tabs activeIndex={activeIndex}>
@@ -32,9 +34,13 @@ class TabsController extends React.Component {
             fadeIndicator={fadeIndicator}
             stacked={stacked}
             previousActiveClientRect={this.tabBoundingRects[previousActiveIndex]}
-            ref={ tabEl => {if(tabEl) {this.tabBoundingRects.push(tabEl.computeIndicatorClientRect())}} }
+            ref={(tabEl) => {
+              if (tabEl) {
+                this.tabBoundingRects.push(tabEl.computeIndicatorClientRect());
+              }
+            }}
             onClick={() => this.setState({previousActiveIndex: activeIndex, activeIndex: index})}
-            indicator={this.props.indicator ? (props) => this.props.indicator(props) : null}
+            indicator={indicator ? (props) => indicator(props) : null}
           >
             {tabContent(num)}
           </Tab>
@@ -44,12 +50,14 @@ class TabsController extends React.Component {
   }
 };
 
-const TabContent = ({num}) => (
+const TabContent = ({
+  num, // eslint-disable-line react/prop-types
+}) => (
   <React.Fragment>
     <MaterialIcon className='mdc-tab__icon' icon='favorite' />
     <span className='mdc-tab__text-label'>{num}</span>
   </React.Fragment>
-)
+);
 
 ReactDOM.render((
   <div>
