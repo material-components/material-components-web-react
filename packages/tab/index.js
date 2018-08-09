@@ -14,7 +14,7 @@ export default class Tab extends Component {
 
   state = {
     'classList': new Set(),
-    'aria-hidden': undefined,
+    'aria-selected': undefined,
     'tabIndex': undefined,
   };
 
@@ -89,8 +89,7 @@ export default class Tab extends Component {
     return this.foundation_.computeDimensions();
   }
 
-
-  handleTransitionEnd(evt) {
+  handleTransitionEnd = (evt) => {
     this.props.onTransitionEnd(evt);
 
     if (!this.allowTransitionEnd_) return;
@@ -100,14 +99,17 @@ export default class Tab extends Component {
 
   render() {
     const {
+      // eslint-disable
       active,
       previousActiveClientRect,
-      children,
       className,
       fadeIndicator,
       indicator,
       minWidth,
+      onTransitionEnd,
       stacked,
+      // eslint-enable
+      children,
       ...otherProps,
     } = this.props;
 

@@ -2,9 +2,9 @@ import ScreenshotSuite from '../screenshot-suite';
 import Screenshot from '../screenshot';
 
 const screenshots = [
-  new Screenshot('tab-indicator/index.html'),
+  new Screenshot('tab/index.html'),
 ];
 
-const screenshotSuite = new ScreenshotSuite('TabIndicator', screenshots);
+const screenshotSuite = new ScreenshotSuite('Tab', screenshots);
 
 export default screenshotSuite;
