@@ -47,8 +47,8 @@ test('calls props.onChange in NativeControl props.onChange', () => {
   const mockEvt = {
     target: {
       checked: true,
-    }
-  }
+    },
+  };
   nativeControl.props().onChange(mockEvt);
   td.verify(wrapper.props().onChange(mockEvt.target.checked));
 });
