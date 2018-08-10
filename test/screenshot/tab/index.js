@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tab from '../../../packages/tab';
-import TabIndicator from '../../../packages/tab-indicator';
-import MaterialIcon from '../../../packages/material-icon';
+import TabIndicator from '../../../packages/tab-indicator/index';
+import MaterialIcon from '../../../packages/material-icon/index';
 
 import './index.scss';
 const Tabs = ({
