@@ -8,7 +8,7 @@ import {
 } from '@material/tab-indicator/dist/mdc.tabIndicator';
 
 export default class TabIndicator extends Component {
-  tabIndicatorContentElement_ = React.createRef();
+  tabIndicatorElement_ = React.createRef();
   allowTransitionEnd_ = false;
 
   state = {
@@ -74,13 +74,26 @@ export default class TabIndicator extends Component {
       computeContentClientRect: this.computeContentClientRect,
       // setContentStyleProperty was using setState, but due to the method's
       // async nature, its not condusive to the FLIP technique
-      setContentStyleProperty: (prop, value) => this.tabIndicatorContentElement_.current.style[prop] = value,
+      setContentStyleProperty: (prop, value) => {
+        const contentElement = this.getNativeContentElement();
+        if (!contentElement) return;
+        contentElement.style[prop] = value;
+      },
     };
   }
 
+  getNativeContentElement = () => {
+    if (!this.tabIndicatorElement_.current) return;
+    // need to use getElementsByClassName since tabIndicator could be
+    // a non-semantic element (span, i, etc.). This is a problem since refs to a non semantic elements
+    // return the instance of the component.
+    return this.tabIndicatorElement_.current.getElementsByClassName('mdc-tab-indicator__content')[0];
+  }
+
   computeContentClientRect = () => {
-    if (!(this.tabIndicatorContentElement_ && this.tabIndicatorContentElement_.current)) return;
-    return this.tabIndicatorContentElement_.current.getBoundingClientRect();
+    const contentElement = this.getNativeContentElement();
+    if (!(contentElement && contentElement.getBoundingClientRect)) return;
+    return contentElement.getBoundingClientRect();
   }
 
   handleTransitionEnd = (e) => {
@@ -110,6 +123,7 @@ export default class TabIndicator extends Component {
       <span
         className={this.classes}
         onTransitionEnd={this.handleTransitionEnd}
+        ref={this.tabIndicatorElement_}
         {...otherProps}
       >
         {this.renderContent()}
@@ -117,14 +131,19 @@ export default class TabIndicator extends Component {
     );
   }
 
+  addContentClassesToChildren = () => {
+    const child = React.Children.only(this.props.children);
+    const className = classnames(child.props.className, this.contentClasses);
+    const props = Object.assign({}, child.props, {className});
+    return React.cloneElement(child, props);
+  };
+
   renderContent() {
+    if (this.props.children) {
+      return this.addContentClassesToChildren();
+    }
     return (
-      <span
-        className={this.contentClasses}
-        ref={this.tabIndicatorContentElement_}
-      >
-        {this.props.children ? this.props.children : null}
-      </span>
+      <span className={this.contentClasses} />
     );
   }
 }
