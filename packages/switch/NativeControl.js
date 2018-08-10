@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class NativeControl extends React.Component {
   render() {
     const {
-      setRippleActivator,
+      rippleActivatorRef,
       ...otherProps
     } = this.props;
 
@@ -13,7 +13,7 @@ export default class NativeControl extends React.Component {
         type='checkbox'
         role='switch'
         className='mdc-switch__native-control'
-        ref={setRippleActivator}
+        ref={rippleActivatorRef}
         {...otherProps}
       />
     );
@@ -25,7 +25,7 @@ NativeControl.propTypes = {
   disabled: PropTypes.bool,
   id: PropTypes.string,
   onChange: PropTypes.func,
-  setRippleActivator: PropTypes.oneOfType([
+  rippleActivatorRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
   ]),
@@ -36,5 +36,5 @@ NativeControl.defaultProps = {
   disabled: false,
   id: null,
   onChange: () => {},
-  setRippleActivator: () => {},
+  rippleActivatorRef: null,
 };

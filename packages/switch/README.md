@@ -49,7 +49,7 @@ class MyApp extends Component {
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the chip element
+className | String | Classes to be applied to the switch element
 checked | Boolean | Indicates whether the switch is checked ("on")
 disabled | Boolean | Indicates whether the switch is disabled
 nativeControlId | String | Id attached to the native control for relationship with the label

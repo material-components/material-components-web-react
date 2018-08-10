@@ -48,7 +48,7 @@ export class ThumbUnderlay extends React.Component {
             checked={checked}
             disabled={disabled}
             onChange={this.handleChange}
-            setRippleActivator={this.rippleActivator}
+            rippleActivatorRef={this.rippleActivator}
           />
         </div>
       </div>

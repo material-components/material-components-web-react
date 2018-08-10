@@ -146,9 +146,9 @@ const withRipple = (WrappedComponent) => {
     }
 
     get classes() {
-      const {className: wrappedCompClasses} = this.props;
+      const {className: wrappedComponentClasses} = this.props;
       const {classList} = this.state;
-      return classnames(Array.from(classList), wrappedCompClasses);
+      return classnames(Array.from(classList), wrappedComponentClasses);
     }
 
     get style() {
