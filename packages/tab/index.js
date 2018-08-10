@@ -14,7 +14,7 @@ export default class Tab extends Component {
 
   state = {
     'classList': new Set(),
-    'aria-hidden': undefined,
+    'aria-selected': undefined,
     'tabIndex': undefined,
   };
 
@@ -43,9 +43,9 @@ export default class Tab extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {active, className, minWidth, stacked} = this.props;
+    const {className, minWidth, stacked} = this.props;
     return classnames('mdc-tab', Array.from(classList), className, {
-      'mdc-tab--min-width	': minWidth,
+      'mdc-tab--min-width': minWidth,
       'mdc-tab--stacked': stacked,
     });
   }
@@ -89,8 +89,7 @@ export default class Tab extends Component {
     return this.foundation_.computeDimensions();
   }
 
-
-  handleTransitionEnd(evt) {
+  handleTransitionEnd = (evt) => {
     this.props.onTransitionEnd(evt);
 
     if (!this.allowTransitionEnd_) return;
@@ -100,20 +99,23 @@ export default class Tab extends Component {
 
   render() {
     const {
+      /* eslint-disable */
       active,
       previousActiveClientRect,
-      children,
       className,
       fadeIndicator,
       indicator,
       minWidth,
+      onTransitionEnd,
       stacked,
-      ...otherProps,
+      /* eslint-enable */
+      children,
+      ...otherProps
     } = this.props;
 
     const {
       tabIndex,
-      ['aria-selected']: ariaSelected
+      ['aria-selected']: ariaSelected,
     } = this.state;
 
     return (
@@ -142,15 +144,21 @@ export default class Tab extends Component {
     const {
       active,
       fadeIndicator,
+      indicator,
       previousActiveClientRect,
     } = this.props;
 
-    if (this.props.indicator) {
-      return this.props.indicator({
+    if (indicator) {
+      const indicatorProps = {
         active,
         previousIndicatorClientRect: previousActiveClientRect,
         ref: this.tabIndicatorElement_,
-      });
+      };
+      const Indicator = indicator(indicatorProps);
+      if (Indicator.type !== TabIndicator) {
+        new Error('this.props.indicator must be a function that returns an instance of TabIndicator');
+      };
+      return Indicator;
     }
 
     return (
@@ -167,11 +175,18 @@ export default class Tab extends Component {
 Tab.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
+  children: PropTypes.node,
+  minWidth: PropTypes.bool,
+  stacked: PropTypes.bool,
+  previousActiveClientRect: PropTypes.object,
   onTransitionEnd: PropTypes.func,
 };
 
 Tab.defaultProps = {
   active: false,
   className: '',
+  minWidth: false,
+  stacked: false,
   onTransitionEnd: () => {},
+  previousActiveClientRect: {},
 };

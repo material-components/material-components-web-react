@@ -21,3 +21,9 @@ body {
 .mdc-tab--active .light-border {
   opacity: .5;
 }
+
+// TODO: remove this when tab-indicator fix is merged into master
+.mdc-tab-indicator__content--icon .material-icons {
+  font-size: 34px;
+  height: 34px;
+}
