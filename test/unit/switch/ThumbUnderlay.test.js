@@ -1,6 +1,7 @@
 import React from 'react';
 import {assert} from 'chai';
 import {mount} from 'enzyme';
+import td from 'testdouble';
 import ThumbUnderlay from '../../../packages/switch/ThumbUnderlay';
 
 suite('Switch Thumb Underlay');
@@ -37,4 +38,17 @@ test('passes disabled to NativeControl through props', () => {
   const wrapper = mount(<ThumbUnderlay disabled />);
   const nativeControl = wrapper.find('.mdc-switch__thumb').childAt(0);
   assert.isTrue(nativeControl.props().disabled);
+});
+
+test('calls props.onChange in NativeControl props.onChange', () => {
+  const onChange = td.func();
+  const wrapper = mount(<ThumbUnderlay onChange={onChange} />);
+  const nativeControl = wrapper.find('.mdc-switch__thumb').childAt(0);
+  const mockEvt = {
+    target: {
+      checked: true,
+    }
+  }
+  nativeControl.props().onChange(mockEvt);
+  td.verify(wrapper.props().onChange(mockEvt.target.checked));
 });
