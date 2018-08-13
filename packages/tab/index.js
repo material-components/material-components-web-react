@@ -16,6 +16,7 @@ export default class Tab extends Component {
     'classList': new Set(),
     'aria-selected': undefined,
     'tabIndex': undefined,
+    'activateIndicator': false,
   };
 
   componentDidMount() {
@@ -72,11 +73,10 @@ export default class Tab extends Component {
       getContentOffsetLeft: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetLeft,
       getContentOffsetWidth: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetWidth,
       focus: () => this.tabElement_.current && this.tabElement_.current.focus(),
-
-      // activateIndicator, deactivateIndicator, and computeIndicatorClientRect
-      // are not needed in the adapter. TabIndicator keeps calls foundation.active
-      // and foundation.deactivate when this.props.activate updates.
-      // computeIndicatorClientRect seems redundant in mdc-tab
+      activateIndicator: () => this.setState({activateIndicator: true}),
+      deactivateIndicator: () => this.setState({activateIndicator: false}),
+      // computeIndicatorClientRect is redundant in mdc-tab and is going to be
+      // removed in another release
     };
   }
 
@@ -144,11 +144,11 @@ export default class Tab extends Component {
 
   renderIndicator() {
     const {
-      active,
       fadeIndicator,
       indicator,
       previousActiveClientRect,
     } = this.props;
+    const {activateIndicator: active} = this.state;
 
     if (indicator) {
       const indicatorProps = {

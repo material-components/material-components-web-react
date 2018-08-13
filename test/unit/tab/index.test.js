@@ -226,6 +226,13 @@ test('should render default TabIndicator', () => {
   assert.equal(indicator.type(), TabIndicator);
 });
 
+test('state.activateIndicator should render indicator with props.active true', () => {
+  const wrapper = shallow(<Tab />);
+  wrapper.setState({activateIndicator: true});
+  const indicator = wrapper.childAt(1);
+  assert.isTrue(indicator.props().active);
+});
+
 test('props.active should render indicator with props.active true', () => {
   const wrapper = shallow(<Tab active />);
   const indicator = wrapper.childAt(1);
@@ -280,8 +287,14 @@ test('custom tabIndicator should throw error if TabIndicator is not returned', (
 });
 
 test('custom tabIndicator should throw error if props.indicator is not a function', () => {
+  const {error} = console;
+  // throws warning in console, because of PropTypes
+  console.error = td.func();
+
   const wrapper = () => shallow(<Tab indicator={<i className='test' />} />);
   assert.throws(wrapper);
+
+  console.error = error;
 });
 
 test('minWidthIndicator renders indicator within the content element', () => {
