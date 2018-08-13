@@ -1,11 +1,11 @@
-# React Tab Indicator
+# React Tab
 
-A React version of an [MDC Tab Indicator](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab-indicator).
+A React version of an [MDC Tab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab).
 
 ## Installation
 
 ```
-npm install @material/react-ta
+npm install @material/react-tab
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ import '@material/react-tab/index.scss';
 
 with CSS:
 ```js
-import '@material/react-ta/dist/ta.css';
+import '@material/react-tab/dist/tab.css';
 ```
 
 ### Javascript Instantiation
@@ -28,44 +28,67 @@ import '@material/react-ta/dist/ta.css';
 
 ```js
 import React from 'react';
-import TabIndicator from '@material/react-tab-indicator';
+import Tab from '@material/react-tab';
+import MaterialIcon from '@material/material-icon';
 
 class MyApp extends React.Component {
   state = {active: false};
 
   render() {
     return (
-      <div>
-        <TabIndicator active={this.state.active} />
-      </div>
+      <Tab
+        active={this.state.active}
+         // this will be another tab's clientRect object
+        previousActiveClientRect={previousTabClientRect}
+      >
+        <MaterialIcon className='mdc-tab__icon' icon='favorite' />
+        <span className='mdc-tab__text-label'>Love</span>
+      </Tab>
     );
   }
 }
 ```
 
+#### With Custom Indicator
 
-#### With Icon
-
-If you want the underline instead of an icon, pass the icon element as a child
-of the Tab Indicator component.
+Possibly you don't want to use the default underline indicator, but instead would like to use an icon. You'll need to add an `indicator` prop, which is a function that returns a `<TabIndicator />` element.
 
 ```js
 import React from 'react';
-import TabIndicator from '@material/react-tab-indicator';
+import Tab from '@material/react-tab';
+import MaterialIcon from '@material/material-icon';
 
 class MyApp extends React.Component {
   state = {active: false};
 
   render() {
     return (
-      <div>
-        <TabIndicator
-          active={this.state.active}
-          icon
-        >
-          <MaterialIcon icon='star' />
-        </TabIndicator>
-      </div>
+      <Tab
+        active={this.state.active}
+        previousActiveClientRect={previousTabClientRect}
+        indicator={this.renderIndicator}
+      >
+        <span className='mdc-tab__text-label'>Love</span>
+      </Tab>
+    );
+  }
+
+  renderIndicator(props) {
+    // must return a <TabIndicator /> element
+    return (
+      <TabIndicator
+        icon
+        {/*--
+          You need to pass
+          active, ref, and previousIndicatorClientRect props to the
+          TabIndicator element
+        --*/}
+        active={props.active}
+        ref={props.ref}
+        previousIndicatorClientRect={props.previousIndicatorClientRect}
+      >
+        <MaterialIcon icon='favorite' />
+      </TabIndicator>
     );
   }
 }
@@ -75,10 +98,12 @@ class MyApp extends React.Component {
 
 Prop Name | Type | Description
 --- | --- | ---
-active | boolean | If true will activate the indicator.
+active | boolean | If true will activate the tab and indicator.
 className | string | Classes to appear on className attribute of root element.
-fade | boolean | If enabled will use the fade animation for transitioning to other tabs.
-icon | boolean | Indicates that the indicator is an icon instead of an underline.
+fadeIndicator | boolean | Enables a fading indicator, instead of sliding (default).
+indicator | function | Function that is passed props as an argument, that must return a `<TabIndicator />` element. The `<TabIndicator />` element must be passed `active`, `ref`, and `previousIndicatorClientRect` props. See example above.
+minWidth | boolean | If true will display the `<Tab />` as narrow as possible.
+minWidthIndicator | boolean | If true will display the `<TabIndicator />` to the size of the longest content element.
 previousIndicatorClientRect | ClientRect | The indicator's clientRect that was previously activated.
 onTransitionEnd | function | transitionend event callback handler.
 
@@ -87,4 +112,4 @@ onTransitionEnd | function | transitionend event callback handler.
 Sass mixins may be available to customize various aspects of the components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-tab-indicator/README.md#sass-mixins)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-tab/README.md#sass-mixins)

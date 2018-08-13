@@ -284,6 +284,12 @@ test('custom tabIndicator should throw error if props.indicator is not a functio
   assert.throws(wrapper);
 });
 
+test('minWidthIndicator renders indicator within the content element', () => {
+  const wrapper = shallow(<Tab minWidthIndicator />);
+  const content = wrapper.children().first();
+  const tabIndicator = content.find(TabIndicator);
+  assert.equal(tabIndicator.length, 1);
+});
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<Tab />);

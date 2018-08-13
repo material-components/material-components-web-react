@@ -21,7 +21,8 @@ class TabsController extends React.Component {
 
   render() {
     const {
-      tabContent, indicator, minWidth, stacked, fadeIndicator, // eslint-disable-line react/prop-types
+      tabContent, indicator, minWidth, // eslint-disable-line react/prop-types
+      minWidthIndicator, stacked, fadeIndicator, // eslint-disable-line react/prop-types
     } = this.props;
     const {activeIndex, previousActiveIndex} = this.state;
     return (
@@ -31,6 +32,7 @@ class TabsController extends React.Component {
             active={index === activeIndex}
             key={index}
             minWidth={minWidth}
+            minWidthIndicator={minWidthIndicator}
             fadeIndicator={fadeIndicator}
             stacked={stacked}
             previousActiveClientRect={this.tabBoundingRects[previousActiveIndex]}
@@ -55,7 +57,7 @@ const TabContent = ({
 }) => (
   <React.Fragment>
     <MaterialIcon className='mdc-tab__icon' icon='favorite' />
-    <span className='mdc-tab__text-label'>{num}</span>
+    <span className='mdc-tab__text-label'>Tab {num}</span>
   </React.Fragment>
 );
 
@@ -96,6 +98,13 @@ ReactDOM.render((
     <h3>Tabs w/ Fading Tab Indicator</h3>
     <TabsController
       fadeIndicator
+      tabContent={(num) => <TabContent num={num}/>}
+    />
+
+    <h3>Tabs w/ Min Width Tab Indicator</h3>
+    <TabsController
+      minWidthIndicator
+      stacked
       tabContent={(num) => <TabContent num={num}/>}
     />
   </div>

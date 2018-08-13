@@ -110,6 +110,7 @@ export default class Tab extends Component {
       stacked,
       /* eslint-enable */
       children,
+      minWidthIndicator,
       ...otherProps
     } = this.props;
 
@@ -133,8 +134,9 @@ export default class Tab extends Component {
           ref={this.tabContentElement_}
         >
           {children}
+          {minWidthIndicator ? this.renderIndicator() : null}
         </span>
-        {this.renderIndicator()}
+        {minWidthIndicator ? null : this.renderIndicator()}
         <span className='mdc-tab__ripple'></span>
       </button>
     );
@@ -156,7 +158,7 @@ export default class Tab extends Component {
       };
       const Indicator = indicator(indicatorProps);
       if (Indicator.type !== TabIndicator) {
-        new Error('this.props.indicator must be a function that returns an instance of TabIndicator');
+        throw new Error('this.props.indicator must be a function that returns an instance of TabIndicator');
       };
       return Indicator;
     }
@@ -176,7 +178,10 @@ Tab.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node,
+  fadeIndicator: PropTypes.bool,
+  indicator: PropTypes.func,
   minWidth: PropTypes.bool,
+  minWidthIndicator: PropTypes.bool,
   stacked: PropTypes.bool,
   previousActiveClientRect: PropTypes.object,
   onTransitionEnd: PropTypes.func,
@@ -185,7 +190,9 @@ Tab.propTypes = {
 Tab.defaultProps = {
   active: false,
   className: '',
+  fadeIndicator: false,
   minWidth: false,
+  minWidthIndicator: false,
   stacked: false,
   onTransitionEnd: () => {},
   previousActiveClientRect: {},
