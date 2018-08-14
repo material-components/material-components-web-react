@@ -1,5 +1,10 @@
 <a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.4.0...v) (2018-08-13)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.4.1...v) (2018-08-14)
+
+
+
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/material-components/material-components-web-react/compare/v0.4.0...v0.4.1) (2018-08-13)
 
 
 ### Bug Fixes
