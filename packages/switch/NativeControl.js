@@ -24,17 +24,12 @@ NativeControl.propTypes = {
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
   id: PropTypes.string,
-  onChange: PropTypes.func,
-  rippleActivatorRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-  ]),
+  rippleActivatorRef: PropTypes.object,
 };
 
 NativeControl.defaultProps = {
   checked: false,
   disabled: false,
   id: null,
-  onChange: () => {},
   rippleActivatorRef: null,
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import {assert} from 'chai';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 import td from 'testdouble';
 import Switch from '../../../packages/switch/index';
 
@@ -16,10 +16,12 @@ test('has mdc-switch class', () => {
   assert.exists(wrapper.find('.mdc-switch'));
 });
 
-test('renders thumb underlay', () => {
+test('renders thumb underlay and native control', () => {
   const wrapper = shallow(<Switch />);
   const ThumbUnderlay = require('../../../packages/switch/ThumbUnderlay');
+  const NativeControl = require('../../../packages/switch/NativeControl');
   assert.equal(wrapper.childAt(1).type(), ThumbUnderlay.default);
+  assert.equal(wrapper.childAt(1).childAt(0).type(), NativeControl.default);
 });
 
 test('classNames adds classes', () => {
@@ -37,11 +39,18 @@ test('has checked class when props.checked is true', () => {
   assert.isTrue(wrapper.hasClass('mdc-switch--checked'));
 });
 
-test('#foundation_.handleChange gets called when state.checked updates', () => {
+test('#foundation_.setChecked gets called when state.checked updates', () => {
   const wrapper = shallow(<Switch />);
-  wrapper.instance().foundation_.handleChange = td.func();
+  wrapper.instance().foundation_.setChecked = td.func();
   wrapper.setState({checked: true});
-  td.verify(wrapper.instance().foundation_.handleChange(), {times: 1});
+  td.verify(wrapper.instance().foundation_.setChecked(true), {times: 1});
+});
+
+test('#foundation_.setDisabled gets called when state.disabled updates', () => {
+  const wrapper = shallow(<Switch />);
+  wrapper.instance().foundation_.setDisabled = td.func();
+  wrapper.setState({disabled: true});
+  td.verify(wrapper.instance().foundation_.setDisabled(true), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {
@@ -65,10 +74,49 @@ test('#adapter.removeClass removes class from state.classList', () => {
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
-test('#adapter.isNativeControlChecked returns state.checked', () => {
+test('#adapter.setNativeControlChecked updates state.nativeControlChecked', () => {
   const wrapper = shallow(<Switch />);
-  wrapper.setState({checked: true});
-  assert.isTrue(wrapper.instance().foundation_.adapter_.isNativeControlChecked());
-  wrapper.setState({checked: false});
-  assert.isFalse(wrapper.instance().foundation_.adapter_.isNativeControlChecked());
+
+  wrapper.instance().foundation_.adapter_.setNativeControlChecked(true);
+  assert.isTrue(wrapper.state().nativeControlChecked);
+});
+
+test('#state.nativeControlChecked updates NativeControl', () => {
+  const wrapper = mount(<Switch />);
+
+  wrapper.setState({nativeControlChecked: true});
+  assert.isTrue(wrapper.find('.mdc-switch__native-control').props().checked);
+});
+
+test('#adapter.setNativeControlDisabled updates state.nativeControlDisabled', () => {
+  const wrapper = shallow(<Switch />);
+
+  wrapper.instance().foundation_.adapter_.setNativeControlDisabled(true);
+  assert.isTrue(wrapper.state().nativeControlDisabled);
+});
+
+test('#state.nativeControlChecked updates NativeControl', () => {
+  const wrapper = mount(<Switch />);
+
+  wrapper.setState({nativeControlChecked: true});
+  assert.isTrue(wrapper.find('.mdc-switch__native-control').props().checked);
+});
+
+test('passes nativeControlId to NativeControl through props', () => {
+  const wrapper = mount(<Switch nativeControlId={'test-id'}/>);
+  assert.equal(wrapper.find('.mdc-switch__native-control').props().id, 'test-id');
+});
+
+test('calls foundation.handleChange in NativeControl props.onChange', () => {
+  const onChange = td.func();
+  const wrapper = mount(<Switch onChange={onChange}/>);
+  const nativeControl = wrapper.find('.mdc-switch__native-control');
+  const mockEvt = {
+    target: {
+      checked: true,
+    },
+  };
+  wrapper.instance().foundation_.handleChange = td.func();
+  nativeControl.props().onChange(mockEvt);
+  td.verify(wrapper.instance().foundation_.handleChange(mockEvt), {times: 1});
 });

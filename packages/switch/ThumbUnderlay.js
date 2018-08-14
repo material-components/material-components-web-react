@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
-import NativeControl from './NativeControl';
-
 export class ThumbUnderlay extends React.Component {
-  rippleActivator = React.createRef();
 
   init = (el) => {
-    this.props.initRipple(el, this.rippleActivator.current);
+    this.props.initRipple(el, this.props.rippleActivator);
   }
 
   get classes() {
@@ -18,15 +15,13 @@ export class ThumbUnderlay extends React.Component {
 
   render() {
     const {
+      children,
       /* eslint-disable */
       className,
-      onChange,
       initRipple,
       unbounded,
+      rippleActivator,
       /* eslint-enable */
-      checked,
-      disabled,
-      nativeControlId,
       ...otherProps
     } = this.props;
 
@@ -37,13 +32,7 @@ export class ThumbUnderlay extends React.Component {
         {...otherProps}
       >
         <div className='mdc-switch__thumb'>
-          <NativeControl
-            id={nativeControlId}
-            checked={checked}
-            disabled={disabled}
-            onChange={(e) => onChange(e.target.checked)}
-            rippleActivatorRef={this.rippleActivator}
-          />
+          {children}
         </div>
       </div>
     );
@@ -51,20 +40,14 @@ export class ThumbUnderlay extends React.Component {
 }
 
 ThumbUnderlay.propTypes = {
-  checked: PropTypes.bool,
   className: PropTypes.string,
-  disabled: PropTypes.bool,
-  nativeControlId: PropTypes.string,
-  onChange: PropTypes.func,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
+  rippleActivator: PropTypes.element.isRequired,
 };
 
 ThumbUnderlay.defaultProps = {
-  checked: false,
   className: '',
-  disabled: false,
-  nativeControlId: null,
   onChange: () => {},
   initRipple: () => {},
   unbounded: true,
