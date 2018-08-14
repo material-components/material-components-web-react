@@ -18,7 +18,7 @@
     "@material/ripple": "^0.38.1",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
-    "react": "^16.3.2"
+    "react": "^16.4.2"
   },
   "publishConfig": {
     "access": "public"
