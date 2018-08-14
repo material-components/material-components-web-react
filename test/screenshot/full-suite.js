@@ -9,6 +9,7 @@ export default [
   require('./notched-outline/screenshot-suite').default,
   require('./select/screenshot-suite').default,
   require('./tab-indicator/screenshot-suite').default,
+  require('./tab-scroller/screenshot-suite').default,
   require('./text-field/screenshot-suite').default,
   require('./text-field/helper-text/screenshot-suite').default,
   require('./text-field/icon/screenshot-suite').default,
