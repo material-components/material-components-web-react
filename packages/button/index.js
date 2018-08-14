@@ -14,6 +14,7 @@ export class Button extends Component {
       children,
       initRipple,
       unbounded, // eslint-disable-line no-unused-vars
+      iconPosition,
       ...otherProps
     } = this.props;
 
@@ -31,8 +32,9 @@ export class Button extends Component {
         ref={initRipple}
         {...otherProps}
       >
-        {icon ? this.renderIcon() : null}
+        {icon && (iconPosition == '' || iconPosition == 'left') ? this.renderIcon() : null}
         {children}
+        {icon && (iconPosition == 'right') ? this.renderIcon() : null}
       </SemanticButton>
     );
   }
@@ -59,6 +61,7 @@ Button.propTypes = {
   initRipple: PropTypes.func,
   className: PropTypes.string,
   icon: PropTypes.element,
+  iconPosition: PropTypes.string,
   href: PropTypes.string,
   children: PropTypes.string,
 };
@@ -70,6 +73,7 @@ Button.defaultProps = {
   disabled: false,
   unbounded: false,
   initRipple: () => {},
+  iconPosition: '',
   className: '',
   icon: null,
   children: '',
