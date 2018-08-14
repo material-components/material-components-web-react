@@ -71,7 +71,7 @@ export default class TabScroller extends Component {
         && window.getComputedStyle(this.contentElement_.current).getPropertyValue(propName),
       setScrollAreaScrollLeft: (scrollX) => {
         if (!this.areaElement_.current) return;
-        this.areaElement_.current.scrollLeft = scrollX
+        this.areaElement_.current.scrollLeft = scrollX;
       },
       getScrollAreaScrollLeft: () => this.areaElement_.current && this.areaElement_.current.scrollLeft,
       getScrollContentOffsetWidth: this.getScrollContentWidth,
