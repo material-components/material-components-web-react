@@ -10,13 +10,13 @@ const Tab = ({number}) => {
       Tab {number}
     </div>
   );
-}
+};
 
 const Tabs = () => {
-  return [0,1,2,3,4,5,6,7,8,9].map((tabNumber) => (
+  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((tabNumber) => (
     <Tab key={tabNumber} number={tabNumber} />
   ));
-}
+};
 ReactDOM.render((
   <div>
     <h3>Basic Scroller</h3>

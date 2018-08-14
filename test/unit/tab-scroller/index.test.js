@@ -61,7 +61,7 @@ test('#setStyleToElement adds single word style property to scrollContentStylePr
 test('#setStyleToElement overrides a previous dashed style property to scrollContentStyleProperty', () => {
   const wrapper = shallow(<TabScroller />);
   wrapper.setState({scrollContentStyleProperty: {
-    backgroundColor: 'orange'
+    backgroundColor: 'orange',
   }});
   wrapper.instance().setStyleToElement('background-color', 'blue', 'scrollContentStyleProperty');
   assert.equal(wrapper.state().scrollContentStyleProperty.backgroundColor, 'blue');
@@ -70,7 +70,7 @@ test('#setStyleToElement overrides a previous dashed style property to scrollCon
 test('#setStyleToElement overrides a single word style property to scrollContentStyleProperty', () => {
   const wrapper = shallow(<TabScroller />);
   wrapper.setState({scrollContentStyleProperty: {
-    margin: '50px'
+    margin: '50px',
   }});
   wrapper.instance().setStyleToElement('margin', '24px', 'scrollContentStyleProperty');
   assert.equal(wrapper.state().scrollContentStyleProperty.margin, '24px');
@@ -79,7 +79,7 @@ test('#setStyleToElement overrides a single word style property to scrollContent
 test('#setStyleToElement does not override a different style property on scrollContentStyleProperty', () => {
   const wrapper = shallow(<TabScroller />);
   wrapper.setState({scrollContentStyleProperty: {
-    backgroundColor: 'orange'
+    backgroundColor: 'orange',
   }});
   wrapper.instance().setStyleToElement('margin', '24px', 'scrollContentStyleProperty');
   assert.equal(wrapper.state().scrollContentStyleProperty.margin, '24px');
@@ -103,7 +103,7 @@ test('#adapter.addClass adds to state.classList', () => {
 
 test('#adapter.removeClass adds to state.classList', () => {
   const wrapper = shallow(<TabScroller />);
-  wrapper.setState({classList: new Set(['test-class'])})
+  wrapper.setState({classList: new Set(['test-class'])});
   wrapper.instance().adapter.removeClass('test-class');
   assert.isFalse(wrapper.state().classList.has('test-class'));
 });
@@ -142,7 +142,7 @@ test('#adapter.setScrollAreaScrollLeft adds to state.scrollAreaStyleProperty', (
   const node = wrapper.getDOMNode();
   document.body.append(node);
   wrapper.instance().foundation_.adapter_.setScrollAreaScrollLeft(101);
-  console.log(wrapper.instance().areaElement_.current.scrollLeft)
+  console.log(wrapper.instance().areaElement_.current.scrollLeft);
   assert.isAtLeast(wrapper.instance().areaElement_.current.scrollLeft, 0);
   node.remove();
 });

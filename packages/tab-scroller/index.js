@@ -77,7 +77,8 @@ export default class TabScroller extends Component {
       getScrollContentOffsetWidth: this.getScrollContentWidth,
       getScrollAreaOffsetWidth: () => this.areaElement_.current && this.areaElement_.current.offsetWidth,
       computeScrollAreaClientRect: () => this.areaElement_.current && this.areaElement_.getBoundingClientRect(),
-      computeScrollContentClientRect: () => this.currentElement_.current && this.currentElement_.getBoundingClientRect(),
+      computeScrollContentClientRect: () => this.currentElement_.current
+        && this.currentElement_.getBoundingClientRect(),
       computeHorizontalScrollbarHeight: () => util.computeHorizontalScrollbarHeight(document),
     };
   }
@@ -131,7 +132,7 @@ export default class TabScroller extends Component {
   }
 
   render() {
-    const {classList, areaClassList} = this.state;
+    const {areaClassList} = this.state;
     const {
       children,
       /* eslint-disable */
@@ -156,6 +157,7 @@ export default class TabScroller extends Component {
         onMouseDown={this.handleMouseDown_}
         onKeyDown={this.handleKeyDown_}
         onTransitionEnd={this.handleTransitionEnd_}
+        {...otherProps}
       >
         <div
           className={areaClasses}
@@ -174,7 +176,11 @@ export default class TabScroller extends Component {
 }
 
 TabScroller.propTypes = {
+  alignStart: PropTypes.bool,
+  alignEnd: PropTypes.bool,
+  alignCenter: PropTypes.bool,
   active: PropTypes.bool,
+  children: PropTypes.node,
   className: PropTypes.string,
   onWheel: PropTypes.func,
   onTouchStart: PropTypes.func,
@@ -185,8 +191,12 @@ TabScroller.propTypes = {
 };
 
 TabScroller.defaultProps = {
+  alignStart: false,
+  alignEnd: false,
+  alignCenter: false,
   active: false,
   className: '',
+  children: null,
   onWheel: () => {},
   onTouchStart: () => {},
   onPointerDown: () => {},
