@@ -4,7 +4,9 @@ import TabScroller from '../../../packages/tab-scroller';
 
 import './index.scss';
 
-const Tab = ({number}) => {
+const Tab = ({
+  number, // eslint-disable-line react/prop-types
+}) => {
   return (
     <div className='tab'>
       Tab {number}

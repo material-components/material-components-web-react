@@ -76,30 +76,29 @@ export default class TabScroller extends Component {
       getScrollAreaScrollLeft: () => this.areaElement_.current && this.areaElement_.current.scrollLeft,
       getScrollContentOffsetWidth: this.getScrollContentWidth,
       getScrollAreaOffsetWidth: () => this.areaElement_.current && this.areaElement_.current.offsetWidth,
-      computeScrollAreaClientRect: () => this.areaElement_.current && this.areaElement_.getBoundingClientRect(),
-      computeScrollContentClientRect: () => this.currentElement_.current
-        && this.currentElement_.getBoundingClientRect(),
+      computeScrollAreaClientRect: () => this.areaElement_.current && this.areaElement_.current.getBoundingClientRect(),
+      computeScrollContentClientRect: () => this.contentElement_.current
+        && this.contentElement_.current.getBoundingClientRect(),
       computeHorizontalScrollbarHeight: () => util.computeHorizontalScrollbarHeight(document),
     };
   }
 
-  getScrollPosition() {
+  getScrollPosition = () => {
     return this.foundation_.getScrollPosition();
   }
 
   // needs to be public class method for react tab-bar
-  getScrollContentWidth() {
+  getScrollContentWidth = () => {
     return this.contentElement_.current && this.contentElement_.current.offsetWidth;
   }
 
-  incrementScroll(scrollXIncrement) {
+  incrementScroll = (scrollXIncrement) => {
     this.foundation_.incrementScroll(scrollXIncrement);
   }
 
-  scrollTo(scrollX) {
+  scrollTo = (scrollX) => {
     this.foundation_.scrollTo(scrollX);
   }
-
 
   handleWheel_ = (evt) => {
     this.props.onWheel(evt);
@@ -128,7 +127,7 @@ export default class TabScroller extends Component {
 
   handleTransitionEnd_ = (evt) => {
     this.props.onTransitionEnd(evt);
-    this.foundation_.handleTransitionEnd_(evt);
+    this.foundation_.handleTransitionEnd(evt);
   }
 
   render() {
@@ -136,6 +135,9 @@ export default class TabScroller extends Component {
     const {
       children,
       /* eslint-disable */
+      alignStart,
+      alignEnd,
+      alignCenter,
       className,
       onWheel,
       onTouchStart,
@@ -179,7 +181,6 @@ TabScroller.propTypes = {
   alignStart: PropTypes.bool,
   alignEnd: PropTypes.bool,
   alignCenter: PropTypes.bool,
-  active: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
   onWheel: PropTypes.func,
@@ -194,7 +195,6 @@ TabScroller.defaultProps = {
   alignStart: false,
   alignEnd: false,
   alignCenter: false,
-  active: false,
   className: '',
   children: null,
   onWheel: () => {},
