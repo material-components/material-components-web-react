@@ -30,6 +30,39 @@ role | String | Sets role on HTML element.
 showToScreenReader | Boolean | toggles the aria-hidden property to allow element to be visible to the screen reader.
 validation | Boolean | If true, alters the helper text to an error message.
 
+## Input Validation
+
+HelperText provides validity styling by setting the `validation` prop in HelperText. Validation can be checked through the appropriate `Input` validation properties (pattern, min, max, require, step, minlength, maxlength).
+
+The following snipped is an example of how to use regex and check for minimum length with HelperText:
+``` js
+import React from 'react';
+import TextField, {HelperText, Input} from '@material/react-text-field';
+class MyApp extends React.Component {
+  state = {username: ''};
+  render() {
+    return (
+      <div>
+        <TextField
+          box
+          label='Username'
+          helperText={
+            <HelperText validation>Invalid username</HelperText>
+          }
+        >
+          <Input
+            pattern='^([a-zA-Z_]+[0-9]*)$'
+            minLength={8}
+            value={this.state.username}
+            onChange={(e)=>this.setState({username:e.target.value})}
+          />
+        </TextField>
+      </div>
+    );
+  }
+}
+```
+
 ## Sass Mixins
 
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
