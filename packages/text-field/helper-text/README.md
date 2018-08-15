@@ -32,9 +32,9 @@ validation | Boolean | If true, alters the helper text to an error message.
 
 ## Input Validation
 
-HelperText provides validity styling by setting the `validation` prop in HelperText. Validation can be checked through the appropriate `Input` validation properties (pattern, min, max, require, step, minlength, maxlength).
+HelperText provides validity styling by setting the `validation` prop in HelperText. Validation can be checked through the appropriate `Input` validation properties (pattern, min, max, required, step, minLength, maxLength).
 
-The following snipped is an example of how to use regex and check for minimum length with HelperText:
+The following snippet is an example of how to use pattern regex and check for minimum length with HelperText:
 ``` js
 import React from 'react';
 import TextField, {HelperText, Input} from '@material/react-text-field';
