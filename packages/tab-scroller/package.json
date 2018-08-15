@@ -1,15 +1,15 @@
 {
-  "name": "@material/react-tab-indicator",
+  "name": "@material/react-tab-scroller",
   "version": "0.0.0",
-  "description": "Material Components React Tab Indicator",
+  "description": "Material Components React Tab Scroller",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "keywords": [
     "mdc web react",
     "material components react",
     "material design",
-    "tab indicator",
-    "tabindicator",
+    "tab scroller",
+    "tabscroller",
     "tabs"
   ],
   "repository": {

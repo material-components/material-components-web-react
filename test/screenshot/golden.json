@@ -19,5 +19,6 @@
   "top-app-bar/fixed.html": "90534d59d40f8c050aae022e94b0afa022a00d1e00c19e3f92dcc1908efcd831",
   "chips/index.html": "949725ee6658e0c4edcdecd2bf057fda5fb814473f7a527da5c96e6392b84015",
   "select/index.html": "5ce288649fe5e78d21ab9315a35cc2a22504176b8abaf56b92579121df51f073",
-  "tab-indicator/index.html": "19f1befc0947128b46d84e1fdee73741bffcd63950bf0cddaadd9ae283ab85f8"
+  "tab-indicator/index.html": "19f1befc0947128b46d84e1fdee73741bffcd63950bf0cddaadd9ae283ab85f8",
+  "tab-scroller/index.html": "726a001f1178c06e3fad4a943c6253c8c89084e3867bced469be5bb5b8529278"
 }

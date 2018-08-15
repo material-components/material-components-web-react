@@ -31,7 +31,11 @@ import TabScroller from '@material/react-tab-scroller';
 class MyApp extends React.Component {
   render() {
     return (
-      <TabScroller />
+      <TabScroller>
+        <div className='tab'>Tab 1</div>
+        <div className='tab'>Tab 2</div>
+        <div className='tab'>Tab 3</div>
+      </TabScroller>
     );
   }
 }
