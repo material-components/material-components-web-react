@@ -228,12 +228,12 @@ test('custom tabIndicator should render indicator with props.active true if prop
   assert.isTrue(indicator.props().active);
 });
 
-test('custom tabIndicator should render indicator with same ' +
+test('custom tabIndicator should render indicatorContent with same ' +
   'props.previousIndicatorClientRect as props.previousActiveClientRect', () => {
   const clientRect = {test: 1};
   const wrapper = shallow(<Tab
     previousActiveClientRect={clientRect}
-    indicator={(props) => <TabIndicator previousIndicatorClientRect={props.previousIndicatorClientRect} />}
+    indicatorContent={<i className='icon'>icon</i>}
   />);
   const indicator = wrapper.childAt(1);
   assert.equal(indicator.props().previousIndicatorClientRect, clientRect);
@@ -241,7 +241,7 @@ test('custom tabIndicator should render indicator with same ' +
 
 test('custom tabIndicator should render with a ref attached', () => {
   const wrapper = mount(<Tab
-    indicator={(props) => <TabIndicator ref={props.ref} />}
+    indicatorContent={<i className='icon'>icon</i>}
   />);
 
   assert.instanceOf(wrapper.instance().tabIndicatorElement_.current, TabIndicator);
