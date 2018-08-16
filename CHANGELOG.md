@@ -1,5 +1,37 @@
+<a name=""></a>
+# [](https://github.com/material-components/material-components-web-react/compare/v0.4.1...v) (2018-08-14)
+
+
+
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/material-components/material-components-web-react/compare/v0.4.0...v0.4.1) (2018-08-13)
+
+
+### Bug Fixes
+
+* **infrastructure:** point all tests to es6 files for accurate test coverage ([#198](https://github.com/material-components/material-components-web-react/issues/198)) ([4959266](https://github.com/material-components/material-components-web-react/commit/4959266))
+* **ripple:** add test to avoid computeBoundingRect error ([#200](https://github.com/material-components/material-components-web-react/issues/200)) ([769b15b](https://github.com/material-components/material-components-web-react/commit/769b15b))
+* screenshot increase timeout ([#210](https://github.com/material-components/material-components-web-react/issues/210)) ([e9a2089](https://github.com/material-components/material-components-web-react/commit/e9a2089))
+* **text-field:** add missing prop `style` ([#184](https://github.com/material-components/material-components-web-react/issues/184)) ([ff9704d](https://github.com/material-components/material-components-web-react/commit/ff9704d))
+* **text-field:** fix typo in readme ([#197](https://github.com/material-components/material-components-web-react/issues/197)) ([f88f180](https://github.com/material-components/material-components-web-react/commit/f88f180))
+* **text-field:** update isRtl to a prop ([#195](https://github.com/material-components/material-components-web-react/issues/195)) ([cd7c7c8](https://github.com/material-components/material-components-web-react/commit/cd7c7c8))
+
+
+### Features
+
+* **select:** add component ([#169](https://github.com/material-components/material-components-web-react/issues/169)) ([e619e52](https://github.com/material-components/material-components-web-react/commit/e619e52))
+* **tab-indicator:** add new component ([#202](https://github.com/material-components/material-components-web-react/issues/202)) ([220c823](https://github.com/material-components/material-components-web-react/commit/220c823))
+
+
+### BREAKING CHANGES
+
+* **text-field:** In order for rtl to work on the Notched Outline component, isRtl will need to be passed in as boolean (default is false). Updating isRtl will result in a re-render.
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/material-components/material-components-web-react/compare/v0.3.0...v0.4.0) (2018-07-30)
+
 
 ### Bug Fixes
 
@@ -106,3 +138,6 @@
 * **fab:** Update for comments ([676ae32](https://github.com/material-components/material-components-web-react/commit/676ae32))
 * **fab:** Update for lint ([3748f31](https://github.com/material-components/material-components-web-react/commit/3748f31))
 * **fab:** Update package name ([02b7140](https://github.com/material-components/material-components-web-react/commit/02b7140))
+
+
+
