@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import TabIndicator from '../../../packages/tab-indicator';
 import MaterialIcon from '../../../packages/material-icon';
 
+import '../../../packages/tab-indicator/index';
 import './index.scss';
 
 const Tab = ({
@@ -41,11 +42,13 @@ const Tabs = ({
   );
 };
 
-ReactDOM.render((
-  <div>
-    <Tabs activeIndex={2}>
-      <MaterialIcon icon='star' />
-    </Tabs>
-    <Tabs activeIndex={1} />
-  </div>
-), document.getElementById('app'));
+export default () => {
+  return (
+    <div>
+      <Tabs activeIndex={2}>
+        <MaterialIcon icon='star' />
+      </Tabs>
+      <Tabs activeIndex={1} />
+    </div>
+  );
+}

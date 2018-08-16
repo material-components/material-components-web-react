@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Route} from 'react-router-dom';
 
 import Home from './Home';
+import TextField from './text-field/index';
 
-console.log('HI')
 ReactDOM.render((
   <BrowserRouter>
-    <Route exact path="/" component={Home}/>
+    <div>
+      <Route exact path='/' component={Home}/>
+      <Route exact path='/text-field' component={TextField}/>
+    </div>
   </BrowserRouter>
 ), document.getElementById('mcdr-screenshot-test-app'));

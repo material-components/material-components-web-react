@@ -1,5 +1,3 @@
-@import "../../../packages/chips/index.scss";
-
 .demo-custom-color .mdc-chip {
   @include mdc-chip-ink-color(primary);
   @include mdc-chip-fill-color(white);

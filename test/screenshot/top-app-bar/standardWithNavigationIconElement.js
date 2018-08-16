@@ -1,13 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TopAppBar from '../../../packages/top-app-bar';
-
 import MaterialIcon from '../../../packages/material-icon';
 import withRipple from '../../../packages/ripple';
-
-import '../../../packages/top-app-bar/index.scss';
-import '../../../packages/material-icon/index.scss';
-import './index.scss';
 
 const NavigationIcon = ({
   hasRipple, initRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
@@ -35,12 +30,14 @@ const NavigationIcon = ({
 
 const NavigationIconWithRipple = withRipple(NavigationIcon);
 
-ReactDOM.render((
-  <div className='top-app-bar-container'>
-    <TopAppBar
-      title='Miami, FL'
-      navigationIcon={<NavigationIconWithRipple unbounded />}
-      actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
-    />
-  </div>
-), document.getElementById('app'));
+export default () => {
+  return (
+    <div className='top-app-bar-container'>
+      <TopAppBar
+        title='Miami, FL'
+        navigationIcon={<NavigationIconWithRipple unbounded />}
+        actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
+      />
+    </div>
+  );
+}

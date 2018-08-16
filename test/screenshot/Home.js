@@ -1,22 +1,27 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const Home = () => {
   return (
     <div>
-      <a href="button">Button</a>
-      <a href='card'>Card</a>
-      <a href="chips">Chips</a>
-      <a href="fab">Fab</a>
-      <a href="floating-label">Floating Label</a>
-      <a href="line-ripple">Line Ripple</a>
-      <a href="material-icon">Material Icon</a>
-      <a href="notched-outline">Notched Outline</a>
-      <a href="select">Select</a>
-      <a href="tab-indicator">Tab Indicator</a>
-      <a href="text-field">Text Field</a>
-      <a href="text-field/icon">Text Field Icon</a>
-      <a href="text-field/helper-text">Text Field Helper Text</a>
-      <a href="top-app-bar">Top App Bar</a>
+      {COMPONENTS.map((componentPath) => {
+        <div>
+          <Link to={componentPath}>{getDisplayName(componentPath)}</Link>
+        </div>
+      })}
+      <Link to='card'>Card</Link>
+      <Link to='chips'>Chips</Link>
+      <Link to='fab'>Fab</Link>
+      <Link to='floating-label'>Floating Label</Link>
+      <Link to='line-ripple'>Line Ripple</Link>
+      <Link to='material-icon'>Material Icon</Link>
+      <Link to='notched-outline'>Notched Outline</Link>
+      <Link to='select'>Select</Link>
+      <Link to='tab-indicator'>Tab Indicator</Link>
+      <Link to='text-field'>Text Field</Link>
+      <Link to='text-field/icon'>Text Field Icon</Link>
+      <Link to='text-field/helper-text'>Text Field Helper Text</Link>
+      <Link to='top-app-bar'>Top App Bar</Link>
     </div>
   );
 }

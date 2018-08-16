@@ -130,11 +130,13 @@ const ContentOnMediaCard = () => {
   );
 };
 
-ReactDOM.render((
-  <div>
-    <BasicCard />
-    <HorizontalCard />
-    <NewsCard />
-    <ContentOnMediaCard />
-  </div>
-), document.getElementById('app'));
+export default () => {
+  return (
+    <div>
+      <BasicCard />
+      <HorizontalCard />
+      <NewsCard />
+      <ContentOnMediaCard />
+    </div>
+  );
+}

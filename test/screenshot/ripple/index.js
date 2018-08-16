@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 
 import withRipple from '../../../packages/ripple';
 
+import '@material/ripple/common';
+import '@material/ripple/mixins';
+
 import './index.scss';
 
 /*eslint-disable */
@@ -20,22 +23,25 @@ const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) =
 
 const DivRipple = withRipple(Div);
 
-ReactDOM.render((
-  <div>
-    <DivRipple>
-      Woof
-    </DivRipple>
 
-    <br />
+export default () => {
+  return (
+    <div>
+      <DivRipple>
+        Woof
+      </DivRipple>
 
-    <DivRipple disabled>
-      Disabled
-    </DivRipple>
+      <br />
 
-    <br />
+      <DivRipple disabled>
+        Disabled
+      </DivRipple>
 
-    <DivRipple unbounded className='ripple-unbounded'>
-      Unbounded
-    </DivRipple>
-  </div>
-), document.getElementById('app'));
+      <br />
+
+      <DivRipple unbounded className='ripple-unbounded'>
+        Unbounded
+      </DivRipple>
+    </div>
+  );
+}

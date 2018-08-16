@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import TextField, {Input, HelperText} from '../../../packages/text-field';
 import MaterialIcon from '../../../packages/material-icon/index';
 
+import '../../../packages/floating-label/index.scss';
+import '../../../packages/line-ripple/index.scss';
+import '../../../packages/notched-outline/index.scss';
 import '../../../packages/text-field/index.scss';
 import './index.scss';
 
@@ -90,8 +92,8 @@ const textFields = variants.map((variant) => {
 });
 
 
-ReactDOM.render((
+export default () => (
   <div className='text-field-container'>
     {textFields}
   </div>
-), document.getElementById('app'));
+);

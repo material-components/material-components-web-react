@@ -6,7 +6,8 @@ import '../../../packages/fab/index.scss';
 import './index.scss';
 import MaterialIcon from '../../../packages/material-icon';
 
-ReactDOM.render((
+export default () => {
+  return (
     <div>
       <Fab className="demo-button"
         icon={<i className="material-icons">favorite</i>} />
@@ -108,4 +109,5 @@ ReactDOM.render((
       <Fab mini className="demo-fill-color demo-button"
         icon={<img className="material-icons" src="/images/ic_button_24px.svg"/>} />
     </div>
-), document.getElementById('app'));
+  );
+}

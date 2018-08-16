@@ -1,6 +1,8 @@
+const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const {getComponents} = require('./component-globber');
 const {importer} = require('../../packages/webpack.util');
 
 module.exports = {
@@ -40,5 +42,8 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('bundle.css'),
     new OptimizeCssAssetsPlugin(),
+    new webpack.DefinePlugin({
+      COMPONENTS: JSON.stringify(getComponents()),
+    }),
   ],
 };
