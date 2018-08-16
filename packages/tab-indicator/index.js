@@ -45,7 +45,7 @@ export default class TabIndicator extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {active, className, fade} = this.props;
+    const {className, fade} = this.props;
     return classnames('mdc-tab-indicator', Array.from(classList), className, {
       'mdc-tab-indicator--fade': fade,
     });
