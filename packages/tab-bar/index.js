@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+import TabScroller from '@material/react-tab-scroller';
 import {MDCTabBarFoundation} from '@material/tab-bar/dist/mdc.tabBar';
 
 export default class TabBar extends Component {
@@ -74,9 +75,12 @@ export default class TabBar extends Component {
       <div
         className={this.classes}
         role='tablist'
+        ref={this.tabBarElement_}
         {...otherProps}
       >
-        {children}
+        <TabScroller ref={this.tabScroller_}>
+          {children}
+        </TabScroller>
       </div>
     );
   }
