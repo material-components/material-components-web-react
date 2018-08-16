@@ -84,6 +84,7 @@ function getMaterialExternals() {
     'ripple',
     'select',
     'tab',
+    'tab-bar',
     'tab-indicator',
     'tab-scroller',
     'textfield',

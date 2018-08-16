@@ -16,6 +16,14 @@ export default class TabBar extends Component {
 
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
     this.foundation_.init();
+
+    this.activateTab(this.props.activeIndex);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.activeIndex !== prevProps.activeIndex) {
+      this.activateTab(this.props.activeIndex);
+    }
   }
 
   componentWillUnmount() {
