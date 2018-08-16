@@ -91,13 +91,13 @@ export default class Tab extends Component {
       active,
       previousActiveClientRect,
       className,
-      fadeIndicator,
+      isFadingIndicator,
       indicator,
       minWidth,
       stacked,
       /* eslint-enable */
       children,
-      minWidthIndicator,
+      isMinWidthIndicator,
       ...otherProps
     } = this.props;
 
@@ -120,9 +120,9 @@ export default class Tab extends Component {
           ref={this.tabContentElement_}
         >
           {children}
-          {minWidthIndicator ? this.renderIndicator() : null}
+          {isMinWidthIndicator ? this.renderIndicator() : null}
         </span>
-        {minWidthIndicator ? null : this.renderIndicator()}
+        {isMinWidthIndicator ? null : this.renderIndicator()}
         <span className='mdc-tab__ripple'></span>
       </button>
     );
@@ -130,7 +130,7 @@ export default class Tab extends Component {
 
   renderIndicator() {
     const {
-      fadeIndicator,
+      isFadingIndicator,
       indicator,
       previousActiveClientRect,
     } = this.props;
@@ -152,7 +152,7 @@ export default class Tab extends Component {
     return (
       <TabIndicator
         active={active}
-        fade={fadeIndicator}
+        fade={isFadingIndicator}
         ref={this.tabIndicatorElement_}
         previousIndicatorClientRect={previousActiveClientRect}
       />
@@ -164,10 +164,10 @@ Tab.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node,
-  fadeIndicator: PropTypes.bool,
+  isFadingIndicator: PropTypes.bool,
   indicator: PropTypes.func,
   minWidth: PropTypes.bool,
-  minWidthIndicator: PropTypes.bool,
+  isMinWidthIndicator: PropTypes.bool,
   stacked: PropTypes.bool,
   previousActiveClientRect: PropTypes.object,
 };
@@ -175,9 +175,9 @@ Tab.propTypes = {
 Tab.defaultProps = {
   active: false,
   className: '',
-  fadeIndicator: false,
+  isFadingIndicator: false,
   minWidth: false,
-  minWidthIndicator: false,
+  isMinWidthIndicator: false,
   stacked: false,
   previousActiveClientRect: {},
 };

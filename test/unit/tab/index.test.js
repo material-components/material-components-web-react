@@ -200,8 +200,8 @@ test('props.active should render indicator with props.active true', () => {
   assert.isTrue(indicator.props().active);
 });
 
-test('props.fadeIndicator should render indicator with props.fade true', () => {
-  const wrapper = shallow(<Tab fadeIndicator />);
+test('props.isFadingIndicator should render indicator with props.fade true', () => {
+  const wrapper = shallow(<Tab isFadingIndicator />);
   const indicator = wrapper.childAt(1);
   assert.isTrue(indicator.props().fade);
 });
@@ -258,8 +258,8 @@ test('custom tabIndicator should throw error if props.indicator is not a functio
   console.error = error;
 });
 
-test('minWidthIndicator renders indicator within the content element', () => {
-  const wrapper = shallow(<Tab minWidthIndicator />);
+test('isMinWidthIndicator renders indicator within the content element', () => {
+  const wrapper = shallow(<Tab isMinWidthIndicator />);
   const content = wrapper.children().first();
   const tabIndicator = content.find(TabIndicator);
   assert.equal(tabIndicator.length, 1);

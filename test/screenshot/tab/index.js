@@ -22,7 +22,7 @@ class TabsController extends React.Component {
   render() {
     const {
       tabContent, indicator, minWidth, // eslint-disable-line react/prop-types
-      minWidthIndicator, stacked, fadeIndicator, // eslint-disable-line react/prop-types
+      isMinWidthIndicator, stacked, isFadingIndicator, // eslint-disable-line react/prop-types
     } = this.props;
     const {activeIndex, previousActiveIndex} = this.state;
     return (
@@ -32,8 +32,8 @@ class TabsController extends React.Component {
             active={index === activeIndex}
             key={index}
             minWidth={minWidth}
-            minWidthIndicator={minWidthIndicator}
-            fadeIndicator={fadeIndicator}
+            isMinWidthIndicator={isMinWidthIndicator}
+            isFadingIndicator={isFadingIndicator}
             stacked={stacked}
             previousActiveClientRect={this.tabBoundingRects[previousActiveIndex]}
             ref={(tabEl) => {
@@ -97,13 +97,13 @@ ReactDOM.render((
 
     <h3>Tabs w/ Fading Tab Indicator</h3>
     <TabsController
-      fadeIndicator
+      isFadingIndicator
       tabContent={(num) => <TabContent num={num}/>}
     />
 
     <h3>Tabs w/ Min Width Tab Indicator</h3>
     <TabsController
-      minWidthIndicator
+      isMinWidthIndicator
       stacked
       tabContent={(num) => <TabContent num={num}/>}
     />
