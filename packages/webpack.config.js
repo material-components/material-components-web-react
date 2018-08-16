@@ -85,6 +85,7 @@ function getMaterialExternals() {
     'select',
     'tab',
     'tab-indicator',
+    'tab-scroller',
     'textfield',
     'top-app-bar',
     'typography',
