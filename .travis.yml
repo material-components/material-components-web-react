@@ -37,4 +37,4 @@ matrix:
         - docker pull mdcreact/screenshots
         - docker image ls
       script:
-        - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" mdcreact/screenshots /bin/sh -c "git fetch; git checkout \"${CURRENT_BRANCH}\"; git pull; npm i; /home/pptruser/material-components-web-react/test/screenshot/start.sh; sleep 280s; npm run test:image-diff"
+        - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" mdcreact/screenshots /bin/sh -c "git fetch; git checkout \"${CURRENT_BRANCH}\"; git pull; npm i; /home/pptruser/material-components-web-react/test/screenshot/start.sh; sleep 300s; npm run test:image-diff"
