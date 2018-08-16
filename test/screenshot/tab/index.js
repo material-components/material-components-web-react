@@ -47,13 +47,6 @@ class TabsController extends React.Component {
   }
 };
 
-    // <h3>Tabs w/ Icon Tag</h3>
-    // <TabsController
-    //   tabContent={() => (<span>Tab</span>)}
-    //   isIconIndicator
-    //   indicatorContent={<i className='material-icons light-border' icon=''>3d_rotation</i>}
-    // />
-
 const TabContent = ({
   num, // eslint-disable-line react/prop-types
 }) => (
@@ -75,6 +68,13 @@ ReactDOM.render((
       tabContent={() => (<span>Tab</span>)}
       isIconIndicator
       indicatorContent={<MaterialIcon className='light-border' icon='star_border' />}
+    />
+
+    <h3>Tabs w/ Icon Tag</h3>
+    <TabsController
+      tabContent={() => (<span>Tab</span>)}
+      isIconIndicator
+      indicatorContent={<i className='material-icons light-border' icon=''>3d_rotation</i>}
     />
 
     <h3>Tabs Min Width</h3>
