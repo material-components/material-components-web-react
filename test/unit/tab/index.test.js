@@ -92,19 +92,6 @@ test('#adapter.setAttr sets aria-selected on state', () => {
   assert.isTrue(wrapper.state()['aria-selected']);
 });
 
-test('#adapter.registerEventHandler sets allowTransitionEnd_ to true', () => {
-  const wrapper = shallow(<Tab />);
-  wrapper.instance().adapter.registerEventHandler();
-  assert.isTrue(wrapper.instance().allowTransitionEnd_);
-});
-
-test('#adapter.deregisterEventHandler sets allowTransitionEnd_ to false', () => {
-  const wrapper = shallow(<Tab />);
-  wrapper.instance().allowTransitionEnd_ = true;
-  wrapper.instance().adapter.deregisterEventHandler();
-  assert.isFalse(wrapper.instance().allowTransitionEnd_);
-});
-
 test('#adapter.getOffsetLeft returns tabElement_.offsetLeft', () => {
   const wrapper = mount(<Tab />);
   assert.equal(wrapper.instance().adapter.getOffsetLeft(), wrapper.instance().tabElement_.current.offsetLeft);
@@ -148,32 +135,6 @@ test('#computeDimensions calls foundation.computeDimensions', () => {
   wrapper.instance().foundation_.computeDimensions = td.func();
   wrapper.instance().computeDimensions();
   td.verify(wrapper.instance().foundation_.computeDimensions(), {times: 1});
-});
-
-test('onTransitionEnd event calls props.onTransitionEnd', () => {
-  const onTransitionEnd = td.func();
-  const wrapper = shallow(<Tab onTransitionEnd={onTransitionEnd}/>);
-  const evt = {preventDefault: () => {}};
-  wrapper.simulate('transitionend', evt);
-  td.verify(onTransitionEnd(evt), {times: 1});
-});
-
-test('onTransitionEnd event calls foundation.handleTransitionEnd_', () => {
-  const wrapper = shallow(<Tab />);
-  wrapper.instance().foundation_.handleTransitionEnd_ = td.func();
-  wrapper.instance().allowTransitionEnd_ = true;
-  const evt = {preventDefault: () => {}};
-  wrapper.simulate('transitionend', evt);
-  td.verify(wrapper.instance().foundation_.handleTransitionEnd_(evt), {times: 1});
-});
-
-test('onTransitionEnd event does not call foundation.handleTransitionEnd_ if allowTransitionEnd_ is false', () => {
-  const wrapper = shallow(<Tab />);
-  wrapper.instance().foundation_.handleTransitionEnd_ = td.func();
-  wrapper.instance().allowTransitionEnd_ = false;
-  const evt = {preventDefault: () => {}};
-  wrapper.simulate('transitionend', evt);
-  td.verify(wrapper.instance().foundation_.handleTransitionEnd_(evt), {times: 0});
 });
 
 test('button should have the role=tab', () => {

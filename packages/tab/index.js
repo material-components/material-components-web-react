@@ -6,7 +6,6 @@ import TabIndicator from '@material/react-tab-indicator';
 import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
 
 export default class Tab extends Component {
-  allowTransitionEnd_ = false;
   foundation_ = null;
   tabElement_ = React.createRef();
   tabContentElement_ = React.createRef();
@@ -65,9 +64,6 @@ export default class Tab extends Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       setAttr: (attr, value) => this.setState({[attr]: value}),
-
-      registerEventHandler: () => this.allowTransitionEnd_ = true,
-      deregisterEventHandler: () => this.allowTransitionEnd_ = false,
       getOffsetLeft: () => this.tabElement_.current && this.tabElement_.current.offsetLeft,
       getOffsetWidth: () => this.tabElement_.current && this.tabElement_.current.offsetWidth,
       getContentOffsetLeft: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetLeft,
@@ -89,14 +85,6 @@ export default class Tab extends Component {
     return this.foundation_.computeDimensions();
   }
 
-  handleTransitionEnd = (evt) => {
-    this.props.onTransitionEnd(evt);
-
-    if (!this.allowTransitionEnd_) return;
-
-    this.foundation_.handleTransitionEnd_(evt);
-  }
-
   render() {
     const {
       /* eslint-disable */
@@ -106,7 +94,6 @@ export default class Tab extends Component {
       fadeIndicator,
       indicator,
       minWidth,
-      onTransitionEnd,
       stacked,
       /* eslint-enable */
       children,
@@ -126,7 +113,6 @@ export default class Tab extends Component {
         aria-selected={ariaSelected}
         tabIndex={tabIndex}
         ref={this.tabElement_}
-        onTransitionEnd={this.handleTransitionEnd}
         {...otherProps}
       >
         <span
@@ -184,7 +170,6 @@ Tab.propTypes = {
   minWidthIndicator: PropTypes.bool,
   stacked: PropTypes.bool,
   previousActiveClientRect: PropTypes.object,
-  onTransitionEnd: PropTypes.func,
 };
 
 Tab.defaultProps = {
@@ -194,6 +179,5 @@ Tab.defaultProps = {
   minWidth: false,
   minWidthIndicator: false,
   stacked: false,
-  onTransitionEnd: () => {},
   previousActiveClientRect: {},
 };
