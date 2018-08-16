@@ -8,12 +8,11 @@ import {
 } from '@material/tab-indicator/dist/mdc.tabIndicator';
 
 export default class TabIndicator extends Component {
-  tabIndicatorContentElement_ = React.createRef();
+  tabIndicatorElement_ = React.createRef();
   allowTransitionEnd_ = false;
 
   state = {
     classList: new Set(),
-    contentStyle: {},
   };
 
   componentDidMount() {
@@ -23,6 +22,10 @@ export default class TabIndicator extends Component {
       this.foundation_ = new MDCSlidingTabIndicatorFoundation(this.adapter);
     }
     this.foundation_.init();
+
+    if (this.props.active) {
+      this.foundation_.activate();
+    }
   }
 
   componentWillUnmount() {
@@ -42,10 +45,9 @@ export default class TabIndicator extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {active, className, fade} = this.props;
+    const {className, fade} = this.props;
     return classnames('mdc-tab-indicator', Array.from(classList), className, {
       'mdc-tab-indicator--fade': fade,
-      'mdc-tab-indicator--active': active,
     });
   }
 
@@ -60,20 +62,38 @@ export default class TabIndicator extends Component {
   get adapter() {
     return {
       addClass: (className) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
       removeClass: (className) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      computeContentClientRect:
-        () => this.tabIndicatorContentElement_.current
-          && this.tabIndicatorContentElement_.current.getBoundingClientRect(),
-      setContentStyleProperty: (prop, value) => this.setState({contentStyle: {[prop]: value}}),
+      computeContentClientRect: this.computeContentClientRect,
+      // setContentStyleProperty was using setState, but due to the method's
+      // async nature, its not condusive to the FLIP technique
+      setContentStyleProperty: (prop, value) => {
+        const contentElement = this.getNativeContentElement();
+        if (!contentElement) return;
+        contentElement.style[prop] = value;
+      },
     };
+  }
+
+  getNativeContentElement = () => {
+    if (!this.tabIndicatorElement_.current) return;
+    // need to use getElementsByClassName since tabIndicator could be
+    // a non-semantic element (span, i, etc.). This is a problem since refs to a non semantic elements
+    // return the instance of the component.
+    return this.tabIndicatorElement_.current.getElementsByClassName('mdc-tab-indicator__content')[0];
+  }
+
+  computeContentClientRect = () => {
+    const contentElement = this.getNativeContentElement();
+    if (!(contentElement && contentElement.getBoundingClientRect)) return;
+    return contentElement.getBoundingClientRect();
   }
 
   handleTransitionEnd = (e) => {
@@ -103,6 +123,7 @@ export default class TabIndicator extends Component {
       <span
         className={this.classes}
         onTransitionEnd={this.handleTransitionEnd}
+        ref={this.tabIndicatorElement_}
         {...otherProps}
       >
         {this.renderContent()}
@@ -122,11 +143,7 @@ export default class TabIndicator extends Component {
       return this.addContentClassesToChildren();
     }
     return (
-      <span
-        className={this.contentClasses}
-        ref={this.tabIndicatorContentElement_}
-        style={this.state.contentStyle}
-      />
+      <span className={this.contentClasses} />
     );
   }
 }
