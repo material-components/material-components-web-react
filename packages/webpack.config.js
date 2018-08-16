@@ -83,6 +83,7 @@ function getMaterialExternals() {
     'notched-outline',
     'ripple',
     'select',
+    'tab',
     'tab-indicator',
     'textfield',
     'top-app-bar',
