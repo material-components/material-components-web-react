@@ -92,7 +92,8 @@ export default class Tab extends Component {
       previousActiveClientRect,
       className,
       isFadingIndicator,
-      indicator,
+      isIconIndicator,
+      indicatorContent,
       minWidth,
       stacked,
       /* eslint-enable */
@@ -131,31 +132,22 @@ export default class Tab extends Component {
   renderIndicator() {
     const {
       isFadingIndicator,
-      indicator,
+      indicatorContent,
+      isIconIndicator,
       previousActiveClientRect,
     } = this.props;
     const {activateIndicator: active} = this.state;
 
-    if (indicator) {
-      const indicatorProps = {
-        active,
-        previousIndicatorClientRect: previousActiveClientRect,
-        ref: this.tabIndicatorElement_,
-      };
-      const Indicator = indicator(indicatorProps);
-      if (Indicator.type !== TabIndicator) {
-        throw new Error('this.props.indicator must be a function that returns an instance of TabIndicator');
-      };
-      return Indicator;
-    }
-
     return (
       <TabIndicator
+        icon={isIconIndicator}
         active={active}
         fade={isFadingIndicator}
         ref={this.tabIndicatorElement_}
         previousIndicatorClientRect={previousActiveClientRect}
-      />
+      >
+        {indicatorContent}
+      </TabIndicator>
     );
   }
 }
@@ -165,7 +157,7 @@ Tab.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   isFadingIndicator: PropTypes.bool,
-  indicator: PropTypes.func,
+  indicatorContent: PropTypes.element,
   minWidth: PropTypes.bool,
   isMinWidthIndicator: PropTypes.bool,
   stacked: PropTypes.bool,
@@ -176,6 +168,7 @@ Tab.defaultProps = {
   active: false,
   className: '',
   isFadingIndicator: false,
+  indicatorContent: null,
   minWidth: false,
   isMinWidthIndicator: false,
   stacked: false,

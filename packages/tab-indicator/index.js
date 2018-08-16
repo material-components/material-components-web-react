@@ -77,7 +77,7 @@ export default class TabIndicator extends Component {
       setContentStyleProperty: (prop, value) => {
         const contentElement = this.getNativeContentElement();
         if (!contentElement) return;
-        contentElement.style[prop] = value
+        contentElement.style[prop] = value;
       },
     };
   }

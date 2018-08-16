@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tab from '../../../packages/tab';
-import TabIndicator from '../../../packages/tab-indicator/index';
 import MaterialIcon from '../../../packages/material-icon/index';
 
 import './index.scss';
@@ -21,8 +20,8 @@ class TabsController extends React.Component {
 
   render() {
     const {
-      tabContent, indicator, minWidth, // eslint-disable-line react/prop-types
-      isMinWidthIndicator, stacked, isFadingIndicator, // eslint-disable-line react/prop-types
+      tabContent, // eslint-disable-line
+      ...otherProps
     } = this.props;
     const {activeIndex, previousActiveIndex} = this.state;
     return (
@@ -31,10 +30,6 @@ class TabsController extends React.Component {
           <Tab
             active={index === activeIndex}
             key={index}
-            minWidth={minWidth}
-            isMinWidthIndicator={isMinWidthIndicator}
-            isFadingIndicator={isFadingIndicator}
-            stacked={stacked}
             previousActiveClientRect={this.tabBoundingRects[previousActiveIndex]}
             ref={(tabEl) => {
               if (tabEl) {
@@ -42,7 +37,7 @@ class TabsController extends React.Component {
               }
             }}
             onClick={() => this.setState({previousActiveIndex: activeIndex, activeIndex: index})}
-            indicator={indicator ? (props) => indicator(props) : null}
+            {...otherProps}
           >
             {tabContent(num)}
           </Tab>
@@ -51,6 +46,13 @@ class TabsController extends React.Component {
     );
   }
 };
+
+    // <h3>Tabs w/ Icon Tag</h3>
+    // <TabsController
+    //   tabContent={() => (<span>Tab</span>)}
+    //   isIconIndicator
+    //   indicatorContent={<i className='material-icons light-border' icon=''>3d_rotation</i>}
+    // />
 
 const TabContent = ({
   num, // eslint-disable-line react/prop-types
@@ -68,19 +70,11 @@ ReactDOM.render((
       tabContent={(num) => <TabContent num={num}/>}
     />
 
-    <h3>Tabs w/ Icon</h3>
+    <h3>Tabs w/ Custom Element Icon</h3>
     <TabsController
       tabContent={() => (<span>Tab</span>)}
-      indicator={({active, previousIndicatorClientRect, ref}) => (
-        <TabIndicator
-          icon
-          active={active}
-          ref={ref}
-          previousIndicatorClientRect={previousIndicatorClientRect}
-        >
-          <MaterialIcon className='light-border' icon='star_border' />
-        </TabIndicator>
-      )}
+      isIconIndicator
+      indicatorContent={<MaterialIcon className='light-border' icon='star_border' />}
     />
 
     <h3>Tabs Min Width</h3>

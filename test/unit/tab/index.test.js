@@ -206,6 +206,12 @@ test('props.isFadingIndicator should render indicator with props.fade true', () 
   assert.isTrue(indicator.props().fade);
 });
 
+test('props.isIconIndicator should render indicator with props.icon true', () => {
+  const wrapper = shallow(<Tab isIconIndicator />);
+  const indicator = wrapper.childAt(1);
+  assert.isTrue(indicator.props().icon);
+});
+
 test('props.previousActiveClientRect should render indicator with same props.previousIndicatorClientRect', () => {
   const clientRect = {test: 1};
   const wrapper = shallow(<Tab previousActiveClientRect={clientRect} />);
@@ -213,11 +219,10 @@ test('props.previousActiveClientRect should render indicator with same props.pre
   assert.equal(indicator.props().previousIndicatorClientRect, clientRect);
 });
 
-
 test('custom tabIndicator should render indicator with props.active true if props.active is true', () => {
   const wrapper = shallow(<Tab
     active
-    indicator={(props) => <TabIndicator active={props.active} />}
+    indicatorContent={<i className='icon'>icon</i>}
   />);
   const indicator = wrapper.childAt(1);
   assert.isTrue(indicator.props().active);
@@ -240,22 +245,6 @@ test('custom tabIndicator should render with a ref attached', () => {
   />);
 
   assert.instanceOf(wrapper.instance().tabIndicatorElement_.current, TabIndicator);
-});
-
-test('custom tabIndicator should throw error if TabIndicator is not returned', () => {
-  const wrapper = () => shallow(<Tab indicator={(props) => <i className='test' />} />);
-  assert.throws(wrapper, /this.props.indicator must be a function/);
-});
-
-test('custom tabIndicator should throw error if props.indicator is not a function', () => {
-  const {error} = console;
-  // throws warning in console, because of PropTypes
-  console.error = td.func();
-
-  const wrapper = () => shallow(<Tab indicator={<i className='test' />} />);
-  assert.throws(wrapper);
-
-  console.error = error;
 });
 
 test('isMinWidthIndicator renders indicator within the content element', () => {
