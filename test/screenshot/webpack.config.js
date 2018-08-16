@@ -8,6 +8,7 @@ module.exports = [
   ...require('./material-icon/webpack.config.js'),
   ...require('./notched-outline/webpack.config.js'),
   ...require('./select/webpack.config.js'),
+  ...require('./tab/webpack.config.js'),
   ...require('./tab-indicator/webpack.config.js'),
   ...require('./tab-scroller/webpack.config.js'),
   ...require('./text-field/webpack.config.js'),
