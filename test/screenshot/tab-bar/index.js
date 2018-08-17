@@ -14,7 +14,6 @@ ReactDOM.render((
       <Tab>
         <span className='mdc-tab__text-label'>Two</span>
       </Tab>
-      ))}
     </TabBar>
   </div>
 ), document.getElementById('app'));

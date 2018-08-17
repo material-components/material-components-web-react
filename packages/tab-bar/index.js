@@ -16,8 +16,6 @@ export default class TabBar extends Component {
   }
 
   componentDidMount() {
-    this.tabList_ = this.tabScroller_.props.children;
-
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
     this.foundation_.init();
 
@@ -34,12 +32,12 @@ export default class TabBar extends Component {
 
   get adapter() {
     return {
-      scrollTo: (scrollX) => this.tabScroller_.scrollTo(scrollX),
-      incrementScroll: (scrollXIncrement) => this.tabScroller_.incrementScroll(scrollXIncrement),
-      getScrollPosition: () => this.tabScroller_.getScrollPosition(),
-      getScrollContentWidth: () => this.tabScroller_.getScrollContentWidth(),
-      getOffsetWidth: () => this.tabBarElement_.offsetWidth,
-      isRTL: () => window.getComputedStyle(this.tabBarElement_).getPropertyValue('direction') === 'rtl',
+      scrollTo: (scrollX) => this.tabScroller_.current.scrollTo(scrollX),
+      incrementScroll: (scrollXIncrement) => this.tabScroller_.current.incrementScroll(scrollXIncrement),
+      getScrollPosition: () => this.tabScroller_.current.getScrollPosition(),
+      getScrollContentWidth: () => this.tabScroller_.current.getScrollContentWidth(),
+      getOffsetWidth: () => this.tabBarElement_.current.offsetWidth,
+      isRTL: () => window.getComputedStyle(this.tabBarElement_.current).getPropertyValue('direction') === 'rtl',
       activateTabAtIndex: (index, clientRect) => this.tabList_[index].activate(clientRect),
       deactivateTabAtIndex: (index) => this.tabList_[index].deactivate(),
       focusTabAtIndex: (index) => this.tabList_[index].focus(),
@@ -64,6 +62,10 @@ export default class TabBar extends Component {
     this.foundation_.scrollIntoView(index);
   }
 
+  pushToTabList = (el) => {
+    this.tabList_.push(el);
+  }
+
   render() {
     const {
       activeIndex, // eslint-disable-line no-unused-vars
@@ -81,11 +83,7 @@ export default class TabBar extends Component {
         {...otherProps}
       >
         <TabScroller ref={this.tabScroller_}>
-          {React.children.map(children, (tabChild) => {
-            const tab = this.renderTab(tabChild, index++);
-            this.tabList_.push(tab);
-            return tab;
-          })}
+          {React.Children.map(children, (tab) => this.renderTab(tab, index++))}
         </TabScroller>
       </div>
     );
@@ -101,6 +99,7 @@ export default class TabBar extends Component {
       <Tab
         active={index === this.state.activeIndex}
         onClick={(e) => this.foundation_.handleTabInteraction(e)}
+        ref={this.pushToTabList}
         {...otherProps}
       >
         {children}
@@ -112,11 +111,14 @@ export default class TabBar extends Component {
 TabBar.propTypes = {
   activeIndex: PropTypes.number,
   className: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ])
 };
 
 TabBar.defaultProps = {
   activeIndex: -1,
   className: '',
-  children: null,
+  children: [],
 };

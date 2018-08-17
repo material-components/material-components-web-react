@@ -76,6 +76,14 @@ export default class Tab extends Component {
     };
   }
 
+  activate(computeIndicatorClientRect) {
+    this.foundation_.activate(computeIndicatorClientRect);
+  }
+
+  deactivate() {
+    this.foundation_.deactivate();
+  }
+
   computeIndicatorClientRect = () => {
     if (!this.tabIndicatorElement_.current) return;
     return this.tabIndicatorElement_.current.computeContentClientRect();
@@ -83,6 +91,10 @@ export default class Tab extends Component {
 
   computeDimensions = () => {
     return this.foundation_.computeDimensions();
+  }
+
+  focus = () => {
+    this.tabElement_.current && this.tabElement_.current.focus();
   }
 
   render() {
