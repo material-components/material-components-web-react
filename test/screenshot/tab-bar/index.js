@@ -1,24 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Tab from '../../../packages/tab-bar';
+import TabBar from '../../../packages/tab-bar';
 import TabBar from '../../../packages/tab-bar';
 
 import './index.scss';
 
-const Tab = ({
-  number, // eslint-disable-line react/prop-types
-}) => {
-  return (
-    <div className='tab'>
-      Tab {number}
-    </div>
-  );
-};
-
 ReactDOM.render((
   <div>
     <TabBar activeIndex={0}>
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((tabNumber) => (
-        <Tab key={tabNumber} number={tabNumber} />
+      <Tab>
+        <span className='mdc-tab__text-label'>One</span>
+      </Tab>
+      <Tab>
+        <span className='mdc-tab__text-label'>Two</span>
+      </Tab>
       ))}
     </TabBar>
   </div>
