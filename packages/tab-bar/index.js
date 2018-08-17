@@ -69,6 +69,7 @@ export default class TabBar extends Component {
   render() {
     const {
       activeIndex, // eslint-disable-line no-unused-vars
+      handleActiveIndexUpdate, // eslint-disable-line no-unused-vars
       children,
       className, // eslint-disable-line no-unused-vars
       ...otherProps
@@ -92,13 +93,17 @@ export default class TabBar extends Component {
   renderTab(tab, index) {
     const {
       children,
+      onClick,
       ...otherProps
     } = tab.props;
 
     return(
       <Tab
         active={index === this.state.activeIndex}
-        onClick={(e) => this.foundation_.handleTabInteraction(e)}
+        onClick={(e) => {
+          this.foundation_.handleTabInteraction(e);
+          onClick && onClick(e);
+        }}
         ref={this.pushToTabList}
         {...otherProps}
       >
@@ -114,11 +119,13 @@ TabBar.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
-  ])
+  ]),
+  onClick: PropTypes.func
 };
 
 TabBar.defaultProps = {
   activeIndex: -1,
   className: '',
   children: [],
+  onClick: null
 };

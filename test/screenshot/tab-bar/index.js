@@ -5,15 +5,28 @@ import TabBar from '../../../packages/tab-bar';
 
 import './index.scss';
 
-ReactDOM.render((
-  <div>
-    <TabBar activeIndex={0}>
-      <Tab>
-        <span className='mdc-tab__text-label'>One</span>
-      </Tab>
-      <Tab>
-        <span className='mdc-tab__text-label'>Two</span>
-      </Tab>
+class TabBarTest extends React.Component {
+  state = {
+    activeIndex: 0,
+  };
+
+  render() {
+    return (
+      <TabBar activeIndex={this.state.activeIndex} handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}>
+        <Tab>
+          <span className='mdc-tab__text-label'>One</span>
+        </Tab>
+        <Tab>
+          <span className='mdc-tab__text-label'>Two</span>
+        </Tab>
+        <Tab>
+          <span className='mdc-tab__text-label'>Three</span>
+        </Tab>
     </TabBar>
-  </div>
+    );
+  }
+}
+
+ReactDOM.render((
+  <TabBarTest />
 ), document.getElementById('app'));
