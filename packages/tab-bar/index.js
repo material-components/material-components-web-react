@@ -10,16 +10,13 @@ export default class TabBar extends Component {
   tabBarElement_ = React.createRef();
   tabScroller_ = React.createRef();
   tabList_ = [];
+
   foundation_ = null;
-  state = {
-    activeIndex: this.props.activeIndex,
-  }
 
   componentDidMount() {
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
     this.foundation_.init();
-
-    this.activateTab(this.state.activeIndex);
+    this.activateTab(this.props.activeIndex);
   }
 
   componentWillUnmount() {
@@ -43,14 +40,14 @@ export default class TabBar extends Component {
       focusTabAtIndex: (index) => this.tabList_[index].focus(),
       getTabIndicatorClientRectAtIndex: (index) => this.tabList_[index].computeIndicatorClientRect(),
       getTabDimensionsAtIndex: (index) => this.tabList_[index].computeDimensions(),
-      getActiveTabIndex: () => this.state.activeIndex,
+      getActiveTabIndex: () => this.props.activeIndex,
       getFocusedTabIndex: () => {
         const activeElement = document.activeElement;
         return this.tabList_.indexOf((tab) => tab.tabElement_.current === activeElement);
       },
       getIndexOfTab: (tabToFind) => this.tabList_.indexOf(tabToFind),
       getTabListLength: () => this.tabList_.length,
-      notifyTabActivated: (index) => this.setState({activeIndex: index}),
+      notifyTabActivated: (index) => this.props.handleActiveIndexUpdate(index),
     };
   }
 
@@ -68,14 +65,15 @@ export default class TabBar extends Component {
 
   render() {
     const {
-      activeIndex, // eslint-disable-line no-unused-vars
-      handleActiveIndexUpdate, // eslint-disable-line no-unused-vars
+      /* eslint-disable no-unused-vars */
+      className,
+      activeIndex,
+      handleActiveIndexUpdate,
+      /* eslint-enable no-unused-vars */
       children,
-      className, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
 
-    let index = 0;
     return (
       <div
         className={this.classes}
@@ -84,26 +82,28 @@ export default class TabBar extends Component {
         {...otherProps}
       >
         <TabScroller ref={this.tabScroller_}>
-          {React.Children.map(children, (tab) => this.renderTab(tab, index++))}
+          {React.Children.map(children, this.renderTab)}
         </TabScroller>
       </div>
     );
   }
 
-  renderTab(tab, index) {
+  renderTab = (tab) => {
     const {
       children,
       onClick,
+      activeIndex, // eslint-disable-line no-unused-vars
       ...otherProps
     } = tab.props;
 
+    const handleTabInteraction = (e) => {
+      this.foundation_.handleTabInteraction(e);
+      onClick(e);
+    }
+
     return(
       <Tab
-        active={index === this.state.activeIndex}
-        onClick={(e) => {
-          this.foundation_.handleTabInteraction(e);
-          onClick && onClick(e);
-        }}
+        onClick={handleTabInteraction}
         ref={this.pushToTabList}
         {...otherProps}
       >
@@ -115,6 +115,7 @@ export default class TabBar extends Component {
 
 TabBar.propTypes = {
   activeIndex: PropTypes.number,
+  handleActiveIndexUpdate: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
@@ -125,7 +126,8 @@ TabBar.propTypes = {
 
 TabBar.defaultProps = {
   activeIndex: -1,
+  handleActiveIndexUpdate: () => {},
   className: '',
   children: [],
-  onClick: null
+  onClick: () => {}
 };

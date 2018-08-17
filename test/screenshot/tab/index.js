@@ -30,7 +30,7 @@ class TabsController extends React.Component {
           <Tab
             active={index === activeIndex}
             key={index}
-            previousActiveClientRect={this.tabBoundingRects[previousActiveIndex]}
+            previousIndicatorClientRect={this.tabBoundingRects[previousActiveIndex]}
             ref={(tabEl) => {
               if (tabEl) {
                 this.tabBoundingRects.push(tabEl.computeIndicatorClientRect());

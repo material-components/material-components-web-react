@@ -12,7 +12,7 @@ class TabBarTest extends React.Component {
 
   render() {
     return (
-      <TabBar activeIndex={this.state.activeIndex} handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}>
+      <TabBar activeIndex={this.state.activeIndex} handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex}, console.log(activeIndex))}>
         <Tab>
           <span className='mdc-tab__text-label'>One</span>
         </Tab>
