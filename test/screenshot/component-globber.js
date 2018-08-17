@@ -17,7 +17,7 @@ function getComponents() {
     components.push(path.basename(directory));
   });
 
-  return components;
+  return components.filter((component) => component !== 'images');
 }
 
 module.exports = {getComponents};

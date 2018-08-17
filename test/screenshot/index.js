@@ -9,7 +9,12 @@ ReactDOM.render((
   <BrowserRouter>
     <div>
       <Route exact path='/' component={Home}/>
-      <Route exact path='/text-field' component={TextField}/>
+      {COMPONENTS.map((componentPath) => {
+        const Component = require(`./${componentPath}/index.js`).default;
+        return (
+          <Route exact key={componentPath} path={`/${componentPath}`} component={Component}/>
+        );
+      })}
     </div>
   </BrowserRouter>
 ), document.getElementById('mcdr-screenshot-test-app'));

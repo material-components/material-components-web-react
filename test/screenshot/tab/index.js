@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Tab from '../../../packages/tab';
 import MaterialIcon from '../../../packages/material-icon/index';
-
+import '../../../packages/tab-indicator/index.scss';
+import '../../../packages/tab/index.scss';
 import './index.scss';
+
 const Tabs = ({
   children, activeIndex, // eslint-disable-line react/prop-types
 }) => {
@@ -56,50 +58,52 @@ const TabContent = ({
   </React.Fragment>
 );
 
-ReactDOM.render((
-  <div>
-    <h3>Basic Tabs</h3>
-    <TabsController
-      tabContent={(num) => <TabContent num={num}/>}
-    />
+export default () => {
+  return (
+    <div>
+      <h3>Basic Tabs</h3>
+      <TabsController
+        tabContent={(num) => <TabContent num={num}/>}
+      />
 
-    <h3>Tabs w/ Custom Element Icon</h3>
-    <TabsController
-      tabContent={() => (<span>Tab</span>)}
-      isIconIndicator
-      indicatorContent={<MaterialIcon className='light-border' icon='star_border' />}
-    />
+      <h3>Tabs w/ Custom Element Icon</h3>
+      <TabsController
+        tabContent={() => (<span>Tab</span>)}
+        isIconIndicator
+        indicatorContent={<MaterialIcon className='light-border' icon='star_border' />}
+      />
 
-    <h3>Tabs w/ Icon Tag</h3>
-    <TabsController
-      tabContent={() => (<span>Tab</span>)}
-      isIconIndicator
-      indicatorContent={<i className='material-icons light-border' icon=''>3d_rotation</i>}
-    />
+      <h3>Tabs w/ Icon Tag</h3>
+      <TabsController
+        tabContent={() => (<span>Tab</span>)}
+        isIconIndicator
+        indicatorContent={<i className='material-icons light-border' icon=''>3d_rotation</i>}
+      />
 
-    <h3>Tabs Min Width</h3>
-    <TabsController
-      minWidth
-      tabContent={(num) => <TabContent num={num}/>}
-    />
+      <h3>Tabs Min Width</h3>
+      <TabsController
+        minWidth
+        tabContent={(num) => <TabContent num={num}/>}
+      />
 
-    <h3>Tabs Stacked</h3>
-    <TabsController
-      stacked
-      tabContent={(num) => <TabContent num={num}/>}
-    />
+      <h3>Tabs Stacked</h3>
+      <TabsController
+        stacked
+        tabContent={(num) => <TabContent num={num}/>}
+      />
 
-    <h3>Tabs w/ Fading Tab Indicator</h3>
-    <TabsController
-      isFadingIndicator
-      tabContent={(num) => <TabContent num={num}/>}
-    />
+      <h3>Tabs w/ Fading Tab Indicator</h3>
+      <TabsController
+        isFadingIndicator
+        tabContent={(num) => <TabContent num={num}/>}
+      />
 
-    <h3>Tabs w/ Min Width Tab Indicator</h3>
-    <TabsController
-      isMinWidthIndicator
-      stacked
-      tabContent={(num) => <TabContent num={num}/>}
-    />
-  </div>
-), document.getElementById('app'));
+      <h3>Tabs w/ Min Width Tab Indicator</h3>
+      <TabsController
+        isMinWidthIndicator
+        stacked
+        tabContent={(num) => <TabContent num={num}/>}
+      />
+    </div>
+  );
+}

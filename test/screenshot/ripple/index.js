@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom';
 
 import withRipple from '../../../packages/ripple';
 
-import '@material/ripple/common';
-import '@material/ripple/mixins';
-
 import './index.scss';
 
 /*eslint-disable */
