@@ -1,28 +1,19 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import topAppBarVariants from './variants';
 
 import '../../../packages/top-app-bar/index.scss';
 import '../../../packages/material-icon/index.scss';
 import './index.scss';
 
 const TopAppBarHomePage = () => {
-  const topAppBarVariants = [
-    'fixed',
-    'short',
-    'prominent',
-    'standard',
-    'standardNoActionItems',
-    'standardWithNavigationIconElement',
-    'shortCollapsed',
-  ];
-
   return (
     <div>
-      {topAppBarVariants.map((variant) => {
-        <div>
+      {topAppBarVariants.map((variant, index) => (
+        <div key={index}>
           <Link to={`/top-app-bar/${variant}`}>{variant}</Link>
         </div>
-      })}
+      ))}
     </div>
   );
 }

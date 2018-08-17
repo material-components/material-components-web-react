@@ -6,18 +6,22 @@ const isDirectory = source => lstatSync(source).isDirectory();
 const getDirectories = source =>
   readdirSync(source).map(name => join(source, name)).filter(isDirectory);
 
-function getComponents() {
-  const components = [
-    // manually add sub-components
-    'text-field/icon',
-    'text-field/helper-text',
-  ];
+function getPackages() {
+  const components = [];
   const directories = getDirectories(__dirname);
   directories.forEach((directory) => {
     components.push(path.basename(directory));
   });
 
   return components.filter((component) => component !== 'images');
+}
+
+function getComponents() {
+  return getPackages().concat([
+    // manually add sub-components
+    'text-field/icon',
+    'text-field/helper-text',
+  ]);
 }
 
 module.exports = {getComponents};

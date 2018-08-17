@@ -1,8 +1,9 @@
 const webpack = require('webpack');
+const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const {getMaterialExternals, getComponents} = require('../../scripts/webpack');
 
-const {getComponents} = require('./component-globber');
 const {importer} = require('../../packages/webpack.util');
 
 module.exports = {
@@ -11,6 +12,14 @@ module.exports = {
     filename: 'bundle.js',
     path: __dirname,
   },
+  externals: Object.assign({
+    'react': 'react',
+    'react-dom': 'react-dom',
+    'classnames': 'classnames',
+    'prop-types': 'prop-types',
+    'babel-polyfill': 'babel-polyfill',
+    'react-router-dom': 'react-router-dom',
+  }, getMaterialExternals()),
   module: {
     rules: [{
       test: /\.js$/,

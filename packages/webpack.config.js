@@ -18,7 +18,7 @@ const webpack = require('webpack');
 const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const {getMaterialExternals} = require('../scripts/webpack');
 const {importer} = require('./webpack.util');
 
 const isDirectory = (source) => lstatSync(source).isDirectory();
@@ -66,36 +66,6 @@ function getCommonWebpackParams(entryPath, chunk, {isCss, modules}) {
     },
     devtool: 'source-map',
   };
-}
-
-function getMaterialExternals() {
-  const dashedToCamel = (name) => name.replace(/-(\w)/g, (_, v) => v.toUpperCase());
-  const externals = {};
-  [
-    'base',
-    'button',
-    'card',
-    'chips',
-    'fab',
-    'floating-label',
-    'line-ripple',
-    'list',
-    'notched-outline',
-    'ripple',
-    'select',
-    'tab',
-    'tab-indicator',
-    'tab-scroller',
-    'textfield',
-    'top-app-bar',
-    'typography',
-  ].forEach((name) => {
-    // this can be reverted when we change back to @material/foo-package-filename
-    // https://github.com/material-components/material-components-web/pull/3245
-    const fileName = `@material/${name}/dist/mdc.${dashedToCamel(name)}`;
-    externals[fileName] = fileName;
-  });
-  return externals;
 }
 
 function getJavaScriptWebpackConfig(entryPath, chunk, modules) {
