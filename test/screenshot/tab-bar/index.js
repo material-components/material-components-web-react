@@ -11,22 +11,36 @@ class TabBarTest extends React.Component {
   };
 
   render() {
+    const {
+      className,
+      indicatorContent
+    } = this.props;
+
     return (
-      <TabBar activeIndex={this.state.activeIndex} handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex}, console.log(activeIndex))}>
-        <Tab>
+      <TabBar
+        className={className}
+        activeIndex={this.state.activeIndex}
+        handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
+      >
+        <Tab indicatorContent={indicatorContent}>
           <span className='mdc-tab__text-label'>One</span>
         </Tab>
-        <Tab>
+        <Tab indicatorContent={indicatorContent}>
           <span className='mdc-tab__text-label'>Two</span>
         </Tab>
-        <Tab>
+        <Tab indicatorContent={indicatorContent}>
           <span className='mdc-tab__text-label'>Three</span>
         </Tab>
-    </TabBar>
+      </TabBar>
     );
   }
 }
 
 ReactDOM.render((
-  <TabBarTest />
+  <div>
+    Sliding Underline
+    <TabBarTest />
+    Sliding Icon
+    <TabBarTest className='custom-tab-bar' indicatorContent={<i className='material-icons light-border'>star_border</i>} />
+  </div>
 ), document.getElementById('app'));

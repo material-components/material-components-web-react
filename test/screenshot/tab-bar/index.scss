@@ -2,3 +2,20 @@
 @import "../../../packages/tab-bar/index";
 @import "../../../packages/tab-indicator/index";
 @import "../../../packages/tab-scroller/index";
+
+.mdc-tab-bar {
+  margin: 15px;
+}
+
+.custom-tab-bar {
+  .mdc-tab--active {
+    @include mdc-tab-text-label-color(black);
+
+    .light-border {
+      opacity: .5;
+    }
+  }
+  .mdc-tab__ripple {
+    @include mdc-states(secondary);
+  }
+}

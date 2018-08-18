@@ -206,12 +206,6 @@ test('props.isFadingIndicator should render indicator with props.fade true', () 
   assert.isTrue(indicator.props().fade);
 });
 
-test('props.isIconIndicator should render indicator with props.icon true', () => {
-  const wrapper = shallow(<Tab isIconIndicator />);
-  const indicator = wrapper.childAt(1);
-  assert.isTrue(indicator.props().icon);
-});
-
 test('props.previousActiveClientRect should render indicator with same props.previousIndicatorClientRect', () => {
   const clientRect = {test: 1};
   const wrapper = shallow(<Tab previousActiveClientRect={clientRect} />);

@@ -63,12 +63,18 @@ export default class TabBar extends Component {
     this.tabList_.push(el);
   }
 
+  onKeyDown = (e) => {
+    this.foundation_.handleKeyDown(e);
+    this.props.onKeyDown(e);
+  }
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
       className,
       activeIndex,
       handleActiveIndexUpdate,
+      onKeyDown,
       /* eslint-enable no-unused-vars */
       children,
       ...otherProps
@@ -78,6 +84,7 @@ export default class TabBar extends Component {
       <div
         className={this.classes}
         role='tablist'
+        onKeyDown={this.onKeyDown}
         ref={this.tabBarElement_}
         {...otherProps}
       >
@@ -90,9 +97,12 @@ export default class TabBar extends Component {
 
   renderTab = (tab) => {
     const {
+      /* eslint-disable no-unused-vars */
+      activeIndex,
+      handleActiveIndexUpdate,
+      /* eslint-enable no-unused-vars */
       children,
       onClick,
-      activeIndex, // eslint-disable-line no-unused-vars
       ...otherProps
     } = tab.props;
 
@@ -121,13 +131,15 @@ TabBar.propTypes = {
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
   ]),
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onKeyDown: PropTypes.func
 };
 
 TabBar.defaultProps = {
-  activeIndex: -1,
+  activeIndex: 0,
   handleActiveIndexUpdate: () => {},
   className: '',
   children: [],
-  onClick: () => {}
+  onClick: () => {},
+  onKeyDown: () => {}
 };

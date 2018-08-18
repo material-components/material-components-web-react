@@ -13,7 +13,7 @@ export default class Tab extends Component {
 
   state = {
     classList: new Set(),
-    ariaSelected: undefined,
+    'aria-selected': undefined,
     tabIndex: undefined,
     activateIndicator: false,
     previousIndicatorClientRect: this.props.previousIndicatorClientRect,
@@ -108,7 +108,6 @@ export default class Tab extends Component {
       previousIndicatorClientRect,
       className,
       isFadingIndicator,
-      isIconIndicator,
       indicatorContent,
       minWidth,
       stacked,
@@ -121,7 +120,7 @@ export default class Tab extends Component {
 
     const {
       tabIndex,
-      ariaSelected
+      ['aria-selected']: ariaSelected
     } = this.state;
 
     return (
@@ -156,7 +155,6 @@ export default class Tab extends Component {
     const {
       isFadingIndicator,
       indicatorContent,
-      isIconIndicator,
     } = this.props;
     
     const {
@@ -166,7 +164,7 @@ export default class Tab extends Component {
 
     return (
       <TabIndicator
-        icon={isIconIndicator}
+        icon={!!indicatorContent}
         fade={isFadingIndicator}
         active={activateIndicator}
         previousIndicatorClientRect={previousIndicatorClientRect}
