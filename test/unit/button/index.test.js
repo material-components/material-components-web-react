@@ -38,6 +38,11 @@ test('renders an outlined button', () => {
   assert.isTrue(wrapper.hasClass('mdc-button--outlined'));
 });
 
+test('renders an dense button', () => {
+  const wrapper = shallow(<Button dense />);
+  assert.isTrue(wrapper.hasClass('mdc-button--dense'));
+});
+
 test('renders a button tag', () => {
   const wrapper = shallow(<Button />);
   assert.equal(wrapper.type(), 'button');
