@@ -1,5 +1,5 @@
 const {lstatSync, readdirSync} = require('fs');
-const {basename, join} = require('path');
+const {basename, join, resolve} = require('path');
 
 const isDirectory = source => lstatSync(source).isDirectory();
 const getDirectories = source =>
@@ -7,7 +7,7 @@ const getDirectories = source =>
 
 function getPackages() {
   const components = [];
-  const directories = getDirectories(__dirname);
+  const directories = getDirectories(resolve(__dirname, '../../test/screenshot'));
   directories.forEach((directory) => {
     components.push(basename(directory));
   });

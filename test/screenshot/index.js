@@ -1,4 +1,4 @@
-import path from 'path';
+import {resolve} from 'path';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter, Route} from 'react-router-dom';
@@ -19,7 +19,7 @@ ReactDOM.render((
       })}
       {topAppBarVariants.map((variant) => {
         const path = `top-app-bar/${variant}`;
-        const Component = require(path.resolve(__dirname, `${path}.js`)).default;
+        const Component = require(resolve(__dirname, `${path}.js`)).default;
         return (
           <Route exact key={path} path={`/${path}`} component={Component}/>
         );
