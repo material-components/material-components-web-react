@@ -7,14 +7,15 @@
   margin: 15px;
 }
 
-.custom-tab-bar {
+.icon-indicator-tab-bar {
   .mdc-tab--active {
     @include mdc-tab-text-label-color(black);
 
-    .light-border {
+    .material-icons {
       opacity: .5;
     }
   }
+
   .mdc-tab__ripple {
     @include mdc-states(secondary);
   }
