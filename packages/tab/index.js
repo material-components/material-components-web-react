@@ -35,9 +35,15 @@ export default class Tab extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
-        this.foundation_.activate(this.state.previousIndicatorClientRect);
+        if (this.props.previousIndicatorClientRect !== prevProps.previousIndicatorClientRect) {
+          // If MDCTabBarFoundation is not used, user may pass the previousIndicatorClientRect through props
+          this.activate(this.props.previousIndicatorClientRect);
+        } else {
+          // MDCTabBarFoundation updates the previousIndicatorClientRect state through the Tab adapter
+          this.activate(this.state.previousIndicatorClientRect);
+        }
       } else {
-        this.foundation_.deactivate();
+        this.deactivate();
       }
     }
   }

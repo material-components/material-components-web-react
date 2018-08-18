@@ -15,7 +15,7 @@ const Tabs = ({
 };
 
 class TabsController extends React.Component {
-  tabBoundingRects = [];
+  tabBoundingRects = {};
   state = {activeIndex: 0, previousActiveIndex: 0};
 
   render() {
@@ -33,10 +33,13 @@ class TabsController extends React.Component {
             previousIndicatorClientRect={this.tabBoundingRects[previousActiveIndex]}
             ref={(tabEl) => {
               if (tabEl) {
-                this.tabBoundingRects.push(tabEl.computeIndicatorClientRect());
+                this.tabBoundingRects[index] = tabEl.computeIndicatorClientRect();
               }
             }}
-            onClick={() => this.setState({previousActiveIndex: activeIndex, activeIndex: index})}
+            onClick={() => this.setState({
+              previousActiveIndex: activeIndex,
+              activeIndex: index
+            })}
             {...otherProps}
           >
             {tabContent(num)}
