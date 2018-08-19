@@ -14,13 +14,18 @@ class TabBarTest extends React.Component {
     const {
       className,
       indicatorContent,
-      isFadingIndicator
+      isFadingIndicator,
+      numTabs
     } = this.props;
 
-    const renderTab = (text) => {
+    const renderTab = (num, index) => {
       return(
-        <Tab isFadingIndicator={isFadingIndicator} indicatorContent={indicatorContent}>
-          <span className='mdc-tab__text-label'>{text}</span>
+        <Tab
+          key={index}
+          isFadingIndicator={isFadingIndicator}
+          indicatorContent={indicatorContent}
+        >
+          <span className='mdc-tab__text-label'>Tab {num + 1}</span>
         </Tab>
       );
     }
@@ -31,9 +36,7 @@ class TabBarTest extends React.Component {
         activeIndex={this.state.activeIndex}
         handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
       >
-        {renderTab('One')}
-        {renderTab('Two')}
-        {renderTab('Three')}
+        {[...Array(numTabs).keys()].map(renderTab)}
       </TabBar>
     );
   }
@@ -42,23 +45,26 @@ class TabBarTest extends React.Component {
 ReactDOM.render((
   <div>
     Sliding Underline
-    <TabBarTest />
+    <TabBarTest numTabs={3}/>
 
     Fading Underline
-    <TabBarTest 
+    <TabBarTest numTabs={3}
       activeIndex={1}
       isFadingIndicator />
 
     Sliding Icon
-    <TabBarTest
+    <TabBarTest numTabs={3}
       className='icon-indicator-tab-bar'
       activeIndex={2}
       indicatorContent={<i className='material-icons'>star_border</i>} />
 
     Fading Icon
-    <TabBarTest
+    <TabBarTest numTabs={3}
       className='icon-indicator-tab-bar'
       isFadingIndicator
       indicatorContent={<i className='material-icons'>favorite</i>} />
+
+    Scrolling Tabs
+    <TabBarTest numTabs={20} />
   </div>
 ), document.getElementById('app'));

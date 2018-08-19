@@ -37,7 +37,7 @@ export default class TabScroller extends Component {
 
   setStyleToElement = (prop, value, elementStyleProperty) => {
     const styleName = convertDashToCamelCase(prop);
-    const updateElementStyleProperty = Object.assign(
+    const updateElementStyleProperty = Object.assign({},
       this.state[elementStyleProperty],
       {[styleName]: value}
     );
@@ -131,7 +131,12 @@ export default class TabScroller extends Component {
   }
 
   render() {
-    const {areaClassList} = this.state;
+    const {
+      areaClassList,
+      scrollAreaStyleProperty,
+      scrollContentStyleProperty
+    } = this.state;
+
     const {
       children,
       /* eslint-disable */
@@ -148,6 +153,7 @@ export default class TabScroller extends Component {
       /* eslint-enable */
       ...otherProps
     } = this.props;
+
     const areaClasses = classnames('mdc-tab-scroller__scroll-area', Array.from(areaClassList));
 
     return (
@@ -163,10 +169,12 @@ export default class TabScroller extends Component {
       >
         <div
           className={areaClasses}
+          style={scrollAreaStyleProperty}
           ref={this.areaElement_}
         >
           <div
             className='mdc-tab-scroller__scroll-content'
+            style={scrollContentStyleProperty}
             ref={this.contentElement_}
           >
             {children}
