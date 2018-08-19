@@ -35,13 +35,8 @@ export default class Tab extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
-        if (this.props.previousIndicatorClientRect !== prevProps.previousIndicatorClientRect) {
-          // If MDCTabBarFoundation is not used, user may pass the previousIndicatorClientRect through props
-          this.activate(this.props.previousIndicatorClientRect);
-        } else {
-          // MDCTabBarFoundation updates the previousIndicatorClientRect state through the Tab adapter
-          this.activate(this.state.previousIndicatorClientRect);
-        }
+        // If active state is updated through props, previousIndicatorClientRect must also be passed through props
+        this.activate(this.props.previousIndicatorClientRect);
       } else {
         this.deactivate();
       }
@@ -126,7 +121,7 @@ export default class Tab extends Component {
 
     const {
       tabIndex,
-      ['aria-selected']: ariaSelected
+      ['aria-selected']: ariaSelected,
     } = this.state;
 
     return (

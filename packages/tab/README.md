@@ -39,7 +39,7 @@ class MyApp extends React.Component {
       <Tab
         active={this.state.active}
          // this will be another tab's clientRect object
-        previousActiveClientRect={previousTabClientRect}
+        previousIndicatorClientRect={previousTabClientRect}
       >
         <MaterialIcon className='mdc-tab__icon' icon='favorite' />
         <span className='mdc-tab__text-label'>Love</span>
@@ -65,7 +65,7 @@ class MyApp extends React.Component {
     return (
       <Tab
         active={this.state.active}
-        previousActiveClientRect={previousTabClientRect}
+        previousIndicatorClientRect={previousTabClientRect}
         indicator={this.renderIndicator}
       >
         <span className='mdc-tab__text-label'>Love</span>
