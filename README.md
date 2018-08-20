@@ -162,5 +162,9 @@ class App extends Component {
 export default App;
 ```
 
-
 You can also use these same configurations for your own Webpack build pipeline without `create-react-app`. But this is the quickest way to getting started with MDC React Components. Button is one of our simpler components, but you should be able to apply these same principles you learn here to any the components. Thanks for trying out MDC React Components, and remember to tell a friend! Enjoy!
+
+
+## Need help
+
+We're constantly trying to improve our components. If Github Issues doesn't fit your needs then please visit us on our [Discord Channel](https://discordapp.com/invite/material-components).
