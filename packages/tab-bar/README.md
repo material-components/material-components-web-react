@@ -13,12 +13,12 @@ npm install @material/react-tab-bar
 ### Styles
 
 with Sass:
-```js
+```scss
 import '@material/react-tab-bar/index.scss';
 ```
 
 with CSS:
-```js
+```css
 import '@material/react-tab-bar/dist/tab-bar.css';
 ```
 
@@ -26,6 +26,7 @@ import '@material/react-tab-bar/dist/tab-bar.css';
 
 ```js
 import React from 'react';
+import Tab from '@material/react-tab';
 import TabBar from '@material/react-tab-bar';
 
 class MyApp extends React.Component {
@@ -41,9 +42,7 @@ class MyApp extends React.Component {
           <Tab>
             <span className='mdc-tab__text-label'>One</span>
           </Tab>
-          <Tab>
-            <span className='mdc-tab__text-label'>Two</span>
-          </Tab>
+          ...
         </TabBar>
       </div>
     );
@@ -51,12 +50,14 @@ class MyApp extends React.Component {
 }
 ```
 
+> _NOTE_: You can also use a custom tab component with the `TabBar`, but it must implement the methods `activate`, `deactivate`, `focus`, `computeIndicatorClientRect`, and `computeDimensions`. See [`MDCTab` documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-tab/README.md#mdctab-properties-and-methods) for more details.
+
 ## Props
 
 Prop Name | Type | Description
 --- | --- | ---
 activeIndex | number | Index of the active tab.
-handleActiveIndexUpdate | Function(activeIndex: number) => void | Callback for when the active index is updated
+handleActiveIndexUpdate | Function(activeIndex: number) => void | Callback after the active index is updated.
 className | string | Classes to appear on className attribute of root element.
 isRTL | Boolean |  Whether the direction of the tab bar is RTL.
 

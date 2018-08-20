@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Tab from '../../../packages/tab-bar';
+import Tab from '../../../packages/tab';
 import TabBar from '../../../packages/tab-bar';
 
 import './index.scss';

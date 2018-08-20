@@ -13,12 +13,14 @@ npm install @material/react-tab
 ### Styles
 
 with Sass:
-```js
+```scss
+import '@material/react-tab-indicator/index.scss';
 import '@material/react-tab/index.scss';
 ```
 
 with CSS:
-```js
+```css
+import '@material/react-tab-indicator/dist/tab-indicator.css';
 import '@material/react-tab/dist/tab.css';
 ```
 

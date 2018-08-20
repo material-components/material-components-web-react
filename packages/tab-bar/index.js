@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import Tab from '@material/react-tab';
 import TabScroller from '@material/react-tab-scroller';
 import {MDCTabBarFoundation} from '@material/tab-bar/dist/mdc.tabBar';
 
@@ -113,15 +112,12 @@ export default class TabBar extends Component {
       onClick(e);
     };
 
-    return (
-      <Tab
-        onClick={handleTabInteraction}
-        ref={this.pushToTabList}
-        {...otherProps}
-      >
-        {children}
-      </Tab>
-    );
+    const props = {
+      onClick: handleTabInteraction,
+      ref: this.pushToTabList,
+      ...otherProps
+    }
+    return React.cloneElement(tab, props, children);
   }
 }
 

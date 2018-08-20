@@ -4,7 +4,7 @@ import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import TabBar from '../../../packages/tab-bar/index';
 
-suite.only('TabBar');
+suite('TabBar');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<TabBar className='test-class-name'/>);
