@@ -7,19 +7,22 @@ import './index.scss';
 
 class TabBarTest extends React.Component {
   state = {
-    activeIndex: this.props.activeIndex || 0,
+    activeIndex: this.props.activeIndex || 0, // eslint-disable-line react/prop-types
   };
 
   render() {
     const {
+      /* eslint-disable react/prop-types */
       className,
       indicatorContent,
       isFadingIndicator,
-      numTabs
+      numTabs,
+      isRTL,
+      /* eslint-enable react/prop-types */
     } = this.props;
 
     const renderTab = (num, index) => {
-      return(
+      return (
         <Tab
           key={index}
           isFadingIndicator={isFadingIndicator}
@@ -28,10 +31,11 @@ class TabBarTest extends React.Component {
           <span className='mdc-tab__text-label'>Tab {num + 1}</span>
         </Tab>
       );
-    }
+    };
 
     return (
       <TabBar
+        isRTL={isRTL}
         className={className}
         activeIndex={this.state.activeIndex}
         handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
@@ -45,7 +49,7 @@ class TabBarTest extends React.Component {
 ReactDOM.render((
   <div>
     Sliding Underline
-    <TabBarTest numTabs={3}/>
+    <TabBarTest numTabs={3} />
 
     Fading Underline
     <TabBarTest numTabs={3}
@@ -66,5 +70,8 @@ ReactDOM.render((
 
     Scrolling Tabs
     <TabBarTest numTabs={20} />
+
+    Scrolling RTL Tabs
+    <TabBarTest numTabs={20} isRTL />
   </div>
 ), document.getElementById('app'));
