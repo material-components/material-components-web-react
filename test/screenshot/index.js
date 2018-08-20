@@ -19,7 +19,7 @@ ReactDOM.render((
       })}
       {topAppBarVariants.map((variant) => {
         const path = `top-app-bar/${variant}`;
-        const Component = require(resolve(__dirname, `${path}.js`)).default;
+        const Component = require(`./top-app-bar/${variant}.js`).default;
         return (
           <Route exact key={path} path={`/${path}`} component={Component}/>
         );
