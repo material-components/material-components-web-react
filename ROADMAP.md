@@ -20,3 +20,14 @@ We release a new version of MDC React every 2 weeks. We try and keep MDC React w
 - New navigation drawer
 - New menu
 - New icon button
+
+### 0.7.0 - October 2018 
+- New dialog
+
+### 0.8.0 - November 2018
+- Text field prefix and suffix support
+- Text field with a drop down menu (aka a Select)
+
+### 0.9.0 - December 2018
+- New side sheet
+- Cascading menus
