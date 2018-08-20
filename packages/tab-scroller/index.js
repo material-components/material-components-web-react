@@ -134,7 +134,7 @@ export default class TabScroller extends Component {
     const {
       areaClassList,
       scrollAreaStyleProperty,
-      scrollContentStyleProperty
+      scrollContentStyleProperty,
     } = this.state;
 
     const {

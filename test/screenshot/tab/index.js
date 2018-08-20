@@ -38,7 +38,7 @@ class TabsController extends React.Component {
             }}
             onClick={() => this.setState({
               previousActiveIndex: activeIndex,
-              activeIndex: index
+              activeIndex: index,
             })}
             {...otherProps}
           >

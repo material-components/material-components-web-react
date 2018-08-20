@@ -12,11 +12,11 @@ export default class Tab extends Component {
   tabIndicatorElement_ = React.createRef();
 
   state = {
-    classList: new Set(),
+    'classList': new Set(),
     'aria-selected': undefined,
-    tabIndex: undefined,
-    activateIndicator: false,
-    previousIndicatorClientRect: this.props.previousIndicatorClientRect,
+    'tabIndex': undefined,
+    'activateIndicator': false,
+    'previousIndicatorClientRect': this.props.previousIndicatorClientRect,
   };
 
   componentDidMount() {
@@ -73,7 +73,7 @@ export default class Tab extends Component {
       focus: () => this.tabElement_.current && this.tabElement_.current.focus(),
       activateIndicator: (previousIndicatorClientRect) => this.setState({
         activateIndicator: true,
-        previousIndicatorClientRect
+        previousIndicatorClientRect,
       }),
       deactivateIndicator: () => this.setState({activateIndicator: false}),
       // computeIndicatorClientRect is redundant in mdc-tab and is going to be
@@ -157,10 +157,10 @@ export default class Tab extends Component {
       isFadingIndicator,
       indicatorContent,
     } = this.props;
-    
+
     const {
       activateIndicator,
-      previousIndicatorClientRect
+      previousIndicatorClientRect,
     } = this.state;
 
     return (

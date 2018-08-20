@@ -109,9 +109,9 @@ export default class TabBar extends Component {
     const handleTabInteraction = (e) => {
       this.foundation_.handleTabInteraction(e);
       onClick(e);
-    }
+    };
 
-    return(
+    return (
       <Tab
         onClick={handleTabInteraction}
         ref={this.pushToTabList}
@@ -132,7 +132,7 @@ TabBar.propTypes = {
     PropTypes.element,
   ]),
   onClick: PropTypes.func,
-  onKeyDown: PropTypes.func
+  onKeyDown: PropTypes.func,
 };
 
 TabBar.defaultProps = {
@@ -141,5 +141,5 @@ TabBar.defaultProps = {
   className: '',
   children: [],
   onClick: () => {},
-  onKeyDown: () => {}
+  onKeyDown: () => {},
 };

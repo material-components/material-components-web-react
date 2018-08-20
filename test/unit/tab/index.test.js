@@ -259,7 +259,7 @@ test('props.previousIndicatorClientRect should render indicator with same props.
 });
 
 test('props.indicatorContent renders indicator with props.icon true', () => {
-  const wrapper = shallow(<Tab 
+  const wrapper = shallow(<Tab
     indicatorContent={<i className='icon'>icon</i>}
   />);
   const indicator = wrapper.childAt(1);
