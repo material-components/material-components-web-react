@@ -115,8 +115,9 @@ export default class TabBar extends Component {
     const props = {
       onClick: handleTabInteraction,
       ref: this.pushToTabList,
-      ...otherProps
-    }
+      ...otherProps,
+    };
+
     return React.cloneElement(tab, props, children);
   }
 }
