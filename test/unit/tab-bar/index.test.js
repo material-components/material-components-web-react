@@ -25,22 +25,6 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy(), {times: 1});
 });
 
-test('#activateTab calls foundation.activateTab', () => {
-  const wrapper = shallow(<TabBar />);
-  const foundation = wrapper.instance().foundation_;
-  foundation.activateTab = td.func();
-  wrapper.instance().activateTab(1);
-  td.verify(foundation.activateTab(1), {times: 1});
-});
-
-test('#scrollIntoView calls foundation.scrollIntoView', () => {
-  const wrapper = shallow(<TabBar />);
-  const foundation = wrapper.instance().foundation_;
-  foundation.scrollIntoView = td.func();
-  wrapper.instance().scrollIntoView(1);
-  td.verify(foundation.scrollIntoView(1), {times: 1});
-});
-
 test('key down event calls foundation.handleKeyDown', () => {
   const wrapper = shallow(<TabBar />);
   const foundation = wrapper.instance().foundation_;
@@ -58,16 +42,44 @@ test('key down event calls props.onKeyDown', () => {
   td.verify(onKeyDown(evt), {times: 1});
 });
 
+test('click on tab calls foundation.activateTab', () => {
+  const wrapper = shallow(
+    <TabBar>
+      <div className='tab'/>
+    </TabBar>
+  );
+  const foundation = wrapper.instance().foundation_;
+  foundation.activateTab = td.func();
+  wrapper.find('.tab').simulate('click');
+  td.verify(foundation.activateTab(0), {times: 1});
+});
+
+test('click on tab calls props.handleActiveIndexUpdate', () => {
+  const handleActiveIndexUpdate = td.func();
+  const wrapper = shallow(
+    <TabBar handleActiveIndexUpdate={handleActiveIndexUpdate}>
+      <div className='tab'/>
+    </TabBar>
+  );
+  wrapper.find('.tab').simulate('click');
+  td.verify(handleActiveIndexUpdate(0), {times: 1});
+});
+
+test('click on tab calls props.onClick', () => {
+  const onClick = td.func();
+  const wrapper = shallow(
+    <TabBar onClick={onClick}>
+      <div className='tab'/>
+    </TabBar>
+  );
+  const evt = {};
+  wrapper.find('.tab').simulate('click', evt);
+  td.verify(onClick(evt), {times: 1});
+});
+
 test('#adapter.getActiveTabIndex returns props.activeIndex', () => {
   const wrapper = shallow(<TabBar activeIndex={2}/>);
   assert.equal(wrapper.instance().adapter.getActiveTabIndex(), 2);
-});
-
-test('#adapter.notifyTabActivated calls handleActiveIndexUpdate', () => {
-  const handleActiveIndexUpdate = td.func();
-  const wrapper = shallow(<TabBar handleActiveIndexUpdate={handleActiveIndexUpdate}/>);
-  wrapper.instance().adapter.notifyTabActivated(3);
-  td.verify(handleActiveIndexUpdate(3));
 });
 
 test('#adapter.scrollTo calls scrollTo on tab scroller', () => {

@@ -15,7 +15,7 @@ export default class TabBar extends Component {
   componentDidMount() {
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
     this.foundation_.init();
-    this.activateTab(this.props.activeIndex);
+    this.foundation_.activateTab(this.props.activeIndex);
   }
 
   componentWillUnmount() {
@@ -46,16 +46,7 @@ export default class TabBar extends Component {
       },
       getIndexOfTab: (tabToFind) => this.tabList_.indexOf(tabToFind),
       getTabListLength: () => this.tabList_.length,
-      notifyTabActivated: (index) => this.props.handleActiveIndexUpdate(index),
     };
-  }
-
-  activateTab(index) {
-    this.foundation_.activateTab(index);
-  }
-
-  scrollIntoView(index) {
-    this.foundation_.scrollIntoView(index);
   }
 
   pushToTabList = (el) => {
@@ -110,6 +101,7 @@ export default class TabBar extends Component {
     const props = {
       onClick: (e) => {
         this.foundation_.activateTab(index);
+        this.props.handleActiveIndexUpdate(index);
         this.props.onClick(e);
       },
       ref: this.pushToTabList,
