@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const convertPathNameToSpaces = (name) => name.replace(/-(\w)|\/(\w)/g, (_, first, second) => {
   if (first) {
@@ -8,11 +8,9 @@ const convertPathNameToSpaces = (name) => name.replace(/-(\w)|\/(\w)/g, (_, firs
   return ` ${second}`;
 });
 
-const Home = ({history}) => {
-  // window.__history__ = history;
-
+const Home = () => {
   return (
-    <div id='screenshot-test-app'>
+    <div>
       {COMPONENTS.sort().map((componentPath, index) => (
         <div key={index}>
           <Link to={componentPath}>{convertPathNameToSpaces(componentPath)}</Link>
@@ -22,4 +20,4 @@ const Home = ({history}) => {
   );
 }
 
-export default withRouter(Home);
+export default Home;
