@@ -115,7 +115,6 @@ export default class Tab extends Component {
       /* eslint-enable */
       children,
       isMinWidthIndicator,
-      onClick,
       ...otherProps
     } = this.props;
 
@@ -130,12 +129,6 @@ export default class Tab extends Component {
         role='tab'
         aria-selected={ariaSelected}
         tabIndex={tabIndex}
-        onClick={(e) => {
-          if (onClick) {
-            const tabEvent = new e.constructor(e.type, e, {detail: {tab: this}});
-            onClick(tabEvent);
-          }
-        }}
         ref={this.tabElement_}
         {...otherProps}
       >
@@ -186,7 +179,6 @@ Tab.propTypes = {
   minWidth: PropTypes.bool,
   isMinWidthIndicator: PropTypes.bool,
   stacked: PropTypes.bool,
-  onClick: PropTypes.func,
   previousIndicatorClientRect: PropTypes.object,
 };
 
@@ -198,6 +190,5 @@ Tab.defaultProps = {
   minWidth: false,
   isMinWidthIndicator: false,
   stacked: false,
-  onClick: () => {},
   previousIndicatorClientRect: {},
 };

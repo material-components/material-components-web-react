@@ -96,7 +96,7 @@ export default class TabBar extends Component {
     );
   }
 
-  renderTab = (tab) => {
+  renderTab = (tab, index) => {
     const {
       /* eslint-disable no-unused-vars */
       activeIndex,
@@ -107,13 +107,11 @@ export default class TabBar extends Component {
       ...otherProps
     } = tab.props;
 
-    const handleTabInteraction = (e) => {
-      this.foundation_.handleTabInteraction(e);
-      onClick(e);
-    };
-
     const props = {
-      onClick: handleTabInteraction,
+      onClick: (e) => {
+        this.foundation_.activateTab(index);
+        this.props.onClick(e);
+      },
       ref: this.pushToTabList,
       ...otherProps,
     };
