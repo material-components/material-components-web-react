@@ -203,7 +203,7 @@ export default class Screenshot {
     const page = await browser.newPage();
     console.log('path ', `http://localhost:8080/#/${this.urlPath_}`);
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': ['load', 'domcontentloaded']});
-    await page.waitForSelector('#screenshot-test-app');
+    // await page.waitForSelector('#screenshot-test-app');
     const imageBuffer = await page.screenshot({fullPage: true});
     await browser.close();
     return imageBuffer;
