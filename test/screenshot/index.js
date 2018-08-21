@@ -2,7 +2,7 @@ import {resolve} from 'path';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter, Route} from 'react-router-dom';
-import Home from './Home';
+import App from './App';
 import topAppBarVariants from './top-app-bar/variants';
 
 import './index.scss';
@@ -10,7 +10,7 @@ import './index.scss';
 ReactDOM.render((
   <HashRouter>
     <div>
-      <Route exact path='/' component={Home}/>
+      <Route exact path='/' component={App}/>
       {COMPONENTS.map((componentPath) => {
         const Component = require(`./${componentPath}/index.js`).default;
         return (

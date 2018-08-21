@@ -9,10 +9,10 @@ const convertPathNameToSpaces = (name) => name.replace(/-(\w)|\/(\w)/g, (_, firs
 });
 
 const Home = ({history}) => {
-  window.__history__ = history;
+  // window.__history__ = history;
 
   return (
-    <div>
+    <div id='screenshot-test-app'>
       {COMPONENTS.sort().map((componentPath, index) => (
         <div key={index}>
           <Link to={componentPath}>{convertPathNameToSpaces(componentPath)}</Link>
