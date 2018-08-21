@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const {getMaterialExternals, getComponents} = require('../../scripts/webpack');
 const {importer} = require('../../packages/webpack.util');
-
+console.log(getComponents())
 module.exports = {
   entry: ['babel-polyfill', `./test/screenshot/index.js`],
   output: {
