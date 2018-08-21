@@ -202,7 +202,7 @@ export default class Screenshot {
     const browser = await puppeteer.launch({executablePath: 'google-chrome-unstable'});
     const page = await browser.newPage();
     console.log('path ', `http://localhost:8080/#/${this.urlPath_}`);
-    await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': 'load'});
+    await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': ['load', 'domcontentloaded']});
     const imageBuffer = await page.screenshot({fullPage: true});
     await browser.close();
     return imageBuffer;
