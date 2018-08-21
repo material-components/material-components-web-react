@@ -12,6 +12,7 @@ ReactDOM.render((
     <div>
       <Route exact path='/' component={App}/>
       {COMPONENTS.map((componentPath) => {
+        console.log(componentPath)
         const Component = require(`./${componentPath}/index.js`).default;
         return (
           <Route exact key={componentPath} path={`/${componentPath}`} component={Component}/>
