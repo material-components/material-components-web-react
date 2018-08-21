@@ -201,8 +201,14 @@ export default class Screenshot {
   async takeScreenshot_() {
     const browser = await puppeteer.launch({executablePath: 'google-chrome-unstable'});
     const page = await browser.newPage();
-    console.log('path ', `http://localhost:8080/#/${this.urlPath_}`);
     await page.goto(`http://localhost:8080/#/`, {'waitUntil': ['load', 'domcontentloaded']});
+    await page.evaluate(`
+      window.__route_change_complete__ = false;
+      window.__history__.push('/button');
+    `);
+
+    // wait for signal that route change is complete
+    await page.waitForFunction(`window.__route_change_complete__ === true;`);
     const imageBuffer = await page.screenshot({fullPage: true});
     await browser.close();
     return imageBuffer;
