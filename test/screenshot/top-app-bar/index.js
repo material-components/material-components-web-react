@@ -16,6 +16,6 @@ const TopAppBarHomePage = () => {
       ))}
     </div>
   );
-}
+};
 
 export default TopAppBarHomePage;

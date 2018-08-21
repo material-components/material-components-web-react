@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TabIndicator from '../../../packages/tab-indicator';
 import MaterialIcon from '../../../packages/material-icon';
 
@@ -42,7 +41,7 @@ const Tabs = ({
   );
 };
 
-export default () => {
+const TabIndicatorScreenshotTest = () => {
   return (
     <div>
       <Tabs activeIndex={2}>
@@ -51,4 +50,6 @@ export default () => {
       <Tabs activeIndex={1} />
     </div>
   );
-}
+};
+
+export default TabIndicatorScreenshotTest;

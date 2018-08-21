@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import '@material/button/mdc-button.scss';
 import '@material/list/mdc-list.scss';
 import '../../../packages/card/index.scss';
@@ -130,7 +129,7 @@ const ContentOnMediaCard = () => {
   );
 };
 
-export default () => {
+const CardScreenshotTest = () => {
   return (
     <div>
       <BasicCard />
@@ -139,4 +138,6 @@ export default () => {
       <ContentOnMediaCard />
     </div>
   );
-}
+};
+
+export default CardScreenshotTest;

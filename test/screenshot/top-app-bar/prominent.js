@@ -3,7 +3,7 @@ import TopAppBar from '../../../packages/top-app-bar';
 
 import MaterialIcon from '../../../packages/material-icon';
 
-export default () => {
+const TopAppBarProminentScreenshotTest = () => {
   return (
     <div className='top-app-bar-container'>
       <TopAppBar
@@ -17,4 +17,6 @@ export default () => {
       />
     </div>
   );
-}
+};
+
+export default TopAppBarProminentScreenshotTest;

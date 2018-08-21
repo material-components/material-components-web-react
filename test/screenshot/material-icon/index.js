@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import MaterialIcon from '../../../packages/material-icon';
 import '../../../packages/material-icon/index.scss';
 
 
-export default () => {
+const MaterialIconScreenshotTest = () => {
   return (
     <div>
       <MaterialIcon icon='menu' hasRipple />
@@ -14,4 +13,6 @@ export default () => {
       <MaterialIcon icon='favorite' />
     </div>
   );
-}
+};
+
+export default MaterialIconScreenshotTest;

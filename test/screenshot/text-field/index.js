@@ -92,8 +92,10 @@ const textFields = variants.map((variant) => {
 });
 
 
-export default () => (
+const TextFieldScreenshotTest = () => (
   <div className='text-field-container'>
     {textFields}
   </div>
 );
+
+export default TextFieldScreenshotTest;

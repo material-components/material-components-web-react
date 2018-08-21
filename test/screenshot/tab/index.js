@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Tab from '../../../packages/tab';
 import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/tab-indicator/index.scss';
@@ -58,7 +57,7 @@ const TabContent = ({
   </React.Fragment>
 );
 
-export default () => {
+const TabScreenshotTest = () => {
   return (
     <div>
       <h3>Basic Tabs</h3>
@@ -106,4 +105,6 @@ export default () => {
       />
     </div>
   );
-}
+};
+
+export default TabScreenshotTest;

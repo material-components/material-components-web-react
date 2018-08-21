@@ -2,7 +2,7 @@ import React from 'react';
 import TopAppBar from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
 
-export default () => {
+const TopAppBarStandardScreenshotTest = () => {
   return (
     <div className='top-app-bar-container'>
       <TopAppBar
@@ -15,4 +15,6 @@ export default () => {
       />
     </div>
   );
-}
+};
+
+export default TopAppBarStandardScreenshotTest;

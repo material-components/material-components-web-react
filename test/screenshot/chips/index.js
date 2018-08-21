@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.scss';
 import '../../../packages/chips/index.scss';
 
@@ -63,7 +62,7 @@ class ShoppingFilters extends React.Component {
   }
 }
 
-export default () => {
+const ChipsScreenshotTest = () => {
   return (
     <div>
       Choice chips
@@ -72,4 +71,6 @@ export default () => {
       <ShoppingFilters />
     </div>
   );
-}
+};
+
+export default ChipsScreenshotTest;

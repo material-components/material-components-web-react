@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Fab from '../../../packages/fab';
 
 import '../../../packages/fab/index.scss';
 import './index.scss';
 import MaterialIcon from '../../../packages/material-icon';
 
-export default () => {
+const FabScreenshotTest = () => {
   return (
     <div>
       <Fab className="demo-button"
@@ -110,4 +109,6 @@ export default () => {
         icon={<img className="material-icons" src="/images/ic_button_24px.svg"/>} />
     </div>
   );
-}
+};
+
+export default FabScreenshotTest;

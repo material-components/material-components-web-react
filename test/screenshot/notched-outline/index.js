@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import NotchedOutline from '../../../packages/notched-outline';
 
 import '../../../packages/notched-outline/index.scss';
 import './index.scss';
 
-export default () => {
+const NotchedOutlineScreenshotTest = () => {
   return (
     <div>
       <div className='notched-outline-container'>
@@ -22,4 +21,6 @@ export default () => {
       </div>
     </div>
   );
-}
+};
+
+export default NotchedOutlineScreenshotTest;

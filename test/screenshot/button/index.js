@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/button/index.scss';
 import './index.scss';
@@ -20,7 +19,7 @@ const svgIcon = (<svg
   4.1-2 5.64V6.37c1.24 1.55 2 3.5 2 5.63z"/>
 </svg>);
 
-export default () => {
+const ButtonScreenshotTest = () => {
   return (
     <div>
       <div className='button-container'>
@@ -59,4 +58,6 @@ export default () => {
       </div>
     </div>
   );
-}
+};
+
+export default ButtonScreenshotTest;

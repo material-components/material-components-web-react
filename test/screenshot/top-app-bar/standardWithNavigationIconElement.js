@@ -29,7 +29,7 @@ const NavigationIcon = ({
 
 const NavigationIconWithRipple = withRipple(NavigationIcon);
 
-export default () => {
+const TopAppBarStandardWithNavigationIconElementScreenshotTest = () => {
   return (
     <div className='top-app-bar-container'>
       <TopAppBar
@@ -39,4 +39,6 @@ export default () => {
       />
     </div>
   );
-}
+};
+
+export default TopAppBarStandardWithNavigationIconElementScreenshotTest;

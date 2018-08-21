@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import '../../../packages/line-ripple/index.scss';
 import './index.scss';
 
 import LineRipple from '../../../packages/line-ripple';
 
-export default () => {
+const LineRippleScreenshotTest = () => {
   return (
     <div>
       <div
@@ -20,4 +19,6 @@ export default () => {
       </div>
     </div>
   );
-}
+};
+
+export default LineRippleScreenshotTest;

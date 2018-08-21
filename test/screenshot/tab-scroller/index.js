@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TabScroller from '../../../packages/tab-scroller';
 import '../../../packages/tab-scroller/index.scss';
 import './index.scss';
@@ -20,7 +19,7 @@ const Tabs = () => {
   ));
 };
 
-export default () => {
+const TabScrollerScreenshotTest = () => {
   return (
     <div>
       <h3>Basic Scroller</h3>
@@ -45,4 +44,6 @@ export default () => {
 
     </div>
   );
-}
+};
+
+export default TabScrollerScreenshotTest;

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import withRipple from '../../../packages/ripple';
 
@@ -21,7 +20,7 @@ const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) =
 const DivRipple = withRipple(Div);
 
 
-export default () => {
+const RippleScreenshotTest = () => {
   return (
     <div>
       <DivRipple>
@@ -41,4 +40,6 @@ export default () => {
       </DivRipple>
     </div>
   );
-}
+};
+
+export default RippleScreenshotTest;

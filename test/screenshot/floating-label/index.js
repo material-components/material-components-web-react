@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import FloatingLabel from '../../../packages/floating-label';
 
 import '../../../packages/floating-label/index.scss';
 import './index.scss';
 
-export default () => {
+const FloatingLabelScreenshotTest = () => {
   return (
     <div>
       <div className='floated-label-box-example'>
@@ -21,4 +20,5 @@ export default () => {
       </div>
     </div>
   );
-}
+};
+export default FloatingLabelScreenshotTest;
