@@ -11,6 +11,7 @@ function getPackages() {
   const directories = getDirectories(resolve(__dirname, '../../test/screenshot'));
   directories.forEach((directory) => {
     const packageName = basename(directory);
+    console.log(denyList.includes(packageName),  ' ', packageName)
     if (denyList.includes(packageName)) return;
     components.push(packageName);
   });

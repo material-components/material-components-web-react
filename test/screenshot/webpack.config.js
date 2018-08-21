@@ -11,9 +11,6 @@ module.exports = {
     filename: 'bundle.js',
     path: __dirname,
   },
-  node: {
-    fs: 'empty',
-  },
   module: {
     rules: [{
       test: /\.js$/,
