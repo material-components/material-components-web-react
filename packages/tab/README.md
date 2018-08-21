@@ -103,10 +103,11 @@ Prop Name | Type | Description
 active | boolean | If true will activate the tab and indicator.
 className | string | Classes to appear on className attribute of root element.
 isFadingIndicator | boolean | Enables a fading indicator, instead of sliding (default).
-indicator | function | Function that is passed props as an argument, that must return a `<TabIndicator />` element. The `<TabIndicator />` element must be passed `active`, `ref`, and `previousIndicatorClientRect` props. See example above.
+indicatorContent | Element | The icon or custom content to be used as the indicator.
 minWidth | boolean | If true will display the `<Tab />` as narrow as possible.
 isMinWidthIndicator | boolean | If true will display the `<TabIndicator />` to the size of the longest content element.
 previousIndicatorClientRect | ClientRect | The indicator's clientRect that was previously activated.
+stacked | boolean | If true will display the tab icon and label to flow vertically instead of horizontally.
 onTransitionEnd | function | transitionend event callback handler.
 
 ## Sass Mixins

@@ -13,7 +13,7 @@ test('classNames adds classes', () => {
 });
 
 test('has a foundation after mount', () => {
-  const wrapper = mount(<TabBar active='true' />);
+  const wrapper = mount(<TabBar />);
   assert.exists(wrapper.instance().foundation_);
 });
 

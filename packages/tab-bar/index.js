@@ -15,6 +15,7 @@ export default class TabBar extends Component {
   componentDidMount() {
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
     this.foundation_.init();
+    this.foundation_.scrollIntoView(this.props.indexInView);
     this.foundation_.activateTab(this.props.activeIndex);
   }
 
@@ -62,6 +63,7 @@ export default class TabBar extends Component {
     const {
       /* eslint-disable no-unused-vars */
       className,
+      indexInView,
       activeIndex,
       handleActiveIndexUpdate,
       onKeyDown,
@@ -89,10 +91,6 @@ export default class TabBar extends Component {
 
   renderTab = (tab, index) => {
     const {
-      /* eslint-disable no-unused-vars */
-      activeIndex,
-      handleActiveIndexUpdate,
-      /* eslint-enable no-unused-vars */
       children,
       onClick,
       ...otherProps
@@ -113,6 +111,7 @@ export default class TabBar extends Component {
 }
 
 TabBar.propTypes = {
+  indexInView: PropTypes.number,
   activeIndex: PropTypes.number,
   handleActiveIndexUpdate: PropTypes.func,
   className: PropTypes.string,
@@ -126,6 +125,7 @@ TabBar.propTypes = {
 };
 
 TabBar.defaultProps = {
+  indexInView: 0,
   activeIndex: 0,
   handleActiveIndexUpdate: () => {},
   className: '',

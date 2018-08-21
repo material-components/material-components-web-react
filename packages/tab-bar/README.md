@@ -57,6 +57,7 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 activeIndex | number | Index of the active tab.
+indexInView | number | Index of the tab to be scrolled into view.
 handleActiveIndexUpdate | Function(activeIndex: number) => void | Callback after the active index is updated.
 className | string | Classes to appear on className attribute of root element.
 isRTL | Boolean |  Whether the direction of the tab bar is RTL.
