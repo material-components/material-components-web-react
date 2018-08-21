@@ -2,7 +2,7 @@
   "name": "@material/react-tab-indicator",
   "version": "0.4.1",
   "description": "Material Components React Tab Indicator",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
     "mdc web react",
