@@ -71,7 +71,7 @@ function getCommonWebpackParams(entryPath, chunk, {isCss, modules}) {
 
 function getMaterialExternals() {
   const externals = {};
-  const importPaths = convertToImportPaths(readMaterialPackages())
+  const importPaths = convertToImportPaths(readMaterialPackages());
   importPaths.forEach((importPath) => {
     externals[importPath] = importPath;
   });
