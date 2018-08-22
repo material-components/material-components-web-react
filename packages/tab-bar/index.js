@@ -41,7 +41,10 @@ export default class TabBar extends Component {
       getScrollContentWidth: () => this.tabScroller_.current.getScrollContentWidth(),
       getOffsetWidth: () => this.tabBarElement_.current.offsetWidth,
       isRTL: () => !!this.props.isRTL,
-      activateTabAtIndex: (index, clientRect) => this.tabList_[index].activate(clientRect),
+      activateTabAtIndex: (index, clientRect) => {
+        this.tabList_[index].activate(clientRect);
+        this.props.handleActiveIndexUpdate(index)
+      },
       deactivateTabAtIndex: (index) => this.tabList_[index].deactivate(),
       focusTabAtIndex: (index) => this.tabList_[index].focus(),
       getTabIndicatorClientRectAtIndex: (index) => this.tabList_[index].computeIndicatorClientRect(),
@@ -105,7 +108,6 @@ export default class TabBar extends Component {
     const props = {
       onClick: (e) => {
         this.foundation_.activateTab(index);
-        this.props.handleActiveIndexUpdate(index);
         this.props.onClick(e);
       },
       ref: this.pushToTabList,

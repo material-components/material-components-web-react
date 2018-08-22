@@ -54,17 +54,6 @@ test('click on tab calls foundation.activateTab', () => {
   td.verify(foundation.activateTab(0), {times: 1});
 });
 
-test('click on tab calls props.handleActiveIndexUpdate', () => {
-  const handleActiveIndexUpdate = td.func();
-  const wrapper = shallow(
-    <TabBar handleActiveIndexUpdate={handleActiveIndexUpdate}>
-      <div className='tab'/>
-    </TabBar>
-  );
-  wrapper.find('.tab').simulate('click');
-  td.verify(handleActiveIndexUpdate(0), {times: 1});
-});
-
 test('click on tab calls props.onClick', () => {
   const onClick = td.func();
   const wrapper = shallow(
@@ -137,6 +126,16 @@ test('#adapter.activateTabAtIndex calls activate on tab at index', () => {
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.activateTabAtIndex(1, clientRect);
   td.verify(tab1.activate(clientRect));
+});
+
+test('#adapter.activateTabAtIndex calls props.handleActiveIndexUpdate', () => {
+  const clientRect = {test: 1};
+  const tab0 = {};
+  const tab1 = {activate: td.func()};
+  const wrapper = shallow(<TabBar handleActiveIndexUpdate={handleActiveIndexUpdate} />);
+  wrapper.instance().tabList_ = [tab0, tab1];
+  wrapper.instance().adapter.activateTabAtIndex(1, clientRect);
+  td.verify(handleActiveIndexUpdate(1));
 });
 
 test('#adapter.deactivateTabAtIndex calls deactivate on tab at index', () => {
