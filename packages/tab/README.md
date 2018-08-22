@@ -36,11 +36,7 @@ class MyApp extends React.Component {
 
   render() {
     return (
-      <Tab
-        active={this.state.active}
-         // this will be another tab's clientRect object
-        previousActiveClientRect={previousTabClientRect}
-      >
+      <Tab active={this.state.active}>
         <MaterialIcon className='mdc-tab__icon' icon='favorite' />
         <span className='mdc-tab__text-label'>Love</span>
       </Tab>
@@ -51,7 +47,7 @@ class MyApp extends React.Component {
 
 #### With Custom Indicator
 
-Possibly you don't want to use the default underline indicator, but instead would like to use an icon. You'll need to add an `indicator` prop, which is a function that returns a `<TabIndicator />` element.
+Possibly you don't want to use the default underline indicator, but instead would like to use an icon. You'll need to add an `indicatorContent` prop, which should be set to an icon element.
 
 ```js
 import React from 'react';
@@ -65,30 +61,10 @@ class MyApp extends React.Component {
     return (
       <Tab
         active={this.state.active}
-        previousActiveClientRect={previousTabClientRect}
-        indicator={this.renderIndicator}
+        indicatorContent={<MaterialIcon icon='favorite' />}
       >
         <span className='mdc-tab__text-label'>Love</span>
       </Tab>
-    );
-  }
-
-  renderIndicator(props) {
-    // must return a <TabIndicator /> element
-    return (
-      <TabIndicator
-        icon
-        {/*--
-          You need to pass
-          active, ref, and previousIndicatorClientRect props to the
-          TabIndicator element
-        --*/}
-        active={props.active}
-        ref={props.ref}
-        previousIndicatorClientRect={props.previousIndicatorClientRect}
-      >
-        <MaterialIcon icon='favorite' />
-      </TabIndicator>
     );
   }
 }
@@ -101,9 +77,10 @@ Prop Name | Type | Description
 active | boolean | If true will activate the tab and indicator.
 className | string | Classes to appear on className attribute of root element.
 isFadingIndicator | boolean | Enables a fading indicator, instead of sliding (default).
-indicator | function | Function that is passed props as an argument, that must return a `<TabIndicator />` element. The `<TabIndicator />` element must be passed `active`, `ref`, and `previousIndicatorClientRect` props. See example above.
+indicatorContent | element | Element that will appear within the `<TabIndicator />` element.
 minWidth | boolean | If true will display the `<Tab />` as narrow as possible.
 isMinWidthIndicator | boolean | If true will display the `<TabIndicator />` to the size of the longest content element.
+isIconIndicator | boolean | If true will display the indicator content in the center of the tab.
 previousIndicatorClientRect | ClientRect | The indicator's clientRect that was previously activated.
 onTransitionEnd | function | transitionend event callback handler.
 
