@@ -21,7 +21,7 @@ export default class TabBar extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.indexInView !== prevProps.indexInView) {
-    this.foundation_.scrollIntoView(this.props.indexInView);
+      this.foundation_.scrollIntoView(this.props.indexInView);
     }
   }
 
@@ -43,7 +43,7 @@ export default class TabBar extends Component {
       isRTL: () => !!this.props.isRTL,
       activateTabAtIndex: (index, clientRect) => {
         this.tabList_[index].activate(clientRect);
-        this.props.handleActiveIndexUpdate(index)
+        this.props.handleActiveIndexUpdate(index);
       },
       deactivateTabAtIndex: (index) => this.tabList_[index].deactivate(),
       focusTabAtIndex: (index) => this.tabList_[index].focus(),
@@ -101,7 +101,7 @@ export default class TabBar extends Component {
   renderTab = (tab, index) => {
     const {
       children,
-      onClick,
+      onClick, // eslint-disable-line no-unused-vars
       ...otherProps
     } = tab.props;
 
