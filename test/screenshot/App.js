@@ -10,6 +10,8 @@ const convertPathNameToSpaces = (name) => name.replace(/-(\w)|\/(\w)/g, (_, firs
 const Home = () => {
   return (
     <div>
+      {/* COMPONENTS is a global variable defined by webpack found in the
+        webpack.DefinePlugin */}
       {COMPONENTS.sort().map((componentPath, index) => (
         <div key={index}>
           <Link to={componentPath}>{convertPathNameToSpaces(componentPath)}</Link>

@@ -18,7 +18,8 @@ const webpack = require('webpack');
 const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const {getMaterialExternals} = require('../scripts/webpack');
+const {readMaterialPackages} = require('../scripts/package-json-reader');
+const {convertToImportPaths} = require('../scripts/package-name-converter');
 const {importer} = require('./webpack.util');
 
 const isDirectory = (source) => lstatSync(source).isDirectory();
@@ -66,6 +67,15 @@ function getCommonWebpackParams(entryPath, chunk, {isCss, modules}) {
     },
     devtool: 'source-map',
   };
+}
+
+function getMaterialExternals() {
+  const externals = {};
+  const importPaths = convertToImportPaths(readMaterialPackages())
+  importPaths.forEach((importPath) => {
+    externals[importPath] = importPath;
+  });
+  return externals;
 }
 
 function getJavaScriptWebpackConfig(entryPath, chunk, modules) {
