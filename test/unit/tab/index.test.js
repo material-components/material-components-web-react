@@ -123,11 +123,11 @@ test('#adapter.focus focuses the tabElement_', () => {
   td.verify(wrapper.instance().tabElement_.current.focus(), {times: 1});
 });
 
-test('#computeIndicatorClientRect returns the tabIndicatorElement_ clientRect', () => {
+test('#computeIndicatorClientRect returns the tabIndicator_ clientRect', () => {
   const wrapper = mount(<Tab/>);
-  wrapper.instance().tabIndicatorElement_.current.computeContentClientRect = td.func();
+  wrapper.instance().tabIndicator_.current.computeContentClientRect = td.func();
   wrapper.instance().computeIndicatorClientRect();
-  td.verify(wrapper.instance().tabIndicatorElement_.current.computeContentClientRect(), {times: 1});
+  td.verify(wrapper.instance().tabIndicator_.current.computeContentClientRect(), {times: 1});
 });
 
 test('#computeDimensions calls foundation.computeDimensions', () => {
@@ -244,7 +244,7 @@ test('custom tabIndicator should render with a ref attached', () => {
     indicatorContent={<i className='icon'>icon</i>}
   />);
 
-  assert.instanceOf(wrapper.instance().tabIndicatorElement_.current, TabIndicator);
+  assert.instanceOf(wrapper.instance().tabIndicator_.current, TabIndicator);
 });
 
 test('isMinWidthIndicator renders indicator within the content element', () => {
