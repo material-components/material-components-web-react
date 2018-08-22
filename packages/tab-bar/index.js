@@ -40,7 +40,7 @@ export default class TabBar extends Component {
       getScrollPosition: () => this.tabScroller_.current.getScrollPosition(),
       getScrollContentWidth: () => this.tabScroller_.current.getScrollContentWidth(),
       getOffsetWidth: () => this.tabBarElement_.current.offsetWidth,
-      isRTL: () => !!this.props.isRTL,
+      isRTL: () => !!this.props.isRtl,
       activateTabAtIndex: (index, clientRect) => {
         this.tabList_[index].activate(clientRect);
         this.props.handleActiveIndexUpdate(index);
@@ -77,14 +77,14 @@ export default class TabBar extends Component {
       handleActiveIndexUpdate,
       onKeyDown,
       /* eslint-enable no-unused-vars */
-      isRTL,
+      isRtl,
       children,
       ...otherProps
     } = this.props;
 
     return (
       <div
-        dir={isRTL ? 'rtl' : 'ltr'}
+        dir={isRtl ? 'rtl' : 'ltr'}
         className={this.classes}
         role='tablist'
         onKeyDown={this.onKeyDown}
@@ -129,7 +129,7 @@ TabBar.propTypes = {
   ]),
   onClick: PropTypes.func,
   onKeyDown: PropTypes.func,
-  isRTL: PropTypes.bool,
+  isRtl: PropTypes.bool,
 };
 
 TabBar.defaultProps = {
@@ -140,5 +140,5 @@ TabBar.defaultProps = {
   children: [],
   onClick: () => {},
   onKeyDown: () => {},
-  isRTL: false,
+  isRtl: false,
 };
