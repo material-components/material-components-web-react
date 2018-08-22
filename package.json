@@ -35,6 +35,7 @@
           "ripple",
           "top-app-bar",
           "tab",
+          "tab-scroller",
           "infrastructure",
           "tab-indicator",
           "text-field"
