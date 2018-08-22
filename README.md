@@ -167,4 +167,4 @@ You can also use these same configurations for your own Webpack build pipeline w
 
 ## Need help
 
-We're constantly trying to improve our components. If Github Issues don't fit your needs then please visit us on our [Discord Channel](https://discordapp.com/invite/material-components).
+We're constantly trying to improve our components. If Github Issues don't fit your needs, then please visit us on our [Discord Channel](https://discord.gg/material-components).
