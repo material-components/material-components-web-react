@@ -31,7 +31,7 @@ export default class Tab extends Component {
   foundation_ = null;
   tabElement_ = React.createRef();
   tabContentElement_ = React.createRef();
-  tabIndicatorElement_ = React.createRef();
+  tabIndicator_ = React.createRef();
 
   state = {
     'classList': new Set(),
@@ -99,8 +99,8 @@ export default class Tab extends Component {
   }
 
   computeIndicatorClientRect = () => {
-    if (!this.tabIndicatorElement_.current) return;
-    return this.tabIndicatorElement_.current.computeContentClientRect();
+    if (!this.tabIndicator_.current) return;
+    return this.tabIndicator_.current.computeContentClientRect();
   }
 
   computeDimensions = () => {
@@ -165,7 +165,7 @@ export default class Tab extends Component {
         icon={isIconIndicator}
         active={active}
         fade={isFadingIndicator}
-        ref={this.tabIndicatorElement_}
+        ref={this.tabIndicator_}
         previousIndicatorClientRect={previousActiveClientRect}
       >
         {indicatorContent}
