@@ -11,6 +11,9 @@ export default class TabBar extends Component {
   tabList_ = [];
 
   foundation_ = null;
+  state = {
+    previousActiveIndex: this.props.activeIndex,
+  }
 
   componentDidMount() {
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
@@ -20,6 +23,9 @@ export default class TabBar extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (this.props.activeIndex !== prevProps.activeIndex) {
+      this.foundation_.activateTab(this.props.activeIndex);
+    }
     if (this.props.indexInView !== prevProps.indexInView) {
       this.foundation_.scrollIntoView(this.props.indexInView);
     }
@@ -41,15 +47,13 @@ export default class TabBar extends Component {
       getScrollContentWidth: () => this.tabScroller_.current.getScrollContentWidth(),
       getOffsetWidth: () => this.tabBarElement_.current.offsetWidth,
       isRTL: () => !!this.props.isRtl,
-      activateTabAtIndex: (index, clientRect) => {
-        this.tabList_[index].activate(clientRect);
-        this.props.handleActiveIndexUpdate(index);
-      },
+      setActiveTab: (index) => this.props.handleActiveIndexUpdate(index),
+      activateTabAtIndex: (index, clientRect) => this.tabList_[index].activate(clientRect),
       deactivateTabAtIndex: (index) => this.tabList_[index].deactivate(),
       focusTabAtIndex: (index) => this.tabList_[index].focus(),
       getTabIndicatorClientRectAtIndex: (index) => this.tabList_[index].computeIndicatorClientRect(),
       getTabDimensionsAtIndex: (index) => this.tabList_[index].computeDimensions(),
-      getActiveTabIndex: () => this.props.activeIndex,
+      getPreviousActiveTabIndex: () => this.state.previousActiveIndex,
       getFocusedTabIndex: () => {
         const activeElement = document.activeElement;
         return this.tabList_.indexOf((tab) => tab.tabElement_.current === activeElement);
@@ -64,7 +68,9 @@ export default class TabBar extends Component {
   }
 
   onKeyDown = (e) => {
-    this.foundation_.handleKeyDown(e);
+    this.setState(
+      {previousActiveIndex: this.props.activeIndex},
+      () => this.foundation_.handleKeyDown(e));
     this.props.onKeyDown(e);
   }
 
@@ -107,7 +113,9 @@ export default class TabBar extends Component {
 
     const props = {
       onClick: (e) => {
-        this.foundation_.activateTab(index);
+        this.setState(
+          {previousActiveIndex: this.props.activeIndex},
+          () => this.foundation_.setActiveTab(index));
         this.props.onClick(e);
       },
       ref: this.pushToTabList,

@@ -118,6 +118,14 @@ test('#adapter.isRTL returns false is props.isRTL is false', () => {
   assert.isFalse(wrapper.instance().foundation_.adapter_.isRTL());
 });
 
+test('#adapter.setActiveTab calls props.handleActiveIndexUpdate', () => {
+  const handleActiveIndexUpdate = td.func();
+  const wrapper = shallow(<TabBar handleActiveIndexUpdate={handleActiveIndexUpdate} />);
+  wrapper.instance().tabList_ = [tab0, tab1];
+  wrapper.instance().adapter.setActiveTab(1);
+  td.verify(handleActiveIndexUpdate(1));
+});
+
 test('#adapter.activateTabAtIndex calls activate on tab at index', () => {
   const clientRect = {test: 1};
   const tab0 = {};
@@ -126,16 +134,6 @@ test('#adapter.activateTabAtIndex calls activate on tab at index', () => {
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.activateTabAtIndex(1, clientRect);
   td.verify(tab1.activate(clientRect));
-});
-
-test('#adapter.activateTabAtIndex calls props.handleActiveIndexUpdate', () => {
-  const clientRect = {test: 1};
-  const tab0 = {};
-  const tab1 = {activate: td.func()};
-  const wrapper = shallow(<TabBar handleActiveIndexUpdate={handleActiveIndexUpdate} />);
-  wrapper.instance().tabList_ = [tab0, tab1];
-  wrapper.instance().adapter.activateTabAtIndex(1, clientRect);
-  td.verify(handleActiveIndexUpdate(1));
 });
 
 test('#adapter.deactivateTabAtIndex calls deactivate on tab at index', () => {
