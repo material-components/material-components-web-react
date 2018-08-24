@@ -55,3 +55,7 @@ Prop Name | Type | Description
 icon | string | Type of icon to be displayed.
 className | string | Classes to pass on to the root `<i>` element.
 hasRipple | n/a | If present on element, it will enable the ripple on the icon.
+
+## Usage with Icons
+
+Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) for further reading.
