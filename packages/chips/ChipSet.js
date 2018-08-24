@@ -61,7 +61,7 @@ export default class ChipSet extends Component {
 
   renderChip = (chip) => {
     const props = {
-      selected: this.props.selectedChipIds.has(chip.id),
+      selected: this.props.selectedChipIds.indexOf(chip.id) > 0,
       handleSelect: this.handleSelect,
       handleRemove: this.handleRemove,
       chipCheckmark: this.props.filter ? <ChipCheckmark ref={this.setCheckmarkWidth}/> : null,
@@ -83,7 +83,7 @@ export default class ChipSet extends Component {
 
 ChipSet.propTypes = {
   className: PropTypes.string,
-  selectedChipIds: PropTypes.Set,
+  selectedChipIds: PropTypes.array,
   handleSelect: PropTypes.func,
   handleRemove: PropTypes.func,
   choice: PropTypes.bool,
@@ -94,7 +94,7 @@ ChipSet.propTypes = {
 
 ChipSet.defaultProps = {
   className: '',
-  selectedChipIds: {},
+  selectedChipIds: [],
   handleSelect: () => {},
   handleRemove: () => {},
   choice: false,

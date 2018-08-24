@@ -51,7 +51,7 @@ There are two types of chips that allow for selection: [choice chips](https://ma
 ```js
 class MyChoiceChips extends React.Component {
   state = {
-    selectedChipIds: new Set([1]),
+    selectedChipIds: ['chip2'],
   };
 
   render() {
@@ -77,7 +77,7 @@ Filter chips include a leading checkmark to indicate selection. To define a set 
 ```js
 class MyFilterChips extends React.Component {
   state = {
-    selectedChipIds: new Set([0, 1]),
+    selectedChipIds: ['chip1', 'chip2'],
   };
 
   render() {
@@ -158,7 +158,7 @@ class MyInputChips extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the chip set element
-selectedChipIds | Set | Set of ids of chips that are selected
+selectedChipIds | Array | Array of ids of chips that are selected
 handleSelect | Function(id: string) => void | Callback for selecting the chip with the given id
 handleRemove | Function(id: string) => void | Callback for removing the chip with the given id
 choice | Boolean | Indicates that the chips in the set are choice chips, which allow single selection from a set of options

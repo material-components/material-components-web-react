@@ -105,14 +105,14 @@ class ContactList extends React.Component {
 ReactDOM.render((
   <div>
     Choice chips
-    <ShirtSizes selectedChipIds={new Set([1])}>
+    <ShirtSizes selectedChipIds={['chip2']}>
       <Chip id={'chip1'} label='Small' />
       <Chip id={'chip2'} label='Medium' />
       <Chip id={'chip3'} label='Large' />
     </ShirtSizes>
 
     Filter chips
-    <ShoppingFilters selectedChipIds={new Set([0, 1])}>
+    <ShoppingFilters selectedChipIds={['chip1', 'chip2']}>
       <Chip id={'chip1'} label='Tops' />
       <Chip id={'chip2'} label='Bottoms' />
       <Chip id={'chip3'} label='Shoes' />
