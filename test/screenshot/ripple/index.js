@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import withRipple from '../../../packages/ripple';
 
@@ -20,22 +19,27 @@ const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) =
 
 const DivRipple = withRipple(Div);
 
-ReactDOM.render((
-  <div>
-    <DivRipple>
-      Woof
-    </DivRipple>
 
-    <br />
+const RippleScreenshotTest = () => {
+  return (
+    <div>
+      <DivRipple>
+        Woof
+      </DivRipple>
 
-    <DivRipple disabled>
-      Disabled
-    </DivRipple>
+      <br />
 
-    <br />
+      <DivRipple disabled>
+        Disabled
+      </DivRipple>
 
-    <DivRipple unbounded className='ripple-unbounded'>
-      Unbounded
-    </DivRipple>
-  </div>
-), document.getElementById('app'));
+      <br />
+
+      <DivRipple unbounded className='ripple-unbounded'>
+        Unbounded
+      </DivRipple>
+    </div>
+  );
+};
+
+export default RippleScreenshotTest;
