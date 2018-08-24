@@ -1,7 +1,7 @@
 {
   "private": true,
   "description": "Material Components React",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "stop": "./test/screenshot/stop.sh",
