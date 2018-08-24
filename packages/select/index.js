@@ -23,7 +23,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCSelectFoundation} from '@material/select';
+import {MDCSelectFoundation} from '@material/select/dist/mdc.select';
 
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
