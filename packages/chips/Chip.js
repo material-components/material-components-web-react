@@ -5,6 +5,7 @@ import withRipple from '../ripple';
 import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
 
 export class Chip extends Component {
+  chipElement_ = null;
   foundation_ = null;
   state = {
     classList: new Set(),
@@ -26,6 +27,11 @@ export class Chip extends Component {
     this.foundation_.destroy();
   }
 
+  init = (el) => {
+    this.chipElement_ = el;
+    this.props.initRipple(el);
+  }
+
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;
@@ -45,6 +51,10 @@ export class Chip extends Component {
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
+      eventTargetHasClass: (target, className) => target.classList.contains(className),
+      getComputedStyleValue: (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
+      setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
+      notifyRemoval: () => this.props.handleRemove(this.props.id),
     };
   }
 
@@ -55,18 +65,62 @@ export class Chip extends Component {
     this.props.handleSelect(this.props.id);
   }
 
+  handleRemoveIconClick = (e) => this.foundation_.handleTrailingIconInteraction(e);
+
+  handleTransitionEnd = (e) => this.foundation_.handleTransitionEnd(e);
+
+  renderLeadingIcon = (leadingIcon) => {
+    const {
+      className,
+      ...otherProps
+    } = leadingIcon.props;
+
+    const props = {
+      className: classnames(
+        className,
+        'mdc-chip__icon',
+        'mdc-chip__icon--leading',
+      ),
+      ...otherProps,
+    };
+
+    return React.cloneElement(leadingIcon, props);
+  };
+
+  renderRemoveIcon = (removeIcon) => {
+    const {
+      className,
+      ...otherProps
+    } = removeIcon.props;
+
+    const props = {
+      className: classnames(
+        className,
+        'mdc-chip__icon',
+        'mdc-chip__icon--trailing',
+      ),
+      ...otherProps,
+    };
+
+    return React.cloneElement(removeIcon, props);
+  };
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
+      id,
       className,
       selected,
       handleSelect,
+      handleRemove,
       onClick,
       computeBoundingRect,
+      initRipple,
       unbounded,
       /* eslint-enable no-unused-vars */
-      initRipple,
       chipCheckmark,
+      leadingIcon,
+      removeIcon,
       label,
       ...otherProps
     } = this.props;
@@ -75,11 +129,14 @@ export class Chip extends Component {
       <div
         className={this.classes}
         onClick={this.handleClick}
-        ref={initRipple}
+        onTransitionEnd={this.handleTransitionEnd}
+        ref={this.init}
         {...otherProps}
       >
+        {leadingIcon ? this.renderLeadingIcon(leadingIcon) : null}
         {chipCheckmark}
         <div className='mdc-chip__text'>{label}</div>
+        {removeIcon ? this.renderRemoveIcon(removeIcon) : null}
       </div>
     );
   }
@@ -91,11 +148,14 @@ Chip.propTypes = {
   className: PropTypes.string,
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,
+  handleRemove: PropTypes.func,
   onClick: PropTypes.func,
   // The following props are handled by withRipple and do not require defaults.
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
   chipCheckmark: PropTypes.node,
+  leadingIcon: PropTypes.element,
+  removeIcon: PropTypes.element,
   computeBoundingRect: PropTypes.func,
 };
 
@@ -105,6 +165,7 @@ Chip.defaultProps = {
   className: '',
   selected: false,
   handleSelect: () => {},
+  handleRemove: () => {},
 };
 
 export default withRipple(Chip);

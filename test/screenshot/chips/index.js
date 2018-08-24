@@ -6,7 +6,7 @@ import {Chip, ChipSet} from '../../../packages/chips';
 
 class ShirtSizes extends React.Component {
   state = {
-    selectedChipIds: new Set([1]),
+    selectedChipIds: this.props.selectedChipIds,
   };
 
   handleSelect = (selectedChipIds) => {
@@ -20,9 +20,7 @@ class ShirtSizes extends React.Component {
         selectedChipIds={this.state.selectedChipIds}
         handleSelect={this.handleSelect}
       >
-        <Chip id={'chip1'} label='Small' />
-        <Chip id={'chip2'} label='Medium' />
-        <Chip id={'chip3'} label='Large' />
+        {this.props.children}
       </ChipSet>
     );
   }
@@ -30,7 +28,7 @@ class ShirtSizes extends React.Component {
 
 class ShoppingFilters extends React.Component {
   state = {
-    selectedChipIds: new Set([0, 1]),
+    selectedChipIds: this.props.selectedChipIds,
   };
 
   handleSelect = (selectedChipIds) => {
@@ -44,10 +42,61 @@ class ShoppingFilters extends React.Component {
         selectedChipIds={this.state.selectedChipIds}
         handleSelect={this.handleSelect}
       >
-        <Chip id={'chip1'} label='Tops' />
-        <Chip id={'chip2'} label='Bottoms' />
-        <Chip id={'chip3'} label='Shoes' />
+        {this.props.children}
       </ChipSet>
+    );
+  }
+}
+
+class ContactList extends React.Component {
+  state = {
+    chips: this.props.chips,
+  };
+  
+  addChip(label) {
+    const id = label.replace(/\s/g,'');
+    // Create a new chips array to ensure that a re-render occurs.
+    // See: https://reactjs.org/docs/state-and-lifecycle.html#do-not-modify-state-directly
+    const chips = [...this.state.chips]; 
+    chips.push({label, id});
+    this.setState({chips});
+  }
+
+  handleKeyDown = (e) => {
+    if (e.key === 'Enter' && e.target.value) {
+      this.addChip(e.target.value);
+      e.target.value = '';
+    }
+  }
+
+  handleRemove = (id) => {
+    const chips = [...this.state.chips]; 
+    const index = chips.findIndex((chip) => chip.id === id);
+    chips.splice(index, 1);
+    this.setState({chips});
+  }
+  
+  render() {
+    return (
+      <div>
+        <input
+          type="text"
+          onKeyDown={this.handleKeyDown}
+        />
+        <ChipSet
+          input
+          handleRemove={this.handleRemove}
+        >
+          {this.state.chips.map((chip) =>
+            <Chip
+              key={chip.id} // The chip's key cannot be its index, because its index may change.
+              label={chip.label}
+              leadingIcon={<MaterialIcon icon='face' />}
+              removeIcon={<MaterialIcon icon='cancel' />}
+            />
+          )}
+        </ChipSet>
+      </div>
     );
   }
 }
@@ -55,8 +104,23 @@ class ShoppingFilters extends React.Component {
 ReactDOM.render((
   <div>
     Choice chips
-    <ShirtSizes />
+    <ShirtSizes selectedChipIds={new Set([1])}>
+      <Chip id={'chip1'} label='Small' />
+      <Chip id={'chip2'} label='Medium' />
+      <Chip id={'chip3'} label='Large' />
+    </ShirtSizes>
+
     Filter chips
-    <ShoppingFilters />
+    <ShoppingFilters selectedChipIds={new Set([0, 1])}>
+      <Chip id={'chip1'} label='Tops' />
+      <Chip id={'chip2'} label='Bottoms' />
+      <Chip id={'chip3'} label='Shoes' />
+    </ShoppingFilters>
+
+    Input chips
+    <ContactList chips={[
+      {label: 'Jane Smith', id: 'janesmith'},
+      {label: 'John Doe', id: 'johndoe'},
+    ]}/>
   </div>
 ), document.getElementById('app'));
