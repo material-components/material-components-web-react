@@ -2,7 +2,7 @@
   "name": "@material/react-card",
   "version": "0.4.2",
   "description": "Material Components React Card",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
     "mdc web react",
