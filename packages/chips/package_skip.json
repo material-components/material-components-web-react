@@ -2,7 +2,7 @@
   "name": "@material/react-chips",
   "version": "0.0.0",
   "description": "Material Components React Chips",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "keywords": [
     "mdc web react",
     "material components react",
