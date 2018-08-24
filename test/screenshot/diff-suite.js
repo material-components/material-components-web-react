@@ -1,5 +1,7 @@
-import fullSuite from './full-suite';
+import Screenshot from './screenshot';
+import testUrls from './screenshot-test-urls';
 
-fullSuite.forEach((screenshotSuite) => {
-  screenshotSuite.diff();
+testUrls.forEach((url) => {
+  const screenshot = new Screenshot(url);
+  screenshot.diff();
 });
