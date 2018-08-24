@@ -13,6 +13,13 @@ export class Chip extends Component {
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
     this.foundation_.init();
+    this.foundation_.setSelected(this.props.selected);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.selected !== prevProps.selected) {
+      this.foundation_.setSelected(this.props.selected);
+    }
   }
 
   componentWillUnmount() {
@@ -21,10 +28,8 @@ export class Chip extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {className, selected} = this.props;
-    return classnames('mdc-chip', Array.from(classList), className, {
-      'mdc-chip--selected': selected,
-    });
+    const {className} = this.props;
+    return classnames('mdc-chip', Array.from(classList), className);
   }
 
   get adapter() {
@@ -52,14 +57,17 @@ export class Chip extends Component {
 
   render() {
     const {
-      className, // eslint-disable-line no-unused-vars
-      label,
-      handleSelect, // eslint-disable-line no-unused-vars
-      onClick, // eslint-disable-line no-unused-vars
-      chipCheckmark,
-      computeBoundingRect, // eslint-disable-line no-unused-vars
+      /* eslint-disable no-unused-vars */
+      className,
+      selected,
+      handleSelect,
+      onClick,
+      computeBoundingRect,
+      unbounded,
+      /* eslint-enable no-unused-vars */
       initRipple,
-      unbounded, // eslint-disable-line no-unused-vars
+      chipCheckmark,
+      label,
       ...otherProps
     } = this.props;
 
@@ -78,7 +86,7 @@ export class Chip extends Component {
 }
 
 Chip.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
   label: PropTypes.string,
   className: PropTypes.string,
   selected: PropTypes.bool,
@@ -92,7 +100,7 @@ Chip.propTypes = {
 };
 
 Chip.defaultProps = {
-  id: -1,
+  id: '',
   label: '',
   className: '',
   selected: false,
