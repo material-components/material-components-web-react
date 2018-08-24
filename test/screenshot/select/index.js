@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import Select from '../../../packages/select/index';
-
 import '../../../packages/select/index.scss';
 import './index.scss';
 
@@ -70,9 +68,12 @@ const selects = variants.map((variant) => {
   });
 });
 
+const SelectScreenshotTest = () => {
+  return (
+    <div className='select-container'>
+      {selects}
+    </div>
+  );
+};
 
-ReactDOM.render((
-  <div className='select-container'>
-    {selects}
-  </div>
-), document.getElementById('app'));
+export default SelectScreenshotTest;

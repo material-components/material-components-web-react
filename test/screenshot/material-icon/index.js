@@ -1,16 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import '../../../packages/material-icon/index.scss';
-import './index.scss';
-
 import MaterialIcon from '../../../packages/material-icon';
+import '../../../packages/material-icon/index.scss';
 
-ReactDOM.render((
-  <div>
-    <MaterialIcon icon='menu' hasRipple />
 
-    <br />
+const MaterialIconScreenshotTest = () => {
+  return (
+    <div>
+      <MaterialIcon icon='menu' hasRipple />
 
-    <MaterialIcon icon='favorite' />
-  </div>
-), document.getElementById('app'));
+      <br />
+
+      <MaterialIcon icon='favorite' />
+    </div>
+  );
+};
+
+export default MaterialIconScreenshotTest;

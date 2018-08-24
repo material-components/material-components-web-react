@@ -92,3 +92,7 @@ Sass mixins may be available to customize various aspects of the Components. Ple
 MDC Web repository for more information on what mixins are available, and how to use them.
 
 [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-top-app-bar/README.md#sass-mixins)
+
+## Usage with Icons
+
+Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) when importing or using icon fonts.

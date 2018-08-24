@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.scss';
+import '../../../packages/chips/index.scss';
 
 import MaterialIcon from '../../../packages/material-icon';
 import {Chip, ChipSet} from '../../../packages/chips';
@@ -102,26 +102,30 @@ class ContactList extends React.Component {
   }
 }
 
-ReactDOM.render((
-  <div>
-    Choice chips
-    <ShirtSizes selectedChipIds={['chip2']}>
-      <Chip id={'chip1'} label='Small' />
-      <Chip id={'chip2'} label='Medium' />
-      <Chip id={'chip3'} label='Large' />
-    </ShirtSizes>
+const ChipsScreenshotTest = () => {
+  return (
+    <div>
+      Choice chips
+      <ShirtSizes selectedChipIds={['chip2']}>
+        <Chip id={'chip1'} label='Small' />
+        <Chip id={'chip2'} label='Medium' />
+        <Chip id={'chip3'} label='Large' />
+      </ShirtSizes>
 
-    Filter chips
-    <ShoppingFilters selectedChipIds={['chip1', 'chip2']}>
-      <Chip id={'chip1'} label='Tops' />
-      <Chip id={'chip2'} label='Bottoms' />
-      <Chip id={'chip3'} label='Shoes' />
-    </ShoppingFilters>
+      Filter chips
+      <ShoppingFilters selectedChipIds={['chip1', 'chip2']}>
+        <Chip id={'chip1'} label='Tops' />
+        <Chip id={'chip2'} label='Bottoms' />
+        <Chip id={'chip3'} label='Shoes' />
+      </ShoppingFilters>
 
-    Input chips
-    <ContactList chips={[
-      {label: 'Jane Smith', id: 'janesmith'},
-      {label: 'John Doe', id: 'johndoe'},
-    ]}/>
-  </div>
-), document.getElementById('app'));
+      Input chips
+      <ContactList chips={[
+        {label: 'Jane Smith', id: 'janesmith'},
+        {label: 'John Doe', id: 'johndoe'},
+      ]}/>
+    </div>
+  );
+};
+
+export default ChipsScreenshotTest;
