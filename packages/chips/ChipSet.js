@@ -7,7 +7,6 @@ import ChipCheckmark from './ChipCheckmark';
 
 export default class ChipSet extends Component {
   checkmarkWidth_ = 0;
-  selectedChipIds_ = this.props.selectedChipIds || new Set();
 
   componentDidMount() {
     this.foundation_ = new MDCChipSetFoundation(this.adapter);
@@ -30,14 +29,6 @@ export default class ChipSet extends Component {
   get adapter() {
     return {
       hasClass: (className) => this.classes.split(' ').includes(className),
-      setSelected: (chipId, selected) => {
-        const index = this.selectedChipIds_.indexOf(chipId);
-        if (selected && index < 0) {
-          this.selectedChipIds_.push(chipId);
-        } else if (!selected && index > 0) {
-          this.selectedChipIds_.splice(index, 1);
-        }
-      }
     };
   }
 
@@ -45,7 +36,7 @@ export default class ChipSet extends Component {
     if (this.props.filter || this.props.choice) {
       this.foundation_.toggleSelect(chipId);
     }
-    this.props.handleSelect(this.selectedChipIds_);
+    this.props.handleSelect(this.foundation_.getSelectedChipIds());
   }
 
   handleRemove = (chipId) => {
@@ -70,7 +61,7 @@ export default class ChipSet extends Component {
 
   renderChip = (chip) => {
     const props = {
-      selected: this.state.selectedChipIds.has(chip.id),
+      selected: this.props.selectedChipIds.has(chip.id),
       handleSelect: this.handleSelect,
       handleRemove: this.handleRemove,
       chipCheckmark: this.props.filter ? <ChipCheckmark ref={this.setCheckmarkWidth}/> : null,

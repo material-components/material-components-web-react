@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 
+import MaterialIcon from '../../../packages/material-icon';
 import {Chip, ChipSet} from '../../../packages/chips';
 
 class ShirtSizes extends React.Component {

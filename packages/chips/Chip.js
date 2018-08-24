@@ -99,6 +99,10 @@ export class Chip extends Component {
         'mdc-chip__icon',
         'mdc-chip__icon--trailing',
       ),
+      onClick: this.handleRemoveIconClick,
+      onKeyDown: this.handleRemoveIconClick,
+      tabIndex: 0,
+      role: 'button',
       ...otherProps,
     };
 
@@ -127,6 +131,7 @@ export class Chip extends Component {
 
     return (
       <div
+        tabIndex='0'
         className={this.classes}
         onClick={this.handleClick}
         onTransitionEnd={this.handleTransitionEnd}
