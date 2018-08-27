@@ -42,7 +42,6 @@ export default class Screenshot {
    * Captures a screenshot of the test URL and marks it as the new golden image
    */
   capture() {
-    console.log(this.urlPath_)
     test(this.urlPath_, async () => {
       const golden = await this.takeScreenshot_();
       const goldenHash = this.generateImageHash_(golden);
