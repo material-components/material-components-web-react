@@ -26,10 +26,10 @@ We release a new version of MDC React every 2 weeks. We try and keep MDC React w
 
 ### 0.7.x - November 2018
 - Depend on MDC Web 0.41.x
-- Prefix and suffix support in Text Field
 - New select (drop down menu attached to a text field)
+- New side sheet
 - New radio
 
 ### 0.8.x - December 2018
 - Depend on MDC Web 0.42.x
-- New side sheet
+- Prefix and suffix support in Text Field
