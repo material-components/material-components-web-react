@@ -18,7 +18,6 @@ function read(
   directories.forEach((directory) => {
     const packageName = basename(directory);
     if (denyList.includes(packageName)) return;
-    console.log(packageName)
 
     // recursively get sub directories
     const subDirectories = getDirectories(resolve(path, packageName));
