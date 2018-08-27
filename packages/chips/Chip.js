@@ -31,6 +31,7 @@ export class Chip extends Component {
   foundation_ = null;
   state = {
     classList: new Set(),
+    leadingIconClassList: new Set(),
   };
 
   componentDidMount() {
@@ -63,20 +64,29 @@ export class Chip extends Component {
   get adapter() {
     return {
       addClass: (className) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
       removeClass: (className) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
+      addClassToLeadingIcon: (className) => {
+        const {leadingIconClassList} = this.state;
+        leadingIconClassList.add(className);
+        this.setState({leadingIconClassList});
+      },
+      removeClassFromLeadingIcon: (className) => {
+        const {leadingIconClassList} = this.state;
+        leadingIconClassList.delete(className);
+        this.setState({leadingIconClassList});
+      },
       eventTargetHasClass: (target, className) => target.classList.contains(className),
       getComputedStyleValue: (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
-      notifyRemoval: () => this.props.handleRemove(this.props.id),
     };
   }
 
@@ -87,19 +97,22 @@ export class Chip extends Component {
     this.props.handleSelect(this.props.id);
   }
 
-  handleRemoveIconClick = (e) => this.foundation_.handleTrailingIconInteraction(e);
-
-  handleTransitionEnd = (e) => this.foundation_.handleTransitionEnd(e);
+  handleTransitionEnd = (e) => {
+    this.props.onTransitionEnd(e);
+    this.props.handleRemove(this.props.id);
+    this.foundation_.handleTransitionEnd(e);
+  };
 
   renderLeadingIcon = (leadingIcon) => {
     const {
-      className,
+      className, // eslint-disable-line
       ...otherProps
     } = leadingIcon.props;
+    const {leadingIconClassList} = this.state;
 
     const props = {
       className: classnames(
-        className,
+        leadingIconClassList,
         'mdc-chip__icon',
         'mdc-chip__icon--leading',
       ),
@@ -111,18 +124,19 @@ export class Chip extends Component {
 
   renderRemoveIcon = (removeIcon) => {
     const {
-      className,
+      className, // eslint-disable-line
       ...otherProps
     } = removeIcon.props;
+    const {leadingIconClassList} = this.state;
 
     const props = {
       className: classnames(
-        className,
+        leadingIconClassList,
         'mdc-chip__icon',
         'mdc-chip__icon--trailing',
       ),
-      onClick: this.handleRemoveIconClick,
-      onKeyDown: this.handleRemoveIconClick,
+      onClick: (e) => this.foundation_.handleTrailingIconInteraction(e),
+      onKeyDown: (e) => this.foundation_.handleTrailingIconInteraction(e),
       tabIndex: 0,
       role: 'button',
       ...otherProps,
@@ -140,6 +154,7 @@ export class Chip extends Component {
       handleSelect,
       handleRemove,
       onClick,
+      onTransitionEnd,
       computeBoundingRect,
       initRipple,
       unbounded,
@@ -153,7 +168,6 @@ export class Chip extends Component {
 
     return (
       <div
-        tabIndex='0'
         className={this.classes}
         onClick={this.handleClick}
         onTransitionEnd={this.handleTransitionEnd}
@@ -177,6 +191,8 @@ Chip.propTypes = {
   handleSelect: PropTypes.func,
   handleRemove: PropTypes.func,
   onClick: PropTypes.func,
+  onTransitionEnd: PropTypes.func,
+  tabIndex: PropTypes.number,
   // The following props are handled by withRipple and do not require defaults.
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
@@ -191,8 +207,11 @@ Chip.defaultProps = {
   label: '',
   className: '',
   selected: false,
+  tabIndex: 0,
   handleSelect: () => {},
   handleRemove: () => {},
+  onClick: () => {},
+  onTransitionEnd: () => {},
 };
 
 export default withRipple(Chip);
