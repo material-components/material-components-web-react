@@ -32,6 +32,7 @@ export class Button extends Component {
       raised,
       unelevated,
       outlined,
+      dense,
       icon,
       children,
       initRipple,
@@ -43,6 +44,7 @@ export class Button extends Component {
       'mdc-button--raised': raised,
       'mdc-button--unelevated': unelevated,
       'mdc-button--outlined': outlined,
+      'mdc-button--dense': dense,
     });
 
     const SemanticButton = this.props.href ? 'a' : 'button';
@@ -76,6 +78,7 @@ Button.propTypes = {
   raised: PropTypes.bool,
   unelevated: PropTypes.bool,
   outlined: PropTypes.bool,
+  dense: PropTypes.bool,
   disabled: PropTypes.bool,
   unbounded: PropTypes.bool,
   initRipple: PropTypes.func,
@@ -89,6 +92,7 @@ Button.defaultProps = {
   raised: false,
   unelevated: false,
   outlined: false,
+  dense: false,
   disabled: false,
   unbounded: false,
   initRipple: () => {},
