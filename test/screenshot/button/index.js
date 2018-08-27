@@ -40,6 +40,10 @@ const ButtonScreenshotTest = () => {
       </div>
 
       <div className='button-container'>
+        <Button dense>Dense</Button>
+      </div>
+
+      <div className='button-container'>
         <Button href='https://google.com' raised>Anchor Tag</Button>
       </div>
 
