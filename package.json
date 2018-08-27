@@ -29,6 +29,7 @@
         "allowed": [
           "button",
           "card",
+          "chips",
           "fab",
           "floating-label",
           "line-ripple",
