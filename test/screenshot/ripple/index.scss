@@ -1,5 +1,4 @@
-@import '@material/ripple/common';
-@import '@material/ripple/mixins';
+@import "../../../packages/ripple/index.scss";
 
 .ripple-test-component {
   @include mdc-ripple-surface;
