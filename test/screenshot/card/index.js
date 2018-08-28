@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import '@material/button/mdc-button.scss';
 import '@material/list/mdc-list.scss';
 import '../../../packages/card/index.scss';
@@ -130,11 +129,15 @@ const ContentOnMediaCard = () => {
   );
 };
 
-ReactDOM.render((
-  <div>
-    <BasicCard />
-    <HorizontalCard />
-    <NewsCard />
-    <ContentOnMediaCard />
-  </div>
-), document.getElementById('app'));
+const CardScreenshotTest = () => {
+  return (
+    <div>
+      <BasicCard />
+      <HorizontalCard />
+      <NewsCard />
+      <ContentOnMediaCard />
+    </div>
+  );
+};
+
+export default CardScreenshotTest;

@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "top-app-bar/short.html": "fe50f5577ef8c9def95450090eae4033192034dd0e0890407d4ab80e04e3e6a1",
   "top-app-bar/prominent.html": "34d03c5809067cc06a67dce1e03d3e1edaf306360479ac1955299d3eeffc6113",
   "top-app-bar/standard.html": "90534d59d40f8c050aae022e94b0afa022a00d1e00c19e3f92dcc1908efcd831",
@@ -23,4 +24,27 @@
   "tab/index.html": "2151d184cc420fdf19c3e9b6e8c553ee1cbfc7df4ebbda73b7a669dfca939bef",
   "tab-indicator/index.html": "19f1befc0947128b46d84e1fdee73741bffcd63950bf0cddaadd9ae283ab85f8",
   "tab-scroller/index.html": "726a001f1178c06e3fad4a943c6253c8c89084e3867bced469be5bb5b8529278"
+=======
+  "button": "a0cf6b2a5d09400657303bb2a7b220dbe33642a8f44fd7571cdfcf5517fb3586",
+  "card": "b2fd82763c383be438ff6578083bf9009711c7470333d07eb916ab690fc42d31",
+  "line-ripple": "56b136db2dc7e09260849447e6bde9b55a837af332a05d9f52506ab1c95e2e57",
+  "fab": "db36f52195c420062d91dd5ebe5432ad87247b3c1146fd547b0a195079bbce2f",
+  "floating-label": "1d4d4f2e57e1769b14fc84985d1e6f53410c49aef41c9cf4fde94f938adefe57",
+  "material-icon": "442b39fb22d2c7a74efb23ca098429b471501ce21df8662327bbf9871fe0bcb0",
+  "notched-outline": "7770dd381c27608a1f43b6f83da92507fe53963f5e4409bd73184b86275538fe",
+  "select": "ed9c021c8347f18e6ece48d55a8a3b30bb2380ec94276b002e9c064e7674e1c8",
+  "tab": "0e53fa0ca9b2de4ff7941169a9b6a929a83b18e517c18404adeb40f7e644a2f1",
+  "tab-indicator": "7ce7ce8fd50301c67d7ebfb0ba953208260ce2881bee0c7e640c46bf60dc90b6",
+  "tab-scroller": "468866dd0c222b36b55485ab44a5760133a4ddfb2a6cf81e6ae4672d7e02a447",
+  "text-field": "3467c006063732dbc46fad4dbf3ea806b97772be3c13f798bc74475c4ec63b21",
+  "text-field/helper-text": "59604d0f39e0846fc97aae7573d317dded215282a677e4641c5e33426e3a2a1e",
+  "text-field/icon": "c34dae5444deec222533b3f43448c0393b0c8543a5af4e50cc12d71611f366a7",
+  "top-app-bar/fixed": "90534d59d40f8c050aae022e94b0afa022a00d1e00c19e3f92dcc1908efcd831",
+  "top-app-bar/prominent": "34d03c5809067cc06a67dce1e03d3e1edaf306360479ac1955299d3eeffc6113",
+  "top-app-bar/short": "fe50f5577ef8c9def95450090eae4033192034dd0e0890407d4ab80e04e3e6a1",
+  "top-app-bar/shortCollapsed": "3565597194402f65bfc48edcea298a49c890c70100befe3ae19dd3cf24f17716",
+  "top-app-bar/standard": "90534d59d40f8c050aae022e94b0afa022a00d1e00c19e3f92dcc1908efcd831",
+  "top-app-bar/standardNoActionItems": "9102ece0efc0a040e0dc2b097c66d2ee5ecc9c91759aeb16ea5aa2baabe7307a",
+  "top-app-bar/standardWithNavigationIconElement": "91b10df9c4faf85ba63c84b1cf82a1c1143a3d8c4ba7ed8af477fabdc65ec25e"
+>>>>>>> master
 }

@@ -2,7 +2,7 @@
   "name": "@material/react-tab-scroller",
   "version": "0.0.0",
   "description": "Material Components React Tab Scroller",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
     "mdc web react",
@@ -17,7 +17,7 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/tab-scroller": "^0.38.1",
+    "@material/tab-scroller": "^0.39.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.4.2"
