@@ -55,7 +55,6 @@ class MyApp extends React.Component {
 
 Prop Name | Type | Description
 --- | --- | ---
-box | Boolean | Enables box variant.
 children | Element | Mandatory. The input element of the text field.
 className | String | An optional class added to the `.mdc-text-field` element.
 dense | Boolean | Enables dense variant.
