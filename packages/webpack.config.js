@@ -77,36 +77,9 @@ function getCommonWebpackParams(entryPath, chunk, {isCss, modules}) {
 
 function getMaterialExternals() {
   const externals = {};
-<<<<<<< HEAD
-  [
-    'base',
-    'button',
-    'card',
-    'chips',
-    'fab',
-    'floating-label',
-    'line-ripple',
-    'list',
-    'notched-outline',
-    'ripple',
-    'select',
-    'switch',
-    'tab',
-    'tab-indicator',
-    'tab-scroller',
-    'textfield',
-    'top-app-bar',
-    'typography',
-  ].forEach((name) => {
-    // this can be reverted when we change back to @material/foo-package-filename
-    // https://github.com/material-components/material-components-web/pull/3245
-    const fileName = `@material/${name}/dist/mdc.${dashedToCamel(name)}`;
-    externals[fileName] = fileName;
-=======
   const importPaths = convertToImportPaths(readMaterialPackages());
   importPaths.forEach((importPath) => {
     externals[importPath] = importPath;
->>>>>>> master
   });
   return externals;
 }

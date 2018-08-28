@@ -40,6 +40,7 @@ export class ThumbUnderlay extends React.Component {
 }
 
 ThumbUnderlay.propTypes = {
+  children: PropTypes.node,
   className: PropTypes.string,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
