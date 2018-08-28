@@ -6,7 +6,7 @@ import withRipple from '@material/react-ripple';
 export class ThumbUnderlay extends React.Component {
 
   init = (el) => {
-    this.props.initRipple(el, this.props.rippleActivator);
+    this.props.initRipple(el, this.props.rippleActivator.current);
   }
 
   get classes() {
@@ -44,7 +44,7 @@ ThumbUnderlay.propTypes = {
   className: PropTypes.string,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
-  rippleActivator: PropTypes.element.isRequired,
+  rippleActivator: PropTypes.object,
 };
 
 ThumbUnderlay.defaultProps = {

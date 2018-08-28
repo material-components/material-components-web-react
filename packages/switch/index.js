@@ -20,6 +20,8 @@ export default class Switch extends Component {
   componentDidMount() {
     this.foundation_ = new MDCSwitchFoundation(this.adapter);
     this.foundation_.init();
+    this.foundation_.setChecked(this.props.checked);
+    this.foundation_.setDisabled(this.props.disabled);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -37,11 +39,8 @@ export default class Switch extends Component {
 
   get classes() {
     const {classList} = this.state;
-    const {className, checked, disabled} = this.props;
-    return classnames('mdc-switch', Array.from(classList), className, {
-      'mdc-switch--disabled': disabled,
-      'mdc-switch--checked': checked,
-    });
+    const {className} = this.props;
+    return classnames('mdc-switch', Array.from(classList), className);
   }
 
   get adapter() {
@@ -56,11 +55,12 @@ export default class Switch extends Component {
         classList.delete(className);
         this.setState({classList});
       },
-      setNativeControlChecked: (nativeControlChecked) => {
+      setNativeControlChecked: (nativeControlChecked) => { 
+        console.log('nativeControlChecked ' + nativeControlChecked);
         this.setState({nativeControlChecked: nativeControlChecked});
       },
       setNativeControlDisabled: (nativeControlDisabled) => {
-        this.setState({nativeControlDisabled});
+        this.setState({nativeControlDisabled: nativeControlDisabled});
       },
     };
   }
@@ -83,12 +83,15 @@ export default class Switch extends Component {
       >
         <div className='mdc-switch__track' />
         <ThumbUnderlay
-          rippleActivator={this.rippleActivator.current}>
+          rippleActivator={this.rippleActivator}>
           <NativeControl
             id={nativeControlId}
             checked={this.state.nativeControlChecked}
             disabled={this.state.nativeControlDisabled}
-            onChange={(evt) => this.foundation_ && this.foundation_.handleChange(evt)}
+            onChange={(evt) => {
+              console.log(evt.target.checked);
+              this.foundation_ && this.foundation_.handleChange(evt)
+            }}
             rippleActivatorRef={this.rippleActivator}
           />
         </ThumbUnderlay>
