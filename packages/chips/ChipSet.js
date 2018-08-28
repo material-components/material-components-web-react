@@ -51,10 +51,12 @@ export default class ChipSet extends Component {
   get adapter() {
     return {
       hasClass: (className) => this.classes.split(' ').includes(className),
+
     };
   }
 
   handleSelect = (chipId) => {
+    console.log(chipId)
     if (this.props.filter || this.props.choice) {
       this.foundation_.toggleSelect(chipId);
     }

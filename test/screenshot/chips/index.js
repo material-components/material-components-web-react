@@ -3,7 +3,7 @@ import './index.scss';
 import '../../../packages/chips/index.scss';
 
 import MaterialIcon from '../../../packages/material-icon';
-import {Chip, ChipSet} from '../../../packages/chips';
+import {Chip, ChipSet} from '../../../packages/chips/index';
 
 class ShirtSizes extends React.Component {
   state = {
@@ -53,12 +53,12 @@ class ContactList extends React.Component {
   state = {
     chips: this.props.chips,
   };
-  
+
   addChip(label) {
     const id = label.replace(/\s/g,'');
     // Create a new chips array to ensure that a re-render occurs.
     // See: https://reactjs.org/docs/state-and-lifecycle.html#do-not-modify-state-directly
-    const chips = [...this.state.chips]; 
+    const chips = [...this.state.chips];
     chips.push({label, id});
     this.setState({chips});
   }
@@ -71,12 +71,12 @@ class ContactList extends React.Component {
   }
 
   handleRemove = (id) => {
-    const chips = [...this.state.chips]; 
+    const chips = [...this.state.chips];
     const index = chips.findIndex((chip) => chip.id === id);
     chips.splice(index, 1);
     this.setState({chips});
   }
-  
+
   render() {
     return (
       <div>
@@ -107,16 +107,16 @@ const ChipsScreenshotTest = () => {
     <div>
       Choice chips
       <ShirtSizes selectedChipIds={['chip2']}>
-        <Chip id={'chip1'} label='Small' />
-        <Chip id={'chip2'} label='Medium' />
-        <Chip id={'chip3'} label='Large' />
+        <Chip id='chip1' label='Small' />
+        <Chip id='chip2' label='Medium' />
+        <Chip id='chip3' label='Large' />
       </ShirtSizes>
 
       Filter chips
       <ShoppingFilters selectedChipIds={['chip1', 'chip2']}>
-        <Chip id={'chip1'} label='Tops' />
-        <Chip id={'chip2'} label='Bottoms' />
-        <Chip id={'chip3'} label='Shoes' />
+        <Chip id='chip1' label='Tops' />
+        <Chip id='chip2' label='Bottoms' />
+        <Chip id='chip3' label='Shoes' />
       </ShoppingFilters>
 
       Input chips

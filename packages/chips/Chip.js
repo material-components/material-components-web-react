@@ -90,11 +90,13 @@ export class Chip extends Component {
     };
   }
 
-  handleClick = (e) => {
-    if (typeof this.props.onClick === 'function') {
-      this.props.onClick(e);
+  onClick = (e) => {
+    const {onClick, id, handleSelect} = this.props;
+console.log('hi')
+    if (typeof onClick === 'function') {
+      onClick(e);
     }
-    this.props.handleSelect(this.props.id);
+    handleSelect(id);
   }
 
   handleTransitionEnd = (e) => {
@@ -112,11 +114,11 @@ export class Chip extends Component {
 
     const props = {
       className: classnames(
+        className,
         leadingIconClassList,
         'mdc-chip__icon',
         'mdc-chip__icon--leading',
       ),
-      ...otherProps,
     };
 
     return React.cloneElement(leadingIcon, props);
@@ -131,6 +133,7 @@ export class Chip extends Component {
 
     const props = {
       className: classnames(
+        className,
         leadingIconClassList,
         'mdc-chip__icon',
         'mdc-chip__icon--trailing',
@@ -169,7 +172,7 @@ export class Chip extends Component {
     return (
       <div
         className={this.classes}
-        onClick={this.handleClick}
+        onClick={this.onClick}
         onTransitionEnd={this.handleTransitionEnd}
         ref={this.init}
         {...otherProps}
