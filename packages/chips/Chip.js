@@ -31,7 +31,6 @@ export class Chip extends Component {
   foundation_ = null;
   state = {
     classList: new Set(),
-    leadingIconClassList: new Set(),
   };
 
   componentDidMount() {
@@ -64,61 +63,46 @@ export class Chip extends Component {
   get adapter() {
     return {
       addClass: (className) => {
-        const {classList} = this.state;
+        const classList = new Set(this.state.classList);
         classList.add(className);
         this.setState({classList});
       },
       removeClass: (className) => {
-        const {classList} = this.state;
+        const classList = new Set(this.state.classList);
         classList.delete(className);
         this.setState({classList});
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
-      addClassToLeadingIcon: (className) => {
-        const {leadingIconClassList} = this.state;
-        leadingIconClassList.add(className);
-        this.setState({leadingIconClassList});
-      },
-      removeClassFromLeadingIcon: (className) => {
-        const {leadingIconClassList} = this.state;
-        leadingIconClassList.delete(className);
-        this.setState({leadingIconClassList});
-      },
       eventTargetHasClass: (target, className) => target.classList.contains(className),
       getComputedStyleValue: (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
+      notifyRemoval: () => this.props.handleRemove(this.props.id),
     };
   }
 
   onClick = (e) => {
-    const {onClick, id, handleSelect} = this.props;
-console.log('hi')
-    if (typeof onClick === 'function') {
-      onClick(e);
-    }
+    const {onClick, handleSelect, id} = this.props;
+    onClick(e);
     handleSelect(id);
   }
 
-  handleTransitionEnd = (e) => {
-    this.props.onTransitionEnd(e);
-    this.props.handleRemove(this.props.id);
-    this.foundation_.handleTransitionEnd(e);
-  };
+  handleRemoveIconClick = (e) => this.foundation_.handleTrailingIconInteraction(e);
+
+  handleTransitionEnd = (e) => this.foundation_.handleTransitionEnd(e);
 
   renderLeadingIcon = (leadingIcon) => {
     const {
-      className, // eslint-disable-line
+      className,
       ...otherProps
     } = leadingIcon.props;
-    const {leadingIconClassList} = this.state;
 
     const props = {
       className: classnames(
         className,
-        leadingIconClassList,
         'mdc-chip__icon',
         'mdc-chip__icon--leading',
       ),
+      ...otherProps,
     };
 
     return React.cloneElement(leadingIcon, props);
@@ -126,20 +110,18 @@ console.log('hi')
 
   renderRemoveIcon = (removeIcon) => {
     const {
-      className, // eslint-disable-line
+      className,
       ...otherProps
     } = removeIcon.props;
-    const {leadingIconClassList} = this.state;
 
     const props = {
       className: classnames(
         className,
-        leadingIconClassList,
         'mdc-chip__icon',
         'mdc-chip__icon--trailing',
       ),
-      onClick: (e) => this.foundation_.handleTrailingIconInteraction(e),
-      onKeyDown: (e) => this.foundation_.handleTrailingIconInteraction(e),
+      onClick: this.handleRemoveIconClick,
+      onKeyDown: this.handleRemoveIconClick,
       tabIndex: 0,
       role: 'button',
       ...otherProps,
@@ -157,7 +139,6 @@ console.log('hi')
       handleSelect,
       handleRemove,
       onClick,
-      onTransitionEnd,
       computeBoundingRect,
       initRipple,
       unbounded,
@@ -171,6 +152,7 @@ console.log('hi')
 
     return (
       <div
+        tabIndex='0'
         className={this.classes}
         onClick={this.onClick}
         onTransitionEnd={this.handleTransitionEnd}
@@ -194,8 +176,6 @@ Chip.propTypes = {
   handleSelect: PropTypes.func,
   handleRemove: PropTypes.func,
   onClick: PropTypes.func,
-  onTransitionEnd: PropTypes.func,
-  tabIndex: PropTypes.number,
   // The following props are handled by withRipple and do not require defaults.
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
@@ -206,15 +186,12 @@ Chip.propTypes = {
 };
 
 Chip.defaultProps = {
-  id: '',
   label: '',
   className: '',
   selected: false,
-  tabIndex: 0,
+  onClick: () => {},
   handleSelect: () => {},
   handleRemove: () => {},
-  onClick: () => {},
-  onTransitionEnd: () => {},
 };
 
 export default withRipple(Chip);

@@ -4,25 +4,28 @@ import '../../../packages/chips/index.scss';
 
 import MaterialIcon from '../../../packages/material-icon';
 import {Chip, ChipSet} from '../../../packages/chips/index';
+import uuidv1 from 'uuid/v1';
 
 class ShirtSizes extends React.Component {
   state = {
     selectedChipIds: this.props.selectedChipIds,
   };
 
-  handleSelect = (selectedChipIds) => {
-    this.setState(selectedChipIds);
-  }
-
   render() {
+    const {selectedChipIds} = this.state;
     return (
-      <ChipSet
-        choice
-        selectedChipIds={this.state.selectedChipIds}
-        handleSelect={this.handleSelect}
-      >
-        {this.props.children}
-      </ChipSet>
+      <div>
+        <ChipSet
+          choice
+          selectedChipIds={selectedChipIds}
+          handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
+        >
+          {this.props.children}
+        </ChipSet>
+        <div>
+          {selectedChipIds}
+        </div>
+      </div>
     );
   }
 }
@@ -32,19 +35,19 @@ class ShoppingFilters extends React.Component {
     selectedChipIds: this.props.selectedChipIds,
   };
 
-  handleSelect = (selectedChipIds) => {
-    this.setState(selectedChipIds);
-  }
-
   render() {
     return (
-      <ChipSet
-        filter
-        selectedChipIds={this.state.selectedChipIds}
-        handleSelect={this.handleSelect}
-      >
-        {this.props.children}
-      </ChipSet>
+      <div>
+        <ChipSet
+          filter
+          selectedChipIds={this.state.selectedChipIds}
+        >
+          {this.props.children}
+        </ChipSet>
+        <button onClick={() => this.setState({selectedChipIds: ['2chip', '0chip']})}>
+          Select first and last
+        </button>
+      </div>
     );
   }
 }
@@ -55,11 +58,10 @@ class ContactList extends React.Component {
   };
 
   addChip(label) {
-    const id = label.replace(/\s/g,'');
     // Create a new chips array to ensure that a re-render occurs.
     // See: https://reactjs.org/docs/state-and-lifecycle.html#do-not-modify-state-directly
     const chips = [...this.state.chips];
-    chips.push({label, id});
+    chips.push({label, id: uuidv1()});
     this.setState({chips});
   }
 
@@ -70,13 +72,6 @@ class ContactList extends React.Component {
     }
   }
 
-  handleRemove = (id) => {
-    const chips = [...this.state.chips];
-    const index = chips.findIndex((chip) => chip.id === id);
-    chips.splice(index, 1);
-    this.setState({chips});
-  }
-
   render() {
     return (
       <div>
@@ -84,10 +79,7 @@ class ContactList extends React.Component {
           type="text"
           onKeyDown={this.handleKeyDown}
         />
-        <ChipSet
-          input
-          handleRemove={this.handleRemove}
-        >
+        <ChipSet input>
           {this.state.chips.map((chip) =>
             <Chip
               key={chip.id} // The chip's key cannot be its index, because its index may change.
@@ -102,21 +94,36 @@ class ContactList extends React.Component {
   }
 }
 
+const sizes = ['Small', 'Medium', 'Large'];
+const clothes = ['Tops', 'Bottoms', 'Shoes'];
+
+const renderChips = (list) => {
+  return list.map((size, index) => (
+    <Chip id={`${index}chip`} key={index} label={size} />
+  ));
+}
+
 const ChipsScreenshotTest = () => {
   return (
     <div>
       Choice chips
-      <ShirtSizes selectedChipIds={['chip2']}>
-        <Chip id='chip1' label='Small' />
-        <Chip id='chip2' label='Medium' />
-        <Chip id='chip3' label='Large' />
+      <ChipSet choice>
+        {renderChips(sizes)}
+      </ChipSet>
+
+      Filter Chips
+      <ChipSet filter>
+        {renderChips(clothes)}
+      </ChipSet>
+
+      Choice chips (preselected)
+      <ShirtSizes selectedChipIds={['2chip']}>
+        {renderChips(sizes)}
       </ShirtSizes>
 
-      Filter chips
-      <ShoppingFilters selectedChipIds={['chip1', 'chip2']}>
-        <Chip id='chip1' label='Tops' />
-        <Chip id='chip2' label='Bottoms' />
-        <Chip id='chip3' label='Shoes' />
+      Filter chips (preselected)
+      <ShoppingFilters selectedChipIds={['1chip', '2chip']}>
+        {renderChips(clothes)}
       </ShoppingFilters>
 
       Input chips
