@@ -95,18 +95,6 @@ value | Number/String | Value of the input.
 >NOTE: the `<Input>` component will receive all properties that a standard `<input>` accepts.
 
 
-## Styles
-
-To style [Notched Outline](../notched-outline), [Floating Label](../floating-label), and [Line Ripple](../line-ripple) correctly, please include the Sass imports along with the Text Field sass imports. For reference your Sass file should include imports like so:
-
-```scss
-@import "@material/react-floating-label/index.scss";
-@import "@material/react-line-ripple/index.scss";
-@import "@material/react-notched-outline/index.scss";
-
-@import "@material/react-text-field/index.scss";
-```
-
 ### Sass Mixins
 
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
