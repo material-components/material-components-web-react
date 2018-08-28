@@ -8,10 +8,11 @@ import uuidv1 from 'uuid/v1';
 
 class ShirtSizes extends React.Component {
   state = {
-    selectedChipIds: this.props.selectedChipIds,
+    selectedChipIds: this.props.selectedChipIds, // eslint-disable-line
   };
 
   render() {
+    const {children} = this.props; // eslint-disable-line
     const {selectedChipIds} = this.state;
     return (
       <div>
@@ -20,7 +21,7 @@ class ShirtSizes extends React.Component {
           selectedChipIds={selectedChipIds}
           handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
         >
-          {this.props.children}
+          {children}
         </ChipSet>
         <div>
           {selectedChipIds}
@@ -32,17 +33,18 @@ class ShirtSizes extends React.Component {
 
 class ShoppingFilters extends React.Component {
   state = {
-    selectedChipIds: this.props.selectedChipIds,
+    selectedChipIds: this.props.selectedChipIds, // eslint-disable-line
   };
 
   render() {
+    const {children} = this.props; // eslint-disable-line
     return (
       <div>
         <ChipSet
           filter
           selectedChipIds={this.state.selectedChipIds}
         >
-          {this.props.children}
+          {children}
         </ChipSet>
         <button onClick={() => this.setState({selectedChipIds: ['2chip', '0chip']})}>
           Select first and last
@@ -54,7 +56,7 @@ class ShoppingFilters extends React.Component {
 
 class ContactList extends React.Component {
   state = {
-    chips: this.props.chips,
+    chips: this.props.chips, // eslint-disable-line
   };
 
   addChip(label) {
@@ -101,7 +103,7 @@ const renderChips = (list) => {
   return list.map((size, index) => (
     <Chip id={`${index}chip`} key={index} label={size} />
   ));
-}
+};
 
 const ChipsScreenshotTest = () => {
   return (

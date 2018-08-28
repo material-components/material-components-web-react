@@ -74,7 +74,8 @@ export class Chip extends Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       eventTargetHasClass: (target, className) => target.classList.contains(className),
-      getComputedStyleValue: (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
+      getComputedStyleValue:
+        (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
       notifyRemoval: () => this.props.handleRemove(this.props.id),
     };
@@ -176,7 +177,6 @@ Chip.propTypes = {
   handleSelect: PropTypes.func,
   handleRemove: PropTypes.func,
   onClick: PropTypes.func,
-  // The following props are handled by withRipple and do not require defaults.
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
   chipCheckmark: PropTypes.node,
@@ -190,6 +190,7 @@ Chip.defaultProps = {
   className: '',
   selected: false,
   onClick: () => {},
+  initRipple: () => {},
   handleSelect: () => {},
   handleRemove: () => {},
 };

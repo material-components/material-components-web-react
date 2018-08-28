@@ -70,7 +70,7 @@ export default class ChipSet extends Component {
           selectedChipIds.delete(chipId);
         }
         this.setState({selectedChipIds});
-      }
+      },
     };
   }
 
