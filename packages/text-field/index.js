@@ -91,7 +91,7 @@ class TextField extends React.Component {
 
   get classes() {
     const {classList, disabled} = this.state;
-    const {className, box, dense, outlined, fullWidth, textarea, trailingIcon, leadingIcon} = this.props;
+    const {className, dense, outlined, fullWidth, textarea, trailingIcon, leadingIcon} = this.props;
     return classnames('mdc-text-field', Array.from(classList), className, {
       'mdc-text-field--outlined': outlined,
       'mdc-text-field--textarea': textarea,
@@ -99,7 +99,6 @@ class TextField extends React.Component {
       'mdc-text-field--disabled': disabled,
       'mdc-text-field--with-trailing-icon': trailingIcon,
       'mdc-text-field--with-leading-icon': leadingIcon,
-      'mdc-text-field--box': box,
       'mdc-text-field--dense': dense,
     });
   }
@@ -107,7 +106,6 @@ class TextField extends React.Component {
   get otherProps() {
     const {
       /* eslint-disable no-unused-vars */
-      box,
       children,
       className,
       dense,
@@ -350,7 +348,6 @@ class TextField extends React.Component {
 }
 
 TextField.propTypes = {
-  'box': PropTypes.bool,
   'children.props': PropTypes.shape(Input.propTypes),
   'children': PropTypes.element,
   'className': PropTypes.string,
@@ -369,7 +366,6 @@ TextField.propTypes = {
 };
 
 TextField.defaultProps = {
-  box: false,
   className: '',
   dense: false,
   floatingLabelClassName: '',
