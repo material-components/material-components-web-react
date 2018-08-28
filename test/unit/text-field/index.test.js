@@ -53,12 +53,6 @@ test('classNames get leadingIcon class when prop.leadingIcon is passed an icon e
   assert.equal(textField.length, 1);
 });
 
-test('classNames get box class when prop.box is true', () => {
-  const wrapper = mount(<TextField label='my label' box><Input /></TextField>);
-  const textField = wrapper.find('.mdc-text-field--box');
-  assert.equal(textField.length, 1);
-});
-
 test('classNames get dense class when prop.dense is true', () => {
   const wrapper = mount(<TextField label='my label' dense><Input /></TextField>);
   const textField = wrapper.find('.mdc-text-field--dense');

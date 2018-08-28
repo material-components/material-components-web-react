@@ -31,7 +31,6 @@ class TestField extends React.Component {
 const icon = <MaterialIcon icon='favorite' />;
 const variants = [
   {},
-  {box: true},
   {outlined: true},
   {fullWidth: true},
 ];
