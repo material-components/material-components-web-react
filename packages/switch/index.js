@@ -55,7 +55,7 @@ export default class Switch extends Component {
         classList.delete(className);
         this.setState({classList});
       },
-      setNativeControlChecked: (nativeControlChecked) => { 
+      setNativeControlChecked: (nativeControlChecked) => {
         this.setState({nativeControlChecked: nativeControlChecked});
       },
       setNativeControlDisabled: (nativeControlDisabled) => {
@@ -89,7 +89,7 @@ export default class Switch extends Component {
             disabled={this.state.nativeControlDisabled}
             onChange={(evt) => {
               this.setState({nativeControlChecked: evt.target.checked});
-              this.foundation_ && this.foundation_.handleChange(evt)
+              this.foundation_ && this.foundation_.handleChange(evt);
             }}
             rippleActivatorRef={this.rippleActivator}
           />

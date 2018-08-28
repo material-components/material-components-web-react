@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.scss';
 
 import Switch from '../../../packages/switch';
@@ -18,7 +17,7 @@ class SelectTest extends React.Component {
       </div>
       <Switch className='custom-switch' nativeControlId='custom-switch-input' checked />
       <label htmlFor='custom-switch-input'>Custom switch with label</label>
-    </div>)
+    </div>);
   }
 }
 
