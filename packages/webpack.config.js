@@ -54,7 +54,6 @@ function getWebpackConfigs() {
     webpackConfigs.push(getJavaScriptWebpackConfig(jsPath, `${chunk}.min`, 'commonjs'));
 
 
-    if (chunk === 'ripple') return;
     webpackConfigs.push(getCssWebpackConfig(cssPath, chunk));
     webpackConfigs.push(getCssWebpackConfig(cssPath, `${chunk}.min`));
   });
