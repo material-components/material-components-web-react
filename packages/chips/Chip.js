@@ -77,7 +77,6 @@ export class Chip extends Component {
       getComputedStyleValue:
         (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
-      notifyRemoval: () => this.props.handleRemove(this.props.id),
     };
   }
 
