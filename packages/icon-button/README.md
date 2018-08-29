@@ -70,4 +70,4 @@ onClick | Function | Click event handler. Event is passed as an argument
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.37.1/packages/mdc-icon-button/README.md#sass-mixins)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-icon-button/README.md#sass-mixins)
