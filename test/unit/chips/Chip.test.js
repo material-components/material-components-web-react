@@ -148,6 +148,14 @@ test('remove icon keydown calls #foundation.handleTrailingIconInteraction', () =
   td.verify(wrapper.instance().foundation_.handleTrailingIconInteraction(evt), {times: 1});
 });
 
+test('calls #foundation.handleTransitionEnd on transitionend event', () => {
+  const wrapper = shallow(<Chip />);
+  wrapper.instance().foundation_.handleTransitionEnd = td.func();
+  const evt = {};
+  wrapper.simulate('transitionend', evt);
+  td.verify(wrapper.instance().foundation_.handleTransitionEnd(evt), {times: 1});
+});
+
 test('renders chip checkmark if it exists', () => {
   const wrapper = mount(<Chip chipCheckmark={<ChipCheckmark/>} />);
   assert.equal(wrapper.find('.mdc-chip__checkmark').length, 1);
