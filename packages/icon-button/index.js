@@ -3,18 +3,17 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import withRipple from '@material/react-ripple';
 import {MDCIconButtonToggleFoundation} from '@material/icon-button';
+import IconToggle from './IconToggle';
 
 const {strings} = MDCIconButtonToggleFoundation;
 
-export class IconButtonBase extends Component {
+class IconButtonBase extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       classList: new Set(),
-      childContent: props.children,
       [strings.ARIA_PRESSED]: props[strings.ARIA_PRESSED],
-      [strings.ARIA_LABEL]: props[strings.ARIA_LABEL],
     };
   }
 
@@ -38,10 +37,8 @@ export class IconButtonBase extends Component {
         classList.delete(className);
         this.setState({classList});
       },
-      // the foundation needs data attributes that will be passed in as props if the user wants this feature
-      getAttr: (attr) => this.props[attr],
+      hasClass: (className) => this.classes.split(' ').includes(className),
       setAttr: (attr, value) => this.setState({[attr]: value}),
-      setText: (childContent) => this.setState({childContent}),
     };
   }
 
@@ -51,16 +48,14 @@ export class IconButtonBase extends Component {
   }
 
   render() {
-    const {childContent} = this.state;
     const {
+      children,
       initRipple,
       isLink,
       /* eslint-disable no-unused-vars */
-      children,
       className,
       onClick,
       unbounded,
-      [strings.ARIA_LABEL]: ariaLabel,
       [strings.ARIA_PRESSED]: ariaPressed,
       /* eslint-enable no-unused-vars */
       ...otherProps
@@ -69,7 +64,6 @@ export class IconButtonBase extends Component {
     const props = {
       className: this.classes,
       ref: initRipple,
-      [strings.ARIA_LABEL]: this.state[strings.ARIA_LABEL],
       [strings.ARIA_PRESSED]: this.state[strings.ARIA_PRESSED],
       onClick: this.handleClick_,
       ...otherProps,
@@ -78,14 +72,14 @@ export class IconButtonBase extends Component {
     if (isLink) {
       return (
         <a {...props}>
-          {childContent}
+          {children}
         </a>
       );
     }
 
     return (
       <button {...props}>
-        {childContent}
+        {children}
       </button>
     );
   }
@@ -110,3 +104,4 @@ IconButtonBase.defaultProps = {
 };
 
 export default withRipple(IconButtonBase, true);
+export {IconToggle, IconButtonBase};

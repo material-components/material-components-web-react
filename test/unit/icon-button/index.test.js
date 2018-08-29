@@ -2,7 +2,7 @@ import React from 'react';
 import {assert} from 'chai';
 import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
-import {IconButtonBase as IconButton} from '../../../packages/icon-button';
+import {IconButtonBase as IconButton} from '../../../packages/icon-button/index';
 
 suite('IconButton');
 
@@ -42,15 +42,14 @@ test('props.onClick gets called onClick', () => {
   td.verify(onClick(evt), {times: 1});
 });
 
-test('aria-label is set if passed as props', () => {
-  const ariaLabel = 'test-label';
-  const wrapper = shallow(<IconButton aria-label={ariaLabel} />);
-  assert.equal(wrapper.props()['aria-label'], ariaLabel);
+test('aria-pressed is set true if passed as prop and on className is passed', () => {
+  const wrapper = shallow(<IconButton aria-pressed className='mdc-icon-button--on'/>);
+  assert.equal(wrapper.props()['aria-pressed'], 'true');
 });
 
-test('aria-pressed is set if passed as props', () => {
-  const wrapper = shallow(<IconButton aria-pressed />);
-  assert.isTrue(wrapper.props()['aria-pressed']);
+test('aria-pressed is set false if passed as prop but on className is not passed', () => {
+  const wrapper = shallow(<IconButton aria-pressed/>);
+  assert.equal(wrapper.props()['aria-pressed'], 'false');
 });
 
 test('#get.classes has a class added to state.classList', () => {
@@ -72,10 +71,15 @@ test('#adapter.removeClass removes a class to state.classList', () => {
   assert.isFalse(wrapper.state().classList.has('test-class'));
 });
 
-test('#adapter.getAttr gets data attributes', () => {
-  const dataTestAttr = 'remove favorite';
-  const wrapper = shallow(<IconButton data-test-attr={dataTestAttr}/>);
-  assert.equal(wrapper.instance().adapter.getAttr('data-test-attr'), dataTestAttr);
+test('#adapter.hasClass returns true if element contains class', () => {
+  const wrapper = shallow(<IconButton />);
+  wrapper.setState({classList: new Set(['test-class'])});
+  assert.isTrue(wrapper.instance().adapter.hasClass('test-class'));
+});
+
+test('#adapter.hasClass returns false if element does not contains class', () => {
+  const wrapper = shallow(<IconButton />);
+  assert.isFalse(wrapper.instance().adapter.hasClass('test-class'));
 });
 
 test('#adapter.setAttr sets aria-pressed', () => {
@@ -89,14 +93,6 @@ test('#adapter.setAttr sets aria-label', () => {
   const wrapper = shallow(<IconButton />);
   wrapper.instance().adapter.setAttr('aria-label', ariaLabel);
   assert.equal(wrapper.state()['aria-label'], ariaLabel);
-});
-
-test('#adapter.setText replaces props.children', () => {
-  const wrapper = shallow(<IconButton><i className='test-class' /></IconButton>);
-  wrapper.instance().adapter.setText(<i className='better-classname' />);
-  wrapper.update();
-  assert.equal(wrapper.find('.better-classname').length, 1);
-  assert.equal(wrapper.find('.test-class').length, 0);
 });
 
 test('default initRipple function', () => {
