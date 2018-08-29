@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const {read: readComponents} = require('../../scripts/screenshot-directory-reader');
 const {importer} = require('../../packages/webpack.util');
-console.log(readComponents())
+
 module.exports = {
   entry: ['babel-polyfill', `./test/screenshot/index.js`],
   output: {
