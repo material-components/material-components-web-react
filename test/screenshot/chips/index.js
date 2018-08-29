@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.scss';
+import '../../../packages/chips/index.scss';
 
 import {Chip, ChipSet} from '../../../packages/chips';
 
@@ -62,11 +62,15 @@ class ShoppingFilters extends React.Component {
   }
 }
 
-ReactDOM.render((
-  <div>
-    Choice chips
-    <ShirtSizes />
-    Filter chips
-    <ShoppingFilters />
-  </div>
-), document.getElementById('app'));
+const ChipsScreenshotTest = () => {
+  return (
+    <div>
+      Choice chips
+      <ShirtSizes />
+      Filter chips
+      <ShoppingFilters />
+    </div>
+  );
+};
+
+export default ChipsScreenshotTest;

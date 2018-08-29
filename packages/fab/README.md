@@ -54,6 +54,10 @@ textLabel | String | The label, which makes the FAB extended.
 ## Sass Mixins
 
 Sass mixins may be available to customize various aspects of the components. Please refer to the
-MDC Web repository for more information on what mixins are available, and how to use them. 
+MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/v0.35.0/packages/mdc-fab/README.md#advanced-sass-mixins)
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-fab/README.md#advanced-sass-mixins)
+
+## Usage with Icons
+
+Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) when importing or using icon fonts.

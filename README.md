@@ -20,6 +20,8 @@ Component | Spec | MDC Web
 [Material Icon](./packages/material-icon) | [Material Icon Design Page](https://material.io/design/iconography/system-icons.html#design-principles) | [Material Icon Tool](https://material.io/tools/icons/?style=baseline)
 [Notched Outline](./packages/notched-outline) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Notched Outline](https://github.com/material-components/material-components-web/tree/master/packages/mdc-notched-outline)
 [Ripple](./packages/ripple) | [Ripple Design Page](https://material.io/design/interaction/states.html) | [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple)
+[Select](./packages/select) | [Select Design Page](https://material.io/design/components/menus.html#) | [MDC Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select)
+[Tab Indicator](./packages/tab-indicator) | [Tabs Design Page](https://material.io/design/components/tabs.html) | [MDC Tab Indicator](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab-indicator)
 [Text Field](./packages/text-field) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Text Field](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield)
 [Top App Bar](./packages/top-app-bar) | [Top App Bar Design Page](https://material.io/design/components/app-bars-top.html) | [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar)
 
@@ -160,5 +162,9 @@ class App extends Component {
 export default App;
 ```
 
-
 You can also use these same configurations for your own Webpack build pipeline without `create-react-app`. But this is the quickest way to getting started with MDC React Components. Button is one of our simpler components, but you should be able to apply these same principles you learn here to any the components. Thanks for trying out MDC React Components, and remember to tell a friend! Enjoy!
+
+
+## Need help
+
+We're constantly trying to improve our components. If Github Issues don't fit your needs, then please visit us on our [Discord Channel](https://discord.gg/material-components).

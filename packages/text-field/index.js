@@ -1,7 +1,29 @@
+// The MIT License
+//
+// Copyright (c) 2018 Google, Inc.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCTextFieldFoundation} from '@material/textfield';
+import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
 
 import Input from './Input';
 import Icon from './icon';
@@ -18,12 +40,8 @@ class TextField extends React.Component {
     super(props);
     this.floatingLabelElement = React.createRef();
     this.inputElement = React.createRef();
-    this.textFieldElement = React.createRef();
 
     this.state = {
-      // line ripple state
-      activeLineRipple: false,
-
       // root state
       value: null,
       classList: new Set(),
@@ -37,6 +55,7 @@ class TextField extends React.Component {
       labelWidth: 0,
 
       // line ripple state
+      activeLineRipple: false,
       lineRippleCenter: null,
 
       // notched outline state
@@ -72,7 +91,7 @@ class TextField extends React.Component {
 
   get classes() {
     const {classList, disabled} = this.state;
-    const {className, box, dense, outlined, fullWidth, textarea, trailingIcon, leadingIcon} = this.props;
+    const {className, dense, outlined, fullWidth, textarea, trailingIcon, leadingIcon} = this.props;
     return classnames('mdc-text-field', Array.from(classList), className, {
       'mdc-text-field--outlined': outlined,
       'mdc-text-field--textarea': textarea,
@@ -80,9 +99,32 @@ class TextField extends React.Component {
       'mdc-text-field--disabled': disabled,
       'mdc-text-field--with-trailing-icon': trailingIcon,
       'mdc-text-field--with-leading-icon': leadingIcon,
-      'mdc-text-field--box': box,
       'mdc-text-field--dense': dense,
     });
+  }
+
+  get otherProps() {
+    const {
+      /* eslint-disable no-unused-vars */
+      children,
+      className,
+      dense,
+      floatingLabelClassName,
+      fullWidth,
+      helperText,
+      isRtl,
+      label,
+      leadingIcon,
+      lineRippleClassName,
+      notchedOutlineClassName,
+      outlined,
+      textarea,
+      trailingIcon,
+      /* eslint-enable no-unused-vars */
+      ...otherProps
+    } = this.props;
+
+    return otherProps;
   }
 
   get adapter() {
@@ -96,7 +138,7 @@ class TextField extends React.Component {
       },
       hasClass: (className) => this.classes.split(' ').includes(className),
       isFocused: () => this.state.isFocused,
-      isRtl: this.getIsRtl,
+      isRtl: () => this.props.isRtl,
     };
 
     return Object.assign({},
@@ -184,13 +226,6 @@ class TextField extends React.Component {
     };
   }
 
-  getIsRtl = () => {
-    if (this.textFieldElement.current) {
-      const dir = window.getComputedStyle(this.textFieldElement.current).getPropertyValue('direction');
-      return dir === 'rtl';
-    }
-  }
-
   inputProps(props) {
     return Object.assign({}, props, {
       foundation: this.foundation_,
@@ -219,11 +254,11 @@ class TextField extends React.Component {
 
     const textField = (
       <div
+        {...this.otherProps}
         className={this.classes}
         onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         key='text-field-container'
-        ref={this.textFieldElement}
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
         {this.renderInput()}
@@ -283,7 +318,7 @@ class TextField extends React.Component {
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={this.getIsRtl()}
+        isRtl={this.props.isRtl}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
       />
@@ -313,7 +348,6 @@ class TextField extends React.Component {
 }
 
 TextField.propTypes = {
-  'box': PropTypes.bool,
   'children.props': PropTypes.shape(Input.propTypes),
   'children': PropTypes.element,
   'className': PropTypes.string,
@@ -321,6 +355,7 @@ TextField.propTypes = {
   'floatingLabelClassName': PropTypes.string,
   'fullWidth': PropTypes.bool,
   'helperText': PropTypes.element,
+  'isRtl': PropTypes.bool,
   'label': PropTypes.string.isRequired,
   'leadingIcon': PropTypes.element,
   'lineRippleClassName': PropTypes.string,
@@ -331,12 +366,12 @@ TextField.propTypes = {
 };
 
 TextField.defaultProps = {
-  box: false,
   className: '',
   dense: false,
   floatingLabelClassName: '',
   fullWidth: false,
   helperText: null,
+  isRtl: false,
   leadingIcon: null,
   lineRippleClassName: '',
   notchedOutlineClassName: '',

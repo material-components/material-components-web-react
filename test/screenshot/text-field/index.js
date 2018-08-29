@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import TextField, {Input, HelperText} from '../../../packages/text-field';
 import MaterialIcon from '../../../packages/material-icon/index';
 
+import '../../../packages/floating-label/index.scss';
+import '../../../packages/line-ripple/index.scss';
+import '../../../packages/notched-outline/index.scss';
 import '../../../packages/text-field/index.scss';
 import './index.scss';
 
@@ -15,7 +17,7 @@ class TestField extends React.Component {
     } = this.props;
     return (
       <div dir={isRtl ? 'rtl' : 'ltr'}>
-        <TextField label='Dog' {...otherProps} className='text-field'>
+        <TextField label='Dog' {...otherProps} className='text-field' isRtl={isRtl}>
           <Input value={this.state.value}
             id={id}
             disabled={disabled}
@@ -29,7 +31,6 @@ class TestField extends React.Component {
 const icon = <MaterialIcon icon='favorite' />;
 const variants = [
   {},
-  {box: true},
   {outlined: true},
   {fullWidth: true},
 ];
@@ -90,8 +91,10 @@ const textFields = variants.map((variant) => {
 });
 
 
-ReactDOM.render((
+const TextFieldScreenshotTest = () => (
   <div className='text-field-container'>
     {textFields}
   </div>
-), document.getElementById('app'));
+);
+
+export default TextFieldScreenshotTest;

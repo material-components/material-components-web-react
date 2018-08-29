@@ -1,0 +1,28 @@
+{
+  "name": "@material/react-tab-scroller",
+  "version": "0.0.0",
+  "description": "Material Components React Tab Scroller",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "tab scroller",
+    "tabscroller",
+    "tabs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-react.git"
+  },
+  "dependencies": {
+    "@material/tab-scroller": "^0.39.0",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

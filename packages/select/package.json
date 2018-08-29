@@ -1,0 +1,29 @@
+{
+  "name": "@material/react-select",
+  "version": "0.4.2",
+  "description": "Material Components React Select",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "select"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-react.git"
+  },
+  "dependencies": {
+    "@material/react-floating-label": "^0.4.1",
+    "@material/react-line-ripple": "^0.4.1",
+    "@material/react-notched-outline": "^0.4.1",
+    "@material/select": "^0.39.0",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

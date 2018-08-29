@@ -2,8 +2,8 @@ import React from 'react';
 import td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import Icon from '../../../../packages/text-field/icon';
-import MaterialIcon from '../../../../packages/material-icon';
+import Icon from '../../../../packages/text-field/icon/index';
+import MaterialIcon from '../../../../packages/material-icon/index';
 
 suite('Text Field Icon');
 

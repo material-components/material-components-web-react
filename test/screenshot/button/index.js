@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/button/index.scss';
 import './index.scss';
@@ -20,42 +19,49 @@ const svgIcon = (<svg
   4.1-2 5.64V6.37c1.24 1.55 2 3.5 2 5.63z"/>
 </svg>);
 
-ReactDOM.render((
-  <div>
-    <div className='button-container'>
-      <Button>Click</Button>
-    </div>
-    <div className='button-container'>
-      <Button raised>Raised</Button>
-    </div>
-    <div className='button-container'>
-      <Button outlined>Outlined</Button>
-    </div>
-    <div className='button-container'>
-      <Button unelevated>Unelevated</Button>
-    </div>
+const ButtonScreenshotTest = () => {
+  return (
+    <div>
+      <div className='button-container'>
+        <Button>Click</Button>
+      </div>
+      <div className='button-container'>
+        <Button raised>Raised</Button>
+      </div>
+      <div className='button-container'>
+        <Button outlined>Outlined</Button>
+      </div>
+      <div className='button-container'>
+        <Button unelevated>Unelevated</Button>
+      </div>
 
-    <div className='button-container'>
-      <Button disabled raised>Disabled Raised</Button>
-    </div>
+      <div className='button-container'>
+        <Button disabled raised>Disabled Raised</Button>
+      </div>
 
-    <div className='button-container'>
-      <Button href='https://google.com' raised>Anchor Tag</Button>
-    </div>
+      <div className='button-container'>
+        <Button dense>Dense</Button>
+      </div>
 
-    <div className='button-container'>
-      <Button raised
-        icon={<MaterialIcon icon='menu' />}>
-        Raised
-      </Button>
-    </div>
+      <div className='button-container'>
+        <Button href='https://google.com' raised>Anchor Tag</Button>
+      </div>
 
-    <div className='button-container'>
-      <Button raised
-        icon={svgIcon}>
-        Svg Icon
-      </Button>
-    </div>
+      <div className='button-container'>
+        <Button raised
+          icon={<MaterialIcon icon='menu' />}>
+          Raised
+        </Button>
+      </div>
 
-  </div>
-), document.getElementById('app'));
+      <div className='button-container'>
+        <Button raised
+          icon={svgIcon}>
+          Svg Icon
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default ButtonScreenshotTest;

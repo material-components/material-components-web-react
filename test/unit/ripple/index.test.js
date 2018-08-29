@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import td from 'testdouble';
 // must use mount for refs to work
 import {mount} from 'enzyme';
-import withRipple from '../../../packages/ripple';
+import withRipple from '../../../packages/ripple/index';
 import {createMockRaf} from '../helpers/raf';
 
 /*eslint-disable */
@@ -338,4 +338,27 @@ test('throws error if no foundation', () => {
   const DivNoRef = () => <div />;
   const DivNoRefRipple = withRipple(DivNoRef);
   assert.throws(DivNoRefRipple.prototype.componentDidMount);
+});
+
+test('unmounting component does not throw errors', (done) => {
+  // related to
+  // https://github.com/material-components/material-components-web-react/issues/199
+  class TestComp extends React.Component {
+    state = {showRippleElement: true};
+
+    render() {
+      if (!this.state.showRippleElement) return (<span>hi</span>);
+
+      return (
+        <DivRipple onMouseDown={() => this.setState({showRippleElement: false})} />
+      );
+    }
+  };
+
+  const wrapper = mount(<TestComp />);
+  wrapper.simulate('mouseDown');
+  requestAnimationFrame(() => {
+    assert.equal(wrapper.getDOMNode().innerText, 'hi');
+    done();
+  });
 });

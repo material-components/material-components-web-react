@@ -1,0 +1,22 @@
+.tabs {
+  display: flex;
+  margin: 30px;
+}
+
+.tab {
+  width: 100px;
+  height: 50px;
+  border: 1px solid lightblue;
+  margin-left: 4px;
+  position: relative;
+}
+
+.mdc-tab--active .light-border {
+  opacity: .5;
+}
+
+// TODO: remove this when tab-indicator fix is merged into master
+.mdc-tab-indicator__content--icon .material-icons {
+  font-size: 34px;
+  height: 34px;
+}

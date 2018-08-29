@@ -2,7 +2,7 @@ import React from 'react';
 import {assert} from 'chai';
 import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
-import {Button} from '../../../packages/button';
+import {Button} from '../../../packages/button/index';
 
 suite('Button');
 
@@ -36,6 +36,11 @@ test('renders a unelevated button', () => {
 test('renders an outlined button', () => {
   const wrapper = shallow(<Button outlined />);
   assert.isTrue(wrapper.hasClass('mdc-button--outlined'));
+});
+
+test('renders a dense button', () => {
+  const wrapper = shallow(<Button dense />);
+  assert.isTrue(wrapper.hasClass('mdc-button--dense'));
 });
 
 test('renders a button tag', () => {

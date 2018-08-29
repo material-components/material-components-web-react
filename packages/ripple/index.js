@@ -1,8 +1,30 @@
+// The MIT License
+//
+// Copyright (c) 2018 Google, Inc.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import {MDCRippleFoundation, util} from '@material/ripple';
+import {MDCRippleFoundation, util} from '@material/ripple/dist/mdc.ripple';
 
 const withRipple = (WrappedComponent, isUnbounded = false) => {
   class RippledComponent extends Component {
@@ -66,9 +88,16 @@ const withRipple = (WrappedComponent, isUnbounded = false) => {
         registerResizeHandler: (handler) => window.addEventListener('resize', handler),
         deregisterResizeHandler: (handler) => window.removeEventListener('resize', handler),
         updateCssVariable: this.updateCssVariable,
-        computeBoundingRect: this.props.computeBoundingRect ?
-          (() => this.props.computeBoundingRect(instance)) :
-          (() => instance.getBoundingClientRect()),
+        computeBoundingRect: () => {
+          if (!this.isMounted_) {
+            // need to return object since foundation expects it
+            return {};
+          }
+          if (this.props.computeBoundingRect) {
+            return this.props.computeBoundingRect(instance);
+          }
+          return instance.getBoundingClientRect();
+        },
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset}),
       };
     }
@@ -218,8 +247,13 @@ const withRipple = (WrappedComponent, isUnbounded = false) => {
 
   RippledComponent.propTypes = WrappedComponent.propTypes;
   RippledComponent.defaultProps = WrappedComponent.defaultProps;
+  RippledComponent.displayName = `WithRipple(${getDisplayName(WrappedComponent)})`;
 
   return RippledComponent;
 };
+
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+}
 
 export default withRipple;
