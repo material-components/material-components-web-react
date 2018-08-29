@@ -32,39 +32,34 @@ You can use any other icon here such as Font Awesome, which is documented more i
 
 ### Icon Button Toggle
 
-If you need to use this component as an Icon Button Toggle, please read [this documentation](https://github.com/material-components/material-components-web/blob/v0.37.1/packages/mdc-icon-button/README.md#icon-button-toggle). The following is an example using data attributes to toggle between on/off states:
+If you need to use this component as an Icon Button Toggle, please read [this documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-icon-button/README.md#icon-button-toggle). The following is an example using the `<IconToggle />` component as children of `<IconButton>`. One component with the `isOn` prop, and one without.
 
 ```js
 import React from 'react';
-import IconButton from '@material/react-icon-button';
+import IconButton, {IconToggle} from '@material/react-icon-button';
 import MaterialIcon from '@material/react-material-icon';
 
 class MyApp extends React.Component {
   render() {
     return (
-      <IconButton
-        className='mdc-icon-button material-icons'
-        aria-label='Add to favorites'
-        aria-pressed='false'
-        data-demo-toggle
-        data-toggle-on-content='favorite'
-        data-toggle-on-label='Remove From Favorites'
-        data-toggle-off-content='favorite_border'
-        data-toggle-off-label='Add to Favorites'
-      >
-        <MaterialIcon icon='favorite_border' />
+      <IconButton>
+        <IconToggle isOn>
+          <MaterialIcon icon='favorite' />
+        </IconToggle>
+        <IconToggle>
+          <MaterialIcon icon='favorite_border' />
+        </IconToggle>
       </IconButton>      
     );
   }
 }
 ```
 
-
 ## Props
 
 Prop Name | Type | Description
 --- | --- | ---
-children | String | Icon element or text to be displayed within root element.
+children | Element | Icon element or text to be displayed within root element.
 className | String | Classes to be applied to the root element.
 disabled | Boolean | Disables button if true.
 isLink | Boolean | Changes root element to an anchor tag (default button).
