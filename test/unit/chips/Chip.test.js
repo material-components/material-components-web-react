@@ -160,7 +160,7 @@ test('renders custom chip checkmark', () => {
 
 test('adds mdc-chip--selected class if selected prop is true', () => {
   const wrapper = shallow(<Chip selected />);
-  assert.exists(wrapper.hasClass('.mdc-chip--selected'));
+  assert.exists(wrapper.hasClass('mdc-chip--selected'));
 });
 
 test('renders chip', () => {
