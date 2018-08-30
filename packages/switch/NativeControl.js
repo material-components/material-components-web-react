@@ -39,7 +39,7 @@ const NativeControl = (props) => {
       {...otherProps}
     />
   );
-}
+};
 
 NativeControl.propTypes = {
   checked: PropTypes.bool,
