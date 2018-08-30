@@ -56,6 +56,7 @@
     "@material/notched-outline": "^0.39.0",
     "@material/ripple": "^0.39.0",
     "@material/select": "^0.39.0",
+    "@material/switch": "^0.39.0",
     "@material/tab": "^0.39.0",
     "@material/tab-indicator": "^0.39.0",
     "@material/textfield": "^0.39.0",
