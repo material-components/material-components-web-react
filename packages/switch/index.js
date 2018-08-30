@@ -82,10 +82,10 @@ export default class Switch extends Component {
         this.setState({classList});
       },
       setNativeControlChecked: (nativeControlChecked) => {
-        this.setState({nativeControlChecked: nativeControlChecked});
+        this.setState({nativeControlChecked});
       },
       setNativeControlDisabled: (nativeControlDisabled) => {
-        this.setState({nativeControlDisabled: nativeControlDisabled});
+        this.setState({nativeControlDisabled});
       },
     };
   }
