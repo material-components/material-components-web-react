@@ -39,17 +39,17 @@ test('has checked class when props.checked is true', () => {
   assert.isTrue(wrapper.hasClass('mdc-switch--checked'));
 });
 
-test('#foundation_.setChecked gets called when state.checked updates', () => {
+test('#foundation_.setChecked gets called when prop.checked updates', () => {
   const wrapper = shallow(<Switch />);
   wrapper.instance().foundation_.setChecked = td.func();
-  wrapper.setState({checked: true});
+  wrapper.setProps({checked: true});
   td.verify(wrapper.instance().foundation_.setChecked(true), {times: 1});
 });
 
-test('#foundation_.setDisabled gets called when state.disabled updates', () => {
+test('#foundation_.setDisabled gets called when prop.disabled updates', () => {
   const wrapper = shallow(<Switch />);
   wrapper.instance().foundation_.setDisabled = td.func();
-  wrapper.setState({disabled: true});
+  wrapper.setProps({disabled: true});
   td.verify(wrapper.instance().foundation_.setDisabled(true), {times: 1});
 });
 

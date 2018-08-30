@@ -1,3 +1,25 @@
+// The MIT License
+//
+// Copyright (c) 2018 Google, Inc.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
@@ -7,15 +29,19 @@ import ThumbUnderlay from './ThumbUnderlay';
 import NativeControl from './NativeControl';
 
 export default class Switch extends Component {
-  rippleActivator = React.createRef();
-  foundation_ = null;
-  state = {
-    checked: this.props.checked,
-    classList: new Set(),
-    disabled: this.props.disabled,
-    nativeControlChecked: this.props.checked,
-    nativeControlDisabled: this.props.disabled,
-  };
+
+  constructor(props) {
+    super(props);
+    this.rippleActivator = React.createRef();
+    this.foundation_ = null;
+    this.state = {
+      checked: props.checked,
+      classList: new Set(),
+      disabled: props.disabled,
+      nativeControlChecked: props.checked,
+      nativeControlDisabled: props.disabled,
+    };
+  }
 
   componentDidMount() {
     this.foundation_ = new MDCSwitchFoundation(this.adapter);
@@ -25,11 +51,11 @@ export default class Switch extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.checked !== prevState.checked) {
-      this.foundation_.setChecked(this.state.checked);
+    if (this.props.checked !== prevProps.checked) {
+      this.foundation_.setChecked(this.props.checked);
     }
-    if (this.state.disabled !== prevState.disabled) {
-      this.foundation_.setDisabled(this.state.disabled);
+    if (this.props.disabled !== prevProps.disabled) {
+      this.foundation_.setDisabled(this.props.disabled);
     }
   }
 
