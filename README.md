@@ -6,6 +6,8 @@
 
 MDC React is the offical implementation of Google's Material Design Components. It is a wrapper library for [MDC Web](https://github.com/material-components/material-components-web). Please refer to our [MDC Web Catalog](https://material-components.github.io/material-components-web-catalog/#/) to interact with the Components. This repo also serves as an example of how to use MDC Web's _Foundation_ and _Adapter_ classes.
 
+![mpmgq9h6b9x](https://user-images.githubusercontent.com/579873/44939654-d8fdfd80-ad3b-11e8-9b64-6244cb5e6886.png)
+
 ## Components
 
 The following is a list of the components that are ready to be used, with corresponding links to the [material.io](https://material.io/) design spec and [MDC Web code](https://github.com/material-components/material-components-web).
