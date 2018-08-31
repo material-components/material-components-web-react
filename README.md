@@ -4,7 +4,7 @@
 
 # Material Components for React (MDC React)
 
-MDC React is a wrapper library for [MDC Web](https://github.com/material-components/material-components-web). We're aiming for MDC React Components to mirror MDC Web Components. Please refer to our [MDC Web Catalog](https://material-components.github.io/material-components-web-catalog/#/) to interact with the Components. This repo also serves as an example of how to use MDC Web's _Foundation_ and _Adapter_ classes.
+MDC React is the offical implementation of Google's Material Design Components. It is a wrapper library for [MDC Web](https://github.com/material-components/material-components-web). Please refer to our [MDC Web Catalog](https://material-components.github.io/material-components-web-catalog/#/) to interact with the Components. This repo also serves as an example of how to use MDC Web's _Foundation_ and _Adapter_ classes.
 
 ## Components
 
@@ -21,6 +21,7 @@ Component | Spec | MDC Web
 [Notched Outline](./packages/notched-outline) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Notched Outline](https://github.com/material-components/material-components-web/tree/master/packages/mdc-notched-outline)
 [Ripple](./packages/ripple) | [Ripple Design Page](https://material.io/design/interaction/states.html) | [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple)
 [Select](./packages/select) | [Select Design Page](https://material.io/design/components/menus.html#) | [MDC Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select)
+[Switch](./packages/switch) | [Switch Design Page](https://material.io/design/components/selection-controls.html#switches) | [MDC Switch](https://github.com/material-components/material-components-web/tree/master/packages/mdc-switch)
 [Tab Indicator](./packages/tab-indicator) | [Tabs Design Page](https://material.io/design/components/tabs.html) | [MDC Tab Indicator](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab-indicator)
 [Text Field](./packages/text-field) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Text Field](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield)
 [Top App Bar](./packages/top-app-bar) | [Top App Bar Design Page](https://material.io/design/components/app-bars-top.html) | [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar)
