@@ -33,7 +33,7 @@ const Icon = (props) => {
   const {
     children,
     className = '',
-    // call `initRipple` from the root element's ref. This attaches the ripple
+    // You must call `initRipple` from the root element's ref. This attaches the ripple
     // to the element.
     initRipple,
     // include `unbounded` to remove warnings when passing `otherProps` to the
@@ -61,6 +61,57 @@ const RippleIcon = withRipple(Icon);
 
 Wrap your Icon component with the HOC `withRipple`, which returns a component
 with a ripple capable surface.
+
+## Advanced Usage
+
+### Ripple surface and ripple activator
+
+You may want to apply the visual treatment (CSS classes and styles) for a ripple surface on one element, but have its activation rely on a different element. For example, putting a ripple on a `<div>` which will be activated by focusing on a child `<input>` element. We call the visual element the "ripple surface" and the activating element the "ripple activator".
+
+The `initRipple` callback prop can take in an extra `activator` argument for the case where the ripple activator differs from the ripple surface. If the `activator` argument is not provided, the ripple surface will also serve as the ripple activator.
+
+```js
+import withRipple from '@material/react-ripple';
+
+const MyInput = (props) => {
+  const {
+    rippleActivator,
+    ...otherProps
+  } = props;
+
+  return (
+    <input ref={rippleActivator} {...otherProps} />
+  );
+}
+
+class MyComponent extends React.Component {
+  rippleActivator = React.createRef();
+
+  init = (el) => {
+    this.props.initRipple(el /* surface */, this.rippleActivator.current /* activator */);
+  }
+
+  render() {
+    const {
+      className,
+      initRipple,
+      unbounded,
+      ...otherProps
+    } = this.props;
+
+    return (
+      <div
+        className={`my-component ${className}`}
+        ref={this.init}
+        {...otherProps}>
+        <MyInput rippleActivator={this.rippleActivator} />
+      </div>
+    );
+  }
+};
+
+const MyRippledComponent = withRipple(MyComponent);
+```
 
 ## Props
 
