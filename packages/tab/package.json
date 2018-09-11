@@ -2,7 +2,7 @@
   "name": "@material/react-tab",
   "version": "0.0.0",
   "description": "Material Components React Tab",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
     "mdc web react",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@material/react-tab-indicator": "^0.4.1",
-    "@material/tab": "^0.38.1",
+    "@material/tab": "^0.39.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"

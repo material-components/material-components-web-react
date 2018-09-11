@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TabScroller from '../../../packages/tab-scroller';
-
+import '../../../packages/tab-scroller/index.scss';
 import './index.scss';
 
 const Tab = ({
@@ -19,27 +18,32 @@ const Tabs = () => {
     <Tab key={tabNumber} number={tabNumber} />
   ));
 };
-ReactDOM.render((
-  <div>
-    <h3>Basic Scroller</h3>
-    <TabScroller className='tab-scroller-screenshot'>
-      <Tabs />
-    </TabScroller>
 
-    <h3>Start Aligned Scroller</h3>
-    <TabScroller alignStart className='tab-scroller-screenshot'>
-      <Tabs />
-    </TabScroller>
+const TabScrollerScreenshotTest = () => {
+  return (
+    <div>
+      <h3>Basic Scroller</h3>
+      <TabScroller className='tab-scroller-screenshot'>
+        <Tabs />
+      </TabScroller>
 
-    <h3>End Aligned Scroller</h3>
-    <TabScroller alignEnd className='tab-scroller-screenshot'>
-      <Tabs />
-    </TabScroller>
+      <h3>Start Aligned Scroller</h3>
+      <TabScroller alignStart className='tab-scroller-screenshot'>
+        <Tabs />
+      </TabScroller>
 
-    <h3>Center Aligned Scroller</h3>
-    <TabScroller alignCenter className='tab-scroller-screenshot'>
-      <Tabs />
-    </TabScroller>
+      <h3>End Aligned Scroller</h3>
+      <TabScroller alignEnd className='tab-scroller-screenshot'>
+        <Tabs />
+      </TabScroller>
 
-  </div>
-), document.getElementById('app'));
+      <h3>Center Aligned Scroller</h3>
+      <TabScroller alignCenter className='tab-scroller-screenshot'>
+        <Tabs />
+      </TabScroller>
+
+    </div>
+  );
+};
+
+export default TabScrollerScreenshotTest;

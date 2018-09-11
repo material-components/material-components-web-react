@@ -46,6 +46,7 @@ className | String | Classes to be applied to the root element.
 raised | Boolean | Enables raised variant.
 unelevated | Boolean | Enables unelevated variant.
 outlined | Boolean | Enables outlined variant.
+dense | Boolean | Enables dense variant.
 icon | Element | Icon to render within root element.
 children | String | Text to be displayed within root element.
 disabled | Boolean | Disables button if true.
@@ -57,3 +58,7 @@ Sass mixins may be available to customize various aspects of the Components. Ple
 MDC Web repository for more information on what mixins are available, and how to use them.
 
 [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-button/README.md#sass-mixins)
+
+## Usage with Icons
+
+Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) when importing or using icon fonts.

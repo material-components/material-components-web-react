@@ -153,11 +153,11 @@ test('#deactivate calls foundation.deactivate', () => {
   td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
 });
 
-test('#computeIndicatorClientRect returns the tabIndicatorElement_ clientRect', () => {
+test('#computeIndicatorClientRect returns the tabIndicator_ clientRect', () => {
   const wrapper = mount(<Tab/>);
-  wrapper.instance().tabIndicatorElement_.current.computeContentClientRect = td.func();
+  wrapper.instance().tabIndicator_.current.computeContentClientRect = td.func();
   wrapper.instance().computeIndicatorClientRect();
-  td.verify(wrapper.instance().tabIndicatorElement_.current.computeContentClientRect(), {times: 1});
+  td.verify(wrapper.instance().tabIndicator_.current.computeContentClientRect(), {times: 1});
 });
 
 test('#computeDimensions calls foundation.computeDimensions', () => {
@@ -289,7 +289,12 @@ test('props.indicatorContent should render with a ref attached', () => {
   const wrapper = mount(<Tab
     indicatorContent={<i className='icon'>icon</i>}
   />);
+<<<<<<< HEAD
   assert.instanceOf(wrapper.instance().tabIndicatorElement_.current, TabIndicator);
+=======
+
+  assert.instanceOf(wrapper.instance().tabIndicator_.current, TabIndicator);
+>>>>>>> master
 });
 
 test('props.isMinWidthIndicator renders indicator within the content element', () => {

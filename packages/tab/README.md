@@ -38,11 +38,15 @@ class MyApp extends React.Component {
 
   render() {
     return (
+<<<<<<< HEAD
       <Tab
         active={this.state.active}
          // this will be another tab's clientRect object
         previousIndicatorClientRect={previousTabClientRect}
       >
+=======
+      <Tab active={this.state.active}>
+>>>>>>> master
         <MaterialIcon className='mdc-tab__icon' icon='favorite' />
         <span className='mdc-tab__text-label'>Love</span>
       </Tab>
@@ -53,7 +57,7 @@ class MyApp extends React.Component {
 
 #### With Custom Indicator
 
-Possibly you don't want to use the default underline indicator, but instead would like to use an icon. You'll need to add an `indicator` prop, which is a function that returns a `<TabIndicator />` element.
+Possibly you don't want to use the default underline indicator, but instead would like to use an icon. You'll need to add an `indicatorContent` prop, which should be set to an icon element.
 
 ```js
 import React from 'react';
@@ -67,30 +71,15 @@ class MyApp extends React.Component {
     return (
       <Tab
         active={this.state.active}
+<<<<<<< HEAD
         previousIndicatorClientRect={previousTabClientRect}
         indicator={this.renderIndicator}
+=======
+        indicatorContent={<MaterialIcon icon='favorite' />}
+>>>>>>> master
       >
         <span className='mdc-tab__text-label'>Love</span>
       </Tab>
-    );
-  }
-
-  renderIndicator(props) {
-    // must return a <TabIndicator /> element
-    return (
-      <TabIndicator
-        icon
-        {/*--
-          You need to pass
-          active, ref, and previousIndicatorClientRect props to the
-          TabIndicator element
-        --*/}
-        active={props.active}
-        ref={props.ref}
-        previousIndicatorClientRect={props.previousIndicatorClientRect}
-      >
-        <MaterialIcon icon='favorite' />
-      </TabIndicator>
     );
   }
 }
@@ -103,9 +92,10 @@ Prop Name | Type | Description
 active | boolean | If true will activate the tab and indicator.
 className | string | Classes to appear on className attribute of root element.
 isFadingIndicator | boolean | Enables a fading indicator, instead of sliding (default).
-indicatorContent | Element | The icon or custom content to be used as the indicator.
+indicatorContent | element | Element that will appear within the `<TabIndicator />` element.
 minWidth | boolean | If true will display the `<Tab />` as narrow as possible.
 isMinWidthIndicator | boolean | If true will display the `<TabIndicator />` to the size of the longest content element.
+isIconIndicator | boolean | If true will display the indicator content in the center of the tab.
 previousIndicatorClientRect | ClientRect | The indicator's clientRect that was previously activated.
 stacked | boolean | If true will display the tab icon and label to flow vertically instead of horizontally.
 onTransitionEnd | function | transitionend event callback handler.
@@ -116,3 +106,7 @@ Sass mixins may be available to customize various aspects of the components. Ple
 MDC Web repository for more information on what mixins are available, and how to use them.
 
 [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-tab/README.md#sass-mixins)
+
+## Usage with Icons
+
+Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) when importing or using icon fonts.
