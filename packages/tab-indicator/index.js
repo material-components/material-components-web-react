@@ -118,15 +118,6 @@ export default class TabIndicator extends Component {
     return contentElement.getBoundingClientRect();
   }
 
-  handleTransitionEnd = (e) => {
-    this.props.onTransitionEnd(e);
-
-    if (!this.allowTransitionEnd_) return;
-
-    this.allowTransitionEnd_ = false;
-    this.foundation_.handleTransitionEnd();
-  }
-
   render() {
     const {
       /* eslint-disable */
@@ -144,7 +135,6 @@ export default class TabIndicator extends Component {
     return (
       <span
         className={this.classes}
-        onTransitionEnd={this.handleTransitionEnd}
         ref={this.tabIndicatorElement_}
         {...otherProps}
       >

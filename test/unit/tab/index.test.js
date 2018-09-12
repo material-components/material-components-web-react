@@ -289,12 +289,7 @@ test('props.indicatorContent should render with a ref attached', () => {
   const wrapper = mount(<Tab
     indicatorContent={<i className='icon'>icon</i>}
   />);
-<<<<<<< HEAD
-  assert.instanceOf(wrapper.instance().tabIndicatorElement_.current, TabIndicator);
-=======
-
   assert.instanceOf(wrapper.instance().tabIndicator_.current, TabIndicator);
->>>>>>> master
 });
 
 test('props.isMinWidthIndicator renders indicator within the content element', () => {

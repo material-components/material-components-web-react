@@ -115,7 +115,7 @@ export default class TabBar extends Component {
       onClick: (e) => {
         this.setState(
           {previousActiveIndex: this.props.activeIndex},
-          () => this.foundation_.setActiveTab(index));
+          () => this.adapter.setActiveTab(index));
         this.props.onClick(e);
       },
       ref: this.pushToTabList,

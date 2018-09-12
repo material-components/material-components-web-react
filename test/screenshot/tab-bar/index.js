@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Tab from '../../../packages/tab';
 import TabBar from '../../../packages/tab-bar';
 
@@ -46,32 +45,36 @@ class TabBarTest extends React.Component {
   }
 }
 
-ReactDOM.render((
-  <div>
-    Sliding Underline
-    <TabBarTest numTabs={3} />
+const TabBarScreenshotTest = () => {
+  return (
+    <div>
+      Sliding Underline
+      <TabBarTest numTabs={3} />
 
-    Fading Underline
-    <TabBarTest numTabs={3}
-      activeIndex={1}
-      isFadingIndicator />
+      Fading Underline
+      <TabBarTest numTabs={3}
+        activeIndex={1}
+        isFadingIndicator />
 
-    Sliding Icon
-    <TabBarTest numTabs={3}
-      className='icon-indicator-tab-bar'
-      activeIndex={2}
-      indicatorContent={<i className='material-icons'>star_border</i>} />
+      Sliding Icon
+      <TabBarTest numTabs={3}
+        className='icon-indicator-tab-bar'
+        activeIndex={2}
+        indicatorContent={<i className='material-icons'>star_border</i>} />
 
-    Fading Icon
-    <TabBarTest numTabs={3}
-      className='icon-indicator-tab-bar'
-      isFadingIndicator
-      indicatorContent={<i className='material-icons'>favorite</i>} />
+      Fading Icon
+      <TabBarTest numTabs={3}
+        className='icon-indicator-tab-bar'
+        isFadingIndicator
+        indicatorContent={<i className='material-icons'>favorite</i>} />
 
-    Scrolling Tabs
-    <TabBarTest numTabs={20} />
+      Scrolling Tabs
+      <TabBarTest numTabs={20} />
 
-    Scrolling RTL Tabs
-    <TabBarTest numTabs={20} isRTL />
-  </div>
-), document.getElementById('app'));
+      Scrolling RTL Tabs
+      <TabBarTest numTabs={20} isRTL />
+    </div>
+  );
+};
+
+export default TabBarScreenshotTest;
