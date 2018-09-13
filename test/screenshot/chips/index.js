@@ -6,32 +6,28 @@ import MaterialIcon from '../../../packages/material-icon';
 import {Chip, ChipSet} from '../../../packages/chips/index';
 import uuidv1 from 'uuid/v1';
 
-class ShirtSizes extends React.Component {
+class ChoiceChipsTest extends React.Component {
   state = {
     selectedChipIds: this.props.selectedChipIds, // eslint-disable-line
   };
 
   render() {
     const {children} = this.props; // eslint-disable-line
-    const {selectedChipIds} = this.state;
     return (
       <div>
         <ChipSet
           choice
-          selectedChipIds={selectedChipIds}
+          selectedChipIds={this.state.selectedChipIds}
           handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
         >
           {children}
         </ChipSet>
-        <div>
-          {selectedChipIds}
-        </div>
       </div>
     );
   }
 }
 
-class ShoppingFilters extends React.Component {
+class FilterChipsTest extends React.Component {
   state = {
     selectedChipIds: this.props.selectedChipIds, // eslint-disable-line
   };
@@ -43,6 +39,7 @@ class ShoppingFilters extends React.Component {
         <ChipSet
           filter
           selectedChipIds={this.state.selectedChipIds}
+          handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
         >
           {children}
         </ChipSet>
@@ -54,9 +51,11 @@ class ShoppingFilters extends React.Component {
   }
 }
 
-class ContactList extends React.Component {
+class InputChipsTest extends React.Component {
   state = {
-    chips: this.props.chips, // eslint-disable-line
+    chips: this.props.labels.map((label) => {
+      return {label: label, id: uuidv1()}
+    }),
   };
 
   addChip(label) {
@@ -81,9 +80,18 @@ class ContactList extends React.Component {
           type="text"
           onKeyDown={this.handleKeyDown}
         />
-        <ChipSet input>
+        <ChipSet
+          input
+          handleRemove={(chipId) => {
+            const {chips} = this.state;
+            const chip = chips.find((chip) => chip.id === chipId);
+            const index = chips.indexOf(chip);
+            chips.splice(index, 1);
+            this.setState(chips);
+          }}>
           {this.state.chips.map((chip) =>
             <Chip
+              id={chip.id}
               key={chip.id} // The chip's key cannot be its index, because its index may change.
               label={chip.label}
               leadingIcon={<MaterialIcon icon='face' />}
@@ -98,10 +106,11 @@ class ContactList extends React.Component {
 
 const sizes = ['Small', 'Medium', 'Large'];
 const clothes = ['Tops', 'Bottoms', 'Shoes'];
+const contacts = ['Jane Smith', 'John Doe'];
 
 const renderChips = (list) => {
-  return list.map((size, index) => (
-    <Chip id={`${index}chip`} key={index} label={size} />
+  return list.map((label, index) => (
+    <Chip id={`${index}chip`} key={index} label={label} />
   ));
 };
 
@@ -113,26 +122,23 @@ const ChipsScreenshotTest = () => {
         {renderChips(sizes)}
       </ChipSet>
 
+      Choice chips (preselected)
+      <ChoiceChipsTest selectedChipIds={['2chip']}>
+        {renderChips(sizes)}
+      </ChoiceChipsTest>
+
       Filter Chips
       <ChipSet filter>
         {renderChips(clothes)}
       </ChipSet>
 
-      Choice chips (preselected)
-      <ShirtSizes selectedChipIds={['2chip']}>
-        {renderChips(sizes)}
-      </ShirtSizes>
-
       Filter chips (preselected)
-      <ShoppingFilters selectedChipIds={['1chip', '2chip']}>
+      <FilterChipsTest selectedChipIds={['1chip', '2chip']}>
         {renderChips(clothes)}
-      </ShoppingFilters>
+      </FilterChipsTest>
 
       Input chips
-      <ContactList chips={[
-        {label: 'Jane Smith', id: 'janesmith'},
-        {label: 'John Doe', id: 'johndoe'},
-      ]}/>
+      <InputChipsTest labels={contacts}/>
     </div>
   );
 };
