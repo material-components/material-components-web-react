@@ -21,7 +21,7 @@ export default class TabBar extends Component {
 
     const {
       activeIndex,
-      indexInView
+      indexInView,
     } = this.props;
     if (this.tabList_[activeIndex]) {
       this.tabList_[activeIndex].activate({} /* previousIndicatorClientRect */);
@@ -79,6 +79,7 @@ export default class TabBar extends Component {
   }
 
   onKeyDown = (e) => {
+    // Persist the synthetic event to access its `key`.
     e.persist();
     this.setState(
       {previousActiveIndex: this.props.activeIndex},

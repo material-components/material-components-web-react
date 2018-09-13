@@ -31,7 +31,6 @@ import {
 
 export default class TabIndicator extends Component {
   tabIndicatorElement_ = React.createRef();
-  allowTransitionEnd_ = false;
 
   state = {
     classList: new Set(),
@@ -56,7 +55,6 @@ export default class TabIndicator extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.active !== prevProps.active) {
-      this.allowTransitionEnd_ = true;
       if (this.props.active) {
         this.foundation_.activate(this.props.previousIndicatorClientRect);
       } else {
@@ -126,7 +124,6 @@ export default class TabIndicator extends Component {
       className,
       fade,
       icon,
-      onTransitionEnd,
       previousIndicatorClientRect,
       /* eslint-enable */
       ...otherProps
@@ -167,7 +164,6 @@ TabIndicator.propTypes = {
   fade: PropTypes.bool,
   icon: PropTypes.bool,
   previousIndicatorClientRect: PropTypes.object,
-  onTransitionEnd: PropTypes.func,
 };
 
 TabIndicator.defaultProps = {
@@ -177,5 +173,4 @@ TabIndicator.defaultProps = {
   fade: false,
   icon: false,
   previousIndicatorClientRect: {},
-  onTransitionEnd: () => {},
 };

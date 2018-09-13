@@ -14,13 +14,11 @@ npm install @material/react-tab
 
 with Sass:
 ```scss
-import '@material/react-tab-indicator/index.scss';
 import '@material/react-tab/index.scss';
 ```
 
 with CSS:
 ```css
-import '@material/react-tab-indicator/dist/tab-indicator.css';
 import '@material/react-tab/dist/tab.css';
 ```
 
@@ -38,15 +36,7 @@ class MyApp extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      <Tab
-        active={this.state.active}
-         // this will be another tab's clientRect object
-        previousIndicatorClientRect={previousTabClientRect}
-      >
-=======
       <Tab active={this.state.active}>
->>>>>>> master
         <MaterialIcon className='mdc-tab__icon' icon='favorite' />
         <span className='mdc-tab__text-label'>Love</span>
       </Tab>
@@ -71,12 +61,7 @@ class MyApp extends React.Component {
     return (
       <Tab
         active={this.state.active}
-<<<<<<< HEAD
-        previousIndicatorClientRect={previousTabClientRect}
-        indicator={this.renderIndicator}
-=======
         indicatorContent={<MaterialIcon icon='favorite' />}
->>>>>>> master
       >
         <span className='mdc-tab__text-label'>Love</span>
       </Tab>

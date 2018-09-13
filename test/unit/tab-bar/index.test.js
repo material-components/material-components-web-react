@@ -35,7 +35,7 @@ test('key down event calls foundation.handleKeyDown', () => {
   const foundation = wrapper.instance().foundation_;
   foundation.handleKeyDown = td.func();
   const evt = {
-    persist: () => {}
+    persist: () => {},
   };
   wrapper.simulate('keyDown', evt);
   td.verify(foundation.handleKeyDown(evt), {times: 1});
@@ -45,7 +45,7 @@ test('key down event calls props.onKeyDown', () => {
   const onKeyDown = td.func();
   const wrapper = shallow(<TabBar onKeyDown={onKeyDown} />);
   const evt = {
-    persist: () => {}
+    persist: () => {},
   };
   wrapper.simulate('keyDown', evt);
   td.verify(onKeyDown(evt), {times: 1});
