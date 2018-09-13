@@ -25,11 +25,18 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy(), {times: 1});
 });
 
+test('initially sets state.previousActiveIndex to -1', () => {
+  const wrapper = shallow(<TabBar />);
+  assert.equal(wrapper.state().previousActiveIndex, -1);
+});
+
 test('key down event calls foundation.handleKeyDown', () => {
   const wrapper = shallow(<TabBar />);
   const foundation = wrapper.instance().foundation_;
   foundation.handleKeyDown = td.func();
-  const evt = {};
+  const evt = {
+    persist: () => {}
+  };
   wrapper.simulate('keyDown', evt);
   td.verify(foundation.handleKeyDown(evt), {times: 1});
 });
@@ -37,21 +44,11 @@ test('key down event calls foundation.handleKeyDown', () => {
 test('key down event calls props.onKeyDown', () => {
   const onKeyDown = td.func();
   const wrapper = shallow(<TabBar onKeyDown={onKeyDown} />);
-  const evt = {};
+  const evt = {
+    persist: () => {}
+  };
   wrapper.simulate('keyDown', evt);
   td.verify(onKeyDown(evt), {times: 1});
-});
-
-test('click on tab calls foundation.activateTab', () => {
-  const wrapper = shallow(
-    <TabBar>
-      <div className='tab'/>
-    </TabBar>
-  );
-  const foundation = wrapper.instance().foundation_;
-  foundation.activateTab = td.func();
-  wrapper.find('.tab').simulate('click');
-  td.verify(foundation.activateTab(0), {times: 1});
 });
 
 test('click on tab calls props.onClick', () => {
@@ -66,9 +63,9 @@ test('click on tab calls props.onClick', () => {
   td.verify(onClick(evt), {times: 1});
 });
 
-test('#adapter.getActiveTabIndex returns props.activeIndex', () => {
-  const wrapper = shallow(<TabBar activeIndex={2}/>);
-  assert.equal(wrapper.instance().adapter.getActiveTabIndex(), 2);
+test('#adapter.getPreviousActiveTabIndex returns state.previousActiveIndex', () => {
+  const wrapper = shallow(<TabBar />);
+  assert.equal(wrapper.instance().adapter.getPreviousActiveTabIndex(), wrapper.state().previousActiveIndex);
 });
 
 test('#adapter.scrollTo calls scrollTo on tab scroller', () => {
@@ -108,18 +105,20 @@ test('#adapter.getOffsetWidth returns tab bar element offsetWidth', () => {
   assert.equal(wrapper.instance().adapter.getOffsetWidth(), wrapper.instance().tabBarElement_.current.offsetWidth);
 });
 
-test('#adapter.isRTL returns true if props.isRTL is true', () => {
-  const wrapper = shallow(<TabBar isRTL />);
+test('#adapter.isRTL returns true if props.isRtl is true', () => {
+  const wrapper = shallow(<TabBar isRtl />);
   assert.isTrue(wrapper.instance().foundation_.adapter_.isRTL());
 });
 
-test('#adapter.isRTL returns false is props.isRTL is false', () => {
+test('#adapter.isRTL returns false is props.isRtl is false', () => {
   const wrapper = shallow(<TabBar />);
   assert.isFalse(wrapper.instance().foundation_.adapter_.isRTL());
 });
 
 test('#adapter.setActiveTab calls props.handleActiveIndexUpdate', () => {
   const handleActiveIndexUpdate = td.func();
+  const tab0 = {};
+  const tab1 = {};
   const wrapper = shallow(<TabBar handleActiveIndexUpdate={handleActiveIndexUpdate} />);
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.setActiveTab(1);

@@ -3,8 +3,9 @@
 @import "../../../packages/tab-indicator/index";
 @import "../../../packages/tab-scroller/index";
 
-.mdc-tab-bar {
+.tab-bar-container {
   margin: 30px;
+  width: 700px;
 }
 
 .icon-indicator-tab-bar {

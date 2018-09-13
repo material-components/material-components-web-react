@@ -16,7 +16,7 @@ class TabBarTest extends React.Component {
       indicatorContent,
       isFadingIndicator,
       numTabs,
-      isRTL,
+      isRtl,
       /* eslint-enable react/prop-types */
     } = this.props;
 
@@ -34,7 +34,7 @@ class TabBarTest extends React.Component {
 
     return (
       <TabBar
-        isRTL={isRTL}
+        isRtl={isRtl}
         className={className}
         activeIndex={this.state.activeIndex}
         handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
@@ -49,30 +49,42 @@ const TabBarScreenshotTest = () => {
   return (
     <div>
       Sliding Underline
-      <TabBarTest numTabs={3} />
+      <div className='tab-bar-container'>
+        <TabBarTest numTabs={3} />
+      </div>
 
       Fading Underline
-      <TabBarTest numTabs={3}
-        activeIndex={1}
-        isFadingIndicator />
+      <div className='tab-bar-container'>
+        <TabBarTest numTabs={3}
+          activeIndex={1}
+          isFadingIndicator />
+      </div>
 
       Sliding Icon
-      <TabBarTest numTabs={3}
-        className='icon-indicator-tab-bar'
-        activeIndex={2}
-        indicatorContent={<i className='material-icons'>star_border</i>} />
+      <div className='tab-bar-container'>
+        <TabBarTest numTabs={3}
+          className='icon-indicator-tab-bar'
+          activeIndex={2}
+          indicatorContent={<i className='material-icons'>star_border</i>} />
+      </div>
 
       Fading Icon
-      <TabBarTest numTabs={3}
-        className='icon-indicator-tab-bar'
-        isFadingIndicator
-        indicatorContent={<i className='material-icons'>favorite</i>} />
+      <div className='tab-bar-container'>
+        <TabBarTest numTabs={3}
+          className='icon-indicator-tab-bar'
+          isFadingIndicator
+          indicatorContent={<i className='material-icons'>favorite</i>} />
+      </div>
 
       Scrolling Tabs
-      <TabBarTest numTabs={20} />
+      <div className='tab-bar-container'>
+        <TabBarTest numTabs={20} />
+      </div>
 
       Scrolling RTL Tabs
-      <TabBarTest numTabs={20} isRTL />
+      <div className='tab-bar-container'>
+        <TabBarTest numTabs={20} isRtl />
+      </div>
     </div>
   );
 };

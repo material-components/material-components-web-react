@@ -12,14 +12,21 @@ export default class TabBar extends Component {
 
   foundation_ = null;
   state = {
-    previousActiveIndex: this.props.activeIndex,
+    previousActiveIndex: -1,
   }
 
   componentDidMount() {
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
     this.foundation_.init();
-    this.foundation_.activateTab(this.props.activeIndex);
-    this.foundation_.scrollIntoView(this.props.indexInView);
+
+    const {
+      activeIndex,
+      indexInView
+    } = this.props;
+    if (this.tabList_[activeIndex]) {
+      this.tabList_[activeIndex].activate({} /* previousIndicatorClientRect */);
+    }
+    this.foundation_.scrollIntoView(indexInView);
   }
 
   componentDidUpdate(prevProps) {
@@ -56,7 +63,11 @@ export default class TabBar extends Component {
       getPreviousActiveTabIndex: () => this.state.previousActiveIndex,
       getFocusedTabIndex: () => {
         const activeElement = document.activeElement;
-        return this.tabList_.indexOf((tab) => tab.tabElement_.current === activeElement);
+        for (let i = 0; i < this.tabList_.length; i++) {
+          if (this.tabList_[i].tabElement_.current === activeElement) {
+            return i;
+          }
+        }
       },
       getIndexOfTab: (tabToFind) => this.tabList_.indexOf(tabToFind),
       getTabListLength: () => this.tabList_.length,
@@ -68,6 +79,7 @@ export default class TabBar extends Component {
   }
 
   onKeyDown = (e) => {
+    e.persist();
     this.setState(
       {previousActiveIndex: this.props.activeIndex},
       () => this.foundation_.handleKeyDown(e));
