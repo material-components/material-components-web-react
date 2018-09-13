@@ -18,7 +18,7 @@ class ChoiceChipsTest extends React.Component {
         <ChipSet
           choice
           selectedChipIds={this.state.selectedChipIds}
-          handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
+          handleSelect={(selectedChipIds) => this.setState({selectedChipIds}, console.log(selectedChipIds))}
         >
           {children}
         </ChipSet>
@@ -39,7 +39,7 @@ class FilterChipsTest extends React.Component {
         <ChipSet
           filter
           selectedChipIds={this.state.selectedChipIds}
-          handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
+          handleSelect={(selectedChipIds) => this.setState({selectedChipIds}, console.log(selectedChipIds))}
         >
           {children}
         </ChipSet>

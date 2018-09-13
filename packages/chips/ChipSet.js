@@ -31,23 +31,17 @@ export default class ChipSet extends Component {
   checkmarkWidth_ = 0;
   foundation_ = null;
   state = {
-    selectedChipIds: new Set(),
+    selectedChipIds: new Set(this.props.selectedChipIds),
   };
 
   componentDidMount() {
     this.foundation_ = new MDCChipSetFoundation(this.adapter);
     this.foundation_.init();
-    this.updateChipSelection();
+    this.initChipSelection();
   }
 
   componentWillUnmount() {
     this.foundation_.destroy();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.selectedChipIds !== prevProps.selectedChipIds) {
-      this.updateChipSelection();
-    }
   }
 
   get classes() {
@@ -74,14 +68,12 @@ export default class ChipSet extends Component {
     };
   }
 
-  updateChipSelection = () => {
+  initChipSelection() {
+    const {selectedChipIds} = this.state;
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
-      const childIsSelected = this.props.selectedChipIds.indexOf(id) > -1;
-      if (childIsSelected) {
+      if (selectedChipIds.has(id)) {
         this.foundation_.select(id);
-      } else {
-        this.foundation_.deselect(id);
       }
     });
   }
