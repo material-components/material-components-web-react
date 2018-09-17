@@ -37,7 +37,11 @@ export default class ChipSet extends Component {
   componentDidMount() {
     this.foundation_ = new MDCChipSetFoundation(this.adapter);
     this.foundation_.init();
-    this.initChipSelection();
+    this.updateChipSelection();
+  }
+
+  componentDidUpdate() {
+    this.updateChipSelection();
   }
 
   componentWillUnmount() {
@@ -68,12 +72,13 @@ export default class ChipSet extends Component {
     };
   }
 
-  initChipSelection() {
-    const {selectedChipIds} = this.state;
+  updateChipSelection() {
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
-      if (selectedChipIds.has(id)) {
+      if (this.props.selectedChipIds.indexOf(id) > -1) {
         this.foundation_.select(id);
+      } else {
+        this.foundation_.deselect(id);
       }
     });
   }

@@ -18,7 +18,7 @@ class ChoiceChipsTest extends React.Component {
         <ChipSet
           choice
           selectedChipIds={this.state.selectedChipIds}
-          handleSelect={(selectedChipIds) => this.setState({selectedChipIds}, console.log(selectedChipIds))}
+          handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
         >
           {children}
         </ChipSet>
@@ -39,7 +39,7 @@ class FilterChipsTest extends React.Component {
         <ChipSet
           filter
           selectedChipIds={this.state.selectedChipIds}
-          handleSelect={(selectedChipIds) => this.setState({selectedChipIds}, console.log(selectedChipIds))}
+          handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
         >
           {children}
         </ChipSet>
@@ -104,6 +104,7 @@ class InputChipsTest extends React.Component {
   }
 }
 
+const seasons = ['Winter', 'Summer', 'Spring', 'Autumn'];
 const sizes = ['Small', 'Medium', 'Large'];
 const clothes = ['Tops', 'Bottoms', 'Shoes'];
 const contacts = ['Jane Smith', 'John Doe'];
@@ -117,22 +118,17 @@ const renderChips = (list) => {
 const ChipsScreenshotTest = () => {
   return (
     <div>
-      Choice chips
-      <ChipSet choice>
-        {renderChips(sizes)}
+      Default Chips
+      <ChipSet>
+        {renderChips(seasons)}
       </ChipSet>
 
-      Choice chips (preselected)
+      Choice Chips
       <ChoiceChipsTest selectedChipIds={['2chip']}>
         {renderChips(sizes)}
       </ChoiceChipsTest>
 
       Filter Chips
-      <ChipSet filter>
-        {renderChips(clothes)}
-      </ChipSet>
-
-      Filter chips (preselected)
       <FilterChipsTest selectedChipIds={['1chip', '2chip']}>
         {renderChips(clothes)}
       </FilterChipsTest>

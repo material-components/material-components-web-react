@@ -32,8 +32,8 @@ class MyApp extends Component {
   render() {
     return (
       <ChipSet>
-        <Chip id={'summer'} label='Summer'/>
-        <Chip id={'winter'  } label='Winter'/>
+        <Chip id='summer' label='Summer'/>
+        <Chip id='winter' label='Winter'/>
       </ChipSet>
     );
   }
