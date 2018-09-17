@@ -63,11 +63,11 @@ export default class TabBar extends Component {
       getPreviousActiveTabIndex: () => this.state.previousActiveIndex,
       getFocusedTabIndex: () => {
         const activeElement = document.activeElement;
-        for (let i = 0; i < this.tabList_.length; i++) {
-          if (this.tabList_[i].tabElement_.current === activeElement) {
-            return i;
+        this.tabList_.forEach((tabList, index) => {
+          if(tabList.tabElement_.current === activeElement) {
+            return index;
           }
-        }
+        });
       },
       getIndexOfTab: (tabToFind) => this.tabList_.indexOf(tabToFind),
       getTabListLength: () => this.tabList_.length,
