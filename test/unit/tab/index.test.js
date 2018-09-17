@@ -175,12 +175,6 @@ test('should render content with icon and text children', () => {
   assert.equal(textLabel.type(), 'span');
 });
 
-test('should render mdc tab ripple', () => {
-  const wrapper = shallow(<Tab />);
-  const ripple = wrapper.children().last();
-  assert.isTrue(ripple.hasClass('mdc-tab__ripple'));
-});
-
 test('should render default TabIndicator', () => {
   const wrapper = shallow(<Tab />);
   const indicator = wrapper.childAt(1);
