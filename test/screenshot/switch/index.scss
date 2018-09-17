@@ -1,0 +1,11 @@
+@import "../../../packages/switch/index.scss";
+
+.mdc-switch {
+  margin: 20px;
+}
+
+.custom-switch {
+  @include mdc-switch-toggled-on-color(primary);
+  
+  margin: 0 20px;
+}
