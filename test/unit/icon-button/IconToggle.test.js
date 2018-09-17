@@ -1,6 +1,6 @@
 import React from 'react';
 import {assert} from 'chai';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 import {IconToggle} from '../../../packages/icon-button/index';
 
 suite('IconButtonIconToggle');
