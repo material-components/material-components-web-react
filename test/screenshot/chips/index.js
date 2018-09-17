@@ -8,11 +8,11 @@ import uuidv1 from 'uuid/v1';
 
 class ChoiceChipsTest extends React.Component {
   state = {
-    selectedChipIds: this.props.selectedChipIds, // eslint-disable-line
+    selectedChipIds: this.props.selectedChipIds, // eslint-disable-line react/prop-types
   };
 
   render() {
-    const {children} = this.props; // eslint-disable-line
+    const {children} = this.props; // eslint-disable-line react/prop-types
     return (
       <div>
         <ChipSet
@@ -29,11 +29,11 @@ class ChoiceChipsTest extends React.Component {
 
 class FilterChipsTest extends React.Component {
   state = {
-    selectedChipIds: this.props.selectedChipIds, // eslint-disable-line
+    selectedChipIds: this.props.selectedChipIds, // eslint-disable-line react/prop-types
   };
 
   render() {
-    const {children} = this.props; // eslint-disable-line
+    const {children} = this.props; // eslint-disable-line react/prop-types
     return (
       <div>
         <ChipSet
@@ -53,8 +53,8 @@ class FilterChipsTest extends React.Component {
 
 class InputChipsTest extends React.Component {
   state = {
-    chips: this.props.labels.map((label) => {
-      return {label: label, id: uuidv1()}
+    chips: this.props.labels.map((label) => { // eslint-disable-line react/prop-types
+      return {label: label, id: uuidv1()};
     }),
   };
 
