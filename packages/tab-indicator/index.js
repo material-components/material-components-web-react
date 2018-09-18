@@ -82,14 +82,18 @@ export default class TabIndicator extends Component {
   get adapter() {
     return {
       addClass: (className) => {
-        const {classList} = this.state;
-        classList.add(className);
-        this.setState({classList});
+        // const {classList} = this.state;
+        // classList.add(className);
+        // this.setState({classList});
+        this.tabIndicatorElement_.current.classList.add(className);
+        this.forceUpdate();
       },
       removeClass: (className) => {
-        const {classList} = this.state;
-        classList.delete(className);
-        this.setState({classList});
+        // const {classList} = this.state;
+        // classList.delete(className);
+        // this.setState({classList});
+        this.tabIndicatorElement_.current.classList.remove(className);
+        this.forceUpdate();
       },
       computeContentClientRect: this.computeContentClientRect,
       // setContentStyleProperty was using setState, but due to the method's
@@ -97,7 +101,7 @@ export default class TabIndicator extends Component {
       setContentStyleProperty: (prop, value) => {
         const contentElement = this.getNativeContentElement();
         if (!contentElement) return;
-        contentElement.style[prop] = value;
+        contentElement.style.setProperty(prop, value)
       },
     };
   }
