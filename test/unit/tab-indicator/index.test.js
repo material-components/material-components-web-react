@@ -42,24 +42,12 @@ test('if props.active changes from true to false, it calls deactivate', () => {
   td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
 });
 
-test('if props.active changes from true to false, allowTransitionEnd_ is true', () => {
-  const wrapper = shallow(<TabIndicator active />);
-  wrapper.setProps({active: false});
-  assert.isTrue(wrapper.instance().allowTransitionEnd_);
-});
-
 test('if props.active changes from false to true, it calls activate', () => {
   const previousIndicatorClientRect = {width: 20};
   const wrapper = shallow(<TabIndicator previousIndicatorClientRect={previousIndicatorClientRect} />);
   wrapper.instance().foundation_.activate = td.func();
   wrapper.setProps({active: true});
   td.verify(wrapper.instance().foundation_.activate(previousIndicatorClientRect), {times: 1});
-});
-
-test('if props.active changes from false to true, allowTransitionEnd_ is true', () => {
-  const wrapper = mount(<TabIndicator />);
-  wrapper.setProps({active: true});
-  assert.isTrue(wrapper.instance().allowTransitionEnd_);
 });
 
 test('#adapter.addClass updates state.classList', () => {
@@ -97,37 +85,6 @@ test('#computeContentClientRect calls getBoundingClientRect on the contentElemen
   contentElement.getBoundingClientRect = td.func();
   wrapper.instance().computeContentClientRect();
   td.verify(contentElement.getBoundingClientRect(), {times: 1});
-});
-
-test('transitionEnd event should call props.onTransitionEnd', () => {
-  const onTransitionEnd = td.func();
-  const wrapper = shallow(<TabIndicator onTransitionEnd={onTransitionEnd} />);
-  const event = {preventDefault: () => {}};
-  wrapper.simulate('transitionEnd', event);
-  td.verify(onTransitionEnd(event), {times: 1});
-});
-
-test('transitionEnd event should not call foundation.handleTransitionEnd if allowTransitionEnd_ is false', () => {
-  const wrapper = mount(<TabIndicator />);
-  wrapper.instance().foundation_.handleTransitionEnd = td.func();
-  wrapper.instance().allowTransitionEnd_ = false;
-  wrapper.simulate('transitionEnd');
-  td.verify(wrapper.instance().foundation_.handleTransitionEnd(), {times: 0});
-});
-
-test('transitionEnd event should call foundation.handleTransitionEnd if allowTransitionEnd_ is true', () => {
-  const wrapper = mount(<TabIndicator />);
-  wrapper.instance().foundation_.handleTransitionEnd = td.func();
-  wrapper.instance().allowTransitionEnd_ = true;
-  wrapper.simulate('transitionEnd');
-  td.verify(wrapper.instance().foundation_.handleTransitionEnd(), {times: 1});
-});
-
-test('transitionEnd event should update allowTransitionEnd_ to false if allowTransitionEnd_ is true', () => {
-  const wrapper = mount(<TabIndicator />);
-  wrapper.instance().allowTransitionEnd_ = false;
-  wrapper.simulate('transitionEnd');
-  assert.isFalse(wrapper.instance().allowTransitionEnd_);
 });
 
 test('child element should be rendered', () => {
