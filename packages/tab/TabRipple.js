@@ -57,11 +57,13 @@ export class TabRipple extends React.Component {
 }
 
 TabRipple.propTypes = {
+  className: PropTypes.string,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
 };
 
 TabRipple.defaultProps = {
+  className: '',
   initRipple: () => {},
   unbounded: false,
 };
