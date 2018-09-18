@@ -32,10 +32,6 @@ import {
 export default class TabIndicator extends Component {
   tabIndicatorElement_ = React.createRef();
 
-  state = {
-    classList: new Set(),
-  };
-
   componentDidMount() {
     if (this.props.fade) {
       this.foundation_ = new MDCFadingTabIndicatorFoundation(this.adapter);
@@ -64,9 +60,8 @@ export default class TabIndicator extends Component {
   }
 
   get classes() {
-    const {classList} = this.state;
     const {className, fade} = this.props;
-    return classnames('mdc-tab-indicator', Array.from(classList), className, {
+    return classnames('mdc-tab-indicator', className, {
       'mdc-tab-indicator--fade': fade,
     });
   }
@@ -82,16 +77,15 @@ export default class TabIndicator extends Component {
   get adapter() {
     return {
       addClass: (className) => {
-        // const {classList} = this.state;
-        // classList.add(className);
-        // this.setState({classList});
+        // since the sliding indicator depends on the FLIP method,
+        // our regular pattern of managing classes does not work here.
+        // setState is async, which does not work well with the FLIP method
+        // without a requestAnimationFrame, which was done in this PR:
+        // https://github.com/material-components/material-components-web/pull/3337/files#diff-683d792d28dad99754294121e1afbfb5L62
         this.tabIndicatorElement_.current.classList.add(className);
         this.forceUpdate();
       },
       removeClass: (className) => {
-        // const {classList} = this.state;
-        // classList.delete(className);
-        // this.setState({classList});
         this.tabIndicatorElement_.current.classList.remove(className);
         this.forceUpdate();
       },
@@ -101,7 +95,7 @@ export default class TabIndicator extends Component {
       setContentStyleProperty: (prop, value) => {
         const contentElement = this.getNativeContentElement();
         if (!contentElement) return;
-        contentElement.style.setProperty(prop, value)
+        contentElement.style[prop] = value;
       },
     };
   }
