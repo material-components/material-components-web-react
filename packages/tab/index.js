@@ -38,6 +38,7 @@ export default class Tab extends Component {
     'aria-selected': undefined,
     'tabIndex': undefined,
     'activateIndicator': false,
+    'previousIndicatorClientRect': this.props.previousIndicatorClientRect,
   };
 
   componentDidMount() {
@@ -56,9 +57,10 @@ export default class Tab extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
-        this.foundation_.activate(this.props.previousActiveClientRect);
+        // If active state is updated through props, previousIndicatorClientRect must also be passed through props
+        this.activate(this.props.previousIndicatorClientRect);
       } else {
-        this.foundation_.deactivate();
+        this.deactivate();
       }
     }
   }
@@ -91,11 +93,22 @@ export default class Tab extends Component {
       getContentOffsetLeft: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetLeft,
       getContentOffsetWidth: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetWidth,
       focus: () => this.tabElement_.current && this.tabElement_.current.focus(),
-      activateIndicator: () => this.setState({activateIndicator: true}),
+      activateIndicator: (previousIndicatorClientRect) => this.setState({
+        activateIndicator: true,
+        previousIndicatorClientRect,
+      }),
       deactivateIndicator: () => this.setState({activateIndicator: false}),
       // computeIndicatorClientRect is redundant in mdc-tab and is going to be
       // removed in another release
     };
+  }
+
+  activate(computeIndicatorClientRect) {
+    this.foundation_.activate(computeIndicatorClientRect);
+  }
+
+  deactivate() {
+    this.foundation_.deactivate();
   }
 
   computeIndicatorClientRect = () => {
@@ -107,14 +120,17 @@ export default class Tab extends Component {
     return this.foundation_.computeDimensions();
   }
 
+  focus = () => {
+    this.tabElement_.current && this.tabElement_.current.focus();
+  }
+
   render() {
     const {
       /* eslint-disable */
       active,
-      previousActiveClientRect,
+      previousIndicatorClientRect,
       className,
       isFadingIndicator,
-      isIconIndicator,
       indicatorContent,
       minWidth,
       stacked,
@@ -155,18 +171,20 @@ export default class Tab extends Component {
     const {
       isFadingIndicator,
       indicatorContent,
-      isIconIndicator,
-      previousActiveClientRect,
     } = this.props;
-    const {activateIndicator: active} = this.state;
+
+    const {
+      activateIndicator,
+      previousIndicatorClientRect,
+    } = this.state;
 
     return (
       <TabIndicator
-        icon={isIconIndicator}
-        active={active}
+        icon={!!indicatorContent}
         fade={isFadingIndicator}
+        active={activateIndicator}
+        previousIndicatorClientRect={previousIndicatorClientRect}
         ref={this.tabIndicator_}
-        previousIndicatorClientRect={previousActiveClientRect}
       >
         {indicatorContent}
       </TabIndicator>
@@ -183,7 +201,7 @@ Tab.propTypes = {
   minWidth: PropTypes.bool,
   isMinWidthIndicator: PropTypes.bool,
   stacked: PropTypes.bool,
-  previousActiveClientRect: PropTypes.object,
+  previousIndicatorClientRect: PropTypes.object,
 };
 
 Tab.defaultProps = {
@@ -194,5 +212,5 @@ Tab.defaultProps = {
   minWidth: false,
   isMinWidthIndicator: false,
   stacked: false,
-  previousActiveClientRect: {},
+  previousIndicatorClientRect: {},
 };
