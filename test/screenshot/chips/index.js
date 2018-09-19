@@ -82,6 +82,7 @@ class InputChipsTest extends React.Component {
         />
         <ChipSet
           input
+          // handleRemove removes the chip element from the page
           handleRemove={(chipId) => {
             const {chips} = this.state;
             const chip = chips.find((chip) => chip.id === chipId);

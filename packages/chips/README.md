@@ -125,6 +125,7 @@ class MyInputChips extends React.Component {
     }
   }
 
+  // Removes the chip element from the page
   handleRemove = (id) => {
     const chips = [...this.state.chips];
     const index = chips.findIndex(chip => chip.id === id);
@@ -171,7 +172,7 @@ input | Boolean | Indicates that the chips in the set are input chips, where chi
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the chip element
-id | Number | Unique identifier for the chip
+id | Number | Required. Unique identifier for the chip
 label | String | Text to be shown on the chip
 leadingIcon | Element | An icon element that appears as the leading icon.
 removeIcon | Element | An icon element that appears as the remove icon. Clicking on it should remove the chip.

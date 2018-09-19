@@ -170,7 +170,7 @@ export class Chip extends Component {
 }
 
 Chip.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   label: PropTypes.string,
   className: PropTypes.string,
   selected: PropTypes.bool,

@@ -40,8 +40,10 @@ export default class ChipSet extends Component {
     this.updateChipSelection();
   }
 
-  componentDidUpdate() {
-    this.updateChipSelection();
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedChipIds !== prevProps.selectedChipIds) {
+      this.updateChipSelection();
+    }
   }
 
   componentWillUnmount() {
