@@ -53,6 +53,7 @@
     "@material/floating-label": "^0.39.0",
     "@material/line-ripple": "^0.39.0",
     "@material/list": "^0.39.0",
+    "@material/menu-surface": "^0.39.1",
     "@material/notched-outline": "^0.39.0",
     "@material/ripple": "^0.39.0",
     "@material/select": "^0.39.0",
