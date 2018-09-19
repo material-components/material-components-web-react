@@ -24,33 +24,41 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-export default class PrimaryContent extends React.Component {
+import withRipple from '@material/react-ripple';
 
-  render() {
-    const {
-      className,
-      children,
-      ...otherProps
-    } = this.props;
-    const classes = classnames('mdc-card__primary-action', className);
+export const PrimaryContentBase = (props) => {
+  const {
+    className,
+    initRipple,
+    children,
+    unbounded, // eslint-disable-line no-unused-vars
+    ...otherProps
+  } = props;
 
-    return (
-      <div
-        className={classes}
-        {...otherProps}
-      >
-        {children}
-      </div>
-    );
-  }
-}
-
-PrimaryContent.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
+  const classes = classnames('mdc-card__primary-action', className);
+  return (
+    <div
+      className={classes}
+      ref={initRipple}
+      {...otherProps}
+    >
+      {children}
+    </div>
+  );
 };
 
-PrimaryContent.defaultProps = {
+
+PrimaryContentBase.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+  // The following props are handled by withRipple and do not require defaults.
+  initRipple: PropTypes.func,
+  unbounded: PropTypes.bool,
+};
+
+PrimaryContentBase.defaultProps = {
   className: '',
   children: null,
 };
+
+export default withRipple(PrimaryContentBase);
