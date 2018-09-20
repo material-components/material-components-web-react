@@ -16,7 +16,7 @@ const Tabs = ({
 };
 
 class TabsController extends React.Component {
-  tabBoundingRects = [];
+  tabBoundingRects = {};
   state = {activeIndex: 0, previousActiveIndex: 0};
 
   render() {
@@ -31,13 +31,16 @@ class TabsController extends React.Component {
           <Tab
             active={index === activeIndex}
             key={index}
-            previousActiveClientRect={this.tabBoundingRects[previousActiveIndex]}
+            previousIndicatorClientRect={this.tabBoundingRects[previousActiveIndex]}
             ref={(tabEl) => {
               if (tabEl) {
-                this.tabBoundingRects.push(tabEl.computeIndicatorClientRect());
+                this.tabBoundingRects[index] = tabEl.computeIndicatorClientRect();
               }
             }}
-            onClick={() => this.setState({previousActiveIndex: activeIndex, activeIndex: index})}
+            onClick={() => this.setState({
+              previousActiveIndex: activeIndex,
+              activeIndex: index,
+            })}
             {...otherProps}
           >
             {tabContent(num)}
@@ -68,14 +71,12 @@ const TabScreenshotTest = () => {
       <h3>Tabs w/ Custom Element Icon</h3>
       <TabsController
         tabContent={() => (<span>Tab</span>)}
-        isIconIndicator
         indicatorContent={<MaterialIcon className='light-border' icon='star_border' />}
       />
 
       <h3>Tabs w/ Icon Tag</h3>
       <TabsController
         tabContent={() => (<span>Tab</span>)}
-        isIconIndicator
         indicatorContent={<i className='material-icons light-border' icon=''>3d_rotation</i>}
       />
 

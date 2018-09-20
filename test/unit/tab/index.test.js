@@ -39,19 +39,19 @@ test('has a foundation after mount', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('if props.active updates to true, foundation.activate is called', () => {
+test('if props.active updates to true, activate is called with previousIndicatorClientRect prop', () => {
   const clientRect = {test: 1};
-  const wrapper = shallow(<Tab previousActiveClientRect={clientRect}/>);
-  wrapper.instance().foundation_.activate = td.func();
+  const wrapper = shallow(<Tab previousIndicatorClientRect={clientRect}/>);
+  wrapper.instance().activate = td.func();
   wrapper.setProps({active: true});
-  td.verify(wrapper.instance().foundation_.activate(clientRect), {times: 1});
+  td.verify(wrapper.instance().activate(clientRect), {times: 1});
 });
 
 test('if props.active updates to false, foundation.deactivate is called', () => {
   const wrapper = shallow(<Tab active />);
-  wrapper.instance().foundation_.deactivate = td.func();
+  wrapper.instance().deactivate = td.func();
   wrapper.setProps({active: false});
-  td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
+  td.verify(wrapper.instance().deactivate(), {times: 1});
 });
 
 test('#adapter.addClass adds class to state.classList', () => {
@@ -123,6 +123,36 @@ test('#adapter.focus focuses the tabElement_', () => {
   td.verify(wrapper.instance().tabElement_.current.focus(), {times: 1});
 });
 
+test('#adapter.activateIndicator sets state.activateIndicator and state.previousIndicatorClientRect', () => {
+  const clientRect = {test: 1};
+  const wrapper = shallow(<Tab />);
+  wrapper.instance().adapter.activateIndicator(clientRect);
+  assert.equal(wrapper.state().activateIndicator, true);
+  assert.equal(wrapper.state().previousIndicatorClientRect, clientRect);
+});
+
+test('#adapter.deactivateIndicator sets state.activateIndicator', () => {
+  const clientRect = {test: 1};
+  const wrapper = shallow(<Tab />);
+  wrapper.instance().adapter.deactivateIndicator(clientRect);
+  assert.equal(wrapper.state().activateIndicator, false);
+});
+
+test('#activate calls foundation.activate', () => {
+  const clientRect = {test: 1};
+  const wrapper = shallow(<Tab/>);
+  wrapper.instance().foundation_.activate = td.func();
+  wrapper.instance().activate(clientRect);
+  td.verify(wrapper.instance().foundation_.activate(clientRect), {times: 1});
+});
+
+test('#deactivate calls foundation.deactivate', () => {
+  const wrapper = shallow(<Tab/>);
+  wrapper.instance().foundation_.deactivate = td.func();
+  wrapper.instance().deactivate();
+  td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
+});
+
 test('#computeIndicatorClientRect returns the tabIndicator_ clientRect', () => {
   const wrapper = mount(<Tab/>);
   wrapper.instance().tabIndicator_.current.computeContentClientRect = td.func();
@@ -137,7 +167,14 @@ test('#computeDimensions calls foundation.computeDimensions', () => {
   td.verify(wrapper.instance().foundation_.computeDimensions(), {times: 1});
 });
 
-test('button should have the role=tab', () => {
+test('#focus focuses the tabElement_', () => {
+  const wrapper = mount(<Tab>Text</Tab>);
+  wrapper.instance().tabElement_.current.focus = td.func();
+  wrapper.instance().focus();
+  td.verify(wrapper.instance().tabElement_.current.focus(), {times: 1});
+});
+
+test('tab should have the role=tab', () => {
   const wrapper = shallow(<Tab />);
   assert.equal(wrapper.props().role, 'tab');
 });
@@ -177,8 +214,7 @@ test('should render content with icon and text children', () => {
 
 test('should render mdc tab ripple', () => {
   const wrapper = shallow(<Tab />);
-  const ripple = wrapper.children().last();
-  assert.isTrue(ripple.hasClass('mdc-tab__ripple'));
+  assert.exists(wrapper.find('.mdc-tab__ripple'));
 });
 
 test('should render default TabIndicator', () => {
@@ -194,6 +230,14 @@ test('state.activateIndicator should render indicator with props.active true', (
   assert.isTrue(indicator.props().active);
 });
 
+test('state.previousIndicatorClientRect should render indicator with same props.previousIndicatorClientRect', () => {
+  const clientRect = {test: 1};
+  const wrapper = shallow(<Tab />);
+  wrapper.setState({previousIndicatorClientRect: clientRect});
+  const indicator = wrapper.childAt(1);
+  assert.equal(indicator.props().previousIndicatorClientRect, clientRect);
+});
+
 test('props.active should render indicator with props.active true', () => {
   const wrapper = shallow(<Tab active />);
   const indicator = wrapper.childAt(1);
@@ -206,20 +250,22 @@ test('props.isFadingIndicator should render indicator with props.fade true', () 
   assert.isTrue(indicator.props().fade);
 });
 
-test('props.isIconIndicator should render indicator with props.icon true', () => {
-  const wrapper = shallow(<Tab isIconIndicator />);
-  const indicator = wrapper.childAt(1);
-  assert.isTrue(indicator.props().icon);
-});
-
-test('props.previousActiveClientRect should render indicator with same props.previousIndicatorClientRect', () => {
+test('props.previousIndicatorClientRect should render indicator with same props.previousIndicatorClientRect', () => {
   const clientRect = {test: 1};
-  const wrapper = shallow(<Tab previousActiveClientRect={clientRect} />);
+  const wrapper = shallow(<Tab previousIndicatorClientRect={clientRect} />);
   const indicator = wrapper.childAt(1);
   assert.equal(indicator.props().previousIndicatorClientRect, clientRect);
 });
 
-test('custom tabIndicator should render indicator with props.active true if props.active is true', () => {
+test('props.indicatorContent renders indicator with props.icon true', () => {
+  const wrapper = shallow(<Tab
+    indicatorContent={<i className='icon'>icon</i>}
+  />);
+  const indicator = wrapper.childAt(1);
+  assert.isTrue(indicator.props().icon);
+});
+
+test('props.indicatorContent should render indicator with props.active true if props.active is true', () => {
   const wrapper = shallow(<Tab
     active
     indicatorContent={<i className='icon'>icon</i>}
@@ -228,26 +274,24 @@ test('custom tabIndicator should render indicator with props.active true if prop
   assert.isTrue(indicator.props().active);
 });
 
-test('custom tabIndicator should render indicatorContent with same ' +
-  'props.previousIndicatorClientRect as props.previousActiveClientRect', () => {
+test('props.indicatorContent should render indicator with same props.previousIndicatorClientRect', () => {
   const clientRect = {test: 1};
   const wrapper = shallow(<Tab
-    previousActiveClientRect={clientRect}
+    previousIndicatorClientRect={clientRect}
     indicatorContent={<i className='icon'>icon</i>}
   />);
   const indicator = wrapper.childAt(1);
   assert.equal(indicator.props().previousIndicatorClientRect, clientRect);
 });
 
-test('custom tabIndicator should render with a ref attached', () => {
+test('props.indicatorContent should render with a ref attached', () => {
   const wrapper = mount(<Tab
     indicatorContent={<i className='icon'>icon</i>}
   />);
-
   assert.instanceOf(wrapper.instance().tabIndicator_.current, TabIndicator);
 });
 
-test('isMinWidthIndicator renders indicator within the content element', () => {
+test('props.isMinWidthIndicator renders indicator within the content element', () => {
   const wrapper = shallow(<Tab isMinWidthIndicator />);
   const content = wrapper.children().first();
   const tabIndicator = content.find(TabIndicator);

@@ -1,0 +1,23 @@
+@import "../../../packages/tab/index";
+@import "../../../packages/tab-bar/index";
+@import "../../../packages/tab-indicator/index";
+@import "../../../packages/tab-scroller/index";
+
+.tab-bar-container {
+  margin: 30px;
+  width: 700px;
+}
+
+.icon-indicator-tab-bar {
+  .mdc-tab--active {
+    @include mdc-tab-text-label-color(black);
+
+    .material-icons {
+      opacity: .5;
+    }
+  }
+
+  .mdc-tab__ripple {
+    @include mdc-states(secondary);
+  }
+}

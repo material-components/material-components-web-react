@@ -23,22 +23,84 @@
 import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import {MDCChipSetFoundation} from '@material/chips';
 
 import ChipCheckmark from './ChipCheckmark';
-import Chip from './Chip';
 
 export default class ChipSet extends Component {
   checkmarkWidth_ = 0;
+  foundation_ = null;
+  state = {
+    selectedChipIds: new Set(this.props.selectedChipIds),
+  };
+
+  componentDidMount() {
+    this.foundation_ = new MDCChipSetFoundation(this.adapter);
+    this.foundation_.init();
+    this.updateChipSelection();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedChipIds !== prevProps.selectedChipIds) {
+      this.updateChipSelection();
+    }
+  }
+
+  componentWillUnmount() {
+    this.foundation_.destroy();
+  }
 
   get classes() {
-    const {className} = this.props;
-    return classnames('mdc-chip-set', className);
+    const {className, filter, choice, input} = this.props;
+    return classnames('mdc-chip-set', className, {
+      'mdc-chip-set--filter': filter,
+      'mdc-chip-set--choice': choice,
+      'mdc-chip-set--input': input,
+    });
   }
 
   get adapter() {
     return {
       hasClass: (className) => this.classes.split(' ').includes(className),
+      setSelected: (chipId, selected) => {
+        const {selectedChipIds} = this.state;
+        if (selected) {
+          selectedChipIds.add(chipId);
+        } else {
+          selectedChipIds.delete(chipId);
+        }
+        this.setState({selectedChipIds});
+      },
     };
+  }
+
+  updateChipSelection() {
+    React.Children.forEach(this.props.children, (child) => {
+      const {id} = child.props;
+      if (this.props.selectedChipIds.indexOf(id) > -1) {
+        this.foundation_.select(id);
+      } else {
+        this.foundation_.deselect(id);
+      }
+    });
+  }
+
+  handleSelect = (chipId) => {
+    const {handleSelect, choice, filter} = this.props;
+    if (filter || choice) {
+      this.foundation_.toggleSelect(chipId);
+    }
+    handleSelect(this.foundation_.getSelectedChipIds());
+  }
+
+  handleRemove = (chipId) => {
+    const {input, handleRemove} = this.props;
+    if (input) {
+      // this should be calling foundation_.handleChipRemoval, but we would
+      // need to pass evt.detail.chipId
+      this.foundation_.deselect(chipId);
+    }
+    handleRemove(chipId);
   }
 
   setCheckmarkWidth = (checkmark) => {
@@ -49,18 +111,24 @@ export default class ChipSet extends Component {
   }
 
   computeBoundingRect = (chipElement) => {
-    const height = chipElement.getBoundingClientRect().height;
-    const width = chipElement.getBoundingClientRect().width + this.checkmarkWidth_;
+    const {height, width: chipWidth} = chipElement.getBoundingClientRect();
+    const width = chipWidth + this.checkmarkWidth_;
     return {height, width};
   }
 
   renderChip = (chip) => {
-    return (
-      <Chip
-        chipCheckmark={this.props.filter ? <ChipCheckmark ref={this.setCheckmarkWidth}/> : null}
-        computeBoundingRect={this.props.filter ? this.computeBoundingRect : null}
-        {...chip.props} />
-    );
+    const {filter} = this.props;
+    const {selectedChipIds} = this.state;
+
+    const props = Object.assign({
+      selected: selectedChipIds.has(chip.props.id),
+      handleSelect: this.handleSelect,
+      handleRemove: this.handleRemove,
+      chipCheckmark: filter ? <ChipCheckmark ref={this.setCheckmarkWidth}/> : null,
+      computeBoundingRect: filter ? this.computeBoundingRect : null,
+    }, ...chip.props);
+
+    return React.cloneElement(chip, props);
   }
 
   render() {
@@ -74,12 +142,22 @@ export default class ChipSet extends Component {
 
 ChipSet.propTypes = {
   className: PropTypes.string,
+  selectedChipIds: PropTypes.array,
+  handleSelect: PropTypes.func,
+  handleRemove: PropTypes.func,
+  choice: PropTypes.bool,
   filter: PropTypes.bool,
+  input: PropTypes.bool,
   children: PropTypes.node,
 };
 
 ChipSet.defaultProps = {
   className: '',
+  selectedChipIds: [],
+  handleSelect: () => {},
+  handleRemove: () => {},
+  choice: false,
   filter: false,
+  input: false,
   children: null,
 };
