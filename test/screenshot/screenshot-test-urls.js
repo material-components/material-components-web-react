@@ -11,6 +11,7 @@ const urls = [
   'notched-outline',
   'select',
   'tab',
+  'tab-bar',
   'tab-indicator',
   'tab-scroller',
   'text-field',
