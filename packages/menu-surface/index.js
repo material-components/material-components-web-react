@@ -98,8 +98,10 @@ class MenuSurface extends React.Component {
     // this deviatees from the mdc web version.
     // here we force the menu to hoist, and require either
     // this.props.(x,y) or this.props.anchorElement.
-    document.body.appendChild(this.menuSurfaceElement_.current.parentElement.removeChild(this.menuSurfaceElement_.current));
-    this.foundation_.setIsHoisted(true);
+    if (this.menuSurfaceElement_ && this.menuSurfaceElement_.current) {
+      document.body.appendChild(this.menuSurfaceElement_.current.parentElement.removeChild(this.menuSurfaceElement_.current));
+      this.foundation_.setIsHoisted(true);
+    }
   }
 
   setCoordinates() {
@@ -109,9 +111,9 @@ class MenuSurface extends React.Component {
   }
 
   get classes() {
-    const {fixed} = this.props;
+    const {fixed, className} = this.props;
     const {classList} = this.state;
-    return classnames('mdc-menu-surface', Array.from(classList), {
+    return classnames('mdc-menu-surface', Array.from(classList), className, {
       'mdc-menu-surface--fixed': fixed,
     });
   }
