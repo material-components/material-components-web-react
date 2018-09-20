@@ -214,8 +214,7 @@ test('should render content with icon and text children', () => {
 
 test('should render mdc tab ripple', () => {
   const wrapper = shallow(<Tab />);
-  const ripple = wrapper.children().last();
-  assert.isTrue(ripple.hasClass('mdc-tab__ripple'));
+  assert.exists(wrapper.find('.mdc-tab__ripple'));
 });
 
 test('should render default TabIndicator', () => {
