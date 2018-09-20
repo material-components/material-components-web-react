@@ -27,6 +27,8 @@ import classnames from 'classnames';
 import TabIndicator from '@material/react-tab-indicator';
 import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
 
+import TabRipple from './TabRipple';
+
 export default class Tab extends Component {
   foundation_ = null;
   tabElement_ = React.createRef();
@@ -162,7 +164,7 @@ export default class Tab extends Component {
           {isMinWidthIndicator ? this.renderIndicator() : null}
         </span>
         {isMinWidthIndicator ? null : this.renderIndicator()}
-        <span className='mdc-tab__ripple'></span>
+        <TabRipple />
       </button>
     );
   }
