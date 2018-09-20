@@ -85,10 +85,13 @@ class InputChipsTest extends React.Component {
           // handleRemove removes the chip element from the page
           handleRemove={(chipId) => {
             const {chips} = this.state;
-            const chip = chips.find((chip) => chip.id === chipId);
-            const index = chips.indexOf(chip);
-            chips.splice(index, 1);
-            this.setState(chips);
+            for (let i = 0; i < chips.length; i ++) {
+              if (chips[i].id === chipId) {
+                chips.splice(index, 1);
+                this.setState(chips);
+                return;
+              }
+            }
           }}>
           {this.state.chips.map((chip) =>
             <Chip
