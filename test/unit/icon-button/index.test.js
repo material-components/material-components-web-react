@@ -27,11 +27,11 @@ test('renders anchor tag when isLink is true', () => {
   assert.equal(wrapper.getElement().type, 'a');
 });
 
-test('#foundation.toggle gets called onClick', () => {
+test('#foundation.handleClick gets called onClick', () => {
   const wrapper = shallow(<IconButton />);
-  wrapper.instance().foundation_.toggle = td.func();
+  wrapper.instance().foundation_.handleClick = td.func();
   wrapper.simulate('click');
-  td.verify(wrapper.instance().foundation_.toggle(), {times: 1});
+  td.verify(wrapper.instance().foundation_.handleClick(), {times: 1});
 });
 
 test('props.onClick gets called onClick', () => {
@@ -86,13 +86,6 @@ test('#adapter.setAttr sets aria-pressed', () => {
   const wrapper = shallow(<IconButton />);
   wrapper.instance().adapter.setAttr('aria-pressed', true);
   assert.isTrue(wrapper.state()['aria-pressed']);
-});
-
-test('#adapter.setAttr sets aria-label', () => {
-  const ariaLabel = 'aria-label';
-  const wrapper = shallow(<IconButton />);
-  wrapper.instance().adapter.setAttr('aria-label', ariaLabel);
-  assert.equal(wrapper.state()['aria-label'], ariaLabel);
 });
 
 test('default initRipple function', () => {

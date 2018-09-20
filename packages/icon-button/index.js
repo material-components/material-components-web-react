@@ -44,7 +44,7 @@ class IconButtonBase extends Component {
 
   handleClick_ = (e) => {
     this.props.onClick(e);
-    this.foundation_.toggle();
+    this.foundation_.handleClick();
   }
 
   render() {
