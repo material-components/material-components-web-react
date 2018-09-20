@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import withRipple from '@material/react-ripple';
-import {MDCIconButtonToggleFoundation} from '@material/icon-button';
+import {MDCIconButtonToggleFoundation} from '@material/icon-button/dist/mdc.iconButton';
 import IconToggle from './IconToggle';
 
 const {strings} = MDCIconButtonToggleFoundation;
@@ -103,5 +103,5 @@ IconButtonBase.defaultProps = {
   unbounded: true,
 };
 
-export default withRipple(IconButtonBase, true);
+export default withRipple(IconButtonBase);
 export {IconToggle, IconButtonBase};
