@@ -34,6 +34,10 @@ class MenuSurface extends React.Component {
   state = {
     transformOrigin: '',
     maxHeight: '',
+    styleLeft: null,
+    styleRight: null,
+    styleTop: null,
+    styleBottom: null,
     classList: new Set(),
   };
 
@@ -75,15 +79,14 @@ class MenuSurface extends React.Component {
       this.setCoordinates();
     }
     if (this.props.anchorCorner !== prevProps.anchorCorner) {
-      this.foundation_.setAnchorCorner(anchorCorner);
+      this.foundation_.setAnchorCorner(this.props.anchorCorner);
     }
     if (this.props.anchorMargin !== prevProps.anchorMargin) {
-      this.foundation_.setAnchorMargin(anchorMargin);
+      this.foundation_.setAnchorMargin(this.props.anchorMargin);
     }
     if (this.props.quickOpen !== prevProps.quickOpen) {
-      this.foundation_.setQuickOpen(quickOpen);
+      this.foundation_.setQuickOpen(this.props.quickOpen);
     }
-
   }
 
   componentWillUnmount() {
@@ -114,8 +117,14 @@ class MenuSurface extends React.Component {
   }
 
   get styles() {
+    const {styleLeft, styleRight, styleTop, styleBottom, transformOrigin, maxHeight} = this.state;
     return Object.assign({}, this.props.styles, {
-      transformOrigin: this.state.transformOrigin,
+      transformOrigin,
+      maxHeight,
+      left: styleLeft,
+      right: styleRight,
+      top: styleTop,
+      bottom: styleBottom,
     });
   }
 
@@ -160,13 +169,12 @@ class MenuSurface extends React.Component {
         return {x: window.pageXOffset, y: window.pageYOffset};
       },
       setPosition: (position) => {
-        console.log(position)
-        if (!this.menuSurfaceElement_) return;
-        const element = this.menuSurfaceElement_.current;
-        element.style.left = 'left' in position ? position.left : null;
-        element.style.right = 'right' in position ? position.right : null;
-        element.style.top = 'top' in position ? position.top : null;
-        element.style.bottom = 'bottom' in position ? position.bottom : null;
+        this.setState({
+          styleLeft: 'left' in position ? position.left : null,
+          styleRight: 'right' in position ? position.right : null,
+          styleTop: 'top' in position ? position.top : null,
+          styleBottom: 'bottom' in position ? position.bottom : null,
+        });
       },
       setMaxHeight: (maxHeight) => this.setState({maxHeight}),
     };

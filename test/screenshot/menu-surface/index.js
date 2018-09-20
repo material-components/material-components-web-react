@@ -51,7 +51,7 @@ class MenuSurfaceButton extends React.Component {
   }
 
   render() {
-    const {anchorCorner, className, contextmenu} = this.props;
+    const {anchorCorner, anchorMargin, className, contextmenu} = this.props;
     const {coordinates, open} = this.state;
     return (
       <div>
@@ -62,6 +62,7 @@ class MenuSurfaceButton extends React.Component {
           {contextmenu ? null : this.renderButton()}
           <MenuSurface
             open={open}
+            anchorMargin={anchorMargin}
             anchorCorner={anchorCorner}
             onClose={() => this.setState({open: false, coordinates: null})}
             anchorElement={coordinates ? null : this.anchorElement.current}
@@ -94,13 +95,27 @@ class MenuSurfaceButton extends React.Component {
   }
 };
 
+
 const MenuSurfaceScreenshotTest = () => {
   return (
-    <div>
-      <MenuSurfaceButton open anchorCorner={Corner.TOP_RIGHT} className='menu-surface--top-right' />
-      <MenuSurfaceButton open anchorCorner={Corner.BOTTOM_RIGHT} className='menu-surface--bottom-right' />
-      <MenuSurfaceButton open anchorCorner={Corner.TOP_START} className='menu-surface--top-start' />
-      <MenuSurfaceButton open anchorCorner={Corner.BOTTOM_START} className='menu-surface--bottom-start' />
+    <div className='menu-surface-screenshot-test'>
+      <MenuSurfaceButton open
+        anchorCorner={Corner.TOP_RIGHT}
+        className='menu-surface--top-right'
+      />
+      <MenuSurfaceButton open
+        anchorMargin={{left: 40}}
+        anchorCorner={Corner.BOTTOM_RIGHT}
+        className='menu-surface--bottom-right'
+      />
+      <MenuSurfaceButton open
+        anchorCorner={Corner.TOP_START}
+        className='menu-surface--top-start'
+      />
+      <MenuSurfaceButton open
+        anchorCorner={Corner.BOTTOM_START}
+        className='menu-surface--bottom-start'
+      />
       <MenuSurfaceButton contextmenu />
     </div>
   );

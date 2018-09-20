@@ -20,3 +20,9 @@
   top: 400px;
   left: 20px;
 }
+
+.menu-surface-screenshot-test {
+  // needed for contextmenu to work correctly
+  position: relative;
+  height: 100vh;
+}
