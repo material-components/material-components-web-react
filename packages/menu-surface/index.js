@@ -23,9 +23,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCMenuSurfaceFoundation} from '@material/menu-surface';
+import {MDCMenuSurfaceFoundation, Corner} from '@material/menu-surface';
 
-export class MenuSurface extends React.Component {
+class MenuSurface extends React.Component {
 
   menuSurfaceElement_ = React.createRef();
   previousFocus_ = null;
@@ -149,7 +149,7 @@ export class MenuSurface extends React.Component {
         const element = this.menuSurfaceElement_.current;
         return {width: element.offsetWidth, height: element.offsetHeight};
       },
-      getAnchorDimensions: () => this.props.anchorElement_ && this.props.anchorElement_.getBoundingClientRect(),
+      getAnchorDimensions: () => this.props.anchorElement && this.props.anchorElement.getBoundingClientRect(),
       getWindowDimensions: () => {
         return {width: window.innerWidth, height: window.innerHeight};
       },
@@ -160,6 +160,7 @@ export class MenuSurface extends React.Component {
         return {x: window.pageXOffset, y: window.pageYOffset};
       },
       setPosition: (position) => {
+        console.log(position)
         if (!this.menuSurfaceElement_) return;
         const element = this.menuSurfaceElement_.current;
         element.style.left = 'left' in position ? position.left : null;
@@ -255,3 +256,6 @@ MenuSurface.defaultProps = {
 };
 
 export default MenuSurface;
+export {
+  Corner,
+};

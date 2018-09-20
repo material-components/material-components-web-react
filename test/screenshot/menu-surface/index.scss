@@ -1,3 +1,22 @@
-.menu-surface-screenshot-test {
-  height: 150vh;
+.menu-surface-button {
+  position: relative;
+}
+.menu-surface--top-right {
+  top: 20px;
+  left: 500px;
+}
+
+.menu-surface--bottom-right {
+  top: 400px;
+  left: 500px;
+}
+
+.menu-surface--top-start {
+  top: 20px;
+  left: 20px;
+}
+
+.menu-surface--bottom-start {
+  top: 400px;
+  left: 20px;
 }

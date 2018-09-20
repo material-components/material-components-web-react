@@ -4,7 +4,7 @@ import '../../../packages/menu-surface/index.scss';
 import '@material/list/mdc-list.scss';
 import './index.scss';
 
-import MenuSurface from '../../../packages/menu-surface/index';
+import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
 import Button from '../../../packages/button/index';
 
 const renderListItem = (text, index) => {
@@ -16,12 +16,17 @@ const renderListItem = (text, index) => {
     </li>
   );
 }
-class MenuSurfaceScreenshotTest extends React.Component {
+
+class MenuSurfaceButton extends React.Component {
   anchorElement = React.createRef();
-  state = {
-    open: false,
-    coordinates: null,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: props.open,
+      coordinates: null,
+    };
+  }
 
   componentDidMount() {
     this.rightClickCallback_ = (evt) => {
@@ -30,10 +35,15 @@ class MenuSurfaceScreenshotTest extends React.Component {
         coordinates: {x: evt.clientX, y: evt.clientY},
       });
       evt.preventDefault();
-      // return false;
     };
 
-    window.addEventListener('contextmenu', this.rightClickCallback_);
+    if (this.anchorElement.current) {
+      this.forceUpdate();
+    }
+
+    if (this.props.contextmenu) {
+      window.addEventListener('contextmenu', this.rightClickCallback_);
+    }
   }
 
   componentWillUnmount() {
@@ -41,38 +51,58 @@ class MenuSurfaceScreenshotTest extends React.Component {
   }
 
   render() {
+    const {anchorCorner, className, contextmenu} = this.props;
     const {coordinates, open} = this.state;
     return (
-      <div
-        className='menu-surface-screenshot-test mdc-menu-surface--anchor'
-        ref={this.anchorElement}
-      >
-        <Button
-          raised
-          onClick={() => this.setState({open: true})}
+      <div>
+        <div
+          className={`${className} menu-surface-button mdc-menu-surface--anchor`}
+          ref={this.anchorElement}
         >
-          Open Menu
-        </Button>
-
-        <MenuSurface
-          open={open}
-          onClose={() => this.setState({open: false, coordinates: null})}
-          anchorElement={coordinates ? null : this.anchorElement.current}
-          coordinates={coordinates}
-        >
-          <ul className='mdc-list' role='menu'>
-            {['Back', 'Forward', 'Reload'].map((text, index) => (
-              renderListItem(text, index)
-            ))}
-            <li className='mdc-list-divider' role='separator'></li>
-            {['Help &amp; Feedback', 'Settings'].map((text, index) => (
-              renderListItem(text, index)
-            ))}
-          </ul>
-        </MenuSurface>
+          {contextmenu ? null : this.renderButton()}
+          <MenuSurface
+            open={open}
+            anchorCorner={anchorCorner}
+            onClose={() => this.setState({open: false, coordinates: null})}
+            anchorElement={coordinates ? null : this.anchorElement.current}
+            coordinates={coordinates}
+          >
+            <ul className='mdc-list' role='menu'>
+              {['Back', 'Forward', 'Reload'].map((text, index) => (
+                renderListItem(text, index)
+              ))}
+              <li className='mdc-list-divider' role='separator'></li>
+              {['Help & Feedback', 'Settings'].map((text, index) => (
+                renderListItem(text, index)
+              ))}
+            </ul>
+          </MenuSurface>
+        </div>
       </div>
+    );
+  }
+
+  renderButton() {
+    return (
+      <Button
+        raised
+        onClick={() => this.setState({open: true})}
+      >
+        Open Menu
+      </Button>
     );
   }
 };
 
+const MenuSurfaceScreenshotTest = () => {
+  return (
+    <div>
+      <MenuSurfaceButton open anchorCorner={Corner.TOP_RIGHT} className='menu-surface--top-right' />
+      <MenuSurfaceButton open anchorCorner={Corner.BOTTOM_RIGHT} className='menu-surface--bottom-right' />
+      <MenuSurfaceButton open anchorCorner={Corner.TOP_START} className='menu-surface--top-start' />
+      <MenuSurfaceButton open anchorCorner={Corner.BOTTOM_START} className='menu-surface--bottom-start' />
+      <MenuSurfaceButton contextmenu />
+    </div>
+  );
+}
 export default MenuSurfaceScreenshotTest;
