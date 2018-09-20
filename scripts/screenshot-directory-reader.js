@@ -1,10 +1,8 @@
 const {lstatSync, readdirSync} = require('fs');
 const {basename, join, resolve} = require('path');
 
-const denyList = [
-  'chips',
-  'images'
-];
+const denyList = ['images'];
+
 const isDirectory = source => lstatSync(source).isDirectory();
 const getDirectories = source =>
   readdirSync(source).map(name => join(source, name)).filter(isDirectory);

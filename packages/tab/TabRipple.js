@@ -21,44 +21,51 @@
 // THE SOFTWARE.
 
 import React from 'react';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
-
+import classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
-export const PrimaryContentBase = (props) => {
-  const {
-    className,
-    initRipple,
-    children,
-    unbounded, // eslint-disable-line no-unused-vars
-    ...otherProps
-  } = props;
+export class TabRipple extends React.Component {
 
-  const classes = classnames('mdc-card__primary-action', className);
-  return (
-    <div
-      className={classes}
-      ref={initRipple}
-      {...otherProps}
-    >
-      {children}
-    </div>
-  );
-};
+  init = (el) => {
+    this.props.initRipple(el);
+  }
 
+  get classes() {
+    return classnames('mdc-tab__ripple', this.props.className);
+  }
 
-PrimaryContentBase.propTypes = {
+  render() {
+    const {
+      /* eslint-disable */
+      className,
+      unbounded,
+      /* eslint-enable */
+      initRipple,
+      ...otherProps
+    } = this.props;
+
+    return (
+      <div
+        className={this.classes}
+        ref={initRipple}
+        {...otherProps}
+      >
+      </div>
+    );
+  }
+}
+
+TabRipple.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node,
-  // The following props are handled by withRipple and do not require defaults.
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
 };
 
-PrimaryContentBase.defaultProps = {
+TabRipple.defaultProps = {
   className: '',
-  children: null,
+  initRipple: () => {},
+  unbounded: false,
 };
 
-export default withRipple(PrimaryContentBase);
+export default withRipple(TabRipple);
