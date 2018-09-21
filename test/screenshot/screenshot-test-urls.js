@@ -7,6 +7,7 @@ const urls = [
   'line-ripple',
   'fab',
   'floating-label',
+  'icon-button',
   'material-icon',
   'notched-outline',
   'select',

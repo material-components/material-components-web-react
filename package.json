@@ -53,6 +53,7 @@
     "@material/chips": "^0.39.0",
     "@material/fab": "^0.39.0",
     "@material/floating-label": "^0.39.0",
+    "@material/icon-button": "^0.39.0",
     "@material/line-ripple": "^0.39.0",
     "@material/list": "^0.39.0",
     "@material/notched-outline": "^0.39.0",
