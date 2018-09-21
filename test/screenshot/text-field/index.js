@@ -28,6 +28,25 @@ class TestField extends React.Component {
   }
 }
 
+class TestTextareaField extends React.Component {
+  state = {value: 'foo'};
+  render() {
+    const {
+      disabled, id, isRtl, ...otherProps // eslint-disable-line react/prop-types
+    } = this.props;
+    return (
+      <div dir={isRtl ? 'rtl' : 'ltr'}>
+        <TextField textarea label='Message' {...otherProps} className='text-field' isRtl={isRtl}>
+          <Input value={this.state.value}
+            id={id}
+            disabled={disabled}
+            onChange={(e) => this.setState({value: e.target.value})}/>
+        </TextField>
+      </div>
+    );
+  }
+}
+
 const icon = <MaterialIcon icon='favorite' />;
 const variants = [
   {},
@@ -90,10 +109,31 @@ const textFields = variants.map((variant) => {
   });
 });
 
+const textareaVariants = [
+  {},
+  {fullWidth: true},
+];
+
+const textareaFields = textareaVariants.map((variant) => {
+  return denseMap.map((dense) => {
+    return rtlMap.map((isRtl) => {
+      return disabledMap.map((disabled) => {
+        return helperTextMap.map((helperText) => {
+          const props = Object.assign({}, variant, dense, disabled, helperText, isRtl);
+          const key = JSON.stringify(props);
+          return <TestTextareaField {...props} key={key} id={key} />;
+        });
+      });
+    });
+  });
+});
+
 
 const TextFieldScreenshotTest = () => (
   <div className='text-field-container'>
     {textFields}
+    <h2>Textarea</h2>
+    {textareaFields }
   </div>
 );
 
