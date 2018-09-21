@@ -3,7 +3,7 @@ import topAppBarVariants from './top-app-bar/variants';
 const urls = [
   'button',
   'card',
-  // 'chips',
+  'chips',
   'line-ripple',
   'fab',
   'floating-label',
@@ -12,6 +12,7 @@ const urls = [
   'notched-outline',
   'select',
   'tab',
+  'tab-bar',
   'tab-indicator',
   'tab-scroller',
   'text-field',
