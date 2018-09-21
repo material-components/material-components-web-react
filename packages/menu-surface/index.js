@@ -131,9 +131,8 @@ class MenuSurface extends React.Component {
   }
 
   get adapter() {
-
     const focusAdapterMethods = {
-      isFocused: () => document.activeElement === this.menuSurfaceElement_ && this.menuSurfaceElement_.current,
+      isFocused: () => this.menuSurfaceElement_ && document.activeElement === this.menuSurfaceElement_.current,
       saveFocus: () => {
         this.previousFocus_ = document.activeElement;
       },
@@ -192,7 +191,7 @@ class MenuSurface extends React.Component {
         classList.delete(className);
         this.setState({classList});
       },
-      notifyOpen: this.registerWindowClickListener_,
+      notifyOpen: () => this.registerWindowClickListener_(),
       notifyClose: () => {
         this.deregisterWindowClickListener_();
         this.props.onClose();
@@ -206,7 +205,7 @@ class MenuSurface extends React.Component {
     }, focusAdapterMethods, dimensionAdapterMethods);
   }
 
-  open_() {
+  open_ = () => {
     if (this.props.open) {
       const focusableElements = this.menuSurfaceElement_.current.querySelectorAll(MDCMenuSurfaceFoundation.strings.FOCUSABLE_ELEMENTS);
       this.firstFocusableElement_ = focusableElements.length > 0 ? focusableElements[0] : null;
@@ -218,7 +217,7 @@ class MenuSurface extends React.Component {
     }
   }
 
-  handleKeyDown(evt) {
+  handleKeyDown = (evt) => {
     this.props.onKeyDown(evt);
     this.foundation_.handleKeydown(evt);
   }
@@ -226,7 +225,12 @@ class MenuSurface extends React.Component {
   render() {
     const {
       /* eslint-disable */
+      anchorElement,
+      anchorMargin,
       className,
+      coordinates,
+      onClose,
+      onKeyDown,
       styles,
       /* eslint-enable */
       children,
@@ -239,6 +243,7 @@ class MenuSurface extends React.Component {
         onKeyDown={this.handleKeyDown}
         ref={this.menuSurfaceElement_}
         style={this.styles}
+        {...otherProps}
       >
         {children}
       </div>
@@ -255,6 +260,7 @@ MenuSurface.propTypes = {
     y: PropTypes.number,
   }),
   onClose: PropTypes.func,
+  onKeyDown: PropTypes.func,
 };
 
 MenuSurface.defaultProps = {
@@ -263,6 +269,7 @@ MenuSurface.defaultProps = {
   anchorElement: null,
   coordinates: null,
   onClose: () => {},
+  onKeyDown: () => {},
 };
 
 export default MenuSurface;
