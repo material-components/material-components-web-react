@@ -60,9 +60,17 @@ cd my-app
 
 > NOTE: all npm commands can be replaced with yarn
 
-#### Step 2: Using Sass
+#### Step 2: Install Components
 
-If you want to use the compiled CSS and not customize any colors, text, etc. you can skip to Step 2a.
+Install Button:
+
+```
+npm install --save @material/react-button
+```
+
+#### Step 3: Using Sass
+
+If you want to use the compiled CSS and not customize any colors, text, etc. you can skip to Step 3a.
 
 Most likely you'll want to start using the [Sass mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass) to customize your app. There are a few ways to achieve this. `create-react-app` does have a [recommended approach](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc), which we also recommend.
 
@@ -121,9 +129,9 @@ Then rename `./src/App.css` --> `./src/App.scss`. The `build-css` and `watch-css
 ```
 
 
-#### Step 2a: Use Compiled CSS
+#### Step 3a: Use Compiled CSS
 
-If you performed [Step 2](#step-2-using-sass), then you can skip to [Step 3](#step-3-use-mdc-react-button).
+If you performed [Step 3](#step-3-using-sass), then you can skip to [Step 4](#step-4-use-mdc-react-button).
 
 If you don't need to customize your app, then using the CSS is a quicker way to get started with MDC React Components. Each package comes with a `/dist` directory, which includes the CSS files compiled from our Sass files. `create-react-app` is ready to import CSS files. To import the Button CSS copy the following line into `./src/App.js` imports:
 
@@ -137,7 +145,7 @@ If you want to use the minified version, the import instead looks like:
 import '@material/react-button/dist/button.min.css';
 ```
 
-#### Step 3: Use MDC React Button
+#### Step 4: Use MDC React Button
 
 Open `./src/App.js`. Then replace the boilerplate App code (entire file) with the barebones MDC React Button:
 
@@ -146,7 +154,7 @@ import React, {Component} from 'react';
 import Button from '@material/react-button/dist'; // /index.js is implied
 
 import './App.css';
-// add the appropriate line(s) in Step 2a if you are using compiled CSS instead.
+// add the appropriate line(s) in Step 3a if you are using compiled CSS instead.
 
 class App extends Component {
   render() {
