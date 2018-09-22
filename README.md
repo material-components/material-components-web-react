@@ -70,7 +70,7 @@ npm install --save @material/react-button
 
 #### Step 3: Using Sass
 
-If you want to use the compiled CSS and not customize any colors, text, etc. you can skip to Step 3a.
+If you want to use the compiled CSS and not customize any colors, text, etc. you can skip to [Step 3a](#step-3a-use-compiled-css).
 
 Most likely you'll want to start using the [Sass mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass) to customize your app. There are a few ways to achieve this. `create-react-app` does have a [recommended approach](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc), which we also recommend.
 
