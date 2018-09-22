@@ -56,7 +56,6 @@ Install `create-react-app`:
 npm i -g create-react-app
 create-react-app my-app
 cd my-app
-npm i
 ```
 
 > NOTE: all npm commands can be replaced with yarn
