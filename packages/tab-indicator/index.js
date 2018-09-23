@@ -77,7 +77,7 @@ export default class TabIndicator extends Component {
   get adapter() {
     return {
       addClass: (className) => {
-        // if (!this.tabIndicatorElement_.current) return;
+        if (!this.tabIndicatorElement_.current) return;
         // since the sliding indicator depends on the FLIP method,
         // our regular pattern of managing classes does not work here.
         // setState is async, which does not work well with the FLIP method
@@ -88,7 +88,7 @@ export default class TabIndicator extends Component {
         this.forceUpdate();
       },
       removeClass: (className) => {
-        // if (!this.tabIndicatorElement_.current) return;
+        if (!this.tabIndicatorElement_.current) return;
         this.tabIndicatorElement_.current.classList.remove(className);
         this.forceUpdate();
       },
