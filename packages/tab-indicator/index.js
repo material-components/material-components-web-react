@@ -77,15 +77,18 @@ export default class TabIndicator extends Component {
   get adapter() {
     return {
       addClass: (className) => {
+        // if (!this.tabIndicatorElement_.current) return;
         // since the sliding indicator depends on the FLIP method,
         // our regular pattern of managing classes does not work here.
         // setState is async, which does not work well with the FLIP method
         // without a requestAnimationFrame, which was done in this PR:
-        // https://github.com/material-components/material-components-web/pull/3337/files#diff-683d792d28dad99754294121e1afbfb5L62
+        // https://github.com/material-components
+        // /material-components-web/pull/3337/files#diff-683d792d28dad99754294121e1afbfb5L62
         this.tabIndicatorElement_.current.classList.add(className);
         this.forceUpdate();
       },
       removeClass: (className) => {
+        // if (!this.tabIndicatorElement_.current) return;
         this.tabIndicatorElement_.current.classList.remove(className);
         this.forceUpdate();
       },
