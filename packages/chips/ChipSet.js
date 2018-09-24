@@ -80,6 +80,7 @@ export default class ChipSet extends Component {
       if (this.state.selectedChipIds.has(id)) {
         this.foundation_.select(id);
       } else {
+        // remove deselect when MDC Web issue 3612 is fixed
         this.foundation_.deselect(id);
       }
     });
@@ -101,6 +102,7 @@ export default class ChipSet extends Component {
     if (input) {
       // this should be calling foundation_.handleChipRemoval, but we would
       // need to pass evt.detail.chipId
+      // fix when MDC Web issue 3613 is fixed
       this.foundation_.deselect(chipId);
     }
     handleRemove(chipId);

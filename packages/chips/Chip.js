@@ -94,9 +94,15 @@ export class Chip extends Component {
   }
 
   onClick = (e) => {
-    const {onClick, handleSelect, id} = this.props;
+    const {onClick} = this.props;
     onClick(e);
-    handleSelect(id);
+    this.foundation_.handleInteraction(e);
+  }
+
+  onKeyDown = (e) => {
+    const {onKeyDown} = this.props;
+    onKeyDown(e);
+    this.foundation_.handleInteraction(e);
   }
 
   handleRemoveIconClick = (e) => this.foundation_.handleTrailingIconInteraction(e);
@@ -177,6 +183,7 @@ export class Chip extends Component {
         tabIndex='0'
         className={this.classes}
         onClick={this.onClick}
+        onKeyDown={this.onKeyDown}
         onTransitionEnd={this.handleTransitionEnd}
         ref={this.init}
         {...otherProps}
