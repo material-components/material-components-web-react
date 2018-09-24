@@ -98,7 +98,7 @@ class MyFilterChips extends React.Component {
 
 ### Input chips
 
-Input chips are a variant of chips which enable user input by converting text into chips. Chips may be dynamically added and removed from the chip set. To define a set of chips as input chips, add the `input` prop to the `ChipSet`. To remove a chip, pass a callback to the `Chip` through the `handleRemove` prop.
+Input chips are a variant of chips which enable user input by converting text into chips. Chips may be dynamically added and removed from the chip set. To define a set of chips as input chips, add the `input` prop to the `ChipSet`. When a chip is removed, the component will notify you through the `chipsUpdate` prop callback. `chipsUpdate` will pass an array of props representing the specified chip data. The example below shows you how to use this.
 
 > _NOTE_: We recommend you store an array of chip labels and their respective IDs in the `state` to manage adding/removing chips. Do _NOT_ use the chip's index as its ID or key, because its index may change due to the addition/removal of other chips.
 
@@ -118,26 +118,21 @@ class MyInputChips extends React.Component {
       const id = label.replace(/\s/g,'');
       // Create a new chips array to ensure that a re-render occurs.
       // See: https://reactjs.org/docs/state-and-lifecycle.html#do-not-modify-state-directly
-      const chips = [...this.state.chips]; 
+      const chips = [...this.state.chips];
       chips.push({label, id});
       this.setState({chips});
       e.target.value = '';
     }
   }
 
-  // Removes the chip element from the page
-  handleRemove = (id) => {
-    const chips = [...this.state.chips];
-    const index = chips.findIndex(chip => chip.id === id);
-    chips.splice(index, 1);
-    this.setState({chips});
-  }
-
   render() {
     return (
       <div>
         <input type="text" onKeyDown={this.handleKeyDown} />
-        <ChipSet input handleRemove={this.handleRemove}>
+        <ChipSet
+          input
+          chipsUpdate={(chips) => this.setState({chips})}
+        >
           {this.state.chips.map((chip) =>
             <Chip
               key={chip.id} // The chip's key cannot be its index, because its index may change.
@@ -161,7 +156,7 @@ Prop Name | Type | Description
 className | String | Classes to be applied to the chip set element
 selectedChipIds | Array | Array of ids of chips that are selected
 handleSelect | Function(id: string) => void | Callback for selecting the chip with the given id
-handleRemove | Function(id: string) => void | Callback for removing the chip with the given id
+chipsUpdate | Function(chips: Array{chipProps}) => void | Callback when the ChipSet updates its chips
 choice | Boolean | Indicates that the chips in the set are choice chips, which allow single selection from a set of options
 filter | Boolean | Indicates that the chips in the set are filter chips, which allow multiple selection from a set of options
 input | Boolean | Indicates that the chips in the set are input chips, where chips can be added or removed

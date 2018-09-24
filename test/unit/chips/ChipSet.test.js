@@ -131,8 +131,7 @@ test('#handleSelect does not call foundation_.toggleSelect with chipId if is nei
 });
 
 test('#handleRemove calls foundation_.deselect with chipId and is input variant', () => {
-  const handleRemove = td.func();
-  const wrapper = shallow(<ChipSet input handleRemove={handleRemove}>
+  const wrapper = shallow(<ChipSet input>
     <div id='1' />
   </ChipSet>);
   wrapper.instance().foundation_.deselect = td.func();
@@ -150,11 +149,48 @@ test('#handleRemove does not call foundation_.deselect with chipId if is not inp
   td.verify(wrapper.instance().foundation_.deselect('1'), {times: 0});
 });
 
-test('#handleRemove calls props.handleRemove with chipId', () => {
-  const handleRemove = td.func();
-  const wrapper = shallow(<ChipSet handleRemove={handleRemove}></ChipSet>);
+test('#handleRemove calls removeChip', () => {
+  const wrapper = shallow(<ChipSet>
+    <div id='1' />
+  </ChipSet>);
+  wrapper.instance().removeChip = td.func();
   wrapper.instance().handleRemove('1');
-  td.verify(handleRemove('1'), {times: 1});
+  td.verify(wrapper.instance().removeChip('1'), {times: 1});
+});
+
+test('#removeChip does not call #props.chipsUpdate if there are no chips', () => {
+  const chipsUpdate = td.func();
+  const wrapper = shallow(<ChipSet chipsUpdate={chipsUpdate}/>);
+  wrapper.instance().removeChip();
+  td.verify(chipsUpdate(td.matchers.anything()), {times: 0});
+});
+
+test('#removeChip calls #props.chipsUpdate with array of remove chip', () => {
+  const chipsUpdate = td.func();
+  const wrapper = shallow(<ChipSet chipsUpdate={chipsUpdate}>
+    <div id='1' />
+  </ChipSet>);
+  wrapper.instance().removeChip('1');
+  td.verify(chipsUpdate([]), {times: 1});
+});
+
+test('#removeChip calls #props.chipsUpdate with array of removed chip', () => {
+  const chipsUpdate = td.func();
+  const wrapper = shallow(<ChipSet chipsUpdate={chipsUpdate}>
+    <div id='1' />
+  </ChipSet>);
+  wrapper.instance().removeChip('1');
+  td.verify(chipsUpdate([]), {times: 1});
+});
+
+test('#removeChip calls #props.chipsUpdate with array of remaining chips', () => {
+  const chipsUpdate = td.func();
+  const wrapper = shallow(<ChipSet chipsUpdate={chipsUpdate}>
+    <div id='1' />
+    <div id='2' />
+  </ChipSet>);
+  wrapper.instance().removeChip('1');
+  td.verify(chipsUpdate([{id: '2'}]), {times: 1});
 });
 
 test('#setCheckmarkWidth sets checkmark width', () => {
@@ -217,11 +253,13 @@ test('chip is rendered with handleSelect method', () => {
 });
 
 test('chip is rendered with handleRemove method', () => {
-  const handleRemove = td.func();
-  const wrapper = mount(<ChipSet handleRemove={handleRemove}><Chip id='1'/></ChipSet>);
+  const wrapper = mount(<ChipSet></ChipSet>);
+  wrapper.instance().handleRemove = td.func();
+  wrapper.setProps({children: <Chip id='1'/>});
+
   const chip = wrapper.children().props().children[0];
   chip.props.handleRemove('1');
-  td.verify(handleRemove('1'), {times: 1});
+  td.verify(wrapper.instance().handleRemove('1'), {times: 1});
 });
 
 test('chip is rendered ChipCheckmark if is filter variants', () => {
