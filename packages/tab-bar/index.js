@@ -63,6 +63,8 @@ export default class TabBar extends Component {
       getPreviousActiveTabIndex: () => this.state.previousActiveIndex,
       getFocusedTabIndex: () => {
         const activeElement = document.activeElement;
+        // cannot use findIndex, not supported in IE11
+        // cannot use forEach, return statement inside the forEach loop will not return
         for (let i = 0; i < this.tabList_.length; i++) {
           if (this.tabList_[i].tabElement_.current === activeElement) {
             return i;
