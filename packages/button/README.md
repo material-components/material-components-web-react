@@ -14,12 +14,12 @@ npm install @material/react-button
 
 with Sass:
 ```js
-import '@material/react-button/index.scss';
+import '@material/react-button/mdc-button.scss';
 ```
 
 with CSS:
 ```js
-import '@material/react-button/dist/button.css';
+import '@material/react-button/dist/mdc.button.css';
 ```
 
 ### Javascript Instantiation
