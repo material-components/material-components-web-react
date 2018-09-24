@@ -42,7 +42,7 @@ export default class ChipSet extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.selectedChipIds !== prevProps.selectedChipIds) {
-      this.updateChipSelection();
+      this.setState({selectedChipIds: new Set(this.props.selectedChipIds)});
     }
   }
 
@@ -77,7 +77,7 @@ export default class ChipSet extends Component {
   updateChipSelection() {
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
-      if (this.props.selectedChipIds.indexOf(id) > -1) {
+      if (this.state.selectedChipIds.has(id)) {
         this.foundation_.select(id);
       } else {
         this.foundation_.deselect(id);
@@ -87,6 +87,9 @@ export default class ChipSet extends Component {
 
   handleSelect = (chipId) => {
     const {handleSelect, choice, filter} = this.props;
+    // update when mdc web issue is fix
+    // https://github.com/material-components/material-components-web/issues/3613
+    // filter || choice is duplicate logic found in MDC Web foundation code
     if (filter || choice) {
       this.foundation_.toggleSelect(chipId);
     }
