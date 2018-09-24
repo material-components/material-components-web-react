@@ -158,39 +158,39 @@ test('#handleRemove calls removeChip', () => {
   td.verify(wrapper.instance().removeChip('1'), {times: 1});
 });
 
-test('#removeChip does not call #props.chipsUpdate if there are no chips', () => {
-  const chipsUpdate = td.func();
-  const wrapper = shallow(<ChipSet chipsUpdate={chipsUpdate}/>);
+test('#removeChip does not call #props.updateChips if there are no chips', () => {
+  const updateChips = td.func();
+  const wrapper = shallow(<ChipSet updateChips={updateChips}/>);
   wrapper.instance().removeChip();
-  td.verify(chipsUpdate(td.matchers.anything()), {times: 0});
+  td.verify(updateChips(td.matchers.anything()), {times: 0});
 });
 
-test('#removeChip calls #props.chipsUpdate with array of remove chip', () => {
-  const chipsUpdate = td.func();
-  const wrapper = shallow(<ChipSet chipsUpdate={chipsUpdate}>
+test('#removeChip calls #props.updateChips with array of remove chip', () => {
+  const updateChips = td.func();
+  const wrapper = shallow(<ChipSet updateChips={updateChips}>
     <div id='1' />
   </ChipSet>);
   wrapper.instance().removeChip('1');
-  td.verify(chipsUpdate([]), {times: 1});
+  td.verify(updateChips([]), {times: 1});
 });
 
-test('#removeChip calls #props.chipsUpdate with array of removed chip', () => {
-  const chipsUpdate = td.func();
-  const wrapper = shallow(<ChipSet chipsUpdate={chipsUpdate}>
+test('#removeChip calls #props.updateChips with array of removed chip', () => {
+  const updateChips = td.func();
+  const wrapper = shallow(<ChipSet updateChips={updateChips}>
     <div id='1' />
   </ChipSet>);
   wrapper.instance().removeChip('1');
-  td.verify(chipsUpdate([]), {times: 1});
+  td.verify(updateChips([]), {times: 1});
 });
 
-test('#removeChip calls #props.chipsUpdate with array of remaining chips', () => {
-  const chipsUpdate = td.func();
-  const wrapper = shallow(<ChipSet chipsUpdate={chipsUpdate}>
+test('#removeChip calls #props.updateChips with array of remaining chips', () => {
+  const updateChips = td.func();
+  const wrapper = shallow(<ChipSet updateChips={updateChips}>
     <div id='1' />
     <div id='2' />
   </ChipSet>);
   wrapper.instance().removeChip('1');
-  td.verify(chipsUpdate([{id: '2'}]), {times: 1});
+  td.verify(updateChips([{id: '2'}]), {times: 1});
 });
 
 test('#setCheckmarkWidth sets checkmark width', () => {

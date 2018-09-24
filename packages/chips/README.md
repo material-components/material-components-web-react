@@ -98,7 +98,7 @@ class MyFilterChips extends React.Component {
 
 ### Input chips
 
-Input chips are a variant of chips which enable user input by converting text into chips. Chips may be dynamically added and removed from the chip set. To define a set of chips as input chips, add the `input` prop to the `ChipSet`. When a chip is removed, the component will notify you through the `chipsUpdate` prop callback. `chipsUpdate` will pass an array of props representing the specified chip data. The example below shows you how to use this.
+Input chips are a variant of chips which enable user input by converting text into chips. Chips may be dynamically added and removed from the chip set. To define a set of chips as input chips, add the `input` prop to the `ChipSet`. When a chip is removed, the component will notify you through the `updateChips` prop callback. `updateChips` will pass an array of props representing the specified chip data. The example below shows you how to use this.
 
 > _NOTE_: We recommend you store an array of chip labels and their respective IDs in the `state` to manage adding/removing chips. Do _NOT_ use the chip's index as its ID or key, because its index may change due to the addition/removal of other chips.
 
@@ -131,7 +131,7 @@ class MyInputChips extends React.Component {
         <input type="text" onKeyDown={this.handleKeyDown} />
         <ChipSet
           input
-          chipsUpdate={(chips) => this.setState({chips})}
+          updateChips={(chips) => this.setState({chips})}
         >
           {this.state.chips.map((chip) =>
             <Chip
@@ -156,7 +156,7 @@ Prop Name | Type | Description
 className | String | Classes to be applied to the chip set element
 selectedChipIds | Array | Array of ids of chips that are selected
 handleSelect | Function(id: string) => void | Callback for selecting the chip with the given id
-chipsUpdate | Function(chips: Array{chipProps}) => void | Callback when the ChipSet updates its chips
+updateChips | Function(chips: Array{chipProps}) => void | Callback when the ChipSet updates its chips
 choice | Boolean | Indicates that the chips in the set are choice chips, which allow single selection from a set of options
 filter | Boolean | Indicates that the chips in the set are filter chips, which allow multiple selection from a set of options
 input | Boolean | Indicates that the chips in the set are input chips, where chips can be added or removed

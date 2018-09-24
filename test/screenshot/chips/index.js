@@ -82,7 +82,7 @@ class InputChipsTest extends React.Component {
         />
         <ChipSet
           input
-          chipsUpdate={(chips) => this.setState({chips})}
+          updateChips={(chips) => this.setState({chips})}
         >
           {this.state.chips.map((chip) =>
             <Chip

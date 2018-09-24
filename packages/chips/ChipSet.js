@@ -107,7 +107,7 @@ export default class ChipSet extends Component {
   // https://github.com/material-components/material-components-web/issues/3613
   // is fixed
   removeChip = (chipId) => {
-    const {chipsUpdate, children} = this.props;
+    const {updateChips, children} = this.props;
     if (!children) return;
 
     const chips = React.Children.toArray(children).slice();
@@ -119,7 +119,7 @@ export default class ChipSet extends Component {
       }
     }
     const chipsArray = chips.length ? chips.map((chip) => chip.props) : [];
-    chipsUpdate(chipsArray);
+    updateChips(chipsArray);
   }
 
   setCheckmarkWidth = (checkmark) => {
@@ -163,7 +163,7 @@ ChipSet.propTypes = {
   className: PropTypes.string,
   selectedChipIds: PropTypes.array,
   handleSelect: PropTypes.func,
-  chipsUpdate: PropTypes.func,
+  updateChips: PropTypes.func,
   choice: PropTypes.bool,
   filter: PropTypes.bool,
   input: PropTypes.bool,
@@ -174,7 +174,7 @@ ChipSet.defaultProps = {
   className: '',
   selectedChipIds: [],
   handleSelect: () => {},
-  chipsUpdate: () => {},
+  updateChips: () => {},
   choice: false,
   filter: false,
   input: false,
