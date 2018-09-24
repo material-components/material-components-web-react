@@ -80,6 +80,7 @@ export default class ChipSet extends Component {
       if (this.props.selectedChipIds.indexOf(id) > -1) {
         this.foundation_.select(id);
       } else {
+        // remove deselect when MDC Web issue 3612 is fixed
         this.foundation_.deselect(id);
       }
     });
@@ -87,6 +88,8 @@ export default class ChipSet extends Component {
 
   handleSelect = (chipId) => {
     const {handleSelect, choice, filter} = this.props;
+    // update when mdc web issue is fix
+    // https://github.com/material-components/material-components-web/issues/3613
     if (filter || choice) {
       this.foundation_.toggleSelect(chipId);
     }
@@ -98,6 +101,7 @@ export default class ChipSet extends Component {
     if (input) {
       // this should be calling foundation_.handleChipRemoval, but we would
       // need to pass evt.detail.chipId
+      // fix when MDC Web issue 3613 is fixed
       this.foundation_.deselect(chipId);
     }
     handleRemove(chipId);
