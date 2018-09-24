@@ -305,3 +305,25 @@ test('#componentWillUnmount destroys foundation', () => {
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
 });
+
+test('on focus event calls handleFocus on TabRipple', () => {
+  const wrapper = shallow(<Tab />);
+  const ripple = wrapper.find('TabRipple');
+  wrapper.instance().tabRipple_ = {current: ripple};
+  ripple.handleFocus = td.func();
+
+  const evt = {test: 'test'};
+  wrapper.simulate('focus', evt);
+  td.verify(ripple.handleFocus(evt), {times: 1});
+});
+
+test('on blur event calls handleBlur on TabRipple', () => {
+  const wrapper = shallow(<Tab />);
+  const ripple = wrapper.find('TabRipple');
+  wrapper.instance().tabRipple_ = {current: ripple};
+  ripple.handleBlur = td.func();
+
+  const evt = {test: 'test'};
+  wrapper.simulate('blur', evt);
+  td.verify(ripple.handleBlur(evt), {times: 1});
+});
