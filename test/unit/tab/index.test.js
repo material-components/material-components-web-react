@@ -319,7 +319,7 @@ test('on blur event calls handleBlur on TabRipple', () => {
   const wrapper = mount(<Tab />);
   const ripple = wrapper.instance().tabRipple_.current;
   ripple.handleBlur = td.func();
-;
+
   wrapper.simulate('blur');
   td.verify(ripple.handleBlur(td.matchers.isA(Object)), {times: 1});
 });
