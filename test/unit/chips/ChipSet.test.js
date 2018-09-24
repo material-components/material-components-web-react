@@ -66,6 +66,20 @@ test('#adapter.setSelected removes selectedChipId from state', () => {
   assert.isFalse(wrapper.state().selectedChipIds.has('1'));
 });
 
+test('#foundation.select is called when #updateChipSelection is called', () => {
+  const wrapper = shallow(<ChipSet selectedChipIds={['1']}><div id='1' /></ChipSet>);
+  wrapper.instance().foundation_.select = td.func();
+  wrapper.instance().updateChipSelection();
+  td.verify(wrapper.instance().foundation_.select('1'), {times: 1});
+});
+
+test('#foundation.deselect is called when #updateChipSelection is called', () => {
+  const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
+  wrapper.instance().foundation_.deselect = td.func();
+  wrapper.instance().updateChipSelection();
+  td.verify(wrapper.instance().foundation_.deselect('1'), {times: 1});
+});
+
 test('#foundation.select is called when the selectedChipIds change', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
   wrapper.instance().foundation_.select = td.func();

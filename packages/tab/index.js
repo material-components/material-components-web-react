@@ -34,6 +34,7 @@ export default class Tab extends Component {
   tabElement_ = React.createRef();
   tabContentElement_ = React.createRef();
   tabIndicator_ = React.createRef();
+  tabRipple_ = React.createRef();
 
   state = {
     'classList': new Set(),
@@ -153,6 +154,8 @@ export default class Tab extends Component {
         role='tab'
         aria-selected={ariaSelected}
         tabIndex={tabIndex}
+        onFocus={(e) => this.tabRipple_.current.handleFocus(e)}
+        onBlur={(e) => this.tabRipple_.current.handleBlur(e)}
         ref={this.tabElement_}
         {...otherProps}
       >
@@ -164,7 +167,7 @@ export default class Tab extends Component {
           {isMinWidthIndicator ? this.renderIndicator() : null}
         </span>
         {isMinWidthIndicator ? null : this.renderIndicator()}
-        <TabRipple />
+        <TabRipple ref={this.tabRipple_} />
       </button>
     );
   }
