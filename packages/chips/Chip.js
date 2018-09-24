@@ -78,13 +78,20 @@ export class Chip extends Component {
         (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
       notifyRemoval: () => this.props.handleRemove(this.props.id),
+      notifyInteraction: () => this.props.handleSelect(this.props.id),
     };
   }
 
   onClick = (e) => {
-    const {onClick, handleSelect, id} = this.props;
+    const {onClick} = this.props;
     onClick(e);
-    handleSelect(id);
+    this.foundation_.handleInteraction(e);
+  }
+
+  onKeyDown = (e) => {
+    const {onKeyDown} = this.props;
+    onKeyDown(e);
+    this.foundation_.handleInteraction(e);
   }
 
   handleRemoveIconClick = (e) => this.foundation_.handleTrailingIconInteraction(e);
@@ -140,6 +147,7 @@ export class Chip extends Component {
       handleSelect,
       handleRemove,
       onClick,
+      onKeyDown,
       computeBoundingRect,
       initRipple,
       unbounded,
@@ -156,6 +164,7 @@ export class Chip extends Component {
         tabIndex='0'
         className={this.classes}
         onClick={this.onClick}
+        onKeyDown={this.onKeyDown}
         onTransitionEnd={this.handleTransitionEnd}
         ref={this.init}
         {...otherProps}
@@ -177,6 +186,7 @@ Chip.propTypes = {
   handleSelect: PropTypes.func,
   handleRemove: PropTypes.func,
   onClick: PropTypes.func,
+  onKeyDown: PropTypes.func,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
   chipCheckmark: PropTypes.node,
@@ -190,6 +200,7 @@ Chip.defaultProps = {
   className: '',
   selected: false,
   onClick: () => {},
+  onKeyDown: () => {},
   initRipple: () => {},
   handleSelect: () => {},
   handleRemove: () => {},
