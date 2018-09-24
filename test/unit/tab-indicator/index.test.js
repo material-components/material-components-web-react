@@ -19,8 +19,10 @@ test('adds the fade class if props.fade is true', () => {
 });
 
 test('adds the active class if props.active is true', () => {
-  const wrapper = shallow(<TabIndicator active />);
-  assert.isTrue(wrapper.hasClass('mdc-tab-indicator--active'));
+  // need to mount,
+  // since classList is now applied by ref
+  const wrapper = mount(<TabIndicator active />);
+  assert.isTrue(wrapper.getDOMNode().classList.contains('mdc-tab-indicator--active'));
 });
 
 test('adds the icon class to the content element if props.icon is true', () => {
@@ -36,7 +38,7 @@ test('adds the underline class to the content element by default', () => {
 });
 
 test('if props.active changes from true to false, it calls deactivate', () => {
-  const wrapper = shallow(<TabIndicator active />);
+  const wrapper = mount(<TabIndicator active />);
   wrapper.instance().foundation_.deactivate = td.func();
   wrapper.setProps({active: false});
   td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
@@ -50,17 +52,17 @@ test('if props.active changes from false to true, it calls activate', () => {
   td.verify(wrapper.instance().foundation_.activate(previousIndicatorClientRect), {times: 1});
 });
 
-test('#adapter.addClass updates state.classList', () => {
-  const wrapper = shallow(<TabIndicator />);
+test('#adapter.addClass adds to dom element classList', () => {
+  const wrapper = mount(<TabIndicator />);
   wrapper.instance().adapter.addClass('meow-class');
-  assert.isTrue(wrapper.state().classList.has('meow-class'));
+  assert.isTrue(wrapper.getDOMNode().classList.contains('meow-class'));
 });
 
-test('#adapter.removeClass updates state.classList', () => {
-  const wrapper = shallow(<TabIndicator />);
-  wrapper.setState({classList: new Set(['meow-class'])});
+test('#adapter.removeClass removes from dom element classList', () => {
+  const wrapper = mount(<TabIndicator />);
+  wrapper.getDOMNode().classList.add('meow-class');
   wrapper.instance().adapter.removeClass('meow-class');
-  assert.isFalse(wrapper.state().classList.has('meow-class'));
+  assert.isFalse(wrapper.getDOMNode().classList.contains('meow-class'));
 });
 
 test('#adapter.setContentStyleProperty sets the style property on the contentElement', () => {
