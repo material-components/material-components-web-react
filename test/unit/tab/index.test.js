@@ -307,23 +307,19 @@ test('#componentWillUnmount destroys foundation', () => {
 });
 
 test('on focus event calls handleFocus on TabRipple', () => {
-  const wrapper = shallow(<Tab />);
-  const ripple = wrapper.find('TabRipple');
-  wrapper.instance().tabRipple_ = {current: ripple};
+  const wrapper = mount(<Tab />);
+  const ripple = wrapper.instance().tabRipple_.current;
   ripple.handleFocus = td.func();
 
-  const evt = {test: 'test'};
-  wrapper.simulate('focus', evt);
-  td.verify(ripple.handleFocus(evt), {times: 1});
+  wrapper.simulate('focus');
+  td.verify(ripple.handleFocus(td.matchers.isA(Object)), {times: 1});
 });
 
 test('on blur event calls handleBlur on TabRipple', () => {
-  const wrapper = shallow(<Tab />);
-  const ripple = wrapper.find('TabRipple');
-  wrapper.instance().tabRipple_ = {current: ripple};
+  const wrapper = mount(<Tab />);
+  const ripple = wrapper.instance().tabRipple_.current;
   ripple.handleBlur = td.func();
-
-  const evt = {test: 'test'};
-  wrapper.simulate('blur', evt);
-  td.verify(ripple.handleBlur(evt), {times: 1});
+;
+  wrapper.simulate('blur');
+  td.verify(ripple.handleBlur(td.matchers.isA(Object)), {times: 1});
 });
