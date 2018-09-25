@@ -42,7 +42,9 @@ export default class ChipSet extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.selectedChipIds !== prevProps.selectedChipIds) {
-      this.setState({selectedChipIds: new Set(this.props.selectedChipIds)});
+      const selectedChipIds = new Set(this.props.selectedChipIds);
+      this.setState({selectedChipIds});
+      this.updateChipSelection(selectedChipIds);
     }
   }
 
@@ -74,10 +76,10 @@ export default class ChipSet extends Component {
     };
   }
 
-  updateChipSelection() {
+  updateChipSelection(ids = this.state.selectedChipIds) {
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
-      if (this.state.selectedChipIds.has(id)) {
+      if (ids.has(id)) {
         this.foundation_.select(id);
       } else {
         // remove deselect when MDC Web issue 3612 is fixed
