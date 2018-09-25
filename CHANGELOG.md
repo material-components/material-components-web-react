@@ -1,5 +1,43 @@
 <a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.4.1...v) (2018-08-14)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.4.2...v) (2018-09-25)
+
+
+### Bug Fixes
+
+* **card:** add missing hasRipple ([#248](https://github.com/material-components/material-components-web-react/issues/248)) ([#255](https://github.com/material-components/material-components-web-react/issues/255)) ([d2f58d6](https://github.com/material-components/material-components-web-react/commit/d2f58d6))
+* **chips:** add chip leading icon class management ([#281](https://github.com/material-components/material-components-web-react/issues/281)) ([c638e79](https://github.com/material-components/material-components-web-react/commit/c638e79))
+* **chips:** remove handleRemove method for chipsUpdate method ([#282](https://github.com/material-components/material-components-web-react/issues/282)) ([8435079](https://github.com/material-components/material-components-web-react/commit/8435079))
+* **chips:** use notifyRemoval and notifyInteraction adapter methods ([#277](https://github.com/material-components/material-components-web-react/issues/277)) ([ba433ea](https://github.com/material-components/material-components-web-react/commit/ba433ea))
+* **infrastructure:** add the es5 [@material](https://github.com/material)/package/dist/mdc.package to externals ([#223](https://github.com/material-components/material-components-web-react/issues/223)) ([73fb45b](https://github.com/material-components/material-components-web-react/commit/73fb45b))
+* **ripple:** react-ripple does not contain styles ([#172](https://github.com/material-components/material-components-web-react/issues/172)) ([#251](https://github.com/material-components/material-components-web-react/issues/251)) ([ac0f87f](https://github.com/material-components/material-components-web-react/commit/ac0f87f))
+* **tab:** update readme and ref name in tab component ([#226](https://github.com/material-components/material-components-web-react/issues/226)) ([f18fda1](https://github.com/material-components/material-components-web-react/commit/f18fda1))
+* **tab-bar:** add missing url from screenshot list ([#264](https://github.com/material-components/material-components-web-react/issues/264)) ([dd2f183](https://github.com/material-components/material-components-web-react/commit/dd2f183))
+* **tab-bar:** Arrow keys should focus adjacent tab ([#280](https://github.com/material-components/material-components-web-react/issues/280)) ([54224c8](https://github.com/material-components/material-components-web-react/commit/54224c8))
+* **tab-indicator:** update component to work with mdc tab ([#215](https://github.com/material-components/material-components-web-react/issues/215)) ([bc41a8b](https://github.com/material-components/material-components-web-react/commit/bc41a8b))
+* tab indicator sliding animation broken ([#273](https://github.com/material-components/material-components-web-react/issues/273)) ([c436f58](https://github.com/material-components/material-components-web-react/commit/c436f58))
+
+
+### Features
+
+* **button:** Add dense variant to button ([#228](https://github.com/material-components/material-components-web-react/issues/228)) ([28b7d6e](https://github.com/material-components/material-components-web-react/commit/28b7d6e))
+* **chips:** Update chips to use ids and add input chips ([#246](https://github.com/material-components/material-components-web-react/issues/246)) ([14353ab](https://github.com/material-components/material-components-web-react/commit/14353ab))
+* **icon-button:** create component ([#154](https://github.com/material-components/material-components-web-react/issues/154)) ([c7b4cf6](https://github.com/material-components/material-components-web-react/commit/c7b4cf6))
+* **infrastructure:** react router screenshots ([#232](https://github.com/material-components/material-components-web-react/issues/232)) ([69e4efe](https://github.com/material-components/material-components-web-react/commit/69e4efe))
+* **switch:** Add component ([#208](https://github.com/material-components/material-components-web-react/issues/208)) ([3eb8a4b](https://github.com/material-components/material-components-web-react/commit/3eb8a4b))
+* **tab:** add new component ([#216](https://github.com/material-components/material-components-web-react/issues/216)) ([ffd9bba](https://github.com/material-components/material-components-web-react/commit/ffd9bba))
+* **tab:** Add ripple ([#261](https://github.com/material-components/material-components-web-react/issues/261)) ([e1918fa](https://github.com/material-components/material-components-web-react/commit/e1918fa))
+* **tab-bar:** Add component ([#229](https://github.com/material-components/material-components-web-react/issues/229)) ([731e980](https://github.com/material-components/material-components-web-react/commit/731e980))
+* **tab-scroller:** add new component ([#222](https://github.com/material-components/material-components-web-react/issues/222)) ([fedf138](https://github.com/material-components/material-components-web-react/commit/fedf138))
+
+
+### BREAKING CHANGES
+
+* **chips:** Updated API for `selectedChipIds` and `handleSelect` props in ChipSet and `id` prop in Chip.
+
+
+
+<a name="0.4.2"></a>
+## [0.4.2](https://github.com/material-components/material-components-web-react/compare/v0.4.1...v0.4.2) (2018-08-14)
 
 
 
