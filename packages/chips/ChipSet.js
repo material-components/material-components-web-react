@@ -97,14 +97,33 @@ export default class ChipSet extends Component {
   }
 
   handleRemove = (chipId) => {
-    const {input, handleRemove} = this.props;
+    const {input} = this.props;
     if (input) {
       // this should be calling foundation_.handleChipRemoval, but we would
       // need to pass evt.detail.chipId
       // fix when MDC Web issue 3613 is fixed
       this.foundation_.deselect(chipId);
     }
-    handleRemove(chipId);
+    this.removeChip(chipId);
+  }
+
+  // this should be adapter_.removeChip, but cannot be complete until
+  // https://github.com/material-components/material-components-web/issues/3613
+  // is fixed
+  removeChip = (chipId) => {
+    const {updateChips, children} = this.props;
+    if (!children) return;
+
+    const chips = React.Children.toArray(children).slice();
+    for (let i = 0; i < chips.length; i ++) {
+      const chip = chips[i];
+      if (chip.props.id === chipId) {
+        chips.splice(i, 1);
+        break;
+      }
+    }
+    const chipsArray = chips.length ? chips.map((chip) => chip.props) : [];
+    updateChips(chipsArray);
   }
 
   setCheckmarkWidth = (checkmark) => {
@@ -148,7 +167,7 @@ ChipSet.propTypes = {
   className: PropTypes.string,
   selectedChipIds: PropTypes.array,
   handleSelect: PropTypes.func,
-  handleRemove: PropTypes.func,
+  updateChips: PropTypes.func,
   choice: PropTypes.bool,
   filter: PropTypes.bool,
   input: PropTypes.bool,
@@ -159,7 +178,7 @@ ChipSet.defaultProps = {
   className: '',
   selectedChipIds: [],
   handleSelect: () => {},
-  handleRemove: () => {},
+  updateChips: () => {},
   choice: false,
   filter: false,
   input: false,
