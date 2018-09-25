@@ -13,12 +13,11 @@ test('creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('calls #foundation.select when the selectedChipIds change', () => {
+test('updates state.selectedChipIds when the props.selectedChipIds change', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
-  wrapper.instance().updateChipSelection = td.func();
   const selectedChipIds = ['1'];
   wrapper.setProps({selectedChipIds});
-  td.verify(wrapper.instance().updateChipSelection(), {times: 1});
+  assert.isTrue(wrapper.state().selectedChipIds.has('1'));
 });
 
 test('filter classname is added if is filter variant', () => {
@@ -66,35 +65,21 @@ test('#adapter.setSelected removes selectedChipId from state', () => {
   assert.isFalse(wrapper.state().selectedChipIds.has('1'));
 });
 
-test('#foundation.select is called when #updateChipSelection is called', () => {
-  const wrapper = shallow(<ChipSet selectedChipIds={['1']}><div id='1' /></ChipSet>);
+test('#foundation.select is called when #updateChipSelection is called and ' +
+  'state.selectedChipIds has a selected Id', () => {
+  const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
   wrapper.instance().foundation_.select = td.func();
+  const selectedChipIds = new Set(['1']);
+  wrapper.setState({selectedChipIds});
   wrapper.instance().updateChipSelection();
   td.verify(wrapper.instance().foundation_.select('1'), {times: 1});
 });
 
-test('#foundation.deselect is called when #updateChipSelection is called', () => {
+test('#foundation.deselect is called when #updateChipSelection is called and ' +
+  'state.selectedChipIds does not have selected Id', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
   wrapper.instance().foundation_.deselect = td.func();
   wrapper.instance().updateChipSelection();
-  td.verify(wrapper.instance().foundation_.deselect('1'), {times: 1});
-});
-
-test('#foundation.select is called when the selectedChipIds change', () => {
-  const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
-  wrapper.instance().foundation_.select = td.func();
-  const selectedChipIds = ['1'];
-  wrapper.setProps({selectedChipIds});
-  td.verify(wrapper.instance().foundation_.select('1'), {times: 1});
-});
-
-test('#foundation.deselect is called when the selectedChipIds change', () => {
-  const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
-  const selectedChipIds = ['1'];
-  wrapper.setProps({selectedChipIds});
-  wrapper.instance().foundation_.deselect = td.func();
-  wrapper.setProps({selectedChipIds: []});
-
   td.verify(wrapper.instance().foundation_.deselect('1'), {times: 1});
 });
 

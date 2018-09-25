@@ -31,6 +31,7 @@ export class Chip extends Component {
   foundation_ = null;
   state = {
     classList: new Set(),
+    leadingIconClassList: new Set(),
   };
 
   componentDidMount() {
@@ -79,6 +80,16 @@ export class Chip extends Component {
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
       notifyRemoval: () => this.props.handleRemove(this.props.id),
       notifyInteraction: () => this.props.handleSelect(this.props.id),
+      addClassToLeadingIcon: (className) => {
+        const leadingIconClassList = new Set(this.state.leadingIconClassList);
+        leadingIconClassList.add(className);
+        this.setState({leadingIconClassList});
+      },
+      removeClassFromLeadingIcon: (className) => {
+        const leadingIconClassList = new Set(this.state.leadingIconClassList);
+        leadingIconClassList.delete(className);
+        this.setState({leadingIconClassList});
+      },
     };
   }
 
@@ -96,9 +107,13 @@ export class Chip extends Component {
 
   handleRemoveIconClick = (e) => this.foundation_.handleTrailingIconInteraction(e);
 
-  handleTransitionEnd = (e) => this.foundation_.handleTransitionEnd(e);
+  handleTransitionEnd = (e) => {
+    this.props.onTransitionEnd(e);
+    this.foundation_.handleTransitionEnd(e);
+  };
 
   renderLeadingIcon = (leadingIcon) => {
+    const {leadingIconClassList} = this.state;
     const {
       className,
       ...otherProps
@@ -107,6 +122,7 @@ export class Chip extends Component {
     const props = {
       className: classnames(
         className,
+        Array.from(leadingIconClassList),
         'mdc-chip__icon',
         'mdc-chip__icon--leading',
       ),
@@ -148,6 +164,7 @@ export class Chip extends Component {
       handleRemove,
       onClick,
       onKeyDown,
+      onTransitionEnd,
       computeBoundingRect,
       initRipple,
       unbounded,
@@ -187,6 +204,7 @@ Chip.propTypes = {
   handleRemove: PropTypes.func,
   onClick: PropTypes.func,
   onKeyDown: PropTypes.func,
+  onTransitionEnd: PropTypes.func,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
   chipCheckmark: PropTypes.node,
@@ -201,6 +219,7 @@ Chip.defaultProps = {
   selected: false,
   onClick: () => {},
   onKeyDown: () => {},
+  onTransitionEnd: () => {},
   initRipple: () => {},
   handleSelect: () => {},
   handleRemove: () => {},

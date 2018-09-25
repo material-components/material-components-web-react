@@ -77,6 +77,19 @@ test('#adapter.setStyleProperty should add styles to chip', () => {
   assert.equal(chipElement.style.width, width);
 });
 
+test('#adapter.addClassToLeadingIcon adds to state.leadingIconClassList', () => {
+  const wrapper = shallow(<Chip id='123' />);
+  wrapper.instance().foundation_.adapter_.addClassToLeadingIcon('test-leading-icon-class');
+  assert.isTrue(wrapper.state().leadingIconClassList.has('test-leading-icon-class'));
+});
+
+test('#adapter.removeClassFromLeadingIcon removes from state.leadingIconClassList', () => {
+  const wrapper = shallow(<Chip id='123' />);
+  wrapper.setState({leadingIconClassList: new Set('test-leading-icon-class')});
+  wrapper.instance().foundation_.adapter_.removeClassFromLeadingIcon('test-leading-icon-class');
+  assert.isFalse(wrapper.state().leadingIconClassList.has('test-leading-icon-class'));
+});
+
 test('#adapter.notifyInteraction calls #props.handleSelect w/ chipId', () => {
   const handleSelect = td.func();
   const wrapper = shallow(<Chip id='123' handleSelect={handleSelect} />);
@@ -142,6 +155,13 @@ test('renders leading icon with base class names', () => {
   assert.isTrue(wrapper.children().first().hasClass('mdc-chip__icon--leading'));
 });
 
+test('renders leadingIcon with state.leadingIconClassList', () => {
+  const leadingIcon = <i className='leading-icon'></i>;
+  const wrapper = shallow(<Chip id='1' leadingIcon={leadingIcon} />);
+  wrapper.setState({leadingIconClassList: new Set(['test-leading-icon-class'])});
+  assert.isTrue(wrapper.children().first().hasClass('test-leading-icon-class'));
+});
+
 test('renders remove icon', () => {
   const removeIcon = <i className='remove-icon'></i>;
   const wrapper = shallow(<Chip id='1' removeIcon={removeIcon} />);
@@ -182,9 +202,18 @@ test('remove icon keydown calls #foundation.handleTrailingIconInteraction', () =
 test('calls #foundation.handleTransitionEnd on transitionend event', () => {
   const wrapper = shallow(<Chip id='1' />);
   wrapper.instance().foundation_.handleTransitionEnd = td.func();
-  const evt = {};
+  const evt = {target: {}};
   wrapper.simulate('transitionend', evt);
   td.verify(wrapper.instance().foundation_.handleTransitionEnd(evt), {times: 1});
+});
+
+
+test('calls #props.onTransitionEnd on transitionend event', () => {
+  const onTransitionEnd = td.func();
+  const wrapper = shallow(<Chip id='1' onTransitionEnd={onTransitionEnd} />);
+  const evt = {target: {classList: {contains: () => {}}}};
+  wrapper.simulate('transitionend', evt);
+  td.verify(onTransitionEnd(evt), {times: 1});
 });
 
 test('renders chip checkmark if it exists', () => {
