@@ -85,7 +85,7 @@ export class Chip extends Component {
         leadingIconClassList.add(className);
         this.setState({leadingIconClassList});
       },
-      removeClassToLeadingIcon: (className) => {
+      removeClassFromLeadingIcon: (className) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.delete(className);
         this.setState({leadingIconClassList});
@@ -114,7 +114,6 @@ export class Chip extends Component {
 
   renderLeadingIcon = (leadingIcon) => {
     const {leadingIconClassList} = this.state;
-    const {selected} = this.props;
     const {
       className,
       ...otherProps
@@ -126,7 +125,6 @@ export class Chip extends Component {
         Array.from(leadingIconClassList),
         'mdc-chip__icon',
         'mdc-chip__icon--leading',
-        {'mdc-chip__icon--leading-hidden': selected},
       ),
       ...otherProps,
     };
