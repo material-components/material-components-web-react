@@ -7,19 +7,7 @@ import './index.scss';
 import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
 import Button from '../../../packages/button/index';
 
-const renderListItem = (text, index) => {
-  return (
-    <li key={index} className='mdc-list-item' role='menuitem'>
-      <button><span className='mdc-list-item__text'>
-        {text}
-      </span></button>
-    </li>
-  );
-};
-
 class MenuSurfaceButton extends React.Component {
-  anchorElement = React.createRef();
-
   constructor(props) {
     super(props);
     this.state = {
@@ -37,10 +25,6 @@ class MenuSurfaceButton extends React.Component {
       evt.preventDefault();
     };
 
-    if (this.anchorElement.current) {
-      this.forceUpdate();
-    }
-
     if (this.props.contextmenu) { // eslint-disable-line react/prop-types
       window.addEventListener('contextmenu', this.rightClickCallback_);
     }
@@ -50,41 +34,56 @@ class MenuSurfaceButton extends React.Component {
     window.removeEventListener('contextmenu', this.rightClickCallback_);
   }
 
+  setAnchorElement = (element) => {
+    const {anchorElement} = this.state;
+    if (anchorElement) {
+      return;
+    }
+    this.setState({anchorElement: element});
+  }
+
   render() {
     const {
       anchorCorner, anchorMargin, className, contextmenu, // eslint-disable-line react/prop-types
     } = this.props;
-    const {coordinates, open} = this.state;
+    const {coordinates, open, anchorElement} = this.state;
     return (
-      <div>
-        <div
-          className={`${className} menu-surface-button mdc-menu-surface--anchor`}
-          ref={this.anchorElement}
+      <div
+        className={`${className} menu-surface-button mdc-menu-surface--anchor`}
+        ref={this.setAnchorElement}
+      >
+        {contextmenu ? null : this.renderButton()}
+        <MenuSurface
+          open={open}
+          anchorMargin={anchorMargin}
+          anchorCorner={anchorCorner}
+          onClose={() => this.setState({open: false, coordinates: null})}
+          anchorElement={coordinates ? null : anchorElement}
+          coordinates={coordinates}
         >
-          {contextmenu ? null : this.renderButton()}
-          <MenuSurface
-            open={open}
-            anchorMargin={anchorMargin}
-            anchorCorner={anchorCorner}
-            onClose={() => this.setState({open: false, coordinates: null})}
-            anchorElement={coordinates ? null : this.anchorElement.current}
-            coordinates={coordinates}
-          >
-            <ul className='mdc-list' role='menu'>
-              {['Back', 'Forward', 'Reload'].map((text, index) => (
-                renderListItem(text, index)
-              ))}
-              <li className='mdc-list-divider' role='separator'></li>
-              {['Help & Feedback', 'Settings'].map((text, index) => (
-                renderListItem(text, index)
-              ))}
-            </ul>
-          </MenuSurface>
-        </div>
+          <ul className='mdc-list' role='menu'>
+            {['Back', 'Forward', 'Reload'].map((text, index) => (
+              this.renderListItem(text, index)
+            ))}
+            <li className='mdc-list-divider' role='separator'></li>
+            {['Help & Feedback', 'Settings'].map((text, index) => (
+              this.renderListItem(text, index)
+            ))}
+          </ul>
+        </MenuSurface>
       </div>
     );
   }
 
+  renderListItem(text, index) {
+    return (
+      <li key={index} className='mdc-list-item' role='menuitem'>
+        <button><span className='mdc-list-item__text'>
+          {text}
+        </span></button>
+      </li>
+    );
+  }
   renderButton() {
     return (
       <Button
