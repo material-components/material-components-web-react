@@ -134,9 +134,9 @@ test('#adapter.deactivateBottomLine sets state.activeLineRipple to false', () =>
   assert.isFalse(wrapper.state().activeLineRipple);
 });
 
-test('#adapter.setLineRippleTransformOrigin sets state.lineRippleCenter', () => {
+test('NativeControl.props.setRippleCenter sets state.lineRippleCenter', () => {
   const wrapper = shallow(<Select label='my label' />);
-  wrapper.instance().foundation_.adapter_.setLineRippleTransformOrigin(123);
+  wrapper.children().first().props().setRippleCenter(123);
   assert.equal(wrapper.state().lineRippleCenter, 123);
 });
 
