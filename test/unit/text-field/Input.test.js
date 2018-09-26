@@ -12,6 +12,16 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('mdc-text-field__input'));
 });
 
+test('default inputType is "input"', () => {
+  const wrapper = shallow(<Input />);
+  assert.equal(wrapper.type(), 'input');
+});
+
+test('inputType is "textarea"', () => {
+  const wrapper = shallow(<Input inputType="textarea" />);
+  assert.equal(wrapper.type(), 'textarea');
+});
+
 test('#isBadInput returns false if input is ok', () => {
   const wrapper = mount(<Input value='meow'/>);
   const isBadInput = wrapper.instance().isBadInput();

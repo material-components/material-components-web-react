@@ -121,7 +121,7 @@ export default class Input extends React.Component {
 
   render() {
     const {
-      component,
+      inputType,
       disabled,
       /* eslint-disable no-unused-vars */
       className,
@@ -139,7 +139,7 @@ export default class Input extends React.Component {
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
-    const InputComponent = component;
+    const InputComponent = inputType;
     return (
       <InputComponent
         onFocus={this.handleFocus}
@@ -159,7 +159,7 @@ export default class Input extends React.Component {
 
 Input.propTypes = {
   className: PropTypes.string,
-  component: PropTypes.node.isRequired,
+  inputType: PropTypes.node.isRequired,
   disabled: PropTypes.bool,
   foundation: PropTypes.shape({
     activateFocus: PropTypes.func,
@@ -187,7 +187,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
   className: '',
-  component: 'input',
+  inputType: 'input',
   disabled: false,
   foundation: {
     activateFocus: () => {},
