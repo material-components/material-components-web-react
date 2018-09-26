@@ -44,6 +44,17 @@ export class Checkbox extends Component {
   componentDidMount() {
     this.foundation_ = new MDCCheckboxFoundation(this.adapter);
     this.foundation_.init();
+    this.foundation_.handleChange();
+    this.foundation_.setDisabled(this.props.disabled);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.checked !== prevProps.checked) {
+      this.foundation_.handleChange();
+    }
+    if (this.props.disabled !== prevProps.disabled) {
+      this.foundation_.setDisabled(this.props.disabled);
+    }
   }
 
   componentWillUnmount() {
@@ -72,6 +83,16 @@ export class Checkbox extends Component {
         classList.delete(className);
         this.setState({classList});
       },
+      hasNativeControl: () => true,
+      isAttachedToDOM: () => true,
+      isChecked: () => this.state.checked,
+      isIndeterminate: () => false,
+
+      // setNativeControlAttr
+      // removeNativeControlAttr
+      // setNativeControlChecked
+      // setNativeControlDisabled
+      // forceLayout
     };
   }
 
@@ -91,6 +112,7 @@ export class Checkbox extends Component {
     return (
       <div
         className={this.classes}
+        onAnimationEnd={() => this.foundation_.handleAnimationEnd()}
         ref={this.init}
         {...otherProps}
       >
@@ -99,8 +121,9 @@ export class Checkbox extends Component {
           checked={this.state.checked}
           disabled={this.state.disabled}
           onChange={(evt) => {
-            this.setState({checked: evt.target.checked});
-            this.foundation_ && this.foundation_.handleChange(evt);
+            this.setState(
+              {checked: evt.target.checked},
+              () => this.foundation_.handleChange());
           }}
           rippleActivatorRef={this.rippleActivator}
         />
