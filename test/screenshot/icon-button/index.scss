@@ -1,0 +1,5 @@
+@import "../../../packages/icon-button/index.scss";
+
+.demo-custom-color .mdc-icon-button {
+  @include mdc-icon-button-ink-color(primary);
+}

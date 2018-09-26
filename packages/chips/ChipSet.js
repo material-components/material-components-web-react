@@ -42,7 +42,9 @@ export default class ChipSet extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.selectedChipIds !== prevProps.selectedChipIds) {
-      this.updateChipSelection();
+      const selectedChipIds = new Set(this.props.selectedChipIds);
+      this.setState({selectedChipIds});
+      this.updateChipSelection(selectedChipIds);
     }
   }
 
@@ -74,12 +76,13 @@ export default class ChipSet extends Component {
     };
   }
 
-  updateChipSelection() {
+  updateChipSelection(ids = this.state.selectedChipIds) {
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
-      if (this.props.selectedChipIds.indexOf(id) > -1) {
+      if (ids.has(id)) {
         this.foundation_.select(id);
       } else {
+        // remove deselect when MDC Web issue 3612 is fixed
         this.foundation_.deselect(id);
       }
     });
@@ -87,6 +90,9 @@ export default class ChipSet extends Component {
 
   handleSelect = (chipId) => {
     const {handleSelect, choice, filter} = this.props;
+    // update when mdc web issue is fix
+    // https://github.com/material-components/material-components-web/issues/3613
+    // filter || choice is duplicate logic found in MDC Web foundation code
     if (filter || choice) {
       this.foundation_.toggleSelect(chipId);
     }
@@ -94,13 +100,33 @@ export default class ChipSet extends Component {
   }
 
   handleRemove = (chipId) => {
-    const {input, handleRemove} = this.props;
+    const {input} = this.props;
     if (input) {
       // this should be calling foundation_.handleChipRemoval, but we would
       // need to pass evt.detail.chipId
+      // fix when MDC Web issue 3613 is fixed
       this.foundation_.deselect(chipId);
     }
-    handleRemove(chipId);
+    this.removeChip(chipId);
+  }
+
+  // this should be adapter_.removeChip, but cannot be complete until
+  // https://github.com/material-components/material-components-web/issues/3613
+  // is fixed
+  removeChip = (chipId) => {
+    const {updateChips, children} = this.props;
+    if (!children) return;
+
+    const chips = React.Children.toArray(children).slice();
+    for (let i = 0; i < chips.length; i ++) {
+      const chip = chips[i];
+      if (chip.props.id === chipId) {
+        chips.splice(i, 1);
+        break;
+      }
+    }
+    const chipsArray = chips.length ? chips.map((chip) => chip.props) : [];
+    updateChips(chipsArray);
   }
 
   setCheckmarkWidth = (checkmark) => {
@@ -144,7 +170,7 @@ ChipSet.propTypes = {
   className: PropTypes.string,
   selectedChipIds: PropTypes.array,
   handleSelect: PropTypes.func,
-  handleRemove: PropTypes.func,
+  updateChips: PropTypes.func,
   choice: PropTypes.bool,
   filter: PropTypes.bool,
   input: PropTypes.bool,
@@ -155,7 +181,7 @@ ChipSet.defaultProps = {
   className: '',
   selectedChipIds: [],
   handleSelect: () => {},
-  handleRemove: () => {},
+  updateChips: () => {},
   choice: false,
   filter: false,
   input: false,

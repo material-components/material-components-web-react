@@ -1,26 +1,25 @@
 {
-  "name": "@material/react-tab-scroller",
+  "name": "@material/react-icon-button",
   "version": "0.5.0",
-  "description": "Material Components React Tab Scroller",
-  "license": "MIT",
-  "main": "dist/index.js",
+  "description": "Material Components React Icon Button",
+  "license": "Apache-2.0",
   "keywords": [
     "mdc web react",
     "material components react",
     "material design",
-    "tab scroller",
-    "tabscroller",
-    "tabs"
+    "material icon button",
+    "materialiconbutton"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/tab-scroller": "^0.39.0",
+    "@material/icon-button": "^0.39.0",
+    "@material/react-ripple": "^0.5.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
-    "react": "^16.4.2"
+    "react": "^16.3.2"
   },
   "publishConfig": {
     "access": "public"

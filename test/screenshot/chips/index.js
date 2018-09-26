@@ -82,17 +82,8 @@ class InputChipsTest extends React.Component {
         />
         <ChipSet
           input
-          // handleRemove removes the chip element from the page
-          handleRemove={(chipId) => {
-            const {chips} = this.state;
-            for (let i = 0; i < chips.length; i ++) {
-              if (chips[i].id === chipId) {
-                chips.splice(index, 1);
-                this.setState(chips);
-                return;
-              }
-            }
-          }}>
+          updateChips={(chips) => this.setState({chips})}
+        >
           {this.state.chips.map((chip) =>
             <Chip
               id={chip.id}
@@ -113,9 +104,14 @@ const sizes = ['Small', 'Medium', 'Large'];
 const clothes = ['Tops', 'Bottoms', 'Shoes'];
 const contacts = ['Jane Smith', 'John Doe'];
 
-const renderChips = (list) => {
+const renderChips = (list, hasLeadingIcon = false) => {
   return list.map((label, index) => (
-    <Chip id={`${index}chip`} key={index} label={label} />
+    <Chip
+      id={`${index}chip`}
+      key={index}
+      label={label}
+      leadingIcon={hasLeadingIcon ? <MaterialIcon icon='shopping_basket' /> : null}
+    />
   ));
 };
 
@@ -132,7 +128,12 @@ const ChipsScreenshotTest = () => {
         {renderChips(sizes)}
       </ChoiceChipsTest>
 
-      Filter Chips
+      Filter Chips with Leading Icon
+      <FilterChipsTest selectedChipIds={['1chip', '2chip']}>
+        {renderChips(clothes, true)}
+      </FilterChipsTest>
+
+      Filter Chips no Leading Icon
       <FilterChipsTest selectedChipIds={['1chip', '2chip']}>
         {renderChips(clothes)}
       </FilterChipsTest>

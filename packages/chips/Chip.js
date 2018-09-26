@@ -31,6 +31,7 @@ export class Chip extends Component {
   foundation_ = null;
   state = {
     classList: new Set(),
+    leadingIconClassList: new Set(),
   };
 
   componentDidMount() {
@@ -78,20 +79,41 @@ export class Chip extends Component {
         (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
       notifyRemoval: () => this.props.handleRemove(this.props.id),
+      notifyInteraction: () => this.props.handleSelect(this.props.id),
+      addClassToLeadingIcon: (className) => {
+        const leadingIconClassList = new Set(this.state.leadingIconClassList);
+        leadingIconClassList.add(className);
+        this.setState({leadingIconClassList});
+      },
+      removeClassFromLeadingIcon: (className) => {
+        const leadingIconClassList = new Set(this.state.leadingIconClassList);
+        leadingIconClassList.delete(className);
+        this.setState({leadingIconClassList});
+      },
     };
   }
 
   onClick = (e) => {
-    const {onClick, handleSelect, id} = this.props;
+    const {onClick} = this.props;
     onClick(e);
-    handleSelect(id);
+    this.foundation_.handleInteraction(e);
+  }
+
+  onKeyDown = (e) => {
+    const {onKeyDown} = this.props;
+    onKeyDown(e);
+    this.foundation_.handleInteraction(e);
   }
 
   handleRemoveIconClick = (e) => this.foundation_.handleTrailingIconInteraction(e);
 
-  handleTransitionEnd = (e) => this.foundation_.handleTransitionEnd(e);
+  handleTransitionEnd = (e) => {
+    this.props.onTransitionEnd(e);
+    this.foundation_.handleTransitionEnd(e);
+  };
 
   renderLeadingIcon = (leadingIcon) => {
+    const {leadingIconClassList} = this.state;
     const {
       className,
       ...otherProps
@@ -100,6 +122,7 @@ export class Chip extends Component {
     const props = {
       className: classnames(
         className,
+        Array.from(leadingIconClassList),
         'mdc-chip__icon',
         'mdc-chip__icon--leading',
       ),
@@ -140,6 +163,8 @@ export class Chip extends Component {
       handleSelect,
       handleRemove,
       onClick,
+      onKeyDown,
+      onTransitionEnd,
       computeBoundingRect,
       initRipple,
       unbounded,
@@ -156,6 +181,7 @@ export class Chip extends Component {
         tabIndex='0'
         className={this.classes}
         onClick={this.onClick}
+        onKeyDown={this.onKeyDown}
         onTransitionEnd={this.handleTransitionEnd}
         ref={this.init}
         {...otherProps}
@@ -177,6 +203,8 @@ Chip.propTypes = {
   handleSelect: PropTypes.func,
   handleRemove: PropTypes.func,
   onClick: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onTransitionEnd: PropTypes.func,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
   chipCheckmark: PropTypes.node,
@@ -190,6 +218,8 @@ Chip.defaultProps = {
   className: '',
   selected: false,
   onClick: () => {},
+  onKeyDown: () => {},
+  onTransitionEnd: () => {},
   initRipple: () => {},
   handleSelect: () => {},
   handleRemove: () => {},
