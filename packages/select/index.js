@@ -117,6 +117,10 @@ export default class Select extends React.Component {
     const lineRippleAdapter = {
       activateBottomLine: () => this.setState({activeLineRipple: true}),
       deactivateBottomLine: () => this.setState({activeLineRipple: false}),
+      // TODO mgoo: once https://github.com/material-components/material-components-web/issues/3159
+      // is merged - you may need to update this line for the line ripple to work correctly.
+      // Currently this adapter method does nothing.
+      setLineRippleTransformOrigin: (lineRippleCenter) => this.setState({lineRippleCenter}),
     };
 
     const notchedOutlineAdapter = {
@@ -169,7 +173,6 @@ export default class Select extends React.Component {
         foundation={this.foundation_}
         handleDisabled={(disabled) => this.setState({disabled})}
         onChange={this.onChange}
-        setRippleCenter={(lineRippleCenter) => this.setState({lineRippleCenter})}
         {...otherProps}
       >
         {this.renderOptions()}

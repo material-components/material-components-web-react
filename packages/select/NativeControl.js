@@ -39,36 +39,16 @@ export default class NativeControl extends React.Component {
     return classnames('mdc-select__native-control', this.props.className);
   }
 
-  handleFocus = (evt) => {
+  handleFocus = (e) => {
     const {foundation, onFocus} = this.props;
-    foundation.handleFocus(evt);
-    onFocus(evt);
+    foundation.handleFocus(e);
+    onFocus(e);
   }
 
-  handleBlur = (evt) => {
+  handleBlur = (e) => {
     const {foundation, onBlur} = this.props;
-    foundation.handleBlur(evt);
-    onBlur(evt);
-  }
-
-  handleMouseDown = (evt) => {
-    const {onMouseDown} = this.props;
-    this.setRippleCenter(evt.clientX, evt.target);
-    onMouseDown(evt);
-  }
-
-  handleTouchStart = (evt) => {
-    const {onTouchStart} = this.props;
-    const clientX = evt.touches[0] && evt.touches[0].clientX;
-    this.setRippleCenter(clientX, evt.target);
-    onTouchStart(evt);
-  }
-
-  setRippleCenter = (clientX, target) => {
-    const targetClientRect = target.getBoundingClientRect();
-    const xCoordinate = clientX;
-    const normalizedX = xCoordinate - targetClientRect.left;
-    this.props.setRippleCenter(normalizedX);
+    foundation.handleBlur(e);
+    onBlur(e);
   }
 
   render() {
@@ -83,9 +63,6 @@ export default class NativeControl extends React.Component {
       onFocus,
       onBlur,
       onChange,
-      onTouchStart,
-      onMouseDown,
-      setRippleCenter,
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
@@ -95,8 +72,6 @@ export default class NativeControl extends React.Component {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onChange={onChange}
-        onMouseDown={this.handleMouseDown}
-        onTouchStart={this.handleTouchStart}
         disabled={disabled}
         value={value}
         className={this.classes}
@@ -120,9 +95,6 @@ NativeControl.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
-  onTouchStart: PropTypes.func,
-  onMouseDown: PropTypes.func,
-  setRippleCenter: PropTypes.func,
   handleDisabled: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
@@ -142,9 +114,6 @@ NativeControl.defaultProps = {
   onBlur: () => {},
   onChange: () => {},
   onFocus: () => {},
-  onTouchStart: () => {},
-  onMouseDown: () => {},
-  setRippleCenter: () => {},
   handleDisabled: () => {},
   value: '',
 };
