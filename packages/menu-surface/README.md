@@ -1,6 +1,6 @@
 # React Menu Surface
 
-A React version of an [MDC Menu Surface](https://github.com/material-components/material-components-web/tree/master/packages/mdc-fab).
+A React version of an [MDC Menu Surface](https://github.com/material-components/material-components-web/tree/master/packages/mdc-menu-surface).
 
 ## Installation
 
