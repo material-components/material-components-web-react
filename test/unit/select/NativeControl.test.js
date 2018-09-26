@@ -95,7 +95,7 @@ test('#event.touchstart calls #props.onTouchStart', () => {
     target: {
       getBoundingClientRect: () => ({left: 15}),
       value: 'value',
-    }
+    },
   };
   wrapper.simulate('touchstart', evt);
   td.verify(onTouchStart(evt), {times: 1});
@@ -110,7 +110,7 @@ test('#event.touchstart calls #props.setRippleCenter', () => {
     target: {
       getBoundingClientRect: () => ({left: 15}),
       value: 'value',
-    }
+    },
   };
   wrapper.simulate('touchstart', evt);
   const left = evt.target.getBoundingClientRect().left;
