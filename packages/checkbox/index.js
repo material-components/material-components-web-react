@@ -32,28 +32,41 @@ export class Checkbox extends Component {
 
   constructor(props) {
     super(props);
-    this.rippleActivator = React.createRef();
+    this.inputElement_ = React.createRef();
     this.foundation_ = null;
     this.state = {
       checked: props.checked,
+      indeterminate: props.indeterminate,
       classList: new Set(),
-      disabled: props.disabled,
     };
   }
 
   componentDidMount() {
     this.foundation_ = new MDCCheckboxFoundation(this.adapter);
     this.foundation_.init();
-    this.foundation_.handleChange();
     this.foundation_.setDisabled(this.props.disabled);
+    // indeterminate property is not supported
+    // https://github.com/facebook/react/issues/1798#issuecomment-333414857
+    this.inputElement_.current.indeterminate = this.state.indeterminate;
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.checked !== prevProps.checked) {
-      this.foundation_.handleChange();
+    const {
+      checked,
+      indeterminate,
+      disabled
+    } = this.props;
+
+    if (checked !== prevProps.checked || indeterminate !== prevProps.indeterminate) {
+      this.setState({checked}, () => this.foundation_.handleChange());
     }
-    if (this.props.disabled !== prevProps.disabled) {
-      this.foundation_.setDisabled(this.props.disabled);
+    if (indeterminate !== prevProps.indeterminate) {
+      this.setState({indeterminate}, () => {
+        this.inputElement_.current.indeterminate = indeterminate;
+      });
+    }
+    if (disabled !== prevProps.disabled) {
+      this.foundation_.setDisabled(disabled);
     }
   }
 
@@ -62,7 +75,7 @@ export class Checkbox extends Component {
   }
 
   init = (el) => {
-    this.props.initRipple(el, this.rippleActivator.current);
+    this.props.initRipple(el, this.inputElement_.current);
   }
 
   get classes() {
@@ -86,7 +99,7 @@ export class Checkbox extends Component {
       hasNativeControl: () => true,
       isAttachedToDOM: () => true,
       isChecked: () => this.state.checked,
-      isIndeterminate: () => false,
+      isIndeterminate: () => this.state.indeterminate,
 
       // setNativeControlAttr
       // removeNativeControlAttr
@@ -98,13 +111,14 @@ export class Checkbox extends Component {
 
   render() {
     const {
-      /* eslint-disable */
+      /* eslint-disable no-unused-vars */
       className,
       checked,
-      disabled,
+      indeterminate,
       initRipple,
       unbounded,
-      /* eslint-enable */
+      /* eslint-enable no-unused-vars */
+      disabled,
       nativeControlId,
       ...otherProps
     } = this.props;
@@ -119,13 +133,12 @@ export class Checkbox extends Component {
         <NativeControl
           id={nativeControlId}
           checked={this.state.checked}
-          disabled={this.state.disabled}
+          disabled={disabled}
           onChange={(evt) => {
-            this.setState(
-              {checked: evt.target.checked},
-              () => this.foundation_.handleChange());
+            const {checked, indeterminate} = evt.target;
+            this.setState({checked, indeterminate}, () => this.foundation_.handleChange());
           }}
-          rippleActivatorRef={this.rippleActivator}
+          rippleActivatorRef={this.inputElement_}
         />
         <div className='mdc-checkbox__background'>
           <svg className='mdc-checkbox__checkmark'
@@ -145,6 +158,7 @@ Checkbox.propTypes = {
   checked: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
+  indeterminate: PropTypes.bool,
   nativeControlId: PropTypes.string,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
@@ -154,6 +168,7 @@ Checkbox.defaultProps = {
   checked: false,
   className: '',
   disabled: false,
+  indeterminate: false,
   nativeControlId: null,
   initRipple: () => {},
   unbounded: true,
