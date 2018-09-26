@@ -54,6 +54,13 @@ test('#componentDidUpdate when rippleCenter updates it calls ' +
   td.verify(wrapper.instance().foundation_.setRippleCenter(10), {times: 1});
 });
 
+test('does not call #foundation.setRippleCenter when props.rippleCenter is NaN', () => {
+  const wrapper = shallow(<LineRipple />);
+  wrapper.instance().foundation_.setRippleCenter = td.func();
+  wrapper.setProps({rippleCenter: NaN});
+  td.verify(wrapper.instance().foundation_.setRippleCenter(td.matchers.anything()), {times: 0});
+});
+
 test('#adapter.addClass updates state.classList', () => {
   const wrapper = shallow(<LineRipple />);
   wrapper.instance().foundation_.adapter_.addClass('test-color-class');

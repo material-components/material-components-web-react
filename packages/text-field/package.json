@@ -1,6 +1,6 @@
 {
   "name": "@material/react-text-field",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Material Components React Text Field",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@material/react-floating-label": "^0.5.0",
-    "@material/react-line-ripple": "^0.5.0",
+    "@material/react-line-ripple": "^0.5.1",
     "@material/react-notched-outline": "^0.5.0",
     "@material/textfield": "^0.39.0",
     "classnames": "^2.2.5",

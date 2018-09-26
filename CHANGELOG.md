@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.4.2...v) (2018-09-25)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.5.0...v) (2018-09-25)
+
+
+### Bug Fixes
+
+* **line-ripple:** stop calling foundation.setRippleCenter when argument is NaN ([#287](https://github.com/material-components/material-components-web-react/issues/287)) ([4bbc4fa](https://github.com/material-components/material-components-web-react/commit/4bbc4fa))
+
+
+
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/material-components/material-components-web-react/compare/v0.4.2...v0.5.0) (2018-09-25)
 
 
 ### Bug Fixes

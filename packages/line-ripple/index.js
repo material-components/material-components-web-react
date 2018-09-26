@@ -50,7 +50,10 @@ export default class LineRipple extends Component {
         this.foundation_.deactivate();
       }
     }
-    if (this.props.rippleCenter !== prevProps.rippleCenter) {
+    // isNaN checks are a temporary fix until MDC Web has fix
+    // https://github.com/material-components/material-components-web-react/issues/275
+    // https://github.com/material-components/material-components-web/issues/3643
+    if (this.props.rippleCenter !== prevProps.rippleCenter && !isNaN(this.props.rippleCenter)) {
       this.foundation_.setRippleCenter(this.props.rippleCenter);
     }
   }
