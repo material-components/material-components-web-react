@@ -100,9 +100,10 @@ export class Checkbox extends Component {
       isAttachedToDOM: () => true,
       isChecked: () => this.state.checked,
       isIndeterminate: () => this.state.indeterminate,
+      setNativeControlAttr: (attr, value) => this.setState({[attr]: value}),
+      removeNativeControlAttr: (attr) => this.setState({[attr]: ''}),
 
-      // setNativeControlAttr
-      // removeNativeControlAttr
+      // Unused adapter methods:
       // setNativeControlChecked
       // setNativeControlDisabled
       // forceLayout
@@ -134,6 +135,7 @@ export class Checkbox extends Component {
           id={nativeControlId}
           checked={this.state.checked}
           disabled={disabled}
+          aria-checked={this.state['aria-checked']}
           onChange={(evt) => {
             const {checked, indeterminate} = evt.target;
             this.setState({checked, indeterminate}, () => this.foundation_.handleChange());
