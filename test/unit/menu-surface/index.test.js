@@ -8,17 +8,17 @@ suite('MenuSurface');
 
 const removeMenuFromBody = (wrapper) => {
   wrapper.find('.mdc-menu-surface').getDOMNode().remove();
-}
+};
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<MenuSurface className='test-class-name'/>);
   assert.isTrue(wrapper.hasClass('test-class-name'));
-  assert.isTrue(wrapper.hasClass('mdc-menu-surface'))
+  assert.isTrue(wrapper.hasClass('mdc-menu-surface'));
 });
 
 test('classList adds classes', () => {
   const wrapper = shallow(<MenuSurface />);
-  wrapper.setState({classList: new Set(['test-class-name'])})
+  wrapper.setState({classList: new Set(['test-class-name'])});
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -122,7 +122,7 @@ test('#deregisterWindowClickListener_ removes click event handler to window', ()
   const clickEvent = new Event('click');
   window.dispatchEvent(clickEvent);
   td.verify(wrapper.instance().foundation_.handleBodyClick(clickEvent), {times: 0});
-})
+});
 
 test('#adapter.notifyOpen calls #registerWindowClickListener_', () => {
   const wrapper = shallow(<MenuSurface />);
@@ -229,10 +229,6 @@ test('#adapter.getAnchorDimensions returns width/height of menuSurfaceElement_',
   document.body.append(div);
   const options = {attachTo: div};
   const wrapper = mount(<MenuSurface anchorElement={div}><button>hello</button></MenuSurface>, options);
-  const domRect = {
-    x: 0, y: 0, width: 0, height: 0, top: 0,
-    right: 0, bottom: 0, left: 0,
-  };
   assert.deepInclude(wrapper.instance().foundation_.adapter_.getAnchorDimensions(), div.getBoundingClientRect());
   removeMenuFromBody(wrapper);
   div.remove();
@@ -258,14 +254,14 @@ test('#adapter.getWindowScroll returns scroll of window', () => {
   const wrapper = shallow(<MenuSurface/>);
 
   const scroll = wrapper.update().instance().foundation_.adapter_.getWindowScroll();
-  assert.equal(scroll.x, 0);
-  assert.equal(scroll.y, 0);
+  assert.isAtLeast(scroll.x, 0);
+  assert.isAtLeast(scroll.y, 0);
 });
 
 test('#adapter.setPosition sets left, right, top, bottom state variables', () => {
   const wrapper = shallow(<MenuSurface/>);
   wrapper.instance().foundation_.adapter_.setPosition({
-    left: 20, bottom: 30, top: 40
+    left: 20, bottom: 30, top: 40,
   });
 
   assert.equal(wrapper.state().styleLeft, 20);
@@ -361,16 +357,16 @@ test('onKeyDown calls props.onKeyDown', () => {
   const onKeyDown = td.func();
   const wrapper = shallow(<MenuSurface onKeyDown={onKeyDown}/>);
   const evt = {};
-  wrapper.simulate('keydown', evt);
+  wrapper.instance().handleKeydown(evt);
   td.verify(onKeyDown(evt), {times: 1});
 });
 
-test.only('onKeyDown calls foundation.handleKeydown', () => {
-  const wrapper = shallow(<MenuSurface/>);
-  wrapper.instance().foundation_.handleKeyDown = td.func();
+test('onKeyDown calls foundation.handleKeydown', () => {
+  const wrapper = shallow(<MenuSurface>hello</MenuSurface>);
+  wrapper.instance().foundation_.handleKeydown = td.func();
   const evt = {};
-  wrapper.simulate('keydown', evt);
-  td.verify(wrapper.instance().foundation_.handleKeyDown(evt), {times: 1});
+  wrapper.instance().handleKeydown(evt);
+  td.verify(wrapper.instance().foundation_.handleKeydown(evt), {times: 1});
 });
 
 test('component styles is applied from this.styles', () => {

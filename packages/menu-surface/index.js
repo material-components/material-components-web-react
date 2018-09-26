@@ -99,7 +99,8 @@ class MenuSurface extends React.Component {
     // here we force the menu to hoist, and require either
     // this.props.(x,y) or this.props.anchorElement.
     if (this.menuSurfaceElement_ && this.menuSurfaceElement_.current) {
-      document.body.appendChild(this.menuSurfaceElement_.current.parentElement.removeChild(this.menuSurfaceElement_.current));
+      const menuSurfaceElement = this.menuSurfaceElement_.current;
+      document.body.appendChild(menuSurfaceElement.parentElement.removeChild(menuSurfaceElement));
       this.foundation_.setIsHoisted(true);
     }
   }
@@ -200,14 +201,16 @@ class MenuSurface extends React.Component {
       hasAnchor: () => !!this.props.anchorElement,
       isElementInContainer: (el) => this.menuSurfaceElement_
         && this.menuSurfaceElement_.current === el || this.menuSurfaceElement_.current.contains(el),
-      isRtl: () => this.menuSurfaceElement_ && window.getComputedStyle(this.menuSurfaceElement_.current).getPropertyValue('direction') === 'rtl',
+      isRtl: () => this.menuSurfaceElement_
+        && window.getComputedStyle(this.menuSurfaceElement_.current).getPropertyValue('direction') === 'rtl',
       setTransformOrigin: (transformOrigin) => this.setState({transformOrigin}),
     }, focusAdapterMethods, dimensionAdapterMethods);
   }
 
   open_ = () => {
     if (this.props.open) {
-      const focusableElements = this.menuSurfaceElement_.current.querySelectorAll(MDCMenuSurfaceFoundation.strings.FOCUSABLE_ELEMENTS);
+      const focusableElements
+        = this.menuSurfaceElement_.current.querySelectorAll(MDCMenuSurfaceFoundation.strings.FOCUSABLE_ELEMENTS);
       this.firstFocusableElement_ = focusableElements.length > 0 ? focusableElements[0] : null;
       this.lastFocusableElement_ = focusableElements.length > 0 ?
         focusableElements[focusableElements.length - 1] : null;
@@ -217,7 +220,7 @@ class MenuSurface extends React.Component {
     }
   }
 
-  handleKeyDown = (evt) => {
+  handleKeydown = (evt) => {
     this.props.onKeyDown(evt);
     this.foundation_.handleKeydown(evt);
   }
@@ -225,22 +228,24 @@ class MenuSurface extends React.Component {
   render() {
     const {
       /* eslint-disable */
+      anchorCorner,
       anchorElement,
       anchorMargin,
       className,
       coordinates,
+      fixed,
       onClose,
       onKeyDown,
       styles,
+      quickOpen,
       /* eslint-enable */
       children,
       ...otherProps
     } = this.props;
-
     return (
       <div
         className={this.classes}
-        onKeyDown={this.handleKeyDown}
+        onKeyDown={this.handleKeydown}
         ref={this.menuSurfaceElement_}
         style={this.styles}
         {...otherProps}
@@ -254,6 +259,8 @@ class MenuSurface extends React.Component {
 MenuSurface.propTypes = {
   className: PropTypes.string,
   anchorElement: PropTypes.object,
+  anchorCorner: PropTypes.number,
+  anchorMargin: PropTypes.object,
   styles: PropTypes.object,
   coordinates: PropTypes.shape({
     x: PropTypes.number,
@@ -261,15 +268,25 @@ MenuSurface.propTypes = {
   }),
   onClose: PropTypes.func,
   onKeyDown: PropTypes.func,
+  children: PropTypes.node,
+  quickOpen: PropTypes.bool,
+  open: PropTypes.bool,
+  fixed: PropTypes.bool,
 };
 
 MenuSurface.defaultProps = {
   className: '',
   styles: {},
   anchorElement: null,
+  anchorCorner: 0,
+  anchorMargin: {},
   coordinates: null,
   onClose: () => {},
   onKeyDown: () => {},
+  children: null,
+  quickOpen: false,
+  open: false,
+  fixed: false,
 };
 
 export default MenuSurface;

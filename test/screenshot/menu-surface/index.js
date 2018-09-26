@@ -10,12 +10,12 @@ import Button from '../../../packages/button/index';
 const renderListItem = (text, index) => {
   return (
     <li key={index} className='mdc-list-item' role='menuitem'>
-      <span className='mdc-list-item__text'>
+      <button><span className='mdc-list-item__text'>
         {text}
-      </span>
+      </span></button>
     </li>
   );
-}
+};
 
 class MenuSurfaceButton extends React.Component {
   anchorElement = React.createRef();
@@ -23,7 +23,7 @@ class MenuSurfaceButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: props.open,
+      open: props.open, // eslint-disable-line react/prop-types
       coordinates: null,
     };
   }
@@ -41,7 +41,7 @@ class MenuSurfaceButton extends React.Component {
       this.forceUpdate();
     }
 
-    if (this.props.contextmenu) {
+    if (this.props.contextmenu) { // eslint-disable-line react/prop-types
       window.addEventListener('contextmenu', this.rightClickCallback_);
     }
   }
@@ -51,7 +51,9 @@ class MenuSurfaceButton extends React.Component {
   }
 
   render() {
-    const {anchorCorner, anchorMargin, className, contextmenu} = this.props;
+    const {
+      anchorCorner, anchorMargin, className, contextmenu, // eslint-disable-line react/prop-types
+    } = this.props;
     const {coordinates, open} = this.state;
     return (
       <div>
@@ -119,5 +121,5 @@ const MenuSurfaceScreenshotTest = () => {
       <MenuSurfaceButton contextmenu />
     </div>
   );
-}
+};
 export default MenuSurfaceScreenshotTest;
