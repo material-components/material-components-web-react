@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TextField, {Input, HelperText} from '../../../packages/text-field';
+import TextField, {Input, HelperText} from '../../../packages/text-field/index';
 import MaterialIcon from '../../../packages/material-icon/index';
 
 import '../../../packages/floating-label/index.scss';

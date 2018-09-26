@@ -1,6 +1,6 @@
 {
   "name": "@material/react-select",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Material Components React Select",
   "license": "MIT",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@material/react-floating-label": "^0.5.0",
-    "@material/react-line-ripple": "^0.5.0",
+    "@material/react-line-ripple": "^0.5.1",
     "@material/react-notched-outline": "^0.5.0",
     "@material/select": "^0.40.0",
     "classnames": "^2.2.5",
