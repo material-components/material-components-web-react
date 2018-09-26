@@ -29,6 +29,7 @@ class TestField extends React.Component {
 }
 
 const icon = <MaterialIcon icon='favorite' />;
+const iconAlt = <MaterialIcon icon='work' />;
 const variants = [
   {},
   {outlined: true},
@@ -38,6 +39,7 @@ const icons = [
   {},
   {leadingIcon: icon},
   {trailingIcon: icon},
+  {leadingIcon: icon, trailingIcon: iconAlt},
 ];
 
 const denseMap = [
