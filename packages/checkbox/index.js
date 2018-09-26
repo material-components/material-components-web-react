@@ -121,6 +121,7 @@ export class Checkbox extends Component {
       /* eslint-enable no-unused-vars */
       disabled,
       nativeControlId,
+      onChange,
       ...otherProps
     } = this.props;
 
@@ -139,6 +140,7 @@ export class Checkbox extends Component {
           onChange={(evt) => {
             const {checked, indeterminate} = evt.target;
             this.setState({checked, indeterminate}, () => this.foundation_.handleChange());
+            onChange(evt);
           }}
           rippleActivatorRef={this.inputElement_}
         />
@@ -162,6 +164,7 @@ Checkbox.propTypes = {
   disabled: PropTypes.bool,
   indeterminate: PropTypes.bool,
   nativeControlId: PropTypes.string,
+  onChange: PropTypes.func,
   initRipple: PropTypes.func,
   unbounded: PropTypes.bool,
 };
@@ -172,6 +175,7 @@ Checkbox.defaultProps = {
   disabled: false,
   indeterminate: false,
   nativeControlId: null,
+  onChange: () => {},
   initRipple: () => {},
   unbounded: true,
 };
