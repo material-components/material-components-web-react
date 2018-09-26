@@ -11,7 +11,7 @@ class MenuSurfaceButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: props.open, // eslint-disable-line react/prop-types
+      open: false, // eslint-disable-line react/prop-types
       coordinates: null,
     };
   }
@@ -24,6 +24,12 @@ class MenuSurfaceButton extends React.Component {
       });
       evt.preventDefault();
     };
+
+    setTimeout(() => {
+      if (this.props.open) {
+        this.setState({open: true});
+      }
+    }, 10)
 
     if (this.props.contextmenu) { // eslint-disable-line react/prop-types
       window.addEventListener('contextmenu', this.rightClickCallback_);

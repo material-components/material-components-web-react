@@ -98,11 +98,10 @@ class MenuSurface extends React.Component {
     // this deviatees from the mdc web version.
     // here we force the menu to hoist, and require either
     // this.props.(x,y) or this.props.anchorElement.
-    if (this.menuSurfaceElement_ && this.menuSurfaceElement_.current) {
-      const menuSurfaceElement = this.menuSurfaceElement_.current;
-      document.body.appendChild(menuSurfaceElement.parentElement.removeChild(menuSurfaceElement));
-      this.foundation_.setIsHoisted(true);
-    }
+    if (!(this.menuSurfaceElement_ && this.menuSurfaceElement_.current)) return;
+    const menuSurfaceElement = this.menuSurfaceElement_.current;
+    document.body.appendChild(menuSurfaceElement.parentElement.removeChild(menuSurfaceElement));
+    this.foundation_.setIsHoisted(true);
   }
 
   setCoordinates() {
