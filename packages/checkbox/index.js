@@ -45,7 +45,7 @@ export class Checkbox extends Component {
     this.foundation_ = new MDCCheckboxFoundation(this.adapter);
     this.foundation_.init();
     this.foundation_.setDisabled(this.props.disabled);
-    // indeterminate property is not supported
+    // indeterminate property on checkboxes is not supported:
     // https://github.com/facebook/react/issues/1798#issuecomment-333414857
     this.inputElement_.current.indeterminate = this.state.indeterminate;
   }
