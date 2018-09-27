@@ -243,11 +243,14 @@ test('#adapter.getWindowDimensions returns width/height of menuSurfaceElement_',
 });
 
 test('#adapter.getBodyDimensions returns width/height of body', () => {
-  const wrapper = shallow(<MenuSurface/>);
+  const div = document.createElement('div');
+  document.body.append(div);
+  const options = {attachTo: div};
+  const wrapper = mount(<MenuSurface><button>hello</button></MenuSurface>, options);
 
   const dim = wrapper.update().instance().foundation_.adapter_.getBodyDimensions();
-  assert.isAbove(dim.width, 0);
-  assert.isAbove(dim.height, 0);
+  assert.isAtLeast(dim.width, 0);
+  assert.isAtLeast(dim.height, 0);
 });
 
 test('#adapter.getWindowScroll returns scroll of window', () => {
