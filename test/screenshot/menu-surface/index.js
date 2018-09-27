@@ -44,12 +44,12 @@ class MenuSurfaceButton extends React.Component {
 
   render() {
     const {
-      anchorCorner, anchorMargin, className, contextmenu, // eslint-disable-line react/prop-types
+      anchorCorner, anchorMargin, contextmenu, // eslint-disable-line react/prop-types
     } = this.props;
     const {coordinates, open, anchorElement} = this.state;
     return (
       <div
-        className={`${className} menu-surface-button mdc-menu-surface--anchor`}
+        className={`menu-surface-button mdc-menu-surface--anchor`}
         ref={this.setAnchorElement}
       >
         {contextmenu ? null : this.renderButton()}
@@ -101,18 +101,7 @@ const MenuSurfaceScreenshotTest = () => {
   return (
     <div className='menu-surface-screenshot-test'>
       <MenuSurfaceButton open
-        anchorCorner={Corner.TOP_RIGHT}
-      />
-      <MenuSurfaceButton open
-        anchorMargin={{left: 40}}
         anchorCorner={Corner.BOTTOM_RIGHT}
-      />
-      <MenuSurfaceButton open
-        anchorCorner={Corner.TOP_START}
-      />
-      <MenuSurfaceButton open
-        anchorCorner={Corner.BOTTOM_START}
-        className='menu-surface--bottom-start'
       />
       <MenuSurfaceButton contextmenu />
     </div>
