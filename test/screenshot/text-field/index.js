@@ -7,7 +7,6 @@ import '../../../packages/floating-label/index.scss';
 import '../../../packages/line-ripple/index.scss';
 import '../../../packages/notched-outline/index.scss';
 import '../../../packages/text-field/index.scss';
-import './index.scss';
 
 class TestField extends React.Component {
   state = {value: 'woof'};
