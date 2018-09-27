@@ -11,7 +11,7 @@ class MenuSurfaceButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false, // eslint-disable-line react/prop-types
+      open: props.open, // eslint-disable-line react/prop-types
       coordinates: null,
     };
   }
@@ -24,12 +24,6 @@ class MenuSurfaceButton extends React.Component {
       });
       evt.preventDefault();
     };
-
-    setTimeout(() => {
-      if (this.props.open) {
-        this.setState({open: true});
-      }
-    }, 10)
 
     if (this.props.contextmenu) { // eslint-disable-line react/prop-types
       window.addEventListener('contextmenu', this.rightClickCallback_);
@@ -108,16 +102,13 @@ const MenuSurfaceScreenshotTest = () => {
     <div className='menu-surface-screenshot-test'>
       <MenuSurfaceButton open
         anchorCorner={Corner.TOP_RIGHT}
-        className='menu-surface--top-right'
       />
       <MenuSurfaceButton open
         anchorMargin={{left: 40}}
         anchorCorner={Corner.BOTTOM_RIGHT}
-        className='menu-surface--bottom-right'
       />
       <MenuSurfaceButton open
         anchorCorner={Corner.TOP_START}
-        className='menu-surface--top-start'
       />
       <MenuSurfaceButton open
         anchorCorner={Corner.BOTTOM_START}

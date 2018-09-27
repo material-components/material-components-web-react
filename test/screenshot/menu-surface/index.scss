@@ -1,29 +1,17 @@
-.menu-surface-button {
-  position: relative;
-}
-
-.menu-surface--top-right {
-  top: 20px;
-  left: 500px;
-}
-
-.menu-surface--bottom-right {
-  top: 400px;
-  left: 500px;
-}
-
-.menu-surface--top-start {
-  top: 20px;
-  left: 20px;
-}
-
 .menu-surface--bottom-start {
-  top: 400px;
-  left: 20px;
+  // top: 400px;
+  // left: 20px;
+  margin-bottom: 20px;
 }
 
 .menu-surface-screenshot-test {
   // needed for contextmenu to work correctly
   position: relative;
-  height: 200vh;
+  height: 100vh;
+  width: 100vw;
+}
+
+.menu-surface-button {
+  margin-bottom: 500px;
+  margin-left: 200px;
 }
