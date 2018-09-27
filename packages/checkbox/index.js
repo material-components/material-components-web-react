@@ -56,7 +56,7 @@ export class Checkbox extends Component {
     const {
       checked,
       indeterminate,
-      disabled
+      disabled,
     } = this.props;
 
     if (checked !== prevProps.checked) {

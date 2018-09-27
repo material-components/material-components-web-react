@@ -22,6 +22,6 @@ const CheckboxScreenshotTest = () => {
       <label htmlFor='custom-checkbox-input'>Custom checkbox with label</label>
     </div>
   );
-}
+};
 
 export default CheckboxScreenshotTest;
