@@ -22,14 +22,112 @@ with CSS:
 import '@material/react-menu-surface/dist/menu-surface.css';
 ```
 
-### JSX Structure
+### Javascript Instantiation
 
+#### Anchored to Element
+
+React Menu Surface accepts one child element. Please see the below example if you need to anchor the menu surface to a specific element. In this case, we wrapper `<button>` and `<MenuSurface>` element within the anchor, and give the `mdc-menu-surface--anchor` class to the element. You can specify a corner for the menu surface to appear from, otherwise it defaults to top-left. For a list of different anchor corner values, please see the [MDC Web Menu Surface constants.js file](https://github.com/material-components/material-components-web/blob/master/packages/mdc-menu-surface/constants.js#L74).
+
+> NOTE: `<MenuSurface>` also has an `onClose` callback method prop, which is called when the menu closes. Use this as an opportunity to update your application's state.
+
+```js
+import React from 'react';
+import MenuSurface, {Corner} from '@material/react-menu-surface';
+import Button from '@material/react-button';
+
+class MyApp extends React.Component {
+  state = {
+    open: false,
+    anchorElement: null,
+  };
+
+  setAnchorElement = (element) => {
+    if (this.state.anchorElement) {
+      return;
+    }
+    this.setState({anchorElement: element});
+  }
+
+  render() {
+    return (
+      <div
+        className='mdc-menu-surface--anchor'
+        ref={this.setAnchorElement}
+      >
+        <Button raised onClick={() => this.setState({open: true})}>Open Menu</Button>
+
+        <MenuSurface
+          open={this.state.open}
+          anchorCorner={Corner.BOTTOM_LEFT}
+          onClose={() => this.setState({open: false})}
+          anchorElement={anchorElement}
+        >
+          <img
+            style={{maxWidth: '20vw', maxHeight: '20vh'}}
+            src='http://images.my.photo.url' />
+        </MenuSurface>
+      </div>
+    );
+  }
+}
+```
+#### Anchored to Coordinates (right-click)
+
+You may want to anchor your menu surface to x, y coordinates. One example being a right-click contextmenu. Instead of passing an `anchorElement` you need to pass `coordinates`.
+
+
+```js
+import React from 'react';
+import MenuSurface from '@material/react-menu-surface';
+
+class MyApp extends React.Component {
+  state = {
+    open: false,
+  };
+
+  componentDidMount() {
+    this.rightClickCallback_ = (evt) => {
+      this.setState({
+        open: true,
+        coordinates: {x: evt.clientX, y: evt.clientY},
+      });
+      evt.preventDefault();
+    };
+
+    window.addEventListener('contextmenu', this.rightClickCallback_);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('contextmenu', this.rightClickCallback_);
+  }
+
+  render() {
+    return (
+      <div className='my-app'>
+        <h1>Menu Surface</h1>
+
+        <MenuSurface
+          open={this.state.open}
+          onClose={() => this.setState({open: false, coordinates: null})}
+          coordinates={coordinates}
+        >
+          <img
+            style={{maxWidth: '20vw', maxHeight: '20vh'}}
+            src='http://images.my.photo.url' />
+        </MenuSurface>
+      </div>
+    );
+  }
+}
+```
 
 ## Props
 
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
+anchorCorner | Corner | Sets the corner that the menu surface will be anchored to. See [MDC Web constants.js](https://github.com/material-components/material-components-web/blob/master/packages/mdc-menu-surface/constants.js#L74).
+anchorElement |
 
 ## Sass Mixins
 
