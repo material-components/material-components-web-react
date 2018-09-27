@@ -47,7 +47,9 @@ export class Checkbox extends Component {
     this.foundation_.setDisabled(this.props.disabled);
     // indeterminate property on checkboxes is not supported:
     // https://github.com/facebook/react/issues/1798#issuecomment-333414857
-    this.inputElement_.current.indeterminate = this.state.indeterminate;
+    if (this.inputElement_.current) {
+      this.inputElement_.current.indeterminate = this.state.indeterminate;
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -57,12 +59,15 @@ export class Checkbox extends Component {
       disabled
     } = this.props;
 
-    if (checked !== prevProps.checked || indeterminate !== prevProps.indeterminate) {
+    if (checked !== prevProps.checked) {
       this.setState({checked}, () => this.foundation_.handleChange());
     }
     if (indeterminate !== prevProps.indeterminate) {
       this.setState({indeterminate}, () => {
-        this.inputElement_.current.indeterminate = indeterminate;
+        this.foundation_.handleChange();
+        if (this.inputElement_.current) {
+          this.inputElement_.current.indeterminate = indeterminate;
+        }
       });
     }
     if (disabled !== prevProps.disabled) {
@@ -101,12 +106,7 @@ export class Checkbox extends Component {
       isChecked: () => this.state.checked,
       isIndeterminate: () => this.state.indeterminate,
       setNativeControlAttr: (attr, value) => this.setState({[attr]: value}),
-      removeNativeControlAttr: (attr) => this.setState({[attr]: ''}),
-
-      // Unused adapter methods:
-      // setNativeControlChecked
-      // setNativeControlDisabled
-      // forceLayout
+      removeNativeControlAttr: (attr) => this.setState({[attr]: false}),
     };
   }
 
@@ -139,7 +139,12 @@ export class Checkbox extends Component {
           aria-checked={this.state['aria-checked']}
           onChange={(evt) => {
             const {checked, indeterminate} = evt.target;
-            this.setState({checked, indeterminate}, () => this.foundation_.handleChange());
+            this.setState({checked, indeterminate}, () => {
+              this.foundation_.handleChange();
+              if (this.inputElement_.current) {
+                this.inputElement_.current.indeterminate = indeterminate;
+              }
+            });
             onChange(evt);
           }}
           rippleActivatorRef={this.inputElement_}
