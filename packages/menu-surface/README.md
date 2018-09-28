@@ -121,6 +121,8 @@ class MyApp extends React.Component {
 }
 ```
 
+> NOTE: The React menu surface component is always hoisted to the body. This is one place the component differs from MDC Web's version, which gives the option of hoisting/not hoisting. Always hoisting the menu surface to the body allows fixes a few issues, and simplifies the component API.
+
 ## Props
 
 Prop Name | Type | Description
