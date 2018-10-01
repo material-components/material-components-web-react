@@ -26,7 +26,7 @@ import "@material/react-chips/dist/chips.css";
 
 ```js
 import React, {Component} from 'react';
-import ChipSet from '@material/react-chips';
+import {ChipSet, Chip} from '@material/react-chips';
 
 class MyApp extends Component {
   render() {
