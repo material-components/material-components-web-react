@@ -1,5 +1,17 @@
 <a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.5.0...v) (2018-09-25)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v) (2018-10-01)
+
+
+### Bug Fixes
+
+* **chips:** replace relative path with npm package ([#297](https://github.com/material-components/material-components-web-react/issues/297)) ([96b62f6](https://github.com/material-components/material-components-web-react/commit/96b62f6))
+* **icon-button:** add main field to package.json ([#300](https://github.com/material-components/material-components-web-react/issues/300)) ([ead781a](https://github.com/material-components/material-components-web-react/commit/ead781a))
+* **infrastructure:** speed up prerelease script ([#288](https://github.com/material-components/material-components-web-react/issues/288)) ([d8674d9](https://github.com/material-components/material-components-web-react/commit/d8674d9))
+
+
+
+<a name="0.5.1"></a>
+## [0.5.1](https://github.com/material-components/material-components-web-react/compare/v0.5.0...v0.5.1) (2018-09-25)
 
 
 ### Bug Fixes
