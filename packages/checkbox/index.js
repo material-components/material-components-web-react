@@ -38,6 +38,7 @@ export class Checkbox extends Component {
       checked: props.checked,
       indeterminate: props.indeterminate,
       classList: new Set(),
+      ['aria-checked']: false,
     };
   }
 

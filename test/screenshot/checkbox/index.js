@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 
-import Checkbox from '../../../packages/checkbox';
+import Checkbox from '../../../packages/checkbox/index';
 
 const CheckboxScreenshotTest = () => {
   return (
