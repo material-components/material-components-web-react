@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Chips from '@material/react-chips';
+import {Chip, ChipSet} from '@material/react-chips';
 import TopAppBar from '@material/react-top-app-bar';
 import TextField from '@material/react-text-field';
 import Button from '@material/react-button';
@@ -12,7 +12,10 @@ class Feedback extends React.Component {
   render() {
     return (
       <div>
-        
+        <ChipSet choice>
+           <Chip id='summer' label='Summer'/>
+           <Chip id='winter' label='Winter'/>
+         </ChipSet>
       </div>
     );
   }
