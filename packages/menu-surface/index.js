@@ -95,7 +95,7 @@ class MenuSurface extends React.Component {
   }
 
   hoistToBody() {
-    // this deviatees from the mdc web version.
+    // this deviates from the mdc web version.
     // here we force the menu to hoist, and require either
     // this.props.(x,y) or this.props.anchorElement.
     if (!(this.menuSurfaceElement_ && this.menuSurfaceElement_.current)) return;
