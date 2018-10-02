@@ -48,7 +48,7 @@ class MenuSurfaceButton extends React.Component {
     } = this.props;
     const {coordinates, open, anchorElement} = this.state;
     return (
-      <div
+      <span
         className={`menu-surface-button mdc-menu-surface--anchor`}
         ref={this.setAnchorElement}
       >
@@ -71,16 +71,16 @@ class MenuSurfaceButton extends React.Component {
             ))}
           </ul>
         </MenuSurface>
-      </div>
+      </span>
     );
   }
 
   renderListItem(text, index) {
     return (
       <li key={index} className='mdc-list-item' role='menuitem'>
-        <button><span className='mdc-list-item__text'>
+        <span className='mdc-list-item__text'>
           {text}
-        </span></button>
+        </span>
       </li>
     );
   }
@@ -101,7 +101,7 @@ const MenuSurfaceScreenshotTest = () => {
   return (
     <div className='menu-surface-screenshot-test'>
       <MenuSurfaceButton open
-        anchorCorner={Corner.BOTTOM_RIGHT}
+        anchorCorner={Corner.BOTTOM_LEFT}
       />
       <MenuSurfaceButton contextmenu />
     </div>

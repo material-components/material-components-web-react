@@ -5,7 +5,8 @@
   width: 100vw;
 }
 
-.menu-surface-button {
-  margin-top: 200px;
-  margin-left: 200px;
+.mdc-menu-surface--anchor {
+  position: absolute;
+  top: 0;
+  right: 20px;
 }

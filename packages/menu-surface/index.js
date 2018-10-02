@@ -191,13 +191,16 @@ class MenuSurface extends React.Component {
         classList.delete(className);
         this.setState({classList});
       },
-      notifyOpen: () => this.registerWindowClickListener_(),
+      hasClass: (className) => this.classes.split(' ').includes(className),
+      hasAnchor: () => !!this.props.anchorElement,
+      notifyOpen: () => {
+        this.registerWindowClickListener_();
+        this.props.onOpen();
+      },
       notifyClose: () => {
         this.deregisterWindowClickListener_();
         this.props.onClose();
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
-      hasAnchor: () => !!this.props.anchorElement,
       isElementInContainer: (el) => this.menuSurfaceElement_
         && this.menuSurfaceElement_.current === el || this.menuSurfaceElement_.current.contains(el),
       isRtl: () => this.menuSurfaceElement_
@@ -234,6 +237,7 @@ class MenuSurface extends React.Component {
       coordinates,
       fixed,
       onClose,
+      onOpen,
       onKeyDown,
       styles,
       quickOpen,
@@ -266,6 +270,7 @@ MenuSurface.propTypes = {
     y: PropTypes.number,
   }),
   onClose: PropTypes.func,
+  onOpen: PropTypes.func,
   onKeyDown: PropTypes.func,
   children: PropTypes.node,
   quickOpen: PropTypes.bool,
@@ -281,6 +286,7 @@ MenuSurface.defaultProps = {
   anchorMargin: {},
   coordinates: null,
   onClose: () => {},
+  onOpen: () => {},
   onKeyDown: () => {},
   children: null,
   quickOpen: false,
