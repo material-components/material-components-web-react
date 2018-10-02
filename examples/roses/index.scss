@@ -1,16 +1,55 @@
 $mdc-theme-primary: white;
 $mdc-theme-on-primary: #6200ee;
+$grey: #616161;
 
 @import '@material/react-chips/index';
 @import '@material/react-top-app-bar/index';
+@import '@material/react-text-field/index';
 @import '@material/typography/mdc-typography';
+@import '@material/theme/mdc-theme';
 
 @import '@material/top-app-bar/mixins';
+@import '@material/chips/mixins';
 
 body {
   margin: 0;
 }
 
+.message__subheader {
+  color: $grey;
+}
+
+.feedback-page {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.feedback-page__content {
+  max-width: 360px;
+  padding: 12px;
+}
+
 .mdc-top-app-bar {
   @include mdc-top-app-bar-ink-color(on-primary);
+}
+
+.mdc-chip {
+  @include mdc-chip-selected-ink-color(on-primary);
+  @include mdc-chip-fill-color(primary);
+  @include mdc-chip-outline(1px, solid, $grey);
+}
+
+.mdc-chip--selected {
+  @include mdc-chip-fill-color(rgba($mdc-theme-on-primary, .12));
+  @include mdc-chip-outline(1px, solid, on-primary);
+}
+
+.feedback-text-field {
+  width: 100%;
+}
+
+.feedback-text-field__container {
+  margin-top: 48px;
+  padding: 0 24px;
 }
