@@ -1,1 +1,16 @@
-@import "@material/react-chips/index.scss";
+$mdc-theme-primary: white;
+$mdc-theme-on-primary: #6200ee;
+
+@import '@material/react-chips/index';
+@import '@material/react-top-app-bar/index';
+@import '@material/typography/mdc-typography';
+
+@import '@material/top-app-bar/mixins';
+
+body {
+  margin: 0;
+}
+
+.mdc-top-app-bar {
+  @include mdc-top-app-bar-ink-color(on-primary);
+}
