@@ -60,11 +60,8 @@ export class Checkbox extends Component {
       disabled,
     } = this.props;
 
-    if (checked !== prevProps.checked) {
-      this.setState({checked}, () => this.foundation_.handleChange());
-    }
-    if (indeterminate !== prevProps.indeterminate) {
-      this.setState({indeterminate}, () => {
+    if (checked !== prevProps.checked || indeterminate !== prevProps.indeterminate) {
+      this.setState({checked, indeterminate}, () => {
         this.foundation_.handleChange();
         if (this.inputElement_.current) {
           this.inputElement_.current.indeterminate = indeterminate;
