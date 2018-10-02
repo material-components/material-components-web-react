@@ -85,14 +85,28 @@ test('#adapter.removeClass removes class from state.classList', () => {
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
-test('#adapter.isChecked returns state.checked', () => {
+test('#adapter.isChecked returns state.checked if true', () => {
   const wrapper = shallow(<Checkbox />);
-  assert.equal(wrapper.instance().foundation_.adapter_.isChecked(), wrapper.state().checked);
+  wrapper.setState({checked: true});
+  assert.isTrue(wrapper.instance().foundation_.adapter_.isChecked());
 });
 
-test('#adapter.isIndeterminate returns state.indeterminate', () => {
+test('#adapter.isChecked returns state.checked if false', () => {
   const wrapper = shallow(<Checkbox />);
-  assert.equal(wrapper.instance().foundation_.adapter_.isIndeterminate(), wrapper.state().indeterminate);
+  wrapper.setState({checked: false});
+  assert.isFalse(wrapper.instance().foundation_.adapter_.isChecked());
+});
+
+test('#adapter.isIndeterminate returns state.indeterminate if true', () => {
+  const wrapper = shallow(<Checkbox />);
+  wrapper.setState({indeterminate: true});
+  assert.isTrue(wrapper.instance().foundation_.adapter_.isIndeterminate());
+});
+
+test('#adapter.isIndeterminate returns state.indeterminate if false', () => {
+  const wrapper = shallow(<Checkbox />);
+  wrapper.setState({indeterminate: false});
+  assert.isFalse(wrapper.instance().foundation_.adapter_.isIndeterminate());
 });
 
 test('#adapter.setNativeControlAttr sets aria-checked state', () => {
@@ -103,12 +117,13 @@ test('#adapter.setNativeControlAttr sets aria-checked state', () => {
 
 test('#adapter.removeNativeControlAttr sets aria-checked state as false', () => {
   const wrapper = shallow(<Checkbox />);
+  wrapper.setState({'aria-checked': true});
   wrapper.instance().foundation_.adapter_.removeNativeControlAttr('aria-checked');
   assert.isFalse(wrapper.state()['aria-checked']);
 });
 
 test('passes nativeControlId to NativeControl through props', () => {
-  const wrapper = shallow(<Checkbox nativeControlId={'test-id'}/>);
+  const wrapper = shallow(<Checkbox nativeControlId='test-id'/>);
   assert.equal(wrapper.childAt(0).props().id, 'test-id');
 });
 
@@ -122,7 +137,7 @@ test('calls foundation.handleChange in native control props.onChange', () => {
     },
   };
   wrapper.instance().foundation_.handleChange = td.func();
-  nativeControl.props().onChange(mockEvt);
+  nativeControl.simulate('change', mockEvt);
   td.verify(wrapper.instance().foundation_.handleChange(), {times: 1});
 });
 
@@ -136,6 +151,6 @@ test('calls props.onChange in native control props.onChange', () => {
       indeterminate: false,
     },
   };
-  nativeControl.props().onChange(mockEvt);
+  nativeControl.simulate('change', mockEvt);
   td.verify(onChange(mockEvt), {times: 1});
 });
