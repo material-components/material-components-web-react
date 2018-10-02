@@ -1,15 +1,23 @@
-$mdc-theme-primary: white;
-$mdc-theme-on-primary: #6200ee;
+$red-theme-color: #b31839;
 $grey: #616161;
+$grey-light: #bdbdbd;
 
+// react
 @import '@material/react-chips/index';
 @import '@material/react-top-app-bar/index';
 @import '@material/react-text-field/index';
+@import '@material/react-button/index';
+@import '@material/react-switch/index';
+
+// web
 @import '@material/typography/mdc-typography';
 @import '@material/theme/mdc-theme';
 
+// mixins
 @import '@material/top-app-bar/mixins';
 @import '@material/chips/mixins';
+@import '@material/chips/variables';
+@import '@material/shape/mixins';
 
 body {
   margin: 0;
@@ -27,22 +35,25 @@ body {
 
 .feedback-page__content {
   max-width: 360px;
-  padding: 12px;
+  padding: 16px;
 }
 
-.mdc-top-app-bar {
-  @include mdc-top-app-bar-ink-color(on-primary);
+.feedback-logo {
+  width: 30px;
+  height: 30px;
 }
 
 .mdc-chip {
-  @include mdc-chip-selected-ink-color(on-primary);
-  @include mdc-chip-fill-color(primary);
-  @include mdc-chip-outline(1px, solid, $grey);
+  // TODO
+  // @include mdc-chip-shape-radius(10px);
+  @include mdc-shape-radius(mdc-shape-resolve-percentage-radius($mdc-chip-height-default, 4px));
+  @include mdc-chip-selected-ink-color(primary);
+  @include mdc-chip-fill-color(white);
+  @include mdc-chip-outline(1px, solid, $grey-light);
 }
 
 .mdc-chip--selected {
-  @include mdc-chip-fill-color(rgba($mdc-theme-on-primary, .12));
-  @include mdc-chip-outline(1px, solid, on-primary);
+  @include mdc-chip-outline-color(primary);
 }
 
 .feedback-text-field {
@@ -50,6 +61,6 @@ body {
 }
 
 .feedback-text-field__container {
-  margin-top: 48px;
+  margin: 48px 0;
   padding: 0 24px;
 }

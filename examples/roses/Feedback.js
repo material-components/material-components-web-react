@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Chip, ChipSet} from '@material/react-chips';
 import TopAppBar from '@material/react-top-app-bar';
-import TextField, {Input} from '@material/react-text-field';
+import TextField, {Input, HelperText} from '@material/react-text-field';
 import Button from '@material/react-button';
 import MaterialIcon from '@material/react-material-icon';
 
@@ -16,9 +16,14 @@ class Feedback extends React.Component {
   render() {
     return (
       <div>
-        {this.renderHeader()}
+        {this.renderTopAppBar()}
         <main className='feedback-page mdc-top-app-bar--fixed-adjust'>
           <div className='feedback-page__content'>
+            <img
+              className='feedback-logo'
+              src='./assets/red_roses_logo.svg'
+              alt='red roses logo'
+            />
             {this.renderMessage()}
             <ChipSet filter>
               <Chip id='fast' label='Fast Delivery'/>
@@ -27,13 +32,14 @@ class Feedback extends React.Component {
               <Chip id='easy_to_use' label='Easy to Order'/>
             </ChipSet>
             {this.renderFeedbackTextField()}
+            {this.renderSubmit()}
           </div>
         </main>
       </div>
     );
   }
 
-  renderHeader() {
+  renderTopAppBar() {
     return (
       <TopAppBar
         title='Feedback'
@@ -48,9 +54,9 @@ class Feedback extends React.Component {
   renderMessage() {
     return (
       <div>
-        <h1 className='mdc-typography--headline5 mdc-theme--on-primary'>
+        <h2 className='mdc-typography--headline6 mdc-theme--primary'>
           Thanks for spreading joy with Red Roses
-        </h1>
+        </h2>
         <p className='mdc-typography--body2 message__subheader'>
           We would love to hear about your ordering experience.
         </p>
@@ -59,12 +65,19 @@ class Feedback extends React.Component {
   }
 
   renderFeedbackTextField() {
+    const helperText = (
+      <HelperText persistent>
+        Don't worry feedback is never shared with couriers
+      </HelperText>
+    );
     return (
       <div className='feedback-text-field__container'>
         <TextField
           label='Additional thoughts...'
           className='feedback-text-field'
-          helperText={'Dont worry'}
+          trailingIcon={<MaterialIcon icon='edit' />}
+          helperText={helperText}
+          outlined
         >
           <Input
             value={this.state.feedback}
@@ -72,6 +85,17 @@ class Feedback extends React.Component {
           />
         </TextField>
       </div>
+    );
+  }
+
+  renderSubmit() {
+    return (
+      <Button
+        raised
+        onClick={() => console.log('submit!')}
+      >
+        Submit
+      </Button>
     );
   }
 }
