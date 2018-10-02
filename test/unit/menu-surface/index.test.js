@@ -132,6 +132,13 @@ test('#adapter.notifyOpen calls #registerWindowClickListener_', () => {
   td.verify(wrapper.instance().registerWindowClickListener_(), {times: 1});
 });
 
+test('#adapter.notifyOpen calls onOpen', () => {
+  const onOpen = td.func();
+  const wrapper = shallow(<MenuSurface onOpen={onOpen}/>);
+  wrapper.instance().foundation_.adapter_.notifyOpen();
+  td.verify(onOpen(), {times: 1});
+});
+
 test('#adapter.isFocused returns true if menuSurfaceElement_ is the activeElement', () => {
   const div = document.createElement('div');
   // needs to be attached to real DOM to get width
