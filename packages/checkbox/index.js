@@ -61,12 +61,7 @@ export class Checkbox extends Component {
     } = this.props;
 
     if (checked !== prevProps.checked || indeterminate !== prevProps.indeterminate) {
-      this.setState({checked, indeterminate}, () => {
-        this.foundation_.handleChange();
-        if (this.inputElement_.current) {
-          this.inputElement_.current.indeterminate = indeterminate;
-        }
-      });
+      this.handleChange(checked, indeterminate);
     }
     if (disabled !== prevProps.disabled) {
       this.foundation_.setDisabled(disabled);
@@ -79,6 +74,15 @@ export class Checkbox extends Component {
 
   init = (el) => {
     this.props.initRipple(el, this.inputElement_.current);
+  }
+
+  handleChange = (checked, indeterminate) => {
+    this.setState({checked, indeterminate}, () => {
+      this.foundation_.handleChange();
+      if (this.inputElement_.current) {
+        this.inputElement_.current.indeterminate = indeterminate;
+      }
+    });
   }
 
   get classes() {
@@ -139,12 +143,7 @@ export class Checkbox extends Component {
           aria-checked={this.state['aria-checked']}
           onChange={(evt) => {
             const {checked, indeterminate} = evt.target;
-            this.setState({checked, indeterminate}, () => {
-              this.foundation_.handleChange();
-              if (this.inputElement_.current) {
-                this.inputElement_.current.indeterminate = indeterminate;
-              }
-            });
+            this.handleChange(checked, indeterminate);
             onChange(evt);
           }}
           rippleActivatorRef={this.inputElement_}
