@@ -100,6 +100,8 @@ export class Checkbox extends Component {
         this.setState({classList});
       },
       hasNativeControl: () => true,
+      // isAttachedToDOM will likely be removed
+      // https://github.com/material-components/material-components-web/issues/3691
       isAttachedToDOM: () => true,
       isChecked: () => this.state.checked,
       isIndeterminate: () => this.state.indeterminate,
