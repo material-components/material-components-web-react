@@ -16,6 +16,7 @@ Component | Spec | MDC Web
 ---- | ---- | ----
 [Button](./packages/button) | [Button Design Page](https://material.io/design/components/buttons.html) | [MDC Button](https://github.com/material-components/material-components-web/tree/master/packages/mdc-button)
 [Card](./packages/card) | [Card Design Page](https://material.io/design/components/cards.html) | [MDC Card](https://github.com/material-components/material-components-web/tree/master/packages/mdc-card)
+[Checkbox](./packages/checkbox) | [Checkbox Design Page](https://material.io/design/components/checkbox.html) | [MDC Checkbox](https://github.com/material-components/material-components-web/tree/master/packages/mdc-checkbox)
 [Chips](./packages/chips) | [Chips Design Page](https://material.io/design/components/chips.html) | [MDC Chips](https://github.com/material-components/material-components-web/tree/master/packages/mdc-chips)
 [Fab](./packages/fab) | [Fab Design Page](https://material.io/design/components/buttons-floating-action-button.html) | [MDC Fab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-fab)
 [Floating Label](./packages/floating-label) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Floating Label](https://github.com/material-components/material-components-web/tree/master/packages/mdc-floating-label)

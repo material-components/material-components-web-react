@@ -3,6 +3,7 @@ import topAppBarVariants from './top-app-bar/variants';
 const urls = [
   'button',
   'card',
+  'checkbox',
   'chips',
   'line-ripple',
   'fab',

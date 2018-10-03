@@ -20,59 +20,54 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import withRipple from '@material/react-ripple';
 
-export class Button extends Component {
-  render() {
-    const {
-      className,
-      raised,
-      unelevated,
-      outlined,
-      dense,
-      icon,
-      children,
-      initRipple,
-      unbounded, // eslint-disable-line no-unused-vars
-      ...otherProps
-    } = this.props;
+export const Button = (props) => {
+  const {
+    className,
+    raised,
+    unelevated,
+    outlined,
+    dense,
+    icon,
+    children,
+    initRipple,
+    unbounded, // eslint-disable-line no-unused-vars
+    ...otherProps
+  } = props;
 
-    const classes = classnames('mdc-button', className, {
-      'mdc-button--raised': raised,
-      'mdc-button--unelevated': unelevated,
-      'mdc-button--outlined': outlined,
-      'mdc-button--dense': dense,
-    });
+  const classes = classnames('mdc-button', className, {
+    'mdc-button--raised': raised,
+    'mdc-button--unelevated': unelevated,
+    'mdc-button--outlined': outlined,
+    'mdc-button--dense': dense,
+  });
 
-    const SemanticButton = this.props.href ? 'a' : 'button';
+  const SemanticButton = props.href ? 'a' : 'button';
 
-    return (
-      <SemanticButton
-        className={classes}
-        ref={initRipple}
-        {...otherProps}
-      >
-        {icon ? this.renderIcon() : null}
-        {children}
-      </SemanticButton>
-    );
-  }
+  return (
+    <SemanticButton
+      className={classes}
+      ref={initRipple}
+      {...otherProps}
+    >
+      {icon ? renderIcon(icon) : null}
+      {children}
+    </SemanticButton>
+  );
+};
 
-  addClassesToElement(classes, element) {
-    const propsWithClasses = {
-      className: classnames(classes, element.props.className),
-    };
-    return React.cloneElement(element, propsWithClasses);
-  }
+const addClassesToElement = (classes, element) => {
+  const propsWithClasses = {
+    className: classnames(classes, element.props.className),
+  };
+  return React.cloneElement(element, propsWithClasses);
+};
 
-  renderIcon() {
-    const {icon} = this.props;
-    return this.addClassesToElement('mdc-button__icon', icon);
-  }
-}
+const renderIcon = (icon) => addClassesToElement('mdc-button__icon', icon);
 
 Button.propTypes = {
   raised: PropTypes.bool,
