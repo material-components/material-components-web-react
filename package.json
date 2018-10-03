@@ -38,6 +38,7 @@
           "ripple",
           "select",
           "top-app-bar",
+          "switch",
           "tab",
           "tab-bar",
           "tab-scroller",
