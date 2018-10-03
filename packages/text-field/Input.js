@@ -159,7 +159,7 @@ export default class Input extends React.Component {
 
 Input.propTypes = {
   className: PropTypes.string,
-  inputType: PropTypes.node.isRequired,
+  inputType: PropTypes.string,
   disabled: PropTypes.bool,
   foundation: PropTypes.shape({
     activateFocus: PropTypes.func,

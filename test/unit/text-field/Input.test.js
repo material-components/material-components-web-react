@@ -18,7 +18,7 @@ test('default inputType is "input"', () => {
 });
 
 test('inputType is "textarea"', () => {
-  const wrapper = shallow(<Input inputType="textarea" />);
+  const wrapper = shallow(<Input inputType='textarea' />);
   assert.equal(wrapper.type(), 'textarea');
 });
 
