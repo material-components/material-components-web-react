@@ -3,6 +3,7 @@
   "version": "0.5.0",
   "description": "Material Components React Chips",
   "license": "MIT",
+  "main": "dist/index.js",
   "keywords": [
     "mdc web react",
     "material components react",
