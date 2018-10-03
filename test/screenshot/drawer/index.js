@@ -6,7 +6,9 @@ import Drawer from '../../../packages/drawer/index';
 const DrawerScreenshotTest = () => {
   return (
     <div>
-      <Drawer></Drawer>
+      <Drawer>
+        YO
+      </Drawer>
     </div>
   );
 };
