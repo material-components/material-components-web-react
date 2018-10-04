@@ -1,6 +1,6 @@
 {
   "name": "@material/react-chips",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Material Components React Chips",
   "license": "MIT",
   "main": "dist/index.js",

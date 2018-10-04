@@ -1,5 +1,16 @@
 <a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v) (2018-10-01)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.5.2...v) (2018-10-04)
+
+
+### Bug Fixes
+
+* **chips:** added npmignore ([#317](https://github.com/material-components/material-components-web-react/issues/317)) ([442179d](https://github.com/material-components/material-components-web-react/commit/442179d))
+* **icon-button:** update main property ([#319](https://github.com/material-components/material-components-web-react/issues/319)) ([9e83c7d](https://github.com/material-components/material-components-web-react/commit/9e83c7d))
+
+
+
+<a name="0.5.2"></a>
+## [0.5.2](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v0.5.2) (2018-10-01)
 
 
 ### Bug Fixes

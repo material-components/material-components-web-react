@@ -1,6 +1,6 @@
 {
   "name": "@material/react-icon-button",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Material Components React Icon Button",
   "license": "Apache-2.0",
   "main": "dist/index.js",
