@@ -1,5 +1,5 @@
-<a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v) (2018-10-01)
+<a name="0.5.2"></a>
+# [0.5.2](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v0.5.2) (2018-10-01)
 
 
 ### Bug Fixes
@@ -198,6 +198,3 @@
 * **fab:** Update for comments ([676ae32](https://github.com/material-components/material-components-web-react/commit/676ae32))
 * **fab:** Update for lint ([3748f31](https://github.com/material-components/material-components-web-react/commit/3748f31))
 * **fab:** Update package name ([02b7140](https://github.com/material-components/material-components-web-react/commit/02b7140))
-
-
-
