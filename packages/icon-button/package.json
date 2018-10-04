@@ -3,7 +3,7 @@
   "version": "0.5.0",
   "description": "Material Components React Icon Button",
   "license": "Apache-2.0",
-  "main": "dist/index",
+  "main": "dist/index.js",
   "keywords": [
     "mdc web react",
     "material components react",
