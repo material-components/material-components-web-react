@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@material/react-button": "^0.5.0",
-    "@material/react-chips": "^0.5.2",
+    "@material/react-chips": "^0.5.3",
     "@material/react-material-icon": "^0.5.0",
     "@material/react-switch": "^0.5.0",
     "@material/react-text-field": "^0.5.1",
