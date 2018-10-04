@@ -48,7 +48,7 @@ test('update to props.open sets firstFocusableElement_', () => {
   removeMenuFromBody(wrapper);
 });
 
-test('update to props.open sets firstFocusableElement_', () => {
+test('update to props.open sets lastFocusableElement_', () => {
   const wrapper = mount(<MenuSurface><button>click</button></MenuSurface>);
   wrapper.setProps({open: true});
   assert.equal(wrapper.instance().lastFocusableElement_, wrapper.find('button').getDOMNode());
