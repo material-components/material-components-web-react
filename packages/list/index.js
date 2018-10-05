@@ -27,8 +27,6 @@ import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/dist/mdc.list';
 
 import ListItem from './ListItem';
-import ListDivider from './ListDivider';
-import {ListGroup, ListGroupSubheader} from './ListGroup';
 
 export default class List extends Component {
   listItems_ = [];
@@ -39,9 +37,23 @@ export default class List extends Component {
   };
 
   componentDidMount() {
+    const {singleSelection, selectedIndex, wrapFocus} = this.props;
+
     this.foundation_ = new MDCListFoundation(this.adapter);
     this.foundation_.init();
-    this.foundation_.setSingleSelection(this.props.singleSelection);
+    this.foundation_.setSingleSelection(singleSelection);
+    this.foundation_.setVerticalOrientation(this.props['aria-orientation'] === 'vertical');
+    this.foundation_.setWrapFocus(wrapFocus);
+    if (selectedIndex) {
+      this.foundation_.setSelectedIndex(selectedIndex);
+    }
+    
+    // // List item children are not tabbable until the list item is focused.
+    const listItemChildrenTabIndex = this.state.listItemChildrenTabIndex;
+    for (let i = 0; i < this.listItems_.length; i++) {
+      listItemChildrenTabIndex[i] = -1;
+    }
+    this.setState({listItemChildrenTabIndex});
   }
 
   componentWillUnmount() {
@@ -191,6 +203,14 @@ export default class List extends Component {
     );
   }
 
+  setSelectedIndex = (index) => {
+    this.foundation_.setSelectedIndex(index);
+  }
+
+  setUseActivatedClass = (activated) => {
+    this.foundation_.setUseActivatedClass(activated);
+  }
+
   renderListItem = (listItem, index) => {
     const {
       children,
@@ -200,7 +220,13 @@ export default class List extends Component {
     const props = Object.assign({
       className: this.state.listItemClassList[index],
       childrenTabIndex: this.state.listItemChildrenTabIndex[index],  // TODO(bonniez): implement childrenTabIndex on ListItem
-      ref: (el) => this.listItems_.push(el),
+      ref: (el) => {
+        this.listItems_.push(el);
+        if (listItem.props.selected || listItem.props.activated) {
+          this.setSelectedIndex(index);
+          this.setUseActivatedClass(listItem.props.activated);
+        }
+      },
       ...otherProps,
     }, this.state.listItemAttributes[index]);
 
@@ -216,6 +242,8 @@ List.propTypes = {
   avatarList: PropTypes.bool,
   twoLine: PropTypes.bool,
   singleSelection: PropTypes.bool,
+  wrapFocus: PropTypes.bool,
+  selectedIndex: PropTypes.bool,
   onKeyDown: PropTypes.func,
   onClick: PropTypes.func,
   onFocus: PropTypes.func,
@@ -229,10 +257,12 @@ List.defaultProps = {
   avatarList: false,
   twoLine: false,
   singleSelection: false,
+  wrapFocus: false,
+  selectedIndex: false,
   onKeyDown: () => {},
   onClick: () => {},
   onFocus: () => {},
   onBlur: () => {},
 };
 
-export {ListItem, ListDivider, ListGroup, ListGroupSubheader};
+export {ListItem};
