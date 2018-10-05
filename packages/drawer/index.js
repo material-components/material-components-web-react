@@ -24,12 +24,15 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import {MDCDismissibleDrawerFoundation, MDCModalDrawerFoundation} from '@material/drawer';
+import {MDCListFoundation} from '@material/list';
 import DrawerHeader from './Header';
 import DrawerContent from './Content';
 import DrawerSubtitle from './Subtitle';
 import DrawerTitle from './Title';
 import DrawerAppContent from './AppContent';
 import FocusTrap from 'focus-trap-react';
+
+const {cssClasses: listCssClasses} = MDCListFoundation;
 
 class Drawer extends React.Component {
   previousFocus_ = null;
@@ -77,16 +80,28 @@ class Drawer extends React.Component {
   get adapter() {
     return {
       addClass: (className) => {
-        const {classList} = this.state;
-        classList.add(className);
-        this.setState({classList});
+        // const {classList} = this.state;
+        // classList.add(className);
+        // this.setState({classList});
+        // TODO: revert this change after update to 0.40.x
+        const drawerElement = this.drawerElement_ && this.drawerElement_.current;
+
+        if (!drawerElement) return;
+        drawerElement.classList.add(className);
+        this.forceUpdate();
       },
       removeClass: (className) => {
-        const {classList} = this.state;
-        classList.delete(className);
-        this.setState({classList});
+        // const {classList} = this.state;
+        // classList.delete(className);
+        // this.setState({classList});
+        const drawerElement = this.drawerElement_ && this.drawerElement_.current;
+
+        if (!drawerElement) return;
+        drawerElement.classList.remove(className);
+        this.forceUpdate();
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
+      // TODO: revert once updated to 0.40.x
+      hasClass: (className) => this.drawerElement_.current && this.drawerElement_.current.classList.contains(className),
       elementHasClass: (element, className) => element.classList.contains(className),
       computeBoundingRect: () => {
         const drawerElement = this.drawerElement_ && this.drawerElement_.current;
@@ -97,16 +112,16 @@ class Drawer extends React.Component {
         this.previousFocus_ = document.activeElement;
       },
       restoreFocus: () => {
-        const previousFocus = this.previousFocus_ && this.previousFocus_.focus;
+        const hasPreviousFocus = this.previousFocus_ && this.previousFocus_.focus;
         const drawerElement = this.drawerElement_ && this.drawerElement_.current;
-        if (drawerElement && previousFocus && drawerElement.contains(document.activeElement)) {
-          previousFocus();
+        if (drawerElement && hasPreviousFocus && drawerElement.contains(document.activeElement)) {
+          this.previousFocus_.focus();
         }
       },
       focusActiveNavigationItem: () => {
         const drawerElement = this.drawerElement_ && this.drawerElement_.current;
         if (!drawerElement) return;
-        const activeNavItemEl = drawerElement.querySelector(`.${MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS}`);
+        const activeNavItemEl = drawerElement.querySelector(`.${listCssClasses.LIST_ITEM_ACTIVATED_CLASS}`);
         if (activeNavItemEl) {
           activeNavItemEl.focus();
         }
@@ -147,18 +162,20 @@ class Drawer extends React.Component {
     } = this.props;
 
     return (
-      <DrawerElement
-        className={this.classes} ref={this.drawerElement_}
-        onKeyDown={(evt) => this.handleKeyDown(evt)}
-        onTransitionEnd={(evt) => this.handleTransitionEnd(evt)}
-      >
-        {activeTrap ? (
-          <FocusTrap>
-            {children}
-          </FocusTrap>
-        ): children}
+      <React.Fragment>
+        <DrawerElement
+          className={this.classes} ref={this.drawerElement_}
+          onKeyDown={(evt) => this.handleKeyDown(evt)}
+          onTransitionEnd={(evt) => this.handleTransitionEnd(evt)}
+        >
+          {activeTrap ? (
+            <FocusTrap>
+              {children}
+            </FocusTrap>
+          ): children}
+        </DrawerElement>
         {modal ? this.renderScrim() : null}
-      </DrawerElement>
+      </React.Fragment>
     );
   }
 
@@ -166,7 +183,7 @@ class Drawer extends React.Component {
     return (
       <div
         className='mdc-drawer-scrim'
-        onClick={() => this.foundation_.handleScrimClick()}
+        onClick={() => {console.log('meowmelw'); this.foundation_.handleScrimClick()}}
       ></div>
     );
   }

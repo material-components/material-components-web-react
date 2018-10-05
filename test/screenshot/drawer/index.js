@@ -12,7 +12,7 @@ class DrawerScreenshotTest extends React.Component {
   render() {
     return (
       <div className='drawer-screenshot-test'>
-        <Drawer dismissible open={this.state.open}>
+        <Drawer modal open={this.state.open}>
           <DrawerHeader>
             <DrawerTitle>
               Inbox
