@@ -32,7 +32,11 @@ import {ListGroup, ListGroupSubheader} from './ListGroup';
 
 export default class List extends Component {
   listItems_ = [];
-  listElement_ = React.createRef();
+  state = {
+    listItemAttributes: {}, // map of index to {attr: val} objects
+    listItemClassList: {}, // map of index to classList sets
+    listItemChildrenTabIndex: {}, // map of index to tabindex
+  };
 
   componentDidMount() {
     this.foundation_ = new MDCListFoundation(this.adapter);
@@ -56,7 +60,51 @@ export default class List extends Component {
 
   get adapter() {
     return {
-
+      getListItemCount: () => this.listItems_.length,
+      getFocusedElementIndex: () => this.getListItemIndexOfElement_(document.activeElement),
+      setAttributeForElementIndex: (index, attr, value) => {
+        const listItemAttributes = this.state.listItemAttributes;
+        listItemAttributes[index][attr] = value;
+        this.setState({listItemAttributes});
+      },
+      removeAttributeForElementIndex: (index, attr) => {
+        const listItemAttributes = this.state.listItemAttributes;
+        listItemAttributes[index][attr] = null;
+        this.setState({listItemAttributes});
+      },
+      addClassForElementIndex: (index, className) => {
+        const listItemClassList = this.state.listItemClassList;
+        listItemClassList[index].add(className);
+        this.setState({listItemClassList});
+      },
+      removeClassForElementIndex: (index, className) => {
+        const listItemClassList = this.state.listItemClassList;
+        listItemClassList[index].delete(className);
+        this.setState({listItemClassList});
+      },
+      focusItemAtIndex: (index) => {
+        const listItem = this.listItems_[index];
+        if (listItem) {
+          listItem.focus(); // TODO(bonniez): implement focus() on ListItem
+        }
+      },
+      setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
+        const listItemChildrenTabIndex = this.state.listItemChildrenTabIndex;
+        listItemChildrenTabIndex[listItemIndex]= tabIndexValue;
+        this.setState({listItemChildrenTabIndex});
+      },
+      followHref: (index) => {
+        const listItem = this.listItems_[index];
+        if (listItem) {
+          listItem.followHref(); // TODO(bonniez): implement followHref() on ListItem
+        }
+      },
+      toggleCheckbox: (index) => {
+        const listItem = this.listItems_[index];
+        if (listItem) {
+          listItem.toggleCheckbox(); // TODO(bonniez): implement toggleCheckbox() on ListItem
+        }
+      },
     };
   }
 
@@ -73,14 +121,14 @@ export default class List extends Component {
     let target = eventTarget;
 
     // Find the first ancestor that is a list item.
-    while (getListItemIndexOfElement_(target) < 0) {
-      // if (target === this.listElement_.current || target === document) {
-      //   return -1;
-      // }
+    while (this.getListItemIndexOfElement_(target) < 0) {
+      if (target === document) {
+        return -1;
+      }
       target = target.parentElement;
     }
 
-    return getListItemIndexOfCurrent(target);
+    return this.getListItemIndexOfElement_(target);
   }
 
   onKeyDown = (e) => {
@@ -100,7 +148,7 @@ export default class List extends Component {
     this.props.onClick(e);
   }
 
-  // onFocusIn is not yet supported in React, use onFocus as workaround
+  // Use onFocus as workaround because onFocusIn is not yet supported in React
   // https://github.com/facebook/react/issues/6410
   onFocus = (e) => {
     const index = this.getListItemIndexOfTarget_(e.target);
@@ -108,7 +156,7 @@ export default class List extends Component {
     this.props.onClick(e);
   }
 
-  // onFocusOut is not yet supported in React, use onBlur as workaround
+  // Use onBlur as workaround because onFocusOut is not yet supported in React
   // https://github.com/facebook/react/issues/6410
   onBlur = (e) => {
     const index = this.getListItemIndexOfTarget_(e.target);
@@ -143,16 +191,18 @@ export default class List extends Component {
     );
   }
 
-  renderListItem = (listItem) => {
+  renderListItem = (listItem, index) => {
     const {
       children,
       ...otherProps
     } = listItem.props;
 
-    const props = {
+    const props = Object.assign({
+      className: this.state.listItemClassList[index],
+      childrenTabIndex: this.state.listItemChildrenTabIndex[index],  // TODO(bonniez): implement childrenTabIndex on ListItem
       ref: (el) => this.listItems_.push(el),
       ...otherProps,
-    };
+    }, this.state.listItemAttributes[index]);
 
     return React.cloneElement(listItem, props, children);
   }
