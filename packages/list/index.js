@@ -48,7 +48,7 @@ export default class List extends Component {
       this.foundation_.setSelectedIndex(selectedIndex);
     }
     
-    // // List item children are not tabbable until the list item is focused.
+    // List item children are not tabbable until the list item is focused.
     const listItemChildrenTabIndex = this.state.listItemChildrenTabIndex;
     for (let i = 0; i < this.listItems_.length; i++) {
       listItemChildrenTabIndex[i] = -1;
@@ -97,7 +97,7 @@ export default class List extends Component {
       focusItemAtIndex: (index) => {
         const listItem = this.listItems_[index];
         if (listItem) {
-          listItem.focus(); // TODO(bonniez): implement focus() on ListItem
+          listItem.focus();
         }
       },
       setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
@@ -108,7 +108,7 @@ export default class List extends Component {
       followHref: (index) => {
         const listItem = this.listItems_[index];
         if (listItem) {
-          listItem.followHref(); // TODO(bonniez): implement followHref() on ListItem
+          listItem.followHref();
         }
       },
       toggleCheckbox: (index) => {
@@ -211,6 +211,13 @@ export default class List extends Component {
     this.foundation_.setUseActivatedClass(activated);
   }
 
+  updateListItemClassList = (listItem, classList) => {
+    const index = this.listItems_.indexOf(listItem);
+    const listItemClassList = this.state.listItemClassList;
+    listItemClassList[index] = classList;
+    this.setState(listItemClassList);
+  }
+
   renderListItem = (listItem, index) => {
     const {
       children,
@@ -219,14 +226,9 @@ export default class List extends Component {
 
     const props = Object.assign({
       className: this.state.listItemClassList[index],
-      childrenTabIndex: this.state.listItemChildrenTabIndex[index],  // TODO(bonniez): implement childrenTabIndex on ListItem
-      ref: (el) => {
-        this.listItems_.push(el);
-        if (listItem.props.selected || listItem.props.activated) {
-          this.setSelectedIndex(index);
-          this.setUseActivatedClass(listItem.props.activated);
-        }
-      },
+      childrenTabIndex: this.state.listItemChildrenTabIndex[index],
+      updateClassList: this.updateListItemClassList,
+      ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
       ...otherProps,
     }, this.state.listItemAttributes[index]);
 
