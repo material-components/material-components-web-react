@@ -115,7 +115,7 @@ const TextFieldScreenshotTest = () => (
   <div className='text-field-container'>
     {textFields}
     <h2>Textarea</h2>
-    {textareaFields }
+
   </div>
 );
 

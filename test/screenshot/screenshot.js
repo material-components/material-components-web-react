@@ -201,6 +201,7 @@ export default class Screenshot {
   async takeScreenshot_() {
     const browser = await puppeteer.launch({executablePath: 'google-chrome-unstable'});
     const page = await browser.newPage();
+    console.log(`http://localhost:8080/#/${this.urlPath_}`);
     page.on('error', (err) => {
       console.log('error: ', err)
     })
