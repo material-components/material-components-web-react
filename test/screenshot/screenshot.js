@@ -199,16 +199,11 @@ export default class Screenshot {
    * @private
    */
   async takeScreenshot_() {
-    const browser = await puppeteer.launch({executablePath: 'google-chrome-unstable'});
+    const browser = await puppeteer.launch({
+      executablePath: 'google-chrome-unstable',
+      args: ['--disable-dev-shm-usage'],
+    });
     const page = await browser.newPage();
-    console.log(`http://localhost:8080/#/${this.urlPath_}`);
-    page.on('error', (err) => {
-      console.log('error: ', err)
-    })
-    page.on('pageerror', (err) => {
-      console.log('pageerror: ', err)
-    })
-
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': ['networkidle2']});
     // await page.waitForSelector('#screenshot-test-app');
     const imageBuffer = await page.screenshot({fullPage: true});
