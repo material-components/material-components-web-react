@@ -62,6 +62,7 @@ class Drawer extends React.Component {
   }
 
   componentWillUnmount() {
+    if (!this.foundation_) return;
     this.foundation_.destroy();
   }
 
@@ -155,6 +156,7 @@ class Drawer extends React.Component {
       onTransitionEnd,
       dismissible,
       children,
+      className,
       /* eslint-enable no-unused-vars */
       drawerElement: DrawerElement,
       modal,
@@ -175,17 +177,19 @@ class Drawer extends React.Component {
             </FocusTrap>
           ): children}
         </DrawerElement>
-        {modal ? this.renderScrim() : null}
+        {this.renderScrim()}
       </React.Fragment>
     );
   }
 
   renderScrim() {
+     //this.foundation_.handleScrimClick();
     return (
       <div
+        style={{display:'block'}}
         className='mdc-drawer-scrim'
         onClick={() => {
-          console.log('meowmelw'); this.foundation_.handleScrimClick();
+          console.log('meowmelw');
         }}
       ></div>
     );
