@@ -4,28 +4,28 @@ import classnames from 'classnames';
 
 const DrawerTitle = (props) => {
   const {
-    elementType: Element,
+    tag: Tag,
     className,
     ...otherProps
   } = props;
   return (
-    <Element
+    <Tag
       className={classnames('mdc-drawer__title', className)}
       {...otherProps}
     >
       {props.children}
-    </Element>
+    </Tag>
   );
 };
 
 DrawerTitle.propTypes = {
-  elementType: PropTypes.string,
+  tag: PropTypes.string,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
 };
 
 DrawerTitle.defaultProps = {
-  elementType: 'h3',
+  tag: 'h3',
   className: '',
 };
 

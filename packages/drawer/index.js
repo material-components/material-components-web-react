@@ -42,13 +42,17 @@ class Drawer extends React.Component {
   state = {classList: new Set()};
 
   componentDidMount() {
-    const {dismissible, modal} = this.props;
+    const {dismissible, modal, open} = this.props;
     if (dismissible) {
       this.foundation_ = new MDCDismissibleDrawerFoundation(this.adapter);
       this.foundation_.init();
     } else if (modal) {
       this.foundation_ = new MDCModalDrawerFoundation(this.adapter);
       this.foundation_.init();
+    }
+
+    if (open && this.foundation_) {
+      this.foundation_.open();
     }
   }
 
@@ -158,39 +162,42 @@ class Drawer extends React.Component {
       children,
       className,
       /* eslint-enable no-unused-vars */
-      drawerElement: DrawerElement,
+      tag: Tag,
       modal,
       ...otherProps
     } = this.props;
 
+    const focusTrapOptions = {
+      clickOutsideDeactivates: true,
+      initialFocus: false,
+      escapeDeactivates: false,
+      returnFocusOnDeactivate: false,
+    };
+
     return (
       <React.Fragment>
-        <DrawerElement
+        <Tag
           className={this.classes} ref={this.drawerElement_}
           onKeyDown={(evt) => this.handleKeyDown(evt)}
           onTransitionEnd={(evt) => this.handleTransitionEnd(evt)}
           {...otherProps}
         >
           {activeTrap ? (
-            <FocusTrap>
+            <FocusTrap focusTrapOptions={focusTrapOptions}>
               {children}
             </FocusTrap>
           ): children}
-        </DrawerElement>
-        {this.renderScrim()}
+        </Tag>
+        {modal ? this.renderScrim() : null}
       </React.Fragment>
     );
   }
 
   renderScrim() {
-     //this.foundation_.handleScrimClick();
     return (
       <div
-        style={{display:'block'}}
         className='mdc-drawer-scrim'
-        onClick={() => {
-          console.log('meowmelw');
-        }}
+        onClick={() => this.foundation_.handleScrimClick()}
       ></div>
     );
   }
@@ -205,7 +212,7 @@ Drawer.propTypes = {
   onClose: PropTypes.func,
   onTransitionEnd: PropTypes.func,
   onKeyDown: PropTypes.func,
-  drawerElement: PropTypes.string,
+  tag: PropTypes.string,
   dismissible: PropTypes.bool,
   modal: PropTypes.bool,
 };
@@ -218,7 +225,7 @@ Drawer.defaultProps = {
   onClose: () => {},
   onTransitionEnd: () => {},
   onKeyDown: () => {},
-  drawerElement: 'aside',
+  tag: 'aside',
   dismissible: false,
   modal: false,
 };

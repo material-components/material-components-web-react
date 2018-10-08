@@ -17,12 +17,12 @@ class DrawerScreenshotTest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: props.open,
+      open: props.open, // eslint-disable-line react/prop-types
     };
   }
 
   render() {
-    const {title, dismissible, modal} = this.props;
+    const {title, dismissible, modal} = this.props; // eslint-disable-line react/prop-types
     return (
       <div className='drawer-screenshot-test'>
         <Drawer
@@ -59,7 +59,7 @@ class DrawerScreenshotTest extends React.Component {
   }
 
   renderNavigationIcon() {
-    if (this.props.hideNavigationIcon) return;
+    if (this.props.hideNavigationIcon) return; // eslint-disable-line react/prop-types
     return (
       <MaterialIcon onClick={() => this.setState({open: !this.state.open})} icon='menu' />
     );

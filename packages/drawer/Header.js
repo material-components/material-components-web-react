@@ -4,29 +4,29 @@ import classnames from 'classnames';
 
 const DrawerHeader = (props) => {
   const {
-    elementType: Element,
+    tag: Tag,
     children,
     className,
     ...otherProps
   } = props;
   return (
-    <Element
+    <Tag
       className={classnames('mdc-drawer__header', className)}
       {...otherProps}
     >
       {children}
-    </Element>
+    </Tag>
   );
 };
 
 DrawerHeader.propTypes = {
-  elementType: PropTypes.string,
+  tag: PropTypes.string,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
 };
 
 DrawerHeader.defaultProps = {
-  elementType: 'div',
+  tag: 'div',
   className: '',
 };
 

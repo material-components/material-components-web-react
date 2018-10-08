@@ -1,6 +1,8 @@
 import React from 'react';
 
-const renderListItem = ({title, icon, activated}, index) => {
+const renderListItem = ({
+  title, icon, activated, // eslint-disable-line react/prop-types
+}, index) => {
   return (
     <a
       key={index}

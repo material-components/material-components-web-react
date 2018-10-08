@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import drawerVariants from './variants';
 
 import '../../../packages/drawer/index.scss';
-// import '../../../packages/material-icon/index.scss';
 import './index.scss';
 
 const DrawerHomePage = () => {
