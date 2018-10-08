@@ -20,4 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-@import "@material/icon-button/mdc-icon-button";
+import React from 'react';
+import PropTypes from 'prop-types';
+
+export class NativeControl extends React.Component {
+  render() {
+    const {
+      rippleActivatorRef,
+      ...otherProps
+    } = this.props;
+
+    return (
+      <input
+        type='checkbox'
+        className='mdc-checkbox__native-control'
+        ref={rippleActivatorRef}
+        {...otherProps}
+      />
+    );
+  }
+};
+
+NativeControl.propTypes = {
+  checked: PropTypes.bool,
+  disabled: PropTypes.bool,
+  id: PropTypes.string,
+  rippleActivatorRef: PropTypes.object,
+};
+
+NativeControl.defaultProps = {
+  checked: false,
+  disabled: false,
+  id: null,
+  rippleActivatorRef: null,
+};
+
+export default NativeControl;
