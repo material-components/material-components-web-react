@@ -4,7 +4,13 @@ import './index.scss';
 
 import TopAppBar from '../../../packages/top-app-bar/index';
 import MaterialIcon from '../../../packages/material-icon/index';
-import Drawer, {DrawerAppContent, DrawerHeader, DrawerSubtitle, DrawerTitle, DrawerContent} from '../../../packages/drawer/index';
+import Drawer, {
+  DrawerAppContent,
+  DrawerHeader,
+  DrawerSubtitle,
+  DrawerTitle,
+  DrawerContent,
+} from '../../../packages/drawer/index';
 
 class DrawerScreenshotTest extends React.Component {
   state = {open: false};

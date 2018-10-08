@@ -17,7 +17,7 @@ const DrawerSubTitle = (props) => {
       {children}
     </Element>
   );
-}
+};
 
 DrawerSubTitle.propTypes = {
   elementType: PropTypes.string,

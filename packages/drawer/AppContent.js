@@ -17,7 +17,7 @@ const DrawerAppContent = (props) => {
       {children}
     </Element>
   );
-}
+};
 
 DrawerAppContent.propTypes = {
   elementType: PropTypes.string,

@@ -17,7 +17,7 @@ const DrawerHeader = (props) => {
       {children}
     </Element>
   );
-}
+};
 
 DrawerHeader.propTypes = {
   elementType: PropTypes.string,

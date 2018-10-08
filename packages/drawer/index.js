@@ -167,6 +167,7 @@ class Drawer extends React.Component {
           className={this.classes} ref={this.drawerElement_}
           onKeyDown={(evt) => this.handleKeyDown(evt)}
           onTransitionEnd={(evt) => this.handleTransitionEnd(evt)}
+          {...otherProps}
         >
           {activeTrap ? (
             <FocusTrap>
@@ -183,7 +184,9 @@ class Drawer extends React.Component {
     return (
       <div
         className='mdc-drawer-scrim'
-        onClick={() => {console.log('meowmelw'); this.foundation_.handleScrimClick()}}
+        onClick={() => {
+          console.log('meowmelw'); this.foundation_.handleScrimClick();
+        }}
       ></div>
     );
   }
@@ -191,6 +194,9 @@ class Drawer extends React.Component {
 
 
 Drawer.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+  open: PropTypes.bool,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   onTransitionEnd: PropTypes.func,
@@ -201,6 +207,9 @@ Drawer.propTypes = {
 };
 
 Drawer.defaultProps = {
+  className: '',
+  children: null,
+  open: false,
   onOpen: () => {},
   onClose: () => {},
   onTransitionEnd: () => {},
