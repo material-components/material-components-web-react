@@ -80,6 +80,7 @@ export default class ListItem extends Component {
     return (
       <li
         className={this.classes}
+        ref={this.listItemElement_}
         {...otherProps}
       >
         {this.renderGraphic(graphic)}
@@ -97,7 +98,7 @@ export default class ListItem extends Component {
     const tabIndex = (graphic.nodeName === 'A' || graphic.nodeName === 'BUTTON') ?
       this.props.childrenTabIndex :
       -1;
-    const graphicProps = Object.assign(graphic.props, {tabIndex});
+    const graphicProps = Object.assign({tabIndex}, graphic.props);
     return (
       <span
         className='mdc-list-item__graphic'
@@ -126,7 +127,7 @@ export default class ListItem extends Component {
       return null;
     }
     
-    if (meta instanceof string) {
+    if (meta instanceof String) {
       return (
         <span className='mdc-list-item__meta'>{meta}</span>
       );
@@ -155,6 +156,7 @@ ListItem.propTypes = {
   secondaryText: PropTypes.string,
   graphic: PropTypes.element,
   meta: PropTypes.element || PropTypes.string,
+  updateClassList: PropTypes.func,
 };
 
 ListItem.defaultProps = {
@@ -163,4 +165,5 @@ ListItem.defaultProps = {
   secondaryText: '',
   graphic: null,
   meta: null,
+  updateClassList: () => {},
 };

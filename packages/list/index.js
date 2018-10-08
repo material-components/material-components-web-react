@@ -42,10 +42,14 @@ export default class List extends Component {
     this.foundation_ = new MDCListFoundation(this.adapter);
     this.foundation_.init();
     this.foundation_.setSingleSelection(singleSelection);
-    this.foundation_.setVerticalOrientation(this.props['aria-orientation'] === 'vertical');
     this.foundation_.setWrapFocus(wrapFocus);
     if (selectedIndex) {
       this.foundation_.setSelectedIndex(selectedIndex);
+    }
+    if (this.props['aria-orientation']) {
+      this.foundation_.setVerticalOrientation(this.props['aria-orientation'] === 'vertical');
+    } else {
+      this.foundation_.setVerticalOrientation(true);
     }
     
     // List item children are not tabbable until the list item is focused.
@@ -54,6 +58,22 @@ export default class List extends Component {
       listItemChildrenTabIndex[i] = -1;
     }
     this.setState({listItemChildrenTabIndex});
+  }
+
+  componentDidUpdate(prevProps) {
+    const {singleSelection, selectedIndex, wrapFocus} = this.props;
+    if (singleSelection !== prevProps.singleSelection) {
+      this.foundation_.setSingleSelection(singleSelection);
+    }
+    if (wrapFocus !== prevProps.wrapFocus) {
+      this.foundation_.setWrapFocus(wrapFocus);
+    }
+    if (selectedIndex !== prevProps.selectedIndex) {
+      this.foundation_.setSelectedIndex(selectedIndex);
+    }
+    if (this.props['aria-orientation'] !== prevProps['aria-orientation']) {
+      this.foundation_.setVerticalOrientation(this.props['aria-orientation'] === 'vertical');
+    }
   }
 
   componentWillUnmount() {
@@ -184,6 +204,13 @@ export default class List extends Component {
       onClick,
       onFocus,
       onBlur,
+      nonInterative,
+      dense,
+      avatarList,
+      twoLine,
+      singleSelection,
+      wrapFocus,
+      selectedIndex,
       /* eslint-enable */
       children,
       ...otherProps
