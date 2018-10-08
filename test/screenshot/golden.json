@@ -25,5 +25,8 @@
   "top-app-bar/shortCollapsed": "894054d0962880d7bd6dde5f05f496435e799254a5af490f929341f7995686f1",
   "top-app-bar/standard": "90534d59d40f8c050aae022e94b0afa022a00d1e00c19e3f92dcc1908efcd831",
   "top-app-bar/standardNoActionItems": "9102ece0efc0a040e0dc2b097c66d2ee5ecc9c91759aeb16ea5aa2baabe7307a",
-  "top-app-bar/standardWithNavigationIconElement": "91b10df9c4faf85ba63c84b1cf82a1c1143a3d8c4ba7ed8af477fabdc65ec25e"
+  "top-app-bar/standardWithNavigationIconElement": "91b10df9c4faf85ba63c84b1cf82a1c1143a3d8c4ba7ed8af477fabdc65ec25e",
+  "drawer/permanent": "64aefb99ad4f188383721b9bcc4e9330898098f27451aaca8596de3579340cf4",
+  "drawer/dismissible": "299da8923ac1de167c89f712faf5cf1c9abe32e324ddba9d9d13771932d2baf4",
+  "drawer/modal": "6f2cb0e02db71355154bc323d4b8f38e8e008011e255d8e10f6eb60c9c01adf1"
 }
