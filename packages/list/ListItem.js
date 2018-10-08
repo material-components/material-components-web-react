@@ -27,10 +27,6 @@ import classnames from 'classnames';
 export default class ListItem extends Component {
   listItemElement_ = React.createRef();
 
-  componentDidMount() {
-    this.props.updateClassList(this, this.props.className);
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.className !== prevProps.className) {
       this.props.updateClassList(this, this.props.className);
@@ -57,10 +53,7 @@ export default class ListItem extends Component {
   }
 
   toggleCheckbox() {
-    const element = this.listItemElement_.current;
-    if (element && element.href) {
-
-    }
+    // TODO(bonniez): implement
   }
 
   render() {
@@ -95,9 +88,7 @@ export default class ListItem extends Component {
       return null;
     }
 
-    const tabIndex = (graphic.nodeName === 'A' || graphic.nodeName === 'BUTTON') ?
-      this.props.childrenTabIndex :
-      -1;
+    const tabIndex = graphic.props.tabIndex != undefined ? this.props.childrenTabIndex : -1;
     const graphicProps = Object.assign({tabIndex}, graphic.props);
     return (
       <span
@@ -135,14 +126,12 @@ export default class ListItem extends Component {
 
     const {
       className,
+      tabIndex,
       ...otherProps
     } = meta.props;
-    const tabIndex = (meta.nodeName === 'A' || meta.nodeName === 'BUTTON') ?
-      this.props.childrenTabIndex :
-      -1;
     const props = {
       className: classnames(className, 'mdc-list-item__meta'),
-      tabIndex,
+      tabIndex: tabIndex != undefined ? this.props.childrenTabIndex : -1,
       ...otherProps,
     };
     return React.cloneElement(meta, props);

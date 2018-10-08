@@ -9,25 +9,42 @@ import {ListItem} from '../../../packages/list/index';
 const ListScreenshotTest = () => {
   return (
     <div>
-      <List twoLine>
+      <List twoLine singleSelection>
         <ListItem
-          tabIndex={0}
           primaryText='Photos'
           secondaryText='Jan 9, 2018'
           graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info'/>}
+          meta={<MaterialIcon icon='info' tabIndex='0' />}
         />
         <ListItem
           primaryText='Recipes'
           secondaryText='Jan 17, 2018'
           graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info'/>}
+          meta={<MaterialIcon icon='info' tabIndex='0' />}
         />
         <ListItem
           primaryText='Work'
           secondaryText='Jan 28, 2018'
           graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info'/>}
+          meta={<MaterialIcon icon='info' tabIndex='0' />}
+        />
+      </List>
+
+      <List >
+        <ListItem
+          primaryText='Dogs'
+          graphic={<MaterialIcon icon='folder'/>}
+          meta={<MaterialIcon icon='info' tabIndex='0' />}
+        />
+        <ListItem
+          primaryText='Cats'
+          graphic={<MaterialIcon icon='folder'/>}
+          meta={<MaterialIcon icon='info' tabIndex='0' />}
+        />
+        <ListItem
+          primaryText='Birds'
+          graphic={<MaterialIcon icon='folder'/>}
+          meta={<MaterialIcon icon='info' tabIndex='0' />}
         />
       </List>
     </div>
