@@ -90,10 +90,31 @@ const textFields = variants.map((variant) => {
   });
 });
 
+const textareaVariants = [
+  {},
+  {fullWidth: true},
+];
+
+const textareaFields = textareaVariants.map((variant) => {
+  return denseMap.map((dense) => {
+    return rtlMap.map((isRtl) => {
+      return disabledMap.map((disabled) => {
+        return helperTextMap.map((helperText) => {
+          const props = Object.assign({}, variant, dense, disabled, helperText, isRtl);
+          const key = JSON.stringify(props);
+          return <TestField textarea {...props} key={key} id={key} />;
+        });
+      });
+    });
+  });
+});
+
 
 const TextFieldScreenshotTest = () => (
   <div className='text-field-container'>
     {textFields}
+    <h2>Textarea</h2>
+    {textareaFields }
   </div>
 );
 
