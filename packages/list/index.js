@@ -31,14 +31,19 @@ import ListItem from './ListItem';
 export default class List extends Component {
   listItems_ = [];
   state = {
-    listItemAttributes: {}, // map of index to {attr: val} objects
-    listItemClassList: {}, // map of index to classList sets
-    listItemChildrenTabIndex: {}, // map of index to tabIndex
+    listItemAttributes: {}, // maps index to {attr: val} map object
+    listItemClassList: {}, // maps index to classList set
+    listItemChildrenTabIndex: {}, // maps index to children's tabIndex
   };
 
   componentDidMount() {
-    const {singleSelection, selectedIndex, wrapFocus} = this.props;
+    for (let i = 0; i < this.listItems_.length; i++) {
+      this.initListItemAttributes(i);
+      this.initListItemTabIndex(i);
+      this.updateListItemClassList(this.listItems_[i]);
+    }
 
+    const {singleSelection, selectedIndex, wrapFocus} = this.props;
     this.foundation_ = new MDCListFoundation(this.adapter);
     this.foundation_.init();
     this.foundation_.setSingleSelection(singleSelection);
@@ -46,12 +51,6 @@ export default class List extends Component {
     this.foundation_.setVerticalOrientation(this.props['aria-orientation'] === 'vertical');
     if (selectedIndex) {
       this.foundation_.setSelectedIndex(selectedIndex);
-    }
-
-    for (let i = 0; i < this.listItems_.length; i++) {
-      this.initListItemAttributes(i);
-      this.initListItemTabIndex(i);
-      this.updateListItemClassList(this.listItems_[i]);
     }
   }
 
@@ -73,6 +72,28 @@ export default class List extends Component {
 
   componentWillUnmount() {
     this.foundation_.destroy();
+  }
+
+  initListItemAttributes = (index) => {
+    const listItemAttributes = this.state.listItemAttributes;
+    listItemAttributes[index] = {
+      'aria-selected': false,
+      tabIndex: index === 0 ? 0 : -1,
+    };
+    this.setState({listItemAttributes});
+  }
+
+  initListItemTabIndex = (index) => {
+    const listItemChildrenTabIndex = this.state.listItemChildrenTabIndex;
+    listItemChildrenTabIndex[index] = -1;
+    this.setState({listItemChildrenTabIndex});
+  }
+
+  updateListItemClassList = (listItem) => {
+    const index = this.listItems_.indexOf(listItem);
+    const listItemClassList = this.state.listItemClassList;
+    listItemClassList[index] = new Set(listItem.classes.split(' '));
+    this.setState({listItemClassList});
   }
 
   get classes() {
@@ -232,28 +253,6 @@ export default class List extends Component {
     );
   }
 
-  initListItemAttributes = (index) => {
-    const listItemAttributes = this.state.listItemAttributes;
-    listItemAttributes[index] = {
-      'aria-selected': false,
-      tabIndex: index === 0 ? 0 : -1,
-    };
-    this.setState({listItemAttributes});
-  }
-
-  initListItemTabIndex = (index) => {
-    const listItemChildrenTabIndex = this.state.listItemChildrenTabIndex;
-    listItemChildrenTabIndex[index] = -1;
-    this.setState({listItemChildrenTabIndex});
-  }
-
-  updateListItemClassList = (listItem) => {
-    const index = this.listItems_.indexOf(listItem);
-    const listItemClassList = this.state.listItemClassList;
-    listItemClassList[index] = new Set(listItem.classes.split(' '));
-    this.setState({listItemClassList});
-  }
-
   renderListItem = (listItem, index) => {
     const {
       children,
@@ -261,13 +260,14 @@ export default class List extends Component {
     } = listItem.props;
 
     const props = Object.assign({}, {
-      updateClassList: this.updateListItemClassList,
-      ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
-      ...otherProps,
-    },
-    {className: this.getListItemClasses(index)},
-    {childrenTabIndex: this.state.listItemChildrenTabIndex[index]},
-    this.state.listItemAttributes[index]);
+        updateClassList: this.updateListItemClassList,
+        ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
+        ...otherProps,
+      },
+      {className: this.getListItemClasses(index)},
+      {childrenTabIndex: this.state.listItemChildrenTabIndex[index]},
+      this.state.listItemAttributes[index],
+    );
     
     return React.cloneElement(listItem, props, children);
   }
@@ -282,7 +282,7 @@ List.propTypes = {
   twoLine: PropTypes.bool,
   singleSelection: PropTypes.bool,
   wrapFocus: PropTypes.bool,
-  selectedIndex: PropTypes.bool,
+  selectedIndex: PropTypes.number,
   'aria-orientation': PropTypes.string,
   onKeyDown: PropTypes.func,
   onClick: PropTypes.func,
@@ -298,7 +298,7 @@ List.defaultProps = {
   twoLine: false,
   singleSelection: false,
   wrapFocus: true,
-  selectedIndex: false,
+  selectedIndex: -1,
   'aria-orientation': 'vertical',
   onKeyDown: () => {},
   onClick: () => {},

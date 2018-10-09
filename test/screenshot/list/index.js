@@ -6,10 +6,29 @@ import MaterialIcon from '../../../packages/material-icon';
 import List from '../../../packages/list/index';
 import {ListItem} from '../../../packages/list/index';
 
+class SelectionListTest extends React.Component {
+  state = {
+    selectedIndex: 1, // eslint-disable-line react/prop-types
+  };
+
+  render() {
+    const {children, ...otherProps} = this.props; // eslint-disable-line react/prop-types
+    return (
+      <List
+        singleSelection
+        selectedIndex={this.state.selectedIndex}
+        {...otherProps}
+      >
+        {children}
+      </List>
+    );
+  }
+}
+
 const ListScreenshotTest = () => {
   return (
     <div>
-      <List twoLine singleSelection>
+      <SelectionListTest twoLine>
         <ListItem
           primaryText='Photos'
           secondaryText='Jan 9, 2018'
@@ -28,9 +47,9 @@ const ListScreenshotTest = () => {
           graphic={<MaterialIcon icon='folder'/>}
           meta={<MaterialIcon icon='info' tabIndex='0' />}
         />
-      </List>
+      </SelectionListTest>
 
-      <List >
+      <List>
         <ListItem
           primaryText='Dogs'
           graphic={<MaterialIcon icon='folder'/>}
