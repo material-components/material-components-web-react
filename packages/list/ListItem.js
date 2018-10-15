@@ -88,14 +88,20 @@ export default class ListItem extends Component {
       return null;
     }
 
-    const tabIndex = graphic.props.tabIndex != undefined ? this.props.childrenTabIndex : -1;
-    const graphicProps = Object.assign({tabIndex}, graphic.props);
+    const {
+      tabIndex,
+      ...otherProps
+    } = graphic.props;
+    const props = {
+      tabIndex: tabIndex != undefined ? this.props.childrenTabIndex : -1,
+      ...otherProps,
+    };
     return (
       <span
         className='mdc-list-item__graphic'
         role='presentation'
       >
-        {React.cloneElement(graphic, graphicProps)}
+        {React.cloneElement(graphic, props)}
       </span>
     );
   }
@@ -118,7 +124,7 @@ export default class ListItem extends Component {
       return null;
     }
     
-    if (meta instanceof String) {
+    if (typeof meta === 'string') {
       return (
         <span className='mdc-list-item__meta'>{meta}</span>
       );
@@ -141,16 +147,20 @@ export default class ListItem extends Component {
 ListItem.propTypes = {
   childrenTabIndex: PropTypes.number,
   className: PropTypes.string,
-  primaryText: PropTypes.string.isRequired,
+  primaryText: PropTypes.string,
   secondaryText: PropTypes.string,
   graphic: PropTypes.element,
-  meta: PropTypes.element || PropTypes.string,
+  meta: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
   updateClassList: PropTypes.func,
 };
 
 ListItem.defaultProps = {
   childrenTabIndex: -1,
   className: '',
+  primaryText: '',
   secondaryText: '',
   graphic: null,
   meta: null,
