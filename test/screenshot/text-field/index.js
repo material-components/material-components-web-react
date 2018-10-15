@@ -11,11 +11,21 @@ import '../../../packages/text-field/index.scss';
 class TestField extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: props.value === '' ? props.value : 'woof'};
+    this.state = {
+      value: props.value === '' ? props.value : 'woof', // eslint-disable-line react/prop-types
+    };
   }
   render() {
     const {
-      disabled, id, isRtl, minLength, required, value, ...otherProps // eslint-disable-line react/prop-types
+      /* eslint-disable react/prop-types */
+      disabled,
+      id,
+      isRtl,
+      minLength,
+      required,
+      value, // eslint-disable-line no-unused-vars
+      /* eslint-enable react/prop-types */
+      ...otherProps
     } = this.props;
     return (
       <div dir={isRtl ? 'rtl' : 'ltr'}>
@@ -87,7 +97,7 @@ const getHelperKeyText = (helperText, helperTextIndex) => {
   } else {
     return 'persistent';
   }
-}
+};
 
 const textFields = variants.map((variant) => {
   return icons.map((icon) => {
@@ -107,7 +117,8 @@ const textFields = variants.map((variant) => {
               const helperTextKey = getHelperKeyText(helperText, helperTextIndex);
 
               const props = Object.assign({}, variant, icon, dense, disabled, helperText, isRequired, isRtl, value);
-              const key = `${variantKey}-${iconKey}-${denseKey}-${disabledKey}-${helperTextKey}-${isRequiredKey}--${rtlKey}`;
+              const key =
+                `${variantKey}-${iconKey}-${denseKey}-${disabledKey}-${helperTextKey}-${isRequiredKey}--${rtlKey}`;
 
               const hasIcon = iconKey === 'leadingIcon' || iconKey === 'trailingIcon';
               if (variantKey === 'fullWidth' && hasIcon) {
