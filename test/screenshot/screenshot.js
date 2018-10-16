@@ -69,8 +69,11 @@ export default class Screenshot {
         this.readImage_(goldenPath),
       ]);
 
+
       // Compare the images
       let data;
+      console.log('snapshot size ', snapshot.byteLength)
+      console.log('golden size ', golden.byteLength)
       try {
         data = await compareImages(snapshot, golden, comparisonOptions);
       } catch(err) {
