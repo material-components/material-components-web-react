@@ -18,7 +18,7 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/chips": "^0.40.0",
+    "@material/chips": "^0.40.1",
     "@material/react-ripple": "^0.2.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
