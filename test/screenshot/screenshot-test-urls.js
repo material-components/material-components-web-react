@@ -11,6 +11,7 @@ const urls = [
   'floating-label',
   'icon-button',
   'material-icon',
+  'menu-surface',
   'notched-outline',
   'select',
   'tab',

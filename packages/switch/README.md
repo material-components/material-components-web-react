@@ -37,7 +37,7 @@ class MyApp extends Component {
         nativeControlId='my-switch'
         checked={this.state.checked}
         onChange={(e) => this.setState({checked: e.target.checked})} />
-      <label for='my-switch'>My Switch</label>
+      <label htmlFor='my-switch'>My Switch</label>
     );
   }
 }
