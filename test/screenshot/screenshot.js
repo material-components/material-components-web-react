@@ -83,7 +83,9 @@ export default class Screenshot {
       await Promise.all([
         this.saveImage_(snapshotPath, snapshot, metadata),
         this.saveImage_(diffPath, diff, metadata),
-      ]);
+      ]).catch((reason) => {
+        console.log('this is the reason matt: ', reason)
+      });
 
       return assert.equal(Number(data.misMatchPercentage), 0);
     });
@@ -178,6 +180,8 @@ export default class Screenshot {
     return new Promise((resolve, reject) => {
       stream.pipe(file.createWriteStream())
         .on('error', (err) => {
+          console.log('reject promise matt')
+          console.log(err)
           reject(err);
         }).on('finish', async () => {
           try {
