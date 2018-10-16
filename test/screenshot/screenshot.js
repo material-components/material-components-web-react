@@ -174,12 +174,15 @@ export default class Screenshot {
     }
 
     // Create a new stream from the image buffer
+    console.log('readable not issue')
     let stream = new Readable();
     stream.push(imageBuffer);
     stream.push(null);
 
     // The promise is resolved or rejected inside the stream event callbacks
     return new Promise((resolve, reject) => {
+      console.log('apple')
+      console.log(stream)
       stream.pipe(file.createWriteStream())
         .on('error', (err) => {
           console.log('reject promise matt')
