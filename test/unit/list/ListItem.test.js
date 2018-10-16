@@ -4,7 +4,7 @@ import {mount, shallow} from 'enzyme';
 import td from 'testdouble';
 import {ListItem} from '../../../packages/list';
 
-suite.only('ListItem');
+suite('ListItem');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<ListItem className='test-class-name' />);

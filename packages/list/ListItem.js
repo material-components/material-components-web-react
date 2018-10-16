@@ -29,7 +29,7 @@ export default class ListItem extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.className !== prevProps.className) {
-      this.props.updateClassList(this, this.props.className);
+      this.props.updateClassList(this);
     }
   }
 

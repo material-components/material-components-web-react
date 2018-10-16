@@ -36,11 +36,16 @@ export default class List extends Component {
     listItemChildrenTabIndex: {}, // maps index to children's tabIndex
   };
 
+  componentWillMount() {
+    React.Children.forEach(this.props.children, (child, index) => {
+      this.initListItemClassList(child, index);
+    });
+  }
+
   componentDidMount() {
     for (let i = 0; i < this.listItems_.length; i++) {
-      this.initListItemAttributes(i);
-      this.initListItemTabIndex(i);
-      this.updateListItemClassList(this.listItems_[i]);
+      this.initListItemAttributes_(i);
+      this.initListItemChildrenTabIndex_(i);
     }
 
     const {singleSelection, selectedIndex, wrapFocus} = this.props;
@@ -74,19 +79,26 @@ export default class List extends Component {
     this.foundation_.destroy();
   }
 
-  initListItemAttributes = (index) => {
+  initListItemAttributes_(index) {
     const listItemAttributes = this.state.listItemAttributes;
     listItemAttributes[index] = {
       'aria-selected': false,
-      tabIndex: index === 0 ? 0 : -1,
+      tabIndex: index === 0 ? 0 : -1, // only the first list item in a list is tabbable
     };
     this.setState({listItemAttributes});
   }
 
-  initListItemTabIndex = (index) => {
+  initListItemChildrenTabIndex_(index) {
     const listItemChildrenTabIndex = this.state.listItemChildrenTabIndex;
     listItemChildrenTabIndex[index] = -1;
     this.setState({listItemChildrenTabIndex});
+  }
+
+  initListItemClassList(listItem, index) {
+    const {className} = listItem.props;
+    const listItemClassList = this.state.listItemClassList;
+    listItemClassList[index] = new Set(className.split(' '));
+    this.setState({listItemClassList});
   }
 
   updateListItemClassList = (listItem) => {
@@ -106,7 +118,7 @@ export default class List extends Component {
     });
   }
 
-  getListItemClasses(index) {
+  getListItemClasses_(index) {
     const {listItemClassList} = this.state;
     return listItemClassList[index] ? classnames(Array.from(listItemClassList[index])) : '';
   }
@@ -208,7 +220,7 @@ export default class List extends Component {
   onFocus = (e) => {
     const index = this.getListItemIndexOfTarget_(e.target);
     this.foundation_.handleFocusIn(e, index);
-    this.props.onClick(e);
+    this.props.onFocus(e);
   }
 
   // Use onBlur as workaround because onFocusOut is not yet supported in React
@@ -216,7 +228,7 @@ export default class List extends Component {
   onBlur = (e) => {
     const index = this.getListItemIndexOfTarget_(e.target);
     this.foundation_.handleFocusOut(e, index);
-    this.props.onClick(e);
+    this.props.onBlur(e);
   }
 
   render() {
@@ -255,6 +267,7 @@ export default class List extends Component {
 
   renderListItem = (listItem, index) => {
     const {
+      className,
       children,
       ...otherProps
     } = listItem.props;
@@ -264,7 +277,7 @@ export default class List extends Component {
         ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
         ...otherProps,
       },
-      {className: this.getListItemClasses(index)},
+      {className: this.getListItemClasses_(index)},
       {childrenTabIndex: this.state.listItemChildrenTabIndex[index]},
       this.state.listItemAttributes[index],
     );
