@@ -64,10 +64,13 @@ export default class Screenshot {
       const goldenPath = this.getImagePath_(goldenHash, 'golden');
 
       // Take a snapshot and download the golden iamge
+      console.log('before :D')
       const [snapshot, golden] = await Promise.all([
         this.takeScreenshot_(),
         this.readImage_(goldenPath),
       ]);
+
+      console.log('after :D')
 
       // Compare the images
       const data = await compareImages(snapshot, golden, comparisonOptions);
@@ -138,6 +141,7 @@ export default class Screenshot {
    * @private
    */
   async readImage_(gcsFilePath) {
+    console.log('got here')
     const data = await bucket.file(gcsFilePath).download();
     return data[0];
   }
