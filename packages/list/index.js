@@ -38,7 +38,7 @@ export default class List extends Component {
 
   componentWillMount() {
     React.Children.forEach(this.props.children, (child, index) => {
-      this.initListItemClassList(child, index);
+      this.initListItemClassList_(child, index);
     });
   }
 
@@ -83,7 +83,7 @@ export default class List extends Component {
     const listItemAttributes = this.state.listItemAttributes;
     listItemAttributes[index] = {
       'aria-selected': false,
-      tabIndex: index === 0 ? 0 : -1, // only the first list item in a list is tabbable
+      'tabIndex': index === 0 ? 0 : -1,
     };
     this.setState({listItemAttributes});
   }
@@ -94,7 +94,7 @@ export default class List extends Component {
     this.setState({listItemChildrenTabIndex});
   }
 
-  initListItemClassList(listItem, index) {
+  initListItemClassList_(listItem, index) {
     const {className} = listItem.props;
     const listItemClassList = this.state.listItemClassList;
     listItemClassList[index] = new Set(className.split(' '));
@@ -267,24 +267,25 @@ export default class List extends Component {
 
   renderListItem = (listItem, index) => {
     const {
-      className,
+      className, // eslint-disable-line
       children,
       ...otherProps
     } = listItem.props;
 
     const props = Object.assign({}, {
-        updateClassList: this.updateListItemClassList,
-        ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
-        ...otherProps,
-      },
-      {className: this.getListItemClasses_(index)},
-      {childrenTabIndex: this.state.listItemChildrenTabIndex[index]},
-      this.state.listItemAttributes[index],
-    );
-    
+      updateClassList: this.updateListItemClassList,
+      ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
+      ...otherProps,
+    },
+    {className: this.getListItemClasses_(index)},
+    {childrenTabIndex: this.state.listItemChildrenTabIndex[index]},
+    this.state.listItemAttributes[index]);
+
     return React.cloneElement(listItem, props, children);
   }
 }
+
+/* eslint-disable quote-props */
 
 List.propTypes = {
   className: PropTypes.string,
@@ -318,5 +319,7 @@ List.defaultProps = {
   onFocus: () => {},
   onBlur: () => {},
 };
+
+/* eslint-enable quote-props */
 
 export {ListItem};

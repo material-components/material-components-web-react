@@ -123,7 +123,7 @@ export default class ListItem extends Component {
     if (!meta) {
       return null;
     }
-    
+
     if (typeof meta === 'string') {
       return (
         <span className='mdc-list-item__meta'>{meta}</span>
@@ -152,7 +152,7 @@ ListItem.propTypes = {
   graphic: PropTypes.element,
   meta: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.element
+    PropTypes.element,
   ]),
   updateClassList: PropTypes.func,
 };

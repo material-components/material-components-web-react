@@ -5,7 +5,7 @@ import {shallow, mount} from 'enzyme';
 import List from '../../../packages/list';
 import {ListItem} from '../../../packages/list';
 
-suite('List');
+suite.only('List');
 
 test('creates foundation', () => {
   const wrapper = shallow(<List />);
@@ -95,7 +95,7 @@ test('state.listItemChildrenTabIndex is set to -1 for all list items on mount', 
   assert.equal(wrapper.state().listItemChildrenTabIndex[2], -1);
 });
 
-test('#updateListItemClassList updates state.listItemClassList', () => {
+test('state.listItemClassList is updated from props on mount', () => {
   const wrapper = mount(
     <List>
       <ListItem className='class1 class2' />
@@ -204,4 +204,125 @@ test('#adapter.toggleCheckbox calls toggleCheckbox() on list item', () => {
   wrapper.instance().listItems_ = [item1, item2, item3];
   wrapper.instance().adapter.toggleCheckbox(1);
   td.verify(item2.toggleCheckbox(), {times: 1});
+});
+
+test('on click calls #props.onClick', () => {
+  const onClick = td.func();
+  const wrapper = mount(
+    <List onClick={onClick}>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const evt = {target: item2};
+  wrapper.simulate('click', evt);
+  td.verify(onClick(td.matchers.isA(Object)), {times: 1});
+});
+
+
+test('on click calls #foudation.handleClick', () => {
+  const wrapper = mount(
+    <List>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  wrapper.instance().foundation_.handleClick = td.func();
+  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const evt = {target: item2};
+  wrapper.simulate('click', evt);
+  td.verify(wrapper.instance().foundation_.handleClick(1, false), {times: 1});
+});
+
+test('on keydown calls #props.onKeyDown', () => {
+  const onKeyDown = td.func();
+  const wrapper = mount(
+    <List onKeyDown={onKeyDown}>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const evt = {target: item2};
+  wrapper.simulate('keydown', evt);
+  td.verify(onKeyDown(td.matchers.isA(Object)), {times: 1});
+});
+
+test('on keydown calls #foudation.handleKeydown', () => {
+  const wrapper = mount(
+    <List>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  wrapper.instance().foundation_.handleKeydown = td.func();
+  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const evt = {target: item2};
+  wrapper.simulate('keydown', evt);
+  td.verify(wrapper.instance().foundation_.handleKeydown(td.matchers.isA(Object), true, 1), {times: 1});
+});
+
+test('on focus calls #props.onFocus', () => {
+  const onFocus = td.func();
+  const wrapper = mount(
+    <List onFocus={onFocus}>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const evt = {target: item2};
+  wrapper.simulate('focus', evt);
+  td.verify(onFocus(td.matchers.isA(Object)), {times: 1});
+});
+
+test('on focus calls #foudation.handleFocusIn', () => {
+  const wrapper = mount(
+    <List>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  wrapper.instance().foundation_.handleFocusIn = td.func();
+  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const evt = {target: item2};
+  wrapper.simulate('focus', evt);
+  td.verify(wrapper.instance().foundation_.handleFocusIn(td.matchers.isA(Object), 1), {times: 1});
+});
+
+test('on blur calls #props.onBlur', () => {
+  const onBlur = td.func();
+  const wrapper = mount(
+    <List onBlur={onBlur}>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const evt = {target: item2};
+  wrapper.simulate('blur', evt);
+  td.verify(onBlur(td.matchers.isA(Object)), {times: 1});
+});
+
+test('on keydown calls #foudation.handleFocusOut', () => {
+  const wrapper = mount(
+    <List>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  wrapper.instance().foundation_.handleFocusOut = td.func();
+  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const evt = {target: item2};
+  wrapper.simulate('blur', evt);
+  td.verify(wrapper.instance().foundation_.handleFocusOut(td.matchers.isA(Object), 1), {times: 1});
 });
