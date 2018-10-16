@@ -28,11 +28,10 @@ import TextField, {Input, HelperText} from '@material/react-text-field';
 import Button from '@material/react-button';
 import MaterialIcon from '@material/react-material-icon';
 
-import './index.scss';
-
 class Feedback extends React.Component {
   state = {
     feedback: '',
+    selectedFeedbackChips: [],
   };
 
   render() {
@@ -47,11 +46,14 @@ class Feedback extends React.Component {
               alt='red roses logo'
             />
             {this.renderMessage()}
-            <ChipSet filter>
+            <ChipSet
+              filter
+              handleSelect={(selectedFeedbackChips) => this.setState({selectedFeedbackChips})}
+            >
               <Chip id='fast' label='Fast Delivery'/>
               <Chip id='great_flowers' label='Great Flowers'/>
               <Chip id='nice_courier' label='Nice Courier'/>
-              <Chip id='easy_to_use' label='Easy to Order'/>
+              <Chip id='easy_order' label='Easy to Order'/>
             </ChipSet>
             {this.renderFeedbackTextField()}
             {this.renderSubmit()}
