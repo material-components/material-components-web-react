@@ -72,12 +72,24 @@ test('has mdc drawer class', () => {
   assert.isTrue(wrapper.instance().classes.includes('mdc-drawer'));
 });
 
-/*
-reminders:
-test('addClass')
-test('removeClass')
-test('hasClass')
-*/
+test('#adapter.addClass should update state with new className', () => {
+  const wrapper = mount(<Drawer modal />);
+  wrapper.instance().foundation_.adapter_.addClass('test-class');
+  assert.isTrue(wrapper.state().classList.has('test-class'));
+});
+
+test('#adapter.removeClass should update state with new className', () => {
+  const wrapper = mount(<Drawer modal />);
+  wrapper.setState({classList: new Set(['test-class'])});
+  wrapper.instance().foundation_.adapter_.removeClass('test-class');
+  assert.isFalse(wrapper.state().classList.has('test-class'));
+});
+
+test('#adapter.hasClass returns true if class is contained in classes', () => {
+  const wrapper = mount(<Drawer modal />);
+  wrapper.setState({classList: new Set(['test-class'])});
+  assert.isTrue(wrapper.instance().foundation_.adapter_.hasClass('test-class'));
+});
 
 test('#adapter.elementHasClass should return true when element has class', () => {
   const wrapper = mount(<Drawer modal><div className='test-class'></div></Drawer>);
@@ -92,8 +104,6 @@ test('#adapter.elementHasClass should return false when element does not have cl
   const hasClass = wrapper.instance().foundation_.adapter_.elementHasClass(element, 'test-class');
   assert.isFalse(hasClass);
 });
-
-/* not doing bounding client rect, since its missing from 0.40.0*/
 
 test('#adapter.saveFocus updates previousFocus_', () => {
   const wrapper = shallow(<Drawer modal />);

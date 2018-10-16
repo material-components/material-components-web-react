@@ -85,34 +85,17 @@ class Drawer extends React.Component {
   get adapter() {
     return {
       addClass: (className) => {
-        // const {classList} = this.state;
-        // classList.add(className);
-        // this.setState({classList});
-        // TODO: revert this change after update to 0.40.x
-        const drawerElement = this.drawerElement_ && this.drawerElement_.current;
-
-        if (!drawerElement) return;
-        drawerElement.classList.add(className);
-        this.forceUpdate();
+        const {classList} = this.state;
+        classList.add(className);
+        this.setState({classList});
       },
       removeClass: (className) => {
-        // const {classList} = this.state;
-        // classList.delete(className);
-        // this.setState({classList});
-        const drawerElement = this.drawerElement_ && this.drawerElement_.current;
-
-        if (!drawerElement) return;
-        drawerElement.classList.remove(className);
-        this.forceUpdate();
+        const {classList} = this.state;
+        classList.delete(className);
+        this.setState({classList});
       },
-      // TODO: revert once updated to 0.40.x
-      hasClass: (className) => this.drawerElement_.current && this.drawerElement_.current.classList.contains(className),
+      hasClass: (className) => this.classes.split(' ').includes(className),
       elementHasClass: (element, className) => element.classList.contains(className),
-      computeBoundingRect: () => {
-        const drawerElement = this.drawerElement_ && this.drawerElement_.current;
-        if (!drawerElement) return;
-        return drawerElement.getBoundingClientRect();
-      },
       saveFocus: () => {
         this.previousFocus_ = document.activeElement;
       },
