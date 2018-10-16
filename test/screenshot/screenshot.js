@@ -80,6 +80,8 @@ export default class Screenshot {
       const metadata = {golden: goldenHash};
 
       // Save the snapshot and the diff
+      console.log(snapshotPath)
+      console.log(diffPath)
       await Promise.all([
         this.saveImage_(snapshotPath, snapshot, metadata),
         this.saveImage_(diffPath, diff, metadata),
@@ -191,6 +193,8 @@ export default class Screenshot {
             console.log('✔︎ Uploaded', imagePath);
             resolve();
           } catch (err) {
+            console.log('orange orange orange cat')
+            console.log(err)
             reject(err);
           }
         });
