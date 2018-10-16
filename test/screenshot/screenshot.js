@@ -70,27 +70,26 @@ export default class Screenshot {
       ]);
 
       // Compare the images
-      const data = await compareImages(snapshot, golden, comparisonOptions);
+      let data;
+      try {
+        data = await compareImages(snapshot, golden, comparisonOptions);
+      } catch(err) {
+        console.log('MEOW MEOW MEOW')
+        console.log(err); // TypeError: failed to fetch
+      }
       const diff = data.getBuffer();
 
       // Use the same hash for the snapshot path and diff path so it's easy can associate the two
       const snapshotHash = this.generateImageHash_(snapshot);
-      console.log('one')
       const snapshotPath = this.getImagePath_(snapshotHash, 'snapshot');
-      console.log('two')
       const diffPath = this.getImagePath_(snapshotHash, 'diff');
-      console.log('three')
       const metadata = {golden: goldenHash};
 
       // Save the snapshot and the diff
-      console.log(snapshotPath)
-      console.log(diffPath)
       await Promise.all([
         this.saveImage_(snapshotPath, snapshot, metadata),
         this.saveImage_(diffPath, diff, metadata),
-      ]).catch((reason) => {
-        console.log('this is the reason matt: ', reason)
-      });
+      ]);
 
       return assert.equal(Number(data.misMatchPercentage), 0);
     });
@@ -177,19 +176,14 @@ export default class Screenshot {
     }
 
     // Create a new stream from the image buffer
-    console.log('readable not issue')
     let stream = new Readable();
     stream.push(imageBuffer);
     stream.push(null);
 
     // The promise is resolved or rejected inside the stream event callbacks
     return new Promise((resolve, reject) => {
-      console.log('apple')
-      console.log(stream)
       stream.pipe(file.createWriteStream())
         .on('error', (err) => {
-          console.log('reject promise matt')
-          console.log(err)
           reject(err);
         }).on('finish', async () => {
           try {
@@ -199,8 +193,6 @@ export default class Screenshot {
             console.log('✔︎ Uploaded', imagePath);
             resolve();
           } catch (err) {
-            console.log('orange orange orange cat')
-            console.log(err)
             reject(err);
           }
         });
