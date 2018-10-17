@@ -9,7 +9,13 @@ import '../../../packages/notched-outline/index.scss';
 import '../../../packages/text-field/index.scss';
 
 class TestField extends React.Component {
-  state = {value: 'woof'};
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value === '' ? props.value : 'woof', // eslint-disable-line react/prop-types
+    };
+  }
+
   render() {
     const {
       disabled, id, isRtl, ...otherProps // eslint-disable-line react/prop-types
@@ -115,7 +121,7 @@ const TextFieldScreenshotTest = () => (
   <div className='text-field-container'>
     {textFields}
     <h2>Textarea</h2>
-    {textareaFields }
+    {textareaFields}
   </div>
 );
 
