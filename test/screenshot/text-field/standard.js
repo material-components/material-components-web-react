@@ -1,20 +1,8 @@
 import React from 'react';
 
-import TextField, {Input, HelperText} from '../../../packages/text-field/index';
 import MaterialIcon from '../../../packages/material-icon/index';
-import {denseMap, rtlMap , requiredMap, disabledMap, helperTextMap} from './maps';
+import {iconsMap, denseMap, rtlMap, requiredMap, disabledMap, helperTextMap} from './attributesMap';
 import TestField from './TestTextField';
-
-const icon = <MaterialIcon icon='favorite' />;
-const iconAlt = <MaterialIcon icon='work' />;
-
-const icons = [
-  {},
-  {leadingIcon: icon},
-  {trailingIcon: icon},
-  {leadingIcon: icon, trailingIcon: iconAlt},
-];
-
 
 const getHelperKeyText = (helperText, helperTextIndex) => {
   const hasHelperText = Object.keys(helperText).length > 0;
@@ -29,7 +17,7 @@ const getHelperKeyText = (helperText, helperTextIndex) => {
   }
 };
 
-const textFields = icons.map((icon) => {
+const textFields = iconsMap.map((icon) => {
   return denseMap.map((dense) => {
     return rtlMap.map((isRtl) => {
       return requiredMap.map((isRequired) => {
@@ -48,7 +36,6 @@ const textFields = icons.map((icon) => {
             const key =
               `${iconKey}-${denseKey}-${disabledKey}-${helperTextKey}-${isRequiredKey}--${rtlKey}`;
 
-            const hasIcon = iconKey === 'leadingIcon' || iconKey === 'trailingIcon';
 
             return <TestField {...props} key={key} id={key} />;
           });

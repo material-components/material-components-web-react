@@ -1,6 +1,16 @@
 import React from 'react';
 import {HelperText} from '../../../packages/text-field/index';
 
+const icon = <MaterialIcon icon='favorite' />;
+const iconAlt = <MaterialIcon icon='work' />;
+
+const iconsMap = [
+  {},
+  {leadingIcon: icon},
+  {trailingIcon: icon},
+  {leadingIcon: icon, trailingIcon: iconAlt},
+];
+
 const denseMap = [
   {},
   {dense: true},
@@ -31,4 +41,4 @@ const helperTextMap = [
   )},
 ];
 
-export {denseMap, rtlMap , requiredMap, disabledMap, helperTextMap};
+export {iconsMap, denseMap, rtlMap, requiredMap, disabledMap, helperTextMap};

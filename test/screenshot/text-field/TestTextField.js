@@ -1,8 +1,6 @@
 import React from 'react';
 
-import TextField, {Input, HelperText} from '../../../packages/text-field/index';
-import MaterialIcon from '../../../packages/material-icon/index';
-import {denseMap, rtlMap , requiredMap, disabledMap, helperTextMap} from './maps';
+import TextField, {Input} from '../../../packages/text-field/index';
 
 class TestField extends React.Component {
   constructor(props) {
