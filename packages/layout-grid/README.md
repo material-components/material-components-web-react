@@ -1,11 +1,11 @@
-# React Button
+# React Layout Button
 
-A React version of an [MDC Button](https://github.com/material-components/material-components-web/tree/master/packages/mdc-button).
+A React version of an [MDC Layout Grid](https://github.com/material-components/material-components-web/tree/master/packages/mdc-layout-grid).
 
 ## Installation
 
 ```
-npm install @material/react-button
+npm install @material/react-layout-grid
 ```
 
 ## Usage
@@ -14,51 +14,71 @@ npm install @material/react-button
 
 with Sass:
 ```js
-import '@material/react-button/index.scss';
+import '@material/react-layout-grid/index.scss';
 ```
 
 with CSS:
 ```js
-import '@material/react-button/dist/button.css';
+import '@material/react-layout-grid/dist/layout-grid.css';
 ```
 
 ### Javascript Instantiation
 ```js
 import React from 'react';
-import Button from '@material/react-button';
+import {Cell, Grid, Row} from '@material/react-layout-grid';
 
 class MyApp extends React.Component {
   render() {
     return (
-      <Button>
-        Click Me!
-      </Button>
+      <Grid>
+        <Row>
+          <Cell columns={6}>Tennis</Cell>
+          <Cell columns={6}>Cricket</Cell>
+        </Row>
+      </Grid>
     );
   }
 }
 ```
 
-## Props
+## Components
+
+### Grid
+
+#### Props
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the root element.
-raised | Boolean | Enables raised variant.
-unelevated | Boolean | Enables unelevated variant.
-outlined | Boolean | Enables outlined variant.
-dense | Boolean | Enables dense variant.
-icon | Element | Icon to render within root element.
-children | String | Text to be displayed within root element.
-disabled | Boolean | Disables button if true.
-href | String | Sets a hyperlink & uses anchor tag instead of a button.
+align | String (`left` or `right`) | An optional alignment of the grid contents
+children | Node | A React node to render within the Grid, usually a `Row` or `Row`s
+className | String | Classes to be applied to the root element
+
+### Row
+
+#### Props
+
+Prop Name | Type | Description
+--- | --- | ---
+children | Node | A React node to render within the Row, usually a `Cell` or `Cell`s
+className | String | Classes to be applied to the root element
+
+### Cell
+
+#### Props
+
+Prop Name | Type | Description
+--- | --- | ---
+align | String (`bottom`, `middle` or `top`) | An optional alignment of the cell contents
+children | Node | A React node to render within the Cell
+className | String | Classes to be applied to the root element
+columns | Number (1-12) | The width of the cell on all devices
+desktop | Number (1-12) | The width of the cell on desktop
+phone | Number (1-8) | The width of the cell on phones
+tablet | Number (1-4) | The width of the cell on tablets
 
 ## Sass Mixins
 
 Sass mixins may be available to customize various aspects of the Components. Please refer to the
 MDC Web repository for more information on what mixins are available, and how to use them.
 
-[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-button/README.md#sass-mixins)
-
-## Usage with Icons
-
-Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) when importing or using icon fonts.
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/tree/master/packages/mdc-layout-grid#sass-mixins)
