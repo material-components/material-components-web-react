@@ -70,13 +70,6 @@ test('#componentDidMount creates foundation', () => {
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('#componentDidUpdate calls setValue if state.value updates', () => {
-  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.setValue = td.func();
-  wrapper.setState({value: 'value'});
-  td.verify(wrapper.instance().foundation_.setValue('value'), {times: 1});
-});
-
 test('#componentDidUpdate does not call setValue if another property updates', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().foundation_.setValue = td.func();
