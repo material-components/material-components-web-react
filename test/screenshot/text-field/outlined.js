@@ -1,6 +1,5 @@
 import React from 'react';
 
-import MaterialIcon from '../../../packages/material-icon/index';
 import {iconsMap, denseMap, rtlMap, requiredMap, disabledMap, helperTextMap} from './attributesMap';
 import TestField from './TestTextField';
 

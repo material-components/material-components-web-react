@@ -1,12 +1,7 @@
 import React from 'react';
 
-import TextField, {Input, HelperText} from '../../../packages/text-field/index';
-import MaterialIcon from '../../../packages/material-icon/index';
-import {denseMap, rtlMap, requiredMap, disabledMap, helperTextMap} from './attributesMap';
+import {denseMap, rtlMap, disabledMap, helperTextMap} from './attributesMap';
 import TestField from './TestTextField';
-
-const icon = <MaterialIcon icon='favorite' />;
-const iconAlt = <MaterialIcon icon='work' />;
 
 const getHelperKeyText = (helperText, helperTextIndex) => {
   const hasHelperText = Object.keys(helperText).length > 0;
