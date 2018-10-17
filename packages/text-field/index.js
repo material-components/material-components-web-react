@@ -160,9 +160,9 @@ class TextField extends React.Component {
       getNativeInput: () => {
         let badInput;
         let valid;
-        if (this.inputElement && this.inputElement.current) {
-          badInput = this.inputElement.current.isBadInput();
-          valid = this.inputElement.current.isValid();
+        if (this.inputElement_ && this.inputElement_.current) {
+          badInput = this.inputElement_.current.isBadInput();
+          valid = this.inputElement_.current.isValid();
         }
         const input = {
           validity: {badInput, valid},

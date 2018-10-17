@@ -65,6 +65,7 @@ export default class Input extends React.Component {
     // at that time.
     if (value && foundation !== prevProps.foundation) {
       handleValueChange(value, () => foundation.setValue(value));
+      return;
     }
 
     if (value !== prevProps.value) {

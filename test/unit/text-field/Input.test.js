@@ -40,12 +40,6 @@ test('#isValid returns false if input is invalid', () => {
   assert.isFalse(isValidInput);
 });
 
-test('#componentDidMount should call props.handleValueChange', () => {
-  const handleValueChange = td.func();
-  shallow(<Input handleValueChange={handleValueChange} value='woof'/>);
-  td.verify(handleValueChange('woof'), {times: 1});
-});
-
 test('#componentDidMount should call props.setInputId if props.id exists', () => {
   const setInputId = td.func();
   shallow(<Input setInputId={setInputId} id='best-id'/>);
@@ -141,11 +135,20 @@ test('#componentDidUpdate does nothing if an unrelated property is ' +
   td.verify(setInputId(td.matchers.anything), {times: 0});
 });
 
+test('#componentDidUpdate calls handleValueChange when the foundation initializes with a value', () => {
+  const setValue = td.func();
+  const handleValueChange = td.func();
+  const wrapper = shallow(<Input value='test value' handleValueChange={handleValueChange} />);
+
+  wrapper.setProps({foundation: {setValue}});
+  td.verify(handleValueChange('test value', td.matchers.isA(Function)), {times: 1});
+})
+
 test('props.handleValueChange() is called if this.props.value updates', () => {
   const handleValueChange = td.func();
   const wrapper = shallow(<Input handleValueChange={handleValueChange} />);
   wrapper.setProps({value: 'meow'});
-  td.verify(handleValueChange('meow'), {times: 1});
+  td.verify(handleValueChange('meow', td.matchers.isA(Function)), {times: 1});
 });
 
 test('#event.onFocus calls props.handleFocusChange(true)', () => {
