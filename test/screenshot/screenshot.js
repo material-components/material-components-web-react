@@ -26,6 +26,8 @@ const storage = new Storage({
   credentials: JSON.parse(serviceAccountKey),
 });
 
+const fileExt = 'jpeg';
+
 const bucket = storage.bucket(bucketName);
 
 export default class Screenshot {
@@ -128,11 +130,11 @@ export default class Screenshot {
    */
   getImagePath_(imageHash, imageType) {
     if (imageType === 'golden') {
-      return `${this.urlPath_}/${imageHash}.golden.png`;
+      return `${this.urlPath_}/${imageHash}.golden.${fileExt}`;
     }
 
     if (['snapshot', 'diff'].includes(imageType)) {
-      return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.png`;
+      return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.${fileExt}`;
     }
   }
 
@@ -216,7 +218,8 @@ export default class Screenshot {
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': ['networkidle2']});
     // await page.waitForSelector('#screenshot-test-app');
-    const imageBuffer = await page.screenshot({omitBackground: true, fullPage: true});
+    // using jpeg and turning down quality. resemble has a 1 MB limit (text-field image is too big).
+    const imageBuffer = await page.screenshot({quality: 60, fullPage: true, type: 'jpeg'});
     await browser.close();
     return imageBuffer;
   }
