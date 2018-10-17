@@ -142,7 +142,7 @@ test('#componentDidUpdate calls handleValueChange when the foundation initialize
 
   wrapper.setProps({foundation: {setValue}});
   td.verify(handleValueChange('test value', td.matchers.isA(Function)), {times: 1});
-})
+});
 
 test('props.handleValueChange() is called if this.props.value updates', () => {
   const handleValueChange = td.func();
