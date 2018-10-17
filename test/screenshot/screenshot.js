@@ -26,8 +26,6 @@ const storage = new Storage({
   credentials: JSON.parse(serviceAccountKey),
 });
 
-const fileExt = 'jpeg';
-
 const bucket = storage.bucket(bucketName);
 
 export default class Screenshot {
@@ -71,17 +69,8 @@ export default class Screenshot {
         this.readImage_(goldenPath),
       ]);
 
-
       // Compare the images
-      let data;
-      console.log('snapshot size ', snapshot.byteLength)
-      console.log('golden size ', golden.byteLength)
-      try {
-        data = await compareImages(snapshot, golden, comparisonOptions);
-      } catch(err) {
-        console.log('MEOW MEOW MEOW')
-        console.log(err); // TypeError: failed to fetch
-      }
+      const data = await compareImages(snapshot, golden, comparisonOptions);
       const diff = data.getBuffer();
 
       // Use the same hash for the snapshot path and diff path so it's easy can associate the two
@@ -130,11 +119,11 @@ export default class Screenshot {
    */
   getImagePath_(imageHash, imageType) {
     if (imageType === 'golden') {
-      return `${this.urlPath_}/${imageHash}.golden.${fileExt}`;
+      return `${this.urlPath_}/${imageHash}.golden.png`;
     }
 
     if (['snapshot', 'diff'].includes(imageType)) {
-      return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.${fileExt}`;
+      return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.png`;
     }
   }
 
@@ -218,8 +207,7 @@ export default class Screenshot {
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': ['networkidle2']});
     // await page.waitForSelector('#screenshot-test-app');
-    // using jpeg and turning down quality. resemble has a 1 MB limit (text-field image is too big).
-    const imageBuffer = await page.screenshot({quality: 60, fullPage: true, type: 'jpeg'});
+    const imageBuffer = await page.screenshot({omitBackground: true, fullPage: true});
     await browser.close();
     return imageBuffer;
   }
