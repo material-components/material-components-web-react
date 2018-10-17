@@ -40,7 +40,7 @@ const FixedAdjust = (props) => {
       {children}
     </Tag>
   );
-}
+};
 
 FixedAdjust.propTypes = {
   tag: PropTypes.string,

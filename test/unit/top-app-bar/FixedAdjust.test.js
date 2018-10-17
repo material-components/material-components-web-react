@@ -1,9 +1,7 @@
 import React from 'react';
 import {assert} from 'chai';
-import {mount, shallow} from 'enzyme';
-import td from 'testdouble';
+import {shallow} from 'enzyme';
 import {TopAppBarFixedAdjust} from '../../../packages/top-app-bar/index';
-import withRipple from '../../../packages/ripple/index';
 
 suite('TopAppBarFixedAdjust');
 
