@@ -341,7 +341,7 @@ test('renders helperText if helperText prop is passed', () => {
 });
 
 test('renders textarea if textarea variant', () => {
-  const wrapper = mount(<TextField textarea><Input /></TextField>);
+  const wrapper = mount(<TextField label='my label' textarea><Input /></TextField>);
   assert.equal(wrapper.find('textarea').length, 1);
 });
 
