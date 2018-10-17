@@ -17,7 +17,8 @@ const urls = [
   'tab-bar',
   'tab-indicator',
   'tab-scroller',
-  'text-field',
+  'text-field/textArea',
+  'text-field/textField',
   'text-field/helper-text',
   'text-field/icon',
 ];

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {HashRouter, Route} from 'react-router-dom';
 import App from './App';
 import topAppBarVariants from './top-app-bar/variants';
+import textFieldVariants from './text-field/variants';
 
 import './index.scss';
 
@@ -14,6 +15,13 @@ ReactDOM.render((
         const Component = require(`./${componentPath}/index.js`).default;
         return (
           <Route exact key={componentPath} path={`/${componentPath}`} component={Component}/>
+        );
+      })}
+      {textFieldVariants.map((variant) => {
+        const path = `text-field/${variant}`;
+        const Component = require(`./text-field/${variant}.js`).default;
+        return (
+          <Route exact key={path} path={`/${path}`} component={Component}/>
         );
       })}
       {topAppBarVariants.map((variant) => {
