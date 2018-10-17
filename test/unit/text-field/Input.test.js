@@ -144,17 +144,6 @@ test('#componentDidUpdate calls handleValueChange when the foundation initialize
   td.verify(handleValueChange('test value', td.matchers.isA(Function)), {times: 1});
 });
 
-test('#componentDidUpdate calls setValue when the foundation initializes with a value', () => {
-  const setValue = td.func();
-  const handleValueChange = (value, cb) => {
-    cb(value);
-  };
-  const wrapper = shallow(<Input value='test value' handleValueChange={handleValueChange} />);
-
-  wrapper.setProps({foundation: {setValue}});
-  td.verify(setValue('test value'), {times: 1});
-});
-
 test('props.handleValueChange() is called if this.props.value updates', () => {
   const handleValueChange = td.func();
   const wrapper = shallow(<Input handleValueChange={handleValueChange} />);

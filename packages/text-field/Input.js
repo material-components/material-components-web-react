@@ -31,11 +31,17 @@ export default class Input extends React.Component {
   state = {disableProgramaticSetValue: false};
 
   componentDidMount() {
+    const {value} = this.props;
     if (this.props.id) {
       this.props.setInputId(this.props.id);
     }
     if (this.props.disabled) {
       this.props.setDisabled(true);
+    }
+    if (value) {
+      this.props.handleValueChange(value, () => {
+        this.props.foundation.setValue(value);
+      });
     }
   }
 
@@ -59,13 +65,6 @@ export default class Input extends React.Component {
 
     if (id !== prevProps.id) {
       setInputId(id);
-    }
-
-    // this should be in the componentDidMount, but foundation is not created
-    // at that time.
-    if (value && foundation !== prevProps.foundation) {
-      handleValueChange(value, () => foundation.setValue(value));
-      return;
     }
 
     if (value !== prevProps.value) {
@@ -190,6 +189,7 @@ Input.propTypes = {
     activateFocus: PropTypes.func,
     deactivateFocus: PropTypes.func,
     autoCompleteFocus: PropTypes.func,
+    setValue: PropTypes.func,
     setDisabled: PropTypes.func,
     setTransformOrigin: PropTypes.func,
     handleValidationAttributeMutation_: PropTypes.func,
@@ -219,6 +219,7 @@ Input.defaultProps = {
     deactivateFocus: () => {},
     autoCompleteFocus: () => {},
     setDisabled: () => {},
+    setValue: () => {},
     setTransformOrigin: () => {},
     handleValidationAttributeMutation_: () => {},
   },
