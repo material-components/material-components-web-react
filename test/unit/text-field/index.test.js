@@ -328,6 +328,11 @@ test('renders helperText if helperText prop is passed', () => {
   assert.equal(wrapper.find('.mdc-text-field').length, 1);
 });
 
+test('renders textarea if textarea variant', () => {
+  const wrapper = mount(<TextField textarea><Input /></TextField>);
+  assert.equal(wrapper.find('textarea').length, 1);
+});
+
 test('#inputProps.handleFocusChange updates state.isFocused', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().inputProps({}).handleFocusChange(true);

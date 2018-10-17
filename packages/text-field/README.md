@@ -76,6 +76,7 @@ Not all the props below are used for majority of cases. Properties like `foundat
 
 Prop Name | Type | Description
 --- | --- | ---
+inputType | string | HTML tag to be used to render input element. 'input' (default) or 'textarea'.
 className | String | Classes to be applied to the input element.
 disabled | Function | Disables the input and the parent text field.
 foundation | Function | The text field foundation.

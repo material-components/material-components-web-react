@@ -199,7 +199,11 @@ export default class Screenshot {
    * @private
    */
   async takeScreenshot_() {
-    const browser = await puppeteer.launch({executablePath: 'google-chrome-unstable'});
+    const browser = await puppeteer.launch({
+      executablePath: 'google-chrome-unstable',
+      // https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#tips
+      args: ['--disable-dev-shm-usage'],
+    });
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': ['networkidle2']});
     // await page.waitForSelector('#screenshot-test-app');
