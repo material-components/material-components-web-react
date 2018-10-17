@@ -1,19 +1,11 @@
 import React from 'react';
 
-import {denseMap, rtlMap, disabledMap, helperTextMap} from './attributesMap';
+import {denseMap, requiredMap, rtlMap, disabledMap, helperTextMap, getHelperKeyText} from './attributesMap';
 import TestField from './TestTextField';
 
-const getHelperKeyText = (helperText, helperTextIndex) => {
-  const hasHelperText = Object.keys(helperText).length > 0;
-  const isValidationMsg = helperTextIndex === 2;
-
-  if (!hasHelperText) {
-    return '';
-  } else if (isValidationMsg) {
-    return 'validation';
-  } else {
-    return 'persistent';
-  }
+const isValidationMsg = (helperTextMap) => {
+  const hasHelperText = Object.keys(helperTextMap).length > 0;
+  return hasHelperText && helperTextMap.helperText.props.validation;
 };
 
 const textareaVariants = [
@@ -22,14 +14,18 @@ const textareaVariants = [
 ];
 
 const textareaFields = textareaVariants.map((variant) => {
-  return denseMap.map((dense) => {
-    return rtlMap.map((isRtl) => {
-      return disabledMap.map((disabled) => {
-        return helperTextMap.map((helperText, helperTextIndex) => {
-          const props = Object.assign({}, variant, dense, disabled, helperText, isRtl);
-          const helperTextKey = helperText.length > 0 ? `-${getHelperKeyText(helperText, helperTextIndex)}` : '';
-          const key = `textarea-${JSON.stringify(props)}${helperTextKey}`;
-          return <TestField textarea {...props} key={key} id={key} />;
+  return requiredMap.map((isRequired) => {
+    return denseMap.map((dense) => {
+      return rtlMap.map((isRtl) => {
+        return disabledMap.map((disabled) => {
+          return helperTextMap.map((helperText, helperTextIndex) => {
+            let helperTextKey = getHelperKeyText(helperText, isValidationMsg(helperText));
+            helperTextKey = helperText.length > 0 ? `-${helperTextKey}` : '';
+
+            const props = Object.assign({}, variant, dense, disabled, helperText, isRtl);
+            const key = `textarea-${JSON.stringify(props)}${helperTextKey}`;
+            return <TestField variant='textarea' {...props} key={key} id={key} />;
+          });
         });
       });
     });

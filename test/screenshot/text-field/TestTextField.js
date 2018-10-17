@@ -14,6 +14,7 @@ class TestField extends React.Component {
       /* eslint-disable react/prop-types */
       disabled,
       id,
+      variant,
       isRtl,
       minLength,
       required,
@@ -23,7 +24,15 @@ class TestField extends React.Component {
     } = this.props;
     return (
       <div dir={isRtl ? 'rtl' : 'ltr'}>
-        <TextField label='Dog' {...otherProps} className='text-field' isRtl={isRtl}>
+        <TextField
+          label='Dog'
+          outlined={variant === 'outlined'}
+          fullWidth={variant === 'fullWidth'}
+          textarea={variant === 'textarea'}
+          {...otherProps}
+          className='text-field'
+          isRtl={isRtl}
+        >
           <Input value={this.state.value}
             id={id}
             minLength={minLength}

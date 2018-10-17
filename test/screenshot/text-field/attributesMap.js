@@ -42,4 +42,17 @@ const helperTextMap = [
   )},
 ];
 
-export {iconsMap, denseMap, rtlMap, requiredMap, disabledMap, helperTextMap};
+const getHelperKeyText = (helperTextMap, isValidationMsg) => {
+  const hasHelperText = Object.keys(helperTextMap).length > 0;
+
+  if (!hasHelperText) {
+    return '';
+  } else if (isValidationMsg) {
+    return 'validation';
+  } else {
+    return 'persistent';
+  }
+};
+
+
+export {iconsMap, denseMap, rtlMap, requiredMap, disabledMap, helperTextMap, getHelperKeyText};
