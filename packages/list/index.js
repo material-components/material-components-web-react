@@ -126,7 +126,7 @@ export default class List extends Component {
   get adapter() {
     return {
       getListItemCount: () => this.listItems_.length,
-      getFocusedElementIndex: () => this.getListItemIndexOfElement_(document.activeElement),
+      getFocusedElementIndex: () => this.getIndexOfListItem_(document.activeElement),
       setAttributeForElementIndex: (index, attr, value) => {
         const listItemAttributes = this.state.listItemAttributes;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
@@ -175,7 +175,7 @@ export default class List extends Component {
     };
   }
 
-  getListItemIndexOfElement_ = (element) => {
+  getIndexOfListItem_ = (element) => {
     for (let i = 0; i < this.listItems_.length; i++) {
       if (this.listItems_[i].listItemElement_.current === element) {
         return i;
@@ -188,14 +188,14 @@ export default class List extends Component {
     let target = eventTarget;
 
     // Find the first ancestor that is a list item.
-    while (this.getListItemIndexOfElement_(target) < 0) {
+    while (this.getIndexOfListItem_(target) < 0) {
       if (target === document) {
         return -1;
       }
       target = target.parentElement;
     }
 
-    return this.getListItemIndexOfElement_(target);
+    return this.getIndexOfListItem_(target);
   }
 
   onKeyDown = (e) => {
