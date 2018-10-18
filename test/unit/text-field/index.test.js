@@ -227,6 +227,12 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
   div.remove();
 });
 
+test('#adapter.label.getLabelWidth returns state.initialLabelWidth', () => {
+  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
+  wrapper.setState({initialLabelWidth: 88});
+  assert.equal(wrapper.instance().foundation_.adapter_.getLabelWidth(), 88);
+});
+
 test('#adapter.lineRipple.activeLineRipple sets state.activeLineRipple to true', () => {
   const wrapper = shallow(
     <TextField label='my label'><Input /></TextField>);
@@ -252,6 +258,12 @@ test('#adapter.notchedOutline.notchOutline sets state.outlineIsNotched to true',
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().foundation_.adapter_.notchOutline();
   assert.isTrue(wrapper.state().outlineIsNotched);
+});
+
+test('#adapter.notchedOutline.notchOutline sets state.notchedLabelWidth', () => {
+  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
+  wrapper.instance().foundation_.adapter_.notchOutline(90);
+  assert.equal(wrapper.state().notchedLabelWidth, 90);
 });
 
 test('#adapter.notchedOutline.closeOutline sets state.outlineIsNotched to false', () => {
