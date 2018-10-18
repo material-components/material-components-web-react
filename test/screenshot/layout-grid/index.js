@@ -10,7 +10,7 @@ const NoWidth = () => {
       <Row>
         <Cell className="layout-grid-sample__cell__one">Tennis</Cell>
         <Cell className="layout-grid-sample__cell__two">Cricket</Cell>
-        <Cell className="layout-grid-sample__cell__three">Starcraft</Cell>
+        <Cell className="layout-grid-sample__cell__three">StarCraft</Cell>
       </Row>
     </Grid>
   );
@@ -22,7 +22,7 @@ const OneThird = () => {
       <Row>
         <Cell className="layout-grid-sample__cell__one" columns={4}>Tennis</Cell>
         <Cell className="layout-grid-sample__cell__two" columns={4}>Cricket</Cell>
-        <Cell className="layout-grid-sample__cell__three" columns={4}>Starcraft</Cell>
+        <Cell className="layout-grid-sample__cell__three" columns={4}>StarCraft</Cell>
       </Row>
     </Grid>
   );
@@ -54,7 +54,7 @@ const ThirdHalfFull = () => {
           phone={4}
           tablet={4}
         >
-          Starcraft
+          StarCraft
         </Cell>
       </Row>
     </Grid>
@@ -116,7 +116,7 @@ const Ordering = () => {
       <Row>
         <Cell className="layout-grid-sample__cell__one" order={3}>Tennis</Cell>
         <Cell className="layout-grid-sample__cell__two" order={1}>Cricket</Cell>
-        <Cell className="layout-grid-sample__cell__three" order={2}>Starcraft</Cell>
+        <Cell className="layout-grid-sample__cell__three" order={2}>StarCraft</Cell>
       </Row>
     </Grid>
   );

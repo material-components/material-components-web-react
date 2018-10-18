@@ -34,12 +34,12 @@ class MyApp extends React.Component {
         <Row>
           <Cell columns={4}>Tennis</Cell>
           <Cell columns={4}>Cricket</Cell>
-          <Cell columns={4}>Starcraft</Cell>
+          <Cell columns={4}>StarCraft</Cell>
         </Row>
         <Row>
           <Cell desktop={4} order={2} phone={4} tablet={4}>Tennis</Cell>
           <Cell desktop={4} order={3} phone={4} tablet={4}>Cricket</Cell>
-          <Cell desktop={4} order={1} phone={4} tablet={4}>Starcraft</Cell>
+          <Cell desktop={4} order={1} phone={4} tablet={4}>StarCraft</Cell>
         </Row>
         <Row>
           <Cell columns={4}>
@@ -64,7 +64,7 @@ class MyAppAligned extends React.Component {
         <Row>
           <Cell align="top">Tennis<br /><br /><br /><br /><br /></Cell>
           <Cell align="middle">Cricket</Cell>
-          <Cell align="bottom">Starcraft</Cell>
+          <Cell align="bottom">StarCraft</Cell>
         </Row>
       </Grid>
     );
