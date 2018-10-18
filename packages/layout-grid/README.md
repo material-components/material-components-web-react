@@ -37,9 +37,9 @@ class MyApp extends React.Component {
           <Cell columns={4}>Starcraft</Cell>
         </Row>
         <Row>
-          <Cell desktop={4} phone={4} tablet={4}>Tennis</Cell>
-          <Cell desktop={4} phone={4} tablet={4}>Cricket</Cell>
-          <Cell desktop={4} phone={4} tablet={4}>Starcraft</Cell>
+          <Cell desktop={4} order={2} phone={4} tablet={4}>Tennis</Cell>
+          <Cell desktop={4} order={3} phone={4} tablet={4}>Cricket</Cell>
+          <Cell desktop={4} order={1} phone={4} tablet={4}>Starcraft</Cell>
         </Row>
         <Row>
           <Cell columns={4}>
