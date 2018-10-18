@@ -39,7 +39,7 @@ class TextField extends React.Component {
   constructor(props) {
     super(props);
     this.floatingLabelElement = React.createRef();
-    this.inputElement = React.createRef();
+    this.inputElement_ = React.createRef();
 
     this.state = {
       // root state
@@ -52,8 +52,7 @@ class TextField extends React.Component {
 
       // floating label state
       labelIsFloated: false,
-      initialLabelWidth: 0,
-      notchedLabelWidth: 0,
+      labelWidth: 0,
 
       // line ripple state
       activeLineRipple: false,
@@ -74,12 +73,6 @@ class TextField extends React.Component {
     };
     this.foundation_ = new MDCTextFieldFoundation(this.adapter, foundationMap);
     this.foundation_.init();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.value !== prevState.value) {
-      this.foundation_.setValue(this.state.value);
-    }
   }
 
   componentWillUnmount() {
@@ -167,9 +160,9 @@ class TextField extends React.Component {
       getNativeInput: () => {
         let badInput;
         let valid;
-        if (this.inputElement && this.inputElement.current) {
-          badInput = this.inputElement.current.isBadInput();
-          valid = this.inputElement.current.isValid();
+        if (this.inputElement_ && this.inputElement_.current) {
+          badInput = this.inputElement_.current.isBadInput();
+          valid = this.inputElement_.current.isValid();
         }
         const input = {
           validity: {badInput, valid},
@@ -199,7 +192,7 @@ class TextField extends React.Component {
       },
       floatLabel: (labelIsFloated) => this.setState({labelIsFloated}),
       hasLabel: () => !!this.props.label,
-      getLabelWidth: () => this.state.initialLabelWidth,
+      getLabelWidth: () => this.state.labelWidth,
     };
   }
 
@@ -213,7 +206,7 @@ class TextField extends React.Component {
 
   get notchedOutlineAdapter() {
     return {
-      notchOutline: (notchedLabelWidth) => this.setState({outlineIsNotched: true, notchedLabelWidth}),
+      notchOutline: () => this.setState({outlineIsNotched: true}),
       closeOutline: () => this.setState({outlineIsNotched: false}),
       hasOutline: () => !!this.props.outlined,
     };
@@ -231,10 +224,10 @@ class TextField extends React.Component {
     return Object.assign({}, props, {
       foundation: this.foundation_,
       handleFocusChange: (isFocused) => this.setState({isFocused}),
-      handleValueChange: (value) => this.setState({value}),
+      handleValueChange: (value, cb = () => {}) => this.setState({value}, cb),
       setDisabled: (disabled) => this.setState({disabled}),
       setInputId: (id) => this.setState({inputId: id}),
-      ref: this.inputElement,
+      ref: this.inputElement_,
       inputType: this.props.textarea ? 'textarea' : 'input',
     });
   }
@@ -263,7 +256,7 @@ class TextField extends React.Component {
         key='text-field-container'
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
-        {this.foundation_ ? this.renderInput() : null}
+        {this.renderInput()}
         {label && !fullWidth ? this.renderLabel() : null}
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
@@ -293,7 +286,7 @@ class TextField extends React.Component {
         className={floatingLabelClassName}
         float={this.state.labelIsFloated}
         handleWidthChange={
-          (initialLabelWidth) => this.setState({initialLabelWidth})}
+          (labelWidth) => this.setState({labelWidth})}
         ref={this.floatingLabelElement}
         htmlFor={inputId}
       >
@@ -316,13 +309,13 @@ class TextField extends React.Component {
 
   renderNotchedOutline() {
     const {notchedOutlineClassName} = this.props;
-    const {outlineIsNotched, notchedLabelWidth} = this.state;
+    const {outlineIsNotched, labelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
         isRtl={this.props.isRtl}
         notch={outlineIsNotched}
-        notchWidth={notchedLabelWidth}
+        notchWidth={labelWidth}
       />
     );
   }
