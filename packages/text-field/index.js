@@ -34,6 +34,7 @@ import NotchedOutline from '@material/react-notched-outline';
 
 class TextField extends React.Component {
 
+  foundation_ = null;
 
   constructor(props) {
     super(props);
@@ -64,8 +65,6 @@ class TextField extends React.Component {
       // helper text state
       showHelperTextToScreenReader: false,
       isValid: true,
-
-      foundation: null,
     };
   }
 
@@ -73,19 +72,18 @@ class TextField extends React.Component {
     const foundationMap = {
       helperText: this.helperTextAdapter,
     };
-    const foundation = new MDCTextFieldFoundation(this.adapter, foundationMap);
-    this.setState({foundation});
-    foundation.init();
+    this.foundation_ = new MDCTextFieldFoundation(this.adapter, foundationMap);
+    this.foundation_.init();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
-      this.state.foundation.setValue(this.state.value);
+      this.foundation_.setValue(this.state.value);
     }
   }
 
   componentWillUnmount() {
-    this.state.foundation.destroy();
+    this.foundation_.destroy();
   }
 
   /**
@@ -231,7 +229,7 @@ class TextField extends React.Component {
 
   inputProps(props) {
     return Object.assign({}, props, {
-      foundation: this.state.foundation,
+      foundation: this.foundation_,
       handleFocusChange: (isFocused) => this.setState({isFocused}),
       handleValueChange: (value) => this.setState({value}),
       setDisabled: (disabled) => this.setState({disabled}),
@@ -255,18 +253,17 @@ class TextField extends React.Component {
       trailingIcon,
       textarea,
     } = this.props;
-    const {foundation} = this.state;
 
     const textField = (
       <div
         {...this.otherProps}
         className={this.classes}
-        onClick={() => foundation && foundation.handleTextFieldInteraction()}
-        onKeyDown={() => foundation && foundation.handleTextFieldInteraction()}
+        onClick={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
+        onKeyDown={() => this.foundation_ && this.foundation_.handleTextFieldInteraction()}
         key='text-field-container'
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
-        {foundation ? this.renderInput() : null}
+        {this.foundation_ ? this.renderInput() : null}
         {label && !fullWidth ? this.renderLabel() : null}
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
