@@ -110,6 +110,18 @@ const Nested = () => {
   );
 };
 
+const Ordering = () => {
+  return (
+    <Grid>
+      <Row>
+        <Cell className="layout-grid-sample__cell__one" order={3}>Tennis</Cell>
+        <Cell className="layout-grid-sample__cell__two" order={1}>Cricket</Cell>
+        <Cell className="layout-grid-sample__cell__three" order={2}>Starcraft</Cell>
+      </Row>
+    </Grid>
+  );
+};
+
 const LayoutGrid = () => {
   return (
     <div>
@@ -121,6 +133,8 @@ const LayoutGrid = () => {
       <ThirdHalfFull />
       Nested
       <Nested />
+      Ordering
+      <Ordering />
     </div>
   );
 };
