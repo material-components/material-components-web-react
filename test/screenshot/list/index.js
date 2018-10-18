@@ -28,53 +28,31 @@ class SelectionListTest extends React.Component {
   }
 }
 
+const renderListItem = (primaryText, secondaryText) => {
+  return (
+    <ListItem>
+      <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+      <ListItemText primaryText={primaryText} secondaryText={secondaryText}/>
+      <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+    </ListItem>
+  );
+}
+
 const ListScreenshotTest = () => {
   return (
     <div>
       <SelectionListTest twoLine>
-        <ListItem>
-         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-         <ListItemText primaryText='hello' secondaryText='world'/>
-         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
-        </ListItem>
-        <ListItem>
-         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-         <ListItemText primaryText='hello' secondaryText='world'/>
-         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
-        </ListItem>
-        <ListItem>
-         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-         <ListItemText primaryText='hello' secondaryText='world'/>
-         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
-        </ListItem>
-        <ListItem>
-         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-         <ListItemText primaryText='hello' secondaryText='world'/>
-         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
-        </ListItem>
+        {renderListItem('hello', 'world')}
+        {renderListItem('hello', 'world')}
+        {renderListItem('hello', 'world')}
+        {renderListItem('hello', 'world')}
       </SelectionListTest>
 
       <List>
-        <ListItem>
-         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-         <ListItemText primaryText='hello' />
-         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
-        </ListItem>
-        <ListItem>
-         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-         <ListItemText primaryText='hello' />
-         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
-        </ListItem>
-        <ListItem>
-         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-         <ListItemText primaryText='hello' />
-         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
-        </ListItem>
-        <ListItem>
-         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-         <ListItemText primaryText='hello' />
-         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
-        </ListItem>
+        {renderListItem('hello')}
+        {renderListItem('hello')}
+        {renderListItem('hello')}
+        {renderListItem('hello')}
       </List>
     </div>
   );
