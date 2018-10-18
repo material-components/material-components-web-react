@@ -40,36 +40,45 @@ export default class ListItemText extends Component {
       ...otherProps,
     } = this.props;
 
-    if (secondaryText) {
-      return (
-        <span
-          className={this.classes}
-          tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
-          {...otherProps}
-        >
-          <span className='mdc-list-item__primary-text'>{primaryText}</span>
-          <span className='mdc-list-item__secondary-text'>{secondaryText}</span>
-        </span>
-      );
-    } else {
-      return (
-        <span
-          className={this.classes}
-          tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
-          {...otherProps}
-        >
-          {primaryText}
-        </span>
-      );
+    if (!secondaryText) {
+      return this.renderText(primaryText, 'mdc-list-item__text');
     }
+
+    return (
+      <span
+        className={this.classes}
+        tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
+        {...otherProps}
+      >
+        {this.renderText(primaryText, 'mdc-list-item__primary-text')}
+        {this.renderText(secondaryText, 'mdc-list-item__secondary-text')}
+      </span>
+    );
+  }
+
+  renderText(text, className) {
+    if (typeof text === 'string') {
+      return <span className={className} tabIndex={-1}>{text}</span>;
+    }
+    const props = Object.assign({},
+      text.props,
+      {className: className},
+    );
+    return React.cloneElement(text, props);
   }
 }
 
 ListItemText.propTypes = {
   tabbableOnListItemFocus: PropTypes.bool,
   className: PropTypes.string,
-  primaryText: PropTypes.string,
-  secondaryText: PropTypes.string,
+  primaryText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
+  secondaryText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
 };
 
 ListItemText.defaultProps = {
