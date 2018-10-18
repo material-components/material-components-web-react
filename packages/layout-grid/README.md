@@ -1,4 +1,4 @@
-# React Layout Button
+# React Layout Grid
 
 A React version of an [MDC Layout Grid](https://github.com/material-components/material-components-web/tree/master/packages/mdc-layout-grid).
 
