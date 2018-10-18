@@ -350,7 +350,6 @@ test('does not render line ripple if outlined variant', () => {
 
 test('does not render line ripple if textarea variant', () => {
   const wrapper = mount(<TextField label='my label' textarea><Input /></TextField>);
-  wrapper.update();
   assert.equal(wrapper.find('.mdc-line-ripple').length, 0);
 });
 
@@ -367,19 +366,8 @@ test('renders helperText if helperText prop is passed', () => {
 });
 
 test('renders textarea if textarea variant', () => {
-  const wrapper = mount(<TextField label='my label' textarea><Input /></TextField>);
+  const wrapper = mount(<TextField textarea><Input /></TextField>);
   assert.equal(wrapper.find('textarea').length, 1);
-});
-
-test('render input only when foundation_ is created', () => {
-  const wrapper = mount(<TextField label='my label'><Input /></TextField>);
-  const foundation = wrapper.instance().foundation_;
-  wrapper.instance().foundation_ = null;
-  wrapper.setState({disabled: true}); // force re render
-  assert.equal(wrapper.find('input').length, 0);
-  wrapper.instance().foundation_ = foundation;
-  wrapper.setState({disabled: false}); // TODO may need to put foundation on state
-  assert.equal(wrapper.find('input').length, 1);
 });
 
 test('#inputProps.handleFocusChange updates state.isFocused', () => {
