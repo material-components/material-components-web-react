@@ -17,7 +17,7 @@ const Grid = (props) => {
   });
 
   return (
-    <div classNames={classes} {...otherProps}>{children}</div>
+    <div className={classes} {...otherProps}>{children}</div>
   );
 };
 

@@ -12,7 +12,7 @@ const Row = (props) => {
   const classes = classnames('mdc-layout-grid__inner', className);
 
   return (
-    <div classNames={classes} {...otherProps}>{children}</div>
+    <div className={classes} {...otherProps}>{children}</div>
   );
 };
 
