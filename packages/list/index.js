@@ -39,16 +39,11 @@ export default class List extends Component {
     listItemChildrenTabIndex: {}, // maps index to children's tabIndex
   };
 
-  componentWillMount() {
-    React.Children.forEach(this.props.children, (child, index) => {
-      this.initListItemClassList_(child, index);
-    });
-  }
-
   componentDidMount() {
     this.listItems_.forEach((item, index) => {
       this.initListItemAttributes_(index);
       this.initListItemChildrenTabIndex_(index);
+      this.initListItemClassList_(index);
     });
 
     const {singleSelection, selectedIndex, wrapFocus} = this.props;
@@ -97,17 +92,9 @@ export default class List extends Component {
     this.setState({listItemChildrenTabIndex});
   }
 
-  initListItemClassList_(listItem, index) {
-    const {className} = listItem.props;
+  initListItemClassList_(index) {
     const {listItemClassList} = this.state;
-    listItemClassList[index] = new Set(className.split(' '));
-    this.setState({listItemClassList});
-  }
-
-  updateListItemClassList = (listItem) => {
-    const index = this.listItems_.indexOf(listItem);
-    const {listItemClassList} = this.state;
-    listItemClassList[index] = new Set(listItem.classes.split(' '));
+    listItemClassList[index] = new Set();
     this.setState({listItemClassList});
   }
 
@@ -121,9 +108,11 @@ export default class List extends Component {
     });
   }
 
-  getListItemClasses_(index) {
+  getListItemClasses_(index, className) {
     const {listItemClassList} = this.state;
-    return listItemClassList[index] ? classnames(Array.from(listItemClassList[index])) : '';
+    return listItemClassList[index] ?
+      classnames(Array.from(listItemClassList[index]), className) :
+      className;
   }
 
   get adapter() {
@@ -270,8 +259,7 @@ export default class List extends Component {
     } = listItem.props;
 
     const props = Object.assign({
-      updateClassList: this.updateListItemClassList,
-      className: this.getListItemClasses_(index),
+      className: this.getListItemClasses_(index, className),
       childrenTabIndex: this.state.listItemChildrenTabIndex[index],
       ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
       ...otherProps,
