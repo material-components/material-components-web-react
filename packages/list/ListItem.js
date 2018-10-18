@@ -27,6 +27,10 @@ import classnames from 'classnames';
 export default class ListItem extends Component {
   listItemElement_ = React.createRef();
 
+  get listItemElement() {
+    return this.listItemElement_.current;
+  }
+
   get classes() {
     const {className} = this.props;
     return classnames('mdc-list-item', className);
@@ -81,11 +85,13 @@ export default class ListItem extends Component {
 }
 
 ListItem.propTypes = {
+  key: PropTypes.string,
   childrenTabIndex: PropTypes.number,
   className: PropTypes.string,
 };
 
 ListItem.defaultProps = {
+  key: '',
   childrenTabIndex: -1,
   className: '',
 };

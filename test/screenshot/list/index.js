@@ -41,6 +41,7 @@ const renderListItem = (primaryText, secondaryText) => {
 const ListScreenshotTest = () => {
   return (
     <div>
+      <h2>Two-line Selection List</h2>
       <SelectionListTest twoLine>
         {renderListItem('hello', 'world')}
         {renderListItem('hello', 'world')}
@@ -48,6 +49,7 @@ const ListScreenshotTest = () => {
         {renderListItem('hello', 'world')}
       </SelectionListTest>
 
+      <h2>One-line List</h2>
       <List>
         {renderListItem('hello')}
         {renderListItem('hello')}

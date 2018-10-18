@@ -32,19 +32,20 @@ const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
 export default class List extends Component {
-  listItems_ = [];
+  listItems_ = {};
+  listItemIndices_ = {};
   state = {
-    listItemAttributes: {}, // maps index to {attr: val} map object
-    listItemClassList: {}, // maps index to classList set
-    listItemChildrenTabIndex: {}, // maps index to children's tabIndex
+    listItemAttributes: {}, // maps key to {attr: val} map object
+    listItemClassList: {}, // maps key to classList set
+    listItemChildrenTabIndex: {}, // maps key to children's tabIndex
   };
 
   componentDidMount() {
-    this.listItems_.forEach((item, index) => {
-      this.initListItemAttributes_(index);
-      this.initListItemChildrenTabIndex_(index);
-      this.initListItemClassList_(index);
-    });
+    for (var key in this.listItems_) {
+      this.initListItemAttributes_(key);
+      this.initListItemChildrenTabIndex_(key);
+      this.initListItemClassList_(key);
+    }
 
     const {singleSelection, selectedIndex, wrapFocus} = this.props;
     this.foundation_ = new MDCListFoundation(this.adapter);
@@ -77,24 +78,24 @@ export default class List extends Component {
     this.foundation_.destroy();
   }
 
-  initListItemAttributes_(index) {
+  initListItemAttributes_(key) {
     const {listItemAttributes} = this.state;
-    listItemAttributes[index] = {
+    listItemAttributes[key] = {
       'aria-selected': false,
-      'tabIndex': index === 0 ? 0 : -1,
+      'tabIndex': this.listItemIndices_[key] === 0 ? 0 : -1,
     };
     this.setState({listItemAttributes});
   }
 
-  initListItemChildrenTabIndex_(index) {
+  initListItemChildrenTabIndex_(key) {
     const {listItemChildrenTabIndex} = this.state;
-    listItemChildrenTabIndex[index] = -1;
+    listItemChildrenTabIndex[key] = -1;
     this.setState({listItemChildrenTabIndex});
   }
 
-  initListItemClassList_(index) {
+  initListItemClassList_(key) {
     const {listItemClassList} = this.state;
-    listItemClassList[index] = new Set();
+    listItemClassList[key] = new Set();
     this.setState({listItemClassList});
   }
 
@@ -108,58 +109,66 @@ export default class List extends Component {
     });
   }
 
-  getListItemClasses_(index, className) {
+  getListItemClasses_(key, className) {
     const {listItemClassList} = this.state;
-    return listItemClassList[index] ?
-      classnames(Array.from(listItemClassList[index]), className) :
+    return listItemClassList[key] ?
+      classnames(Array.from(listItemClassList[key]), className) :
       className;
   }
 
   get adapter() {
     return {
-      getListItemCount: () => this.listItems_.length,
-      getFocusedElementIndex: () => this.getIndexOfListItem_(document.activeElement),
+      getListItemCount: () => Object.keys(this.listItems_).length,
+      getFocusedElementIndex: () => this.getListItemIndexOfTarget_(document.activeElement),
       setAttributeForElementIndex: (index, attr, value) => {
-        const listItemAttributes = this.state.listItemAttributes;
+        const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        listItemAttributes[index][attr] = value;
+        const key = this.getListItemKeyFromIndex_(index);
+        listItemAttributes[key][attr] = value;
         this.setState({listItemAttributes});
       },
       removeAttributeForElementIndex: (index, attr) => {
-        const listItemAttributes = this.state.listItemAttributes;
+        const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        delete listItemAttributes[index][attr];
+        const key = this.getListItemKeyFromIndex_(index);
+        delete listItemAttributes[key][attr];
         this.setState({listItemAttributes});
       },
       addClassForElementIndex: (index, className) => {
-        const listItemClassList = this.state.listItemClassList;
-        listItemClassList[index].add(className);
+        const {listItemClassList} = this.state;
+        const key = this.getListItemKeyFromIndex_(index);
+        listItemClassList[key].add(className);
         this.setState({listItemClassList});
       },
       removeClassForElementIndex: (index, className) => {
-        const listItemClassList = this.state.listItemClassList;
-        listItemClassList[index].delete(className);
+        const {listItemClassList} = this.state;
+        const key = this.getListItemKeyFromIndex_(index);
+        listItemClassList[key].delete(className);
         this.setState({listItemClassList});
       },
       focusItemAtIndex: (index) => {
-        const listItem = this.listItems_[index];
+        const key = this.getListItemKeyFromIndex_(index);
+        const listItem = this.listItems_[key];
         if (listItem) {
           listItem.focus();
         }
       },
       setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
-        const listItemChildrenTabIndex = this.state.listItemChildrenTabIndex;
-        listItemChildrenTabIndex[listItemIndex]= tabIndexValue;
+        const {listItemChildrenTabIndex} = this.state;
+        const key = this.getListItemKeyFromIndex_(listItemIndex);
+        listItemChildrenTabIndex[key]= tabIndexValue;
         this.setState({listItemChildrenTabIndex});
       },
       followHref: (index) => {
-        const listItem = this.listItems_[index];
+        const key = this.getListItemKeyFromIndex_(index);
+        const listItem = this.listItems_[key];
         if (listItem) {
           listItem.followHref();
         }
       },
       toggleCheckbox: (index) => {
-        const listItem = this.listItems_[index];
+        const key = this.getListItemKeyFromIndex_(index);
+        const listItem = this.listItems_[key];
         if (listItem) {
           listItem.toggleCheckbox();
         }
@@ -167,20 +176,28 @@ export default class List extends Component {
     };
   }
 
-  getIndexOfListItem_ = (element) => {
-    for (let i = 0; i < this.listItems_.length; i++) {
-      if (this.listItems_[i].listItemElement_.current === element) {
-        return i;
+  getListItemKeyFromIndex_ = (index) => {
+    for (var key in this.listItemIndices_) {
+      if (this.listItemIndices_[key] === index) return key;
+    };
+    return '';
+  }
+
+  getIndexOfListItemElement_ = (element) => {
+    let listItemKey = '';
+    for (var key in this.listItems_) {
+      if (this.listItems_[key].listItemElement === element) {
+        listItemKey = key;
+        break;
       }
     }
-    return -1;
+    return this.listItemIndices_[listItemKey];
   }
 
   getListItemIndexOfTarget_ = (eventTarget) => {
     // Find the first ancestor that is a list item.
-    const listItem = eventTarget.closest('.mdc-list-item');
-
-    return this.getIndexOfListItem_(listItem);
+    const listItemElement = eventTarget.closest('.mdc-list-item');
+    return this.getIndexOfListItemElement_(listItemElement);
   }
 
   onKeyDown = (e) => {
@@ -252,19 +269,25 @@ export default class List extends Component {
 
   renderListItem = (listItem, index) => {
     const {
+      key,
       className, // eslint-disable-line
       children,
       childrenTabIndex,
       ...otherProps
     } = listItem.props;
-
+    
+    const keyOrIndex = key || index;
     const props = Object.assign({
-      className: this.getListItemClasses_(index, className),
-      childrenTabIndex: this.state.listItemChildrenTabIndex[index],
-      ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
+      key: key,
+      className: this.getListItemClasses_(keyOrIndex),
+      childrenTabIndex: this.state.listItemChildrenTabIndex[keyOrIndex],
+      ref: (listItem) => {
+        this.listItems_[keyOrIndex] = listItem;
+        this.listItemIndices_[keyOrIndex] = index;
+      },
       ...otherProps,
     },
-    this.state.listItemAttributes[index]);
+    this.state.listItemAttributes[keyOrIndex]);
 
     return React.cloneElement(listItem, props, children);
   }
