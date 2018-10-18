@@ -28,6 +28,9 @@ import {MDCListFoundation} from '@material/list/dist/mdc.list';
 
 import ListItem from './ListItem';
 
+const ARIA_ORIENTATION = 'aria-orientation';
+const VERTICAL = 'vertical';
+
 export default class List extends Component {
   listItems_ = [];
   state = {
@@ -43,17 +46,17 @@ export default class List extends Component {
   }
 
   componentDidMount() {
-    for (let i = 0; i < this.listItems_.length; i++) {
-      this.initListItemAttributes_(i);
-      this.initListItemChildrenTabIndex_(i);
-    }
+    this.listItems_.forEach((item, index) => {
+      this.initListItemAttributes_(index);
+      this.initListItemChildrenTabIndex_(index);
+    });
 
     const {singleSelection, selectedIndex, wrapFocus} = this.props;
     this.foundation_ = new MDCListFoundation(this.adapter);
     this.foundation_.init();
     this.foundation_.setSingleSelection(singleSelection);
     this.foundation_.setWrapFocus(wrapFocus);
-    this.foundation_.setVerticalOrientation(this.props['aria-orientation'] === 'vertical');
+    this.foundation_.setVerticalOrientation(this.props[ARIA_ORIENTATION] === VERTICAL);
     if (selectedIndex) {
       this.foundation_.setSelectedIndex(selectedIndex);
     }
@@ -70,8 +73,8 @@ export default class List extends Component {
     if (selectedIndex !== prevProps.selectedIndex) {
       this.foundation_.setSelectedIndex(selectedIndex);
     }
-    if (this.props['aria-orientation'] !== prevProps['aria-orientation']) {
-      this.foundation_.setVerticalOrientation(this.props['aria-orientation'] === 'vertical');
+    if (this.props[ARIA_ORIENTATION] !== prevProps[ARIA_ORIENTATION]) {
+      this.foundation_.setVerticalOrientation(this.props[ARIA_ORIENTATION] === VERTICAL);
     }
   }
 
@@ -80,7 +83,7 @@ export default class List extends Component {
   }
 
   initListItemAttributes_(index) {
-    const listItemAttributes = this.state.listItemAttributes;
+    const {listItemAttributes} = this.state;
     listItemAttributes[index] = {
       'aria-selected': false,
       'tabIndex': index === 0 ? 0 : -1,
@@ -89,21 +92,21 @@ export default class List extends Component {
   }
 
   initListItemChildrenTabIndex_(index) {
-    const listItemChildrenTabIndex = this.state.listItemChildrenTabIndex;
+    const {listItemChildrenTabIndex} = this.state;
     listItemChildrenTabIndex[index] = -1;
     this.setState({listItemChildrenTabIndex});
   }
 
   initListItemClassList_(listItem, index) {
     const {className} = listItem.props;
-    const listItemClassList = this.state.listItemClassList;
+    const {listItemClassList} = this.state;
     listItemClassList[index] = new Set(className.split(' '));
     this.setState({listItemClassList});
   }
 
   updateListItemClassList = (listItem) => {
     const index = this.listItems_.indexOf(listItem);
-    const listItemClassList = this.state.listItemClassList;
+    const {listItemClassList} = this.state;
     listItemClassList[index] = new Set(listItem.classes.split(' '));
     this.setState({listItemClassList});
   }
@@ -136,7 +139,7 @@ export default class List extends Component {
       removeAttributeForElementIndex: (index, attr) => {
         const listItemAttributes = this.state.listItemAttributes;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        listItemAttributes[index][attr] = null;
+        delete listItemAttributes[index][attr];
         this.setState({listItemAttributes});
       },
       addClassForElementIndex: (index, className) => {
@@ -192,36 +195,36 @@ export default class List extends Component {
   }
 
   onKeyDown = (e) => {
+    this.props.onKeyDown(e);
     e.persist(); // Persist the synthetic event to access its `key`
     const index = this.getListItemIndexOfTarget_(e.target);
     if (index >= 0) {
       this.foundation_.handleKeydown(e, true /* isRootListItem is true if index >= 0 */, index);
     }
-    this.props.onKeyDown(e);
   }
 
   onClick = (e) => {
+    this.props.onClick(e);
     const index = this.getListItemIndexOfTarget_(e.target);
     // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
     const toggleCheckbox = e.target.type === 'checkbox';
     this.foundation_.handleClick(index, toggleCheckbox);
-    this.props.onClick(e);
   }
 
   // Use onFocus as workaround because onFocusIn is not yet supported in React
   // https://github.com/facebook/react/issues/6410
   onFocus = (e) => {
+    this.props.onFocus(e);
     const index = this.getListItemIndexOfTarget_(e.target);
     this.foundation_.handleFocusIn(e, index);
-    this.props.onFocus(e);
   }
 
   // Use onBlur as workaround because onFocusOut is not yet supported in React
   // https://github.com/facebook/react/issues/6410
   onBlur = (e) => {
+    this.props.onBlur(e);
     const index = this.getListItemIndexOfTarget_(e.target);
     this.foundation_.handleFocusOut(e, index);
-    this.props.onBlur(e);
   }
 
   render() {
@@ -262,16 +265,17 @@ export default class List extends Component {
     const {
       className, // eslint-disable-line
       children,
+      childrenTabIndex,
       ...otherProps
     } = listItem.props;
 
-    const props = Object.assign({}, {
+    const props = Object.assign({
       updateClassList: this.updateListItemClassList,
+      className: this.getListItemClasses_(index),
+      childrenTabIndex: this.state.listItemChildrenTabIndex[index],
       ref: (listItem) => !this.listItems_[index] && this.listItems_.push(listItem),
       ...otherProps,
     },
-    {className: this.getListItemClasses_(index)},
-    {childrenTabIndex: this.state.listItemChildrenTabIndex[index]},
     this.state.listItemAttributes[index]);
 
     return React.cloneElement(listItem, props, children);
@@ -306,7 +310,7 @@ List.defaultProps = {
   singleSelection: false,
   wrapFocus: true,
   selectedIndex: -1,
-  'aria-orientation': 'vertical',
+  'aria-orientation': VERTICAL,
   onKeyDown: () => {},
   onClick: () => {},
   onFocus: () => {},
