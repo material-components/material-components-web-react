@@ -24,77 +24,57 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default class ListItem extends Component {
-  listItemElement_ = React.createRef();
-
-  componentDidUpdate(prevProps) {
-    if (this.props.className !== prevProps.className) {
-      this.props.updateClassList(this);
-    }
-  }
-
+export default class ListItemText extends Component {
   get classes() {
     const {className} = this.props;
-    return classnames('mdc-list-item', className);
-  }
-
-  focus() {
-    const element = this.listItemElement_.current;
-    if (element) {
-      element.focus();
-    }
-  }
-
-  followHref() {
-    const element = this.listItemElement_.current;
-    if (element && element.href) {
-      element.click();
-    }
-  }
-
-  toggleCheckbox() {
-    // TODO(bonniez): implement
+    return classnames('mdc-list-item__text', className);
   }
 
   render() {
     const {
-      /* eslint-disable */
+      primaryText,
+      secondaryText,
+      tabbableOnListItemFocus,
+      tabIndex,
       className,
-      childrenTabIndex,
-      updateClassList,
-      /* eslint-enable */
-      children,
-      ...otherProps
+      ...otherProps,
     } = this.props;
 
-    return (
-      <li
-        className={this.classes}
-        ref={this.listItemElement_}
-        {...otherProps}
-      >
-        {React.Children.map(children, this.renderChild)}
-      </li>
-    );
-  }
-
-  renderChild = (child) => {
-    const props = Object.assign({},
-      child.props,
-      {tabIndex: this.props.childrenTabIndex}
-    );
-    return React.cloneElement(child, props);
+    if (secondaryText) {
+      return (
+        <span
+          className={this.classes}
+          tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
+          {...otherProps}
+        >
+          <span className='mdc-list-item__primary-text'>{primaryText}</span>
+          <span className='mdc-list-item__secondary-text'>{secondaryText}</span>
+        </span>
+      );
+    } else {
+      return (
+        <span
+          className={this.classes}
+          tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
+          {...otherProps}
+        >
+          {primaryText}
+        </span>
+      );
+    }
   }
 }
 
-ListItem.propTypes = {
-  childrenTabIndex: PropTypes.number,
+ListItemText.propTypes = {
+  tabbableOnListItemFocus: PropTypes.bool,
   className: PropTypes.string,
-  updateClassList: PropTypes.func,
+  primaryText: PropTypes.string,
+  secondaryText: PropTypes.string,
 };
 
-ListItem.defaultProps = {
-  childrenTabIndex: -1,
+ListItemText.defaultProps = {
+  tabbableOnListItemFocus: false,
   className: '',
-  updateClassList: () => {},
+  primaryText: '',
+  secondaryText: '',
 };

@@ -24,77 +24,48 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default class ListItem extends Component {
-  listItemElement_ = React.createRef();
-
-  componentDidUpdate(prevProps) {
-    if (this.props.className !== prevProps.className) {
-      this.props.updateClassList(this);
-    }
-  }
-
+export default class ListItemMeta extends Component {
   get classes() {
-    const {className} = this.props;
-    return classnames('mdc-list-item', className);
-  }
-
-  focus() {
-    const element = this.listItemElement_.current;
-    if (element) {
-      element.focus();
-    }
-  }
-
-  followHref() {
-    const element = this.listItemElement_.current;
-    if (element && element.href) {
-      element.click();
-    }
-  }
-
-  toggleCheckbox() {
-    // TODO(bonniez): implement
+    const {className, meta} = this.props;
+    return classnames('mdc-list-item__meta', className, meta.className);
   }
 
   render() {
     const {
-      /* eslint-disable */
+      meta,
+      tabIndex,
       className,
-      childrenTabIndex,
-      updateClassList,
-      /* eslint-enable */
-      children,
-      ...otherProps
+      tabbableOnListItemFocus,
+      ...otherProps,
     } = this.props;
 
-    return (
-      <li
-        className={this.classes}
-        ref={this.listItemElement_}
-        {...otherProps}
-      >
-        {React.Children.map(children, this.renderChild)}
-      </li>
-    );
-  }
+    let metaElement = null;
+    if (typeof meta === 'string') {
+      metaElement = <span>{meta}</span>;
+    } else {
+      metaElement = meta;
+    }
 
-  renderChild = (child) => {
-    const props = Object.assign({},
-      child.props,
-      {tabIndex: this.props.childrenTabIndex}
-    );
-    return React.cloneElement(child, props);
+    const metaProps = {
+      className: this.classes,
+      tabIndex: tabbableOnListItemFocus ? this.props.tabIndex : -1,
+      ...otherProps,
+    };
+
+    return React.cloneElement(metaElement, metaProps);
   }
 }
 
-ListItem.propTypes = {
-  childrenTabIndex: PropTypes.number,
+ListItemMeta.propTypes = {
+  tabbableOnListItemFocus: PropTypes.bool,
   className: PropTypes.string,
-  updateClassList: PropTypes.func,
+  tabIndex: PropTypes.number,
+  meta: PropTypes.element,
 };
 
-ListItem.defaultProps = {
-  childrenTabIndex: -1,
+ListItemMeta.defaultProps = {
+  tabbableOnListItemFocus: false,
   className: '',
-  updateClassList: () => {},
+  tabIndex: -1,
+  meta: null,
 };

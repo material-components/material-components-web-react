@@ -185,17 +185,10 @@ export default class List extends Component {
   }
 
   getListItemIndexOfTarget_ = (eventTarget) => {
-    let target = eventTarget;
-
     // Find the first ancestor that is a list item.
-    while (this.getIndexOfListItem_(target) < 0) {
-      if (target === document) {
-        return -1;
-      }
-      target = target.parentElement;
-    }
+    const listItem = eventTarget.closest('.mdc-list-item');
 
-    return this.getIndexOfListItem_(target);
+    return this.getIndexOfListItem_(listItem);
   }
 
   onKeyDown = (e) => {

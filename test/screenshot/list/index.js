@@ -5,6 +5,9 @@ import '../../../packages/list/index.scss';
 import MaterialIcon from '../../../packages/material-icon';
 import List from '../../../packages/list/index';
 import {ListItem} from '../../../packages/list/index';
+import ListItemGraphic from '../../../packages/list/ListItemGraphic';
+import ListItemText from '../../../packages/list/ListItemText';
+import ListItemMeta from '../../../packages/list/ListItemMeta';
 
 class SelectionListTest extends React.Component {
   state = {
@@ -29,42 +32,49 @@ const ListScreenshotTest = () => {
   return (
     <div>
       <SelectionListTest twoLine>
-        <ListItem
-          primaryText='Photos'
-          secondaryText='Jan 9, 2018'
-          graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info' tabIndex='0' />}
-        />
-        <ListItem
-          primaryText='Recipes'
-          secondaryText='Jan 17, 2018'
-          graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info' tabIndex='0' />}
-        />
-        <ListItem
-          primaryText='Work'
-          secondaryText='Jan 28, 2018'
-          graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info' tabIndex='0' />}
-        />
+        <ListItem>
+         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+         <ListItemText primaryText='hello' secondaryText='world'/>
+         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+        </ListItem>
+        <ListItem>
+         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+         <ListItemText primaryText='hello' secondaryText='world'/>
+         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+        </ListItem>
+        <ListItem>
+         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+         <ListItemText primaryText='hello' secondaryText='world'/>
+         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+        </ListItem>
+        <ListItem>
+         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+         <ListItemText primaryText='hello' secondaryText='world'/>
+         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+        </ListItem>
       </SelectionListTest>
 
       <List>
-        <ListItem
-          primaryText='Dogs'
-          graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info' tabIndex='0' />}
-        />
-        <ListItem
-          primaryText='Cats'
-          graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info' tabIndex='0' />}
-        />
-        <ListItem
-          primaryText='Birds'
-          graphic={<MaterialIcon icon='folder'/>}
-          meta={<MaterialIcon icon='info' tabIndex='0' />}
-        />
+        <ListItem>
+         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+         <ListItemText primaryText='hello' />
+         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+        </ListItem>
+        <ListItem>
+         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+         <ListItemText primaryText='hello' />
+         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+        </ListItem>
+        <ListItem>
+         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+         <ListItemText primaryText='hello' />
+         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+        </ListItem>
+        <ListItem>
+         <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+         <ListItemText primaryText='hello' />
+         <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+        </ListItem>
       </List>
     </div>
   );

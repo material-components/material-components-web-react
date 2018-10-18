@@ -24,77 +24,40 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default class ListItem extends Component {
-  listItemElement_ = React.createRef();
-
-  componentDidUpdate(prevProps) {
-    if (this.props.className !== prevProps.className) {
-      this.props.updateClassList(this);
-    }
-  }
-
+export default class ListItemGraphic extends Component {
   get classes() {
     const {className} = this.props;
-    return classnames('mdc-list-item', className);
-  }
-
-  focus() {
-    const element = this.listItemElement_.current;
-    if (element) {
-      element.focus();
-    }
-  }
-
-  followHref() {
-    const element = this.listItemElement_.current;
-    if (element && element.href) {
-      element.click();
-    }
-  }
-
-  toggleCheckbox() {
-    // TODO(bonniez): implement
+    return classnames('mdc-list-item__graphic', className);
   }
 
   render() {
     const {
-      /* eslint-disable */
+      graphic,
+      tabIndex,
+      tabbableOnListItemFocus,
       className,
-      childrenTabIndex,
-      updateClassList,
-      /* eslint-enable */
-      children,
-      ...otherProps
+      ...otherProps,
     } = this.props;
 
-    return (
-      <li
-        className={this.classes}
-        ref={this.listItemElement_}
-        {...otherProps}
-      >
-        {React.Children.map(children, this.renderChild)}
-      </li>
-    );
-  }
+    const graphicProps = {
+      className: this.classes,
+      role: 'presentation',
+      tabIndex: tabbableOnListItemFocus ? this.props.tabIndex : -1,
+      ...otherProps,
+    };
 
-  renderChild = (child) => {
-    const props = Object.assign({},
-      child.props,
-      {tabIndex: this.props.childrenTabIndex}
-    );
-    return React.cloneElement(child, props);
+    return React.cloneElement(graphic, graphicProps);
   }
 }
 
-ListItem.propTypes = {
-  childrenTabIndex: PropTypes.number,
+ListItemGraphic.propTypes = {
+  tabbableOnListItemFocus: PropTypes.bool,
   className: PropTypes.string,
-  updateClassList: PropTypes.func,
+  tabIndex: PropTypes.number,
 };
 
-ListItem.defaultProps = {
-  childrenTabIndex: -1,
+ListItemGraphic.defaultProps = {
+  tabbableOnListItemFocus: false,
   className: '',
-  updateClassList: () => {},
+  tabIndex: -1,
 };
