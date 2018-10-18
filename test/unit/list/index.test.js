@@ -95,16 +95,6 @@ test('state.listItemChildrenTabIndex is set to -1 for all list items on mount', 
   assert.equal(wrapper.state().listItemChildrenTabIndex[2], -1);
 });
 
-test('state.listItemClassList is updated from props on mount', () => {
-  const wrapper = mount(
-    <List>
-      <ListItem className='class1 class2' />
-    </List>
-  );
-  assert.isTrue(wrapper.state().listItemClassList[0].has('class1'));
-  assert.isTrue(wrapper.state().listItemClassList[0].has('class2'));
-});
-
 test('#adapter.getListItemCount returns number of list items', () => {
   const wrapper = mount(
     <List>
@@ -177,33 +167,30 @@ test('#adapter.setTabIndexForListItemChildren updates state.listItemChildrenTabI
 });
 
 test('#adapter.focusItemAtIndex calls focus() on list item', () => {
-  const item1 = {};
-  const item2 = {focus: td.func()};
-  const item3 = {};
+  const item = {focus: td.func()};
   const wrapper = shallow(<List />);
-  wrapper.instance().listItems_ = [item1, item2, item3];
+  wrapper.instance().listItems_ = {'item': item};
+  wrapper.instance().listItemIndices_ = {'item': 1};
   wrapper.instance().adapter.focusItemAtIndex(1);
-  td.verify(item2.focus(), {times: 1});
+  td.verify(item.focus(), {times: 1});
 });
 
 test('#adapter.followHref calls followHref() on list item', () => {
-  const item1 = {};
-  const item2 = {followHref: td.func()};
-  const item3 = {};
+  const item = {followHref: td.func()};
   const wrapper = shallow(<List />);
-  wrapper.instance().listItems_ = [item1, item2, item3];
+  wrapper.instance().listItems_ = {'item': item};
+  wrapper.instance().listItemIndices_ = {'item': 1};
   wrapper.instance().adapter.followHref(1);
-  td.verify(item2.followHref(), {times: 1});
+  td.verify(item.followHref(), {times: 1});
 });
 
 test('#adapter.toggleCheckbox calls toggleCheckbox() on list item', () => {
-  const item1 = {};
-  const item2 = {toggleCheckbox: td.func()};
-  const item3 = {};
+  const item = {toggleCheckbox: td.func()};
   const wrapper = shallow(<List />);
-  wrapper.instance().listItems_ = [item1, item2, item3];
+  wrapper.instance().listItems_ = {'item': item};
+  wrapper.instance().listItemIndices_ = {'item': 1};
   wrapper.instance().adapter.toggleCheckbox(1);
-  td.verify(item2.toggleCheckbox(), {times: 1});
+  td.verify(item.toggleCheckbox(), {times: 1});
 });
 
 test('on click calls #props.onClick', () => {
@@ -220,7 +207,6 @@ test('on click calls #props.onClick', () => {
   wrapper.simulate('click', evt);
   td.verify(onClick(td.matchers.isA(Object)), {times: 1});
 });
-
 
 test('on click calls #foudation.handleClick', () => {
   const wrapper = mount(
