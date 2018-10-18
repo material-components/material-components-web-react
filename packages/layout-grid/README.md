@@ -48,6 +48,23 @@ class MyApp extends React.Component {
               <Cell desktop={4} phone={2} tablet={3}>Cricket</Cell>
             </Row>
           </Cell>
+          <Cell columns={4}> - </Cell>
+          <Cell columns={4}> - </Cell>
+        </Row>
+      </Grid>
+    );
+  }
+}
+
+// with alignment
+class MyAppAligned extends React.Component {
+  render() {
+    return (
+      <Grid align="right">
+        <Row>
+          <Cell align="top">Tennis<br /><br /><br /><br /><br /></Cell>
+          <Cell align="middle">Cricket</Cell>
+          <Cell align="bottom">Starcraft</Cell>
         </Row>
       </Grid>
     );
