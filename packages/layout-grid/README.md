@@ -32,8 +32,22 @@ class MyApp extends React.Component {
     return (
       <Grid>
         <Row>
-          <Cell columns={6}>Tennis</Cell>
-          <Cell columns={6}>Cricket</Cell>
+          <Cell columns={4}>Tennis</Cell>
+          <Cell columns={4}>Cricket</Cell>
+          <Cell columns={4}>Starcraft</Cell>
+        </Row>
+        <Row>
+          <Cell desktop={4} phone={4} tablet={4}>Tennis</Cell>
+          <Cell desktop={4} phone={4} tablet={4}>Cricket</Cell>
+          <Cell desktop={4} phone={4} tablet={4}>Starcraft</Cell>
+        </Row>
+        <Row>
+          <Cell columns={4}>
+            <Row>
+              <Cell desktop={8} phone={2} tablet={5}>Tennis</Cell>
+              <Cell desktop={4} phone={2} tablet={3}>Cricket</Cell>
+            </Row>
+          </Cell>
         </Row>
       </Grid>
     );
