@@ -225,7 +225,7 @@ class TextField extends React.Component {
     return Object.assign({}, props, {
       foundation: this.foundation_,
       handleFocusChange: (isFocused) => this.setState({isFocused}),
-      handleValueChange: (value) => this.setState({value}),
+      handleValueChange: (value, cb) => this.setState({value}, cb),
       setDisabled: (disabled) => this.setState({disabled}),
       setInputId: (id) => this.setState({inputId: id}),
       ref: this.inputElement_,

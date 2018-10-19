@@ -366,7 +366,7 @@ test('renders helperText if helperText prop is passed', () => {
 });
 
 test('renders textarea if textarea variant', () => {
-  const wrapper = mount(<TextField textarea><Input /></TextField>);
+  const wrapper = mount(<TextField label='my label' textarea><Input /></TextField>);
   assert.equal(wrapper.find('textarea').length, 1);
 });
 
@@ -378,8 +378,15 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
 
 test('#inputProps.handleValueChange updates state.value', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().inputProps({}).handleValueChange('meow');
+  wrapper.instance().inputProps({}).handleValueChange('meow', td.func());
   assert.equal(wrapper.state().value, 'meow');
+});
+
+test('#inputProps.handleValueChange calls cb after state is set', () => {
+  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
+  const callback = td.func();
+  wrapper.instance().inputProps({}).handleValueChange('meow', callback);
+  td.verify(callback(), {times: 1});
 });
 
 test('#inputProps.setDisabled updates state.disabled', () => {
