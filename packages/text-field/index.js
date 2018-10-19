@@ -52,7 +52,8 @@ class TextField extends React.Component {
 
       // floating label state
       labelIsFloated: false,
-      labelWidth: 0,
+      initialLabelWidth: 0,
+      notchedLabelWidth: 0,
 
       // line ripple state
       activeLineRipple: false,
@@ -192,7 +193,7 @@ class TextField extends React.Component {
       },
       floatLabel: (labelIsFloated) => this.setState({labelIsFloated}),
       hasLabel: () => !!this.props.label,
-      getLabelWidth: () => this.state.labelWidth,
+      getLabelWidth: () => this.state.initialLabelWidth,
     };
   }
 
@@ -206,7 +207,7 @@ class TextField extends React.Component {
 
   get notchedOutlineAdapter() {
     return {
-      notchOutline: () => this.setState({outlineIsNotched: true}),
+      notchOutline: (notchedLabelWidth) => this.setState({outlineIsNotched: true, notchedLabelWidth}),
       closeOutline: () => this.setState({outlineIsNotched: false}),
       hasOutline: () => !!this.props.outlined,
     };
@@ -224,7 +225,7 @@ class TextField extends React.Component {
     return Object.assign({}, props, {
       foundation: this.foundation_,
       handleFocusChange: (isFocused) => this.setState({isFocused}),
-      handleValueChange: (value, cb = () => {}) => this.setState({value}, cb),
+      handleValueChange: (value) => this.setState({value}),
       setDisabled: (disabled) => this.setState({disabled}),
       setInputId: (id) => this.setState({inputId: id}),
       ref: this.inputElement_,
@@ -286,7 +287,7 @@ class TextField extends React.Component {
         className={floatingLabelClassName}
         float={this.state.labelIsFloated}
         handleWidthChange={
-          (labelWidth) => this.setState({labelWidth})}
+          (initialLabelWidth) => this.setState({initialLabelWidth})}
         ref={this.floatingLabelElement}
         htmlFor={inputId}
       >
@@ -309,13 +310,13 @@ class TextField extends React.Component {
 
   renderNotchedOutline() {
     const {notchedOutlineClassName} = this.props;
-    const {outlineIsNotched, labelWidth} = this.state;
+    const {outlineIsNotched, notchedLabelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
         isRtl={this.props.isRtl}
         notch={outlineIsNotched}
-        notchWidth={labelWidth}
+        notchWidth={notchedLabelWidth}
       />
     );
   }
