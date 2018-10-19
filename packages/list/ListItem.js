@@ -27,6 +27,10 @@ import classnames from 'classnames';
 export default class ListItem extends Component {
   listItemElement_ = React.createRef();
 
+  componentDidMount() {
+    this.props.init();
+  }
+
   get listItemElement() {
     return this.listItemElement_.current;
   }
@@ -59,6 +63,8 @@ export default class ListItem extends Component {
       /* eslint-disable */
       className,
       childrenTabIndex,
+      init,
+      id,
       /* eslint-enable */
       children,
       ...otherProps
@@ -85,13 +91,14 @@ export default class ListItem extends Component {
 }
 
 ListItem.propTypes = {
-  key: PropTypes.string,
+  id: PropTypes.string,
   childrenTabIndex: PropTypes.number,
   className: PropTypes.string,
+  init: PropTypes.func,
 };
 
 ListItem.defaultProps = {
-  key: '',
+  id: '',
   childrenTabIndex: -1,
   className: '',
 };
