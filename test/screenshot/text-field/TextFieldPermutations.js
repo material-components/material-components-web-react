@@ -31,7 +31,7 @@ const textFields = (variant) => {
 
               const hasIcon = iconKey === 'leadingIcon' || iconKey === 'trailingIcon';
 
-              if (hasIcon && variant === 'fullWidth') {
+              if (hasIcon && variant.variant === 'fullWidth') {
                 return;
               }
 
