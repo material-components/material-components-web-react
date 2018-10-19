@@ -60,7 +60,10 @@ ListItemMeta.propTypes = {
   tabbableOnListItemFocus: PropTypes.bool,
   className: PropTypes.string,
   tabIndex: PropTypes.number,
-  meta: PropTypes.element,
+  meta: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
 };
 
 ListItemMeta.defaultProps = {

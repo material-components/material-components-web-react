@@ -41,7 +41,6 @@ export default class ListItemGraphic extends Component {
 
     const graphicProps = {
       className: this.classes,
-      role: 'presentation',
       tabIndex: tabbableOnListItemFocus ? this.props.tabIndex : -1,
       ...otherProps,
     };
@@ -54,10 +53,15 @@ ListItemGraphic.propTypes = {
   tabbableOnListItemFocus: PropTypes.bool,
   className: PropTypes.string,
   tabIndex: PropTypes.number,
+  graphic: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
 };
 
 ListItemGraphic.defaultProps = {
   tabbableOnListItemFocus: false,
   className: '',
   tabIndex: -1,
+  graphic: null,
 };

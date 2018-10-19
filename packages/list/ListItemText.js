@@ -60,10 +60,10 @@ export default class ListItemText extends Component {
     if (typeof text === 'string') {
       return <span className={className} tabIndex={-1}>{text}</span>;
     }
-    const props = Object.assign({},
-      text.props,
-      {className: className},
-    );
+    const {className: textClassName, ...otherProps} = text.props;
+    const props = Object.assign({
+      className: classnames(className, textClassName)
+    }, ...otherProps);
     return React.cloneElement(text, props);
   }
 }
