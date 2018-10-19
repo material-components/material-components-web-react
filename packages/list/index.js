@@ -41,7 +41,7 @@ export default class List extends Component {
   };
 
   componentDidMount() {
-    for (var key in this.listItems_) {
+    for (let key in this.listItems_) {
       this.initListItemAttributes_(key);
       this.initListItemChildrenTabIndex_(key);
       this.initListItemClassList_(key);
@@ -177,7 +177,7 @@ export default class List extends Component {
   }
 
   getListItemKeyFromIndex_ = (index) => {
-    for (var key in this.listItemIndices_) {
+    for (let key in this.listItemIndices_) {
       if (this.listItemIndices_[key] === index) return key;
     };
     return '';
@@ -185,7 +185,7 @@ export default class List extends Component {
 
   getIndexOfListItemElement_ = (element) => {
     let listItemKey = '';
-    for (var key in this.listItems_) {
+    for (let key in this.listItems_) {
       if (this.listItems_[key].listItemElement === element) {
         listItemKey = key;
         break;
@@ -195,8 +195,16 @@ export default class List extends Component {
   }
 
   getListItemIndexOfTarget_ = (eventTarget) => {
+    let target = eventTarget;
+
     // Find the first ancestor that is a list item.
-    const listItemElement = eventTarget.closest('.mdc-list-item');
+    while (this.getListItemIndexOfElement_(target) < 0) {
+      if (target === document) {
+        return -1;
+      }
+      target = target.parentElement;
+    }
+
     return this.getIndexOfListItemElement_(listItemElement);
   }
 
