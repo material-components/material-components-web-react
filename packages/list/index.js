@@ -198,14 +198,14 @@ export default class List extends Component {
     let target = eventTarget;
 
     // Find the first ancestor that is a list item.
-    while (this.getListItemIndexOfElement_(target) < 0) {
+    while (this.getIndexOfListItemElement_(target) < 0) {
       if (target === document) {
         return -1;
       }
       target = target.parentElement;
     }
 
-    return this.getIndexOfListItemElement_(listItemElement);
+    return this.getIndexOfListItemElement_(target);
   }
 
   onKeyDown = (e) => {
