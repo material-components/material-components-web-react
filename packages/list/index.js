@@ -198,7 +198,7 @@ export default class List extends Component {
     let target = eventTarget;
 
     // Find the first ancestor that is a list item.
-    while (this.getIndexOfListItemElement_(target) < 0) {
+    while (this.getIndexOfListItemElement_(target) === undefined) {
       if (target === document) {
         return -1;
       }
@@ -328,7 +328,6 @@ List.defaultProps = {
   twoLine: false,
   singleSelection: false,
   wrapFocus: true,
-  selectedIndex: -1,
   'aria-orientation': VERTICAL,
   onKeyDown: () => {},
   onClick: () => {},
