@@ -83,6 +83,7 @@ Prop Name | Type | Description
 align | String (`left` or `right`) | An optional alignment of the grid contents
 children | Node | A React node to render within the Grid, usually a `Row` or `Row`s
 className | String | Classes to be applied to the root element
+tag | String | The tag type to render (default `'div'`)
 
 ### Row
 
@@ -92,6 +93,7 @@ Prop Name | Type | Description
 --- | --- | ---
 children | Node | A React node to render within the Row, usually a `Cell` or `Cell`s
 className | String | Classes to be applied to the root element
+tag | String | The tag type to render (default `'div'`)
 
 ### Cell
 
@@ -106,6 +108,7 @@ columns | Number (1-12) | The width of the cell on all devices
 desktop | Number (1-12) | The width of the cell on desktop
 phone | Number (1-8) | The width of the cell on phones
 tablet | Number (1-4) | The width of the cell on tablets
+tag | String | The tag type to render (default `'div'`)
 
 ## Sass Mixins
 

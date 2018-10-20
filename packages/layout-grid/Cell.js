@@ -3,7 +3,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const Cell = (props) => {
-  const {align, children, className, columns, desktop, order, phone, tablet, ...otherProps} = props;
+  const {
+    align,
+    children,
+    className,
+    columns,
+    desktop,
+    order,
+    phone,
+    tablet,
+    tag: Tag,
+    ...otherProps
+  } = props;
 
   const classes = classnames('mdc-layout-grid__cell', className, {
     [`mdc-layout-grid__cell--align-${align}`]: !!align,
@@ -15,9 +26,9 @@ const Cell = (props) => {
   });
 
   return (
-    <div className={classes} {...otherProps}>
+    <Tag className={classes} {...otherProps}>
       {children}
-    </div>
+    </Tag>
   );
 };
 
@@ -30,6 +41,7 @@ Cell.propTypes = {
   order: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
   phone: PropTypes.oneOf([1, 2, 3, 4]),
   tablet: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8]),
+  tag: PropTypes.string,
 };
 
 Cell.defaultProps = {
@@ -41,6 +53,7 @@ Cell.defaultProps = {
   order: undefined,
   phone: undefined,
   tablet: undefined,
+  tag: 'div',
 };
 
 export default Cell;

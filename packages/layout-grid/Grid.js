@@ -8,6 +8,7 @@ const Grid = (props) => {
     children,
     className,
     fixedColumnWidth,
+    tag: Tag,
     ...otherProps
   } = props;
 
@@ -17,7 +18,7 @@ const Grid = (props) => {
   });
 
   return (
-    <div className={classes} {...otherProps}>{children}</div>
+    <Tag className={classes} {...otherProps}>{children}</Tag>
   );
 };
 
@@ -26,12 +27,14 @@ Grid.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   fixedColumnWidth: PropTypes.bool,
+  tag: PropTypes.string,
 };
 
 Grid.defaultProps = {
   align: undefined,
   className: '',
   fixedColumnWidth: false,
+  tag: 'div',
 };
 
 export default Grid;
