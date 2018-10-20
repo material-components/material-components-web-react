@@ -106,6 +106,7 @@ children | Node | A React node to render within the Cell
 className | String | Classes to be applied to the root element
 columns | Number (1-12) | The width of the cell on all devices
 desktopColumns | Number (1-12) | The width of the cell on desktop
+order | Number (1-12) | The order that the cell is displayed in
 phoneColumns | Number (1-8) | The width of the cell on phones
 tabletColumns | Number (1-4) | The width of the cell on tablets
 tag | String | The tag type to render (default `'div'`)
