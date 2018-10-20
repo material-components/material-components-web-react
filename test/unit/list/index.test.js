@@ -5,7 +5,7 @@ import {shallow, mount} from 'enzyme';
 import List from '../../../packages/list';
 import {ListItem} from '../../../packages/list';
 
-suite.only('List');
+suite('List');
 
 test('creates foundation', () => {
   const wrapper = shallow(<List />);
@@ -77,9 +77,9 @@ test('only the first list item in a list is tabbable', () => {
       <ListItem id='item3' />
     </List>
   );
-  assert.equal(wrapper.state().listItemAttributes[0].tabIndex, 0);
-  assert.equal(wrapper.state().listItemAttributes[1].tabIndex, -1);
-  assert.equal(wrapper.state().listItemAttributes[2].tabIndex, -1);
+  assert.equal(wrapper.state().listItemAttributes['item1'].tabIndex, 0);
+  assert.equal(wrapper.state().listItemAttributes['item2'].tabIndex, -1);
+  assert.equal(wrapper.state().listItemAttributes['item3'].tabIndex, -1);
 });
 
 test('state.listItemChildrenTabIndex is set to -1 for all list items on mount', () => {
@@ -90,9 +90,30 @@ test('state.listItemChildrenTabIndex is set to -1 for all list items on mount', 
       <ListItem id='item3' />
     </List>
   );
-  assert.equal(wrapper.state().listItemChildrenTabIndex[0], -1);
-  assert.equal(wrapper.state().listItemChildrenTabIndex[1], -1);
-  assert.equal(wrapper.state().listItemChildrenTabIndex[2], -1);
+  assert.equal(wrapper.state().listItemChildrenTabIndex['item1'], -1);
+  assert.equal(wrapper.state().listItemChildrenTabIndex['item2'], -1);
+  assert.equal(wrapper.state().listItemChildrenTabIndex['item3'], -1);
+});
+
+test('list item id falls back to index if id is not provided', () => {
+  const wrapper = mount(
+    <List>
+      <ListItem />
+      <ListItem />
+      <ListItem />
+    </List>
+  );
+  assert.equal(wrapper.state().listItemAttributes['0'].tabIndex, 0);
+  assert.equal(wrapper.state().listItemAttributes['1'].tabIndex, -1);
+  assert.equal(wrapper.state().listItemAttributes['2'].tabIndex, -1);
+  assert.equal(wrapper.state().listItemChildrenTabIndex['0'], -1);
+  assert.equal(wrapper.state().listItemChildrenTabIndex['1'], -1);
+  assert.equal(wrapper.state().listItemChildrenTabIndex['2'], -1);
+});
+
+test('classNames adds classes', () => {
+  const wrapper = shallow(<List className='test-class-name' />);
+  assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
 test('#adapter.getListItemCount returns number of list items', () => {
@@ -115,7 +136,7 @@ test('#adapter.setAttributeForElementIndex updates state.listItemAttributes', ()
     </List>
   );
   wrapper.instance().adapter.setAttributeForElementIndex(1, 'tabindex', 0);
-  assert.equal(wrapper.state().listItemAttributes[1]['tabIndex'], 0);
+  assert.equal(wrapper.state().listItemAttributes['item2']['tabIndex'], 0);
 });
 
 test('#adapter.removeAttributeForElementIndex updates state.listItemAttributes', () => {
@@ -127,7 +148,7 @@ test('#adapter.removeAttributeForElementIndex updates state.listItemAttributes',
     </List>
   );
   wrapper.instance().adapter.removeAttributeForElementIndex(1, 'tabindex');
-  assert.equal(wrapper.state().listItemAttributes[1]['tabIndex'], null);
+  assert.equal(wrapper.state().listItemAttributes['item2']['tabIndex'], null);
 });
 
 test('#adapter.addClassForElementIndex updates state.listItemClassList', () => {
@@ -139,7 +160,7 @@ test('#adapter.addClassForElementIndex updates state.listItemClassList', () => {
     </List>
   );
   wrapper.instance().adapter.addClassForElementIndex(1, 'class1');
-  assert.isTrue(wrapper.state().listItemClassList[1].has('class1'));
+  assert.isTrue(wrapper.state().listItemClassList['item2'].has('class1'));
 });
 
 test('#adapter.removeClassForElementIndex updates state.listItemClassList', () => {
@@ -151,7 +172,7 @@ test('#adapter.removeClassForElementIndex updates state.listItemClassList', () =
     </List>
   );
   wrapper.instance().adapter.removeClassForElementIndex(1, 'class1');
-  assert.isFalse(wrapper.state().listItemClassList[1].has('class1'));
+  assert.isFalse(wrapper.state().listItemClassList['item2'].has('class1'));
 });
 
 test('#adapter.setTabIndexForListItemChildren updates state.listItemChildrenTabIndex', () => {
@@ -163,7 +184,7 @@ test('#adapter.setTabIndexForListItemChildren updates state.listItemChildrenTabI
     </List>
   );
   wrapper.instance().adapter.setTabIndexForListItemChildren(1, 0);
-  assert.equal(wrapper.state().listItemChildrenTabIndex[1], 0);
+  assert.equal(wrapper.state().listItemChildrenTabIndex['item2'], 0);
 });
 
 test('#adapter.focusItemAtIndex calls focus() on list item', () => {
@@ -202,7 +223,7 @@ test('on click calls #props.onClick', () => {
       <ListItem id='item3' />
     </List>
   );
-  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const item2 = wrapper.instance().listItems_['item2'].listItemElement_.current;
   const evt = {target: item2};
   wrapper.simulate('click', evt);
   td.verify(onClick(td.matchers.isA(Object)), {times: 1});
@@ -217,7 +238,7 @@ test('on click calls #foudation.handleClick', () => {
     </List>
   );
   wrapper.instance().foundation_.handleClick = td.func();
-  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const item2 = wrapper.instance().listItems_['item2'].listItemElement_.current;
   const evt = {target: item2};
   wrapper.simulate('click', evt);
   td.verify(wrapper.instance().foundation_.handleClick(1, false), {times: 1});
@@ -232,7 +253,7 @@ test('on keydown calls #props.onKeyDown', () => {
       <ListItem id='item3' />
     </List>
   );
-  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const item2 = wrapper.instance().listItems_['item2'].listItemElement_.current;
   const evt = {target: item2};
   wrapper.simulate('keydown', evt);
   td.verify(onKeyDown(td.matchers.isA(Object)), {times: 1});
@@ -247,7 +268,7 @@ test('on keydown calls #foudation.handleKeydown', () => {
     </List>
   );
   wrapper.instance().foundation_.handleKeydown = td.func();
-  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const item2 = wrapper.instance().listItems_['item2'].listItemElement_.current;
   const evt = {target: item2};
   wrapper.simulate('keydown', evt);
   td.verify(wrapper.instance().foundation_.handleKeydown(td.matchers.isA(Object), true, 1), {times: 1});
@@ -262,7 +283,7 @@ test('on focus calls #props.onFocus', () => {
       <ListItem id='item3' />
     </List>
   );
-  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const item2 = wrapper.instance().listItems_['item2'].listItemElement_.current;
   const evt = {target: item2};
   wrapper.simulate('focus', evt);
   td.verify(onFocus(td.matchers.isA(Object)), {times: 1});
@@ -277,7 +298,7 @@ test('on focus calls #foudation.handleFocusIn', () => {
     </List>
   );
   wrapper.instance().foundation_.handleFocusIn = td.func();
-  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const item2 = wrapper.instance().listItems_['item2'].listItemElement_.current;
   const evt = {target: item2};
   wrapper.simulate('focus', evt);
   td.verify(wrapper.instance().foundation_.handleFocusIn(td.matchers.isA(Object), 1), {times: 1});
@@ -292,7 +313,7 @@ test('on blur calls #props.onBlur', () => {
       <ListItem id='item3' />
     </List>
   );
-  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const item2 = wrapper.instance().listItems_['item2'].listItemElement_.current;
   const evt = {target: item2};
   wrapper.simulate('blur', evt);
   td.verify(onBlur(td.matchers.isA(Object)), {times: 1});
@@ -307,7 +328,7 @@ test('on keydown calls #foudation.handleFocusOut', () => {
     </List>
   );
   wrapper.instance().foundation_.handleFocusOut = td.func();
-  const item2 = wrapper.instance().listItems_[1].listItemElement_.current;
+  const item2 = wrapper.instance().listItems_['item2'].listItemElement_.current;
   const evt = {target: item2};
   wrapper.simulate('blur', evt);
   td.verify(wrapper.instance().foundation_.handleFocusOut(td.matchers.isA(Object), 1), {times: 1});

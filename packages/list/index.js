@@ -190,7 +190,7 @@ export default class List extends Component {
 
     // Find the first ancestor that is a list item.
     while (this.getIndexOfListItemElement_(target) === undefined) {
-      if (target === document) {
+      if (!target || target === document) {
         return -1;
       }
       target = target.parentElement;
@@ -275,7 +275,7 @@ export default class List extends Component {
       ...otherProps
     } = listItem.props;
     
-    const idOrIndex = id || index;
+    const idOrIndex = id || index.toString();
     const props = Object.assign({
       id: id,
       className: this.getListItemClasses_(idOrIndex),

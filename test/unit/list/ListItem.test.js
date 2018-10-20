@@ -11,11 +11,15 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('#componentDidUpdate calls #props.updateClassList', () => {
-  const updateClassList = td.func();
-  const wrapper = shallow(<ListItem updateClassList={updateClassList} />);
-  wrapper.setProps({className: 'test-class-name'});
-  td.verify(updateClassList(wrapper.instance(), 'test-class-name'), {times: 1});
+test('#componentDidMount calls #props.init', () => {
+  const init = td.func();
+  mount(<ListItem init={init} />);
+  td.verify(init(), {times: 1});
+});
+
+test('#get listItemElement returns listItemElement_.current', () => {
+  const wrapper = mount(<ListItem init={init} />);
+  assert.equal(wrapper.instance().listItemElement(), wrapper.instance().listItemElement_.current);
 });
 
 test('#focus focuses the listItemElement_', () => {
