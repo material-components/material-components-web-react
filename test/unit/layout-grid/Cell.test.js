@@ -24,8 +24,8 @@ test('columns prop adds correct className', () => {
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell--span-4'));
 });
 
-test('desktop prop adds correct className', () => {
-  const wrapper = shallow(<Cell desktop={4} />, {disableLifecycleMethods: true});
+test('desktopColumns prop adds correct className', () => {
+  const wrapper = shallow(<Cell desktopColumns={4} />, {disableLifecycleMethods: true});
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell'));
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell--span-4-desktop'));
 });
@@ -36,14 +36,14 @@ test('order prop adds correct className', () => {
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell--order-12'));
 });
 
-test('phone prop adds correct className', () => {
-  const wrapper = shallow(<Cell phone={4} />, {disableLifecycleMethods: true});
+test('phoneColumns prop adds correct className', () => {
+  const wrapper = shallow(<Cell phoneColumns={4} />, {disableLifecycleMethods: true});
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell'));
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell--span-4-phone'));
 });
 
-test('tablet prop adds correct className', () => {
-  const wrapper = shallow(<Cell tablet={4} />, {disableLifecycleMethods: true});
+test('tabletColumns prop adds correct className', () => {
+  const wrapper = shallow(<Cell tabletColumns={4} />, {disableLifecycleMethods: true});
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell'));
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell--span-4-tablet'));
 });

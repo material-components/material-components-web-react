@@ -34,25 +34,25 @@ const ThirdHalfFull = () => {
       <Row>
         <Cell
           className="layout-grid-sample__cell__one"
-          desktop={4}
-          phone={4}
-          tablet={4}
+          desktopColumns={4}
+          phoneColumns={4}
+          tabletColumns={4}
         >
           Tennis
         </Cell>
         <Cell
           className="layout-grid-sample__cell__two"
-          desktop={4}
-          phone={4}
-          tablet={4}
+          desktopColumns={4}
+          phoneColumns={4}
+          tabletColumns={4}
         >
           Cricket
         </Cell>
         <Cell
           className="layout-grid-sample__cell__three"
-          desktop={4}
-          phone={4}
-          tablet={4}
+          desktopColumns={4}
+          phoneColumns={4}
+          tabletColumns={4}
         >
           StarCraft
         </Cell>
@@ -65,41 +65,41 @@ const Nested = () => {
   return (
     <Grid>
       <Row>
-        <Cell desktop={8} phone={4} tablet={5}>
+        <Cell desktopColumns={8} phoneColumns={4} tabletColumns={5}>
           <Row>
             <Cell
               className="layout-grid-sample__cell__one"
-              desktop={6}
-              phone={2}
-              tablet={4}
+              desktopColumns={6}
+              phoneColumns={2}
+              tabletColumns={4}
             >
               Tennis
             </Cell>
             <Cell
               className="layout-grid-sample__cell__two"
-              desktop={6}
-              phone={2}
-              tablet={4}
+              desktopColumns={6}
+              phoneColumns={2}
+              tabletColumns={4}
             >
               Cricket
             </Cell>
           </Row>
         </Cell>
-        <Cell desktop={4} phone={4} tablet={3}>
+        <Cell desktopColumns={4} phoneColumns={4} tabletColumns={3}>
           <Row>
             <Cell
               className="layout-grid-sample__cell__one"
-              desktop={6}
-              phone={2}
-              tablet={4}
+              desktopColumns={6}
+              phoneColumns={2}
+              tabletColumns={4}
             >
               Tennis
             </Cell>
             <Cell
               className="layout-grid-sample__cell__two"
-              desktop={6}
-              phone={2}
-              tablet={4}
+              desktopColumns={6}
+              phoneColumns={2}
+              tabletColumns={4}
             >
               Cricket
             </Cell>

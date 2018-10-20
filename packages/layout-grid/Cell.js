@@ -8,10 +8,10 @@ const Cell = (props) => {
     children,
     className,
     columns,
-    desktop,
+    desktopColumns,
     order,
-    phone,
-    tablet,
+    phoneColumns,
+    tabletColumns,
     tag: Tag,
     ...otherProps
   } = props;
@@ -20,9 +20,9 @@ const Cell = (props) => {
     [`mdc-layout-grid__cell--align-${align}`]: !!align,
     [`mdc-layout-grid__cell--order-${order}`]: !!order,
     [`mdc-layout-grid__cell--span-${columns}`]: !!columns,
-    [`mdc-layout-grid__cell--span-${desktop}-desktop`]: !!desktop,
-    [`mdc-layout-grid__cell--span-${phone}-phone`]: !!phone,
-    [`mdc-layout-grid__cell--span-${tablet}-tablet`]: !!tablet,
+    [`mdc-layout-grid__cell--span-${desktopColumns}-desktop`]: !!desktopColumns,
+    [`mdc-layout-grid__cell--span-${phoneColumns}-phone`]: !!phoneColumns,
+    [`mdc-layout-grid__cell--span-${tabletColumns}-tablet`]: !!tabletColumns,
   });
 
   return (
@@ -37,10 +37,10 @@ Cell.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   columns: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-  desktop: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+  desktopColumns: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
   order: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-  phone: PropTypes.oneOf([1, 2, 3, 4]),
-  tablet: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8]),
+  phoneColumns: PropTypes.oneOf([1, 2, 3, 4]),
+  tabletColumns: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8]),
   tag: PropTypes.string,
 };
 
@@ -49,10 +49,10 @@ Cell.defaultProps = {
   children: undefined,
   className: '',
   columns: undefined,
-  desktop: undefined,
+  desktopColumns: undefined,
   order: undefined,
-  phone: undefined,
-  tablet: undefined,
+  phoneColumns: undefined,
+  tabletColumns: undefined,
   tag: 'div',
 };
 

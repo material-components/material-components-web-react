@@ -37,15 +37,15 @@ class MyApp extends React.Component {
           <Cell columns={4}>StarCraft</Cell>
         </Row>
         <Row>
-          <Cell desktop={4} order={2} phone={4} tablet={4}>Tennis</Cell>
-          <Cell desktop={4} order={3} phone={4} tablet={4}>Cricket</Cell>
-          <Cell desktop={4} order={1} phone={4} tablet={4}>StarCraft</Cell>
+          <Cell desktopColumns={4} order={2} phoneColumns={4} tabletColumns={4}>Tennis</Cell>
+          <Cell desktopColumns={4} order={3} phoneColumns={4} tabletColumns={4}>Cricket</Cell>
+          <Cell desktopColumns={4} order={1} phoneColumns={4} tabletColumns={4}>StarCraft</Cell>
         </Row>
         <Row>
           <Cell columns={4}>
             <Row>
-              <Cell desktop={8} phone={2} tablet={5}>Tennis</Cell>
-              <Cell desktop={4} phone={2} tablet={3}>Cricket</Cell>
+              <Cell desktopColumns={8} phoneColumns={2} tabletColumns={5}>Tennis</Cell>
+              <Cell desktopColumns={4} phoneColumns={2} tabletColumns={3}>Cricket</Cell>
             </Row>
           </Cell>
           <Cell columns={4}> - </Cell>
@@ -105,9 +105,9 @@ align | String (`bottom`, `middle` or `top`) | An optional alignment of the cell
 children | Node | A React node to render within the Cell
 className | String | Classes to be applied to the root element
 columns | Number (1-12) | The width of the cell on all devices
-desktop | Number (1-12) | The width of the cell on desktop
-phone | Number (1-8) | The width of the cell on phones
-tablet | Number (1-4) | The width of the cell on tablets
+desktopColumns | Number (1-12) | The width of the cell on desktop
+phoneColumns | Number (1-8) | The width of the cell on phones
+tabletColumns | Number (1-4) | The width of the cell on tablets
 tag | String | The tag type to render (default `'div'`)
 
 ## Sass Mixins
