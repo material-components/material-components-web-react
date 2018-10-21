@@ -27,6 +27,9 @@ import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/dist/mdc.list';
 
 import ListItem from './ListItem';
+import ListItemGraphic from './ListItemGraphic';
+import ListItemText from './ListItemText';
+import ListItemMeta from './ListItemMeta';
 
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
@@ -329,4 +332,4 @@ List.defaultProps = {
 
 /* eslint-enable quote-props */
 
-export {ListItem};
+export {ListItem, ListItemGraphic, ListItemText, ListItemMeta};

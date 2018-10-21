@@ -53,15 +53,12 @@ ListItemGraphic.propTypes = {
   tabbableOnListItemFocus: PropTypes.bool,
   className: PropTypes.string,
   tabIndex: PropTypes.number,
-  graphic: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]),
+  graphic: PropTypes.element,
 };
 
 ListItemGraphic.defaultProps = {
   tabbableOnListItemFocus: false,
   className: '',
   tabIndex: -1,
-  graphic: null,
+  graphic: {},
 };

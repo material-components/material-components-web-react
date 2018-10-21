@@ -28,7 +28,8 @@ export default class ListItem extends Component {
   listItemElement_ = React.createRef();
 
   componentDidMount() {
-    this.props.init();
+    const {init} = this.props;
+    init && init();
   }
 
   get listItemElement() {
@@ -56,6 +57,7 @@ export default class ListItem extends Component {
 
   toggleCheckbox() {
     // TODO(bonniez): implement
+    // https://github.com/material-components/material-components-web-react/issues/352
   }
 
   render() {

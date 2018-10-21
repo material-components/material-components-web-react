@@ -41,7 +41,7 @@ export default class ListItemText extends Component {
     } = this.props;
 
     if (!secondaryText) {
-      return this.renderText(primaryText, 'mdc-list-item__text');
+      return this.renderText(primaryText, this.classes);
     }
 
     return (
@@ -70,6 +70,7 @@ export default class ListItemText extends Component {
 
 ListItemText.propTypes = {
   tabbableOnListItemFocus: PropTypes.bool,
+  tabIndex: PropTypes.number,
   className: PropTypes.string,
   primaryText: PropTypes.oneOfType([
     PropTypes.string,
@@ -83,6 +84,7 @@ ListItemText.propTypes = {
 
 ListItemText.defaultProps = {
   tabbableOnListItemFocus: false,
+  tabIndex: -1,
   className: '',
   primaryText: '',
   secondaryText: '',
