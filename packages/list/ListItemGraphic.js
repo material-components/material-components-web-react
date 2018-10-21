@@ -20,33 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default class ListItemGraphic extends Component {
-  get classes() {
-    const {className} = this.props;
-    return classnames('mdc-list-item__graphic', className);
-  }
+const ListItemGraphic = (props) => {
+  const {
+    graphic,
+    tabIndex,
+    tabbableOnListItemFocus,
+    className,
+    ...otherProps,
+  } = props;
 
-  render() {
-    const {
-      graphic,
-      tabIndex,
-      tabbableOnListItemFocus,
-      className,
-      ...otherProps,
-    } = this.props;
+  const graphicProps = {
+    className: classnames('mdc-list-item__graphic', className),
+    tabIndex: tabbableOnListItemFocus ? props.tabIndex : -1,
+    ...otherProps,
+  };
 
-    const graphicProps = {
-      className: this.classes,
-      tabIndex: tabbableOnListItemFocus ? this.props.tabIndex : -1,
-      ...otherProps,
-    };
-
-    return React.cloneElement(graphic, graphicProps);
-  }
+  return React.cloneElement(graphic, graphicProps);
 }
 
 ListItemGraphic.propTypes = {
@@ -62,3 +55,5 @@ ListItemGraphic.defaultProps = {
   tabIndex: -1,
   graphic: {},
 };
+
+export default ListItemGraphic;

@@ -20,40 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default class ListItemMeta extends Component {
-  get classes() {
-    const {className, meta} = this.props;
-    return classnames('mdc-list-item__meta', className, meta.className);
+const ListItemMeta = (props) => {
+  const {
+    meta,
+    tabIndex,
+    className,
+    tabbableOnListItemFocus,
+    ...otherProps,
+  } = props;
+
+  let metaElement = null;
+  if (typeof meta === 'string') {
+    metaElement = <span>{meta}</span>;
+  } else {
+    metaElement = meta;
   }
 
-  render() {
-    const {
-      meta,
-      tabIndex,
-      className,
-      tabbableOnListItemFocus,
-      ...otherProps,
-    } = this.props;
+  const metaProps = {
+    className: classnames('mdc-list-item__meta', className, meta.className),
+    tabIndex: tabbableOnListItemFocus ? props.tabIndex : -1,
+    ...otherProps,
+  };
 
-    let metaElement = null;
-    if (typeof meta === 'string') {
-      metaElement = <span>{meta}</span>;
-    } else {
-      metaElement = meta;
-    }
-
-    const metaProps = {
-      className: this.classes,
-      tabIndex: tabbableOnListItemFocus ? this.props.tabIndex : -1,
-      ...otherProps,
-    };
-
-    return React.cloneElement(metaElement, metaProps);
-  }
+  return React.cloneElement(metaElement, metaProps);
 }
 
 ListItemMeta.propTypes = {
@@ -72,3 +65,5 @@ ListItemMeta.defaultProps = {
   tabIndex: -1,
   meta: null,
 };
+
+export default ListItemMeta;

@@ -20,45 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default class ListItemText extends Component {
-  get classes() {
-    const {className} = this.props;
-    return classnames('mdc-list-item__text', className);
-  }
+const ListItemText = (props) => {
+  const {
+    primaryText,
+    secondaryText,
+    tabbableOnListItemFocus,
+    tabIndex,
+    className,
+    ...otherProps,
+  } = props;
 
-  render() {
-    const {
-      primaryText,
-      secondaryText,
-      tabbableOnListItemFocus,
-      tabIndex,
-      className,
-      ...otherProps,
-    } = this.props;
-
-    if (!secondaryText) {
-      return this.renderText(primaryText, this.classes);
-    }
-
-    return (
-      <span
-        className={this.classes}
-        tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
-        {...otherProps}
-      >
-        {this.renderText(primaryText, 'mdc-list-item__primary-text')}
-        {this.renderText(secondaryText, 'mdc-list-item__secondary-text')}
-      </span>
-    );
-  }
-
-  renderText(text, className) {
+  const renderText = (text, className) => {
     if (typeof text === 'string') {
-      return <span className={className} tabIndex={-1}>{text}</span>;
+      return (
+        <span
+          className={className}
+          tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
+        >
+          {text}
+        </span>
+      );
     }
     const {className: textClassName, ...otherProps} = text.props;
     const props = Object.assign({
@@ -66,6 +51,21 @@ export default class ListItemText extends Component {
     }, ...otherProps);
     return React.cloneElement(text, props);
   }
+
+  if (!secondaryText) {
+    return renderText(primaryText, classnames('mdc-list-item__text', className));
+  }
+
+  return (
+    <span
+      className={classnames('mdc-list-item__text', className)}
+      tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
+      {...otherProps}
+    >
+      {renderText(primaryText, 'mdc-list-item__primary-text')}
+      {renderText(secondaryText, 'mdc-list-item__secondary-text')}
+    </span>
+  );
 }
 
 ListItemText.propTypes = {
@@ -89,3 +89,5 @@ ListItemText.defaultProps = {
   primaryText: '',
   secondaryText: '',
 };
+
+export default ListItemText;

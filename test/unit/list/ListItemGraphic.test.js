@@ -5,7 +5,7 @@ import {ListItemGraphic} from '../../../packages/list';
 
 suite('ListItemGraphic');
 
-test('classNames adds classes', () => {
+test('className adds classes', () => {
   const wrapper = shallow(<ListItemGraphic graphic={<i />} className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
