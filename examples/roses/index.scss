@@ -1,0 +1,88 @@
+// The MIT License
+//
+// Copyright (c) 2018 Google, Inc.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+// $mdc-theme-primary: #b31839; // uncomment for alternate primary theme color
+$grey: #616161;
+$grey-light: #bdbdbd;
+
+
+// react
+@import '@material/react-chips/index';
+@import '@material/react-top-app-bar/index';
+@import '@material/react-text-field/index';
+@import '@material/react-button/index';
+
+// web
+@import '@material/typography/mdc-typography';
+@import '@material/theme/mdc-theme';
+
+// mixins
+@import '@material/top-app-bar/mixins';
+@import '@material/chips/mixins';
+@import '@material/chips/variables';
+@import '@material/shape/mixins';
+
+body {
+  margin: 0;
+}
+
+.message__subheader {
+  color: $grey;
+}
+
+.feedback-page {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.feedback-page__content {
+  max-width: 360px;
+  padding: 16px;
+}
+
+.feedback-logo {
+  width: 30px;
+  height: 30px;
+}
+
+.mdc-chip {
+  // TODO update line to use mixin when
+  // @include mdc-chip-shape-radius(10px);
+  @include mdc-shape-radius(mdc-shape-resolve-percentage-radius($mdc-chip-height-default, 4px));
+  @include mdc-chip-selected-ink-color(primary);
+  @include mdc-chip-fill-color(white);
+  @include mdc-chip-outline(1px, solid, $grey-light);
+}
+
+.mdc-chip--selected {
+  @include mdc-chip-outline-color(primary);
+}
+
+.feedback-text-field {
+  width: 100%;
+}
+
+.feedback-text-field__container {
+  margin: 48px 0;
+  padding: 0 24px;
+}
