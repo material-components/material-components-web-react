@@ -95,6 +95,7 @@ export default class ListItem extends Component {
 ListItem.propTypes = {
   id: PropTypes.string,
   childrenTabIndex: PropTypes.number,
+  children: PropTypes.node,
   className: PropTypes.string,
   init: PropTypes.func,
 };

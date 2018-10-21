@@ -26,11 +26,11 @@ import classnames from 'classnames';
 
 const ListItemMeta = (props) => {
   const {
+    tabIndex, // eslint-disable-line no-unused-vars
     meta,
-    tabIndex,
     className,
     tabbableOnListItemFocus,
-    ...otherProps,
+    ...otherProps
   } = props;
 
   let metaElement = null;
@@ -47,7 +47,7 @@ const ListItemMeta = (props) => {
   };
 
   return React.cloneElement(metaElement, metaProps);
-}
+};
 
 ListItemMeta.propTypes = {
   tabbableOnListItemFocus: PropTypes.bool,
@@ -55,7 +55,7 @@ ListItemMeta.propTypes = {
   tabIndex: PropTypes.number,
   meta: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.element
+    PropTypes.element,
   ]),
 };
 

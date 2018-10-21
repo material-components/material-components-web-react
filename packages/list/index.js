@@ -237,7 +237,7 @@ export default class List extends Component {
 
   render() {
     const {
-      /* eslint-disable */
+      /* eslint-disable no-unused-vars */
       className,
       onKeyDown,
       onClick,
@@ -250,7 +250,7 @@ export default class List extends Component {
       singleSelection,
       wrapFocus,
       selectedIndex,
-      /* eslint-enable */
+      /* eslint-enable no-unused-vars */
       children,
       ...otherProps
     } = this.props;
@@ -272,12 +272,14 @@ export default class List extends Component {
   renderListItem = (listItem, index) => {
     const {
       id,
-      className, // eslint-disable-line
-      children,
+      /* eslint-disable no-unused-vars */
+      className,
       childrenTabIndex,
+      /* eslint-enable no-unused-vars */
+      children,
       ...otherProps
     } = listItem.props;
-    
+
     const idOrIndex = id || index.toString();
     const props = Object.assign({
       id: id,

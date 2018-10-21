@@ -36,7 +36,7 @@ const renderListItem = (primaryText, secondaryText) => {
       <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
     </ListItem>
   );
-}
+};
 
 const ListScreenshotTest = () => {
   return (

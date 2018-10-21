@@ -34,9 +34,9 @@ test('renders element if meta is an element', () => {
   const wrapper = shallow(<ListItemMeta meta={<button />} />);
   assert.equal(wrapper.find('.mdc-list-item__meta').type(), 'button');
 });
-  
+
 test('has tabIndex of props.tabIndex if specified and tabbableOnListItemFocus is true', () => {
-const wrapper = shallow(<ListItemMeta meta={<button />} tabIndex={3} tabbableOnListItemFocus/>);
+  const wrapper = shallow(<ListItemMeta meta={<button />} tabIndex={3} tabbableOnListItemFocus/>);
   assert.equal(wrapper.find('.mdc-list-item__meta').props().tabIndex, 3);
 });
 

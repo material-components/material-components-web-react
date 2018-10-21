@@ -26,11 +26,11 @@ import classnames from 'classnames';
 
 const ListItemGraphic = (props) => {
   const {
+    tabIndex, // eslint-disable-line no-unused-vars
     graphic,
-    tabIndex,
     tabbableOnListItemFocus,
     className,
-    ...otherProps,
+    ...otherProps
   } = props;
 
   const graphicProps = {
@@ -40,7 +40,7 @@ const ListItemGraphic = (props) => {
   };
 
   return React.cloneElement(graphic, graphicProps);
-}
+};
 
 ListItemGraphic.propTypes = {
   tabbableOnListItemFocus: PropTypes.bool,

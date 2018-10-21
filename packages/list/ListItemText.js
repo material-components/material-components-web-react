@@ -31,7 +31,7 @@ const ListItemText = (props) => {
     tabbableOnListItemFocus,
     tabIndex,
     className,
-    ...otherProps,
+    ...otherProps
   } = props;
 
   const renderText = (text, className) => {
@@ -47,10 +47,10 @@ const ListItemText = (props) => {
     }
     const {className: textClassName, ...otherProps} = text.props;
     const props = Object.assign({
-      className: classnames(className, textClassName)
+      className: classnames(className, textClassName),
     }, ...otherProps);
     return React.cloneElement(text, props);
-  }
+  };
 
   if (!secondaryText) {
     return renderText(primaryText, classnames('mdc-list-item__text', className));
@@ -66,7 +66,7 @@ const ListItemText = (props) => {
       {renderText(secondaryText, 'mdc-list-item__secondary-text')}
     </span>
   );
-}
+};
 
 ListItemText.propTypes = {
   tabbableOnListItemFocus: PropTypes.bool,
@@ -74,11 +74,11 @@ ListItemText.propTypes = {
   className: PropTypes.string,
   primaryText: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.element
+    PropTypes.element,
   ]),
   secondaryText: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.element
+    PropTypes.element,
   ]),
 };
 
