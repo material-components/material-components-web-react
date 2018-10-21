@@ -32,9 +32,15 @@ class MyApp extends Component {
   render() {
     return (
       <List>
-        <ListItem primaryText='Photos' />
-        <ListItem primaryText='Recipes' />
-        <ListItem primaryText='Work' />
+        <ListItem>
+          <ListItemText primaryText='Photos'/>
+        </ListItem>
+        <ListItem>
+          <ListItemText primaryText='Recipes'/>
+        </ListItem>
+        <ListItem>
+          <ListItemText primaryText='Work'/>
+        </ListItem>
       </List>
     );
   }
@@ -52,15 +58,45 @@ class MyApp extends React.Component {
   render() {
     return (
       <List twoLine>
-        <ListItem 
-          primaryText='Photos'
-          secondaryText='Jan 9, 2018' />
-        <ListItem 
-          primaryText='Recipes'
-          secondaryText='Jan 17, 2018' />
-        <ListItem 
-          primaryText='Work'
-          secondaryText='Jan 28, 2018' />
+        <ListItem>
+          <ListItemText
+            primaryText='Photos'
+            secondaryText='Jan 9, 2018' />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primaryText='Recipes'
+            secondaryText='Jan 17, 2018' />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primaryText='Work'
+            secondaryText='Jan 28, 2018' />
+        </ListItem>
+      </List>
+    );
+  }
+}
+```
+
+### List item supporting visuals and metadata
+
+You may add a leading visuals or trailing metadata to a list item using `ListItemGraphic` before or `ListItemMeta` after `ListItemText`.
+
+```js
+import React, {Component} from 'react';
+import List, {ListItem} from '@material/react-list';
+
+class MyApp extends Component {
+  render() {
+    return (
+      <List>
+        <ListItem>
+          <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+          <ListItemText primaryText='Photos' />
+          <ListItemMeta meta='info' />
+        </ListItem>
+        ...
       </List>
     );
   }
@@ -83,9 +119,15 @@ class MyApp extends React.Component {
         singleSelection
         selectedIndex={this.state.selectedIndex}
       >
-        <ListItem primaryText='Photos' />
-        <ListItem primaryText='Recipes' />
-        <ListItem primaryText='Work' />
+        <ListItem>
+          <ListItemText primaryText='Photos'/>
+        </ListItem>
+        <ListItem>
+          <ListItemText primaryText='Recipes'/>
+        </ListItem>
+        <ListItem>
+          <ListItemText primaryText='Work'/>
+        </ListItem>
       </List>
     );
   }
@@ -112,21 +154,45 @@ onKeyDown | Function(evt: Event) => void | Callback for handling a keydown event
 onFocus | Function(evt: Event) => void | Callback for handling a focus event
 onBlur | Function(evt: Event) => void | Callback for handling a blur event
 
-### List Item
+### ListItem
 
 Prop Name | Type | Description
 --- | --- | ---
+id | String | Unique identifier for the list item. Defaults to the index
 className | String | Classes to be applied to the list item element
 childrenTabIndex | Number | Tab index to be applied to all children of the list item
+init | Function() => void | Callback to initialize the list item on mount
+
+### ListItemText
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the list item text element
+tabIndex | Number | Tab index of the list item text
+tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item text. If false, the tab index will always be -1
 primaryText | String | Primary text for the list item
 secondaryText | String | Secondary text for the list item
-graphic | Element | The first tile in the row (in LTR languages, the first column of the list item). Typically an icon or image
-meta | Element or String | The last tile in the row (in LTR languages, the last column of the list item). Typically small text, icon, or image
-updateClassList | Function(listItem: Node) => void | Callback for updating the list with the list item's classes
+
+### ListItemGraphic
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the list item graphic element
+tabIndex | Number | Tab index of the list item graphic
+tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item graphic. If false, the tab index will always be -1
+graphic | Element | The graphic element to be displayed in front of list item text
+
+### ListItemGraphic
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the list item meta element
+tabIndex | Number | Tab index of the list item meta
+tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item meta. If false, the tab index will always be -1
+meta | Element or String | The meta element or string to be displayed behind list item text
 
 ## Sass Mixins
 
-Sass mixins may be available to customize various aspects of the Components. Please refer to the
-MDC Web repository for more information on what mixins are available, and how to use them.
+Sass mixins may be available to customize various aspects of the Components. Please refer to the MDC Web repository for more information on what mixins are available, and how to use them.
 
 [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-list/README.md#sass-mixins)
