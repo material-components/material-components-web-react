@@ -147,13 +147,109 @@ class MyApp extends Component {
 }
 ```
 
+### Accessibility
+
+#### Focus Management
+
+It is recommended to shift focus to the first focusable element in the main content when drawer is closed or one of the destination items is activated. (By default, MDC React Drawer restores focus to the menu button which opened it.)
+
+#### Dismissible Drawer
+
+Restore focus to the first focusable element when a list item is activated or after the drawer closes. Do not close the drawer upon item activation, since it should be up to the user when to show/hide the dismissible drawer.
+
+```js
+import React, {Component} from 'react';
+import Drawer from '@material/react-drawer';
+import Button from '@material/react-button';
+
+class Drawer extends Component {
+  mainContentEl = React.createRef();
+
+  focusFistFocusableItem = () => {
+    this.mainContentEl.current.querySelector('input, button').focus();
+  }
+
+  onDrawerClose = () => {
+    this.setState({open: false});
+    this.focusFistFocusableItem();
+  }
+
+  render() {
+
+    return (
+      <div>
+        <Drawer
+          modal
+          open={this.state.open}
+          onClose={this.drawerOnClose}
+        >
+          <List>
+            <ListItem onClick={this.focusFistFocusableItem}>
+              <ListItemText primaryText='list item' />
+            </ListItem>
+          </List>
+        </Drawer>
+        <div ref={this.mainContentEl}>
+          <Button raised>Click me!</Button>
+        </div>
+      </div>
+    );
+  }
+}
+```
+
+#### Modal Drawer
+
+Close the drawer when an item is activated in order to dismiss the modal as soon as the user performs an action. Only restore focus to the first focusable element in the main content after the drawer is closed, since it's being closed automatically.
+
+```js
+import React, {Component} from 'react';
+import Drawer from '@material/react-drawer';
+import Button from '@material/react-button';
+
+class Drawer extends Component {
+  mainContentEl = React.createRef();
+
+  onDrawerClose = () => {
+    this.setState({open: false});
+    this.mainContentEl.current.querySelector('input, button').focus();
+  }
+
+  onListItemClick = () => {
+    this.setState({open: false});
+  }
+
+  render() {
+
+    return (
+      <div>
+        <Drawer
+          modal
+          open={this.state.open}
+          onClose={this.drawerOnClose}
+        >
+          <List>
+            <ListItem onClick={this.onListItemClick}>
+              <ListItemText primaryText='list item' />
+            </ListItem>
+          </List>
+        </Drawer>
+        <div ref={this.mainContentEl}>
+          <Button raised>Click me!</Button>
+        </div>
+      </div>
+    );
+  }
+}
+```
+
 ## Props
 
-### Chip Set
+### Drawer
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the chip set element.
+className | String | Classes to be applied to the drawer element.
 onOpen | Function() => void | Callback after the drawer has opened.
 onClose | Function() => void | Callback after the drawer has closed.
 modal | Boolean | Indicates that the drawer is of type modal.
