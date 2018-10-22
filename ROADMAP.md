@@ -21,7 +21,7 @@ We release a new version of MDC React every 2 weeks. We try and keep MDC React w
 
 ### 0.7.x - November 2018
 - Depend on MDC Web 0.41.x
-- New menu surface
+- New menu
 - New dialog
 - New radio
 
