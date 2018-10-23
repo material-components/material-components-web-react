@@ -137,6 +137,14 @@ export default class TopAppBar extends React.Component {
 
   render() {
     const {
+      actionItems,
+      className,
+      fixed,
+      title,
+      navigationIcon,
+      short,
+      shortCollapsed,
+      prominent,
       ...otherProps
     } = this.props;
 
