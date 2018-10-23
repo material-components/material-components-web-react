@@ -50,6 +50,7 @@ export default class TopAppBar extends React.Component {
       prominent,
       short,
       shortCollapsed,
+      ...otherProps
     } = this.props;
 
     return classnames('mdc-top-app-bar', Array.from(classList), className, {
@@ -139,7 +140,9 @@ export default class TopAppBar extends React.Component {
     return (
       <header className={this.classes}
         style={this.getMergedStyles()}
-        ref={this.topAppBarElement}>
+        ref={this.topAppBarElement}
+        {...otherProps}
+      >
         <div className='mdc-top-app-bar__row'>
           {this.renderTitleAndNavigationSection()}
           {this.renderActionItems()}
