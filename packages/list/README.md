@@ -161,7 +161,7 @@ Prop Name | Type | Description
 id | String | Unique identifier for the list item. Defaults to the index
 className | String | Classes to be applied to the list item element
 childrenTabIndex | Number | Tab index to be applied to all children of the list item
-init | Function() => void | Callback to initialize the list item on mount
+init | Function() => void | Callback executed when list item mounts
 
 ### ListItemText
 
