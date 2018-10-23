@@ -10,6 +10,7 @@ const urls = [
   'fab',
   'floating-label',
   'icon-button',
+  'layout-grid',
   'material-icon',
   'menu-surface',
   'notched-outline',
