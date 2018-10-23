@@ -14,7 +14,7 @@ const textFields = (variant) => {
       return rtlMap.map((isRtl) => {
         return requiredMap.map((isRequired) => {
           return disabledMap.map((disabled) => {
-            return helperTextMap.map((helperText, helperTextIndex) => {
+            return helperTextMap.map((helperText) => {
               const isValidationTextField = isValidationMsg(helperText);
               const value = !isValidationTextField ? {value: null} : {value: ''};
               const iconKey = Object.keys(icon)[0] || '';
