@@ -26,22 +26,29 @@ import '@material/react-material-icon/dist/material-icon.css';
 
 ### Javascript Instantiation
 ```js
-import TopAppBar from '@material/react-top-app-bar';
+import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
 import MaterialIcon from '@material/react-material-icon';
 
 const MyComponent = () => {
   return (
-    <TopAppBar
-      title='Miami, FL'
-      navigationIcon={<MaterialIcon
-        icon='menu'
-        onClick={() => console.log('click')}
-      />}
-      actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
-    />
+    <div>
+      <TopAppBar
+        title='Miami, FL'
+        navigationIcon={<MaterialIcon
+          icon='menu'
+          onClick={() => console.log('click')}
+        />}
+        actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
+      />
+      <TopAppBarFixedAdjust>
+        My exciting content!
+      </TopAppBarFixedAdjust>
+    </div>
   );
 }
 ```
+
+Use the `<TopAppBarFixedAdjust />` component to give your content top-padding, so it isn't hidden on page render.
 
 ## Props
 
