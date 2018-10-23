@@ -23,6 +23,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import TopAppBarFixedAdjust from './FixedAdjust';
 import {
   MDCFixedTopAppBarFoundation,
   MDCTopAppBarFoundation,
@@ -221,3 +222,5 @@ TopAppBar.defaultProps = {
   style: {},
   title: '',
 };
+
+export {TopAppBarFixedAdjust};
