@@ -92,14 +92,9 @@ test('#adapter.hasClass returns true if class is contained in classes', () => {
 });
 
 test('#adapter.elementHasClass should return true when element has class', () => {
-  // const target = document.createElement('div');
-  // target.classList.add('test-class-name');
-  // assert.isTrue(wrapper.instance().adapter.elementHasClass(target, 'test-class-name'));
-
-  const wrapper = mount(<Drawer modal><div className='test-class'></div></Drawer>);
-  const element = wrapper.childAt(0).childAt(0).getDOMNode();
-  const hasClass = wrapper.instance().foundation_.adapter_.elementHasClass(element, 'test-class');
-  assert.isTrue(hasClass);
+  const target = document.createElement('div');
+  target.classList.add('test-class-name');
+  assert.isTrue(wrapper.instance().adapter.elementHasClass(target, 'test-class-name'));
 });
 
 test('#adapter.elementHasClass should return false when element does not have class', () => {
@@ -160,17 +155,17 @@ test('#adapter.notifyOpen calls props.onOpen', () => {
   td.verify(onOpen(), {times: 1});
 });
 
-test('#adapter.trapFocus sets state.activeTrap to true', () => {
+test('#adapter.trapFocus sets state.activeFocusTrap to true', () => {
   const wrapper = shallow(<Drawer modal />);
   wrapper.instance().foundation_.adapter_.trapFocus();
-  assert.isTrue(wrapper.state().activeTrap);
+  assert.isTrue(wrapper.state().activeFocusTrap);
 });
 
-test('#adapter.releaseFocus sets state.activeTrap to false', () => {
+test('#adapter.releaseFocus sets state.activeFocusTrap to false', () => {
   const wrapper = shallow(<Drawer modal />);
-  wrapper.setState({activeTrap: false});
+  wrapper.setState({activeFocusTrap: false});
   wrapper.instance().foundation_.adapter_.releaseFocus();
-  assert.isFalse(wrapper.state().activeTrap);
+  assert.isFalse(wrapper.state().activeFocusTrap);
 });
 
 test('event keydown triggers props.onKeyDown', () => {
@@ -205,15 +200,15 @@ test('event transitionend triggers foundation.handleTransitionEnd', () => {
   td.verify(wrapper.instance().foundation_.handleTransitionEnd(evt), {times: 1});
 });
 
-test('renders child when state.activeTrap is false', () => {
+test('renders child when state.activeFocusTrap is false', () => {
   const wrapper = shallow(<Drawer><span>meow</span></Drawer>);
   const text = wrapper.childAt(0).childAt(0).text();
   assert.equal(text, 'meow');
 });
 
-test('renders FocusTrap with children when state.activeTrap is true', () => {
+test('renders FocusTrap with children when state.activeFocusTrap is true', () => {
   const wrapper = shallow(<Drawer><span>meow</span></Drawer>);
-  wrapper.setState({activeTrap: true});
+  wrapper.setState({activeFocusTrap: true});
   assert.equal(wrapper.childAt(0).childAt(0).name(), 'FocusTrap');
   assert.equal(wrapper.childAt(0).childAt(0).childAt(0).text(), 'meow');
 });

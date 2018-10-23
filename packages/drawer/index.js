@@ -116,8 +116,8 @@ class Drawer extends React.Component {
       },
       notifyClose: this.props.onClose,
       notifyOpen: this.props.onOpen,
-      trapFocus: () => this.setState({activeTrap: true}),
-      releaseFocus: () => this.setState({activeTrap: false}),
+      trapFocus: () => this.setState({activeFocusTrap: true}),
+      releaseFocus: () => this.setState({activeFocusTrap: false}),
     };
   }
 
@@ -134,7 +134,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const {activeTrap} = this.state;
+    const {activeFocusTrap} = this.state;
     const {
       /* eslint-disable no-unused-vars */
       onClose,
@@ -165,7 +165,7 @@ class Drawer extends React.Component {
           onTransitionEnd={(evt) => this.handleTransitionEnd(evt)}
           {...otherProps}
         >
-          {activeTrap ? (
+          {activeFocusTrap ? (
             <FocusTrap focusTrapOptions={focusTrapOptions}>
               {children}
             </FocusTrap>
