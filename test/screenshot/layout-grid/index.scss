@@ -1,0 +1,22 @@
+.layout-grid-sample {
+  &__cell {
+    &__one {
+      background-color: #eee;
+    }
+    &__two {
+      background-color: #ddd;
+    }
+    &__three {
+      background-color: #ccc;
+    }
+    &__four {
+      background-color: #ccc;
+    }
+    &__five {
+      background-color: #bbb;
+    }
+    &__six {
+      background-color: #aaa;
+    }
+  }
+}
