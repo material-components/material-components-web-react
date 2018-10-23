@@ -136,6 +136,10 @@ export default class TopAppBar extends React.Component {
   }
 
   render() {
+    const {
+      ...otherProps
+    } = this.props;
+
     return (
       <header className={this.classes}
         style={this.getMergedStyles()}
