@@ -15,11 +15,13 @@ npm install @material/react-tab-bar
 with Sass:
 ```scss
 import '@material/react-tab-bar/index.scss';
+import '@material/react-tab-scroller/index.scss';
 ```
 
 with CSS:
 ```css
 import '@material/react-tab-bar/dist/tab-bar.css';
+import '@material/react-tab-scroller/dist/tab-scroller.css';
 ```
 
 ### Javascript Instantiation
@@ -35,7 +37,7 @@ class MyApp extends React.Component {
   render() {
     return (
       <div>
-        <TabBar 
+        <TabBar
           activeIndex={this.state.activeIndex}
           handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
         >
