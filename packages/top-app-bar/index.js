@@ -135,19 +135,25 @@ export default class TopAppBar extends React.Component {
     };
   }
 
-  render() {
-    const {
-      actionItems,
-      className,
-      fixed,
-      title,
-      navigationIcon,
-      short,
-      shortCollapsed,
-      prominent,
-      ...otherProps
-    } = this.props;
+    get otherProps() {
+      const {
+        /* eslint-disable no-unused-vars */
+        actionItems,
+        className,
+        fixed,
+        title,
+        navigationIcon,
+        short,
+        shortCollapsed,
+        prominent,
+        /* eslint-enable no-unused-vars */
+        ...otherProps
+      } = this.props;
 
+      return otherProps;
+    }
+
+  render() {
     return (
       <header className={this.classes}
         style={this.getMergedStyles()}
