@@ -1,4 +1,5 @@
 import topAppBarVariants from './top-app-bar/variants';
+import drawerVariants from './drawer/variants';
 
 const urls = [
   'button',
@@ -28,4 +29,7 @@ topAppBarVariants.forEach((variant) => {
   urls.push(`top-app-bar/${variant}`);
 });
 
+drawerVariants.forEach((variant) => {
+  urls.push(`drawer/${variant}`);
+});
 export default urls;
