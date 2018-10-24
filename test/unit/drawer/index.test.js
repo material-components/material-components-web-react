@@ -92,6 +92,7 @@ test('#adapter.hasClass returns true if class is contained in classes', () => {
 });
 
 test('#adapter.elementHasClass should return true when element has class', () => {
+  const wrapper = mount(<Drawer modal />);
   const target = document.createElement('div');
   target.classList.add('test-class-name');
   assert.isTrue(wrapper.instance().adapter.elementHasClass(target, 'test-class-name'));

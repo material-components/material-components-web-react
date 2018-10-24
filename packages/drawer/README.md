@@ -215,9 +215,7 @@ class Drawer extends Component {
     this.mainContentEl.current.querySelector('input, button').focus();
   }
 
-  onListItemClick = () => {
-    this.setState({open: false});
-  }
+  onListItemClick = () => this.onDrawerClose();
 
   render() {
 
