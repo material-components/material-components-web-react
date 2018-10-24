@@ -1,4 +1,5 @@
 import topAppBarVariants from './top-app-bar/variants';
+import drawerVariants from './drawer/variants';
 
 const urls = [
   'button',
@@ -6,9 +7,11 @@ const urls = [
   'checkbox',
   'chips',
   'line-ripple',
+  'list',
   'fab',
   'floating-label',
   'icon-button',
+  'layout-grid',
   'material-icon',
   'menu-surface',
   'notched-outline',
@@ -26,4 +29,7 @@ topAppBarVariants.forEach((variant) => {
   urls.push(`top-app-bar/${variant}`);
 });
 
+drawerVariants.forEach((variant) => {
+  urls.push(`drawer/${variant}`);
+});
 export default urls;

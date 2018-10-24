@@ -1,0 +1,26 @@
+{
+  "name": "@material/react-list",
+  "version": "0.0.0",
+  "description": "Material Components React List",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "list"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-react.git"
+  },
+  "dependencies": {
+    "@material/list": "^0.40.0",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

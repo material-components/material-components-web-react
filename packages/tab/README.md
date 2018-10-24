@@ -29,7 +29,7 @@ import '@material/react-tab/dist/tab.css';
 ```js
 import React from 'react';
 import Tab from '@material/react-tab';
-import MaterialIcon from '@material/material-icon';
+import MaterialIcon from '@material/react-material-icon';
 
 class MyApp extends React.Component {
   state = {active: false};
@@ -52,7 +52,7 @@ Possibly you don't want to use the default underline indicator, but instead woul
 ```js
 import React from 'react';
 import Tab from '@material/react-tab';
-import MaterialIcon from '@material/material-icon';
+import MaterialIcon from '@material/react-material-icon';
 
 class MyApp extends React.Component {
   state = {active: false};
