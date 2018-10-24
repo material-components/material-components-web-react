@@ -1,6 +1,6 @@
 {
   "name": "@material/react-floating-label",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Material Components React Floating Label",
   "license": "MIT",
   "main": "dist/index.js",

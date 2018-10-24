@@ -1,23 +1,30 @@
-<a name="0.5.3"></a>
-# [0.5.3](https://github.com/material-components/material-components-web-react/compare/v0.5.2...v0.5.3) (2018-10-04)
+<a name=""></a>
+# [](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v) (2018-10-24)
 
 
 ### Bug Fixes
 
-* **chips:** added npmignore ([#317](https://github.com/material-components/material-components-web-react/issues/317)) ([442179d](https://github.com/material-components/material-components-web-react/commit/442179d))
-* **icon-button:** update main property ([#319](https://github.com/material-components/material-components-web-react/issues/319)) ([9e83c7d](https://github.com/material-components/material-components-web-react/commit/9e83c7d))
+* **chips:** added npmignore ([#317](https://github.com/material-components/material-components-web-react/issues/317)) ([ac99ac5](https://github.com/material-components/material-components-web-react/commit/ac99ac5))
+* **chips:** replace relative path with npm package ([#297](https://github.com/material-components/material-components-web-react/issues/297)) ([93ac25e](https://github.com/material-components/material-components-web-react/commit/93ac25e))
+* **icon-button:** add main field to package.json ([#300](https://github.com/material-components/material-components-web-react/issues/300)) ([88d5e4e](https://github.com/material-components/material-components-web-react/commit/88d5e4e))
+* **icon-button:** add MIT license to files ([#313](https://github.com/material-components/material-components-web-react/issues/313)) ([97ecb3a](https://github.com/material-components/material-components-web-react/commit/97ecb3a))
+* **icon-button:** update main property ([#319](https://github.com/material-components/material-components-web-react/issues/319)) ([e79995d](https://github.com/material-components/material-components-web-react/commit/e79995d))
+* **infrastructure:** add more time to screenshot initial wait ([#314](https://github.com/material-components/material-components-web-react/issues/314)) ([375206e](https://github.com/material-components/material-components-web-react/commit/375206e))
+* **infrastructure:** fix travis badge on readme ([#331](https://github.com/material-components/material-components-web-react/issues/331)) ([e637782](https://github.com/material-components/material-components-web-react/commit/e637782))
+* **infrastructure:** speed up prerelease script ([#288](https://github.com/material-components/material-components-web-react/issues/288)) ([b77819f](https://github.com/material-components/material-components-web-react/commit/b77819f))
+* **menu-surface:** fix menu surface unit test typo ([#315](https://github.com/material-components/material-components-web-react/issues/315)) ([8b60622](https://github.com/material-components/material-components-web-react/commit/8b60622))
+* **text-field:** Add support for <textarea> ([#118](https://github.com/material-components/material-components-web-react/issues/118)) ([#266](https://github.com/material-components/material-components-web-react/issues/266)) ([d9cff89](https://github.com/material-components/material-components-web-react/commit/d9cff89))
+* **text-field:** floating label width calculation when notched ([#347](https://github.com/material-components/material-components-web-react/issues/347)) ([377f250](https://github.com/material-components/material-components-web-react/commit/377f250))
+* **top-app-bar:** add fixed adjust component ([#349](https://github.com/material-components/material-components-web-react/issues/349)) ([f1d4be0](https://github.com/material-components/material-components-web-react/commit/f1d4be0))
 
 
+### Features
 
-<a name="0.5.2"></a>
-## [0.5.2](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v0.5.2) (2018-10-01)
-
-
-### Bug Fixes
-
-* **chips:** replace relative path with npm package ([#297](https://github.com/material-components/material-components-web-react/issues/297)) ([96b62f6](https://github.com/material-components/material-components-web-react/commit/96b62f6))
-* **icon-button:** add main field to package.json ([#300](https://github.com/material-components/material-components-web-react/issues/300)) ([ead781a](https://github.com/material-components/material-components-web-react/commit/ead781a))
-* **infrastructure:** speed up prerelease script ([#288](https://github.com/material-components/material-components-web-react/issues/288)) ([d8674d9](https://github.com/material-components/material-components-web-react/commit/d8674d9))
+* **checkbox:** Add new component ([#296](https://github.com/material-components/material-components-web-react/issues/296)) ([fbe7999](https://github.com/material-components/material-components-web-react/commit/fbe7999))
+* Add roses example ([#312](https://github.com/material-components/material-components-web-react/issues/312)) ([04bbd18](https://github.com/material-components/material-components-web-react/commit/04bbd18))
+* **drawer:** add new component ([#327](https://github.com/material-components/material-components-web-react/issues/327)) ([d386d5e](https://github.com/material-components/material-components-web-react/commit/d386d5e))
+* **list:** Add component ([#339](https://github.com/material-components/material-components-web-react/issues/339)) ([5ff3ecc](https://github.com/material-components/material-components-web-react/commit/5ff3ecc))
+* **menu-surface:** add component ([#295](https://github.com/material-components/material-components-web-react/issues/295)) ([034abd0](https://github.com/material-components/material-components-web-react/commit/034abd0))
 
 
 
@@ -209,3 +216,6 @@
 * **fab:** Update for comments ([676ae32](https://github.com/material-components/material-components-web-react/commit/676ae32))
 * **fab:** Update for lint ([3748f31](https://github.com/material-components/material-components-web-react/commit/3748f31))
 * **fab:** Update package name ([02b7140](https://github.com/material-components/material-components-web-react/commit/02b7140))
+
+
+
