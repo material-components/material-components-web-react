@@ -1,6 +1,7 @@
 import React from 'react';
 import TopAppBar from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
+import MainTopAppBarContent from './mainContent';
 
 const TopAppBarShortScreenshotTest = () => {
   return (
@@ -14,6 +15,7 @@ const TopAppBarShortScreenshotTest = () => {
         />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
+      <MainTopAppBarContent />
     </div>
   );
 };
