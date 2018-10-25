@@ -28,7 +28,7 @@ import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
 export default class Input extends React.Component {
   inputElement = React.createRef();
-  state = {disableProgramaticSetValue: false};
+  state = {wasUserTriggeredChange: false};
 
   componentDidMount() {
     if (this.props.id) {
@@ -74,10 +74,10 @@ export default class Input extends React.Component {
       handleValueChange(value, () => {
         // only call #foundation.setValue on programatic changes;
         // not changes by the user.
-        if (!this.state.disableProgramaticSetValue) {
-          foundation.setValue(value);
+        if (this.state.wasUserTriggeredChange) {
+          this.setState({wasUserTriggeredChange: false});
         } else {
-          this.setState({disableProgramaticSetValue: false});
+          foundation.setValue(value);
         }
       });
     }
@@ -123,7 +123,7 @@ export default class Input extends React.Component {
     // onInput are the same event
     // https://stackoverflow.com/questions/38256332/in-react-whats-the-difference-between-onchange-and-oninput
     foundation.autoCompleteFocus();
-    this.setState({disableProgramaticSetValue: true});
+    this.setState({wasUserTriggeredChange: true});
     onChange(e);
   }
 
