@@ -208,7 +208,9 @@ TopAppBar.propTypes = {
   short: PropTypes.bool,
   shortCollapsed: PropTypes.bool,
   style: PropTypes.object,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.element,
+  ]),
 };
 
 TopAppBar.defaultProps = {

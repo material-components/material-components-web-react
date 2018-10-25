@@ -358,7 +358,9 @@ TextField.propTypes = {
   'fullWidth': PropTypes.bool,
   'helperText': PropTypes.element,
   'isRtl': PropTypes.bool,
-  'label': PropTypes.string.isRequired,
+  'label': PropTypes.oneOfType([
+    PropTypes.string, PropTypes.element,
+  ]).isRequired,
   'leadingIcon': PropTypes.element,
   'lineRippleClassName': PropTypes.string,
   'notchedOutlineClassName': PropTypes.string,
