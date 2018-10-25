@@ -1,5 +1,20 @@
 <a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v) (2018-10-24)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.6.0...v) (2018-10-25)
+
+
+### Bug Fixes
+
+* **top-app-bar:** add FixedAdjust to npmignore. ([5d3c618](https://github.com/material-components/material-components-web-react/commit/5d3c618))
+
+
+### Features
+
+* **infrastructure:** add verify pkg main to dist script ([#320](https://github.com/material-components/material-components-web-react/issues/320)) ([459c6dd](https://github.com/material-components/material-components-web-react/commit/459c6dd))
+
+
+
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v0.6.0) (2018-10-24)
 
 
 ### Bug Fixes
