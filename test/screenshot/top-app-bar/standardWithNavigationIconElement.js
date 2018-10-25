@@ -2,6 +2,7 @@ import React from 'react';
 import TopAppBar from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
 import withRipple from '../../../packages/ripple';
+import MainTopAppBarContent from './mainContent';
 
 const NavigationIcon = ({
   hasRipple, initRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
@@ -37,6 +38,7 @@ const TopAppBarStandardWithNavigationIconElementScreenshotTest = () => {
         navigationIcon={<NavigationIconWithRipple unbounded />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
+      <MainTopAppBarContent />
     </div>
   );
 };

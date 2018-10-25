@@ -1,6 +1,7 @@
 import React from 'react';
 import TopAppBar from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
+import MainTopAppBarContent from './mainContent';
 
 const TopAppBarShortCollapsedScreenshotTest = () => {
   return (
@@ -12,6 +13,7 @@ const TopAppBarShortCollapsedScreenshotTest = () => {
           onClick={() => console.log('click')}
         />}
       />
+      <MainTopAppBarContent />
     </div>
   );
 };
