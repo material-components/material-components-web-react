@@ -1,6 +1,6 @@
 {
   "name": "@material/react-checkbox",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Material Components React Checkbox",
   "license": "MIT",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@material/checkbox": "^0.40.1",
-    "@material/react-ripple": "^0.6.0",
+    "@material/react-ripple": "^0.6.1",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"
