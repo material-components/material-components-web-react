@@ -4,6 +4,7 @@ import {HashRouter, Route} from 'react-router-dom';
 import App from './App';
 import topAppBarVariants from './top-app-bar/variants';
 import drawerVariants from './drawer/variants';
+import textFieldVariants from './text-field/variants';
 
 import './index.scss';
 
@@ -20,6 +21,13 @@ ReactDOM.render((
       {drawerVariants.map((variant) => {
         const path = `drawer/${variant}`;
         const Component = require(`./drawer/${variant}.js`).default;
+        return (
+          <Route exact key={path} path={`/${path}`} component={Component}/>
+        );
+      })}
+      {textFieldVariants.map((variant) => {
+        const path = `text-field/${variant}`;
+        const Component = require(`./text-field/${variant}.js`).default;
         return (
           <Route exact key={path} path={`/${path}`} component={Component}/>
         );
