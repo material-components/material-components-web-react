@@ -58,6 +58,7 @@
     "@material/card": "^0.40.1",
     "@material/checkbox": "^0.40.1",
     "@material/chips": "^0.40.1",
+    "@material/drawer": "^0.40.1",
     "@material/fab": "^0.40.1",
     "@material/floating-label": "^0.40.1",
     "@material/icon-button": "^0.40.1",
