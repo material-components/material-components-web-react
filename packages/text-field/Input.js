@@ -117,7 +117,12 @@ export default class Input extends React.Component {
   }
 
   isBadInput = () => this.inputElement.current.validity.badInput;
-  isValid = () => this.inputElement.current.validity.valid;
+  isValid = () => {
+    if (typeof this.props.isValid === 'boolean') {
+      return this.props.isValid;
+    }
+    return this.inputElement.current.validity.valid;
+  }
 
   render() {
     const {
@@ -126,6 +131,7 @@ export default class Input extends React.Component {
       /* eslint-disable no-unused-vars */
       className,
       foundation,
+      isValid,
       value,
       handleFocusChange,
       handleValueChange,
@@ -161,6 +167,7 @@ Input.propTypes = {
   className: PropTypes.string,
   inputType: PropTypes.string,
   disabled: PropTypes.bool,
+  isValid: PropTypes.bool,
   foundation: PropTypes.shape({
     activateFocus: PropTypes.func,
     deactivateFocus: PropTypes.func,
@@ -189,6 +196,7 @@ Input.defaultProps = {
   className: '',
   inputType: 'input',
   disabled: false,
+  isValid: null,
   foundation: {
     activateFocus: () => {},
     deactivateFocus: () => {},

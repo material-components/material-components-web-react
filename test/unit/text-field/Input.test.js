@@ -40,6 +40,30 @@ test('#isValid returns false if input is invalid', () => {
   assert.isFalse(isValidInput);
 });
 
+test('#isValid returns true if prop.isValid is set to true', () => {
+  const wrapper = mount(<Input value='m' pattern='[a-z]' isValid />);
+  const isValidInput = wrapper.instance().isValid();
+  assert.isTrue(isValidInput);
+});
+
+test('#isValid returns false if prop.isValid is set to false', () => {
+  const wrapper = mount(<Input value='m' pattern='[a-z]' isValid={false} />);
+  const isValidInput = wrapper.instance().isValid();
+  assert.isFalse(isValidInput);
+});
+
+test('#isValid returns false if prop.isValid is set to false and input is invalid', () => {
+  const wrapper = mount(<Input value='meow' pattern='[a-z]' isValid={false}/>);
+  const isValidInput = wrapper.instance().isValid();
+  assert.isFalse(isValidInput);
+});
+
+test('#isValid returns true if prop.isValid is set to true and input is invalid', () => {
+  const wrapper = mount(<Input value='meow' pattern='[a-z]' isValid/>);
+  const isValidInput = wrapper.instance().isValid();
+  assert.isTrue(isValidInput);
+});
+
 test('#componentDidMount should call props.handleValueChange', () => {
   const handleValueChange = td.func();
   shallow(<Input handleValueChange={handleValueChange} value='woof'/>);
