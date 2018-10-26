@@ -17,3 +17,12 @@ test('renders a different tag', () => {
   const wrapper = shallow(<Subtitle1 tag="p">Text</Subtitle1>, {disableLifecycleMethods: true});
   assert.equal(wrapper.type(), 'p');
 });
+
+test('keeps custom props', () => {
+  const wrapper = shallow(
+    <Subtitle1 propOne={true} propTwo='test-prop'>Children</Subtitle1>,
+    {disableLifecycleMethods: true},
+  );
+  assert.isTrue(wrapper.props().propOne);
+  assert.equal(wrapper.props().propTwo, 'test-prop');
+});
