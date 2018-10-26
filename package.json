@@ -46,7 +46,8 @@
           "tab-scroller",
           "infrastructure",
           "tab-indicator",
-          "text-field"
+          "text-field",
+          "typography"
         ],
         "validate": true
       }
