@@ -1,7 +1,7 @@
 {
   "name": "@material/react-typography",
   "version": "0.0.0",
-  "description": "Material Components React Layout Grid",
+  "description": "Material Components React Typography",
   "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
