@@ -64,7 +64,7 @@ export default class Input extends React.Component {
     // this should be in the componentDidMount, but foundation is not created
     // at that time.
     // Will fix this in
-    // https://github.com/material-components/material-components-web-react/pull/350/files
+    // https://github.com/material-components/material-components-web-react/pull/353/files
     if (value && foundation !== prevProps.foundation) {
       handleValueChange(value, () => foundation.setValue(value));
       return;
