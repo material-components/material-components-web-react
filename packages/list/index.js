@@ -30,7 +30,6 @@ import ListItem from './ListItem';
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
 import ListItemMeta from './ListItemMeta';
-import ListDivider from './ListDivider';
 import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
 
@@ -267,9 +266,17 @@ export default class List extends Component {
         onBlur={this.onBlur}
         {...otherProps}
       >
-        {React.Children.map(children, this.renderListItem)}
+        {React.Children.map(children, this.renderChild)}
       </ul>
     );
+  }
+
+  renderChild = (child, index) => {
+    if (child.type === ListItem) {
+      return this.renderListItem(child, index);
+    } else {
+      return child;
+    }
   }
 
   renderListItem = (listItem, index) => {
@@ -297,6 +304,16 @@ export default class List extends Component {
     },
     this.state.listItemAttributes[idOrIndex]);
 
+    const {dividers} = this.props;
+    if (dividers.indexOf(index) > -1) {
+      return (
+        <React.Fragment>
+          <li role='separator' className='mdc-list-divider' />
+          {React.cloneElement(listItem, props, children)}
+        </React.Fragment>
+      )
+    } 
+
     return React.cloneElement(listItem, props, children);
   }
 }
@@ -314,6 +331,7 @@ List.propTypes = {
   wrapFocus: PropTypes.bool,
   selectedIndex: PropTypes.number,
   'aria-orientation': PropTypes.string,
+  dividers: PropTypes.array,
   onKeyDown: PropTypes.func,
   onClick: PropTypes.func,
   onFocus: PropTypes.func,
@@ -329,6 +347,7 @@ List.defaultProps = {
   singleSelection: false,
   wrapFocus: true,
   'aria-orientation': VERTICAL,
+  dividers: [],
   onKeyDown: () => {},
   onClick: () => {},
   onFocus: () => {},
@@ -337,4 +356,4 @@ List.defaultProps = {
 
 /* eslint-enable quote-props */
 
-export {ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListDivider, ListGroup, ListGroupSubheader};
+export {ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListGroup, ListGroupSubheader};
