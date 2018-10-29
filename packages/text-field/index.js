@@ -39,7 +39,7 @@ class TextField extends React.Component {
   constructor(props) {
     super(props);
     this.floatingLabelElement = React.createRef();
-    this.inputElement = React.createRef();
+    this.inputElement_ = React.createRef();
 
     this.state = {
       // root state
@@ -74,12 +74,6 @@ class TextField extends React.Component {
     };
     this.foundation_ = new MDCTextFieldFoundation(this.adapter, foundationMap);
     this.foundation_.init();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.value !== prevState.value) {
-      this.foundation_.setValue(this.state.value);
-    }
   }
 
   componentWillUnmount() {
@@ -167,9 +161,9 @@ class TextField extends React.Component {
       getNativeInput: () => {
         let badInput;
         let valid;
-        if (this.inputElement && this.inputElement.current) {
-          badInput = this.inputElement.current.isBadInput();
-          valid = this.inputElement.current.isValid();
+        if (this.inputElement_ && this.inputElement_.current) {
+          badInput = this.inputElement_.current.isBadInput();
+          valid = this.inputElement_.current.isValid();
         }
         const input = {
           validity: {badInput, valid},
@@ -231,10 +225,10 @@ class TextField extends React.Component {
     return Object.assign({}, props, {
       foundation: this.foundation_,
       handleFocusChange: (isFocused) => this.setState({isFocused}),
-      handleValueChange: (value) => this.setState({value}),
+      handleValueChange: (value, cb) => this.setState({value}, cb),
       setDisabled: (disabled) => this.setState({disabled}),
       setInputId: (id) => this.setState({inputId: id}),
-      ref: this.inputElement,
+      ref: this.inputElement_,
       inputType: this.props.textarea ? 'textarea' : 'input',
     });
   }
