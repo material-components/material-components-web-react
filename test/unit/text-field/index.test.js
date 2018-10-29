@@ -143,6 +143,38 @@ test('#adapter.input.getNativeInput.validity.valid returns false for invalid inp
   assert.isFalse(valid);
 });
 
+test('#adapter.input.getNativeInput.validity.valid returns false for invalid input with email pattern', () => {
+  const wrapper = mount(<TextField label='my label'>
+    <Input value='123' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'/>
+  </TextField>);
+  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+  assert.isFalse(valid);
+});
+
+test('#adapter.input.getNativeInput.validity.valid returns false for required field with no value', () => {
+  const wrapper = mount(<TextField label='my label'>
+    <Input value='' required/>
+  </TextField>);
+  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+  assert.isFalse(valid);
+});
+
+test('#adapter.input.getNativeInput.validity.valid returns true for required field with value', () => {
+  const wrapper = mount(<TextField label='my label'>
+    <Input value='value' required/>
+  </TextField>);
+  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+  assert.isTrue(valid);
+});
+
+test('#adapter.input.getNativeInput.validity.valid returns true for valid email', () => {
+  const wrapper = mount(<TextField label='my label'>
+    <Input value='chevy@gmail.com' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'/>
+  </TextField>);
+  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+  assert.isTrue(valid);
+});
+
 test('#get adapter.input.value returns state.value', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.setState({value: '123'});
@@ -364,8 +396,15 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
 
 test('#inputProps.handleValueChange updates state.value', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().inputProps({}).handleValueChange('meow');
+  wrapper.instance().inputProps({}).handleValueChange('meow', td.func());
   assert.equal(wrapper.state().value, 'meow');
+});
+
+test('#inputProps.handleValueChange calls cb after state is set', () => {
+  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
+  const callback = td.func();
+  wrapper.instance().inputProps({}).handleValueChange('meow', callback);
+  td.verify(callback(), {times: 1});
 });
 
 test('#inputProps.setDisabled updates state.disabled', () => {
