@@ -64,12 +64,6 @@ test('#isValid returns true if prop.isValid is set to true and input is invalid'
   assert.isTrue(isValidInput);
 });
 
-test('#componentDidMount should call props.handleValueChange', () => {
-  const handleValueChange = td.func();
-  shallow(<Input handleValueChange={handleValueChange} value='woof'/>);
-  td.verify(handleValueChange('woof'), {times: 1});
-});
-
 test('#componentDidMount should call props.setInputId if props.id exists', () => {
   const setInputId = td.func();
   shallow(<Input setInputId={setInputId} id='best-id'/>);
@@ -110,6 +104,14 @@ test('#componentDidMount calls props.handleValueChange when the foundation initi
     handleValueChange={handleValueChange}
   />);
   td.verify(handleValueChange(value, td.matchers.isA(Function)), {times: 1});
+});
+
+test('#componentDidMount does not call props.handleValueChange when there is no props.value', () => {
+  const handleValueChange = td.func();
+  shallow(<Input
+    handleValueChange={handleValueChange}
+  />);
+  td.verify(handleValueChange(td.matchers.anything(), td.matchers.isA(Function)), {times: 0});
 });
 
 test('change to minLength calls handleValidationAttributeChange', () => {

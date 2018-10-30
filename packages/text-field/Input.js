@@ -143,7 +143,7 @@ export default class Input extends React.Component {
 
   isBadInput = () => this.inputElement.current.validity.badInput;
   isValid = () => {
-    if (typeof this.props.isValid === 'boolean') {
+    if (this.props.isValid !== undefined) {
       return this.props.isValid;
     }
     return this.inputElement.current.validity.valid;
@@ -222,7 +222,7 @@ Input.defaultProps = {
   className: '',
   inputType: 'input',
   disabled: false,
-  isValid: null,
+  isValid: undefined,
   foundation: {
     activateFocus: () => {},
     deactivateFocus: () => {},
