@@ -78,12 +78,6 @@ class TextField extends React.Component {
     foundation.init();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.value !== prevState.value) {
-      this.state.foundation.setValue(this.state.value);
-    }
-  }
-
   componentWillUnmount() {
     this.state.foundation.destroy();
   }

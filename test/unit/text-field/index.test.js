@@ -70,13 +70,6 @@ test('#componentDidMount creates foundation', () => {
   assert.exists(wrapper.state().foundation);
 });
 
-test('#componentDidUpdate calls setValue if state.value updates', () => {
-  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.state().foundation.setValue = td.func();
-  wrapper.setState({value: 'value'});
-  td.verify(wrapper.state().foundation.setValue('value'), {times: 1});
-});
-
 test('#componentDidUpdate does not call setValue if another property updates', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.state().foundation.setValue = td.func();
@@ -125,29 +118,11 @@ test('#adapter.isRtl returns false props.isRtl if is false', () => {
   assert.isFalse(wrapper.state().foundation.adapter_.isRtl());
 });
 
-test('#adapter.input.getNativeInput.validity.badInput return false for valid input', () => {
-  const wrapper = mount(<TextField label='my label'><Input /></TextField>);
-  const badInput = wrapper.state().foundation.adapter_.getNativeInput().validity.badInput;
-  assert.isFalse(badInput);
-});
-
-test('#adapter.input.getNativeInput.validity.valid returns true for valid input', () => {
-  const wrapper = mount(<TextField label='my label'><Input /></TextField>);
-  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
-  assert.isTrue(valid);
-});
-
-test('#adapter.input.getNativeInput.validity.valid returns false for invalid input', () => {
-  const wrapper = mount(<TextField label='my label'><Input value='123' pattern='[a-z]'/></TextField>);
-  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
-  assert.isFalse(valid);
-});
-
 test('#adapter.input.getNativeInput.validity.valid returns false for invalid input with email pattern', () => {
   const wrapper = mount(<TextField label='my label'>
     <Input value='123' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'/>
   </TextField>);
-  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
   assert.isFalse(valid);
 });
 
@@ -155,7 +130,7 @@ test('#adapter.input.getNativeInput.validity.valid returns false for required fi
   const wrapper = mount(<TextField label='my label'>
     <Input value='' required/>
   </TextField>);
-  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
   assert.isFalse(valid);
 });
 
@@ -163,7 +138,7 @@ test('#adapter.input.getNativeInput.validity.valid returns true for required fie
   const wrapper = mount(<TextField label='my label'>
     <Input value='value' required/>
   </TextField>);
-  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
   assert.isTrue(valid);
 });
 
@@ -171,7 +146,7 @@ test('#adapter.input.getNativeInput.validity.valid returns true for valid email'
   const wrapper = mount(<TextField label='my label'>
     <Input value='chevy@gmail.com' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'/>
   </TextField>);
-  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
   assert.isTrue(valid);
 });
 
