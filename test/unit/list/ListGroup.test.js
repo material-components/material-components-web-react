@@ -16,6 +16,11 @@ test('has mdc-list-group class', () => {
 });
 
 test('renders children', () => {
-  const wrapper = shallow(<ListGroup><div class="child-list"/></ListGroup>);
+  const wrapper = shallow(<ListGroup><div className='child-list'/></ListGroup>);
   assert.exists(wrapper.find('.child-list'));
+});
+
+test('renders with given tag', () => {
+  const wrapper = shallow(<ListGroup tag='span' />);
+  assert.exists(wrapper.find('span'));
 });

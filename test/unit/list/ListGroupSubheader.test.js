@@ -16,7 +16,7 @@ test('has mdc-list-group__subheader class', () => {
 });
 
 test('renders children', () => {
-  const wrapper = shallow(<ListGroupSubheader><div class="child-list"/></ListGroupSubheader>);
+  const wrapper = shallow(<ListGroupSubheader><div className='child-list'/></ListGroupSubheader>);
   assert.exists(wrapper.find('.child-list'));
 });
 

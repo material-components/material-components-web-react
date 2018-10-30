@@ -26,26 +26,29 @@ import classnames from 'classnames';
 
 const ListGroup = (props) => {
   const {
+    tag: Tag,
     className,
     children,
     ...otherProps
   } = props;
 
   return (
-    <div className={classnames('mdc-list-group', className)} {...otherProps}>
+    <Tag className={classnames('mdc-list-group', className)} {...otherProps}>
       {children}
-    </div>
+    </Tag>
   );
 };
 
 ListGroup.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.element,
+  tag: PropTypes.string,
 };
 
 ListGroup.defaultProps = {
   className: '',
   children: null,
+  tag: 'div',
 };
 
 export default ListGroup;

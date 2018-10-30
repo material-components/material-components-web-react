@@ -41,7 +41,10 @@ const ListGroupSubheader = (props) => {
 
 ListGroupSubheader.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
   tag: PropTypes.string,
 };
 

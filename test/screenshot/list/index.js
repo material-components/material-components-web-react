@@ -62,7 +62,7 @@ const ListScreenshotTest = () => {
       <ListGroup>
         <ListGroupSubheader>Folders</ListGroupSubheader>
         <List>
-          {renderListItem('Photos', )}
+          {renderListItem('Photos')}
           {renderListItem('Recipes')}
           {renderListItem('Work')}
         </List>

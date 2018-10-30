@@ -112,7 +112,7 @@ Multiple related lists can be grouped together using the `ListGroup` component. 
 
 ```js
 import React, {Component} from 'react';
-import List, {ListItem, ListGroup, ListGroupSubheader} from '@material/react-list';
+import List, {ListItem, ListItemText, ListGroup, ListGroupSubheader} from '@material/react-list';
 
 class MyApp extends Component {
   render() {
