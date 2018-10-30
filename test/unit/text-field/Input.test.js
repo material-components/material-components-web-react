@@ -102,6 +102,16 @@ test('#componentDidMount should not call any method if disabled and id do not ex
   td.verify(setDisabled(td.matchers.isA(Boolean)), {times: 0});
 });
 
+test('#componentDidMount calls props.handleValueChange when the foundation initializes with a value', () => {
+  const handleValueChange = td.func();
+  const value = 'test value';
+  shallow(<Input
+    value={value}
+    handleValueChange={handleValueChange}
+  />);
+  td.verify(handleValueChange(value, td.matchers.isA(Function)), {times: 1});
+});
+
 test('change to minLength calls handleValidationAttributeChange', () => {
   const handleValidationAttributeChange = td.func();
   const wrapper = shallow(<Input foundation={{handleValidationAttributeChange}} />);
@@ -165,11 +175,34 @@ test('#componentDidUpdate does nothing if an unrelated property is ' +
   td.verify(setInputId(td.matchers.anything), {times: 0});
 });
 
+test('#componentDidUpdate calls handleValueChange when the foundation initializes with a value', () => {
+  const setValue = td.func();
+  const handleValueChange = td.func();
+  const wrapper = shallow(<Input value='test value' handleValueChange={handleValueChange} />);
+
+  wrapper.setProps({foundation: {setValue}});
+  td.verify(handleValueChange('test value', td.matchers.isA(Function)), {times: 1});
+});
+
 test('props.handleValueChange() is called if this.props.value updates', () => {
   const handleValueChange = td.func();
   const wrapper = shallow(<Input handleValueChange={handleValueChange} />);
   wrapper.setProps({value: 'meow'});
-  td.verify(handleValueChange('meow'), {times: 1});
+  td.verify(handleValueChange('meow', td.matchers.isA(Function)), {times: 1});
+});
+
+test('foundation.setValue() is called if this.props.value updates', () => {
+  const setValue = td.func();
+  const foundation = {setValue};
+  const handleValueChange = (value, cb) => {
+    cb(value);
+  };
+  const wrapper = shallow(<Input
+    value='test value'
+    foundation={foundation}
+    handleValueChange={handleValueChange} />);
+  wrapper.setProps({value: 'meow'});
+  td.verify(setValue('meow'), {times: 1});
 });
 
 test('#event.onFocus calls props.handleFocusChange(true)', () => {
