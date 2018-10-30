@@ -27,13 +27,10 @@ import classnames from 'classnames';
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
 export default class Input extends React.Component {
-  constructor(props) {
-    super(props);
-    this.inputElement = React.createRef();
-  }
+  inputElement = React.createRef();
+  state = {wasUserTriggeredChange: false};
 
   componentDidMount() {
-    this.props.handleValueChange(this.props.value);
     if (this.props.id) {
       this.props.setInputId(this.props.id);
     }
@@ -43,20 +40,46 @@ export default class Input extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const {
+      id,
+      handleValueChange,
+      setInputId,
+      setDisabled,
+      foundation,
+      value,
+      disabled,
+    } = this.props;
+
     this.handleValidationAttributeUpdate(prevProps);
 
-    if (this.props.disabled !== prevProps.disabled) {
-      const {disabled} = this.props;
-      this.props.setDisabled(disabled);
-      this.props.foundation.setDisabled(disabled);
+    if (disabled !== prevProps.disabled) {
+      setDisabled(disabled);
+      foundation.setDisabled(disabled);
     }
 
-    if (this.props.id !== prevProps.id) {
-      this.props.setInputId(this.props.id);
+    if (id !== prevProps.id) {
+      setInputId(id);
     }
 
-    if (this.props.value !== prevProps.value) {
-      this.props.handleValueChange(this.props.value);
+    // this should be in the componentDidMount, but foundation is not created
+    // at that time.
+    // Will fix this in
+    // https://github.com/material-components/material-components-web-react/pull/353/files
+    if (value && foundation !== prevProps.foundation) {
+      handleValueChange(value, () => foundation.setValue(value));
+      return;
+    }
+
+    if (value !== prevProps.value) {
+      handleValueChange(value, () => {
+        // only call #foundation.setValue on programatic changes;
+        // not changes by the user.
+        if (this.state.wasUserTriggeredChange) {
+          this.setState({wasUserTriggeredChange: false});
+        } else {
+          foundation.setValue(value);
+        }
+      });
     }
   }
 
@@ -96,7 +119,11 @@ export default class Input extends React.Component {
   // value of the input is.
   handleChange = (e) => {
     const {foundation, onChange} = this.props;
+    // autoCompleteFocus runs on `input` event in MDC Web. In React, onChange and
+    // onInput are the same event
+    // https://stackoverflow.com/questions/38256332/in-react-whats-the-difference-between-onchange-and-oninput
     foundation.autoCompleteFocus();
+    this.setState({wasUserTriggeredChange: true});
     onChange(e);
   }
 
