@@ -1,0 +1,27 @@
+{
+  "name": "@material/react-layout-grid",
+  "version": "0.6.1",
+  "description": "Material Components React Layout Grid",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "material layout grid",
+    "materiallayoutgrid"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-react.git"
+  },
+  "dependencies": {
+    "@material/layout-grid": "^0.40.1",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
