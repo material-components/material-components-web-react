@@ -72,6 +72,16 @@ test('#componentDidMount should not call any method if disabled and id do not ex
   td.verify(setDisabled(td.matchers.isA(Boolean)), {times: 0});
 });
 
+test('#componentDidMount calls props.handleValueChange when the foundation initializes with a value', () => {
+  const handleValueChange = td.func();
+  const value = 'test value';
+  shallow(<Input
+    value={value}
+    handleValueChange={handleValueChange}
+  />);
+  td.verify(handleValueChange(value, td.matchers.isA(Function)), {times: 1});
+});
+
 test('change to minLength calls handleValidationAttributeChange', () => {
   const handleValidationAttributeChange = td.func();
   const wrapper = shallow(<Input foundation={{handleValidationAttributeChange}} />);
@@ -142,17 +152,6 @@ test('#componentDidUpdate calls handleValueChange when the foundation initialize
 
   wrapper.setProps({foundation: {setValue}});
   td.verify(handleValueChange('test value', td.matchers.isA(Function)), {times: 1});
-});
-
-test('#componentDidUpdate calls setValue when the foundation initializes with a value', () => {
-  const setValue = td.func();
-  const handleValueChange = (value, cb) => {
-    cb(value);
-  };
-  const wrapper = shallow(<Input value='test value' handleValueChange={handleValueChange} />);
-
-  wrapper.setProps({foundation: {setValue}});
-  td.verify(setValue('test value'), {times: 1});
 });
 
 test('props.handleValueChange() is called if this.props.value updates', () => {
