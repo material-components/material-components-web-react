@@ -26,7 +26,7 @@ import "@material/react-list/dist/list.css";
 
 ```js
 import React, {Component} from 'react';
-import List, {ListItem} from '@material/react-list';
+import List, {ListItem, ListItemText} from '@material/react-list';
 
 class MyApp extends Component {
   render() {
@@ -54,6 +54,9 @@ class MyApp extends Component {
 You can use the `twoLine` Boolean prop for `List` combined with the `secondaryText` prop for `ListItem` to style a list as a double line list.
 
 ```js
+import React, {Component} from 'react';
+import List, {ListItem, ListItemText} from '@material/react-list';
+
 class MyApp extends React.Component {
   render() {
     return (
@@ -85,7 +88,7 @@ You may add a leading visuals or trailing metadata to a list item using `ListIte
 
 ```js
 import React, {Component} from 'react';
-import List, {ListItem} from '@material/react-list';
+import List, {ListItem, ListItemGraphic, ListItemText, ListItemMeta} from '@material/react-list';
 
 class MyApp extends Component {
   render() {
@@ -98,6 +101,34 @@ class MyApp extends Component {
         </ListItem>
         ...
       </List>
+    );
+  }
+}
+```
+
+### List groups
+
+Multiple related lists can be grouped together using the `ListGroup` component. Optional subheaders can be added using `ListGroupSubheader`.
+
+```js
+import React, {Component} from 'react';
+import List, {ListItem, ListGroup, ListGroupSubheader} from '@material/react-list';
+
+class MyApp extends Component {
+  render() {
+    return (
+      <ListGroup>
+        <ListGroupSubheader>Folders</ListGroupSubheader>
+        <List>
+          <ListItem><ListItemText primaryText='Photos' /></ListItem>
+          ...
+        </List>
+        <ListGroupSubheader>Recent Files</ListGroupSubheader>
+        <List>
+          <ListItem><ListItemText primaryText='Vacation' /></ListItem>
+          ...
+        </List>
+      </ListGroup>
     );
   }
 }
