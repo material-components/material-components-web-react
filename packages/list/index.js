@@ -196,36 +196,36 @@ export default class List extends Component {
     return this.getIndexOfListItemElement_(target);
   }
 
-  onKeyDown = (e) => {
+  handleKeyDown = (e, id) => {
     this.props.onKeyDown(e);
     e.persist(); // Persist the synthetic event to access its `key`
-    const index = this.getListItemIndexOfTarget_(e.target);
+    const index = this.listItemIndices_[id];
     if (index >= 0) {
       this.foundation_.handleKeydown(e, true /* isRootListItem is true if index >= 0 */, index);
     }
   }
 
-  onClick = (e) => {
+  handleClick = (e, id) => {
     this.props.onClick(e);
-    const index = this.getListItemIndexOfTarget_(e.target);
     // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
     const toggleCheckbox = e.target.type === 'checkbox';
+    const index = this.listItemIndices_[id];
     this.foundation_.handleClick(index, toggleCheckbox);
   }
 
   // Use onFocus as workaround because onFocusIn is not yet supported in React
   // https://github.com/facebook/react/issues/6410
-  onFocus = (e) => {
+  handleFocus = (e, id) => {
     this.props.onFocus(e);
-    const index = this.getListItemIndexOfTarget_(e.target);
+    const index = this.listItemIndices_[id];
     this.foundation_.handleFocusIn(e, index);
   }
 
   // Use onBlur as workaround because onFocusOut is not yet supported in React
   // https://github.com/facebook/react/issues/6410
-  onBlur = (e) => {
+  handleBlur = (e, id) => {
     this.props.onBlur(e);
-    const index = this.getListItemIndexOfTarget_(e.target);
+    const index = this.listItemIndices_[id];
     this.foundation_.handleFocusOut(e, index);
   }
 
@@ -252,10 +252,6 @@ export default class List extends Component {
     return (
       <ul
         className={this.classes}
-        onKeyDown={this.onKeyDown}
-        onClick={this.onClick}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
         {...otherProps}
       >
         {React.Children.map(children, this.renderListItem)}
@@ -311,31 +307,31 @@ export default class List extends Component {
     let attributesToAdd = [];
     if (idOrIndex in listItemAddAttributes) {
       attributesToAdd = listItemAddAttributes[idOrIndex];
-      delete listItemAddAttributes[idOrIndex];
+      listItemAddAttributes[idOrIndex] = {};
     }
 
     let attributesToRemove = [];
     if (idOrIndex in listItemRemoveAttributes) {
       attributesToRemove = listItemRemoveAttributes[idOrIndex];
-      delete listItemRemoveAttributes[idOrIndex];
+      listItemRemoveAttributes[idOrIndex] = [];
     }
 
     let classNamesToAdd = [];
     if (idOrIndex in listItemAddClassList) {
       classNamesToAdd = listItemAddClassList[idOrIndex];
-      delete listItemAddClassList[idOrIndex];
+      listItemAddClassList[idOrIndex] = [];
     }
 
     let classNamesToRemove = [];
     if (idOrIndex in listItemRemoveClassList) {
       classNamesToRemove = listItemRemoveClassList[idOrIndex];
-      delete listItemRemoveClassList[idOrIndex];
+      listItemRemoveClassList[idOrIndex] = [];
     }
 
     let newChildTabIndex = undefined;
     if (idOrIndex in listItemChildrenTabIndex) {
       newChildTabIndex = listItemChildrenTabIndex[idOrIndex];
-      delete listItemChildrenTabIndex[idOrIndex];
+      listItemChildrenTabIndex[idOrIndex] = null;
     }
 
     const props = {
@@ -350,6 +346,11 @@ export default class List extends Component {
       classNamesToAdd: classNamesToAdd,
       classNamesToRemove: classNamesToRemove,
       childrenTabIndex: newChildTabIndex || childrenTabIndex,
+
+      onKeyDown: (e) => this.handleKeyDown(e, idOrIndex),
+      onClick: (e) => this.handleClick(e, idOrIndex),
+      onFocus: (e) => this.handleFocus(e, idOrIndex),
+      onBlur: (e) => this.handleBlur(e, idOrIndex),
 
       ref: (listItem) => {
         this.listItems_[idOrIndex] = listItem;
