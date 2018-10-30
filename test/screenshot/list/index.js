@@ -9,7 +9,7 @@ import List, {
   ListItemText,
   ListItemMeta,
   ListGroup,
-  ListGroupSubheader
+  ListGroupSubheader,
 } from '../../../packages/list/index';
 
 class SelectionListTest extends React.Component {
