@@ -8,7 +8,6 @@ import List, {
   ListItemGraphic,
   ListItemText,
   ListItemMeta,
-  ListDivider,
   ListGroup,
   ListGroupSubheader
 } from '../../../packages/list/index';
@@ -58,15 +57,6 @@ const ListScreenshotTest = () => {
         {renderListItem('List item')}
         {renderListItem('List item')}
       </List>
-
-      <h2>Selection ist with divider</h2>
-      <SelectionListTest dividers={[3]}>
-        {renderListItem('Inbox', )}
-        {renderListItem('Sent mail')}
-        {renderListItem('All mail')}
-        {renderListItem('Settings')}
-        {renderListItem('Help')}
-      </SelectionListTest>
 
       <h2>List group</h2>
       <ListGroup>
