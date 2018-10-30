@@ -32,13 +32,34 @@ export default class ListItem extends Component {
     init && init();
   }
 
+  componentDidUpdate(prevProps) {
+    const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
+    if (shouldFocus !== prevProps.shouldFocus && shouldFocus) {
+      this.focus();
+    }
+    if (shouldFollowHref !== prevProps.shouldFollowHref && shouldFollowHref) {
+      this.followHref();
+    }
+    if (shouldToggleCheckbox !== prevProps.shouldToggleCheckbox && shouldToggleCheckbox) {
+      this.toggleCheckbox();
+    }
+  }
+
   get listItemElement() {
     return this.listItemElement_.current;
   }
 
   get classes() {
-    const {className} = this.props;
-    return classnames('mdc-list-item', className);
+    const {className, classNamesToAdd, classNamesToRemove} = this.props;
+    const newClassNames = [...className].filter(className => classNamesToRemove.indexOf(className) === -1);
+    return classnames('mdc-list-item', newClassNames, classNamesToAdd);
+  }
+
+  get attributes() {
+    const {attributesToAdd, attributesToRemove} = this.props;
+    const removedAttributes = {};
+    attributesToRemove.forEach(attr => removedAttributes[attr] = undefined);
+    return Object.assign(attributesToAdd, removedAttributes);
   }
 
   focus() {
@@ -77,6 +98,7 @@ export default class ListItem extends Component {
         className={this.classes}
         ref={this.listItemElement_}
         {...otherProps}
+        {...this.attributes}
       >
         {React.Children.map(children, this.renderChild)}
       </li>

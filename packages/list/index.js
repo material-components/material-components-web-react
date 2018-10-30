@@ -38,8 +38,13 @@ export default class List extends Component {
   listItems_ = {};
   listItemIndices_ = {};
   state = {
-    listItemAttributes: {}, // maps id to {attr: val} map object
-    listItemClassList: {}, // maps id to classList set
+    listItemFocus: [],
+    listItemFollowHref: [], 
+    listItemToggleCheckbox: [],
+    listItemAddAttributes: {}, // maps id to {attr: val} map object
+    listItemRemoveAttributes: {}, // maps id to array of attr
+    listItemAddClassList: {}, // maps id to classList array
+    listItemRemoveClassList: {},
     listItemChildrenTabIndex: {}, // maps id to children's tabIndex
   };
 
@@ -54,11 +59,11 @@ export default class List extends Component {
       this.foundation_.setSelectedIndex(selectedIndex);
     } else {
       const id = this.getListItemIdFromIndex_(0);
-      const {listItemAttributes} = this.state;
-      listItemAttributes[id] = Object.assign({}, listItemAttributes[id], {
+      const {listItemAddAttributes} = this.state;
+      listItemAddAttributes[id] = Object.assign({}, listItemAddAttributes[id], {
         tabIndex: 0,
       });
-      this.setState({listItemAttributes});
+      this.setState({listItemAddAttributes});
     }
   }
 
@@ -83,14 +88,16 @@ export default class List extends Component {
   }
 
   initListItem = (id) => {
-    const {listItemAttributes, listItemChildrenTabIndex, listItemClassList} = this.state;
-    listItemAttributes[id] = {
+    const {listItemAddAttributes, listItemRemoveAttributes, listItemAddClassList, listItemRemoveClassList, listItemChildrenTabIndex} = this.state;
+    listItemAddAttributes[id] = {
       'aria-selected': false,
       'tabIndex': -1,
     };
+    listItemRemoveAttributes[id] = [];
+    listItemAddClassList[id] = [];
+    listItemRemoveClassList[id] = [];
     listItemChildrenTabIndex[id] = -1;
-    listItemClassList[id] = new Set();
-    this.setState({listItemAttributes, listItemChildrenTabIndex, listItemClassList});
+    this.setState({listItemAddAttributes, listItemRemoveAttributes, listItemAddClassList, listItemRemoveClassList, listItemChildrenTabIndex});
   }
 
   get classes() {
@@ -103,49 +110,35 @@ export default class List extends Component {
     });
   }
 
-  getListItemClasses_(id, className) {
-    const {listItemClassList} = this.state;
-    return listItemClassList[id] ?
-      classnames(Array.from(listItemClassList[id]), className) :
-      className;
-  }
-
   get adapter() {
     return {
       getListItemCount: () => Object.keys(this.listItems_).length,
       getFocusedElementIndex: () => this.getListItemIndexOfTarget_(document.activeElement),
       setAttributeForElementIndex: (index, attr, value) => {
-        const {listItemAttributes} = this.state;
+        const {listItemAddAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
         const id = this.getListItemIdFromIndex_(index);
-        listItemAttributes[id][attr] = value;
-        this.setState({listItemAttributes});
+        listItemAddAttributes[id][attr] = value;
+        this.setState({listItemAddAttributes});
       },
       removeAttributeForElementIndex: (index, attr) => {
-        const {listItemAttributes} = this.state;
+        const {listItemRemoveAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
         const id = this.getListItemIdFromIndex_(index);
-        delete listItemAttributes[id][attr];
-        this.setState({listItemAttributes});
+        listItemRemoveAttributes[id].push(attr);
+        this.setState({listItemRemoveAttributes});
       },
       addClassForElementIndex: (index, className) => {
-        const {listItemClassList} = this.state;
+        const {listItemAddClassList} = this.state;
         const id = this.getListItemIdFromIndex_(index);
-        listItemClassList[id].add(className);
-        this.setState({listItemClassList});
+        listItemAddClassList[id].push(className);
+        this.setState({listItemAddClassList});
       },
       removeClassForElementIndex: (index, className) => {
-        const {listItemClassList} = this.state;
+        const {listItemRemoveClassList} = this.state;
         const id = this.getListItemIdFromIndex_(index);
-        listItemClassList[id].delete(className);
-        this.setState({listItemClassList});
-      },
-      focusItemAtIndex: (index) => {
-        const id = this.getListItemIdFromIndex_(index);
-        const listItem = this.listItems_[id];
-        if (listItem) {
-          listItem.focus();
-        }
+        listItemRemoveClassList[id].push(className);
+        this.setState({listItemRemoveClassList});
       },
       setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
         const {listItemChildrenTabIndex} = this.state;
@@ -153,19 +146,20 @@ export default class List extends Component {
         listItemChildrenTabIndex[id]= tabIndexValue;
         this.setState({listItemChildrenTabIndex});
       },
+      focusItemAtIndex: (index) => {
+        const {listItemFocus} = this.state;
+        listItemFocus.push(index);
+        this.setState(listItemFocus);
+      },
       followHref: (index) => {
-        const id = this.getListItemIdFromIndex_(index);
-        const listItem = this.listItems_[id];
-        if (listItem) {
-          listItem.followHref();
-        }
+        const {listItemFollowHref} = this.state;
+        listItemFollowHref.push(index);
+        this.setState(listItemFollowHref);
       },
       toggleCheckbox: (index) => {
-        const id = this.getListItemIdFromIndex_(index);
-        const listItem = this.listItems_[id];
-        if (listItem) {
-          listItem.toggleCheckbox();
-        }
+        const {listItemToggleCheckbox} = this.state;
+        listItemToggleCheckbox.push(index);
+        this.setState(listItemToggleCheckbox);
       },
     };
   }
@@ -280,19 +274,89 @@ export default class List extends Component {
       ...otherProps
     } = listItem.props;
 
+    const {
+      listItemFocus,
+      listItemFollowHref, 
+      listItemToggleCheckbox,
+      listItemAddAttributes,
+      listItemRemoveAttributes,
+      listItemAddClassList,
+      listItemRemoveClassList,
+      listItemChildrenTabIndex,
+    } = this.state;
+
     const idOrIndex = id || index.toString();
-    const props = Object.assign({
+
+    let focused = false;
+    let i = listItemFocus.indexOf(idOrIndex);
+    if (i > -1) {
+      focused = true;
+      listItemFocus.splice(i, 1);
+    }
+
+    let followHref = false;
+    i = listItemFollowHref.indexOf(idOrIndex);
+    if (i > -1) {
+      followHref = true;
+      listItemFollowHref.splice(i, 1);
+    }
+
+    let toggleCheckbox = false;
+    i = listItemToggleCheckbox.indexOf(idOrIndex);
+    if (i > -1) {
+      toggleCheckbox = true;
+      listItemToggleCheckbox.splice(i, 1);
+    }
+
+    let attributesToAdd = [];
+    if (idOrIndex in listItemAddAttributes) {
+      attributesToAdd = listItemAddAttributes[idOrIndex];
+      delete listItemAddAttributes[idOrIndex];
+    }
+
+    let attributesToRemove = [];
+    if (idOrIndex in listItemRemoveAttributes) {
+      attributesToRemove = listItemRemoveAttributes[idOrIndex];
+      delete listItemRemoveAttributes[idOrIndex];
+    }
+
+    let classNamesToAdd = [];
+    if (idOrIndex in listItemAddClassList) {
+      classNamesToAdd = listItemAddClassList[idOrIndex];
+      delete listItemAddClassList[idOrIndex];
+    }
+
+    let classNamesToRemove = [];
+    if (idOrIndex in listItemRemoveClassList) {
+      classNamesToRemove = listItemRemoveClassList[idOrIndex];
+      delete listItemRemoveClassList[idOrIndex];
+    }
+
+    let newChildTabIndex = undefined;
+    if (idOrIndex in listItemChildrenTabIndex) {
+      newChildTabIndex = listItemChildrenTabIndex[idOrIndex];
+      delete listItemChildrenTabIndex[idOrIndex];
+    }
+
+    const props = {
       id: id,
-      className: this.getListItemClasses_(idOrIndex),
-      childrenTabIndex: this.state.listItemChildrenTabIndex[idOrIndex],
       init: () => this.initListItem(idOrIndex),
+
+      shouldFocus: focused,
+      shouldFollowHref: followHref,
+      shouldToggleCheckbox: toggleCheckbox,
+      attributesToAdd: attributesToAdd,
+      attributesToRemove: attributesToRemove,
+      classNamesToAdd: classNamesToAdd,
+      classNamesToRemove: classNamesToRemove,
+      childrenTabIndex: newChildTabIndex || childrenTabIndex,
+
       ref: (listItem) => {
         this.listItems_[idOrIndex] = listItem;
         this.listItemIndices_[idOrIndex] = index;
       },
       ...otherProps,
-    },
-    this.state.listItemAttributes[idOrIndex]);
+    };
 
     return React.cloneElement(listItem, props, children);
   }
