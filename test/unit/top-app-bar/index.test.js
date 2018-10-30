@@ -211,3 +211,13 @@ test('#componentWillUnmount destroys foundation', () => {
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
+
+test('have remaining props', () => {
+  const wrapper = shallow(<TopAppBar id="identifier" className="classes" dataKey="secret"/>);
+  const props = wrapper.props();
+  assert.isTrue(
+    props.id === 'identifier' &&
+    props.dataKey === 'secret' &&
+    wrapper.hasClass('classes')
+  );
+});
