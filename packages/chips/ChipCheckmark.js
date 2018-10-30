@@ -38,7 +38,7 @@ export default class ChipCheckmark extends Component {
   render() {
     return (
       <div className='mdc-chip__checkmark' ref={this.init}>
-        <svg className='mdc-chip__checkmark-svg' viewBox='-2 -3 30 30'>
+        <svg className='mdc-chip__checkmark-svg' viewBox='-2 -3 30 30' focusable='false'>
           <path
             className='mdc-chip__checkmark-path'
             fill='none'
