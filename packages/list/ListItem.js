@@ -27,13 +27,13 @@ import classnames from 'classnames';
 export default class ListItem extends Component {
   listItemElement_ = React.createRef();
 
-  componentDidMount() {
-    const {init} = this.props;
-    init && init();
-  }
-
   componentDidUpdate(prevProps) {
-    const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
+    const {
+      shouldFocus,
+      shouldFollowHref,
+      shouldToggleCheckbox,
+      resetPropUpdates,
+    } = this.props;
     if (shouldFocus !== prevProps.shouldFocus && shouldFocus) {
       this.focus();
     }
@@ -43,23 +43,12 @@ export default class ListItem extends Component {
     if (shouldToggleCheckbox !== prevProps.shouldToggleCheckbox && shouldToggleCheckbox) {
       this.toggleCheckbox();
     }
-  }
-
-  get listItemElement() {
-    return this.listItemElement_.current;
+    resetPropUpdates();
   }
 
   get classes() {
-    const {className, classNamesToAdd, classNamesToRemove} = this.props;
-    const newClassNames = [...className].filter(className => classNamesToRemove.indexOf(className) === -1);
-    return classnames('mdc-list-item', newClassNames, classNamesToAdd);
-  }
-
-  get attributes() {
-    const {attributesToAdd, attributesToRemove} = this.props;
-    const removedAttributes = {};
-    attributesToRemove.forEach(attr => removedAttributes[attr] = undefined);
-    return Object.assign(attributesToAdd, removedAttributes);
+    const {className, classNamesToAdd} = this.props;
+    return classnames('mdc-list-item', className, classNamesToAdd);
   }
 
   focus() {
@@ -85,10 +74,10 @@ export default class ListItem extends Component {
     const {
       /* eslint-disable */
       className,
+      classNamesToAdd,
       childrenTabIndex,
-      init,
-      id,
       /* eslint-enable */
+      attributesToSet,
       children,
       ...otherProps
     } = this.props;
@@ -96,9 +85,9 @@ export default class ListItem extends Component {
     return (
       <li
         className={this.classes}
-        ref={this.listItemElement_}
         {...otherProps}
-        {...this.attributes}
+        {...attributesToSet} // overrides attributes in otherProps
+        ref={this.listItemElement_}
       >
         {React.Children.map(children, this.renderChild)}
       </li>
@@ -115,15 +104,36 @@ export default class ListItem extends Component {
 }
 
 ListItem.propTypes = {
-  id: PropTypes.string,
-  childrenTabIndex: PropTypes.number,
   children: PropTypes.node,
   className: PropTypes.string,
-  init: PropTypes.func,
+  classNamesToAdd: PropTypes.array,
+  attributesToSet: PropTypes.object,
+  childrenTabIndex: PropTypes.number,
+  tabIndex: PropTypes.number,
+  selected: PropTypes.bool,
+  shouldFocus: PropTypes.bool,
+  shouldFollowHref: PropTypes.bool,
+  shouldToggleCheckbox: PropTypes.bool,
+  resetPropUpdates: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onClick: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 ListItem.defaultProps = {
-  id: '',
-  childrenTabIndex: -1,
   className: '',
+  classNamesToAdd: [],
+  attributesToSet: {},
+  childrenTabIndex: -1,
+  tabIndex: -1,
+  selected: false,
+  shouldFocus: false,
+  shouldFollowHref: false,
+  shouldToggleCheckbox: false,
+  resetPropUpdates: () => {},
+  onKeyDown: () => {},
+  onClick: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
 };
