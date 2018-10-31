@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@material/react-tab-scroller": "^0.6.1",
-    "@material/tab-bar": "^0.40.1",
+    "@material/tab-bar": "^0.41.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2"
