@@ -116,6 +116,8 @@ class MyApp extends Component {
 
 If you want the dismissible drawer to appear to the side of the top app bar (take the full height of the screen) as shown in the below image, please follow this markup:
 
+![adjacent](https://user-images.githubusercontent.com/579873/47814040-e9b1fc00-dd09-11e8-9435-1b34c1f4664d.png)
+
 ```js
 import React, {Component} from 'react';
 import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
@@ -169,6 +171,8 @@ export default class App extends Component {
 ###### Below top app bar
 
 If you want the dismissible drawer to appear below top app bar as shown in the below image, please follow this markup:
+
+![below](https://user-images.githubusercontent.com/579873/47814058-f171a080-dd09-11e8-9d66-6da4d936905c.png)
 
 ```js
 import React, {Component} from 'react';
