@@ -12,6 +12,10 @@ import Drawer, {
   DrawerContent,
 } from '../../../packages/drawer/index';
 import List from './List';
+import DrawerAboveTopAppBar from './DrawerAboveTopAppBar';
+import DrawerBelowTopAppBar from './DrawerBelowTopAppBar';
+
+const noop = () => {};
 
 class DrawerScreenshotTest extends React.Component {
   constructor(props) {
@@ -21,44 +25,26 @@ class DrawerScreenshotTest extends React.Component {
     };
   }
 
+  onClose = () => this.setState({open: false});
+
   render() {
-    const {title, dismissible, modal} = this.props; // eslint-disable-line react/prop-types
+    const {open} = this.state;
+    const {title, dismissible, modal, isBelow} = this.props; // eslint-disable-line react/prop-types
+    const Tag = isBelow ? DrawerBelowTopAppBar : DrawerAboveTopAppBar;
     return (
-      <div className='drawer-screenshot-test'>
-        <Drawer
-          open={this.state.open}
-          onClose={() => this.setState({open: false})}
-          dismissible={dismissible}
-          modal={modal}
-        >
-          <DrawerHeader>
-            <DrawerTitle>
-              Inbox
-            </DrawerTitle>
-            <DrawerSubtitle>
-              ralph@gmail.com
-            </DrawerSubtitle>
-          </DrawerHeader>
-
-          <DrawerContent>
-            <List />
-          </DrawerContent>
-        </Drawer>
-
-        <DrawerAppContent>
-          <TopAppBar
-            title={title}
-            navigationIcon={this.renderNavigationIcon()}
-          />
-          <div className='mdc-top-app-bar--fixed-adjust'>
-            {[0, 1, 2, 3, 4, 5].map(this.renderLoremIpsum)}
-          </div>
-        </DrawerAppContent>
-      </div>
+      <Tag
+        title={title}
+        dismissible={dismissible}
+        modal={modal}
+        open={open}
+        onClose={this.onClose}
+        renderLoremIpsum={this.renderLoremIpsum}
+        renderNavigationIcon={dismissible || modal ? this.renderNavigationIcon : noop}
+      />
     );
   }
 
-  renderNavigationIcon() {
+  renderNavigationIcon = () => {
     if (this.props.hideNavigationIcon) return; // eslint-disable-line react/prop-types
     return (
       <MaterialIcon
@@ -70,7 +56,7 @@ class DrawerScreenshotTest extends React.Component {
     );
   }
 
-  renderLoremIpsum(item, index) {
+  renderLoremIpsum = (item, index) => {
     return (
       <p className='drawer-lorem-ipsum' key={index}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,<br />

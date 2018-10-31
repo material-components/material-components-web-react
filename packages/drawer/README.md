@@ -110,6 +110,127 @@ class MyApp extends Component {
 }
 ```
 
+##### Usage with Top App Bar
+
+###### Full height drawer
+
+If you want the dismissible drawer to appear to the side of the top app bar (take the full height of the screen) as shown in the below image, please follow this markup:
+
+```js
+import React, {Component} from 'react';
+import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
+import Drawer, {DrawerAppContent, DrawerContent, DrawerHeader, DrawerTitle} from '@material/react-drawer';
+import MaterialIcon from '@material/react-material-icon';
+import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-list';
+
+// includes imports for drawer, list, material icon and top app bar styles
+import './App.scss';
+
+export default class App extends Component {
+  state = {open: false, selectedIndex: 0};
+
+  handleClick = () => this.setState({open: !this.state.open});
+
+  render() {
+    return (
+      <div>
+        <Drawer dismissible open={this.state.open}>
+          <DrawerHeader>
+            <DrawerTitle tag='h2'>
+              jane.smith@gmail.com
+            </DrawerTitle>
+          </DrawerHeader>
+
+          <DrawerContent>
+            <List singleSelection selectedIndex={this.state.selectedIndex}>
+              <ListItem>
+                <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+                <ListItemText primaryText='Mail' />
+              </ListItem>
+            </List>
+          </DrawerContent>
+        </Drawer>
+
+        <DrawerAppContent>
+          <TopAppBar title='Inbox'
+            navigationIcon={<MaterialIcon icon='menu' onClick={this.handleClick} />} />
+
+          <TopAppBarFixedAdjust>
+            Your inbox content
+          </TopAppBarFixedAdjust>
+        </DrawerAppContent>
+      </div>
+    );
+  }
+}
+
+```
+
+###### Below top app bar
+
+If you want the dismissible drawer to appear below top app bar as shown in the below image, please follow this markup:
+
+```js
+import React, {Component} from 'react';
+import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
+import Drawer, {DrawerAppContent, DrawerContent, DrawerHeader, DrawerTitle} from '@material/react-drawer';
+import MaterialIcon from '@material/react-material-icon';
+import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-list';
+
+// includes imports for drawer, list, material icon and top app bar styles
+import './App.scss';
+
+export default class App extends Component {
+  state = {open: false, selectedIndex: 0};
+
+  handleClick = () => this.setState({open: !this.state.open});
+
+  render() {
+    return (
+      <div>
+        <TopAppBar title='Inbox'
+          navigationIcon={<MaterialIcon icon='menu' onClick={this.handleClick} />} />
+
+        <TopAppBarFixedAdjust>
+          <Drawer dismissible open={this.state.open}>
+            <DrawerHeader>
+              <DrawerTitle tag='h2'>
+                jane.smith@gmail.com
+              </DrawerTitle>
+            </DrawerHeader>
+
+            <DrawerContent>
+              <List singleSelection selectedIndex={0}>
+                <ListItem>
+                  <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
+                  <ListItemText primaryText='Mail' />
+                </ListItem>
+              </List>
+            </DrawerContent>
+          </Drawer>
+
+          <DrawerAppContent>
+            Your inbox content
+          </DrawerAppContent>
+        </TopAppBarFixedAdjust>
+      </div>
+    );
+  }
+}
+
+```
+
+There is a known issue with the drawer styles when putting the drawer below the top app bar. To get around this, you must update the `.mdc-drawer--dismissible` class in your CSS stylesheets.
+
+```css
+.mdc-drawer--dismissible {
+  top: auto;
+}
+```
+
+> _NOTE_: Ordering of the markup is imperative.
+
+
 #### Modal Variant
 
 If you are on a smaller screen and do not want to animation your content, you may want to use the [modal drawer](https://github.com/material-components/material-components-web/tree/master/packages/mdc-drawer#modal-drawer). The modal drawer will expand and collapse based on the `open` prop overlayed your application content.
