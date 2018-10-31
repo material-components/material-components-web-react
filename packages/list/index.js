@@ -36,28 +36,19 @@ const VERTICAL = 'vertical';
 
 export default class List extends Component {
   state = {
-    /* listItemPropUpdates should be in the following shape: 
-    {
-      listItemIndex: {
-        'shouldFocus': Boolean,
-        'shouldFollowHref': Boolean,
-        'shouldToggleCheckbox': Boolean,
-        'classesNamesToAdd': Array<String>,
-        'attributesToSet': {
-          String: String || Number
-          ...
-        },
-        'childrenTabIndex': Number,
-      }
-      ...
-    } */
-    listItemPropUpdates: {
+    focusListItemAtIndex: -1,
+    followHrefAtIndex: -1, 
+    toggleCheckboxAtIndex: -1,
+    // listItemAttributes: {index: {attr: value}}
+    listItemAttributes: {
       0: {
-        attributesToSet: {
-          tabIndex: 0,
-        }
+        tabIndex: 0,
       }
     },
+    // listItemClassNames: {index: Array<String>}
+    listItemClassNames: {},
+    // listItemChildrenTabIndex: {index: Number}
+    listItemChildrenTabIndex: {},
   };
 
   componentDidMount() {
@@ -131,83 +122,53 @@ export default class List extends Component {
         return index;
       },
       setAttributeForElementIndex: (index, attr, value) => {
-        const {listItemPropUpdates} = this.state;
+        const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        if (!listItemPropUpdates[index]) {
-          listItemPropUpdates[index] = {};
+        if (!listItemAttributes[index]) {
+          listItemAttributes[index] = {};
         }
-        if (!listItemPropUpdates[index]['attributesToSet']) {
-          listItemPropUpdates[index]['attributesToSet'] = {};
-        }
-        listItemPropUpdates[index]['attributesToSet'][attr] = value;
-        this.setState({listItemPropUpdates});
+        listItemAttributes[index][attr] = value;
+        this.setState({listItemAttributes});
       },
       removeAttributeForElementIndex: (index, attr) => {
-        const {listItemPropUpdates} = this.state;
+        const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        if (!listItemPropUpdates[index]) {
-          listItemPropUpdates[index] = {};
-        }
-        if (!listItemPropUpdates[index]['attributesToSet']) {
+        if (!listItemAttributes[index]) {
           return;
         }
-        delete listItemPropUpdates[index]['attributesToSet'][attr];
-        this.setState({listItemPropUpdates});
+        delete listItemAttributes[index][attr];
+        this.setState({listItemAttributes});
       },
       addClassForElementIndex: (index, className) => {
-        const {listItemPropUpdates} = this.state;
-        if (!listItemPropUpdates[index]) {
-          listItemPropUpdates[index] = {};
+        const {listItemClassNames} = this.state;
+        if (!listItemClassNames[index]) {
+          listItemClassNames[index] = [];
         }
-        if (!listItemPropUpdates[index]['classNamesToAdd']) {
-          listItemPropUpdates[index]['classNamesToAdd'] = [];
-        }
-        listItemPropUpdates[index]['classNamesToAdd'].push(className);
-        this.setState({listItemPropUpdates});
+        listItemClassNames[index].push(className);
+        this.setState({listItemClassNames});
       },
       removeClassForElementIndex: (index, className) => {
-        const {listItemPropUpdates} = this.state;
-        if (!listItemPropUpdates[index]) {
-          listItemPropUpdates[index] = {};
-        }
-        if (!listItemPropUpdates[index]['classNamesToAdd']) {
+        const {listItemClassNames} = this.state;
+        if (!listItemClassNames[index]) {
           return;
         }
-        const i = listItemPropUpdates[index]['classNamesToAdd'].indexOf(className);
-        listItemPropUpdates[index]['classNamesToAdd'].splice(i, 1);
-        this.setState({listItemPropUpdates});
+        const i = listItemClassNames[index].indexOf(className);
+        listItemClassNames[index].splice(i, 1);
+        this.setState({listItemClassNames});
       },
       setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
-        const {listItemPropUpdates} = this.state;
-        if (!listItemPropUpdates[listItemIndex]) {
-          listItemPropUpdates[listItemIndex] = {};
-        }
-        listItemPropUpdates[listItemIndex]['childrenTabIndex'] = tabIndexValue;
-        this.setState({listItemPropUpdates});
+        const {listItemChildrenTabIndex} = this.state;
+        listItemChildrenTabIndex[listItemIndex] = tabIndexValue;
+        this.setState({listItemChildrenTabIndex});
       },
       focusItemAtIndex: (index) => {
-        const {listItemPropUpdates} = this.state;
-        if (!listItemPropUpdates[index]) {
-          listItemPropUpdates[index] = {};
-        }
-        listItemPropUpdates[index]['shouldFocus'] = true;
-        this.setState({listItemPropUpdates});
+        this.setState({focusListItemAtIndex: index});
       },
       followHref: (index) => {
-        const {listItemPropUpdates} = this.state;
-        if (!listItemPropUpdates[index]) {
-          listItemPropUpdates[index] = {};
-        }
-        listItemPropUpdates[index]['shouldFollowHref'] = true;
-        this.setState({listItemPropUpdates});
+        this.setState({followHrefAtIndex: index});
       },
       toggleCheckbox: (index) => {
-        const {listItemPropUpdates} = this.state;
-        if (!listItemPropUpdates[index]) {
-          listItemPropUpdates[index] = {};
-        }
-        listItemPropUpdates[index]['shouldToggleCheckbox'] = true;
-        this.setState({listItemPropUpdates});
+        this.setState({toggleCheckboxAtIndex: index});
       },
     };
   }
@@ -238,9 +199,11 @@ export default class List extends Component {
   }
 
   resetListItemProps = (index) => {
-    const {listItemPropUpdates} = this.state;
-    listItemPropUpdates[index] = {};
-    this.setState(listItemPropUpdates);
+    const {listItemAttributes, listItemClassNames, listItemChildrenTabIndex} = this.state;
+    listItemAttributes[index] = {};
+    listItemClassNames[index] = [];
+    listItemChildrenTabIndex[index] = -1;
+    this.setState({listItemAttributes, listItemClassNames, listItemChildrenTabIndex});
   }
 
   handleKeyDown = (e, index) => {
@@ -277,9 +240,16 @@ export default class List extends Component {
       ...otherProps
     } = listItem.props;
 
-    const {listItemPropUpdates} = this.state;
-    const props = Object.assign({
-      resetPropUpdates: () => this.resetListItemProps(index),
+    const {
+      focusListItemAtIndex,
+      followHrefAtIndex, 
+      toggleCheckboxAtIndex,
+      listItemAttributes,
+      listItemClassNames,
+      listItemChildrenTabIndex,
+    } = this.state;
+
+    const props = {
       onKeyDown: (e) => {
         onKeyDown();
         this.handleKeyDown(e, index);
@@ -296,8 +266,14 @@ export default class List extends Component {
         onBlur();
         this.handleBlur(e, index);
       },
+      shouldFocus: focusListItemAtIndex === index,
+      shouldFollowHref: followHrefAtIndex === index,
+      shouldToggleCheckbox: toggleCheckboxAtIndex === index,
+      attributesToSet: listItemAttributes[index],
+      classesNamesToAdd: listItemClassNames[index],
+      childrenTabIndex: listItemChildrenTabIndex[index],
       ...otherProps,
-    }, listItemPropUpdates[index]);
+    };
 
     return React.cloneElement(listItem, props);
   }

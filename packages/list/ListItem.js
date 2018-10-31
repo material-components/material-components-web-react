@@ -32,7 +32,6 @@ export default class ListItem extends Component {
       shouldFocus,
       shouldFollowHref,
       shouldToggleCheckbox,
-      resetPropUpdates,
     } = this.props;
     if (shouldFocus !== prevProps.shouldFocus && shouldFocus) {
       this.focus();
@@ -43,7 +42,6 @@ export default class ListItem extends Component {
     if (shouldToggleCheckbox !== prevProps.shouldToggleCheckbox && shouldToggleCheckbox) {
       this.toggleCheckbox();
     }
-    resetPropUpdates();
   }
 
   get classes() {
@@ -114,7 +112,6 @@ ListItem.propTypes = {
   shouldFocus: PropTypes.bool,
   shouldFollowHref: PropTypes.bool,
   shouldToggleCheckbox: PropTypes.bool,
-  resetPropUpdates: PropTypes.func,
   onKeyDown: PropTypes.func,
   onClick: PropTypes.func,
   onFocus: PropTypes.func,
@@ -131,7 +128,6 @@ ListItem.defaultProps = {
   shouldFocus: false,
   shouldFollowHref: false,
   shouldToggleCheckbox: false,
-  resetPropUpdates: () => {},
   onKeyDown: () => {},
   onClick: () => {},
   onFocus: () => {},
