@@ -52,24 +52,24 @@ export default class List extends Component {
   };
 
   componentDidMount() {
-    const {singleSelection, wrapFocus} = this.props;
+    const {singleSelection, wrapFocus, selectedIndex} = this.props;
     this.foundation_ = new MDCListFoundation(this.adapter);
     this.foundation_.init();
     this.foundation_.setSingleSelection(singleSelection);
-    if (singleSelection) {
-      this.setSelectedIndex();
+    if (singleSelection && selectedIndex) {
+      this.foundation_.setSelectedIndex(selectedIndex);
     }
     this.foundation_.setWrapFocus(wrapFocus);
     this.foundation_.setVerticalOrientation(this.props[ARIA_ORIENTATION] === VERTICAL);
   }
 
   componentDidUpdate(prevProps) {
-    const {singleSelection, wrapFocus} = this.props;
+    const {singleSelection, wrapFocus, selectedIndex} = this.props;
     if (singleSelection !== prevProps.singleSelection) {
       this.foundation_.setSingleSelection(singleSelection);
     }
-    if (singleSelection) {
-      this.setSelectedIndex();
+    if (selectedIndex !== prevProps.selectedIndex) {
+      this.foundation_.setSelectedIndex(selectedIndex);
     }
     if (wrapFocus !== prevProps.wrapFocus) {
       this.foundation_.setWrapFocus(wrapFocus);
@@ -81,14 +81,6 @@ export default class List extends Component {
 
   componentWillUnmount() {
     this.foundation_.destroy();
-  }
-
-  setSelectedIndex = () => {
-    React.Children.forEach(this.props.children, (child, index) => {
-      if (child.props.selected) {
-        this.foundation_.setSelectedIndex(index);
-      }
-    });
   }
 
   get classes() {
@@ -182,6 +174,7 @@ export default class List extends Component {
       avatarList,
       twoLine,
       singleSelection,
+      selectedIndex,
       wrapFocus,
       /* eslint-enable no-unused-vars */
       children,
@@ -250,6 +243,7 @@ export default class List extends Component {
     } = this.state;
 
     const props = {
+      ...otherProps,
       onKeyDown: (e) => {
         onKeyDown();
         this.handleKeyDown(e, index);
@@ -270,9 +264,8 @@ export default class List extends Component {
       shouldFollowHref: followHrefAtIndex === index,
       shouldToggleCheckbox: toggleCheckboxAtIndex === index,
       attributesToSet: listItemAttributes[index],
-      classesNamesToAdd: listItemClassNames[index],
+      classNamesToAdd: listItemClassNames[index],
       childrenTabIndex: listItemChildrenTabIndex[index],
-      ...otherProps,
     };
 
     return React.cloneElement(listItem, props);

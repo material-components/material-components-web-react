@@ -74,6 +74,9 @@ export default class ListItem extends Component {
       className,
       classNamesToAdd,
       childrenTabIndex,
+      shouldFocus,
+      shouldFollowHref,
+      shouldToggleCheckbox,
       /* eslint-enable */
       attributesToSet,
       children,

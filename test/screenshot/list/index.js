@@ -10,11 +10,16 @@ import ListItemText from '../../../packages/list/ListItemText';
 import ListItemMeta from '../../../packages/list/ListItemMeta';
 
 class SelectionListTest extends React.Component {
+  state = {
+    selectedIndex: 1,
+  };
+
   render() {
     const {children, ...otherProps} = this.props; // eslint-disable-line react/prop-types
     return (
       <List
         singleSelection
+        selectedIndex={this.state.selectedIndex}
         {...otherProps}
       >
         {children}
@@ -23,9 +28,9 @@ class SelectionListTest extends React.Component {
   }
 }
 
-const renderListItem = (primaryText, secondaryText, selected=false) => {
+const renderListItem = (primaryText, secondaryText) => {
   return (
-    <ListItem selected={selected}>
+    <ListItem>
       <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
       <ListItemText primaryText={primaryText} secondaryText={secondaryText}/>
       <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
@@ -39,7 +44,7 @@ const ListScreenshotTest = () => {
       <h2>Two-line Selection List</h2>
       <SelectionListTest twoLine>
         {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world', true /* selected */)}
+        {renderListItem('hello', 'world')}
         {renderListItem('hello', 'world')}
       </SelectionListTest>
 
