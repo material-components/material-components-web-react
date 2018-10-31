@@ -45,6 +45,7 @@ const ListScreenshotTest = () => {
       <SelectionListTest twoLine>
         {renderListItem('hello', 'world')}
         {renderListItem('hello', 'world')}
+        <li className='mdc-list-divider' role='separator'></li>
         {renderListItem('hello', 'world')}
       </SelectionListTest>
 

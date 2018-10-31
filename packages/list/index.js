@@ -35,6 +35,7 @@ const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
 export default class List extends Component {
+  listItemCount = 0;
   state = {
     focusListItemAtIndex: -1,
     followHrefAtIndex: -1, 
@@ -95,20 +96,15 @@ export default class List extends Component {
 
   get adapter() {
     return {
-      getListItemCount: () => {
-        let count = 0;
-        React.Children.forEach(this.props.children, child => {
-          if (child.type.name === 'ListItem') {
-            count++;
-          }
-        });
-        return count;
-      },
+      getListItemCount: () => this.listItemCount,
       getFocusedElementIndex: () => {
+        let count = -1;
         let index = -1;
-        React.Children.forEach(this.props.children, (child, i) => {
-          if (child === document.activeElement) {
-            index = i;
+        React.Children.forEach(this.props.children, (child) => {
+          if (child.type.name === 'ListItem' && child === document.activeElement) {
+            index = count;
+          } else if (child.type.name === 'ListItem') {
+            count++;
           }
         });
         return index;
@@ -181,22 +177,23 @@ export default class List extends Component {
       ...otherProps
     } = this.props;
 
+    this.listItemCount = 0;
     return (
       <ul
         className={this.classes}
         {...otherProps}
       >
-        {React.Children.map(children, this.renderListItem)}
+        {React.Children.map(children, this.renderChild)}
       </ul>
     );
   }
 
-  resetListItemProps = (index) => {
-    const {listItemAttributes, listItemClassNames, listItemChildrenTabIndex} = this.state;
-    listItemAttributes[index] = {};
-    listItemClassNames[index] = [];
-    listItemChildrenTabIndex[index] = -1;
-    this.setState({listItemAttributes, listItemClassNames, listItemChildrenTabIndex});
+  renderChild = (child) => {
+    if (child.type.name === 'ListItem') {
+      return this.renderListItem(child, this.listItemCount++);
+    } else {
+      return child;
+    }
   }
 
   handleKeyDown = (e, index) => {
