@@ -2,16 +2,7 @@ import React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
 
-import TopAppBar from '../../../packages/top-app-bar/index';
 import MaterialIcon from '../../../packages/material-icon/index';
-import Drawer, {
-  DrawerAppContent,
-  DrawerHeader,
-  DrawerSubtitle,
-  DrawerTitle,
-  DrawerContent,
-} from '../../../packages/drawer/index';
-import List from './List';
 import DrawerAboveTopAppBar from './DrawerAboveTopAppBar';
 import DrawerBelowTopAppBar from './DrawerBelowTopAppBar';
 

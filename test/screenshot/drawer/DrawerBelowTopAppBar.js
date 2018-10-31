@@ -3,7 +3,6 @@ import '../../../packages/drawer/index.scss';
 import './index.scss';
 
 import TopAppBar, {TopAppBarFixedAdjust} from '../../../packages/top-app-bar/index';
-import MaterialIcon from '../../../packages/material-icon/index';
 import Drawer, {
   DrawerAppContent,
   DrawerHeader,
@@ -58,6 +57,6 @@ const DrawerScreenshotTest = ({
       </TopAppBarFixedAdjust>
     </React.Fragment>
   );
-}
+};
 
 export default DrawerScreenshotTest;
