@@ -1,3 +1,5 @@
+# 🔥🌈⚡️ Are you a part of the Material Design web community? Help us improve by filling out this 10 minute <a href='https://bit.ly/materialwebsurvey'>survey</a>. 🔥🌈⚡️
+
 # React Select
 
 MDC React Select is component for MDC Select. Please see [MDC Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/).

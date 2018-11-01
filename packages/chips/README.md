@@ -1,3 +1,5 @@
+# 🔥🌈⚡️ Are you a part of the Material Design web community? Help us improve by filling out this 10 minute <a href='https://bit.ly/materialwebsurvey'>survey</a>. 🔥🌈⚡️
+
 # React Chips
 
 A React version of an [MDC Chips](https://github.com/material-components/material-components-web/tree/master/packages/mdc-chips).
