@@ -1,4 +1,4 @@
-# 🔥🌈⚡️ Are you a part of the Material Design web community? Help us improve by filling out this 10 minute <a href='https://bit.ly/materialwebsurvey'>survey</a>. 🔥🌈⚡️
+>  Are you a part of the Material Design web community? Help us improve by filling out ✨<a href='https://bit.ly/materialwebsurvey'>this 10 minute survey</a>✨.
 
 [![Build Status](https://api.travis-ci.com/material-components/material-components-web-react.svg?branch=master)](https://travis-ci.com/material-components/material-components-web-react/)
 [![codecov](https://codecov.io/gh/material-components/material-components-web-react/branch/master/graph/badge.svg)](https://codecov.io/gh/material-components/material-components-web-react)
