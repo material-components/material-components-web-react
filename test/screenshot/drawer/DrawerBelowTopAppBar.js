@@ -35,7 +35,6 @@ const DrawerScreenshotTest = ({
           open={open}
           onClose={onClose}
           dismissible={dismissible}
-          modal={modal}
         >
           <DrawerHeader>
             <DrawerTitle>

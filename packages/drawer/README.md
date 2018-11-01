@@ -201,7 +201,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className='drawer-container'>
         <Drawer dismissible open={this.state.open}>
           <DrawerHeader>
             <DrawerTitle tag='h2'>
@@ -219,7 +219,7 @@ export default class App extends Component {
           </DrawerContent>
         </Drawer>
 
-        <DrawerAppContent>
+        <DrawerAppContent className='drawer-app-content'>
           <TopAppBar title='Inbox'
             navigationIcon={<MaterialIcon icon='menu' onClick={this.handleClick} />} />
 
@@ -232,6 +232,23 @@ export default class App extends Component {
   }
 }
 
+```
+
+You will also need these styles:
+
+```sass
+
+.drawer-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.drawer-app-content {
+  flex: auto;
+  overflow: auto;
+}
 ```
 
 ###### Dismissible drawer below top app bar
@@ -257,7 +274,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className='drawer-container'>
         <TopAppBar title='Inbox'
           navigationIcon={<MaterialIcon icon='menu' onClick={this.handleClick} />} />
 
@@ -279,7 +296,7 @@ export default class App extends Component {
             </DrawerContent>
           </Drawer>
 
-          <DrawerAppContent>
+          <DrawerAppContent className='drawer-app-content'>
             Your inbox content
           </DrawerAppContent>
         </TopAppBarFixedAdjust>
@@ -288,6 +305,22 @@ export default class App extends Component {
   }
 }
 
+```
+
+You will also need these styles:
+
+```sass
+.drawer-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.drawer-app-content {
+  flex: auto;
+  overflow: auto;
+}
 ```
 
 There is a known issue with the drawer styles when putting the drawer below the top app bar. To get around this, you must update the `.mdc-drawer--dismissible` class in your CSS stylesheets.
@@ -343,6 +376,8 @@ class MyApp extends Component {
 #### Focus Management
 
 It is recommended to shift focus to the first focusable element in the main content when drawer is closed or one of the destination items is activated. (By default, MDC React Drawer restores focus to the menu button which opened it.)
+
+There is also a known bug due to the use of <FocusTrap />. There must be a focusable item in your drawer when using the modal variant. For now, insert an empty `<a />` into your drawer as a workaround.
 
 #### Dismissible Drawer
 

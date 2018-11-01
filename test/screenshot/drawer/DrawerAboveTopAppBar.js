@@ -45,7 +45,7 @@ const DrawerScreenshotTest = ({
         </DrawerContent>
       </Drawer>
 
-      <DrawerAppContent>
+      <DrawerAppContent className='drawer-app-content'>
         <TopAppBar
           title={title}
           navigationIcon={renderNavigationIcon()}
