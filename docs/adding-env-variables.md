@@ -11,18 +11,17 @@ Windows is straightforward and requires just one command.
 Open command line terminal, and enter the following:
 
 ```bat
-SETX SASS_PATH ./node_modules
+SETX SASS_PATH .\node_modules
 ```
 
 > _NOTE:_ Be sure to close that terminal and open a new one for the new settings to take effect.
 
-## Mac OSx
+## Mac OS X
 
 #### Open your `bash_profile`
 You can add an environment variable to your system by updating your `~/.bash_profile`. Open a terminal window and follow these steps:
 
 ```sh
-touch ~/.bash_profile # run this line only if the file doesn't exist
 vi ~/.bash_profile # you can use your favorite text editor here (nano, vim, etc.)
 ```
 
@@ -61,13 +60,13 @@ Open new terminal window for these settings to take effect.
 If you want to keep the same terminal, source your `bash_profile` with the following:
 
 ```sh
-. ~/.bash_profile
+source ~/.bash_profile
 ```
 
 ## Linux
 
-Linux is pretty similar to Mac OSx if you're familiar with that operating system. The steps are identical, with the exception that your environment configuration lives in the `~/.bashrc` file.
+Linux is pretty similar to Mac OS X if you're familiar with that operating system. The steps are identical, with the exception that your environment configuration lives in the `~/.bashrc` file.
 
 
 
-You can add an environment variable to your system by updating your `~/.bash_profile` (on OSx) or `~/.bash_rc` (on Linux). If you're on Windows please read
+You can add an environment variable to your system by updating your `~/.bash_profile` (on OS X) or `~/.bashrc` (on Linux). If you're on Windows please read
