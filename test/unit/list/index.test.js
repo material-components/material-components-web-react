@@ -333,3 +333,16 @@ test('on keydown calls #foudation.handleFocusOut', () => {
   wrapper.simulate('blur', evt);
   td.verify(wrapper.instance().foundation_.handleFocusOut(td.matchers.isA(Object), 1), {times: 1});
 });
+
+test('Test whether first item is selected when selectedIndex is 0.', () => {
+  const wrapper = mount(
+    <List selectedIndex={0}>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  assert.equal(wrapper.state().listItemAttributes['item1'].tabIndex, 0);
+  assert.equal(wrapper.state().listItemAttributes['item2'].tabIndex, -1);
+  assert.equal(wrapper.state().listItemAttributes['item3'].tabIndex, -1);
+});
