@@ -153,6 +153,7 @@ onClick | Function(evt: Event) => void | Callback for handling a click event
 onKeyDown | Function(evt: Event) => void | Callback for handling a keydown event
 onFocus | Function(evt: Event) => void | Callback for handling a focus event
 onBlur | Function(evt: Event) => void | Callback for handling a blur event
+tag | String | Customizes the list tag type (defaults to `'ul'`)
 
 ### ListItem
 
