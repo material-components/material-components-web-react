@@ -50,7 +50,7 @@ export default class List extends Component {
     this.foundation_.setSingleSelection(singleSelection);
     this.foundation_.setWrapFocus(wrapFocus);
     this.foundation_.setVerticalOrientation(this.props[ARIA_ORIENTATION] === VERTICAL);
-    if (selectedIndex) {
+    if (typeof selectedIndex === 'number' && !isNaN(selectedIndex)) {
       this.foundation_.setSelectedIndex(selectedIndex);
     } else {
       const id = this.getListItemIdFromIndex_(0);
