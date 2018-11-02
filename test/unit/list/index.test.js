@@ -229,7 +229,7 @@ test('on click calls #props.onClick', () => {
   td.verify(onClick(td.matchers.isA(Object)), {times: 1});
 });
 
-test('on click calls #foudation.handleClick', () => {
+test('on click calls #foundation.handleClick', () => {
   const wrapper = mount(
     <List>
       <ListItem id='item1' />
@@ -259,7 +259,7 @@ test('on keydown calls #props.onKeyDown', () => {
   td.verify(onKeyDown(td.matchers.isA(Object)), {times: 1});
 });
 
-test('on keydown calls #foudation.handleKeydown', () => {
+test('on keydown calls #foundation.handleKeydown', () => {
   const wrapper = mount(
     <List>
       <ListItem id='item1' />
@@ -289,7 +289,7 @@ test('on focus calls #props.onFocus', () => {
   td.verify(onFocus(td.matchers.isA(Object)), {times: 1});
 });
 
-test('on focus calls #foudation.handleFocusIn', () => {
+test('on focus calls #foundation.handleFocusIn', () => {
   const wrapper = mount(
     <List>
       <ListItem id='item1' />
@@ -319,7 +319,7 @@ test('on blur calls #props.onBlur', () => {
   td.verify(onBlur(td.matchers.isA(Object)), {times: 1});
 });
 
-test('on keydown calls #foudation.handleFocusOut', () => {
+test('on keydown calls #foundation.handleFocusOut', () => {
   const wrapper = mount(
     <List>
       <ListItem id='item1' />
@@ -332,4 +332,9 @@ test('on keydown calls #foudation.handleFocusOut', () => {
   const evt = {target: item2};
   wrapper.simulate('blur', evt);
   td.verify(wrapper.instance().foundation_.handleFocusOut(td.matchers.isA(Object), 1), {times: 1});
+});
+
+test('renders a list with a nav tag', () => {
+  const wrapper = shallow(<List tag='nav' />);
+  assert.equal(wrapper.type(), 'nav');
 });

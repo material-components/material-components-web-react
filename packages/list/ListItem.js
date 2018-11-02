@@ -72,14 +72,16 @@ export default class ListItem extends Component {
       ...otherProps
     } = this.props;
 
+    const SemanticListItem = this.props.href ? 'a' : 'li';
+
     return (
-      <li
+      <SemanticListItem
         className={this.classes}
         ref={this.listItemElement_}
         {...otherProps}
       >
         {React.Children.map(children, this.renderChild)}
-      </li>
+      </SemanticListItem>
     );
   }
 
