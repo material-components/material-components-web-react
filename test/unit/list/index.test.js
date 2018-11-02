@@ -342,7 +342,5 @@ test('Test whether first item is selected when selectedIndex is 0.', () => {
       <ListItem id='item3' />
     </List>
   );
-  assert.equal(wrapper.state().listItemAttributes['item1'].tabIndex, 0);
-  assert.equal(wrapper.state().listItemAttributes['item2'].tabIndex, -1);
-  assert.equal(wrapper.state().listItemAttributes['item3'].tabIndex, -1);
+  assert.isTrue(wrapper.state().listItemAttributes['item1']['aria-selected']);
 });
