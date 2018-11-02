@@ -23,14 +23,13 @@ We release a new version of MDC React every 2 weeks. We try and keep MDC React w
 
 [Related Branch](https://github.com/material-components/material-components-web-react/tree/rc7.0)
 - Depend on MDC Web 0.41.x
-- New menu
-- New dialog
 - New radio
+- Typings
 
 ### 0.8.x - December 2018
 [Related Milestone](https://github.com/material-components/material-components-web-react/milestone/3)
-- Depend on MDC Web 0.42.x
-- Introduce Typescript to select
+- Depend on MDC Web 0.42.X
 - New select (drop down menu attached to a text field)
-- New side sheet
+- New menu
+- New dialog
 - Prefix and suffix support in Text Field
