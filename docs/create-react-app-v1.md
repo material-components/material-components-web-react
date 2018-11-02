@@ -77,7 +77,7 @@ Then rename `./src/App.css` --> `./src/App.scss`. The `build-css` and `watch-css
 ```sass
 // ./src/App.scss
 
-@import "@material/react-button/index"; // the .scss extension is implied
+@import "@material/react-button/index.scss";
 @import "./react-button-overrides";
 
 ...
@@ -117,9 +117,9 @@ Open `./src/App.js`. Then replace the boilerplate App code (entire file) with th
 
 ```js
 import React, {Component} from 'react';
-import Button from '@material/react-button/dist'; // /index.js is implied
+import Button from '@material/react-button';
 
-import './App.css';
+import './App.scss';
 // add the appropriate line(s) in Step 3a if you are using compiled CSS instead.
 
 class App extends Component {

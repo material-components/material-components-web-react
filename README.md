@@ -113,7 +113,7 @@ If you permanently want to add this to your environment, read [adding environmen
 ```sass
 // ./react-button-overrides.scss
 
-@import "@material/button/mixins.scss";
+@import "@material/button/mixins";
 
 .button-alternate {
   @include mdc-button-container-fill-color(lightblue);
