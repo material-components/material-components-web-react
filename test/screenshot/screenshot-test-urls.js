@@ -23,6 +23,7 @@ const urls = [
   'tab-scroller',
   'text-field/helper-text',
   'text-field/icon',
+  'typography',
 ];
 
 topAppBarVariants.forEach((variant) => {
