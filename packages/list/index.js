@@ -252,11 +252,12 @@ export default class List extends Component {
       selectedIndex,
       /* eslint-enable no-unused-vars */
       children,
+      tag: Tag,
       ...otherProps
     } = this.props;
 
     return (
-      <ul
+      <Tag
         className={this.classes}
         onKeyDown={this.onKeyDown}
         onClick={this.onClick}
@@ -265,7 +266,7 @@ export default class List extends Component {
         {...otherProps}
       >
         {React.Children.map(children, this.renderListItem)}
-      </ul>
+      </Tag>
     );
   }
 
@@ -315,6 +316,7 @@ List.propTypes = {
   onClick: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
+  tag: PropTypes.string,
 };
 
 List.defaultProps = {
@@ -330,6 +332,7 @@ List.defaultProps = {
   onClick: () => {},
   onFocus: () => {},
   onBlur: () => {},
+  tag: 'ul',
 };
 
 /* eslint-enable quote-props */
