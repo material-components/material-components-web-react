@@ -91,6 +91,12 @@ If you're on Windows use the following:
 SET SASS_PATH=.\node_modules
 ```
 
+Rename your `src/App.css` file to `src/App.scss`. You will also need to install `node-sass`:
+
+```sh
+npm install node-sass
+```
+
 If you permanently want to add this to your environment, read [adding environment variables](./docs/adding-env-variables.md). You're now ready to start using MDC React Sass modules in your `create-react-app`.
 
 > _NOTE:_ this assumes that you will run `npm start` (or `yarn start`) from the root directory. By default this is how create-react-app is setup.
@@ -98,7 +104,7 @@ If you permanently want to add this to your environment, read [adding environmen
 ```sass
 // ./src/App.scss
 
-@import "@material/react-button/index"; // the .scss extension is implied
+@import "@material/react-button/index.scss";
 @import "./react-button-overrides";
 
 ...
@@ -107,7 +113,7 @@ If you permanently want to add this to your environment, read [adding environmen
 ```sass
 // ./react-button-overrides.scss
 
-@import "@material/button/mixins";
+@import "@material/button/mixins.scss";
 
 .button-alternate {
   @include mdc-button-container-fill-color(lightblue);
@@ -138,7 +144,7 @@ Open `./src/App.js`. Then replace the boilerplate App code (entire file) with th
 
 ```js
 import React, {Component} from 'react';
-import Button from '@material/react-button/dist'; // /index.js is implied
+import Button from '@material/react-button/dist.js';
 
 import './App.css';
 // add the appropriate line(s) in Step 3a if you are using compiled CSS instead.
