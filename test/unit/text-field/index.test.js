@@ -67,26 +67,19 @@ test('style prop adds style attribute', () => {
 
 test('#componentDidMount creates foundation', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  assert.exists(wrapper.instance().foundation_);
-});
-
-test('#componentDidUpdate calls setValue if state.value updates', () => {
-  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.setValue = td.func();
-  wrapper.setState({value: 'value'});
-  td.verify(wrapper.instance().foundation_.setValue('value'), {times: 1});
+  assert.exists(wrapper.state().foundation);
 });
 
 test('#componentDidUpdate does not call setValue if another property updates', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.setValue = td.func();
+  wrapper.state().foundation.setValue = td.func();
   wrapper.setState({dir: 'rtl'});
-  td.verify(wrapper.instance().foundation_.setValue(td.matchers.isA(String)), {times: 0});
+  td.verify(wrapper.state().foundation.setValue(td.matchers.isA(String)), {times: 0});
 });
 
 test('#adapter.addClass adds class to state.classList', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.addClass('test-class-name');
+  wrapper.state().foundation.adapter_.addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
 
@@ -95,7 +88,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
   const classList = new Set();
   classList.add('test-class-name');
   wrapper.setState({classList});
-  wrapper.instance().foundation_.adapter_.removeClass('test-class-name');
+  wrapper.state().foundation.adapter_.removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
@@ -104,49 +97,63 @@ test('#adapter.removeClass removes class from state.classList', () => {
   const classList = new Set();
   classList.add('test-class-name');
   wrapper.setState({classList});
-  assert.isTrue(wrapper.instance().foundation_.adapter_.hasClass('test-class-name'));
+  assert.isTrue(wrapper.state().foundation.adapter_.hasClass('test-class-name'));
 });
 
 test('#adapter.isFocused returns true if state.isFocused updates to true', () => {
   const wrapper = mount(<TextField label='my label'><Input /></TextField>);
   wrapper.setState({isFocused: true});
-  assert.isTrue(wrapper.instance().foundation_.adapter_.isFocused());
+  assert.isTrue(wrapper.state().foundation.adapter_.isFocused());
 });
 
 test('#adapter.isRtl returns true props.isRtl if is true', () => {
   const wrapper = shallow(
     <TextField isRtl label='my label'><Input /></TextField>);
-  assert.isTrue(wrapper.instance().foundation_.adapter_.isRtl());
+  assert.isTrue(wrapper.state().foundation.adapter_.isRtl());
 });
 
 test('#adapter.isRtl returns false props.isRtl if is false', () => {
   const wrapper = mount(
     <TextField label='my label'><Input /></TextField>);
-  assert.isFalse(wrapper.instance().foundation_.adapter_.isRtl());
+  assert.isFalse(wrapper.state().foundation.adapter_.isRtl());
 });
 
-test('#adapter.input.getNativeInput.validity.badInput return false for valid input', () => {
-  const wrapper = mount(<TextField label='my label'><Input /></TextField>);
-  const badInput = wrapper.instance().foundation_.adapter_.getNativeInput().validity.badInput;
-  assert.isFalse(badInput);
+test('#adapter.input.getNativeInput.validity.valid returns false for invalid input with email pattern', () => {
+  const wrapper = mount(<TextField label='my label'>
+    <Input value='123' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'/>
+  </TextField>);
+  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
+  assert.isFalse(valid);
 });
 
-test('#adapter.input.getNativeInput.validity.valid returns true for valid input', () => {
-  const wrapper = mount(<TextField label='my label'><Input /></TextField>);
-  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
+test('#adapter.input.getNativeInput.validity.valid returns false for required field with no value', () => {
+  const wrapper = mount(<TextField label='my label'>
+    <Input value='' required/>
+  </TextField>);
+  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
+  assert.isFalse(valid);
+});
+
+test('#adapter.input.getNativeInput.validity.valid returns true for required field with value', () => {
+  const wrapper = mount(<TextField label='my label'>
+    <Input value='value' required/>
+  </TextField>);
+  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
   assert.isTrue(valid);
 });
 
-test('#adapter.input.getNativeInput.validity.valid returns false for invalid input', () => {
-  const wrapper = mount(<TextField label='my label'><Input value='123' pattern='[a-z]'/></TextField>);
-  const valid = wrapper.instance().foundation_.adapter_.getNativeInput().validity.valid;
-  assert.isFalse(valid);
+test('#adapter.input.getNativeInput.validity.valid returns true for valid email', () => {
+  const wrapper = mount(<TextField label='my label'>
+    <Input value='chevy@gmail.com' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'/>
+  </TextField>);
+  const valid = wrapper.state().foundation.adapter_.getNativeInput().validity.valid;
+  assert.isTrue(valid);
 });
 
 test('#get adapter.input.value returns state.value', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.setState({value: '123'});
-  const value = wrapper.instance().foundation_.adapter_.getNativeInput().value;
+  const value = wrapper.state().foundation.adapter_.getNativeInput().value;
   assert.equal(value, '123');
 });
 
@@ -158,7 +165,7 @@ test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
     }),
   });
 
-  wrapper.instance().foundation_.adapter_.shakeLabel(true);
+  wrapper.state().foundation.adapter_.shakeLabel(true);
   td.verify(wrapper.instance().floatingLabelElement.current.shake(), {times: 1});
 });
 
@@ -170,26 +177,26 @@ test('#adapter.label.shakeLabel does not call floatingLabelElement shake if fals
     }),
   });
 
-  wrapper.instance().foundation_.adapter_.shakeLabel(false);
+  wrapper.state().foundation.adapter_.shakeLabel(false);
   td.verify(wrapper.instance().floatingLabelElement.current.shake(), {times: 0});
 });
 
 test('#adapter.label.floatLabel updates state.labelIsFloated to true', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.floatLabel(true);
+  wrapper.state().foundation.adapter_.floatLabel(true);
   assert.isTrue(wrapper.state().labelIsFloated);
 });
 
 test('#adapter.label.floatLabel updates state.labelIsFloated to false', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.setState({labelIsFloated: true});
-  wrapper.instance().foundation_.adapter_.floatLabel(false);
+  wrapper.state().foundation.adapter_.floatLabel(false);
   assert.isFalse(wrapper.state().labelIsFloated);
 });
 
 test('#adapter.label.hasLabel returns true if label exists', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  assert.isTrue(wrapper.instance().foundation_.adapter_.hasLabel());
+  assert.isTrue(wrapper.state().foundation.adapter_.hasLabel());
 });
 
 test('#adapter.label.hasLabel returns true if label exists', () => {
@@ -198,20 +205,20 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
   const options = {attachTo: div};
   const wrapper = mount(
     <TextField label='my label'><Input /></TextField>, options);
-  assert.equal(wrapper.instance().foundation_.adapter_.getLabelWidth(), 56);
+  assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), 56);
   div.remove();
 });
 
 test('#adapter.label.getLabelWidth returns state.initialLabelWidth', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.setState({initialLabelWidth: 88});
-  assert.equal(wrapper.instance().foundation_.adapter_.getLabelWidth(), 88);
+  assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), 88);
 });
 
 test('#adapter.lineRipple.activeLineRipple sets state.activeLineRipple to true', () => {
   const wrapper = shallow(
     <TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.activateLineRipple();
+  wrapper.state().foundation.adapter_.activateLineRipple();
   assert.isTrue(wrapper.state().activeLineRipple);
 });
 
@@ -219,64 +226,64 @@ test('#adapter.lineRipple.deactivateLineRipple sets state.activeLineRipple to fa
   const wrapper = shallow(
     <TextField label='my label'><Input /></TextField>);
   wrapper.setState({activateLineRipple: true});
-  wrapper.instance().foundation_.adapter_.deactivateLineRipple();
+  wrapper.state().foundation.adapter_.deactivateLineRipple();
   assert.isFalse(wrapper.state().activeLineRipple);
 });
 
 test('#adapter.lineRipple.setLineRippleTransformOrigin sets state.lineRippleCenter', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.setLineRippleTransformOrigin(123);
+  wrapper.state().foundation.adapter_.setLineRippleTransformOrigin(123);
   assert.equal(wrapper.state().lineRippleCenter, 123);
 });
 
 test('#adapter.notchedOutline.notchOutline sets state.outlineIsNotched to true', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.notchOutline();
+  wrapper.state().foundation.adapter_.notchOutline();
   assert.isTrue(wrapper.state().outlineIsNotched);
 });
 
 test('#adapter.notchedOutline.notchOutline sets state.notchedLabelWidth', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.notchOutline(90);
+  wrapper.state().foundation.adapter_.notchOutline(90);
   assert.equal(wrapper.state().notchedLabelWidth, 90);
 });
 
 test('#adapter.notchedOutline.closeOutline sets state.outlineIsNotched to false', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.adapter_.closeOutline();
+  wrapper.state().foundation.adapter_.closeOutline();
   assert.isFalse(wrapper.state().outlineIsNotched);
 });
 
 test('#adapter.notchedOutline.hasOutline returns true if props.outlined is set', () => {
   const wrapper = shallow(<TextField label='my label' outlined><Input /></TextField>);
-  const hasOutline = wrapper.instance().foundation_.adapter_.hasOutline();
+  const hasOutline = wrapper.state().foundation.adapter_.hasOutline();
   assert.isTrue(hasOutline);
 });
 
 test('#adapter.helperText.showToScreenReader toggles state.showHelperTextToScreenReader', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.helperText_.showToScreenReader();
+  wrapper.state().foundation.helperText_.showToScreenReader();
   assert.isTrue(wrapper.state().showHelperTextToScreenReader);
 });
 
 test('#adapter.helperText.setValidity sets isValid to true', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.helperText_.setValidity(true);
+  wrapper.state().foundation.helperText_.setValidity(true);
   assert.isTrue(wrapper.state().isValid);
 });
 
 test('#events.onClick triggers #foundation.handleTextFieldInteraction', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.handleTextFieldInteraction = td.func();
+  wrapper.state().foundation.handleTextFieldInteraction = td.func();
   wrapper.simulate('click');
-  td.verify(wrapper.instance().foundation_.handleTextFieldInteraction(), {times: 1});
+  td.verify(wrapper.state().foundation.handleTextFieldInteraction(), {times: 1});
 });
 
 test('#events.onKeyDown triggers #foundation.handleTextFieldInteraction', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().foundation_.handleTextFieldInteraction = td.func();
+  wrapper.state().foundation.handleTextFieldInteraction = td.func();
   wrapper.simulate('keyDown');
-  td.verify(wrapper.instance().foundation_.handleTextFieldInteraction(), {times: 1});
+  td.verify(wrapper.state().foundation.handleTextFieldInteraction(), {times: 1});
 });
 
 test('renders leadingIcon if passed as prop', () => {
@@ -345,6 +352,17 @@ test('renders textarea if textarea variant', () => {
   assert.equal(wrapper.find('textarea').length, 1);
 });
 
+test('does not render input if there is no foundation', () => {
+  const wrapper = shallow(<TextField label='my label'><Input /></TextField>, {disableLifecycleMethods: true});
+  assert.equal(wrapper.find(Input).length, 0);
+});
+
+test('renders input after foundation is created', () => {
+  const wrapper = shallow(<TextField label='my label'><Input /></TextField>, {disableLifecycleMethods: true});
+  wrapper.setState({foundation: {}});
+  assert.equal(wrapper.find(Input).length, 1);
+});
+
 test('#inputProps.handleFocusChange updates state.isFocused', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   wrapper.instance().inputProps({}).handleFocusChange(true);
@@ -353,8 +371,15 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
 
 test('#inputProps.handleValueChange updates state.value', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  wrapper.instance().inputProps({}).handleValueChange('meow');
+  wrapper.instance().inputProps({}).handleValueChange('meow', td.func());
   assert.equal(wrapper.state().value, 'meow');
+});
+
+test('#inputProps.handleValueChange calls cb after state is set', () => {
+  const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
+  const callback = td.func();
+  wrapper.instance().inputProps({}).handleValueChange('meow', callback);
+  td.verify(callback(), {times: 1});
 });
 
 test('#inputProps.setDisabled updates state.disabled', () => {
@@ -371,7 +396,7 @@ test('#inputProps.setInputId updates state.disabled', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.state().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
