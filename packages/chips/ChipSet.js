@@ -29,14 +29,15 @@ import ChipCheckmark from './ChipCheckmark';
 
 export default class ChipSet extends Component {
   checkmarkWidth_ = 0;
-  foundation_ = null;
+
   state = {
     selectedChipIds: new Set(this.props.selectedChipIds),
+    foundation: null,
   };
 
   componentDidMount() {
-    this.foundation_ = new MDCChipSetFoundation(this.adapter);
-    this.foundation_.init();
+    this.state.foundation = new MDCChipSetFoundation(this.adapter);
+    this.state.foundation.init();
     this.updateChipSelection();
   }
 
@@ -49,7 +50,7 @@ export default class ChipSet extends Component {
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.state.foundation.destroy();
   }
 
   get classes() {
@@ -73,6 +74,7 @@ export default class ChipSet extends Component {
         }
         this.setState({selectedChipIds});
       },
+      removeChip: this.removeChip,
     };
   }
 
@@ -80,39 +82,30 @@ export default class ChipSet extends Component {
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
       if (ids.has(id)) {
-        this.foundation_.select(id);
-      } else {
-        // remove deselect when MDC Web issue 3612 is fixed
-        this.foundation_.deselect(id);
+        this.state.foundation.select(id);
       }
     });
   }
 
-  handleSelect = (chipId) => {
-    const {handleSelect, choice, filter} = this.props;
-    // update when mdc web issue is fix
-    // https://github.com/material-components/material-components-web/issues/3613
-    // filter || choice is duplicate logic found in MDC Web foundation code
-    if (filter || choice) {
-      this.foundation_.toggleSelect(chipId);
-    }
-    handleSelect(this.foundation_.getSelectedChipIds());
+  handleInteraction = (chipId) => {
+    const {handleSelect} = this.props;
+    this.state.foundation.handleChipInteraction(chipId);
+    handleSelect(this.state.foundation.getSelectedChipIds());
   }
+
+  handleSelect = (chipId) => {
+    const {handleSelect} = this.props;
+    this.state.foundation.handleChipSelection(chipId);
+    handleSelect(this.state.foundation.getSelectedChipIds());
+  }
+
 
   handleRemove = (chipId) => {
-    const {input} = this.props;
-    if (input) {
-      // this should be calling foundation_.handleChipRemoval, but we would
-      // need to pass evt.detail.chipId
-      // fix when MDC Web issue 3613 is fixed
-      this.foundation_.deselect(chipId);
+    if (this.props.input) {
+      this.state.foundation.handleChipRemoval(chipId);
     }
-    this.removeChip(chipId);
   }
 
-  // this should be adapter_.removeChip, but cannot be complete until
-  // https://github.com/material-components/material-components-web/issues/3613
-  // is fixed
   removeChip = (chipId) => {
     const {updateChips, children} = this.props;
     if (!children) return;
@@ -149,6 +142,7 @@ export default class ChipSet extends Component {
     const props = Object.assign({
       selected: selectedChipIds.has(chip.props.id),
       handleSelect: this.handleSelect,
+      handleInteraction: this.handleInteraction,
       handleRemove: this.handleRemove,
       chipCheckmark: filter ? <ChipCheckmark ref={this.setCheckmarkWidth}/> : null,
       computeBoundingRect: filter ? this.computeBoundingRect : null,
@@ -158,6 +152,9 @@ export default class ChipSet extends Component {
   }
 
   render() {
+    // need foundation on state, because Chip calls a foundation method
+    // before ChipSet mounts
+    if (!this.state.foundation) return null;
     return (
       <div className={this.classes}>
         {React.Children.map(this.props.children, this.renderChip)}
