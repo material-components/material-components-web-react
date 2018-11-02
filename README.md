@@ -121,7 +121,6 @@ If you permanently want to add this to your environment, read [adding environmen
 
 ```
 
-
 #### Step 3a: Use Compiled CSS
 
 If you performed [Step 3](#step-3-using-sass), then you can skip to [Step 4](#step-4-use-mdc-react-button).
@@ -144,9 +143,9 @@ Open `./src/App.js`. Then replace the boilerplate App code (entire file) with th
 
 ```js
 import React, {Component} from 'react';
-import Button from '@material/react-button/dist.js';
+import Button from '@material/react-button';
 
-import './App.css';
+import './App.scss';
 // add the appropriate line(s) in Step 3a if you are using compiled CSS instead.
 
 class App extends Component {
