@@ -109,6 +109,8 @@ class MyApp extends Component {
 
 You can use the `singleSelection` Boolean prop for `List` to allow for selection of list items. You can also set the `selectedIndex` of the list programmatically.
 
+> _NOTE_: If you are inserting or removing list items, you must update the `selectedIndex` accordingly.
+
 ```js
 class MyApp extends React.Component {
   state = {

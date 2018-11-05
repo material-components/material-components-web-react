@@ -189,12 +189,28 @@ test('#handleKeyDown calls #foudation.handleKeydown', () => {
   td.verify(wrapper.instance().foundation_.handleKeydown(evt, true, 1), {times: 1});
 });
 
+test('#handleKeyDown calls #props.handleSelect', () => {
+  const handleSelect = td.func();
+  const wrapper = shallow(<List handleSelect={handleSelect}/>);
+  const evt = {persist: () => {}, key: 'Enter'};
+  wrapper.instance().handleKeyDown(evt, 1);
+  td.verify(handleSelect(1), {times: 1});
+});
+
 test('#handleClick calls #foudation.handleClick', () => {
   const wrapper = shallow(<List/>);
   wrapper.instance().foundation_.handleClick = td.func();
   wrapper.instance().handleClick({target: {type: 'span'}}, 1);
   td.verify(wrapper.instance().foundation_.handleClick(1, false), {times: 1});
 });
+
+test('#handleClick calls #props.handleSelect', () => {
+  const handleSelect = td.func();
+  const wrapper = shallow(<List handleSelect={handleSelect}/>);
+  wrapper.instance().handleClick({target: {type: 'span'}}, 1);
+  td.verify(handleSelect(1), {times: 1});
+});
+
 test('#handleFocus calls #foudation.handleFocusIn', () => {
   const wrapper = shallow(<List/>);
   wrapper.instance().foundation_.handleFocusIn = td.func();
@@ -210,11 +226,6 @@ test('#handleBlur calls #foudation.handleFocusOut', () => {
   wrapper.instance().handleBlur(evt, 1);
   td.verify(wrapper.instance().foundation_.handleFocusOut(evt, 1), {times: 1});
 });
-
-// test('tabIndex of the first list item is set to 0 in state.listItemAttributes', () => {
-//   const wrapper = mount(<List/>);
-//   assert.equal(wrapper.state().listItemAttributes[0].tabIndex, 0);
-// });
 
 test('#renderListItem renders default list item at index 0', () => {
   const wrapper = mount(

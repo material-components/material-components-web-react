@@ -40,6 +40,7 @@ class SelectionListTest extends React.Component {
           {...this.props}
           singleSelection
           selectedIndex={this.state.selectedIndex}
+          handleSelect={(selectedIndex) => this.setState({selectedIndex})}
         >
           {this.state.listItems.map((text) => renderListItem(text))}
         </List>
