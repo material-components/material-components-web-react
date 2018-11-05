@@ -206,7 +206,7 @@ export default class List extends Component {
     e.persist(); // Persist the synthetic event to access its `key`
     if (index >= 0) {
       this.foundation_.handleKeydown(e, true /* isRootListItem is true if index >= 0 */, index);
-      // Work around until MDC Web issue is resolved: 
+      // Work around until MDC Web issue is resolved:
       // https://github.com/material-components/material-components-web/issues/4053
       if (e.key === 'Enter' || e.keyCode === 13 || e.key === 'Space' || e.keyCode === 32) {
         this.props.handleSelect(index);
@@ -218,7 +218,7 @@ export default class List extends Component {
     // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
     const toggleCheckbox = e.target.type === 'checkbox';
     this.foundation_.handleClick(index, toggleCheckbox);
-    // Work around until MDC Web issue is resolved: 
+    // Work around until MDC Web issue is resolved:
     // https://github.com/material-components/material-components-web/issues/4053
     this.props.handleSelect(index);
   }
