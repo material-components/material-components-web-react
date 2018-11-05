@@ -58,7 +58,7 @@ export default class List extends Component {
     this.foundation_ = new MDCListFoundation(this.adapter);
     this.foundation_.init();
     this.foundation_.setSingleSelection(singleSelection);
-    if (singleSelection && selectedIndex) {
+    if (singleSelection && typeof selectedIndex === 'number' && !isNaN(selectedIndex)) {
       this.foundation_.setSelectedIndex(selectedIndex);
     }
     this.foundation_.setWrapFocus(wrapFocus);
@@ -70,7 +70,7 @@ export default class List extends Component {
     if (singleSelection !== prevProps.singleSelection) {
       this.foundation_.setSingleSelection(singleSelection);
     }
-    if (selectedIndex !== prevProps.selectedIndex) {
+    if (selectedIndex !== prevProps.selectedIndex && typeof selectedIndex === 'number' && !isNaN(selectedIndex)) {
       this.foundation_.setSelectedIndex(selectedIndex);
     }
     if (wrapFocus !== prevProps.wrapFocus) {

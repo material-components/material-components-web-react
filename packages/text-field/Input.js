@@ -31,11 +31,18 @@ export default class Input extends React.Component {
   state = {wasUserTriggeredChange: false};
 
   componentDidMount() {
-    if (this.props.id) {
-      this.props.setInputId(this.props.id);
+    const {
+      id, disabled, value, setInputId, setDisabled, handleValueChange, foundation,
+    } = this.props;
+
+    if (id) {
+      setInputId(id);
     }
-    if (this.props.disabled) {
-      this.props.setDisabled(true);
+    if (disabled) {
+      setDisabled(true);
+    }
+    if (value) {
+      handleValueChange(value, () => foundation.setValue(value));
     }
   }
 
@@ -59,15 +66,6 @@ export default class Input extends React.Component {
 
     if (id !== prevProps.id) {
       setInputId(id);
-    }
-
-    // this should be in the componentDidMount, but foundation is not created
-    // at that time.
-    // Will fix this in
-    // https://github.com/material-components/material-components-web-react/pull/353/files
-    if (value && foundation !== prevProps.foundation) {
-      handleValueChange(value, () => foundation.setValue(value));
-      return;
     }
 
     if (value !== prevProps.value) {
@@ -193,6 +191,7 @@ Input.propTypes = {
     deactivateFocus: PropTypes.func,
     autoCompleteFocus: PropTypes.func,
     setDisabled: PropTypes.func,
+    setValue: PropTypes.func,
     setTransformOrigin: PropTypes.func,
     handleValidationAttributeMutation_: PropTypes.func,
   }),
@@ -222,6 +221,7 @@ Input.defaultProps = {
     autoCompleteFocus: () => {},
     setDisabled: () => {},
     setTransformOrigin: () => {},
+    setValue: () => {},
     handleValidationAttributeMutation_: () => {},
   },
   handleValueChange: () => {},

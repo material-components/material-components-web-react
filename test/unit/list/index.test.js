@@ -349,3 +349,14 @@ test('#renderListItem renders list item with state.listItemChildrenTabIndex at i
   assert.equal(children[1].props.childrenTabIndex, 0);
   assert.equal(children[2].props.childrenTabIndex, -1);
 });
+
+test('Test whether first item is selected when selectedIndex is 0.', () => {
+  const wrapper = mount(
+    <List selectedIndex={0}>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  assert.isTrue(wrapper.state().listItemAttributes['item1']['aria-selected']);
+});

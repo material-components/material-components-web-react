@@ -136,9 +136,29 @@ export default class TopAppBar extends React.Component {
     };
   }
 
+  get otherProps() {
+    const {
+      /* eslint-disable no-unused-vars */
+      actionItems,
+      className,
+      fixed,
+      title,
+      navigationIcon,
+      short,
+      shortCollapsed,
+      prominent,
+      /* eslint-enable no-unused-vars */
+      ...otherProps
+    } = this.props;
+
+    return otherProps;
+  }
+
   render() {
     return (
-      <header className={this.classes}
+      <header
+        {...this.otherProps}
+        className={this.classes}
         style={this.getMergedStyles()}
         ref={this.topAppBarElement}>
         <div className='mdc-top-app-bar__row'>
@@ -208,7 +228,9 @@ TopAppBar.propTypes = {
   short: PropTypes.bool,
   shortCollapsed: PropTypes.bool,
   style: PropTypes.object,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.element,
+  ]),
 };
 
 TopAppBar.defaultProps = {
