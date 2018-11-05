@@ -30,6 +30,8 @@ import ListItem from './ListItem';
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
 import ListItemMeta from './ListItemMeta';
+import ListGroup from './ListGroup';
+import ListGroupSubheader from './ListGroupSubheader';
 
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
@@ -312,4 +314,4 @@ List.defaultProps = {
 
 /* eslint-enable quote-props */
 
-export {ListItem, ListItemGraphic, ListItemText, ListItemMeta};
+export {ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListGroup, ListGroupSubheader};

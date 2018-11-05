@@ -3,11 +3,14 @@ import './index.scss';
 import '../../../packages/list/index.scss';
 
 import MaterialIcon from '../../../packages/material-icon';
-import List from '../../../packages/list/index';
-import {ListItem} from '../../../packages/list/index';
-import ListItemGraphic from '../../../packages/list/ListItemGraphic';
-import ListItemText from '../../../packages/list/ListItemText';
-import ListItemMeta from '../../../packages/list/ListItemMeta';
+import List, {
+  ListItem,
+  ListItemGraphic,
+  ListItemText,
+  ListItemMeta,
+  ListGroup,
+  ListGroupSubheader,
+} from '../../../packages/list/index';
 import uuidv1 from 'uuid/v1';
 
 const renderListItem = (primaryText, secondaryText) => {
@@ -57,12 +60,28 @@ const ListScreenshotTest = () => {
 
       <h2>Two-line List</h2>
       <List twoLine>
-        {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world')}
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
         <li className='mdc-list-divider' role='separator'></li>
-        {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world')}
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
       </List>
+
+      <h2>List group</h2>
+      <ListGroup>
+        <ListGroupSubheader>Folders</ListGroupSubheader>
+        <List>
+          {renderListItem('Photos')}
+          {renderListItem('Recipes')}
+          {renderListItem('Work')}
+        </List>
+        <ListGroupSubheader>Recent Files</ListGroupSubheader>
+        <List>
+          {renderListItem('Vacation itinerary')}
+          {renderListItem('Kitchen remodel')}
+        </List>
+      </ListGroup>
     </div>
   );
 };
