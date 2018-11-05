@@ -42,6 +42,8 @@ Component | Spec | MDC Web
 
 `create-react-app` is a popular CLI tool to getting started with React. If you're new to React or Webpack, you might be starting out here. This section will walk you through configuring `create-react-app` to install and use our components.
 
+If you're using an older version (v1) of `create-react-app`, please refer to our [create-react-app-v1 doc](docs/create-react-app-v1.md).
+
 >  Recommended things to know
 
 > 1. node/npm
@@ -51,18 +53,17 @@ Component | Spec | MDC Web
 
 > _NOTE:_ If you haven't used `create-react-app` before, you may want to read the [Overview Guide](https://github.com/facebook/create-react-app#quick-overview).
 
-
 #### Step 1: Install create-react-app
 
 Install `create-react-app`:
 
 ```
-npm i -g create-react-app
-create-react-app my-app
+npx create-react-app my-app
 cd my-app
+npm start
 ```
 
-> NOTE: all npm commands can be replaced with yarn
+> _NOTE:_ all npm commands can be replaced with yarn
 
 #### Step 2: Install Components
 
@@ -76,46 +77,36 @@ npm install --save @material/react-button
 
 If you want to use the compiled CSS and not customize any colors, text, etc. you can skip to [Step 3a](#step-3a-use-compiled-css).
 
-Most likely you'll want to start using the [Sass mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass) to customize your app. There are a few ways to achieve this. `create-react-app` does have a [recommended approach](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc), which we also recommend.
+Most likely you'll want to start using the [Sass mixins](https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md#sass) to customize your app. MDC Sass files are not supported out of the box, since we do not prepend `~` to our module imports. See this [Github issue](https://github.com/facebook/create-react-app/issues/4494#issuecomment-428531848) explaining the issue in detail. There is a workaround, but requires some work on your end (we promise it is not too difficult).
 
-The following is an alternate version of the `create-react-app` approach. The difference being all the `node_modules` imports will go into `./src/App.scss`. First install `node-sass-chokidar`:
+##### Add environment variable
 
-```
-npm install -D node-sass-chokidar npm-run-all
-```
+To get MDC React Components to work with `create-react-app` you need to set a `SASS_PATH` environment variable that points to your `node_modules` directory. To quickly do this on OS X or Linux enter the following in your command line:
 
-In `package.json` replace the following:
-
-```js
-"scripts": {
-  "start": "react-scripts start",
-  "build": "react-scripts build",
-  "test": "react-scripts test --env=jsdom",
-  "eject": "react-scripts eject"
-}
+```sh
+export SASS_PATH=./node_modules
 ```
 
-with:
+If you're on Windows use the following:
 
-```js
-"scripts": {
-  "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules ./src/App.scss -o ./src",
-  "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules --watch ./src/App.scss ./src/App.css",
-  "start-js": "react-scripts start",
-  "start": "npm-run-all -p watch-css start-js",
-  "build-js": "react-scripts build",
-  "build": "npm-run-all build-css build-js",
-  "test": "react-scripts test --env=jsdom",
-  "eject": "react-scripts eject"
-}
+```bat
+SET SASS_PATH=.\node_modules
 ```
 
-Then rename `./src/App.css` --> `./src/App.scss`. The `build-css` and `watch-css` tasks will now watch App.scss file changes, which holds all your Sass imports. You can now import Sass files from `node_modules` like so:
+Rename your `src/App.css` file to `src/App.scss`. You will also need to install `node-sass`:
+
+```sh
+npm install node-sass
+```
+
+If you permanently want to add this to your environment, read [adding environment variables](./docs/adding-env-variables.md). You're now ready to start using MDC React Sass modules in your `create-react-app`.
+
+> _NOTE:_ this assumes that you will run `npm start` (or `yarn start`) from the root directory. By default this is how create-react-app is setup.
 
 ```sass
 // ./src/App.scss
 
-@import "@material/react-button/index"; // the .scss extension is implied
+@import "@material/react-button/index.scss";
 @import "./react-button-overrides";
 
 ...
@@ -131,7 +122,6 @@ Then rename `./src/App.css` --> `./src/App.scss`. The `build-css` and `watch-css
 }
 
 ```
-
 
 #### Step 3a: Use Compiled CSS
 
@@ -155,9 +145,9 @@ Open `./src/App.js`. Then replace the boilerplate App code (entire file) with th
 
 ```js
 import React, {Component} from 'react';
-import Button from '@material/react-button/dist'; // /index.js is implied
+import Button from '@material/react-button';
 
-import './App.css';
+import './App.scss';
 // add the appropriate line(s) in Step 3a if you are using compiled CSS instead.
 
 class App extends Component {
