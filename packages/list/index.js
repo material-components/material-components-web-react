@@ -40,6 +40,7 @@ export default class List extends Component {
     focusListItemAtIndex: -1,
     followHrefAtIndex: -1, 
     toggleCheckboxAtIndex: -1,
+
     // listItemAttributes: {index: {attr: value}}
     listItemAttributes: {
       0: {
@@ -85,9 +86,9 @@ export default class List extends Component {
   }
 
   get classes() {
-    const {className, nonInterative, dense, avatarList, twoLine} = this.props;
+    const {className, nonInteractive, dense, avatarList, twoLine} = this.props;
     return classnames('mdc-list', className, {
-      'mdc-list--non-interactive': nonInterative,
+      'mdc-list--non-interactive': nonInteractive,
       'mdc-list--dense': dense,
       'mdc-list--avatar-list': avatarList,
       'mdc-list--two-line': twoLine,
@@ -165,7 +166,7 @@ export default class List extends Component {
     const {
       /* eslint-disable no-unused-vars */
       className,
-      nonInterative,
+      nonInteractive,
       dense,
       avatarList,
       twoLine,
@@ -274,7 +275,7 @@ export default class List extends Component {
 List.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  nonInterative: PropTypes.bool,
+  nonInteractive: PropTypes.bool,
   dense: PropTypes.bool,
   avatarList: PropTypes.bool,
   twoLine: PropTypes.bool,
@@ -285,7 +286,7 @@ List.propTypes = {
 
 List.defaultProps = {
   className: '',
-  nonInterative: false,
+  nonInteractive: false,
   dense: false,
   avatarList: false,
   twoLine: false,
