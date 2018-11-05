@@ -60,7 +60,7 @@ class MyApp extends React.Component {
           open={this.state.open}
           anchorCorner={Corner.BOTTOM_LEFT}
           onClose={() => this.setState({open: false})}
-          anchorElement={anchorElement}
+          anchorElement={this.state.anchorElement}
         >
           <img
             style={{maxWidth: '20vw', maxHeight: '20vh'}}
@@ -83,6 +83,7 @@ import MenuSurface from '@material/react-menu-surface';
 class MyApp extends React.Component {
   state = {
     open: false,
+    coordinates: null,
   };
 
   componentDidMount() {
@@ -109,7 +110,7 @@ class MyApp extends React.Component {
         <MenuSurface
           open={this.state.open}
           onClose={() => this.setState({open: false, coordinates: null})}
-          coordinates={coordinates}
+          coordinates={this.state.coordinates}
         >
           <img
             style={{maxWidth: '20vw', maxHeight: '20vh'}}
