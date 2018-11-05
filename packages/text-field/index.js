@@ -100,6 +100,14 @@ class TextField extends React.Component {
     });
   }
 
+  get inputElement() {
+    let element = this.inputElement_.current;
+    if (!element) return null;
+    element = element.inputElement;
+    if (!element) return null;
+    return element.current;
+  }
+
   get otherProps() {
     const {
       /* eslint-disable no-unused-vars */

@@ -97,6 +97,46 @@ value | Number/String | Value of the input.
 
 >NOTE: the `<Input>` component will receive all properties that a standard `<input>` accepts.
 
+### Accessing the Native Input element
+
+There will be times when you need to access the native <input />. For example if you need to focus the text field, you can add a ref to the `<TextField />` element and access the `<input />` like so:
+
+```js
+import React from 'react';
+import TextField, {Input} from '@material/react-text-field';
+import Button from '@material/react-button';
+
+class MyApp extends React.Component {
+  textFieldElement = React.createRef();
+  state = {value: 'Woof'};
+
+  focusTextField = () => {
+    const inputElement = this.textFieldElement.current.inputElement;
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <div>
+          <Button onClick={this.focusTextField}>Focus Text Field</Button>
+        </div>
+        <TextField
+          label='Dog'
+          ref={this.textFieldElement}
+        >
+          <Input
+            value={this.state.value}
+            onChange={(e) => this.setState({value: e.target.value})}/>
+        </TextField>
+      </div>
+    );
+  }
+}
+```
+
 
 ### Sass Mixins
 

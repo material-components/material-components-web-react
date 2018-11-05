@@ -394,6 +394,13 @@ test('#inputProps.setInputId updates state.disabled', () => {
   assert.equal(wrapper.state().inputId, 'my-id');
 });
 
+test('#inputElement should return the native input element', () => {
+  const wrapper = mount(<TextField label='my label'><Input /></TextField>);
+  const inputElement = wrapper.instance().inputElement;
+  assert.equal(inputElement.tagName.toLowerCase(), 'input');
+  assert.isTrue(inputElement instanceof HTMLInputElement);
+});
+
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   const foundation = wrapper.state().foundation;
