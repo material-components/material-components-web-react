@@ -40,6 +40,30 @@ test('#isValid returns false if input is invalid', () => {
   assert.isFalse(isValidInput);
 });
 
+test('#isValid returns true if prop.isValid is set to true', () => {
+  const wrapper = mount(<Input value='m' pattern='[a-z]' isValid />);
+  const isValidInput = wrapper.instance().isValid();
+  assert.isTrue(isValidInput);
+});
+
+test('#isValid returns false if prop.isValid is set to false', () => {
+  const wrapper = mount(<Input value='m' pattern='[a-z]' isValid={false} />);
+  const isValidInput = wrapper.instance().isValid();
+  assert.isFalse(isValidInput);
+});
+
+test('#isValid returns false if prop.isValid is set to false and input is invalid', () => {
+  const wrapper = mount(<Input value='meow' pattern='[a-z]' isValid={false}/>);
+  const isValidInput = wrapper.instance().isValid();
+  assert.isFalse(isValidInput);
+});
+
+test('#isValid returns true if prop.isValid is set to true and input is invalid', () => {
+  const wrapper = mount(<Input value='meow' pattern='[a-z]' isValid/>);
+  const isValidInput = wrapper.instance().isValid();
+  assert.isTrue(isValidInput);
+});
+
 test('#componentDidMount should call props.setInputId if props.id exists', () => {
   const setInputId = td.func();
   shallow(<Input setInputId={setInputId} id='best-id'/>);
@@ -80,6 +104,14 @@ test('#componentDidMount calls props.handleValueChange when the foundation initi
     handleValueChange={handleValueChange}
   />);
   td.verify(handleValueChange(value, td.matchers.isA(Function)), {times: 1});
+});
+
+test('#componentDidMount does not call props.handleValueChange when there is no props.value', () => {
+  const handleValueChange = td.func();
+  shallow(<Input
+    handleValueChange={handleValueChange}
+  />);
+  td.verify(handleValueChange(td.matchers.anything(), td.matchers.isA(Function)), {times: 0});
 });
 
 test('change to minLength calls handleValidationAttributeChange', () => {
