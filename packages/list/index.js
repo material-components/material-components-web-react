@@ -38,14 +38,14 @@ export default class List extends Component {
   listItemCount = 0;
   state = {
     focusListItemAtIndex: -1,
-    followHrefAtIndex: -1, 
+    followHrefAtIndex: -1,
     toggleCheckboxAtIndex: -1,
 
     // listItemAttributes: {index: {attr: value}}
     listItemAttributes: {
       0: {
         tabIndex: 0,
-      }
+      },
     },
     // listItemClassNames: {index: Array<String>}
     listItemClassNames: {},
@@ -233,7 +233,7 @@ export default class List extends Component {
 
     const {
       focusListItemAtIndex,
-      followHrefAtIndex, 
+      followHrefAtIndex,
       toggleCheckboxAtIndex,
       listItemAttributes,
       listItemClassNames,
@@ -280,6 +280,7 @@ List.propTypes = {
   avatarList: PropTypes.bool,
   twoLine: PropTypes.bool,
   singleSelection: PropTypes.bool,
+  selectedIndex: PropTypes.number,
   wrapFocus: PropTypes.bool,
   'aria-orientation': PropTypes.string,
 };
@@ -291,6 +292,7 @@ List.defaultProps = {
   avatarList: false,
   twoLine: false,
   singleSelection: false,
+  selectedIndex: -1,
   wrapFocus: true,
   'aria-orientation': VERTICAL,
 };

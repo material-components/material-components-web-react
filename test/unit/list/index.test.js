@@ -267,7 +267,8 @@ test('#renderListItem renders list item with prop.shouldFocus true if its index 
   assert.isFalse(children[2].props.shouldFocus);
 });
 
-test('#renderListItem renders list item with prop.shouldFollowHref true if its index is state.followHrefAtIndex', () => {
+test('#renderListItem renders list item with prop.shouldFollowHref true ' +
+'if its index is state.followHrefAtIndex', () => {
   const wrapper = mount(
     <List>
       <ListItem/>
@@ -282,7 +283,8 @@ test('#renderListItem renders list item with prop.shouldFollowHref true if its i
   assert.isFalse(children[2].props.shouldFollowHref);
 });
 
-test('#renderListItem renders list item with prop.shouldToggleCheckbox true if its index is state.toggleCheckboxAtIndex', () => {
+test('#renderListItem renders list item with prop.shouldToggleCheckbox true ' +
+'if its index is state.toggleCheckboxAtIndex', () => {
   const wrapper = mount(
     <List>
       <ListItem/>
@@ -306,7 +308,7 @@ test('#renderListItem renders list item with state.listItemAttributes at index a
       <ListItem/>
     </List>
   );
-  const attributes =  {tabIndex: 0};
+  const attributes = {tabIndex: 0};
   wrapper.setState({listItemAttributes: {1: attributes}});
 
   const children = wrapper.children().props().children;
