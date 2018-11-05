@@ -133,7 +133,7 @@ anchorCorner | Corner | Sets the corner that the menu surface will be anchored t
 anchorElement | Element | Sets the anchor element used as an anchor for `menu-surface` positioning logic. Should contain class `.mdc-menu-surface--anchor`.
 anchorMargin | Object* | Sets the distance from the anchor point that the menu surface should be shown.
 coordinates | {x: Number, y: Number} | Sets the anchor coordinates when menu surface does not use anchorElement.
-open | Boolean | Opens menu surface when true.
+open | Boolean | Changing value will trigger open/close of the menu surface.
 quickOpen | Boolean | Disables the open/close animation of the menu surface, which makes the open/close instant.
 fixed | Boolean | Sets the menu surface to fixed positioning.
 onClose | Function | Callback triggered after menu surface closes.
