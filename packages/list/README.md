@@ -110,6 +110,8 @@ class MyApp extends Component {
 
 Multiple related lists can be grouped together using the `ListGroup` component. Optional subheaders can be added using `ListGroupSubheader`.
 
+> _NOTE_: You can override the element that the `ListGroup` or `ListGroupSubheader` renders by passing in a `tag` prop. By default, `ListGroup` renders a `div` and `ListGroupSubheader` renders an `h3`.
+
 ```js
 import React, {Component} from 'react';
 import List, {ListItem, ListItemText, ListGroup, ListGroupSubheader} from '@material/react-list';
@@ -118,12 +120,12 @@ class MyApp extends Component {
   render() {
     return (
       <ListGroup>
-        <ListGroupSubheader>Folders</ListGroupSubheader>
+        <ListGroupSubheader tag='h2'>Folders</ListGroupSubheader>
         <List>
           <ListItem><ListItemText primaryText='Photos' /></ListItem>
           ...
         </List>
-        <ListGroupSubheader>Recent Files</ListGroupSubheader>
+        <ListGroupSubheader tag='h2'>Recent Files</ListGroupSubheader>
         <List>
           <ListItem><ListItemText primaryText='Vacation' /></ListItem>
           ...
