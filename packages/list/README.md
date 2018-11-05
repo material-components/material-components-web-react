@@ -49,6 +49,8 @@ class MyApp extends Component {
 }
 ```
 
+> _NOTE_: Please use the `ListItem` component to specify list items. `List` will not recognize custom list item components.
+
 ## Variants
 
 ### Two-Line List

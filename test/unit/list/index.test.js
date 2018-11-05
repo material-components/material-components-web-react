@@ -239,8 +239,8 @@ test('#renderListItem renders default list item at index 0', () => {
   assert.isFalse(listItemProps.shouldFocus);
   assert.isFalse(listItemProps.shouldFollowHref);
   assert.isFalse(listItemProps.shouldToggleCheckbox);
-  assert.equal(listItemProps.attributesToSet['tabIndex'], 0);
-  assert.isEmpty(listItemProps.classNamesToAdd);
+  assert.equal(listItemProps.attributesFromList['tabIndex'], 0);
+  assert.isEmpty(listItemProps.classNamesFromList);
   assert.equal(listItemProps.childrenTabIndex, -1);
 });
 
@@ -257,8 +257,8 @@ test('#renderListItem renders default list item at index not 0', () => {
   assert.isFalse(listItemProps.shouldFocus);
   assert.isFalse(listItemProps.shouldFollowHref);
   assert.isFalse(listItemProps.shouldToggleCheckbox);
-  assert.isEmpty(listItemProps.attributesToSet);
-  assert.isEmpty(listItemProps.classNamesToAdd);
+  assert.isEmpty(listItemProps.attributesFromList);
+  assert.isEmpty(listItemProps.classNamesFromList);
   assert.equal(listItemProps.childrenTabIndex, -1);
 });
 
@@ -311,7 +311,7 @@ test('#renderListItem renders list item with prop.shouldToggleCheckbox true ' +
   assert.isFalse(children[2].props.shouldToggleCheckbox);
 });
 
-test('#renderListItem renders list item with state.listItemAttributes at index as prop.attributesToSet', () => {
+test('#renderListItem renders list item with state.listItemAttributes at index as prop.attributesFromList', () => {
   const wrapper = mount(
     <List>
       <ListItem/>
@@ -323,12 +323,12 @@ test('#renderListItem renders list item with state.listItemAttributes at index a
   wrapper.setState({listItemAttributes: {1: attributes}});
 
   const children = wrapper.children().props().children;
-  assert.isEmpty(children[0].props.attributesToSet);
-  assert.equal(children[1].props.attributesToSet, attributes);
-  assert.isEmpty(children[2].props.attributesToSet);
+  assert.isEmpty(children[0].props.attributesFromList);
+  assert.equal(children[1].props.attributesFromList, attributes);
+  assert.isEmpty(children[2].props.attributesFromList);
 });
 
-test('#renderListItem renders list item with state.listItemClassNames at index as prop.classNamesToAdd', () => {
+test('#renderListItem renders list item with state.listItemClassNames at index as prop.classNamesFromList', () => {
   const wrapper = mount(
     <List>
       <ListItem/>
@@ -340,9 +340,9 @@ test('#renderListItem renders list item with state.listItemClassNames at index a
   wrapper.setState({listItemClassNames: {1: classes}});
 
   const children = wrapper.children().props().children;
-  assert.isEmpty(children[0].props.classNamesToAdd);
-  assert.equal(children[1].props.classNamesToAdd, classes);
-  assert.isEmpty(children[2].props.classNamesToAdd);
+  assert.isEmpty(children[0].props.classNamesFromList);
+  assert.equal(children[1].props.classNamesFromList, classes);
+  assert.isEmpty(children[2].props.classNamesFromList);
 });
 
 test('#renderListItem renders list item with state.listItemChildrenTabIndex at index as prop.childrenTabIndex', () => {

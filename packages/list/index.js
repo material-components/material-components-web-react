@@ -99,16 +99,16 @@ export default class List extends Component {
     return {
       getListItemCount: () => this.listItemCount,
       getFocusedElementIndex: () => {
-        let count = -1;
-        let index = -1;
-        React.Children.forEach(this.props.children, (child) => {
+        let count = 0;
+        const children = React.Children.toArray(this.props.children);
+        for (let child of children) {
           if (child.type.name === 'ListItem' && child === document.activeElement) {
-            index = count;
+            return count;
           } else if (child.type.name === 'ListItem') {
             count++;
           }
-        });
-        return index;
+        }
+        return -1;
       },
       setAttributeForElementIndex: (index, attr, value) => {
         const {listItemAttributes} = this.state;
@@ -142,8 +142,10 @@ export default class List extends Component {
           return;
         }
         const i = listItemClassNames[index].indexOf(className);
-        listItemClassNames[index].splice(i, 1);
-        this.setState({listItemClassNames});
+        if (i >= 0) {
+          listItemClassNames[index].splice(i, 1);
+          this.setState({listItemClassNames});
+        }
       },
       setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
         const {listItemChildrenTabIndex} = this.state;
@@ -252,26 +254,26 @@ export default class List extends Component {
     const props = {
       ...otherProps,
       onKeyDown: (e) => {
-        onKeyDown();
+        onKeyDown(e);
         this.handleKeyDown(e, index);
       },
       onClick: (e) => {
-        onClick();
+        onClick(e);
         this.handleClick(e, index);
       },
       onFocus: (e) => {
-        onFocus();
+        onFocus(e);
         this.handleFocus(e, index);
       },
       onBlur: (e) => {
-        onBlur();
+        onBlur(e);
         this.handleBlur(e, index);
       },
       shouldFocus: focusListItemAtIndex === index,
       shouldFollowHref: followHrefAtIndex === index,
       shouldToggleCheckbox: toggleCheckboxAtIndex === index,
-      attributesToSet: listItemAttributes[index],
-      classNamesToAdd: listItemClassNames[index],
+      attributesFromList: listItemAttributes[index],
+      classNamesFromList: listItemClassNames[index],
       childrenTabIndex: listItemChildrenTabIndex[index],
     };
 

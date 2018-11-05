@@ -11,13 +11,13 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('classNamesToAdd adds classes', () => {
-  const wrapper = shallow(<ListItem classNamesToAdd={['test-class-name']} />);
+test('classNamesFromList adds classes', () => {
+  const wrapper = shallow(<ListItem classNamesFromList={['test-class-name']} />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('attributesToSet adds props', () => {
-  const wrapper = shallow(<ListItem attributesToSet={{tabIndex: 0}} />);
+test('attributesFromList adds props', () => {
+  const wrapper = shallow(<ListItem attributesFromList={{tabIndex: 0}} />);
   assert.equal(wrapper.props().tabIndex, 0);
 });
 

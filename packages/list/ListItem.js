@@ -45,8 +45,8 @@ export default class ListItem extends Component {
   }
 
   get classes() {
-    const {className, classNamesToAdd} = this.props;
-    return classnames('mdc-list-item', className, classNamesToAdd);
+    const {className, classNamesFromList} = this.props;
+    return classnames('mdc-list-item', className, classNamesFromList);
   }
 
   focus() {
@@ -72,13 +72,13 @@ export default class ListItem extends Component {
     const {
       /* eslint-disable */
       className,
-      classNamesToAdd,
+      classNamesFromList,
       childrenTabIndex,
       shouldFocus,
       shouldFollowHref,
       shouldToggleCheckbox,
       /* eslint-enable */
-      attributesToSet,
+      attributesFromList,
       children,
       ...otherProps
     } = this.props;
@@ -87,7 +87,7 @@ export default class ListItem extends Component {
       <li
         className={this.classes}
         {...otherProps}
-        {...attributesToSet} // overrides attributes in otherProps
+        {...attributesFromList} // overrides attributes in otherProps
         ref={this.listItemElement_}
       >
         {React.Children.map(children, this.renderChild)}
@@ -107,8 +107,8 @@ export default class ListItem extends Component {
 ListItem.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  classNamesToAdd: PropTypes.array,
-  attributesToSet: PropTypes.object,
+  classNamesFromList: PropTypes.array,
+  attributesFromList: PropTypes.object,
   childrenTabIndex: PropTypes.number,
   tabIndex: PropTypes.number,
   shouldFocus: PropTypes.bool,
@@ -122,8 +122,8 @@ ListItem.propTypes = {
 
 ListItem.defaultProps = {
   className: '',
-  classNamesToAdd: [],
-  attributesToSet: {},
+  classNamesFromList: [],
+  attributesFromList: {},
   childrenTabIndex: -1,
   tabIndex: -1,
   shouldFocus: false,
