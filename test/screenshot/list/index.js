@@ -3,11 +3,14 @@ import './index.scss';
 import '../../../packages/list/index.scss';
 
 import MaterialIcon from '../../../packages/material-icon';
-import List from '../../../packages/list/index';
-import {ListItem} from '../../../packages/list/index';
-import ListItemGraphic from '../../../packages/list/ListItemGraphic';
-import ListItemText from '../../../packages/list/ListItemText';
-import ListItemMeta from '../../../packages/list/ListItemMeta';
+import List, {
+  ListItem,
+  ListItemGraphic,
+  ListItemText,
+  ListItemMeta,
+  ListGroup,
+  ListGroupSubheader,
+} from '../../../packages/list/index';
 
 class SelectionListTest extends React.Component {
   state = {
@@ -41,21 +44,34 @@ const renderListItem = (primaryText, secondaryText) => {
 const ListScreenshotTest = () => {
   return (
     <div>
-      <h2>Two-line Selection List</h2>
+      <h2>Two-line selection list</h2>
       <SelectionListTest twoLine>
-        {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world')}
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
       </SelectionListTest>
 
-      <h2>One-line List</h2>
+      <h2>One-line list</h2>
       <List>
-        {renderListItem('hello')}
-        {renderListItem('hello')}
-        {renderListItem('hello')}
-        {renderListItem('hello')}
+        {renderListItem('List item')}
+        {renderListItem('List item')}
+        {renderListItem('List item')}
       </List>
+
+      <h2>List group</h2>
+      <ListGroup>
+        <ListGroupSubheader>Folders</ListGroupSubheader>
+        <List>
+          {renderListItem('Photos')}
+          {renderListItem('Recipes')}
+          {renderListItem('Work')}
+        </List>
+        <ListGroupSubheader>Recent Files</ListGroupSubheader>
+        <List>
+          {renderListItem('Vacation itinerary')}
+          {renderListItem('Kitchen remodel')}
+        </List>
+      </ListGroup>
     </div>
   );
 };
