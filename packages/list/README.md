@@ -198,6 +198,7 @@ id | String | Unique identifier for the list item. Defaults to the index
 className | String | Classes to be applied to the list item element
 childrenTabIndex | Number | Tab index to be applied to all children of the list item
 init | Function() => void | Callback executed when list item mounts
+tag | String | Customizes the list tag type (defaults to `'li'`)
 
 ### ListItemText
 

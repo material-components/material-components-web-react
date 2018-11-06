@@ -69,19 +69,18 @@ export default class ListItem extends Component {
       id,
       /* eslint-enable */
       children,
-      ...otherProps
+      tag: Tag,
+      ...otherProps,
     } = this.props;
 
-    const SemanticListItem = this.props.href ? 'a' : 'li';
-
     return (
-      <SemanticListItem
+      <Tag
         className={this.classes}
         ref={this.listItemElement_}
         {...otherProps}
       >
         {React.Children.map(children, this.renderChild)}
-      </SemanticListItem>
+      </Tag>
     );
   }
 
@@ -100,10 +99,12 @@ ListItem.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   init: PropTypes.func,
+  tag: PropTypes.string,
 };
 
 ListItem.defaultProps = {
   id: '',
   childrenTabIndex: -1,
   className: '',
+  tag: 'li',
 };
