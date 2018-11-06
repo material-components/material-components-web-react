@@ -87,7 +87,7 @@ class InputChipsTest extends React.Component {
           {this.state.chips.map((chip) =>
             <Chip
               id={chip.id}
-              key={chip.id} // The chip's key cannot be its index, because its index may change.
+              key={chip.id} // The chip s key cannot be its index, because its index may change
               label={chip.label}
               leadingIcon={<MaterialIcon icon='face' />}
               removeIcon={<MaterialIcon icon='cancel' />}
@@ -118,7 +118,7 @@ const renderChips = (list, hasLeadingIcon = false) => {
 const ChipsScreenshotTest = () => {
   return (
     <div>
-      Default Chips
+      {/* Default Chips
       <ChipSet>
         {renderChips(seasons)}
       </ChipSet>
@@ -126,20 +126,14 @@ const ChipsScreenshotTest = () => {
       Choice Chips
       <ChoiceChipsTest selectedChipIds={['2chip']}>
         {renderChips(sizes)}
-      </ChoiceChipsTest>
+      </ChoiceChipsTest> */}
 
       Filter Chips with Leading Icon
       <FilterChipsTest selectedChipIds={['1chip', '2chip']}>
         {renderChips(clothes, true)}
       </FilterChipsTest>
 
-      Filter Chips no Leading Icon
-      <FilterChipsTest selectedChipIds={['1chip', '2chip']}>
-        {renderChips(clothes)}
-      </FilterChipsTest>
-
-      Input chips
-      <InputChipsTest labels={contacts}/>
+      {/* <InputChipsTest labels={contacts}/> */}
     </div>
   );
 };

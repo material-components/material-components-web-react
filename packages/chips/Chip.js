@@ -42,7 +42,7 @@ export class Chip extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.selected !== prevProps.selected) {
-      // this.foundation_.setSelected(this.props.selected);
+      this.foundation_.setSelected(this.props.selected);
     }
   }
 
