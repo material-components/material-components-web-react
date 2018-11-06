@@ -204,13 +204,11 @@ export default class List extends Component {
 
   handleKeyDown = (e, index) => {
     e.persist(); // Persist the synthetic event to access its `key`
-    if (index >= 0) {
-      this.foundation_.handleKeydown(e, true /* isRootListItem is true if index >= 0 */, index);
-      // Work around until MDC Web issue is resolved:
-      // https://github.com/material-components/material-components-web/issues/4053
-      if (e.key === 'Enter' || e.keyCode === 13 || e.key === 'Space' || e.keyCode === 32) {
-        this.props.handleSelect(index);
-      }
+    this.foundation_.handleKeydown(e, true /* isRootListItem is true if index >= 0 */, index);
+    // Work around until MDC Web issue is resolved:
+    // https://github.com/material-components/material-components-web/issues/4053
+    if (index >= 0 && (e.key === 'Enter' || e.keyCode === 13 || e.key === 'Space' || e.keyCode === 32)) {
+      this.props.handleSelect(index);
     }
   }
 
@@ -220,7 +218,9 @@ export default class List extends Component {
     this.foundation_.handleClick(index, toggleCheckbox);
     // Work around until MDC Web issue is resolved:
     // https://github.com/material-components/material-components-web/issues/4053
-    this.props.handleSelect(index);
+    if (index >= 0) {
+      this.props.handleSelect(index);
+    }
   }
 
   // Use onFocus as workaround because onFocusIn is not yet supported in React
