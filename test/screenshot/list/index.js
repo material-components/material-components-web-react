@@ -11,29 +11,11 @@ import List, {
   ListGroup,
   ListGroupSubheader,
 } from '../../../packages/list/index';
-
-class SelectionListTest extends React.Component {
-  state = {
-    selectedIndex: 1, // eslint-disable-line react/prop-types
-  };
-
-  render() {
-    const {children, ...otherProps} = this.props; // eslint-disable-line react/prop-types
-    return (
-      <List
-        singleSelection
-        selectedIndex={this.state.selectedIndex}
-        {...otherProps}
-      >
-        {children}
-      </List>
-    );
-  }
-}
+import uuidv1 from 'uuid/v1';
 
 const renderListItem = (primaryText, secondaryText) => {
   return (
-    <ListItem>
+    <ListItem key={uuidv1()}>
       <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
       <ListItemText primaryText={primaryText} secondaryText={secondaryText}/>
       <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
@@ -41,21 +23,49 @@ const renderListItem = (primaryText, secondaryText) => {
   );
 };
 
+class SelectionListTest extends React.Component {
+  state = {
+    selectedIndex: 1,
+    listItems: ['List item 1', 'List item 2', 'List item 3'],
+  };
+
+  insertListItem = () => {
+    const {listItems, selectedIndex} = this.state;
+    listItems.splice(0, 0, 'New list item');
+    this.setState({listItems, selectedIndex: selectedIndex + 1});
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <button onClick={this.insertListItem}>Insert new list item</button>
+        <List
+          {...this.props}
+          singleSelection
+          selectedIndex={this.state.selectedIndex}
+          handleSelect={(selectedIndex) => this.setState({selectedIndex})}
+        >
+          {this.state.listItems.map((text) => renderListItem(text))}
+        </List>
+      </React.Fragment>
+    );
+  }
+}
+
 const ListScreenshotTest = () => {
   return (
     <div>
-      <h2>Two-line selection list</h2>
-      <SelectionListTest twoLine>
-        {renderListItem('List item', 'Secondary text')}
-        {renderListItem('List item', 'Secondary text')}
-        {renderListItem('List item', 'Secondary text')}
-      </SelectionListTest>
+      <h2>One-line Selection List</h2>
+      <SelectionListTest />
 
-      <h2>One-line list</h2>
-      <List>
-        {renderListItem('List item')}
-        {renderListItem('List item')}
-        {renderListItem('List item')}
+      <h2>Two-line List</h2>
+      <List twoLine>
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
+        <li className='mdc-list-divider' role='separator'></li>
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
       </List>
 
       <h2>List group</h2>
