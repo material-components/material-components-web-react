@@ -136,10 +136,18 @@ test('#adapter.removeAttributeForElementIndex does nothing if attribute is not i
   assert.isFalse(wrapper.state().listItemAttributes.hasOwnProperty(1));
 });
 
-test('#adapter.addClassForElementIndex updates state.listItemClassNames', () => {
+test('#adapter.addClassForElementIndex updates state.listItemClassNames if no classes have been added', () => {
   const wrapper = mount(<List/>);
   wrapper.instance().adapter.addClassForElementIndex(1, 'class1');
   assert.isTrue(wrapper.state().listItemClassNames[1].indexOf('class1') >= 0);
+});
+
+test('#adapter.addClassForElementIndex updates state.listItemClassNames if other classes have been added', () => {
+  const wrapper = mount(<List/>);
+  wrapper.state().listItemClassNames[1] = ['test'];
+  wrapper.instance().adapter.addClassForElementIndex(1, 'class1');
+  assert.isTrue(wrapper.state().listItemClassNames[1].indexOf('class1') >= 0);
+  assert.isTrue(wrapper.state().listItemClassNames[1].indexOf('test') >= 0);
 });
 
 test('#adapter.removeClassForElementIndex removes class from state.listItemClassNames if it exists', () => {
@@ -151,9 +159,15 @@ test('#adapter.removeClassForElementIndex removes class from state.listItemClass
 
 test('#adapter.removeClassForElementIndex does nothing if class is not in state.listItemClassNames', () => {
   const wrapper = mount(<List/>);
-  wrapper.state().listItemClassNames[1] = ['class1'];
+  wrapper.state().listItemClassNames[1] = [];
   wrapper.instance().adapter.removeClassForElementIndex(1, 'class1');
   assert.isFalse(wrapper.state().listItemClassNames[1].indexOf('class1') >= 0);
+});
+
+test('#adapter.removeClassForElementIndex does nothing if index is not in state.listItemClassNames', () => {
+  const wrapper = mount(<List/>);
+  wrapper.instance().adapter.removeClassForElementIndex(1, 'class1');
+  assert.isFalse(wrapper.state().listItemClassNames.hasOwnProperty(1));
 });
 
 test('#adapter.setTabIndexForListItemChildren updates state.listItemChildrenTabIndex', () => {
@@ -189,7 +203,7 @@ test('#handleKeyDown calls #foudation.handleKeydown', () => {
   td.verify(wrapper.instance().foundation_.handleKeydown(evt, true, 1), {times: 1});
 });
 
-test('#handleKeyDown calls #props.handleSelect', () => {
+test('#handleKeyDown calls #props.handleSelect if key is enter', () => {
   const handleSelect = td.func();
   const wrapper = shallow(<List handleSelect={handleSelect}/>);
   const evt = {persist: () => {}, key: 'Enter'};
