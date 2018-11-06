@@ -99,7 +99,7 @@ value | Number/String | Value of the input.
 
 ### Accessing the Native Input element
 
-There will be times when you need to access the native <input />. For example if you need to focus the text field, you can add a ref to the `<TextField />` element and access the `<input />` like so:
+There will be times when you need to access the native <input />. For example if you need to focus the text field, you can add a ref callback method to the `<Input />` element and access the `<input />`. The `ref` will accept a callback method and on mount and will pass the instance of the input component. Here is an example of how to programatically focus the `<input />`:
 
 ```js
 import React from 'react';
@@ -107,11 +107,12 @@ import TextField, {Input} from '@material/react-text-field';
 import Button from '@material/react-button';
 
 class MyApp extends React.Component {
-  textFieldElement = React.createRef();
+  input = null;
   state = {value: 'Woof'};
 
   focusTextField = () => {
-    const inputElement = this.textFieldElement.current.inputElement;
+    if (!this.input) return;
+    const inputElement = this.input.inputElement;
     if (inputElement) {
       inputElement.focus();
     }
@@ -123,12 +124,10 @@ class MyApp extends React.Component {
         <div>
           <Button onClick={this.focusTextField}>Focus Text Field</Button>
         </div>
-        <TextField
-          label='Dog'
-          ref={this.textFieldElement}
-        >
+        <TextField label='Dog'>
           <Input
             value={this.state.value}
+            ref={input => this.input = input}
             onChange={(e) => this.setState({value: e.target.value})}/>
         </TextField>
       </div>

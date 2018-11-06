@@ -36,7 +36,6 @@ class TextField extends React.Component {
   constructor(props) {
     super(props);
     this.floatingLabelElement = React.createRef();
-    this.inputElement_ = React.createRef();
 
     this.state = {
       // root state
@@ -98,14 +97,6 @@ class TextField extends React.Component {
       'mdc-text-field--with-leading-icon': leadingIcon,
       'mdc-text-field--dense': dense,
     });
-  }
-
-  get inputElement() {
-    let element = this.inputElement_.current;
-    if (!element) return null;
-    element = element.inputElement;
-    if (!element) return null;
-    return element.current;
   }
 
   get otherProps() {
@@ -171,9 +162,9 @@ class TextField extends React.Component {
       getNativeInput: () => {
         let badInput;
         let valid;
-        if (this.inputElement_ && this.inputElement_.current) {
-          badInput = this.inputElement_.current.isBadInput();
-          valid = this.inputElement_.current.isValid();
+        if (this.inputComponent_) {
+          badInput = this.inputComponent_.isBadInput();
+          valid = this.inputComponent_.isValid();
         }
         const input = {
           validity: {badInput, valid},
@@ -231,14 +222,18 @@ class TextField extends React.Component {
     };
   }
 
-  inputProps(props) {
+  inputProps(child) {
+    const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
       handleFocusChange: (isFocused) => this.setState({isFocused}),
       handleValueChange: (value, cb) => this.setState({value}, cb),
       setDisabled: (disabled) => this.setState({disabled}),
       setInputId: (id) => this.setState({inputId: id}),
-      ref: this.inputElement_,
+      ref: (input) => {
+        ref(input);
+        this.inputComponent_ = input;
+      },
       inputType: this.props.textarea ? 'textarea' : 'input',
     });
   }
@@ -285,7 +280,7 @@ class TextField extends React.Component {
 
   renderInput() {
     const child = React.Children.only(this.props.children);
-    const props = this.inputProps(child.props);
+    const props = this.inputProps(child);
     return React.cloneElement(child, props);
   }
 
