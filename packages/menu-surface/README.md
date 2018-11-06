@@ -1,3 +1,5 @@
+> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
+
 # React Menu Surface
 
 A React version of an [MDC Menu Surface](https://github.com/material-components/material-components-web/tree/master/packages/mdc-menu-surface).
@@ -60,7 +62,7 @@ class MyApp extends React.Component {
           open={this.state.open}
           anchorCorner={Corner.BOTTOM_LEFT}
           onClose={() => this.setState({open: false})}
-          anchorElement={anchorElement}
+          anchorElement={this.state.anchorElement}
         >
           <img
             style={{maxWidth: '20vw', maxHeight: '20vh'}}
@@ -83,6 +85,7 @@ import MenuSurface from '@material/react-menu-surface';
 class MyApp extends React.Component {
   state = {
     open: false,
+    coordinates: null,
   };
 
   componentDidMount() {
@@ -109,7 +112,7 @@ class MyApp extends React.Component {
         <MenuSurface
           open={this.state.open}
           onClose={() => this.setState({open: false, coordinates: null})}
-          coordinates={coordinates}
+          coordinates={this.state.coordinates}
         >
           <img
             style={{maxWidth: '20vw', maxHeight: '20vh'}}
@@ -132,7 +135,7 @@ anchorCorner | Corner | Sets the corner that the menu surface will be anchored t
 anchorElement | Element | Sets the anchor element used as an anchor for `menu-surface` positioning logic. Should contain class `.mdc-menu-surface--anchor`.
 anchorMargin | Object* | Sets the distance from the anchor point that the menu surface should be shown.
 coordinates | {x: Number, y: Number} | Sets the anchor coordinates when menu surface does not use anchorElement.
-open | Boolean | Opens menu surface when true.
+open | Boolean | Changing value will trigger open/close of the menu surface.
 quickOpen | Boolean | Disables the open/close animation of the menu surface, which makes the open/close instant.
 fixed | Boolean | Sets the menu surface to fixed positioning.
 onClose | Function | Callback triggered after menu surface closes.
