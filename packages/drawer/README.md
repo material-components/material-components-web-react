@@ -79,69 +79,6 @@ class MyApp extends Component {
 }
 ```
 
-#### Permanent Drawer Below Top App Bar Variant
-
-
-```js
-import React, {Component} from 'react';
-import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
-import Drawer, {DrawerAppContent, DrawerContent, DrawerHeader, DrawerTitle} from '@material/react-drawer';
-import MaterialIcon from '@material/react-material-icon';
-import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-list';
-
-// includes imports for drawer, list, material icon and top app bar styles
-import './App.scss';
-
-export default class App extends Component {
-  state = {open: false, selectedIndex: 0};
-
-  handleClick = () => this.setState({open: !this.state.open});
-
-  render() {
-    return (
-      <div>
-        <TopAppBar title='Inbox'
-          navigationIcon={<MaterialIcon icon='menu' onClick={this.handleClick} />} />
-
-        <TopAppBarFixedAdjust className='main-content'>
-          <Drawer open={this.state.open}>
-            <DrawerHeader>
-              <DrawerTitle tag='h2'>
-                jane.smith@gmail.com
-              </DrawerTitle>
-            </DrawerHeader>
-
-            <DrawerContent>
-              <List singleSelection selectedIndex={0}>
-                <ListItem>
-                  <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-                  <ListItemText primaryText='Mail' />
-                </ListItem>
-              </List>
-            </DrawerContent>
-          </Drawer>
-
-          <DrawerAppContent>
-            Your inbox content
-          </DrawerAppContent>
-        </TopAppBarFixedAdjust>
-      </div>
-    );
-  }
-}
-
-```
-
-You do need some styles in order for the `<Drawer />` to appear next to the `<DrawerContent />`:
-
-```sass
-.main-content {
-  display: flex;
-  height: 100vh;
-}
-```
-
-
 #### Dismissible Variant
 
 The 2 previous examples are both permanent drawer examples, which are stationary. If you have a smaller screen, or want to keep focus on your main content you may want to use a [dismissible drawer](https://github.com/material-components/material-components-web/tree/master/packages/mdc-drawer#dismissible-drawer). The dismissible drawer will expand and collapse based on the `open` prop.
@@ -251,9 +188,9 @@ You will also need these styles:
 }
 ```
 
-###### Dismissible drawer below top app bar
+###### Dismissible or Permanent drawer below top app bar
 
-If you want the dismissible drawer to appear below top app bar as shown in the below image, please follow this markup:
+If you want the dismissible drawer or permanent drawer to appear below the top app bar as shown in the below image, please follow this markup:
 
 ![below](https://user-images.githubusercontent.com/579873/47814058-f171a080-dd09-11e8-9d66-6da4d936905c.png)
 

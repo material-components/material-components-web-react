@@ -50,7 +50,7 @@ const DrawerScreenshotTest = ({
           </DrawerContent>
         </Drawer>
 
-        <DrawerAppContent>
+        <DrawerAppContent className='drawer-app-content'>
           {[0, 1, 2, 3, 4, 5].map(renderLoremIpsum)}
         </DrawerAppContent>
       </TopAppBarFixedAdjust>

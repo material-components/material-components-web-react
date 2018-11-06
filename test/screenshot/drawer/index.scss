@@ -9,6 +9,11 @@
   padding: 12px;
 }
 
+.drawer-screenshot-test--is-below .drawer-app-content {
+  overflow: auto;
+  flex: auto;
+}
+
 // remove this rule when this PR is merged
 // https://github.com/material-components/material-components-web/pull/4028/
 .drawer-screenshot-test--is-below .mdc-drawer {
