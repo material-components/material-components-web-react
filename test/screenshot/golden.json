@@ -31,9 +31,9 @@
   "top-app-bar/standard": "7a2dd6318d62ac2eabd66f1b28100db7c15840ccb753660065fa9524db6435d6",
   "top-app-bar/standardNoActionItems": "6d361edb994cafcc6ac720336d12ee7d7114745993e16abd6e6b00f078424ff2",
   "top-app-bar/standardWithNavigationIconElement": "95afd559c35dede805e4d4b51ad1fabd82b4117c358a8679e3166b88e059bf68",
-  "drawer/permanent": "64aefb99ad4f188383721b9bcc4e9330898098f27451aaca8596de3579340cf4",
-  "drawer/dismissible": "299da8923ac1de167c89f712faf5cf1c9abe32e324ddba9d9d13771932d2baf4",
-  "drawer/modal": "6f2cb0e02db71355154bc323d4b8f38e8e008011e255d8e10f6eb60c9c01adf1",
-  "drawer/permanentBelowTopAppBar": "85ae2bd6bcd942b548d3197f32b806e006907748921ecc17df0f1f62af305ac3",
-  "drawer/dismissibleBelowTopAppBar": "7083f910001c6ee72d038b2b56ce21d4f3e54a4010b21a767b4b8891b261061f"
+  "drawer/permanent": "6355905c2241b5e6fdddc2e25119a1cc3b062577375a88b59e6750c4b76e4561",
+  "drawer/dismissible": "6ea0638441e0e6df3c97028136239498a31bba206253a01d114431eda20d1060",
+  "drawer/modal": "11d4ad79b8c4e672952cbb5dc3f7deb810e17fad00dc29ba7cba81b0aacb72fa",
+  "drawer/permanentBelowTopAppBar": "587ee2605c4b3e3f0408c6130b824b58587e05cedf9b964e14fc481b9de1e4c2",
+  "drawer/dismissibleBelowTopAppBar": "a9bf24c0edd3dcc9167516ce3bdd146fd1a352c4f5b9ea76a1f9dad1ba61e0f8"
 }
