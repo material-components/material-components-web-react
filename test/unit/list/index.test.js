@@ -361,7 +361,7 @@ test('#renderListItem renders list item with state.listItemChildrenTabIndex at i
   assert.equal(children[2].props.childrenTabIndex, -1);
 });
 
-test.only('first item is selected if props.selectedIndex is 0', () => {
+test('first item is selected if props.selectedIndex is 0', () => {
   const wrapper = mount(
     <List singleSelection selectedIndex={0}>
       <ListItem/>
