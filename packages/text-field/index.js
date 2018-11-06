@@ -36,6 +36,7 @@ class TextField extends React.Component {
   constructor(props) {
     super(props);
     this.floatingLabelElement = React.createRef();
+    this.inputComponent_ = null;
 
     this.state = {
       // root state
