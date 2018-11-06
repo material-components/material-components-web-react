@@ -41,7 +41,7 @@ const ListGroup = (props) => {
 
 ListGroup.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.node,
   tag: PropTypes.string,
 };
 
