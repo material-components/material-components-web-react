@@ -100,18 +100,9 @@ export default class List extends Component {
   get adapter() {
     return {
       getListItemCount: () => this.listItemCount,
-      getFocusedElementIndex: () => {
-        let count = 0;
-        const children = React.Children.toArray(this.props.children);
-        for (let child of children) {
-          if (child.type.name === 'ListItem' && child === document.activeElement) {
-            return count;
-          } else if (child.type.name === 'ListItem') {
-            count++;
-          }
-        }
-        return -1;
-      },
+      // Remove when MDC Web issue resolves:
+      // https://github.com/material-components/material-components-web/issues/4058
+      getFocusedElementIndex: () => -1,
       setAttributeForElementIndex: (index, attr, value) => {
         const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
