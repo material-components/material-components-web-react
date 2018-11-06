@@ -115,11 +115,11 @@ class MyApp extends Component {
 }
 ```
 
-##### Usage with Top App Bar
+#### Usage with Top App Bar
 
-###### Full height dismissible drawer
+##### Full height drawer
 
-If you want the dismissible drawer to appear to the side of the top app bar (take the full height of the screen) as shown in the below image, please follow this markup:
+If you want the dismissible drawer or permanent drawer to appear to the side of the top app bar (take the full height of the screen) as shown in the below image, please follow this markup:
 
 ![adjacent](https://user-images.githubusercontent.com/579873/47814040-e9b1fc00-dd09-11e8-9435-1b34c1f4664d.png)
 
@@ -134,14 +134,12 @@ import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-lis
 import './App.scss';
 
 export default class App extends Component {
-  state = {open: false, selectedIndex: 0};
-
-  handleClick = () => this.setState({open: !this.state.open});
+  state = {selectedIndex: 0};
 
   render() {
     return (
       <div className='drawer-container'>
-        <Drawer dismissible open={this.state.open}>
+        <Drawer>
           <DrawerHeader>
             <DrawerTitle tag='h2'>
               jane.smith@gmail.com
@@ -160,7 +158,7 @@ export default class App extends Component {
 
         <DrawerAppContent className='drawer-app-content'>
           <TopAppBar title='Inbox'
-            navigationIcon={<MaterialIcon icon='menu' onClick={this.handleClick} />} />
+            navigationIcon={<MaterialIcon icon='menu' />
 
           <TopAppBarFixedAdjust>
             Your inbox content
@@ -175,7 +173,7 @@ export default class App extends Component {
 
 You will also need these styles:
 
-```sass
+```css
 
 .drawer-container {
   display: flex;
@@ -190,7 +188,7 @@ You will also need these styles:
 }
 ```
 
-###### Dismissible or Permanent drawer below top app bar
+##### Dismissible or Permanent drawer below top app bar
 
 If you want the dismissible drawer or permanent drawer to appear below the top app bar as shown in the below image, please follow this markup:
 
@@ -207,18 +205,15 @@ import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-lis
 import './App.scss';
 
 export default class App extends Component {
-  state = {open: false, selectedIndex: 0};
-
-  handleClick = () => this.setState({open: !this.state.open});
+  state = {selectedIndex: 0};
 
   render() {
     return (
       <div className='drawer-container'>
-        <TopAppBar title='Inbox'
-          navigationIcon={<MaterialIcon icon='menu' onClick={this.handleClick} />} />
+        <TopAppBar title='Inbox'/>
 
         <TopAppBarFixedAdjust>
-          <Drawer dismissible open={this.state.open}>
+          <Drawer>
             <DrawerHeader>
               <DrawerTitle tag='h2'>
                 jane.smith@gmail.com
@@ -226,7 +221,7 @@ export default class App extends Component {
             </DrawerHeader>
 
             <DrawerContent>
-              <List singleSelection selectedIndex={0}>
+              <List singleSelection selectedIndex={this.state.selectedIndex}>
                 <ListItem>
                   <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
                   <ListItemText primaryText='Mail' />
@@ -248,7 +243,7 @@ export default class App extends Component {
 
 You will also need these styles:
 
-```sass
+```css
 .drawer-container {
   display: flex;
   flex-direction: row;
@@ -262,7 +257,7 @@ You will also need these styles:
 }
 ```
 
-There is a known issue with the drawer styles when putting the drawer below the top app bar. To get around this, you must update the `.mdc-drawer--dismissible` class in your CSS stylesheets.
+There is a known issue with the dismissible drawer styles when putting the drawer below the top app bar. To get around this, you must update the `.mdc-drawer--dismissible` class in your CSS stylesheets.
 
 ```css
 .mdc-drawer--dismissible {
@@ -316,7 +311,7 @@ class MyApp extends Component {
 
 It is recommended to shift focus to the first focusable element in the main content when drawer is closed or one of the destination items is activated. (By default, MDC React Drawer restores focus to the menu button which opened it.)
 
-There is also a known bug due to the use of <FocusTrap />. There must be a focusable item in your drawer when using the modal variant. For now, insert an empty `<a />` into your drawer as a workaround.
+> _NOTE_: There is also a known bug due to the use of <FocusTrap />. There must be a focusable item in your drawer when using the modal variant. For now, insert an empty `<a />` into your drawer as a workaround.
 
 #### Dismissible Drawer
 
