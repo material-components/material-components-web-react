@@ -11,10 +11,35 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('#componentDidMount calls #props.init', () => {
-  const init = td.func();
-  mount(<ListItem init={init} />);
-  td.verify(init(), {times: 1});
+test('classNamesFromList adds classes', () => {
+  const wrapper = shallow(<ListItem classNamesFromList={['test-class-name']} />);
+  assert.isTrue(wrapper.hasClass('test-class-name'));
+});
+
+test('attributesFromList adds props', () => {
+  const wrapper = shallow(<ListItem attributesFromList={{tabIndex: 0}} />);
+  assert.equal(wrapper.props().tabIndex, 0);
+});
+
+test('calls focus when props.shouldFocus changes from false to true', () => {
+  const wrapper = mount(<ListItem />);
+  wrapper.instance().focus = td.func();
+  wrapper.setProps({shouldFocus: true});
+  td.verify(wrapper.instance().focus(), {times: 1});
+});
+
+test('calls followHref when props.shouldFollowHref changes from false to true', () => {
+  const wrapper = mount(<ListItem />);
+  wrapper.instance().followHref = td.func();
+  wrapper.setProps({shouldFollowHref: true});
+  td.verify(wrapper.instance().followHref(), {times: 1});
+});
+
+test('calls toggleCheckbox when props.shouldToggleCheckbox changes from false to true', () => {
+  const wrapper = mount(<ListItem />);
+  wrapper.instance().toggleCheckbox = td.func();
+  wrapper.setProps({shouldToggleCheckbox: true});
+  td.verify(wrapper.instance().toggleCheckbox(), {times: 1});
 });
 
 test('#focus focuses the listItemElement_', () => {
