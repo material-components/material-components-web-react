@@ -94,6 +94,7 @@ setDisabled | Function | Callback function that is called when the `disabled` pr
 setInputId | Function | Callback function that is called when the `id` attribute updates.
 handleFocusChange | Function | Callback function that is called when `focus` or `blur` events occur
 value | Number/String | Value of the input.
+ref | Function(input: ReactElement) => void | On mount of component, will call passed function with the instance of the `<Input />`.
 
 >NOTE: the `<Input>` component will receive all properties that a standard `<input>` accepts.
 

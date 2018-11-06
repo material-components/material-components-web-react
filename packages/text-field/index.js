@@ -231,7 +231,9 @@ class TextField extends React.Component {
       setDisabled: (disabled) => this.setState({disabled}),
       setInputId: (id) => this.setState({inputId: id}),
       ref: (input) => {
-        ref(input);
+        if (typeof ref === 'function') {
+          ref(input);
+        }
         this.inputComponent_ = input;
       },
       inputType: this.props.textarea ? 'textarea' : 'input',
