@@ -30,6 +30,8 @@ import ListItem from './ListItem';
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
 import ListItemMeta from './ListItemMeta';
+import ListGroup from './ListGroup';
+import ListGroupSubheader from './ListGroupSubheader';
 
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
@@ -50,7 +52,7 @@ export default class List extends Component {
     this.foundation_.setSingleSelection(singleSelection);
     this.foundation_.setWrapFocus(wrapFocus);
     this.foundation_.setVerticalOrientation(this.props[ARIA_ORIENTATION] === VERTICAL);
-    if (selectedIndex) {
+    if (typeof selectedIndex === 'number' && !isNaN(selectedIndex)) {
       this.foundation_.setSelectedIndex(selectedIndex);
     } else {
       const id = this.getListItemIdFromIndex_(0);
@@ -337,4 +339,4 @@ List.defaultProps = {
 
 /* eslint-enable quote-props */
 
-export {ListItem, ListItemGraphic, ListItemText, ListItemMeta};
+export {ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListGroup, ListGroupSubheader};

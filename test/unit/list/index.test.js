@@ -334,6 +334,17 @@ test('on keydown calls #foundation.handleFocusOut', () => {
   td.verify(wrapper.instance().foundation_.handleFocusOut(td.matchers.isA(Object), 1), {times: 1});
 });
 
+test('Test whether first item is selected when selectedIndex is 0.', () => {
+  const wrapper = mount(
+    <List selectedIndex={0}>
+      <ListItem id='item1' />
+      <ListItem id='item2' />
+      <ListItem id='item3' />
+    </List>
+  );
+  assert.isTrue(wrapper.state().listItemAttributes['item1']['aria-selected']);
+});
+
 test('renders a list with a nav tag', () => {
   const wrapper = shallow(<List tag='nav' />);
   assert.equal(wrapper.type(), 'nav');
