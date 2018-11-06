@@ -298,3 +298,10 @@ test('#event.onChange calls props.onChange()', () => {
   wrapper.simulate('change', event);
   td.verify(onChange(event), {times: 1});
 });
+
+test('#inputElement should return the native input', () => {
+  const wrapper = mount(<Input />);
+  const inputElement = wrapper.instance().inputElement;
+  assert.equal(inputElement.tagName.toLowerCase(), 'input');
+  assert.isTrue(inputElement instanceof HTMLInputElement);
+});

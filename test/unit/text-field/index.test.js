@@ -394,6 +394,14 @@ test('#inputProps.setInputId updates state.disabled', () => {
   assert.equal(wrapper.state().inputId, 'my-id');
 });
 
+test('passing a ref to the <Input /> should return the instance of the Input', () => {
+  let inputInstance = null;
+  const wrapper = mount(<TextField label='my label'>
+    <Input ref={(input) => inputInstance = input}/>
+  </TextField>);
+  assert.equal(wrapper.childAt(0).childAt(0).instance(), inputInstance);
+});
+
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<TextField label='my label'><Input /></TextField>);
   const foundation = wrapper.state().foundation;
