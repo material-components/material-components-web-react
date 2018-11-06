@@ -1,3 +1,5 @@
+> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
+
 # React Text Field
 
 MDC React Text Field is component for MDC Text Field. Please see [MDC Text Field](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/).
@@ -81,6 +83,7 @@ className | String | Classes to be applied to the input element.
 disabled | Function | Disables the input and the parent text field.
 foundation | Function | The text field foundation.
 handleValueChange | Function | A callback function to update React Text Field's value.
+isValid | Boolean | If set, this value will override the native input's validation.
 id | String | The `<input>` id attribute.
 onBlur | Function | Blur event handler.
 onChange | Function | Change event handler.

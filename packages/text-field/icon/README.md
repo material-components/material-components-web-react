@@ -1,3 +1,5 @@
+> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
+
 # React Text Field Icon
 
 MDC React Text Field Icon is a React Component which uses MDC [MDC Text Field Icon](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/icon/)'s CSS and foundation JavaScript.
