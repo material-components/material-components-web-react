@@ -1,15 +1,35 @@
 <a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.6.0...v) (2018-10-25)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.6.0...v) (2018-11-07)
 
 
 ### Bug Fixes
 
-* **top-app-bar:** add FixedAdjust to npmignore. ([5d3c618](https://github.com/material-components/material-components-web-react/commit/5d3c618))
+* **checkbox:** add focusable=false to svg for a11y ([#375](https://github.com/material-components/material-components-web-react/issues/375)) ([c7f3b97](https://github.com/material-components/material-components-web-react/commit/c7f3b97))
+* **drawer:** update readme and screenshots to support below top app bar ([#397](https://github.com/material-components/material-components-web-react/issues/397)) ([90adbbe](https://github.com/material-components/material-components-web-react/commit/90adbbe))
+* **infrastructure:** increase screenshot timeout to decrease flakes ([#373](https://github.com/material-components/material-components-web-react/issues/373)) ([e96ca10](https://github.com/material-components/material-components-web-react/commit/e96ca10))
+* **layout-grid:** remove unit test console warnings ([#379](https://github.com/material-components/material-components-web-react/issues/379)) ([408cdd2](https://github.com/material-components/material-components-web-react/commit/408cdd2))
+* **list:** selectedIndex 0 isn't working ([#387](https://github.com/material-components/material-components-web-react/issues/387)) ([4e62aae](https://github.com/material-components/material-components-web-react/commit/4e62aae))
+* **text-field:** added reference to input element ([#414](https://github.com/material-components/material-components-web-react/issues/414)) ([ea04dc6](https://github.com/material-components/material-components-web-react/commit/ea04dc6))
+* **text-field:** allow for input isValid override ([#374](https://github.com/material-components/material-components-web-react/issues/374)) ([7872856](https://github.com/material-components/material-components-web-react/commit/7872856))
+* **text-field:** put foundation on state and do render input unless foundation is present ([#353](https://github.com/material-components/material-components-web-react/issues/353)) ([2cb5d64](https://github.com/material-components/material-components-web-react/commit/2cb5d64))
+* **text-field:** remove foundation.setValue call during onChange ([#350](https://github.com/material-components/material-components-web-react/issues/350)) ([36469f7](https://github.com/material-components/material-components-web-react/commit/36469f7))
+* **top-app-bar:** add FixedAdjust to npmignore ([#371](https://github.com/material-components/material-components-web-react/issues/371)) ([d4ad675](https://github.com/material-components/material-components-web-react/commit/d4ad675))
+* **top-app-bar:** allow react elements in title ([#376](https://github.com/material-components/material-components-web-react/issues/376)) ([f6da361](https://github.com/material-components/material-components-web-react/commit/f6da361))
+
+
+### Code Refactoring
+
+* **list:** Refactor list item management ([#413](https://github.com/material-components/material-components-web-react/issues/413)) ([1f563d3](https://github.com/material-components/material-components-web-react/commit/1f563d3))
 
 
 ### Features
 
 * **infrastructure:** add verify pkg main to dist script ([#320](https://github.com/material-components/material-components-web-react/issues/320)) ([459c6dd](https://github.com/material-components/material-components-web-react/commit/459c6dd))
+
+
+### BREAKING CHANGES
+
+* **list:** Event handlers moved from list to list item. New props on list item for focus, follow href, toggle checkbox, and classnames/attributes passed down from list. Remove ID prop from list item.
 
 
 
