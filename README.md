@@ -73,7 +73,7 @@ npm start
 Install Button:
 
 ```
-npm install --save @material/react-button
+npm install @material/react-button
 ```
 
 #### Step 3: Using Sass
