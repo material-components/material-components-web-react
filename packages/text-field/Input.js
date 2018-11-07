@@ -27,7 +27,7 @@ import classnames from 'classnames';
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
 export default class Input extends React.Component {
-  inputElement = React.createRef();
+  inputElement_ = React.createRef();
   state = {wasUserTriggeredChange: false};
 
   componentDidMount() {
@@ -83,6 +83,11 @@ export default class Input extends React.Component {
 
   get classes() {
     return classnames('mdc-text-field__input', this.props.className);
+  }
+
+  get inputElement() {
+    const element = this.inputElement_.current;
+    return element ? element : null;
   }
 
   handleFocus = (e) => {
@@ -141,12 +146,12 @@ export default class Input extends React.Component {
     });
   }
 
-  isBadInput = () => this.inputElement.current.validity.badInput;
+  isBadInput = () => this.inputElement_.current.validity.badInput;
   isValid = () => {
     if (this.props.isValid !== undefined) {
       return this.props.isValid;
     }
-    return this.inputElement.current.validity.valid;
+    return this.inputElement_.current.validity.valid;
   }
 
   render() {
@@ -170,6 +175,7 @@ export default class Input extends React.Component {
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
+
     const InputComponent = inputType;
     return (
       <InputComponent
@@ -180,7 +186,7 @@ export default class Input extends React.Component {
         onChange={this.handleChange}
         disabled={disabled}
         value={value}
-        ref={this.inputElement}
+        ref={this.inputElement_}
         className={this.classes}
         {...otherProps}
       />

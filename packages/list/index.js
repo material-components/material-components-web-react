@@ -37,43 +37,46 @@ const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
 export default class List extends Component {
-  listItems_ = {};
-  listItemIndices_ = {};
+  listItemCount = 0;
   state = {
-    listItemAttributes: {}, // maps id to {attr: val} map object
-    listItemClassList: {}, // maps id to classList set
-    listItemChildrenTabIndex: {}, // maps id to children's tabIndex
+    focusListItemAtIndex: -1,
+    followHrefAtIndex: -1,
+    toggleCheckboxAtIndex: -1,
+
+    // listItemAttributes: {index: {attr: value}}
+    listItemAttributes: {
+      0: {
+        tabIndex: 0,
+      },
+    },
+    // listItemClassNames: {index: Array<String>}
+    listItemClassNames: {},
+    // listItemChildrenTabIndex: {index: Number}
+    listItemChildrenTabIndex: {},
   };
 
   componentDidMount() {
-    const {singleSelection, selectedIndex, wrapFocus} = this.props;
+    const {singleSelection, wrapFocus, selectedIndex} = this.props;
     this.foundation_ = new MDCListFoundation(this.adapter);
     this.foundation_.init();
     this.foundation_.setSingleSelection(singleSelection);
+    if (singleSelection && typeof selectedIndex === 'number' && !isNaN(selectedIndex)) {
+      this.foundation_.setSelectedIndex(selectedIndex);
+    }
     this.foundation_.setWrapFocus(wrapFocus);
     this.foundation_.setVerticalOrientation(this.props[ARIA_ORIENTATION] === VERTICAL);
-    if (typeof selectedIndex === 'number' && !isNaN(selectedIndex)) {
-      this.foundation_.setSelectedIndex(selectedIndex);
-    } else {
-      const id = this.getListItemIdFromIndex_(0);
-      const {listItemAttributes} = this.state;
-      listItemAttributes[id] = Object.assign({}, listItemAttributes[id], {
-        tabIndex: 0,
-      });
-      this.setState({listItemAttributes});
-    }
   }
 
   componentDidUpdate(prevProps) {
-    const {singleSelection, selectedIndex, wrapFocus} = this.props;
+    const {singleSelection, wrapFocus, selectedIndex} = this.props;
     if (singleSelection !== prevProps.singleSelection) {
       this.foundation_.setSingleSelection(singleSelection);
     }
+    if (selectedIndex !== prevProps.selectedIndex && typeof selectedIndex === 'number' && !isNaN(selectedIndex)) {
+      this.foundation_.setSelectedIndex(selectedIndex);
+    }
     if (wrapFocus !== prevProps.wrapFocus) {
       this.foundation_.setWrapFocus(wrapFocus);
-    }
-    if (selectedIndex !== prevProps.selectedIndex) {
-      this.foundation_.setSelectedIndex(selectedIndex);
     }
     if (this.props[ARIA_ORIENTATION] !== prevProps[ARIA_ORIENTATION]) {
       this.foundation_.setVerticalOrientation(this.props[ARIA_ORIENTATION] === VERTICAL);
@@ -84,220 +87,190 @@ export default class List extends Component {
     this.foundation_.destroy();
   }
 
-  initListItem = (id) => {
-    const {listItemAttributes, listItemChildrenTabIndex, listItemClassList} = this.state;
-    listItemAttributes[id] = {
-      'aria-selected': false,
-      'tabIndex': -1,
-    };
-    listItemChildrenTabIndex[id] = -1;
-    listItemClassList[id] = new Set();
-    this.setState({listItemAttributes, listItemChildrenTabIndex, listItemClassList});
-  }
-
   get classes() {
-    const {className, nonInterative, dense, avatarList, twoLine} = this.props;
+    const {className, nonInteractive, dense, avatarList, twoLine} = this.props;
     return classnames('mdc-list', className, {
-      'mdc-list--non-interactive': nonInterative,
+      'mdc-list--non-interactive': nonInteractive,
       'mdc-list--dense': dense,
       'mdc-list--avatar-list': avatarList,
       'mdc-list--two-line': twoLine,
     });
   }
 
-  getListItemClasses_(id, className) {
-    const {listItemClassList} = this.state;
-    return listItemClassList[id] ?
-      classnames(Array.from(listItemClassList[id]), className) :
-      className;
-  }
-
   get adapter() {
     return {
-      getListItemCount: () => Object.keys(this.listItems_).length,
-      getFocusedElementIndex: () => this.getListItemIndexOfTarget_(document.activeElement),
+      getListItemCount: () => this.listItemCount,
+      // Remove when MDC Web issue resolves:
+      // https://github.com/material-components/material-components-web/issues/4058
+      getFocusedElementIndex: () => -1,
       setAttributeForElementIndex: (index, attr, value) => {
         const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        const id = this.getListItemIdFromIndex_(index);
-        listItemAttributes[id][attr] = value;
+        if (!listItemAttributes[index]) {
+          listItemAttributes[index] = {};
+        }
+        listItemAttributes[index][attr] = value;
         this.setState({listItemAttributes});
       },
       removeAttributeForElementIndex: (index, attr) => {
         const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        const id = this.getListItemIdFromIndex_(index);
-        delete listItemAttributes[id][attr];
+        if (!listItemAttributes[index]) {
+          return;
+        }
+        delete listItemAttributes[index][attr];
         this.setState({listItemAttributes});
       },
       addClassForElementIndex: (index, className) => {
-        const {listItemClassList} = this.state;
-        const id = this.getListItemIdFromIndex_(index);
-        listItemClassList[id].add(className);
-        this.setState({listItemClassList});
+        const {listItemClassNames} = this.state;
+        if (!listItemClassNames[index]) {
+          listItemClassNames[index] = [];
+        }
+        listItemClassNames[index].push(className);
+        this.setState({listItemClassNames});
       },
       removeClassForElementIndex: (index, className) => {
-        const {listItemClassList} = this.state;
-        const id = this.getListItemIdFromIndex_(index);
-        listItemClassList[id].delete(className);
-        this.setState({listItemClassList});
-      },
-      focusItemAtIndex: (index) => {
-        const id = this.getListItemIdFromIndex_(index);
-        const listItem = this.listItems_[id];
-        if (listItem) {
-          listItem.focus();
+        const {listItemClassNames} = this.state;
+        if (!listItemClassNames[index]) {
+          return;
+        }
+        const i = listItemClassNames[index].indexOf(className);
+        if (i >= 0) {
+          listItemClassNames[index].splice(i, 1);
+          this.setState({listItemClassNames});
         }
       },
       setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
         const {listItemChildrenTabIndex} = this.state;
-        const id = this.getListItemIdFromIndex_(listItemIndex);
-        listItemChildrenTabIndex[id]= tabIndexValue;
+        listItemChildrenTabIndex[listItemIndex] = tabIndexValue;
         this.setState({listItemChildrenTabIndex});
       },
+      focusItemAtIndex: (index) => {
+        this.setState({focusListItemAtIndex: index});
+      },
       followHref: (index) => {
-        const id = this.getListItemIdFromIndex_(index);
-        const listItem = this.listItems_[id];
-        if (listItem) {
-          listItem.followHref();
-        }
+        this.setState({followHrefAtIndex: index});
       },
       toggleCheckbox: (index) => {
-        const id = this.getListItemIdFromIndex_(index);
-        const listItem = this.listItems_[id];
-        if (listItem) {
-          listItem.toggleCheckbox();
-        }
+        this.setState({toggleCheckboxAtIndex: index});
       },
     };
-  }
-
-  getListItemIdFromIndex_ = (index) => {
-    for (let id in this.listItemIndices_) {
-      if (this.listItemIndices_[id] === index) return id;
-    };
-    return '';
-  }
-
-  getIndexOfListItemElement_ = (element) => {
-    let listItemId = '';
-    for (let id in this.listItems_) {
-      if (this.listItems_[id].listItemElement === element) {
-        listItemId = id;
-        break;
-      }
-    }
-    return this.listItemIndices_[listItemId];
-  }
-
-  getListItemIndexOfTarget_ = (eventTarget) => {
-    let target = eventTarget;
-
-    // Find the first ancestor that is a list item.
-    while (this.getIndexOfListItemElement_(target) === undefined) {
-      if (!target || target === document) {
-        return -1;
-      }
-      target = target.parentElement;
-    }
-
-    return this.getIndexOfListItemElement_(target);
-  }
-
-  onKeyDown = (e) => {
-    this.props.onKeyDown(e);
-    e.persist(); // Persist the synthetic event to access its `key`
-    const index = this.getListItemIndexOfTarget_(e.target);
-    if (index >= 0) {
-      this.foundation_.handleKeydown(e, true /* isRootListItem is true if index >= 0 */, index);
-    }
-  }
-
-  onClick = (e) => {
-    this.props.onClick(e);
-    const index = this.getListItemIndexOfTarget_(e.target);
-    // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
-    const toggleCheckbox = e.target.type === 'checkbox';
-    this.foundation_.handleClick(index, toggleCheckbox);
-  }
-
-  // Use onFocus as workaround because onFocusIn is not yet supported in React
-  // https://github.com/facebook/react/issues/6410
-  onFocus = (e) => {
-    this.props.onFocus(e);
-    const index = this.getListItemIndexOfTarget_(e.target);
-    this.foundation_.handleFocusIn(e, index);
-  }
-
-  // Use onBlur as workaround because onFocusOut is not yet supported in React
-  // https://github.com/facebook/react/issues/6410
-  onBlur = (e) => {
-    this.props.onBlur(e);
-    const index = this.getListItemIndexOfTarget_(e.target);
-    this.foundation_.handleFocusOut(e, index);
   }
 
   render() {
     const {
       /* eslint-disable no-unused-vars */
       className,
-      onKeyDown,
-      onClick,
-      onFocus,
-      onBlur,
-      nonInterative,
+      nonInteractive,
       dense,
       avatarList,
       twoLine,
       singleSelection,
-      wrapFocus,
       selectedIndex,
+      handleSelect,
+      wrapFocus,
       /* eslint-enable no-unused-vars */
       children,
-      tag: Tag,
       ...otherProps
     } = this.props;
 
+    this.listItemCount = 0;
     return (
-      <Tag
+      <ul
         className={this.classes}
-        onKeyDown={this.onKeyDown}
-        onClick={this.onClick}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
         {...otherProps}
       >
-        {React.Children.map(children, this.renderListItem)}
-      </Tag>
+        {React.Children.map(children, this.renderChild)}
+      </ul>
     );
+  }
+
+  renderChild = (child) => {
+    if (child.type.name === 'ListItem') {
+      return this.renderListItem(child, this.listItemCount++);
+    } else {
+      return child;
+    }
+  }
+
+  handleKeyDown = (e, index) => {
+    e.persist(); // Persist the synthetic event to access its `key`
+    this.foundation_.handleKeydown(e, true /* isRootListItem is true if index >= 0 */, index);
+    // Work around until MDC Web issue is resolved:
+    // https://github.com/material-components/material-components-web/issues/4053
+    if (index >= 0 && (e.key === 'Enter' || e.keyCode === 13 || e.key === 'Space' || e.keyCode === 32)) {
+      this.props.handleSelect(index);
+    }
+  }
+
+  handleClick = (e, index) => {
+    // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
+    const toggleCheckbox = e.target.type === 'checkbox';
+    this.foundation_.handleClick(index, toggleCheckbox);
+    // Work around until MDC Web issue is resolved:
+    // https://github.com/material-components/material-components-web/issues/4053
+    if (index >= 0) {
+      this.props.handleSelect(index);
+    }
+  }
+
+  // Use onFocus as workaround because onFocusIn is not yet supported in React
+  // https://github.com/facebook/react/issues/6410
+  handleFocus = (e, index) => {
+    this.foundation_.handleFocusIn(e, index);
+  }
+
+  // Use onBlur as workaround because onFocusOut is not yet supported in React
+  // https://github.com/facebook/react/issues/6410
+  handleBlur = (e, index) => {
+    this.foundation_.handleFocusOut(e, index);
   }
 
   renderListItem = (listItem, index) => {
     const {
-      id,
-      /* eslint-disable no-unused-vars */
-      className,
-      childrenTabIndex,
-      /* eslint-enable no-unused-vars */
-      children,
+      onKeyDown,
+      onClick,
+      onFocus,
+      onBlur,
       ...otherProps
     } = listItem.props;
 
-    const idOrIndex = id || index.toString();
-    const props = Object.assign({
-      id: id,
-      className: this.getListItemClasses_(idOrIndex),
-      childrenTabIndex: this.state.listItemChildrenTabIndex[idOrIndex],
-      init: () => this.initListItem(idOrIndex),
-      ref: (listItem) => {
-        this.listItems_[idOrIndex] = listItem;
-        this.listItemIndices_[idOrIndex] = index;
-      },
-      ...otherProps,
-    },
-    this.state.listItemAttributes[idOrIndex]);
+    const {
+      focusListItemAtIndex,
+      followHrefAtIndex,
+      toggleCheckboxAtIndex,
+      listItemAttributes,
+      listItemClassNames,
+      listItemChildrenTabIndex,
+    } = this.state;
 
-    return React.cloneElement(listItem, props, children);
+    const props = {
+      ...otherProps,
+      onKeyDown: (e) => {
+        onKeyDown(e);
+        this.handleKeyDown(e, index);
+      },
+      onClick: (e) => {
+        onClick(e);
+        this.handleClick(e, index);
+      },
+      onFocus: (e) => {
+        onFocus(e);
+        this.handleFocus(e, index);
+      },
+      onBlur: (e) => {
+        onBlur(e);
+        this.handleBlur(e, index);
+      },
+      shouldFocus: focusListItemAtIndex === index,
+      shouldFollowHref: followHrefAtIndex === index,
+      shouldToggleCheckbox: toggleCheckboxAtIndex === index,
+      attributesFromList: listItemAttributes[index],
+      classNamesFromList: listItemClassNames[index],
+      childrenTabIndex: listItemChildrenTabIndex[index],
+    };
+
+    return React.cloneElement(listItem, props);
   }
 }
 
@@ -306,35 +279,28 @@ export default class List extends Component {
 List.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  nonInterative: PropTypes.bool,
+  nonInteractive: PropTypes.bool,
   dense: PropTypes.bool,
   avatarList: PropTypes.bool,
   twoLine: PropTypes.bool,
   singleSelection: PropTypes.bool,
-  wrapFocus: PropTypes.bool,
   selectedIndex: PropTypes.number,
+  handleSelect: PropTypes.func,
+  wrapFocus: PropTypes.bool,
   'aria-orientation': PropTypes.string,
-  onKeyDown: PropTypes.func,
-  onClick: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  tag: PropTypes.string,
 };
 
 List.defaultProps = {
   className: '',
-  nonInterative: false,
+  nonInteractive: false,
   dense: false,
   avatarList: false,
   twoLine: false,
   singleSelection: false,
+  selectedIndex: -1,
+  handleSelect: () => {},
   wrapFocus: true,
   'aria-orientation': VERTICAL,
-  onKeyDown: () => {},
-  onClick: () => {},
-  onFocus: () => {},
-  onBlur: () => {},
-  tag: 'ul',
 };
 
 /* eslint-enable quote-props */
