@@ -27,7 +27,6 @@ import TopAppBar from '@material/react-top-app-bar';
 import TextField, {Input, HelperText} from '@material/react-text-field';
 import Button from '@material/react-button';
 import MaterialIcon from '@material/react-material-icon';
-import {Body2, Headline6} from '@material/react-typography';
 
 class Feedback extends React.Component {
   state = {
@@ -79,12 +78,12 @@ class Feedback extends React.Component {
   renderMessage() {
     return (
       <div>
-        <Headline6 className='mdc-theme--primary' tag='h2'>
+        <h2 className='mdc-typography--headline6 mdc-theme--primary'>
           Thanks for spreading joy with Red Roses
-        </Headline6>
-        <Body2 className='message__subheader'>
+        </h2>
+        <p className='mdc-typography--body2 message__subheader'>
           We would love to hear about your ordering experience.
-        </Body2>
+        </p>
       </div>
     );
   }
@@ -92,7 +91,7 @@ class Feedback extends React.Component {
   renderFeedbackTextField() {
     const helperText = (
       <HelperText persistent>
-        Don&apos;t worry feedback is never shared with couriers
+        Don't worry feedback is never shared with couriers
       </HelperText>
     );
     return (
