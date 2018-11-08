@@ -118,7 +118,7 @@ const renderChips = (list, hasLeadingIcon = false) => {
 const ChipsScreenshotTest = () => {
   return (
     <div>
-      {/* Default Chips
+      Default Chips
       <ChipSet>
         {renderChips(seasons)}
       </ChipSet>
@@ -126,14 +126,14 @@ const ChipsScreenshotTest = () => {
       Choice Chips
       <ChoiceChipsTest selectedChipIds={['2chip']}>
         {renderChips(sizes)}
-      </ChoiceChipsTest> */}
+      </ChoiceChipsTest>
 
       Filter Chips with Leading Icon
       <FilterChipsTest selectedChipIds={['1chip', '2chip']}>
         {renderChips(clothes, true)}
       </FilterChipsTest>
 
-      {/* <InputChipsTest labels={contacts}/> */}
+      <InputChipsTest labels={contacts}/>
     </div>
   );
 };
