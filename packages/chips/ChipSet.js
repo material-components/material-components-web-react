@@ -27,22 +27,13 @@ import {MDCChipSetFoundation} from '@material/chips';
 
 import ChipCheckmark from './ChipCheckmark';
 
-// move to util package
-// const setDeepEquals = (s1, s2) => {
-//   if (s1.size !== s2.size) return false;
-//   for (let item1 of s1) {
-//     if (!s2.has(item1)) return false;
-//   }
-//   return true;
-// }
-
 export default class ChipSet extends Component {
   checkmarkWidth_ = 0;
 
   constructor(props) {
     super(props);
     this.state = {
-      selectedChipIds: [],//new Set(props.selectedChipIds),
+      // selectedChipIds: [],//new Set(props.selectedChipIds),
       foundation: null,
       hasInitialized: false,
     };
@@ -56,7 +47,7 @@ export default class ChipSet extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.foundation !== prevState.foundation) {
-      this.initChipSelection(this.state.selectedChipIds);
+      this.initChipSelection(this.props.selectedChipIds);
     }
     // console.log(this.state.foundation.getSelectedChipIds());
     // if (prevState.foundation ) {
@@ -66,6 +57,7 @@ export default class ChipSet extends Component {
     //   // rename to updateSelectedChipIds
     //   this.props.handleSelect(this.state.foundation.getSelectedChipIds());
     // }
+
   }
 
   componentWillUnmount() {
@@ -95,7 +87,10 @@ export default class ChipSet extends Component {
         // this.setState({selectedChipds});
 
         // console.log(selectedChipIds)
-        this.setState({selectedChipIds});
+        // this.setState({selectedChipIds});
+        //
+        this.forceUpdate();
+        this.props.handleSelect(this.state.foundation.getSelectedChipIds());
       },
       removeChip: this.removeChip,
     };
@@ -134,8 +129,6 @@ export default class ChipSet extends Component {
     const {updateChips, children} = this.props;
     if (!children) return;
 
-    // if chip is selected, remove from selectedChipIds
-
     const chips = React.Children.toArray(children).slice();
     for (let i = 0; i < chips.length; i ++) {
       const chip = chips[i];
@@ -163,11 +156,10 @@ export default class ChipSet extends Component {
 
   renderChip = (chip) => {
     const {filter} = this.props;
-    const {selectedChipIds} = this.state;
-    // const selectedChipIds = this.state.foundation.getSelectedChipIds();
+    const selectedChipIds = this.state.foundation.getSelectedChipIds();
     const selected = selectedChipIds.indexOf(chip.props.id) > -1;
     const props = Object.assign({
-      selected, //: selectedChipIds.has(chip.props.id),
+      selected,
       handleSelect: this.handleSelect,
       handleInteraction: this.handleInteraction,
       handleRemove: this.handleRemove,
