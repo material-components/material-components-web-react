@@ -32,12 +32,26 @@ export class Chip extends Component {
   state = {
     classList: new Set(),
     leadingIconClassList: new Set(),
+
+    // work around for interaction --> selection loop
+    // and selected chip initialization
+    interactionSelection: false,
   };
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
-    this.foundation_.init();
-    this.foundation_.setSelected(this.props.selected);
+    this.foundation_.init
+
+    if (this.props.selected) {
+      // this is the work around for selected chip initialization.
+      // we do not want it to call props.handleSelect a second time
+      // which will deselect the chip
+      this.setState({interactionSelection: true}, () => {
+        this.foundation_.setSelected(this.props.selected);
+      });
+    } else {
+      this.foundation_.setSelected(this.props.selected);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -80,7 +94,13 @@ export class Chip extends Component {
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
       notifyRemoval: () => this.props.handleRemove(this.props.id),
       notifyInteraction: () => this.props.handleInteraction(this.props.id),
-      notifySelection: () => this.props.handleSelect(this.props.id),
+      notifySelection: () => {
+        if (this.state.interactionSelection) {
+          this.setState({interactionSelection: false});
+        } else {
+          this.props.handleSelect(this.props.id);
+        }
+      },
       addClassToLeadingIcon: (className) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.add(className);
@@ -97,6 +117,7 @@ export class Chip extends Component {
   onClick = (e) => {
     this.props.onClick(e);
     this.foundation_.handleInteraction(e);
+    this.setState({interactionSelection: true});
   }
 
   onKeyDown = (e) => {
