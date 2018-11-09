@@ -32,7 +32,7 @@
   "top-app-bar/standardNoActionItems": "6d361edb994cafcc6ac720336d12ee7d7114745993e16abd6e6b00f078424ff2",
   "top-app-bar/standardWithNavigationIconElement": "95afd559c35dede805e4d4b51ad1fabd82b4117c358a8679e3166b88e059bf68",
   "drawer/permanentBelowTopAppBar": "587ee2605c4b3e3f0408c6130b824b58587e05cedf9b964e14fc481b9de1e4c2",
-  "drawer/dismissibleBelowTopAppBar": "a9bf24c0edd3dcc9167516ce3bdd146fd1a352c4f5b9ea76a1f9dad1ba61e0f8"
+  "drawer/dismissibleBelowTopAppBar": "a9bf24c0edd3dcc9167516ce3bdd146fd1a352c4f5b9ea76a1f9dad1ba61e0f8",
   "drawer/permanent": "6355905c2241b5e6fdddc2e25119a1cc3b062577375a88b59e6750c4b76e4561",
   "drawer/dismissible": "6ea0638441e0e6df3c97028136239498a31bba206253a01d114431eda20d1060",
   "drawer/modal": "11d4ad79b8c4e672952cbb5dc3f7deb810e17fad00dc29ba7cba81b0aacb72fa",
