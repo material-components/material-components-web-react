@@ -91,10 +91,10 @@ test('#adapter.removeClassFromLeadingIcon removes from state.leadingIconClassLis
 });
 
 test('#adapter.notifyInteraction calls #props.handleSelect w/ chipId', () => {
-  const handleSelect = td.func();
-  const wrapper = shallow(<Chip id='123' handleSelect={handleSelect} />);
+  const handleInteraction = td.func();
+  const wrapper = shallow(<Chip id='123' handleInteraction={handleInteraction} />);
   wrapper.instance().foundation_.adapter_.notifyInteraction();
-  td.verify(handleSelect('123'), {times: 1});
+  td.verify(handleInteraction('123'), {times: 1});
 });
 
 test('#adapter.notifyRemoval calls #props.handleRemove w/ chipId', () => {
