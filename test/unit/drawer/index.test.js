@@ -49,6 +49,27 @@ test('when props.open updates to false from true, #foundation.close is called wh
   td.verify(wrapper.instance().foundation_.close(), {times: 1});
 });
 
+test('when changes from permanent to modal drawer with no foundation, creates a foundation', () => {
+  const wrapper = shallow(<Drawer />);
+  assert.notExists(wrapper.instance().foundation_);
+  wrapper.setProps({modal: true});
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from permanent to dismissible drawer with no foundation, creates a foundation', () => {
+  const wrapper = shallow(<Drawer />);
+  assert.notExists(wrapper.instance().foundation_);
+  wrapper.setProps({dismissible: true});
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test.only('when changes from dismissible to modal drawer keeps same foundation', () => {
+  const wrapper = shallow(<Drawer dismissible />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({modal: true});
+  assert.equal(wrapper.instance().foundation_, originalFoundation);
+});
+
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<Drawer dismissible />);
   const foundation = wrapper.instance().foundation_;

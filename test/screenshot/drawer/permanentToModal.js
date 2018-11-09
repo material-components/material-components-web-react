@@ -4,27 +4,33 @@ import DrawerTest from './DrawerTest';
 class PermanentToModalDrawerScreenshotTest extends React.Component {
 
   state = {
-    isPhone: false,
+    isPhone: window.innerWidth < 599,
   };
 
   componentDidMount() {
     window.addEventListener('resize', this.updateDrawerVariant);
   }
 
-  componentDidUnmount() {
+  shouldComponentUpdate(_, nextState) {
+    if (nextState.isPhone === this.state.isPhone) {
+      return false;
+    }
+    return true;
+  }
+
+  componentWillUnmount() {
     window.removeEventListener('resize', this.updateDrawerVariant);
   }
 
   updateDrawerVariant = () => {
-    if (window.innerWidth < 599) {
-      this.setState({isPhone: true});
-    } else {
-      this.setState({isPhone: false});
-    }
+    const isPhone = window.innerWidth < 599;
+    this.setState({isPhone});
   }
 
   render() {
-    console.log(this.state.isPhone)
+    if (this.state.isPhone) {
+      return <DrawerTest open={false} modal title='Modal Drawer' />;
+    }
     return <DrawerTest hideNavigationIcon title='Permanent Drawer' />;
   }
 };
