@@ -11,8 +11,11 @@ export default class TabBar extends Component {
   tabList_ = [];
 
   foundation_ = null;
-  state = {
-    previousActiveIndex: -1,
+  constructor(props) {
+    super(props);
+    this.state = {
+      previousActiveIndex: props.activeIndex,
+    };
   }
 
   componentDidMount() {
@@ -126,7 +129,7 @@ export default class TabBar extends Component {
       onClick, // eslint-disable-line no-unused-vars
       ...otherProps
     } = tab.props;
-
+// console.log('renders')
     const props = {
       onClick: (e) => {
         this.setState(

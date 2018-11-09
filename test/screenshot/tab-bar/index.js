@@ -9,6 +9,12 @@ class TabBarTest extends React.Component {
     activeIndex: this.props.activeIndex || 0, // eslint-disable-line react/prop-types
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.activeIndex !== prevProps.activeIndex) {
+      this.setState({activeIndex: this.props.activeIndex});
+    }
+  }
+
   render() {
     const {
       /* eslint-disable react/prop-types */
@@ -45,9 +51,24 @@ class TabBarTest extends React.Component {
   }
 }
 
+class TabBarActiveIndexTest extends React.Component {
+  state = {activeIndex: 0};
+  render() {
+    return (
+      <React.Fragment>
+        <TabBarTest activeIndex={this.state.activeIndex} numTabs={3} />
+        <button onClick={() => this.setState({activeIndex: 1})}>Click</button>
+      </React.Fragment>
+    );
+  }
+}
+
 const TabBarScreenshotTest = () => {
   return (
     <div>
+      <div>
+        <TabBarActiveIndexTest />
+      </div>
       Sliding Underline
       <div className='tab-bar-container'>
         <TabBarTest numTabs={3} />
