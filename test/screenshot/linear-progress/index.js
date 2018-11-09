@@ -4,6 +4,30 @@ import './index.scss';
 import LinearProgress from '../../../packages/linear-progress/index';
 import '../../../packages/linear-progress/index.scss';
 
+class Closed extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {closed: false};
+    this.close = this.close.bind(this);
+  }
+  close() {
+    this.setState((currentState) => ({closed: !currentState.closed}));
+  }
+  render() {
+    return (
+      <React.Fragment>
+        <LinearProgress
+          buffer={0.9}
+          bufferingDots={false}
+          closed={this.state.closed}
+          progress={0.8}
+        />
+        <button onClick={this.close} type="button">Close</button>
+      </React.Fragment>
+    );
+  }
+}
+
 const FullBuffer = () => {
   return (
     <LinearProgress
@@ -44,6 +68,8 @@ const LinearProgressScreenshot = () => {
       <Static />
       Reversed
       <Reversed />
+      Closable
+      <Closed />
     </div>
   );
 };
