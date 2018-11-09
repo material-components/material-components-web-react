@@ -3,34 +3,19 @@ import './index.scss';
 import '../../../packages/list/index.scss';
 
 import MaterialIcon from '../../../packages/material-icon';
-import List from '../../../packages/list/index';
-import {ListItem} from '../../../packages/list/index';
-import ListItemGraphic from '../../../packages/list/ListItemGraphic';
-import ListItemText from '../../../packages/list/ListItemText';
-import ListItemMeta from '../../../packages/list/ListItemMeta';
-
-class SelectionListTest extends React.Component {
-  state = {
-    selectedIndex: 1, // eslint-disable-line react/prop-types
-  };
-
-  render() {
-    const {children, ...otherProps} = this.props; // eslint-disable-line react/prop-types
-    return (
-      <List
-        singleSelection
-        selectedIndex={this.state.selectedIndex}
-        {...otherProps}
-      >
-        {children}
-      </List>
-    );
-  }
-}
+import List, {
+  ListItem,
+  ListItemGraphic,
+  ListItemText,
+  ListItemMeta,
+  ListGroup,
+  ListGroupSubheader,
+} from '../../../packages/list/index';
+import uuidv1 from 'uuid/v1';
 
 const renderListItem = (primaryText, secondaryText) => {
   return (
-    <ListItem>
+    <ListItem key={uuidv1()}>
       <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
       <ListItemText primaryText={primaryText} secondaryText={secondaryText}/>
       <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
@@ -38,24 +23,65 @@ const renderListItem = (primaryText, secondaryText) => {
   );
 };
 
+class SelectionListTest extends React.Component {
+  state = {
+    selectedIndex: 1,
+    listItems: ['List item 1', 'List item 2', 'List item 3'],
+  };
+
+  insertListItem = () => {
+    const {listItems, selectedIndex} = this.state;
+    listItems.splice(0, 0, 'New list item');
+    this.setState({listItems, selectedIndex: selectedIndex + 1});
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <button onClick={this.insertListItem}>Insert new list item</button>
+        <List
+          {...this.props}
+          singleSelection
+          selectedIndex={this.state.selectedIndex}
+          handleSelect={(selectedIndex) => this.setState({selectedIndex})}
+        >
+          {this.state.listItems.map((text) => renderListItem(text))}
+        </List>
+      </React.Fragment>
+    );
+  }
+}
+
 const ListScreenshotTest = () => {
   return (
     <div>
-      <h2>Two-line Selection List</h2>
-      <SelectionListTest twoLine>
-        {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world')}
-        {renderListItem('hello', 'world')}
-      </SelectionListTest>
+      <h2>One-line Selection List</h2>
+      <SelectionListTest />
 
-      <h2>One-line List</h2>
-      <List>
-        {renderListItem('hello')}
-        {renderListItem('hello')}
-        {renderListItem('hello')}
-        {renderListItem('hello')}
+      <h2>Two-line List</h2>
+      <List twoLine>
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
+        <li className='mdc-list-divider' role='separator'></li>
+        {renderListItem('List item', 'Secondary text')}
+        {renderListItem('List item', 'Secondary text')}
       </List>
+
+      <h2>List group</h2>
+      <ListGroup>
+        <ListGroupSubheader>Folders</ListGroupSubheader>
+        <List>
+          {renderListItem('Photos')}
+          {renderListItem('Recipes')}
+          {renderListItem('Work')}
+        </List>
+        <ListGroupSubheader>Recent Files</ListGroupSubheader>
+        <List>
+          {renderListItem('Vacation itinerary')}
+          {renderListItem('Kitchen remodel')}
+        </List>
+      </ListGroup>
     </div>
   );
 };

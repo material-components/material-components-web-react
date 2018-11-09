@@ -31,11 +31,13 @@
           "card",
           "checkbox",
           "chips",
+          "drawer",
           "fab",
           "floating-label",
           "icon-button",
           "layout-grid",
           "line-ripple",
+          "list",
           "menu-surface",
           "ripple",
           "select",
@@ -46,7 +48,8 @@
           "tab-scroller",
           "infrastructure",
           "tab-indicator",
-          "text-field"
+          "text-field",
+          "typography"
         ],
         "validate": true
       }

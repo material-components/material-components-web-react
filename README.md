@@ -1,3 +1,5 @@
+> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
+
 [![Build Status](https://api.travis-ci.com/material-components/material-components-web-react.svg?branch=master)](https://travis-ci.com/material-components/material-components-web-react/)
 [![codecov](https://codecov.io/gh/material-components/material-components-web-react/branch/master/graph/badge.svg)](https://codecov.io/gh/material-components/material-components-web-react)
 [![Chat](https://img.shields.io/discord/259087343246508035.svg)](https://discord.gg/material-components)
@@ -18,9 +20,12 @@ Component | Spec | MDC Web
 [Card](./packages/card) | [Card Design Page](https://material.io/design/components/cards.html) | [MDC Card](https://github.com/material-components/material-components-web/tree/master/packages/mdc-card)
 [Checkbox](./packages/checkbox) | [Checkbox Design Page](https://material.io/design/components/selection-controls.html#checkboxes) | [MDC Checkbox](https://github.com/material-components/material-components-web/tree/master/packages/mdc-checkbox)
 [Chips](./packages/chips) | [Chips Design Page](https://material.io/design/components/chips.html) | [MDC Chips](https://github.com/material-components/material-components-web/tree/master/packages/mdc-chips)
+[Drawer](./packages/drawer) | [Drawer Design Page](https://material.io/design/components/navigation-drawer.html) | [MDC Drawer](https://github.com/material-components/material-components-web/tree/master/packages/mdc-drawer)
 [Fab](./packages/fab) | [Fab Design Page](https://material.io/design/components/buttons-floating-action-button.html) | [MDC Fab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-fab)
 [Floating Label](./packages/floating-label) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Floating Label](https://github.com/material-components/material-components-web/tree/master/packages/mdc-floating-label)
+[Layout Grid](./packages/layout-grid) | [Layout Grid Design Page](https://material.io/design/layout/responsive-layout-grid.html#responsive-ui-grid) | [MDC Layout Grid](https://github.com/material-components/material-components-web/tree/latest-release/packages/mdc-layout-grid)
 [Line Ripple](./packages/line-ripple) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Line Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-line-ripple)
+[List](./packages/list) | [List Design Page](https://material.io/design/components/lists.html) | [MDC List](https://github.com/material-components/material-components-web/tree/latest-release/packages/mdc-list)
 [Material Icon](./packages/material-icon) | [Material Icon Design Page](https://material.io/design/iconography/system-icons.html#design-principles) | [Material Icon Tool](https://material.io/tools/icons/?style=baseline)
 [Menu Surface](./packages/menu-surface) | [Menu Surface Design Page](https://material.io/design/components/menus.html#design-principles) | [MDC Menu Surface](https://github.com/material-components/material-components-web/tree/master/packages/mdc-menu-surface)
 [Notched Outline](./packages/notched-outline) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Notched Outline](https://github.com/material-components/material-components-web/tree/master/packages/mdc-notched-outline)

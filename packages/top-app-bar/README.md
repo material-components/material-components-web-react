@@ -1,3 +1,5 @@
+> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
+
 # React Top App Bar
 
 A React version of an [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar).
@@ -103,3 +105,7 @@ MDC Web repository for more information on what mixins are available, and how to
 ## Usage with Icons
 
 Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) when importing or using icon fonts.
+
+## Usage with Drawer
+
+Please see the docs in drawer to [integrate with Top app bar](../packages/drawer/README.md#usage-with-top-app-bar)
