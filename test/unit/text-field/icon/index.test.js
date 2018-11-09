@@ -5,7 +5,6 @@ import {shallow} from 'enzyme';
 import Icon from '../../../../packages/text-field/icon/index';
 import MaterialIcon from '../../../../packages/material-icon/index';
 
-
 suite('Text Field Icon');
 
 test('classNames adds classes', () => {
