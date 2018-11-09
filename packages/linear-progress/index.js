@@ -7,7 +7,7 @@ class LinearProgress extends React.Component {
   constructor(props) {
     super(props);
     this.bufferElement_ = null;
-    this.foundation_ = null;
+    this.foundation_ = new MDCLinearProgressFoundation(this.adapter);
     this.primaryBarElement_ = null;
     this.state = {
       classList: new Set(),
@@ -15,25 +15,34 @@ class LinearProgress extends React.Component {
   }
 
   componentDidMount() {
-    const {buffer, indeterminate, progress, reversed} = this.props;
-    this.foundation_ = new MDCLinearProgressFoundation(this.adapter);
+    const {buffer, closed, indeterminate, progress, reversed} = this.props;
     this.foundation_.init();
     this.foundation_.setBuffer(buffer);
     this.foundation_.setDeterminate(!indeterminate);
     this.foundation_.setProgress(progress);
     this.foundation_.setReverse(reversed);
+    if (closed) {
+      this.foundation_.close();
+    }
   }
 
   componentDidUpdate(prevProps) {
     const {
       buffer: prevBuffer,
+      closed: prevClosed,
       indeterminate: prevIndeterminate,
       progress: prevProgress,
       reversed: prevReversed,
     } = prevProps;
-    const {buffer, indeterminate, progress, reversed} = this.props;
+    const {buffer, closed, indeterminate, progress, reversed} = this.props;
     if (buffer !== prevBuffer) {
       this.foundation_.setBuffer(buffer);
+    }
+    if (closed && !prevClosed) {
+      this.foundation_.close();
+    }
+    if (!closed && prevClosed) {
+      this.foundation_.open();
     }
     if (indeterminate !== prevIndeterminate) {
       this.foundation_.setDeterminate(!indeterminate);
@@ -94,6 +103,8 @@ class LinearProgress extends React.Component {
       // eslint-disable-next-line no-unused-vars
       className,
       // eslint-disable-next-line no-unused-vars
+      closed,
+      // eslint-disable-next-line no-unused-vars
       indeterminate,
       // eslint-disable-next-line no-unused-vars
       progress,
@@ -130,6 +141,7 @@ LinearProgress.propTypes = {
   buffer: PropTypes.number,
   bufferingDots: PropTypes.bool,
   className: PropTypes.string,
+  closed: PropTypes.bool,
   indeterminate: PropTypes.bool,
   progress: PropTypes.number,
   reversed: PropTypes.bool,
@@ -139,6 +151,7 @@ LinearProgress.defaultProps = {
   buffer: 0,
   bufferingDots: true,
   className: '',
+  closed: false,
   indeterminate: false,
   progress: 0,
   reversed: false,
