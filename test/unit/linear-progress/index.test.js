@@ -7,8 +7,13 @@ import LinearProgress from '../../../packages/linear-progress/index';
 
 suite('LinearProgress');
 
+test('Skips rendering the buffering dots when props.bufferingDots is false', () => {
+  const wrapper = shallow(<LinearProgress bufferingDots={false} />, {disableLifecycleMethods: true});
+  assert.isNotTrue(wrapper.find('.mdc-linear-progress__buffering-dots').exists());
+});
+
 test('Creates the foundation', () => {
-  const wrapper = mount(<LinearProgress />);
+  const wrapper = shallow(<LinearProgress />, {disableLifecycleMethods: true});
   assert.exists(wrapper.instance().foundation_);
 });
 
