@@ -26,21 +26,32 @@ import '@material/react-linear-progress/dist/linear-progress.css';
 
 ### Javascript Instantiation
 ```js
+import LinearProgress from '@material/react-linear-progress';
 import React from 'react';
+
+class MyApp extends React.Component {
+  render() {
+    return (
+      <LinearProgress
+        buffer={0.8}
+        progress={0.9}
+      />
+    );
+  }
+}
 ```
 
-## Components
-
-### Grid
-
-#### Props
+## Props
 
 Prop Name | Type | Description
 --- | --- | ---
-align | String (`left` or `right`) | An optional alignment of the grid contents
-children | Node | A React node to render within the Grid, usually a `Row` or `Row`s
-className | String | Classes to be applied to the root element
-tag | String | The tag type to render (default `'div'`)
+buffer | Number | Decimal value between 0 and 1, sets the buffer bar width
+bufferingDots | Boolean | Default `false`. Whether to show the buffer dots in the un-progressed section
+className | String | Optional. Additional class names to add to the root component
+closed | Boolean | Default `false`. When changed to `true`, closes the component
+indeterminate | Boolean | Default `false`. When set to `true`, renders the indeterminate variant
+progress | Number | Decimal value between 0 and 1, sets the progress amount
+reversed | Boolean | Default `false`. When set to `true`, renders the reversed variant
 
 ## Sass Mixins
 
