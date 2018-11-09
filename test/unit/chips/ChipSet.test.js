@@ -105,6 +105,15 @@ test('#handleSelect calls foundation.handleChipSelection with selectedChipId and
   td.verify(handleChipSelection('1', false), {times: 1});
 });
 
+test('#handleInteraction calls #foundation.handleChipInteraction', () => {
+  const handleChipInteraction = td.func();
+  const foundation = {handleChipInteraction};
+  const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
+  wrapper.setState({foundation});
+  wrapper.instance().handleInteraction('1');
+  td.verify(handleChipInteraction('1'), {times: 1});
+});
+
 test('#handleRemove calls foundation.handleChipRemoval with chipId', () => {
   const handleChipRemoval = td.func();
   const foundation = {handleChipRemoval};
