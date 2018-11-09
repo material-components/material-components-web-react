@@ -74,8 +74,9 @@ export default class ChipSet extends Component {
       hasClass: (className) => this.classes.split(' ').includes(className),
       setSelected: (chipId, selected) => {
         const selectedChipIds = this.state.foundation.getSelectedChipIds();
-        this.setState({selectedChipIds});
-        this.props.handleSelect(selectedChipIds);
+        this.setState({selectedChipIds}, () => {
+          this.props.handleSelect(selectedChipIds);
+        });
       },
       removeChip: this.removeChip,
     };
