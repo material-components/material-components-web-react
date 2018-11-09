@@ -63,7 +63,7 @@ test('when changes from permanent to dismissible drawer with no foundation, crea
   assert.exists(wrapper.instance().foundation_);
 });
 
-test.only('when changes from dismissible to modal drawer keeps same foundation', () => {
+test('when changes from dismissible to modal drawer keeps same foundation', () => {
   const wrapper = shallow(<Drawer dismissible />);
   const originalFoundation = wrapper.instance().foundation_;
   wrapper.setProps({modal: true});

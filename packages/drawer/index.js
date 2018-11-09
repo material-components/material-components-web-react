@@ -67,7 +67,6 @@ class Drawer extends React.Component {
     if (!(dismissible || modal)) return;
 
     if ((changedToModal || changedToDismissible) && !this.foundation_) {
-      debugger
       this.initFoundation();
     }
 
