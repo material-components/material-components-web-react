@@ -33,7 +33,7 @@ export default class ChipSet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // selectedChipIds: [],//new Set(props.selectedChipIds),
+      selectedChipIds: props.selectedChipIds,//new Set(props.selectedChipIds),
       foundation: null,
       hasInitialized: false,
     };
@@ -46,18 +46,14 @@ export default class ChipSet extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.foundation !== prevState.foundation) {
-      this.initChipSelection(this.props.selectedChipIds);
-    }
-    // console.log(this.state.foundation.getSelectedChipIds());
-    // if (prevState.foundation ) {
-    //   console.log(prevState.foundation.getSelectedChipIds());
-    // }
-    // if (!setDeepEquals(this.state.selectedChipIds, prevState.selectedChipIds)) {
-    //   // rename to updateSelectedChipIds
-    //   this.props.handleSelect(this.state.foundation.getSelectedChipIds());
-    // }
+    const {selectedChipIds} = this.props;
 
+    if (this.state.foundation !== prevState.foundation) {
+      this.initChipSelection();
+    }
+    if (selectedChipIds !== prevProps.selectedChipIds) {
+      this.setState({selectedChipIds});
+    }
   }
 
   componentWillUnmount() {
@@ -77,31 +73,20 @@ export default class ChipSet extends Component {
     return {
       hasClass: (className) => this.classes.split(' ').includes(className),
       setSelected: (chipId, selected) => {
-        const selectedChipIds = this.state.foundation.getSelectedChipIds();//new Set(this.state.selectedChipIds);
-        // if (selected) {
-        //   selectedChipIds.add(chipId);
-        // } else {
-        //   selectedChipIds.delete(chipId);
-        // }
-        // // console.log(selected, ' ', chipId)
-        // this.setState({selectedChipds});
-
-        // console.log(selectedChipIds)
-        // this.setState({selectedChipIds});
-        //
-        this.forceUpdate();
-        this.props.handleSelect(this.state.foundation.getSelectedChipIds());
+        const selectedChipIds = this.state.foundation.getSelectedChipIds();
+        // debugger
+        this.setState({selectedChipIds});
+        // might move this to componentDidUpdate
+        this.props.handleSelect(selectedChipIds);
       },
       removeChip: this.removeChip,
     };
   }
 
-  initChipSelection(ids) {
+  initChipSelection() {
+    const {selectedChipIds} = this.props;
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
-
-      // const selectedChipIds = this.state.foundation.getSelectedChipIds();
-      const selectedChipIds = this.props.selectedChipIds
       const selected = selectedChipIds.indexOf(id) > -1;
       if (selected) {
         this.state.foundation.select(id);
@@ -115,8 +100,8 @@ export default class ChipSet extends Component {
     this.state.foundation.handleChipInteraction(chipId);
   }
 
-  handleSelect = (chipId) => {
-    this.state.foundation.handleChipSelection(chipId);
+  handleSelect = (chipId, selected) => {
+    this.state.foundation.handleChipSelection(chipId, selected);
   }
 
   handleRemove = (chipId) => {
@@ -156,7 +141,7 @@ export default class ChipSet extends Component {
 
   renderChip = (chip) => {
     const {filter} = this.props;
-    const selectedChipIds = this.state.foundation.getSelectedChipIds();
+    const {selectedChipIds} = this.state;
     const selected = selectedChipIds.indexOf(chip.props.id) > -1;
     const props = Object.assign({
       selected,
