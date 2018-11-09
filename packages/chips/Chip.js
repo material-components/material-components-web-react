@@ -40,7 +40,7 @@ export class Chip extends Component {
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
-    this.foundation_.init
+    this.foundation_.init;
 
     if (this.props.selected) {
       // this is the work around for selected chip initialization.
@@ -224,6 +224,7 @@ Chip.propTypes = {
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,
   handleRemove: PropTypes.func,
+  handleInteraction: PropTypes.func,
   onClick: PropTypes.func,
   onKeyDown: PropTypes.func,
   onTransitionEnd: PropTypes.func,
@@ -245,6 +246,7 @@ Chip.defaultProps = {
   initRipple: () => {},
   handleSelect: () => {},
   handleRemove: () => {},
+  handleInteraction: () => {},
 };
 
 export default withRipple(Chip);
