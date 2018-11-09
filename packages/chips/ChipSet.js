@@ -33,7 +33,7 @@ export default class ChipSet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedChipIds: props.selectedChipIds,//new Set(props.selectedChipIds),
+      selectedChipIds: props.selectedChipIds,
       foundation: null,
       hasInitialized: false,
     };
@@ -74,9 +74,7 @@ export default class ChipSet extends Component {
       hasClass: (className) => this.classes.split(' ').includes(className),
       setSelected: (chipId, selected) => {
         const selectedChipIds = this.state.foundation.getSelectedChipIds();
-        // debugger
         this.setState({selectedChipIds});
-        // might move this to componentDidUpdate
         this.props.handleSelect(selectedChipIds);
       },
       removeChip: this.removeChip,
@@ -105,9 +103,7 @@ export default class ChipSet extends Component {
   }
 
   handleRemove = (chipId) => {
-    if (this.props.input) {
-      this.state.foundation.handleChipRemoval(chipId);
-    }
+    this.state.foundation.handleChipRemoval(chipId);
   }
 
   removeChip = (chipId) => {

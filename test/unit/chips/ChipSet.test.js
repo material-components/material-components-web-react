@@ -10,14 +10,14 @@ suite('ChipSet');
 
 test('creates foundation', () => {
   const wrapper = mount(<ChipSet />);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.state().foundation);
 });
 
 test('updates state.selectedChipIds when the props.selectedChipIds change', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
   const selectedChipIds = ['1'];
   wrapper.setProps({selectedChipIds});
-  assert.isTrue(wrapper.state().selectedChipIds.has('1'));
+  assert.isTrue(wrapper.state().selectedChipIds.indexOf('1') > -1);
 });
 
 test('filter classname is added if is filter variant', () => {
@@ -46,41 +46,50 @@ test('#adapter.hasClass returns false if component does not contains class', () 
 });
 
 test('#adapter.setSelected adds selectedChipId to state', () => {
-  const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
+  const getSelectedChipIds = td.func();
+  const handleSelect = td.func();
+  const foundation = {getSelectedChipIds};
+  td.when(getSelectedChipIds()).thenReturn(['abc']);
+
+  const wrapper = shallow(<ChipSet handleSelect={handleSelect}><div id='1' /></ChipSet>);
+  wrapper.setState({foundation});
   wrapper.instance().adapter.setSelected('1', true);
-  assert.isTrue(wrapper.state().selectedChipIds.has('1'));
+
+  assert.isTrue(wrapper.state().selectedChipIds.indexOf('abc') > -1);
+  td.verify(foundation.getSelectedChipIds(), {times: 1});
+  td.verify(handleSelect(['abc']));
 });
 
 test('#adapter.setSelected removes selectedChipId from state', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
   wrapper.setState({selectedChipIds: new Set(['1'])});
   wrapper.instance().adapter.setSelected('1', false);
-  assert.isFalse(wrapper.state().selectedChipIds.has('1'));
+  assert.isFalse(wrapper.state().selectedChipIds.indexOf('1') > -1);
 });
 
 test('#adapter.setSelected removes selectedChipId from state', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
   wrapper.setState({selectedChipIdss: new Set(['1'])});
   wrapper.instance().adapter.setSelected('1', false);
-  assert.isFalse(wrapper.state().selectedChipIds.has('1'));
+  assert.isFalse(wrapper.state().selectedChipIds.indexOf('1') > -1);
 });
 
 test('#foundation.select is called when #updateChipSelection is called and ' +
   'state.selectedChipIds has a selected Id', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
-  wrapper.instance().foundation_.select = td.func();
+  wrapper.state().foundation.select = td.func();
   const selectedChipIds = new Set(['1']);
   wrapper.setState({selectedChipIds});
   wrapper.instance().updateChipSelection();
-  td.verify(wrapper.instance().foundation_.select('1'), {times: 1});
+  td.verify(wrapper.state().foundation.select('1'), {times: 1});
 });
 
 test('#foundation.deselect is called when #updateChipSelection is called and ' +
   'state.selectedChipIds does not have selected Id', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
-  wrapper.instance().foundation_.deselect = td.func();
+  wrapper.state().foundation.deselect = td.func();
   wrapper.instance().updateChipSelection();
-  td.verify(wrapper.instance().foundation_.deselect('1'), {times: 1});
+  td.verify(wrapper.state().foundation.deselect('1'), {times: 1});
 });
 
 test('#handleSelect calls props.handleSelect', () => {
@@ -104,9 +113,9 @@ test('#handleSelect calls foundation_.toggleSelect with chipId and is choice var
   const wrapper = shallow(<ChipSet choice handleSelect={handleSelect}>
     <div id='1' />
   </ChipSet>);
-  wrapper.instance().foundation_.toggleSelect = td.func();
+  wrapper.state().foundation.toggleSelect = td.func();
   wrapper.instance().handleSelect('1');
-  td.verify(wrapper.instance().foundation_.toggleSelect('1'), {times: 1});
+  td.verify(wrapper.state().foundation.toggleSelect('1'), {times: 1});
 });
 
 test('#handleSelect calls foundation_.toggleSelect with chipId and is filter variant', () => {
@@ -114,9 +123,9 @@ test('#handleSelect calls foundation_.toggleSelect with chipId and is filter var
   const wrapper = shallow(<ChipSet filter handleSelect={handleSelect}>
     <div id='1' />
   </ChipSet>);
-  wrapper.instance().foundation_.toggleSelect = td.func();
+  wrapper.state().foundation.toggleSelect = td.func();
   wrapper.instance().handleSelect('1');
-  td.verify(wrapper.instance().foundation_.toggleSelect('1'), {times: 1});
+  td.verify(wrapper.state().foundation.toggleSelect('1'), {times: 1});
 });
 
 test('#handleSelect does not call foundation_.toggleSelect with chipId if is neither filter nor choice', () => {
@@ -124,18 +133,18 @@ test('#handleSelect does not call foundation_.toggleSelect with chipId if is nei
   const wrapper = shallow(<ChipSet handleSelect={handleSelect}>
     <div id='1' />
   </ChipSet>);
-  wrapper.instance().foundation_.toggleSelect = td.func();
+  wrapper.state().foundation.toggleSelect = td.func();
   wrapper.instance().handleSelect('1');
-  td.verify(wrapper.instance().foundation_.toggleSelect('1'), {times: 0});
+  td.verify(wrapper.state().foundation.toggleSelect('1'), {times: 0});
 });
 
 test('#handleRemove calls foundation_.deselect with chipId and is input variant', () => {
   const wrapper = shallow(<ChipSet input>
     <div id='1' />
   </ChipSet>);
-  wrapper.instance().foundation_.deselect = td.func();
+  wrapper.state().foundation.deselect = td.func();
   wrapper.instance().handleRemove('1');
-  td.verify(wrapper.instance().foundation_.deselect('1'), {times: 1});
+  td.verify(wrapper.state().foundation.deselect('1'), {times: 1});
 });
 
 test('#handleRemove does not call foundation_.deselect with chipId if is not input variant', () => {
@@ -143,9 +152,9 @@ test('#handleRemove does not call foundation_.deselect with chipId if is not inp
   const wrapper = shallow(<ChipSet handleRemove={handleRemove}>
     <div id='1' />
   </ChipSet>);
-  wrapper.instance().foundation_.deselect = td.func();
+  wrapper.state().foundation.deselect = td.func();
   wrapper.instance().handleRemove('1');
-  td.verify(wrapper.instance().foundation_.deselect('1'), {times: 0});
+  td.verify(wrapper.state().foundation.deselect('1'), {times: 0});
 });
 
 test('#handleRemove calls removeChip', () => {
@@ -290,7 +299,7 @@ test('chip is rendered computeBoundingRect method prop if is not filter variant'
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<ChipSet />);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.state().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());

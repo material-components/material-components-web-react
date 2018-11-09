@@ -95,6 +95,7 @@ export class Chip extends Component {
       notifyRemoval: () => this.props.handleRemove(this.props.id),
       notifyInteraction: () => this.props.handleInteraction(this.props.id),
       notifySelection: (selected) => {
+        // also work around for loop that occurs with chips
         if (this.state.interactionSelection) {
           this.setState({interactionSelection: false});
         } else {
