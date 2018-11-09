@@ -82,10 +82,9 @@ export default class ChipSet extends Component {
   }
 
   initChipSelection() {
-    const {selectedChipIds} = this.props;
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
-      const selected = selectedChipIds.indexOf(id) > -1;
+      const selected = this.state.selectedChipIds.indexOf(id) > -1;
       if (selected) {
         this.state.foundation.select(id);
       }
@@ -153,7 +152,7 @@ export default class ChipSet extends Component {
 
   render() {
     // need foundation on state, because Chip calls a foundation method
-    // before ChipSet mounts
+    // before ChipSet mounts.
     if (!this.state.hasInitialized) return null;
     return (
       <div className={this.classes}>
