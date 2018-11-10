@@ -2,7 +2,7 @@
 
 # React Linear Progress
 
-A React version of an [MDC Linear Progress](https://github.com/material-components/material-components-web/tree/master/packages/mdc-linear-progress).
+A React version of an [MDC Linear Progress](https://github.com/material-components/material-components-web/tree/master/packages/mdc-linear-progress) component.
 
 ## Installation
 
@@ -33,8 +33,8 @@ class MyApp extends React.Component {
   render() {
     return (
       <LinearProgress
-        buffer={0.8}
-        progress={0.9}
+        buffer={0.9}
+        progress={0.8}
       />
     );
   }
@@ -50,7 +50,7 @@ bufferingDots | Boolean | Default `false`. Whether to show the buffer dots in th
 className | String | Optional. Additional class names to add to the root component
 closed | Boolean | Default `false`. When changed to `true`, closes the component
 indeterminate | Boolean | Default `false`. When set to `true`, renders the indeterminate variant
-progress | Number | Decimal value between 0 and 1, sets the progress amount
+progress | Number | Decimal value between 0 and 1, sets the progress bar width
 reversed | Boolean | Default `false`. When set to `true`, renders the reversed variant
 
 ## Sass Mixins
