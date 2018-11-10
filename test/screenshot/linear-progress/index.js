@@ -4,7 +4,7 @@ import './index.scss';
 import LinearProgress from '../../../packages/linear-progress/index';
 import '../../../packages/linear-progress/index.scss';
 
-class Closed extends React.Component {
+class Closable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {closed: false};
@@ -69,7 +69,7 @@ const LinearProgressScreenshot = () => {
       Reversed
       <Reversed />
       Closable
-      <Closed />
+      <Closable />
     </div>
   );
 };
