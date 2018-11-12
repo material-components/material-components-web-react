@@ -32,7 +32,14 @@ export default class Input extends React.Component {
 
   componentDidMount() {
     const {
-      id, disabled, value, setInputId, setDisabled, handleValueChange, foundation,
+      id,
+      disabled,
+      value,
+      setInputId,
+      setDisabled,
+      handleValueChange,
+      foundation,
+      isValid,
     } = this.props;
 
     if (id) {
@@ -43,6 +50,10 @@ export default class Input extends React.Component {
     }
     if (value) {
       handleValueChange(value, () => foundation.setValue(value));
+    }
+    if (isValid !== undefined && foundation.setUseNativeValidation) {
+      foundation.setUseNativeValidation(false);
+      foundation.setValid(isValid);
     }
   }
 
@@ -55,8 +66,10 @@ export default class Input extends React.Component {
       foundation,
       value,
       disabled,
+      isValid,
     } = this.props;
 
+    console.log(foundation.setValid);
     this.handleValidationAttributeUpdate(prevProps);
 
     if (disabled !== prevProps.disabled) {
@@ -78,6 +91,15 @@ export default class Input extends React.Component {
           foundation.setValue(value);
         }
       });
+    }
+
+    if (isValid !== prevProps.isValid) {
+      if (isValid === undefined) {
+        foundation.setUseNativeValidation(true);
+      } else {
+        foundation.setUseNativeValidation(false);
+        foundation.setValid(isValid);
+      }
     }
   }
 

@@ -186,6 +186,17 @@ test('#componentDidUpdate calls handleValueChange when the foundation initialize
   td.verify(handleValueChange('test value', td.matchers.isA(Function)), {times: 1});
 });
 
+test('#componentDidUpdate calls setUseNativeValidation when isValid changes to undefined', () => {
+  const foundation = {
+    setUseNativeValidation: td.func(),
+    setValid: () => {},
+  };
+  const wrapper = shallow(<Input isValid={false} value='test value' foundation={foundation} />);
+
+  wrapper.setProps({isValid: undefined});
+  td.verify(foundation.setUseNativeValidation(false), {times: 1});
+});
+
 test('props.handleValueChange() is called if this.props.value updates', () => {
   const handleValueChange = td.func();
   const wrapper = shallow(<Input handleValueChange={handleValueChange} />);
