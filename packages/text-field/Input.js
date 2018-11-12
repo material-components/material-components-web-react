@@ -69,7 +69,6 @@ export default class Input extends React.Component {
       isValid,
     } = this.props;
 
-    console.log(foundation.setValid);
     this.handleValidationAttributeUpdate(prevProps);
 
     if (disabled !== prevProps.disabled) {
