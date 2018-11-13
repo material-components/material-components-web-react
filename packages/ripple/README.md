@@ -64,6 +64,19 @@ const RippleIcon = withRipple(Icon);
 Wrap your Icon component with the HOC `withRipple`, which returns a component
 with a ripple capable surface.
 
+You also need to include the sass mixins in order for this to work.
+
+```sass
+@import "@material/ripple/common";
+@import "@material/ripple/mixins";
+
+.ripple-icon-component {
+  @include mdc-ripple-surface;
+  @include mdc-ripple-radius-bounded;
+  @include mdc-states;
+}
+```
+
 ## Advanced Usage
 
 ### Ripple surface and ripple activator
