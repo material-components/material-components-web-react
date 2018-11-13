@@ -63,7 +63,7 @@ class MyApp extends React.Component {
           <Input
             pattern='^([a-zA-Z_]+[0-9]*)$'
             minLength={8}
-            name="username"
+            name='username'
             value={this.state.username}
             onChange={(e)=>this.setState({username:e.target.value})}
           />
@@ -95,12 +95,13 @@ class MyApp extends React.Component {
     this.setState({isValid: value.includes('@'), username: value});
   }
   renderHelperText() {
-    if (this.state.isValid) {
+    const { isValid } = this.state;
+    if (isValid) {
       return (<HelperText>Please enter your Username</HelperText>);
     } else {
       return (
         <HelperText
-          isValid={false}
+          isValid={isValid}
           isValidationMessage
           validation
         >
@@ -119,7 +120,7 @@ class MyApp extends React.Component {
         >
           <Input
             isValid={this.state.isValid}
-            name="username"
+            name='username'
             onChange={this.onChange}
             value={this.state.username}
           />
