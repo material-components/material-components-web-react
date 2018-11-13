@@ -121,8 +121,8 @@ class Drawer extends React.Component {
       },
       notifyClose: this.props.onClose,
       notifyOpen: this.props.onOpen,
-      trapFocus: () => this.focusTrap_.activate(),
-      releaseFocus: () => this.focusTrap_.deactivate(),
+      trapFocus: () => this.focusTrap_ && this.focusTrap_.activate(),
+      releaseFocus: () => this.focusTrap_ && this.focusTrap_.deactivate(),
     };
   }
 
