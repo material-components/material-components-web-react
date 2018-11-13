@@ -51,7 +51,7 @@ export default class Input extends React.Component {
     if (value) {
       handleValueChange(value, () => foundation.setValue(value));
     }
-    if (isValid !== undefined && foundation.setUseNativeValidation) {
+    if (isValid !== undefined) {
       foundation.setUseNativeValidation(false);
       foundation.setValid(isValid);
     }
