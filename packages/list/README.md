@@ -49,6 +49,10 @@ class MyApp extends Component {
 }
 ```
 
+> _NOTE_: Please use the `ListItem` component to specify list items. `List` will not recognize custom list item components.
+>
+> Also, you can override the element that the `List` or `ListItem` renders by passing in a `tag` prop. By default, `List` renders a `ul` and `ListItem` renders an `li`. For semantic HTML and a11y, as well as working with routing libraries such as [React Router](https://github.com/ReactTraining/react-router) and [Next.js' Link](https://github.com/zeit/next.js#with-link), you may wish to use `nav` and `a` respectively if using the components to render a page's navigation.
+
 ## Variants
 
 ### Two-Line List
@@ -140,7 +144,9 @@ class MyApp extends Component {
 
 ### Single Selection
 
-You can use the `singleSelection` Boolean prop for `List` to allow for selection of list items. You can also set the `selectedIndex` of the list programmatically.
+You can use the `singleSelection` Boolean prop for `List` to allow for selection of list items. You can also set the `selectedIndex` of the list programmatically and include a `handleSelect` callback.
+
+> _NOTE_: If you are inserting or removing list items, you must update the `selectedIndex` accordingly.
 
 ```js
 class MyApp extends React.Component {
@@ -153,6 +159,7 @@ class MyApp extends React.Component {
       <List
         singleSelection
         selectedIndex={this.state.selectedIndex}
+        handleSelect={(selectedIndex) => this.setState({selectedIndex})}
       >
         <ListItem>
           <ListItemText primaryText='Photos'/>
@@ -176,28 +183,32 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the list element
-nonInterative | Boolean | Disables interactivity affordances
+nonInteractive | Boolean | Disables interactivity affordances
 dense | Boolean | Styles the density of the list, making it appear more compact
 avatarList | Boolean | Configures the leading tiles of each row to display images instead of icons. This will make the graphics of the list items larger
 twoLine | Boolean | Styles the list with two lines
 singleSelection | Boolean | Allows for single selection of list items
 wrapFocus | Boolean | Sets the list to allow the up arrow on the first element to focus the last element of the list and vice versa
 selectedIndex | Number | Toggles the selected state of the list item at the given index
+handleSelect | Function(selectedIndex: Number) => void | Callback for handling a list item selection event
 aria-orientation | String | Indicates the list orientation
-onClick | Function(evt: Event) => void | Callback for handling a click event
-onKeyDown | Function(evt: Event) => void | Callback for handling a keydown event
-onFocus | Function(evt: Event) => void | Callback for handling a focus event
-onBlur | Function(evt: Event) => void | Callback for handling a blur event
 tag | String | Customizes the list tag type (defaults to `'ul'`)
 
 ### ListItem
 
 Prop Name | Type | Description
 --- | --- | ---
-id | String | Unique identifier for the list item. Defaults to the index
 className | String | Classes to be applied to the list item element
+classNamesFromList | Array<String> | Additional classes to be applied to the list item element, passed down from list
+attributesFromList | Additional attributes to be applied to the list item element, passed down from list
 childrenTabIndex | Number | Tab index to be applied to all children of the list item
-init | Function() => void | Callback executed when list item mounts
+shouldFocus | Whether to focus the list item
+shouldFollowHref | Whether to follow the link indicated by the list item
+shouldToggleCheckbox | Whether to toggle the checkbox on the list item
+onClick | Function(evt: Event) => void | Callback for handling a click event
+onKeyDown | Function(evt: Event) => void | Callback for handling a keydown event
+onFocus | Function(evt: Event) => void | Callback for handling a focus event
+onBlur | Function(evt: Event) => void | Callback for handling a blur event
 tag | String | Customizes the list tag type (defaults to `'li'`)
 
 ### ListItemText

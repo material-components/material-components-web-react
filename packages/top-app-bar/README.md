@@ -105,3 +105,7 @@ MDC Web repository for more information on what mixins are available, and how to
 ## Usage with Icons
 
 Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) when importing or using icon fonts.
+
+## Usage with Drawer
+
+Please see the docs in drawer to [integrate with Top app bar](../packages/drawer/README.md#usage-with-top-app-bar)

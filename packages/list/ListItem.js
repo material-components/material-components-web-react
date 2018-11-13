@@ -27,18 +27,26 @@ import classnames from 'classnames';
 export default class ListItem extends Component {
   listItemElement_ = React.createRef();
 
-  componentDidMount() {
-    const {init} = this.props;
-    init && init();
-  }
-
-  get listItemElement() {
-    return this.listItemElement_.current;
+  componentDidUpdate(prevProps) {
+    const {
+      shouldFocus,
+      shouldFollowHref,
+      shouldToggleCheckbox,
+    } = this.props;
+    if (shouldFocus !== prevProps.shouldFocus && shouldFocus) {
+      this.focus();
+    }
+    if (shouldFollowHref !== prevProps.shouldFollowHref && shouldFollowHref) {
+      this.followHref();
+    }
+    if (shouldToggleCheckbox !== prevProps.shouldToggleCheckbox && shouldToggleCheckbox) {
+      this.toggleCheckbox();
+    }
   }
 
   get classes() {
-    const {className} = this.props;
-    return classnames('mdc-list-item', className);
+    const {className, classNamesFromList} = this.props;
+    return classnames('mdc-list-item', className, classNamesFromList);
   }
 
   focus() {
@@ -64,10 +72,13 @@ export default class ListItem extends Component {
     const {
       /* eslint-disable */
       className,
+      classNamesFromList,
       childrenTabIndex,
-      init,
-      id,
+      shouldFocus,
+      shouldFollowHref,
+      shouldToggleCheckbox,
       /* eslint-enable */
+      attributesFromList,
       children,
       tag: Tag,
       ...otherProps,
@@ -76,8 +87,9 @@ export default class ListItem extends Component {
     return (
       <Tag
         className={this.classes}
-        ref={this.listItemElement_}
         {...otherProps}
+        {...attributesFromList} // overrides attributes in otherProps
+        ref={this.listItemElement_}
       >
         {React.Children.map(children, this.renderChild)}
       </Tag>
@@ -94,17 +106,34 @@ export default class ListItem extends Component {
 }
 
 ListItem.propTypes = {
-  id: PropTypes.string,
-  childrenTabIndex: PropTypes.number,
   children: PropTypes.node,
   className: PropTypes.string,
-  init: PropTypes.func,
+  classNamesFromList: PropTypes.array,
+  attributesFromList: PropTypes.object,
+  childrenTabIndex: PropTypes.number,
+  tabIndex: PropTypes.number,
+  shouldFocus: PropTypes.bool,
+  shouldFollowHref: PropTypes.bool,
+  shouldToggleCheckbox: PropTypes.bool,
+  onKeyDown: PropTypes.func,
+  onClick: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   tag: PropTypes.string,
 };
 
 ListItem.defaultProps = {
-  id: '',
-  childrenTabIndex: -1,
   className: '',
+  classNamesFromList: [],
+  attributesFromList: {},
+  childrenTabIndex: -1,
+  tabIndex: -1,
+  shouldFocus: false,
+  shouldFollowHref: false,
+  shouldToggleCheckbox: false,
+  onKeyDown: () => {},
+  onClick: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
   tag: 'li',
 };

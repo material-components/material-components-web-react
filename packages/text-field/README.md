@@ -94,8 +94,48 @@ setDisabled | Function | Callback function that is called when the `disabled` pr
 setInputId | Function | Callback function that is called when the `id` attribute updates.
 handleFocusChange | Function | Callback function that is called when `focus` or `blur` events occur
 value | Number/String | Value of the input.
+ref | Function(input: ReactElement) => void | On mount of component, will call passed function with the instance of the `<Input />`.
 
 >NOTE: the `<Input>` component will receive all properties that a standard `<input>` accepts.
+
+### Accessing the Native Input element
+
+There will be times when you need to access the native <input />. For example if you need to focus the text field, you can add a ref callback method to the `<Input />` element and access the `<input />`. The `ref` will accept a callback method and on mount and will pass the instance of the input component. Here is an example of how to programatically focus the `<input />`:
+
+```js
+import React from 'react';
+import TextField, {Input} from '@material/react-text-field';
+import Button from '@material/react-button';
+
+class MyApp extends React.Component {
+  input = null;
+  state = {value: 'Woof'};
+
+  focusTextField = () => {
+    if (!this.input) return;
+    const inputElement = this.input.inputElement;
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <div>
+          <Button onClick={this.focusTextField}>Focus Text Field</Button>
+        </div>
+        <TextField label='Dog'>
+          <Input
+            value={this.state.value}
+            ref={input => this.input = input}
+            onChange={(e) => this.setState({value: e.target.value})}/>
+        </TextField>
+      </div>
+    );
+  }
+}
+```
 
 
 ### Sass Mixins
