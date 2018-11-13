@@ -19,7 +19,7 @@
     "@material/drawer": "^0.40.1",
     "@material/list": "^0.40.1",
     "classnames": "^2.2.5",
-    "focus-trap-react": "^4.0.1",
+    "focus-trap": "^3.0.0",
     "prop-types": "^15.6.1",
     "react": "^16.4.2"
   },
