@@ -1,0 +1,53 @@
+> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
+
+# React Radio
+
+A React version of an [MDC Notched Outline](https://github.com/material-components/material-components-web/tree/master/packages/mdc-radio).
+
+## Installation
+
+```
+npm install @material/react-radio
+```
+
+## Usage
+
+### Styles
+
+with Sass:
+```js
+import '@material/react-radio/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-radio/dist/radio.css';
+```
+
+### Javascript Instantiation
+
+```js
+import NotchedOutline from '@material/react-radio';
+
+const MyComponent = () => {
+  return (
+    <NotchedOutline />
+  );
+}
+```
+
+## Props
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the root element.
+isRtl | Boolean | Shifts notch to right side if true.
+notch | Boolean | Toggles between notched outline and idle outline state.
+notchWidth | Number | Width of the notch in the outline.
+
+## Sass Mixins
+
+Sass mixins may be available to customize various aspects of the Components. Please refer to the
+MDC Web repository for more information on what mixins are available, and how to use them.
+
+[Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-radio/README.md#sass-mixins)
