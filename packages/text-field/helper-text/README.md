@@ -34,14 +34,22 @@ validation | Boolean | If true, alters the helper text to an error message.
 
 ## Input Validation
 
-HelperText provides validity styling by setting the `validation` prop in HelperText. Validation can be checked through the appropriate `Input` validation properties (pattern, min, max, required, step, minLength, maxLength).
+HelperText provides validity styling by setting the `validation` prop in HelperText.
+
+### Native Validation
+
+Validation can be checked through the appropriate `Input` validation properties (pattern, min, max, required, step, minLength, maxLength).
 
 The following snippet is an example of how to use pattern regex and check for minimum length with HelperText:
 ``` js
-import React from 'react';
 import TextField, {HelperText, Input} from '@material/react-text-field';
+import React from 'react';
+
 class MyApp extends React.Component {
-  state = {username: ''};
+  constructor(props) {
+    super(props);
+    this.state = {username: ''};
+  }
   render() {
     return (
       <div>
@@ -55,8 +63,65 @@ class MyApp extends React.Component {
           <Input
             pattern='^([a-zA-Z_]+[0-9]*)$'
             minLength={8}
+            name="username"
             value={this.state.username}
             onChange={(e)=>this.setState({username:e.target.value})}
+          />
+        </TextField>
+      </div>
+    );
+  }
+}
+```
+
+### Custom Validation
+
+Validation could also be done manually by using the `isValid`, `isValidationMessage` and
+`validation` props, alongside a custom validation method:
+
+```js
+import TextField, {HelperText, Input} from '@material/react-text-field';
+import React from 'react';
+
+class MyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {isValid: true, username: ''};
+    this.onChange = this.onChange.bind(this);
+    this.renderHelperText = this.renderHelperText.bind(this);
+  }
+  onChange(e) {
+    const {value} = e.target;
+    this.setState({isValid: value.includes('@'), username: value});
+  }
+  renderHelperText() {
+    if (this.state.isValid) {
+      return (<HelperText>Please enter your Username</HelperText>);
+    } else {
+      return (
+        <HelperText
+          isValid={false}
+          isValidationMessage
+          validation
+        >
+          Your Username must contain an @
+        </HelperText>
+      );
+    }
+  }
+  render() {
+    return (
+      <div>
+        <TextField
+          box
+          label='Username'
+          helperText={this.renderHelperText()}
+        >
+          <Input
+            isValid={this.state.isValid}
+            name="username"
+            onChange={this.onChange}
+            value={this.state.username}
           />
         </TextField>
       </div>
