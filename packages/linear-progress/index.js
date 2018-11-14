@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 class LinearProgress extends React.Component {
+  isMounted_ = false;
+
   constructor(props) {
     super(props);
     this.bufferElement_ = React.createRef();
@@ -16,6 +18,7 @@ class LinearProgress extends React.Component {
 
   componentDidMount() {
     const {buffer, closed, indeterminate, progress, reversed} = this.props;
+    this.isMounted_ = true;
     this.foundation_.init();
     this.foundation_.setBuffer(buffer);
     this.foundation_.setDeterminate(!indeterminate);
@@ -56,15 +59,18 @@ class LinearProgress extends React.Component {
   }
 
   componentWillUnmount() {
+    this.isMounted_ = false;
     this.foundation_.destroy();
   }
 
   get adapter() {
     return {
       addClass: (className) => {
-        const {classList} = this.state;
-        classList.add(className);
-        this.setState({classList});
+        if (this.isMounted_) {
+          const {classList} = this.state;
+          classList.add(className);
+          this.setState({classList});
+        }
       },
       getBuffer: () => {
         return this.bufferElement_.current;
@@ -76,12 +82,16 @@ class LinearProgress extends React.Component {
         return this.state.classList.has(className);
       },
       removeClass: (className) => {
-        const {classList} = this.state;
-        classList.delete(className);
-        this.setState({classList});
+        if (this.isMounted_) {
+          const {classList} = this.state;
+          classList.delete(className);
+          this.setState({classList});
+        }
       },
       setStyle: (element, propertyName, value) => {
-        element.style.setProperty(propertyName, value);
+        if (this.isMounted_) {
+          element.style.setProperty(propertyName, value);
+        }
       },
     };
   }

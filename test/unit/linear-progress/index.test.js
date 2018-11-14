@@ -152,3 +152,50 @@ test('#foundation_.destroy gets called when the component unmounts', () => {
   wrapper.unmount();
   td.verify(instance.foundation_.destroy(), {times: 1});
 });
+
+test('#adapter.addClass adds a class to state', () => {
+  const wrapper = mount(<LinearProgress />);
+  const instance = wrapper.instance();
+  instance.adapter.addClass('test-class');
+  assert.isTrue(instance.adapter.hasClass('test-class'));
+});
+
+test('#adapter.addClass does not add a class to state if not mounted', () => {
+  const wrapper = mount(<LinearProgress />);
+  const instance = wrapper.instance();
+  instance.isMounted_ = false;
+  instance.adapter.addClass('test-class');
+  assert.isFalse(instance.adapter.hasClass('test-class'));
+});
+
+test('#adapter.removeClass removes a class from state', () => {
+  const wrapper = mount(<LinearProgress />);
+  const instance = wrapper.instance();
+  instance.adapter.addClass('test-class');
+  instance.adapter.removeClass('test-class');
+  assert.isFalse(instance.adapter.hasClass('test-class'));
+});
+
+test('#adapter.removeClass does not remove a class from state if not mounted', () => {
+  const wrapper = mount(<LinearProgress />);
+  const instance = wrapper.instance();
+  instance.adapter.addClass('test-class');
+  instance.isMounted_ = false;
+  instance.adapter.removeClass('test-class');
+  assert.isTrue(instance.adapter.hasClass('test-class'));
+});
+
+test('#adapter.setStyle sets a style property on an element', () => {
+  const wrapper = mount(<LinearProgress />);
+  const instance = wrapper.instance();
+  instance.adapter.setStyle(instance.adapter.getPrimaryBar(), 'width', '0');
+  assert.equal(instance.adapter.getPrimaryBar().style.width, '0px');
+});
+
+test('#adapter.setStyle does not set a style property on an element if not mounted', () => {
+  const wrapper = mount(<LinearProgress />);
+  const instance = wrapper.instance();
+  instance.isMounted_ = false;
+  instance.adapter.setStyle(instance.adapter.getPrimaryBar(), 'width', '0');
+  assert.equal(instance.adapter.getPrimaryBar().style.width, '');
+});
