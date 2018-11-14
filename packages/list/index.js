@@ -171,17 +171,18 @@ export default class List extends Component {
       wrapFocus,
       /* eslint-enable no-unused-vars */
       children,
-      ...otherProps
+      tag: Tag,
+      ...otherProps,
     } = this.props;
 
     this.listItemCount = 0;
     return (
-      <ul
+      <Tag
         className={this.classes}
         {...otherProps}
       >
         {React.Children.map(children, this.renderChild)}
-      </ul>
+      </Tag>
     );
   }
 
