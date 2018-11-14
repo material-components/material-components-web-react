@@ -33,13 +33,13 @@ The final commit message to the mdc-foo package, for GitHub issue 1234, should l
 
 ```
 # for a fix to an issue
-fix(foo): Short description of fix
+fix(component-name): Short description of fix
 
 # for a new feature
-feat(foo): Short description of feature
+feat(component-name): Short description of feature
 
 # for a doc update
-docs(foo): Short description of doc changes
+docs(component-name): Short description of doc changes
 ```
 
 This commit message is pulled into our CHANGELOG when we [release](../release.md) and is based on [Angular's Git commit guidelines](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commits). If you have any difficulty, please reach out to us on [Discord](https://discord.gg/material-components) or add a comment to the GitHub issue or PR.
@@ -54,7 +54,7 @@ Pull requests should meet the following criteria:
 
 ### Process
 
-Before opening a PR, it should be up to date with targeted release (rc<release_number> ie. rc7.0, rc8.0, etc.). In most cases it will never be branched from _master_.
+Before opening a PR, it should be up to date with targeted release (rc<release_number> ie. rc0.7.0, rc0.8.0, etc.). In most cases it will never be branched from _master_.
 
 #### Checklist:
 
