@@ -6,9 +6,9 @@ import React from 'react';
 class LinearProgress extends React.Component {
   constructor(props) {
     super(props);
-    this.bufferElement_ = null;
+    this.bufferElement_ = React.createRef();
     this.foundation_ = new MDCLinearProgressFoundation(this.adapter);
-    this.primaryBarElement_ = null;
+    this.primaryBarElement_ = React.createRef();
     this.state = {
       classList: new Set(),
     };
@@ -67,10 +67,10 @@ class LinearProgress extends React.Component {
         this.setState({classList});
       },
       getBuffer: () => {
-        return this.bufferElement_;
+        return this.bufferElement_.current;
       },
       getPrimaryBar: () => {
-        return this.primaryBarElement_;
+        return this.primaryBarElement_.current;
       },
       hasClass: (className) => {
         return this.state.classList.has(className);
@@ -115,17 +115,10 @@ class LinearProgress extends React.Component {
     return (
       <div className={this.classes} role="progressbar" {...otherProps}>
         {bufferingDots && <div className="mdc-linear-progress__buffering-dots"></div>}
-        <div
-          className="mdc-linear-progress__buffer"
-          ref={(bufferElement_) => {
-            this.bufferElement_ = bufferElement_;
-          }}
-        ></div>
+        <div className="mdc-linear-progress__buffer" ref={this.bufferElement_}></div>
         <div
           className="mdc-linear-progress__bar mdc-linear-progress__primary-bar"
-          ref={(primaryBarElement_) => {
-            this.primaryBarElement_ = primaryBarElement_;
-          }}
+          ref={this.primaryBarElement_}
         >
           <span className="mdc-linear-progress__bar-inner"></span>
         </div>
