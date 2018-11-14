@@ -1,5 +1,3 @@
-> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
-
 # React Text Field Helper Text
 
 MDC React Text Field Helper Text is a React Component which uses MDC [MDC Text Field Helper Text](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/helper-text/)'s CSS and foundation JavaScript.
