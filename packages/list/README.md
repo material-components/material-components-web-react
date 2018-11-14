@@ -48,6 +48,8 @@ class MyApp extends Component {
 ```
 
 > _NOTE_: Please use the `ListItem` component to specify list items. `List` will not recognize custom list item components.
+>
+> Also, you can override the element that the `List` or `ListItem` renders by passing in a `tag` prop. By default, `List` renders a `ul` and `ListItem` renders an `li`. For semantic HTML and a11y, as well as working with routing libraries such as [React Router](https://github.com/ReactTraining/react-router) and [Next.js' Link](https://github.com/zeit/next.js#with-link), you may wish to use `nav` and `a` respectively if using the components to render a page's navigation.
 
 ## Variants
 
@@ -188,6 +190,7 @@ wrapFocus | Boolean | Sets the list to allow the up arrow on the first element t
 selectedIndex | Number | Toggles the selected state of the list item at the given index
 handleSelect | Function(selectedIndex: Number) => void | Callback for handling a list item selection event
 aria-orientation | String | Indicates the list orientation
+tag | String | Customizes the list tag type (defaults to `'ul'`)
 
 ### ListItem
 
@@ -204,6 +207,7 @@ onClick | Function(evt: Event) => void | Callback for handling a click event
 onKeyDown | Function(evt: Event) => void | Callback for handling a keydown event
 onFocus | Function(evt: Event) => void | Callback for handling a focus event
 onBlur | Function(evt: Event) => void | Callback for handling a blur event
+tag | String | Customizes the list tag type (defaults to `'li'`)
 
 ### ListItemText
 
