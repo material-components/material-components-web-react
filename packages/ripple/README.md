@@ -24,6 +24,20 @@ with CSS:
 import '@material/react-ripple/dist/ripple.css';
 ```
 
+You'll also need to include these sass mixins on the element. Please also refer to [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-ripple/README.md#sass-apis) to customize further.
+
+```sass
+@import "@material/ripple/common";
+@import "@material/ripple/mixins";
+
+// refer to element in Javascript portion below
+.ripple-icon-component {
+  @include mdc-ripple-surface;
+  @include mdc-ripple-radius-bounded;
+  @include mdc-states;
+}
+```
+
 ### Javascript Instantiation
 
 To wrap a component with the ripple HOC, please follow this example:
@@ -63,19 +77,6 @@ const RippleIcon = withRipple(Icon);
 
 Wrap your Icon component with the HOC `withRipple`, which returns a component
 with a ripple capable surface.
-
-You also need to include the sass mixins in order for this to work.
-
-```sass
-@import "@material/ripple/common";
-@import "@material/ripple/mixins";
-
-.ripple-icon-component {
-  @include mdc-ripple-surface;
-  @include mdc-ripple-radius-bounded;
-  @include mdc-states;
-}
-```
 
 ## Advanced Usage
 
