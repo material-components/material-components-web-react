@@ -110,10 +110,11 @@ class LinearProgress extends React.Component {
       progress,
       // eslint-disable-next-line no-unused-vars
       reversed,
+      tag: Tag,
       ...otherProps
     } = this.props;
     return (
-      <div className={this.classes} role="progressbar" {...otherProps}>
+      <Tag className={this.classes} role="progressbar" {...otherProps}>
         {bufferingDots && <div className="mdc-linear-progress__buffering-dots"></div>}
         <div className="mdc-linear-progress__buffer" ref={this.bufferElement_}></div>
         <div
@@ -125,7 +126,7 @@ class LinearProgress extends React.Component {
         <div className="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
           <span className="mdc-linear-progress__bar-inner"></span>
         </div>
-      </div>
+      </Tag>
     );
   }
 }
@@ -138,6 +139,7 @@ LinearProgress.propTypes = {
   indeterminate: PropTypes.bool,
   progress: PropTypes.number,
   reversed: PropTypes.bool,
+  tag: PropTypes.string,
 };
 
 LinearProgress.defaultProps = {
@@ -148,6 +150,7 @@ LinearProgress.defaultProps = {
   indeterminate: false,
   progress: 0,
   reversed: false,
+  tag: 'div',
 };
 
 export default LinearProgress;

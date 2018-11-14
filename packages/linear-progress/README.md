@@ -52,6 +52,7 @@ closed | Boolean | Default `false`. When changed to `true`, closes the component
 indeterminate | Boolean | Default `false`. When set to `true`, renders the indeterminate variant
 progress | Number | Decimal value between 0 and 1, sets the progress bar width
 reversed | Boolean | Default `false`. When set to `true`, renders the reversed variant
+tag | String | Default `'div'`. The tag type to render
 
 ## Sass Mixins
 

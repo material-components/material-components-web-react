@@ -12,6 +12,11 @@ test('Skips rendering the buffering dots when props.bufferingDots is false', () 
   assert.isFalse(wrapper.find('.mdc-linear-progress__buffering-dots').exists());
 });
 
+test('renders a different tag', () => {
+  const wrapper = shallow(<LinearProgress tag='span' />, {disableLifecycleMethods: true});
+  assert.equal(wrapper.type(), 'span');
+});
+
 test('Creates the foundation', () => {
   const wrapper = shallow(<LinearProgress />, {disableLifecycleMethods: true});
   assert.exists(wrapper.instance().foundation_);
