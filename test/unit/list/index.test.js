@@ -389,7 +389,7 @@ test('first item is selected if props.selectedIndex is 0', () => {
 test('renders a list with default tag', () => {
   const wrapper = shallow(<List />);
   assert.equal(wrapper.type(), 'ul');
-})
+});
 
 test('renders a list with a nav tag', () => {
   const wrapper = shallow(<List tag='nav' />);

@@ -172,7 +172,7 @@ export default class List extends Component {
       /* eslint-enable no-unused-vars */
       children,
       tag: Tag,
-      ...otherProps,
+      ...otherProps
     } = this.props;
 
     this.listItemCount = 0;

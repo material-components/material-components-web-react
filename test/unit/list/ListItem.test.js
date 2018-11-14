@@ -69,7 +69,7 @@ test('passes props.childrenTabIndex to children as props.tabIndex', () => {
 test('renders a list item with default tag', () => {
   const wrapper = shallow(<ListItem />);
   assert.equal(wrapper.type(), 'li');
-})
+});
 
 test('renders a list item with an anchor tag', () => {
   const wrapper = shallow(<ListItem tag='a' />);

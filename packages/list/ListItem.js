@@ -81,7 +81,7 @@ export default class ListItem extends Component {
       attributesFromList,
       children,
       tag: Tag,
-      ...otherProps,
+      ...otherProps
     } = this.props;
 
     return (
