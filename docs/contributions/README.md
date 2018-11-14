@@ -60,7 +60,7 @@ Before opening a PR, it should be up to date with targeted release (rc<release_n
 
 - [ ] all unit tests pass. Please read the [tests doc](./running-tests.md) for further instructions.
 - [ ] ensure you have appropriate test coverage [tests doc](./running-tests.md#test-coverage).
-- [ ] lint passes, which you can read up in [tests doc](./running-tests.md).
+- [ ] lint passes, which you can read up in [tests doc](./running-tests.md#running-lint).
 - [ ] screenshot tests pass. Please read [screenshot testing](../screenshot-tests.md) for instructions.
 - [ ] descriptions about your changes.
 - [ ] sign your PR (comment in PR "_I signed it_"). Read [cla/google](https://cla.developers.google.com/a_zbout/google-individual).

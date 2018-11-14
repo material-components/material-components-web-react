@@ -34,7 +34,7 @@ Click on the big DEBUG button in the top righthand corner. In the new tab that C
 
 <img width="1051" alt="karma-debug-button" src="https://user-images.githubusercontent.com/579873/48503422-f26cfc80-e7f6-11e8-9975-a91b21e30e09.png">
 
-### Coverage
+### Test Coverage
 
 We use [Istanbul](https://istanbul.js.org/) to report and check code coverage. To build the coverage report, please run the unit tests `npm run test:unit`. This will create a `coverage/` directory in the root of the project. Open `./coverage/Chrome <version_number>/index.html`. This will show a screen like:
 
@@ -48,3 +48,18 @@ We aim for:
 * Lines: 95%
 
 If they do not meet these requirements, we will ask to increase test coverage.
+
+## Running Lint
+
+Below is a list of the Eslint standards:
+
+* [Google Eslint](https://github.com/google/eslint-config-google)
+* [React Eslint](https://github.com/yannickcr/eslint-plugin-react)
+
+To run lint:
+
+```bash
+npm run lint
+```
+
+This will print any lines that do not follow the eslint standards, which you will need to fix before opeing a PR.
