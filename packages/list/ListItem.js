@@ -80,18 +80,19 @@ export default class ListItem extends Component {
       /* eslint-enable */
       attributesFromList,
       children,
+      tag: Tag,
       ...otherProps
     } = this.props;
 
     return (
-      <li
+      <Tag
         className={this.classes}
         {...otherProps}
         {...attributesFromList} // overrides attributes in otherProps
         ref={this.listItemElement_}
       >
         {React.Children.map(children, this.renderChild)}
-      </li>
+      </Tag>
     );
   }
 
@@ -118,6 +119,7 @@ ListItem.propTypes = {
   onClick: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
+  tag: PropTypes.string,
 };
 
 ListItem.defaultProps = {
@@ -133,4 +135,5 @@ ListItem.defaultProps = {
   onClick: () => {},
   onFocus: () => {},
   onBlur: () => {},
+  tag: 'li',
 };

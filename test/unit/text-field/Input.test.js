@@ -6,6 +6,17 @@ import {Input} from '../../../packages/text-field/index';
 
 suite('Text Field Input');
 
+const buildFoundation = (overrides = {}) => ({
+  activateFocus: () => {},
+  deactivateFocus: () => {},
+  handleValidationAttributeChange: () => {},
+  handleValidationAttributeMutation_: () => {},
+  setDisabled: () => {},
+  setUseNativeValidation: () => {},
+  setValid: () => {},
+  ...overrides,
+});
+
 test('classNames adds classes', () => {
   const wrapper = shallow(<Input className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
@@ -41,25 +52,25 @@ test('#isValid returns false if input is invalid', () => {
 });
 
 test('#isValid returns true if prop.isValid is set to true', () => {
-  const wrapper = mount(<Input value='m' pattern='[a-z]' isValid />);
+  const wrapper = mount(<Input foundation={buildFoundation()} value='m' pattern='[a-z]' isValid />);
   const isValidInput = wrapper.instance().isValid();
   assert.isTrue(isValidInput);
 });
 
 test('#isValid returns false if prop.isValid is set to false', () => {
-  const wrapper = mount(<Input value='m' pattern='[a-z]' isValid={false} />);
+  const wrapper = mount(<Input foundation={buildFoundation()} value='m' pattern='[a-z]' isValid={false} />);
   const isValidInput = wrapper.instance().isValid();
   assert.isFalse(isValidInput);
 });
 
 test('#isValid returns false if prop.isValid is set to false and input is invalid', () => {
-  const wrapper = mount(<Input value='meow' pattern='[a-z]' isValid={false}/>);
+  const wrapper = mount(<Input foundation={buildFoundation()} value='meow' pattern='[a-z]' isValid={false}/>);
   const isValidInput = wrapper.instance().isValid();
   assert.isFalse(isValidInput);
 });
 
 test('#isValid returns true if prop.isValid is set to true and input is invalid', () => {
-  const wrapper = mount(<Input value='meow' pattern='[a-z]' isValid/>);
+  const wrapper = mount(<Input foundation={buildFoundation()} value='meow' pattern='[a-z]' isValid/>);
   const isValidInput = wrapper.instance().isValid();
   assert.isTrue(isValidInput);
 });
@@ -115,23 +126,23 @@ test('#componentDidMount does not call props.handleValueChange when there is no 
 });
 
 test('change to minLength calls handleValidationAttributeChange', () => {
-  const handleValidationAttributeChange = td.func();
-  const wrapper = shallow(<Input foundation={{handleValidationAttributeChange}} />);
+  const foundation = buildFoundation({handleValidationAttributeChange: td.func()});
+  const wrapper = shallow(<Input foundation={foundation} />);
   wrapper.setProps({minLength: 20});
-  td.verify(handleValidationAttributeChange(['minlength']), {times: 1});
+  td.verify(foundation.handleValidationAttributeChange(['minlength']), {times: 1});
 });
 
 test('#componentDidUpdate calls handleValidationAttributeChange when ' +
   'a whitelisted attr updates', () => {
-  const handleValidationAttributeChange = td.func();
-  const wrapper = shallow(<Input foundation={{handleValidationAttributeChange}} />);
+  const foundation = buildFoundation({handleValidationAttributeChange: td.func()});
+  const wrapper = shallow(<Input foundation={foundation} />);
   wrapper.setProps({required: true});
-  td.verify(handleValidationAttributeChange(['required']), {times: 1});
+  td.verify(foundation.handleValidationAttributeChange(['required']), {times: 1});
 });
 
 test('#componentDidUpdate calls setDisabled and foundation.setDisabled when ' +
   'disabled changes to true', () => {
-  const foundation = {setDisabled: td.func()};
+  const foundation = buildFoundation({setDisabled: td.func()});
   const setDisabled = td.func();
   const wrapper = shallow(<Input foundation={foundation} setDisabled={setDisabled} />);
   wrapper.setProps({disabled: true});
@@ -141,7 +152,7 @@ test('#componentDidUpdate calls setDisabled and foundation.setDisabled when ' +
 
 test('#componentDidUpdate calls setDisabled and foundation.setDisabled when ' +
   'disabled changes to false', () => {
-  const foundation = {setDisabled: td.func()};
+  const foundation = buildFoundation({setDisabled: td.func()});
   const setDisabled = td.func();
   const wrapper = shallow(<Input disabled foundation={foundation} setDisabled={setDisabled} />);
   wrapper.setProps({disabled: false});
@@ -159,10 +170,10 @@ test('#componentDidUpdate calls setInputId if id updates', () => {
 test('#componentDidUpdate does nothing if an unrelated property is ' +
   'updated', () => {
   const setDisabled = td.func();
-  const foundation = {
+  const foundation = buildFoundation({
     handleValidationAttributeMutation_: td.func(),
     setDisabled: td.func(),
-  };
+  });
   const setInputId = td.func();
   const wrapper = shallow(<Input
     setDisabled={setDisabled}
@@ -182,8 +193,33 @@ test('#componentDidUpdate calls handleValueChange when the foundation initialize
   const handleValueChange = td.func();
   const wrapper = shallow(<Input value='test value' handleValueChange={handleValueChange} />);
 
-  wrapper.setProps({foundation: {setValue}});
+  wrapper.setProps({foundation: buildFoundation({setValue})});
   td.verify(handleValueChange('test value', td.matchers.isA(Function)), {times: 1});
+});
+
+test('#componentDidUpdate calls setUseNativeValidation when isValid changes to undefined', () => {
+  const foundation = buildFoundation({setUseNativeValidation: td.func()});
+  const wrapper = shallow(<Input isValid={false} value='test value' foundation={foundation} />);
+
+  wrapper.setProps({isValid: undefined});
+  td.verify(foundation.setUseNativeValidation(false), {times: 1});
+});
+
+test('#componentDidUpdate calls setUseNativeValidation when isValid changes', () => {
+  const foundation = buildFoundation({setUseNativeValidation: td.func()});
+  const wrapper = shallow(<Input value='test value' foundation={foundation} />);
+
+  wrapper.setProps({isValid: true});
+  td.verify(foundation.setUseNativeValidation(false), {times: 1});
+});
+
+test('#componentDidUpdate calls setValid when isValid changes', () => {
+  const foundation = buildFoundation({setValid: td.func()});
+  const wrapper = shallow(<Input isValid={false} value='test value' foundation={foundation} />);
+
+  wrapper.setProps({isValid: true});
+  td.verify(foundation.setValid(false), {times: 1});
+  td.verify(foundation.setValid(true), {times: 1});
 });
 
 test('props.handleValueChange() is called if this.props.value updates', () => {
@@ -194,8 +230,7 @@ test('props.handleValueChange() is called if this.props.value updates', () => {
 });
 
 test('foundation.setValue() is called if this.props.value updates', () => {
-  const setValue = td.func();
-  const foundation = {setValue};
+  const foundation = buildFoundation({setValue: td.func()});
   const handleValueChange = (value, cb) => {
     cb(value);
   };
@@ -204,7 +239,7 @@ test('foundation.setValue() is called if this.props.value updates', () => {
     foundation={foundation}
     handleValueChange={handleValueChange} />);
   wrapper.setProps({value: 'meow'});
-  td.verify(setValue('meow'), {times: 1});
+  td.verify(foundation.setValue('meow'), {times: 1});
 });
 
 test('#event.onFocus calls props.handleFocusChange(true)', () => {
@@ -215,7 +250,7 @@ test('#event.onFocus calls props.handleFocusChange(true)', () => {
 });
 
 test('#event.onFocus calls foundation.activateFocus()', () => {
-  const foundation = {activateFocus: td.func()};
+  const foundation = buildFoundation({activateFocus: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
   wrapper.simulate('focus');
   td.verify(foundation.activateFocus(), {times: 1});
@@ -237,7 +272,7 @@ test('#event.onBlur calls props.handleFocusChange(false)', () => {
 });
 
 test('#event.onBlur calls foundation.deactivateFocus()', () => {
-  const foundation = {deactivateFocus: td.func()};
+  const foundation = buildFoundation({deactivateFocus: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
   wrapper.simulate('blur');
   td.verify(foundation.deactivateFocus(), {times: 1});
@@ -252,7 +287,7 @@ test('#event.onBlur calls props.onBlur()', () => {
 });
 
 test('#event.onMouseDown calls foundation.setTransformOrigin()', () => {
-  const foundation = {setTransformOrigin: td.func()};
+  const foundation = buildFoundation({setTransformOrigin: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
   const event = {preventDefault: () => {}};
   wrapper.simulate('mouseDown', event);
@@ -268,7 +303,7 @@ test('#event.onMouseDown calls props.onMouseDown()', () => {
 });
 
 test('#event.onTouchStart calls foundation.setTransformOrigin()', () => {
-  const foundation = {setTransformOrigin: td.func()};
+  const foundation = buildFoundation({setTransformOrigin: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
   const event = {preventDefault: () => {}};
   wrapper.simulate('touchStart', event);
@@ -284,7 +319,7 @@ test('#event.onTouchStart calls props.onTouchStart()', () => {
 });
 
 test('#event.onChange calls foundation.autoCompleteFocus()', () => {
-  const foundation = {autoCompleteFocus: td.func()};
+  const foundation = buildFoundation({autoCompleteFocus: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
   const event = {target: {value: 'apple'}};
   wrapper.simulate('change', event);
