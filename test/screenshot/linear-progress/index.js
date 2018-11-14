@@ -8,10 +8,6 @@ class Closable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {closed: false};
-    this.close = this.close.bind(this);
-  }
-  close() {
-    this.setState((currentState) => ({closed: !currentState.closed}));
   }
   render() {
     return (
@@ -21,7 +17,12 @@ class Closable extends React.Component {
           closed={this.state.closed}
           progress={0.8}
         />
-        <button onClick={this.close} type="button">Close</button>
+        <button
+          onClick={() => this.setState((currentState) => ({closed: !currentState.closed}))}
+          type="button"
+        >
+          Close
+        </button>
       </React.Fragment>
     );
   }
