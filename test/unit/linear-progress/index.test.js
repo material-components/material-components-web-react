@@ -9,7 +9,7 @@ suite('LinearProgress');
 
 test('Skips rendering the buffering dots when props.bufferingDots is false', () => {
   const wrapper = shallow(<LinearProgress bufferingDots={false} />, {disableLifecycleMethods: true});
-  assert.isNotTrue(wrapper.find('.mdc-linear-progress__buffering-dots').exists());
+  assert.isFalse(wrapper.find('.mdc-linear-progress__buffering-dots').exists());
 });
 
 test('Creates the foundation', () => {
