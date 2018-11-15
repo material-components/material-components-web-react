@@ -37,6 +37,7 @@
           "icon-button",
           "layout-grid",
           "line-ripple",
+          "linear-progress",
           "list",
           "menu-surface",
           "ripple",
@@ -48,7 +49,8 @@
           "tab-scroller",
           "infrastructure",
           "tab-indicator",
-          "text-field"
+          "text-field",
+          "typography"
         ],
         "validate": true
       }
