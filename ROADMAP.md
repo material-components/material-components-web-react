@@ -4,19 +4,12 @@ We release a new version of MDC React every 2 weeks. We try and keep MDC React w
 ## Current Release
 
 ### 0.6.x - October 2018
-[Related Milestone](https://github.com/material-components/material-components-web-react/milestone/1)
-- Depend on MDC Web 0.40.x
-- New list
-- New navigation drawer
-- New menu surface
-- New checkbox
-
-## Upcoming Releases
-
 ### 0.6.2 - November 2018
 [Related Milestone](https://github.com/material-components/material-components-web-react/milestone/4)
 - Bug fixes for Text Field
 - Remove the need for an ID in List
+
+## Upcoming Releases
 
 ### 0.7.x - Mid November 2018
 [Related Milestone](https://github.com/material-components/material-components-web-react/milestone/2)
@@ -24,6 +17,10 @@ We release a new version of MDC React every 2 weeks. We try and keep MDC React w
 [Related Branch](https://github.com/material-components/material-components-web-react/tree/rc7.0)
 - Depend on MDC Web 0.41.x
 - New radio
+- New Linear Progress
+- New Typography
+- Checkbox bug fixes
+- Text field bug fixes
 - Typings
 
 ### 0.8.x - December 2018
