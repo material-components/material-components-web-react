@@ -17,15 +17,7 @@ export default class TabBar extends Component {
       previousActiveIndex: props.activeIndex,
     };
   }
-  componentDidUpdate(prevProps) {
-    if (this.props.activeIndex !== prevProps.activeIndex) {
-      this.setState({previousActiveIndex: prevProps.activeIndex},
-        () => this.foundation_.activateTab(this.props.activeIndex));
-    }
-    if (this.props.indexInView !== prevProps.indexInView) {
-      this.foundation_.scrollIntoView(this.props.indexInView);
-    }
-  }
+
   componentDidMount() {
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
     this.foundation_.init();
@@ -42,7 +34,8 @@ export default class TabBar extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.activeIndex !== prevProps.activeIndex) {
-      this.foundation_.activateTab(this.props.activeIndex);
+      this.setState({previousActiveIndex: prevProps.activeIndex},
+        () => this.foundation_.activateTab(this.props.activeIndex));
     }
     if (this.props.indexInView !== prevProps.indexInView) {
       this.foundation_.scrollIntoView(this.props.indexInView);
@@ -137,7 +130,7 @@ export default class TabBar extends Component {
       onClick, // eslint-disable-line no-unused-vars
       ...otherProps
     } = tab.props;
-// console.log('renders')
+
     const props = {
       onClick: (e) => {
         this.setState(

@@ -9,12 +9,6 @@ class TabBarTest extends React.Component {
     activeIndex: this.props.activeIndex || 0, // eslint-disable-line react/prop-types
   };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.activeIndex !== prevProps.activeIndex) {
-      this.setState({activeIndex: this.props.activeIndex});
-    }
-  }
-
   render() {
     const {
       /* eslint-disable react/prop-types */
@@ -23,6 +17,7 @@ class TabBarTest extends React.Component {
       isFadingIndicator,
       numTabs,
       isRtl,
+      hasUpdateActiveIndexButton,
       /* eslint-enable react/prop-types */
     } = this.props;
 
@@ -39,25 +34,17 @@ class TabBarTest extends React.Component {
     };
 
     return (
-      <TabBar
-        isRtl={isRtl}
-        className={className}
-        activeIndex={this.state.activeIndex}
-        handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
-      >
-        {[...Array(numTabs).keys()].map(renderTab)}
-      </TabBar>
-    );
-  }
-}
-
-class TabBarActiveIndexTest extends React.Component {
-  state = {activeIndex: 0};
-  render() {
-    return (
       <React.Fragment>
-        <TabBarTest activeIndex={this.state.activeIndex} numTabs={3} />
-        <button onClick={() => this.setState({activeIndex: 1})}>Click</button>
+        <TabBar
+          isRtl={isRtl}
+          className={className}
+          activeIndex={this.state.activeIndex}
+          handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
+        >
+          {[...Array(numTabs).keys()].map(renderTab)}
+        </TabBar>
+        {hasUpdateActiveIndexButton ?
+          <button onClick={() => this.setState({activeIndex: 1})}>Update active tab</button> : null}
       </React.Fragment>
     );
   }
@@ -66,9 +53,11 @@ class TabBarActiveIndexTest extends React.Component {
 const TabBarScreenshotTest = () => {
   return (
     <div>
-      <div>
-        <TabBarActiveIndexTest />
+      Sliding Underline - programatically update tab
+      <div className='tab-bar-container'>
+        <TabBarTest numTabs={3} hasUpdateActiveIndexButton />
       </div>
+
       Sliding Underline
       <div className='tab-bar-container'>
         <TabBarTest numTabs={3} />
