@@ -21,18 +21,20 @@
 // THE SOFTWARE.
 
 import React from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 const NativeControl = (props) => {
   const {
     setRippleActivator,
+    className,
     ...otherProps
   } = props;
 
   return (
     <input
       type='radio'
-      className='mdc-radio__native-control'
+      className={classnames('mdc-radio__native-control', className)}
       ref={(element) => setRippleActivator(element)}
       {...otherProps}
     />
@@ -40,10 +42,12 @@ const NativeControl = (props) => {
 };
 
 NativeControl.propTypes = {
+  className: PropTypes.string,
   setRippleActivator: PropTypes.func,
 };
 
 NativeControl.defaultProps = {
+  className: '',
   setRippleActivator: () => {},
 };
 

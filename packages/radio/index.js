@@ -103,10 +103,12 @@ class Radio extends React.Component {
   render() {
     const {nativeControlId} = this.state;
     const {
+      /* eslint-disable no-unused-vars */
       label,
       initRipple,
       unbounded,
       className,
+      /* eslint-enable no-unused-vars */
       wrapperClasses,
       ...otherProps
     } = this.props;
@@ -138,6 +140,8 @@ class Radio extends React.Component {
 }
 
 Radio.propTypes = {
+  label: PropTypes.string,
+  intRipple: PropTypes.func,
   className: PropTypes.string,
   wrapperClasses: PropTypes.string,
   unbounded: PropTypes.bool,
@@ -146,6 +150,7 @@ Radio.propTypes = {
 };
 
 Radio.defaultProps = {
+  label: '',
   className: '',
   wrapperClasses: '',
   unbounded: true,

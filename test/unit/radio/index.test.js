@@ -4,21 +4,23 @@ import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import {Radio, NativeRadioControl} from '../../../packages/radio/index';
 
-const NativeControlUpdate = ({disabled, id}) => {
+const NativeControlUpdate = ({
+  disabled, id, // eslint-disable-line react/prop-types
+}) => {
   return (<Radio label='meow'>
     <NativeRadioControl
       disabled={disabled}
       id={id}
     />
   </Radio>);
-}
+};
 
 suite('Radio');
 
 test('renders wrapper mdc-form-field element', () => {
   const wrapper = shallow(<Radio ><NativeRadioControl /></Radio>);
   assert.isTrue(wrapper.hasClass('mdc-form-field'));
-})
+});
 test('classNames adds classes', () => {
   const wrapper = shallow(<Radio className='test-class-name'><NativeRadioControl /></Radio>);
   assert.isTrue(wrapper.childAt(0).hasClass('test-class-name'));
@@ -31,7 +33,7 @@ test('classNames has mdc-radio class', () => {
 
 test('classNames adds classes from state.classList', () => {
   const wrapper = shallow(<Radio><NativeRadioControl /></Radio>);
-  wrapper.setState({classList: new Set(['test-class'])})
+  wrapper.setState({classList: new Set(['test-class'])});
   assert.isTrue(wrapper.childAt(0).hasClass('test-class'));
 });
 
