@@ -385,3 +385,13 @@ test('first item is selected if props.selectedIndex is 0', () => {
   );
   assert.isTrue(wrapper.state().listItemAttributes[0]['aria-selected']);
 });
+
+test('renders a list with default tag', () => {
+  const wrapper = shallow(<List />);
+  assert.equal(wrapper.type(), 'ul');
+});
+
+test('renders a list with a nav tag', () => {
+  const wrapper = shallow(<List tag='nav' />);
+  assert.equal(wrapper.type(), 'nav');
+});

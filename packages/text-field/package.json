@@ -16,10 +16,10 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
+    "@material/textfield": "^0.41.0",
     "@material/react-floating-label": "^0.6.2",
     "@material/react-line-ripple": "^0.6.2",
     "@material/react-notched-outline": "^0.6.2",
-    "@material/textfield": "^0.40.1",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.4.2"

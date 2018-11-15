@@ -54,6 +54,7 @@ of the Tab Indicator component.
 ```js
 import React from 'react';
 import TabIndicator from '@material/react-tab-indicator';
+import MaterialIcon from '@material/react-material-icon';
 
 class MyApp extends React.Component {
   state = {active: false};
