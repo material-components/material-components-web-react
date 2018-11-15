@@ -1,5 +1,3 @@
-> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
-
 # React Layout Grid
 
 A React version of an [MDC Layout Grid](https://github.com/material-components/material-components-web/tree/master/packages/mdc-layout-grid).
