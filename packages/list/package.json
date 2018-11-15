@@ -1,6 +1,6 @@
 {
   "name": "@material/react-list",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Material Components React List",
   "license": "MIT",
   "main": "dist/index.js",
