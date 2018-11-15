@@ -30,6 +30,7 @@ import ListItem from './ListItem';
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
 import ListItemMeta from './ListItemMeta';
+import ListDivider from './ListDivider';
 import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
 
@@ -308,4 +309,4 @@ List.defaultProps = {
 
 /* eslint-enable quote-props */
 
-export {ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListGroup, ListGroupSubheader};
+export {ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListDivider, ListGroup, ListGroupSubheader};
