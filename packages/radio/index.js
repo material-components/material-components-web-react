@@ -23,28 +23,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {MDCNotchedOutlineFoundation} from '@material/radio/dist/mdc.radio';
+import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
+import withRipple from '@material/react-ripple';
+import NativeControl from './NativeControl';
 
-export default class NotchedOutline extends React.Component {
+class Radio extends React.Component {
 
   foundation_ = null;
+  radioElement_ = React.createRef();
+  rippleActivator = null;
 
   state = {
     classList: new Set(),
+    disabled: false,
+    nativeControlId: '',
   };
 
-  constructor(props) {
-    super(props);
-
-  }
-
   componentDidMount() {
-    this.foundation_ = new MDCNotchedOutlineFoundation(this.adapter);
+    this.foundation_ = new MDCRadioFoundation(this.adapter);
     this.foundation_.init();
+    if (this.props.disabled) {
+      this.foundation_.setDisabled(this.props.disabled);
+    }
+    if (this.props.children.props.id) {
+      this.setState({nativeControlId: this.props.children.props.id});
+    }
 
-    const {notch, notchWidth, isRtl} = this.props;
-    if (notch) {
-      this.foundation_.notch(notchWidth, isRtl);
+    if (this.rippleActivator) {
+      this.props.initRipple(this.radioElement_.current, this.rippleActivator);
     }
   }
 
@@ -52,65 +58,90 @@ export default class NotchedOutline extends React.Component {
     this.foundation_.destroy();
   }
 
-  componentDidUpdate(prevProps) {
-    const hasToggledNotch = this.props.notch !== prevProps.notch;
-    const hasToggleRtl = this.props.isRtl !== prevProps.isRtl;
-    const notchWidthUpdated = this.props.notchWidth !== prevProps.notchWidth;
-    const shouldUpdateNotch = notchWidthUpdated || hasToggleRtl || hasToggledNotch;
-
-    if (!shouldUpdateNotch) {
-      return;
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.disabled !== prevProps.disabled) {
+      this.foundation_.setDisabled(this.props.disabled);
     }
-
-    if (this.props.notch) {
-      const {notchWidth, isRtl} = this.props;
-      this.foundation_.notch(notchWidth, isRtl);
-    } else {
-      this.foundation_.closeNotch();
+    if (this.props.children.props.id !== prevProps.children.props.id) {
+      this.setState({nativeControlId: this.props.children.props.id});
     }
   }
 
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;
-    return classnames('mdc-notched-outline', Array.from(classList), className);
+    return classnames('mdc-radio', Array.from(classList), className);
   }
 
   get adapter() {
     return {
-
+      addClass: (className) => {
+        const classList = new Set(this.state.classList);
+        classList.add(className);
+        this.setState({classList});
+      },
+      removeClass: (className) => {
+        const classList = new Set(this.state.classList);
+        classList.delete(className);
+        this.setState({classList});
+      },
+      setNativeControlDisabled: (disabled) => this.setState({disabled}),
     };
   }
 
+  init = (el) => {
+    this.props.initRipple(el, this.inputControl_.current);
+  }
+
+  setRippleActivator = (element) => this.rippleActivator = element;
+
   render() {
-    return ([
-      <div
-        className={this.classes}
-        key='notched-outline'
-        ref={this.outlineElement_}>
-        <svg focusable='false'>
-          <path ref={this.pathElement_}
-            className='mdc-notched-outline__path' />
-        </svg>
-      </div>,
-      <div
-        ref={this.idleElement_}
-        className='mdc-notched-outline__idle'
-        key='notched-outline-idle'></div>,
-    ]);
+    const {nativeControlId} = this.state;
+    const {
+      label,
+      initRipple,
+      unbounded,
+      className,
+      ...otherProps
+    } = this.props;
+
+    return (
+      <div className='mdc-form-field'>
+        <div className={this.classes} ref={this.radioElement_} {...otherProps}>
+          {this.renderNativeControl()}
+          <div className='mdc-radio__background'>
+            <div className='mdc-radio__outer-circle'></div>
+            <div className='mdc-radio__inner-circle'></div>
+          </div>
+        </div>
+        {label ? <label htmlFor={nativeControlId}>{label}</label> : null}
+      </div>
+    );
+  }
+
+  renderNativeControl () {
+    const children = React.Children.only(this.props.children);
+    const updatedProps = Object.assign({}, children.props, {
+      disabled: this.state.disabled,
+      setRippleActivator: this.setRippleActivator,
+    });
+    return (
+      React.cloneElement(children, updatedProps)
+    );
   }
 }
 
-NotchedOutline.propTypes = {
+Radio.propTypes = {
   className: PropTypes.string,
-  isRtl: PropTypes.bool,
-  notch: PropTypes.bool,
-  notchWidth: PropTypes.number,
+  disabled: PropTypes.bool,
+  unbounded: PropTypes.bool,
 };
 
-NotchedOutline.defaultProps = {
+Radio.defaultProps = {
   className: '',
-  isRtl: false,
-  notch: false,
-  notchWidth: 0,
+  disabled: false,
+  unbounded: true,
 };
+
+export default withRipple(Radio);
+export {NativeControl as NativeRadioControl};

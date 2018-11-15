@@ -1,22 +1,23 @@
 {
-  "name": "@material/react-notched-outline",
+  "name": "@material/react-radio",
   "version": "0.6.2",
-  "description": "Material Componens React Notched Outline",
+  "description": "Material Componens React Radio",
   "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
     "mdc web react",
     "material components react",
     "material design",
-    "notched outline",
-    "notchedoutline"
+    "radio"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
+    "@material/form-field": "^0.41.0",
     "@material/radio": "^0.41.0",
+    "@material/react-ripple": "^0.6.2",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.4.2"

@@ -20,5 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-@import "@material/radio/mdc-radio";
-@import "@material/form-field/mdc-form-field";
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const NativeControl = (props) => {
+  const {
+    setRippleActivator,
+    ...otherProps
+  } = props;
+
+  return (
+    <input
+      type='radio'
+      className='mdc-radio__native-control'
+      ref={(element) => setRippleActivator(element)}
+      {...otherProps}
+    />
+  );
+};
+
+NativeControl.propTypes = {
+  setRippleActivator: PropTypes.func,
+};
+
+NativeControl.defaultProps = {
+  setRippleActivator: () => {},
+};
+
+export default NativeControl;
