@@ -1,8 +1,6 @@
-> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
-
 # React Radio
 
-A React version of an [MDC Notched Outline](https://github.com/material-components/material-components-web/tree/master/packages/mdc-radio).
+A React version of an [MDC Radio](https://github.com/material-components/material-components-web/tree/master/packages/mdc-radio).
 
 ## Installation
 
@@ -27,23 +25,55 @@ import '@material/react-radio/dist/radio.css';
 ### Javascript Instantiation
 
 ```js
-import NotchedOutline from '@material/react-radio';
+import React from 'react';
+import Radio, {NativeRadioControl} from '@material/react-radio';
 
-const MyComponent = () => {
-  return (
-    <NotchedOutline />
-  );
+class MyApp extends React.Component {
+  state = {petValue: null};
+
+  render() {    
+    return (
+      <div>
+        <Radio label='Dog' key='dog'>
+          <NativeRadioControl
+            name='pets'
+            value='dog'
+            id='dog'
+            onChange={(e) => this.setState({petValue: e.target.value})}
+          />
+        </Radio>
+        <Radio label='Cat' key='cat'>
+          <NativeRadioControl
+            name='pets'
+            value='cat'
+            id='cat'
+            onChange={(e) => this.setState({petValue: e.target.value})}
+          />
+        </Radio>
+    </div>
+    );
+  }
 }
 ```
 
-## Props
+> NOTE: The `.mdc-radio` element and the associated label are wrapped around an `.mdc-form-field` element for styling.
+
+## Radio Props
 
 Prop Name | Type | Description
 --- | --- | ---
-className | String | Classes to be applied to the root element.
-isRtl | Boolean | Shifts notch to right side if true.
-notch | Boolean | Toggles between notched outline and idle outline state.
-notchWidth | Number | Width of the notch in the outline.
+className | String | Classes to be applied to the `.mdc-radio` element.
+wrapperClasses | String | Classes to be applied to the `.mdc-form-field` wrapper element.
+label | String | Label associated with radio input control.
+
+# NativeRadioControl Props
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the `.mdc-radio` element.
+checked | Boolean | Default `false`. When true will switch radio to the checked state.
+value | String | The associated value with the radio element.
+disabled | Boolean | Default `false`. When true will disable the radio element.
 
 ## Sass Mixins
 

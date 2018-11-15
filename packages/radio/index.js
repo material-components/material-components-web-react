@@ -141,21 +141,20 @@ class Radio extends React.Component {
 
 Radio.propTypes = {
   label: PropTypes.string,
-  intRipple: PropTypes.func,
+  initRipple: PropTypes.func,
   className: PropTypes.string,
   wrapperClasses: PropTypes.string,
   unbounded: PropTypes.bool,
   children: PropTypes.element.isRequired,
-  initRipple: PropTypes.func,
 };
 
 Radio.defaultProps = {
   label: '',
+  initRipple: () => {},
   className: '',
   wrapperClasses: '',
   unbounded: true,
   children: null,
-  initRipple: () => {},
 };
 
 export default withRipple(Radio);
