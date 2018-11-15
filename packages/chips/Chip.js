@@ -36,7 +36,7 @@ export class Chip extends Component {
 
   componentDidMount() {
     this.foundation_ = new MDCChipFoundation(this.adapter);
-    this.foundation_.init;
+    this.foundation_.init();
     this.foundation_.setSelected(this.props.selected);
   }
 
@@ -80,9 +80,7 @@ export class Chip extends Component {
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
       notifyRemoval: () => this.props.handleRemove(this.props.id),
       notifyInteraction: () => this.props.handleInteraction(this.props.id),
-      notifySelection: (selected) => {
-        this.props.handleSelect(this.props.id, selected);
-      },
+      notifySelection: (selected) => this.props.handleSelect(this.props.id, selected),
       addClassToLeadingIcon: (className) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.add(className);
