@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Select from '../../../packages/select/index';
+import Select from '../../../packages/select/index.tsx';
 import '../../../packages/select/index.scss';
 import './index.scss';
 

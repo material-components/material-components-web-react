@@ -10,7 +10,7 @@ import Card, {
   CardActions,
   CardPrimaryContent,
   CardMedia,
-} from '../../../packages/card';
+} from '../../../packages/card.tsx';
 import MaterialIcon from '../../../packages/material-icon';
 const imageUrl = './../images/1-1.jpg';
 
