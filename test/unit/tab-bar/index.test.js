@@ -25,9 +25,10 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy(), {times: 1});
 });
 
-test('initially sets state.previousActiveIndex to -1', () => {
-  const wrapper = shallow(<TabBar />);
-  assert.equal(wrapper.state().previousActiveIndex, -1);
+test('initially sets state.previousActiveIndex to props.activeIndex', () => {
+  const activeIndex = 4;
+  const wrapper = shallow(<TabBar activeIndex={activeIndex}/>);
+  assert.equal(wrapper.state().previousActiveIndex, activeIndex);
 });
 
 test('key down event calls foundation.handleKeyDown', () => {
@@ -183,4 +184,44 @@ test('#adapter.getTabListLength returns length of tab list', () => {
   const wrapper = shallow(<TabBar />);
   wrapper.instance().tabList_ = [{}, {}, {}];
   assert.equal(wrapper.instance().adapter.getTabListLength(), 3);
+});
+
+test('props.activeIndex updates to different value when not initially set calls foundation.activateTab', () => {
+  const tab0 = {};
+  const tab1 = {deactivate: td.func()};
+  const wrapper = shallow(<TabBar/>);
+  wrapper.instance().foundation_.activateTab = td.func();
+  wrapper.instance().tabList_ = [tab0, tab1];
+  wrapper.setProps({activeIndex: 1});
+  td.verify(wrapper.instance().foundation_.activateTab(1), {times: 1});
+});
+
+test('props.indexInView updates to different value  when not initially set calls foundation.scrollIntoView', () => {
+  const tab0 = {};
+  const tab1 = {deactivate: td.func()};
+  const wrapper = shallow(<TabBar/>);
+  wrapper.instance().foundation_.scrollIntoView = td.func();
+  wrapper.instance().tabList_ = [tab0, tab1];
+  wrapper.setProps({indexInView: 1});
+  td.verify(wrapper.instance().foundation_.scrollIntoView(1), {times: 1});
+});
+
+test('props.activeIndex updates to different value with a set value calls foundation.activateTab', () => {
+  const tab0 = {};
+  const tab1 = {deactivate: td.func()};
+  const wrapper = shallow(<TabBar activeIndex={1}/>);
+  wrapper.instance().foundation_.activateTab = td.func();
+  wrapper.instance().tabList_ = [tab0, tab1];
+  wrapper.setProps({activeIndex: 0});
+  td.verify(wrapper.instance().foundation_.activateTab(0), {times: 1});
+});
+
+test('props.indexInView updates to different value with a set value calls foundation.scrollIntoView', () => {
+  const tab0 = {};
+  const tab1 = {deactivate: td.func()};
+  const wrapper = shallow(<TabBar indexInView={1}/>);
+  wrapper.instance().foundation_.scrollIntoView = td.func();
+  wrapper.instance().tabList_ = [tab0, tab1];
+  wrapper.setProps({indexInView: 0});
+  td.verify(wrapper.instance().foundation_.scrollIntoView(0), {times: 1});
 });
