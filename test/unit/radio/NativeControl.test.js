@@ -1,7 +1,6 @@
 import React from 'react';
 import {assert} from 'chai';
-import td from 'testdouble';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 import {NativeRadioControl} from '../../../packages/radio/index';
 
 suite('NativeRadioControl');
@@ -25,10 +24,4 @@ test('adds custom classnames', () => {
   const wrapper = shallow(<NativeRadioControl className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('mdc-radio__native-control'));
   assert.isTrue(wrapper.hasClass('test-class-name'));
-});
-
-test('calls setRippleActivator', () => {
-  const setRippleActivator = td.func();
-  const wrapper = mount(<NativeRadioControl setRippleActivator={setRippleActivator} />);
-  td.verify(setRippleActivator(wrapper.getDOMNode()), {times: 1});
 });

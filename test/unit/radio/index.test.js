@@ -125,12 +125,6 @@ test('#adapter.setNativeControlDisabled sets state.disabled to false', () => {
   assert.isFalse(wrapper.state().disabled);
 });
 
-test('#setRippleActivator sets this.rippleActivator element', () => {
-  const wrapper = shallow(<Radio><NativeRadioControl /></Radio>);
-  wrapper.instance().setRippleActivator('orange');
-  assert.equal(wrapper.instance().rippleActivator, 'orange');
-});
-
 test('renders nativeControl with updated disabled prop', () => {
   const wrapper = mount(<Radio><NativeRadioControl /></Radio>);
   wrapper.setState({disabled: true});

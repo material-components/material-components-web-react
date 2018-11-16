@@ -26,7 +26,7 @@ import PropTypes from 'prop-types';
 
 const NativeControl = (props) => {
   const {
-    setRippleActivator,
+    rippleActivatorRef,
     className,
     ...otherProps
   } = props;
@@ -35,7 +35,7 @@ const NativeControl = (props) => {
     <input
       type='radio'
       className={classnames('mdc-radio__native-control', className)}
-      ref={(element) => setRippleActivator(element)}
+      ref={rippleActivatorRef}
       {...otherProps}
     />
   );
@@ -43,12 +43,12 @@ const NativeControl = (props) => {
 
 NativeControl.propTypes = {
   className: PropTypes.string,
-  setRippleActivator: PropTypes.func,
+  rippleActivatorRef: PropTypes.object,
 };
 
 NativeControl.defaultProps = {
   className: '',
-  setRippleActivator: () => {},
+  rippleActivatorRef: null,
 };
 
 export default NativeControl;

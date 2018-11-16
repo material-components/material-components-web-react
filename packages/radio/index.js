@@ -31,7 +31,7 @@ class Radio extends React.Component {
 
   foundation_ = null;
   radioElement_ = React.createRef();
-  rippleActivator = null;
+  rippleActivatorRef = React.createRef();
 
   state = {
     classList: new Set(),
@@ -53,8 +53,8 @@ class Radio extends React.Component {
     if (childProps.id) {
       this.setState({nativeControlId: childProps.id});
     }
-    if (this.rippleActivator) {
-      this.props.initRipple(this.radioElement_.current, this.rippleActivator);
+    if (this.rippleActivatorRef && this.rippleActivatorRef.current) {
+      this.props.initRipple(this.radioElement_.current, this.rippleActivatorRef.current);
     }
   }
 
@@ -94,11 +94,7 @@ class Radio extends React.Component {
     };
   }
 
-  init = (el) => {
-    this.props.initRipple(el, this.inputControl_.current);
-  }
-
-  setRippleActivator = (element) => this.rippleActivator = element;
+  // setRippleActivator = (element) => this.rippleActivator = element;
 
   render() {
     const {nativeControlId} = this.state;
@@ -131,7 +127,7 @@ class Radio extends React.Component {
     const children = React.Children.only(this.props.children);
     const updatedProps = Object.assign({}, children.props, {
       disabled: this.state.disabled,
-      setRippleActivator: this.setRippleActivator,
+      rippleActivatorRef: this.rippleActivatorRef,
     });
     return (
       React.cloneElement(children, updatedProps)
