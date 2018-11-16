@@ -68,6 +68,7 @@
     "@material/icon-button": "^0.41.0",
     "@material/layout-grid": "^0.41.0",
     "@material/line-ripple": "^0.41.0",
+    "@material/linear-progress": "^0.41.0"
     "@material/list": "^0.41.0",
     "@material/menu-surface": "^0.41.0",
     "@material/notched-outline": "^0.41.0",
@@ -125,8 +126,5 @@
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.2"
-  },
-  "dependencies": {
-    "@material/linear-progress": "^0.41.0"
   }
 }
