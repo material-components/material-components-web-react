@@ -44,7 +44,7 @@ class TabBarTest extends React.Component {
           {[...Array(numTabs).keys()].map(renderTab)}
         </TabBar>
         {hasUpdateActiveIndexButton ?
-          <button onClick={() => this.setState({activeIndex: 1})}>Update active tab</button> : null}
+          <button onClick={() => this.setState({activeIndex: 1})}>Activate tab at index 1</button> : null}
       </React.Fragment>
     );
   }

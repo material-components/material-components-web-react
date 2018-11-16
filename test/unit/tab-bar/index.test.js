@@ -25,9 +25,10 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy(), {times: 1});
 });
 
-test('initially sets state.previousActiveIndex to 0', () => {
-  const wrapper = shallow(<TabBar />);
-  assert.equal(wrapper.state().previousActiveIndex, 0);
+test('initially sets state.previousActiveIndex to props.activeIndex', () => {
+  const activeIndex = 4;
+  const wrapper = shallow(<TabBar activeIndex={activeIndex}/>);
+  assert.equal(wrapper.state().previousActiveIndex, activeIndex);
 });
 
 test('key down event calls foundation.handleKeyDown', () => {
