@@ -66,13 +66,6 @@ test('#adapter.setSelected removes selectedChipId from state', () => {
   assert.isFalse(wrapper.state().selectedChipIds.indexOf('1') > -1);
 });
 
-test('#adapter.setSelected removes selectedChipId from state', () => {
-  const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);
-  wrapper.setState({selectedChipIdss: new Set(['1'])});
-  wrapper.instance().adapter.setSelected('1', false);
-  assert.isFalse(wrapper.state().selectedChipIds.indexOf('1') > -1);
-});
-
 test('#foundation.select is called when #initChipSelection is called and ' +
   'state.selectedChipIds has a selected Id', () => {
   const wrapper = shallow(<ChipSet><div id='1' /></ChipSet>);

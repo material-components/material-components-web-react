@@ -90,7 +90,7 @@ test('#adapter.removeClassFromLeadingIcon removes from state.leadingIconClassLis
   assert.isFalse(wrapper.state().leadingIconClassList.has('test-leading-icon-class'));
 });
 
-test('#adapter.notifyInteraction calls #props.handleSelect w/ chipId', () => {
+test('#adapter.notifyInteraction calls #props.handleInteraction w/ chipId', () => {
   const handleInteraction = td.func();
   const wrapper = shallow(<Chip id='123' handleInteraction={handleInteraction} />);
   wrapper.instance().foundation_.adapter_.notifyInteraction();
@@ -102,6 +102,20 @@ test('#adapter.notifyRemoval calls #props.handleRemove w/ chipId', () => {
   const wrapper = shallow(<Chip id='123' handleRemove={handleRemove}/>);
   wrapper.instance().foundation_.adapter_.notifyRemoval();
   td.verify(handleRemove('123'), {times: 1});
+});
+
+test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected false', () => {
+  const handleSelect = td.func();
+  const wrapper = shallow(<Chip id='123' handleSelect={handleSelect}/>);
+  wrapper.instance().foundation_.adapter_.notifySelection(false);
+  td.verify(handleSelect('123', false), {times: 1});
+});
+
+test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected true', () => {
+  const handleSelect = td.func();
+  const wrapper = shallow(<Chip id='123' handleSelect={handleSelect}/>);
+  wrapper.instance().foundation_.adapter_.notifySelection(true);
+  td.verify(handleSelect('123', true), {times: 1});
 });
 
 test('on click calls #props.onClick', () => {
