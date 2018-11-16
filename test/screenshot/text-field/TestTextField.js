@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TextField, {Input} from '../../../packages/text-field/index';
+import TextField, {Input} from '../../../packages/text-field/index.tsx';
 
 class TestField extends React.Component {
   constructor(props) {

@@ -16,6 +16,9 @@ module.exports = {
       loader: 'babel-loader',
       query: {compact: true},
     }, {
+      test: /\.tsx$/,
+      loader: 'ts-loader',
+    }, {
       test: /\.scss$/,
       use: ExtractTextPlugin.extract({
         use: [
