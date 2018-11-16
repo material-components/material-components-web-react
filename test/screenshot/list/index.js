@@ -8,6 +8,7 @@ import List, {
   ListItemGraphic,
   ListItemText,
   ListItemMeta,
+  ListDivider,
   ListGroup,
   ListGroupSubheader,
 } from '../../../packages/list/index';
@@ -63,7 +64,7 @@ const ListScreenshotTest = () => {
         {renderListItem('List item', 'Secondary text')}
         {renderListItem('List item', 'Secondary text')}
         {renderListItem('List item', 'Secondary text')}
-        <li className='mdc-list-divider' role='separator'></li>
+        <ListDivider />
         {renderListItem('List item', 'Secondary text')}
         {renderListItem('List item', 'Secondary text')}
       </List>
