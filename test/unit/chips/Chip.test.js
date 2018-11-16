@@ -108,7 +108,7 @@ test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected 
   const handleSelect = td.func();
   const wrapper = shallow(<Chip id='123' handleSelect={handleSelect}/>);
   wrapper.instance().foundation_.adapter_.notifySelection(false);
-  td.verify(handleSelect('123', false), {times: 1});
+  td.verify(handleSelect('123', false), {times: 2});
 });
 
 test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected true', () => {
