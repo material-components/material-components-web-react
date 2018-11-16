@@ -6,45 +6,27 @@ import MaterialIcon from '../../../packages/material-icon';
 import {Chip, ChipSet} from '../../../packages/chips/index';
 import uuidv1 from 'uuid/v1';
 
-class ChoiceChipsTest extends React.Component {
+class ChipsTest extends React.Component {
   state = {
     selectedChipIds: this.props.selectedChipIds, // eslint-disable-line react/prop-types
   };
 
   render() {
-    const {children} = this.props; // eslint-disable-line react/prop-types
+    const {children, variant} = this.props; // eslint-disable-line react/prop-types
+    const isChoice = variant === 'choice';
+    const isFilter = variant === 'filter';
     return (
       <div>
         <ChipSet
-          choice
-          selectedChipIds={this.state.selectedChipIds}
-          handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
-        >
-          {children}
-        </ChipSet>
-      </div>
-    );
-  }
-}
-
-class FilterChipsTest extends React.Component {
-  state = {
-    selectedChipIds: this.props.selectedChipIds, // eslint-disable-line react/prop-types
-  };
-
-  render() {
-    const {children} = this.props; // eslint-disable-line react/prop-types
-    return (
-      <div>
-        <ChipSet
-          filter
+          choice={isChoice}
+          filter={isFilter}
           selectedChipIds={this.state.selectedChipIds}
           handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
         >
           {children}
         </ChipSet>
         <button onClick={() => this.setState({selectedChipIds: ['2chip', '0chip']})}>
-          Select first and last
+          {isChoice ? 'Select first' : 'Select first and last'}
         </button>
       </div>
     );
@@ -124,14 +106,14 @@ const ChipsScreenshotTest = () => {
       </ChipSet>
 
       Choice Chips
-      <ChoiceChipsTest selectedChipIds={['2chip']}>
+      <ChipsTest variant='choice' selectedChipIds={['2chip']}>
         {renderChips(sizes)}
-      </ChoiceChipsTest>
+      </ChipsTest>
 
       Filter Chips with Leading Icon
-      <FilterChipsTest selectedChipIds={['1chip', '2chip']}>
+      <ChipsTest variant='filter' selectedChipIds={['1chip', '2chip']}>
         {renderChips(clothes, true)}
-      </FilterChipsTest>
+      </ChipsTest>
 
       <InputChipsTest labels={contacts}/>
     </div>
