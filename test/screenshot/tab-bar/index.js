@@ -17,6 +17,7 @@ class TabBarTest extends React.Component {
       isFadingIndicator,
       numTabs,
       isRtl,
+      hasUpdateActiveIndexButton,
       /* eslint-enable react/prop-types */
     } = this.props;
 
@@ -33,14 +34,18 @@ class TabBarTest extends React.Component {
     };
 
     return (
-      <TabBar
-        isRtl={isRtl}
-        className={className}
-        activeIndex={this.state.activeIndex}
-        handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
-      >
-        {[...Array(numTabs).keys()].map(renderTab)}
-      </TabBar>
+      <React.Fragment>
+        <TabBar
+          isRtl={isRtl}
+          className={className}
+          activeIndex={this.state.activeIndex}
+          handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
+        >
+          {[...Array(numTabs).keys()].map(renderTab)}
+        </TabBar>
+        {hasUpdateActiveIndexButton ?
+          <button onClick={() => this.setState({activeIndex: 1})}>Activate tab at index 1</button> : null}
+      </React.Fragment>
     );
   }
 }
@@ -48,6 +53,11 @@ class TabBarTest extends React.Component {
 const TabBarScreenshotTest = () => {
   return (
     <div>
+      Sliding Underline - programatically update tab
+      <div className='tab-bar-container'>
+        <TabBarTest numTabs={3} hasUpdateActiveIndexButton />
+      </div>
+
       Sliding Underline
       <div className='tab-bar-container'>
         <TabBarTest numTabs={3} />
