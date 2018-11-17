@@ -11,8 +11,11 @@ export default class TabBar extends Component {
   tabList_ = [];
 
   foundation_ = null;
-  state = {
-    previousActiveIndex: -1,
+  constructor(props) {
+    super(props);
+    this.state = {
+      previousActiveIndex: props.activeIndex,
+    };
   }
 
   componentDidMount() {
@@ -31,7 +34,8 @@ export default class TabBar extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.activeIndex !== prevProps.activeIndex) {
-      this.foundation_.activateTab(this.props.activeIndex);
+      this.setState({previousActiveIndex: prevProps.activeIndex},
+        () => this.foundation_.activateTab(this.props.activeIndex));
     }
     if (this.props.indexInView !== prevProps.indexInView) {
       this.foundation_.scrollIntoView(this.props.indexInView);
