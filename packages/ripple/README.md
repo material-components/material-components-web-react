@@ -19,6 +19,19 @@ with Sass:
 import '@material/react-ripple/index.scss';
 ```
 
+You'll also need to include these sass mixins on the element. Please also refer to [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-ripple/README.md#sass-apis) to customize further.
+
+```sass
+@import "@material/ripple/index.scss";
+
+// refer to element in Javascript portion below
+.ripple-icon-component {
+  @include mdc-ripple-surface;
+  @include mdc-ripple-radius-bounded;
+  @include mdc-states;
+}
+```
+
 with CSS:
 ```js
 import '@material/react-ripple/dist/ripple.css';
