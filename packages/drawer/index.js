@@ -51,6 +51,9 @@ class Drawer extends React.Component {
 
   initFoundation = () => {
     const {dismissible, modal} = this.props;
+    if (this.foundation_) {
+      this.foundation_.destroy();
+    }
     if (dismissible) {
       this.foundation_ = new MDCDismissibleDrawerFoundation(this.adapter);
       this.foundation_.init();
@@ -65,9 +68,9 @@ class Drawer extends React.Component {
     const {dismissible, modal, open} = this.props;
     const changedToModal = prevProps.modal !== this.props.modal;
     const changedToDismissible = prevProps.dismissible !== this.props.dismissible;
-    if (!(dismissible || modal)) return;
+    if (!dismissible && !modal) return;
 
-    if ((changedToModal || changedToDismissible) && !this.foundation_) {
+    if (changedToModal || changedToDismissible) {
       this.initFoundation();
     }
 

@@ -63,11 +63,20 @@ test('when changes from permanent to dismissible drawer with no foundation, crea
   assert.exists(wrapper.instance().foundation_);
 });
 
-test('when changes from dismissible to modal drawer keeps same foundation', () => {
+test('when the drawer changes from dismissible to modal the foundation changes ', () => {
   const wrapper = shallow(<Drawer dismissible />);
   const originalFoundation = wrapper.instance().foundation_;
   wrapper.setProps({modal: true});
-  assert.equal(wrapper.instance().foundation_, originalFoundation);
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when the drawer changes from dismissible to modal the original foundation calls destroy', () => {
+  const wrapper = shallow(<Drawer dismissible />);
+  const destroy = td.func();
+  wrapper.instance().foundation_ = {destroy};
+  wrapper.setProps({modal: true});
+  td.verify(destroy(), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {
