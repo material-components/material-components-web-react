@@ -4,4 +4,5 @@ export default [
   'modal',
   'permanentBelowTopAppBar',
   'dismissibleBelowTopAppBar',
+  'permanentToModal',
 ];
