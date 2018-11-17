@@ -29,10 +29,11 @@ We release a new version of MDC React every 2 weeks. We try and keep MDC React w
 ### 0.8.x - December 2018
 [Related Milestone](https://github.com/material-components/material-components-web-react/milestone/3)
 - Depend on MDC Web 0.42.X
-- New select (drop down menu attached to a text field)
+- bug fixes
 
 ### 0.9.x - January 2019
 [Related Milestone](https://github.com/material-components/material-components-web-react/milestone/5)
 - Depend on MDC Web 0.43.X
 - New menu
 - New dialog
+- New select (drop down menu attached to a text field)
