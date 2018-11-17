@@ -16,6 +16,7 @@ const urls = [
   'material-icon',
   'menu-surface',
   'notched-outline',
+  'radio',
   'select',
   'tab',
   'tab-bar',
