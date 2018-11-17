@@ -30,6 +30,7 @@ import ListItem from './ListItem';
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
 import ListItemMeta from './ListItemMeta';
+import ListDivider from './ListDivider';
 import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
 
@@ -171,17 +172,18 @@ export default class List extends Component {
       wrapFocus,
       /* eslint-enable no-unused-vars */
       children,
+      tag: Tag,
       ...otherProps
     } = this.props;
 
     this.listItemCount = 0;
     return (
-      <ul
+      <Tag
         className={this.classes}
         {...otherProps}
       >
         {React.Children.map(children, this.renderChild)}
-      </ul>
+      </Tag>
     );
   }
 
@@ -288,6 +290,7 @@ List.propTypes = {
   handleSelect: PropTypes.func,
   wrapFocus: PropTypes.bool,
   'aria-orientation': PropTypes.string,
+  tag: PropTypes.string,
 };
 
 List.defaultProps = {
@@ -301,8 +304,9 @@ List.defaultProps = {
   handleSelect: () => {},
   wrapFocus: true,
   'aria-orientation': VERTICAL,
+  tag: 'ul',
 };
 
 /* eslint-enable quote-props */
 
-export {ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListGroup, ListGroupSubheader};
+export {ListItem, ListItemGraphic, ListItemText, ListItemMeta, ListDivider, ListGroup, ListGroupSubheader};
