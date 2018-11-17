@@ -1,0 +1,29 @@
+.linear-progress-sample {
+  &__container {
+    margin: 0 auto;
+    width: 600px;
+  }
+
+  &__item {
+    margin: 32px 0;
+
+    &__title {
+      margin: 0 0 8px 0;
+    }
+
+    button {
+      margin: 8px 0 0;
+    }
+  }
+}
+
+// stylelint-disable selector-max-universal
+.test-animation--paused,
+.test-animation--paused::before,
+.test-animation--paused::after,
+.test-animation--paused *,
+.test-animation--paused *::before,
+.test-animation--paused *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+}

@@ -29,27 +29,35 @@ import ChipCheckmark from './ChipCheckmark';
 
 export default class ChipSet extends Component {
   checkmarkWidth_ = 0;
-  foundation_ = null;
-  state = {
-    selectedChipIds: new Set(this.props.selectedChipIds),
-  };
 
-  componentDidMount() {
-    this.foundation_ = new MDCChipSetFoundation(this.adapter);
-    this.foundation_.init();
-    this.updateChipSelection();
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedChipIds: props.selectedChipIds,
+      foundation: null,
+      hasInitialized: false,
+    };
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.selectedChipIds !== prevProps.selectedChipIds) {
-      const selectedChipIds = new Set(this.props.selectedChipIds);
+  componentDidMount() {
+    const foundation = new MDCChipSetFoundation(this.adapter);
+    this.setState({foundation});
+    foundation.init();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {selectedChipIds} = this.props;
+
+    if (this.state.foundation !== prevState.foundation) {
+      this.initChipSelection();
+    }
+    if (selectedChipIds !== prevProps.selectedChipIds) {
       this.setState({selectedChipIds});
-      this.updateChipSelection(selectedChipIds);
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.state.foundation.destroy();
   }
 
   get classes() {
@@ -65,54 +73,39 @@ export default class ChipSet extends Component {
     return {
       hasClass: (className) => this.classes.split(' ').includes(className),
       setSelected: (chipId, selected) => {
-        const {selectedChipIds} = this.state;
-        if (selected) {
-          selectedChipIds.add(chipId);
-        } else {
-          selectedChipIds.delete(chipId);
-        }
-        this.setState({selectedChipIds});
+        const selectedChipIds = this.state.foundation.getSelectedChipIds();
+        this.setState({selectedChipIds}, () => {
+          this.props.handleSelect(selectedChipIds);
+        });
       },
+      removeChip: this.removeChip,
     };
   }
 
-  updateChipSelection(ids = this.state.selectedChipIds) {
+  initChipSelection() {
     React.Children.forEach(this.props.children, (child) => {
       const {id} = child.props;
-      if (ids.has(id)) {
-        this.foundation_.select(id);
-      } else {
-        // remove deselect when MDC Web issue 3612 is fixed
-        this.foundation_.deselect(id);
+      const selected = this.state.selectedChipIds.indexOf(id) > -1;
+      if (selected) {
+        this.state.foundation.select(id);
       }
     });
+
+    this.setState({hasInitialized: true});
   }
 
-  handleSelect = (chipId) => {
-    const {handleSelect, choice, filter} = this.props;
-    // update when mdc web issue is fix
-    // https://github.com/material-components/material-components-web/issues/3613
-    // filter || choice is duplicate logic found in MDC Web foundation code
-    if (filter || choice) {
-      this.foundation_.toggleSelect(chipId);
-    }
-    handleSelect(this.foundation_.getSelectedChipIds());
+  handleInteraction = (chipId) => {
+    this.state.foundation.handleChipInteraction(chipId);
+  }
+
+  handleSelect = (chipId, selected) => {
+    this.state.foundation.handleChipSelection(chipId, selected);
   }
 
   handleRemove = (chipId) => {
-    const {input} = this.props;
-    if (input) {
-      // this should be calling foundation_.handleChipRemoval, but we would
-      // need to pass evt.detail.chipId
-      // fix when MDC Web issue 3613 is fixed
-      this.foundation_.deselect(chipId);
-    }
-    this.removeChip(chipId);
+    this.state.foundation.handleChipRemoval(chipId);
   }
 
-  // this should be adapter_.removeChip, but cannot be complete until
-  // https://github.com/material-components/material-components-web/issues/3613
-  // is fixed
   removeChip = (chipId) => {
     const {updateChips, children} = this.props;
     if (!children) return;
@@ -145,10 +138,11 @@ export default class ChipSet extends Component {
   renderChip = (chip) => {
     const {filter} = this.props;
     const {selectedChipIds} = this.state;
-
+    const selected = selectedChipIds.indexOf(chip.props.id) > -1;
     const props = Object.assign({
-      selected: selectedChipIds.has(chip.props.id),
+      selected,
       handleSelect: this.handleSelect,
+      handleInteraction: this.handleInteraction,
       handleRemove: this.handleRemove,
       chipCheckmark: filter ? <ChipCheckmark ref={this.setCheckmarkWidth}/> : null,
       computeBoundingRect: filter ? this.computeBoundingRect : null,
@@ -158,6 +152,9 @@ export default class ChipSet extends Component {
   }
 
   render() {
+    // need foundation on state, because Chip calls a foundation method
+    // before ChipSet mounts.
+    if (!this.state.hasInitialized) return null;
     return (
       <div className={this.classes}>
         {React.Children.map(this.props.children, this.renderChip)}

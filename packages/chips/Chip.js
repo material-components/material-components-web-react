@@ -79,7 +79,8 @@ export class Chip extends Component {
         (propertyName) => window.getComputedStyle(this.chipElement_).getPropertyValue(propertyName),
       setStyleProperty: (propertyName, value) => this.chipElement_.style.setProperty(propertyName, value),
       notifyRemoval: () => this.props.handleRemove(this.props.id),
-      notifyInteraction: () => this.props.handleSelect(this.props.id),
+      notifyInteraction: () => this.props.handleInteraction(this.props.id),
+      notifySelection: (selected) => this.props.handleSelect(this.props.id, selected),
       addClassToLeadingIcon: (className) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.add(className);
@@ -94,14 +95,12 @@ export class Chip extends Component {
   }
 
   onClick = (e) => {
-    const {onClick} = this.props;
-    onClick(e);
+    this.props.onClick(e);
     this.foundation_.handleInteraction(e);
   }
 
   onKeyDown = (e) => {
-    const {onKeyDown} = this.props;
-    onKeyDown(e);
+    this.props.onKeyDown(e);
     this.foundation_.handleInteraction(e);
   }
 
@@ -161,6 +160,7 @@ export class Chip extends Component {
       className,
       selected,
       handleSelect,
+      handleInteraction,
       handleRemove,
       onClick,
       onKeyDown,
@@ -202,6 +202,7 @@ Chip.propTypes = {
   selected: PropTypes.bool,
   handleSelect: PropTypes.func,
   handleRemove: PropTypes.func,
+  handleInteraction: PropTypes.func,
   onClick: PropTypes.func,
   onKeyDown: PropTypes.func,
   onTransitionEnd: PropTypes.func,
@@ -223,6 +224,7 @@ Chip.defaultProps = {
   initRipple: () => {},
   handleSelect: () => {},
   handleRemove: () => {},
+  handleInteraction: () => {},
 };
 
 export default withRipple(Chip);
