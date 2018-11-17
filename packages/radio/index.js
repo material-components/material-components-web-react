@@ -94,8 +94,6 @@ class Radio extends React.Component {
     };
   }
 
-  // setRippleActivator = (element) => this.rippleActivator = element;
-
   render() {
     const {nativeControlId} = this.state;
     const {
