@@ -1,9 +1,6 @@
-import React from 'react';
-
-import HelperText from '../../../../packages/text-field/helper-text';
-
-import '../../../../packages/text-field/helper-text/index.scss';
-
+import React from "react";
+import HelperText from "../../../../packages/text-field/helper-text";
+import "../../../../packages/text-field/helper-text/index.scss";
 const TextFieldHelperTextScreenshotTest = () => {
   return (
     <div>
@@ -12,5 +9,4 @@ const TextFieldHelperTextScreenshotTest = () => {
     </div>
   );
 };
-
 export default TextFieldHelperTextScreenshotTest;
