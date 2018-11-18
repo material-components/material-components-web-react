@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import TextField, { Input } from "../../../packages/text-field";
 type TestFieldProps = {
   disabled: boolean,

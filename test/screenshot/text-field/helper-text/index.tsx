@@ -1,6 +1,8 @@
-import React from "react";
+import * as React from "react";
 import HelperText from "../../../../packages/text-field/helper-text";
+
 import "../../../../packages/text-field/helper-text/index.scss";
+
 const TextFieldHelperTextScreenshotTest = () => {
   return (
     <div>

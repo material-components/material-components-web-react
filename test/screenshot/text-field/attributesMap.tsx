@@ -1,8 +1,11 @@
-import React from "react";
+import * as React from "react";
 import { HelperText } from "../../../packages/text-field";
 import MaterialIcon from "../../../packages/material-icon/index";
+
 const icon = <MaterialIcon icon="favorite" />;
+
 const iconAlt = <MaterialIcon icon="work" />;
+
 const iconsMap = [
   {},
   { leadingIcon: icon },
