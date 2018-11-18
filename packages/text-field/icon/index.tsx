@@ -19,26 +19,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+import * as React from "react";
+import classnames from "classnames";
+import { MDCTextFieldIconFoundation } from "@material/textfield";
+export type IconProps = {
+  disabled: boolean
+};
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import {MDCTextFieldIconFoundation} from '@material/textfield/dist/mdc.textfield';
+type IconState = {
+  tabindex: number | string,
+  role: string,
+};
 
-export default class Icon extends React.Component {
+export default class Icon extends React.Component<
+  IconProps,
+  IconState
+> {
+  foundation_: MDCTextFieldIconFoundation;
 
-  foundation_ = null;
+  static defaultProps = {
+    disabled: false
+  };
 
   constructor(props) {
     super(props);
     const {
       tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
-      role,
+      role
     } = props.children.props;
-
     this.state = {
       tabindex,
-      role,
+      role
     };
   }
 
@@ -59,35 +70,31 @@ export default class Icon extends React.Component {
   componentWillUnmount() {
     this.foundation_.destroy();
   }
-
   get adapter() {
     return {
-      getAttr: (attr) => this.state[attr],
-      setAttr: (attr, value) => this.setState({[attr]: value}),
-      removeAttr: (attr) => this.setState({[attr]: null}),
+      getAttr: attr => this.state[attr],
+      setAttr: (attr: keyof IconState, value: string) => (
+        this.setState((prevState) => ({...prevState, [attr]: value }))
+      ),
+      removeAttr: (attr: keyof IconState) => (
+        this.setState((prevState) => ({...prevState, [attr]: null }))
+      ),
     };
   }
 
   addIconAttrsToChildren = () => {
-    const {tabindex: tabIndex, role} = this.state;
+    const { tabindex: tabIndex, role } = this.state;
     const child = React.Children.only(this.props.children);
-    const className = classnames('mdc-text-field__icon', child.props.className);
+    const className = classnames("mdc-text-field__icon", child.props.className);
     const props = Object.assign({}, child.props, {
-      className, tabIndex, role,
+      className,
+      tabIndex,
+      role
     });
     return React.cloneElement(child, props);
-  }
-
+  };
   render() {
     return this.addIconAttrsToChildren();
   }
 }
 
-Icon.propTypes = {
-  children: PropTypes.element.isRequired,
-  disabled: PropTypes.bool,
-};
-
-Icon.defaultProps = {
-  disabled: false,
-};

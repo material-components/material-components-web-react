@@ -19,19 +19,39 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+import * as React from "react";
+import classnames from "classnames";
+import {MDCLineRippleFoundation} from "@material/line-ripple";
 
-import React, {Component} from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import {MDCLineRippleFoundation} from '@material/line-ripple/dist/mdc.lineRipple';
+export type LineRippleProps = {
+  className?: string,
+  style?: object,
+  active?: boolean,
+  rippleCenter: number | 0
+};
 
-export default class LineRipple extends Component {
+type LineRippleState = {
+  classList: Set<any>,
+  style: {}
+};
 
-  foundation_ = null;
+export default class LineRipple extends React.Component<
+  LineRippleProps,
+  LineRippleState
+> {
+
+  static defaultProps = {
+    className: "",
+    style: {},
+    active: false,
+    // rippleCenter: 0
+  };
+  
+  foundation_: null | MDCLineRippleFoundation;
 
   state = {
     classList: new Set(),
-    style: {},
+    style: {}
   };
 
   componentDidMount() {
@@ -53,7 +73,10 @@ export default class LineRipple extends Component {
     // isNaN checks are a temporary fix until MDC Web has fix
     // https://github.com/material-components/material-components-web-react/issues/275
     // https://github.com/material-components/material-components-web/issues/3643
-    if (this.props.rippleCenter !== prevProps.rippleCenter && !isNaN(this.props.rippleCenter)) {
+    if (
+      this.props.rippleCenter !== prevProps.rippleCenter &&
+      !isNaN(this.props.rippleCenter)
+    ) {
       this.foundation_.setRippleCenter(this.props.rippleCenter);
     }
   }
@@ -64,36 +87,36 @@ export default class LineRipple extends Component {
 
   get adapter() {
     return {
-      addClass: (className) =>
-        this.setState({classList: this.state.classList.add(className)}),
-      removeClass: (className) => {
-        const {classList} = this.state;
+      addClass: className =>
+        this.setState({ classList: this.state.classList.add(className) }),
+      removeClass: className => {
+        const { classList } = this.state;
         classList.delete(className);
-        this.setState({classList});
+        this.setState({ classList });
       },
-      hasClass: (className) => this.state.classList.has(className),
-      setStyle: this.setStyle,
+      hasClass: className => this.state.classList.has(className),
+      setStyle: this.setStyle
     };
   }
 
   get classes() {
-    const {className} = this.props;
-    const {classList} = this.state;
-    return classnames('mdc-line-ripple', Array.from(classList), className);
+    const { className } = this.props;
+    const { classList } = this.state;
+    return classnames("mdc-line-ripple", Array.from(classList), className);
   }
 
   setStyle = (varName, value) => {
     const styleName = varName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
     const updatedStyle = Object.assign({}, this.state.style);
     updatedStyle[styleName] = value;
-    this.setState({style: updatedStyle});
-  }
+    this.setState({ style: updatedStyle });
+  };
 
   getMergedStyles = () => {
-    const {style: wrappedStyle} = this.props;
-    const {style} = this.state;
+    const { style: wrappedStyle } = this.props;
+    const { style } = this.state;
     return Object.assign({}, style, wrappedStyle);
-  }
+  };
 
   render() {
     const {
@@ -103,26 +126,14 @@ export default class LineRipple extends Component {
       rippleCenter, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
+
     return (
       <div
         className={this.classes}
         style={this.getMergedStyles()}
-        onTransitionEnd={(evt) => this.foundation_.handleTransitionEnd(evt)}
-        {...otherProps}></div>
+        onTransitionEnd={evt => this.foundation_.handleTransitionEnd(evt)}
+        {...otherProps}
+      />
     );
   }
 }
-
-LineRipple.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  active: PropTypes.bool,
-  rippleCenter: PropTypes.number,
-};
-
-LineRipple.defaultProps = {
-  className: '',
-  style: {},
-  active: false,
-  rippleCenter: 0,
-};
