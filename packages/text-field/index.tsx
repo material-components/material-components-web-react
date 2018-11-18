@@ -19,17 +19,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-import { MDCTextFieldFoundation } from "@material/textfield/dist/mdc.textfield";
-import Input from "./Input";
-import Icon from "./icon";
-import HelperText from "./helper-text";
-import FloatingLabel from "@material/react-floating-label";
-import LineRipple from "@material/react-line-ripple";
-import NotchedOutline from "@material/react-notched-outline";
-type TextFieldProps = {
-  "children.props"?: any,
+import * as React from 'react';
+import classnames from 'classnames';
+import { MDCTextFieldFoundation } from '@material/textfield';
+import Input from './Input';
+import Icon from './icon/index';
+import HelperText from './helper-text/index';
+import FloatingLabel from '@material/react-floating-label';
+import LineRipple from '@material/react-line-ripple';
+import NotchedOutline from '@material/react-notched-outline';
+
+export type TextFieldProps = {
+  'children.props'?: any,
   children?: JSX.Element,
   className?: string,
   dense?: boolean,
@@ -45,6 +46,7 @@ type TextFieldProps = {
   textarea?: boolean,
   trailingIcon?: JSX.Element
 };
+
 type TextFieldState = {
   foundation: any | null,
   value: null,
@@ -57,12 +59,30 @@ type TextFieldState = {
   initialLabelWidth: number,
   notchedLabelWidth: number,
   activeLineRipple: boolean,
-  lineRippleCenter: null,
+  lineRippleCenter: number,
   outlineIsNotched: boolean,
   showHelperTextToScreenReader: boolean,
   isValid: boolean
 };
+
 class TextField extends React.Component<TextFieldProps, TextFieldState> {
+  floatingLabelElement: React.RefObject<FloatingLabel>;
+  inputComponent_: null | Input;
+
+  static defaultProps = {
+    className: '',
+    dense: false,
+    floatingLabelClassName: '',
+    fullWidth: false,
+    isRtl: false,
+    leadingIcon: null,
+    lineRippleClassName: '',
+    notchedOutlineClassName: '',
+    outlined: false,
+    textarea: false,
+    trailingIcon: null
+  };
+
   constructor(props) {
     super(props);
     this.floatingLabelElement = React.createRef();
@@ -73,7 +93,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       classList: new Set(),
       inputId: props.children.props.id,
       isFocused: false,
-      dir: "ltr",
+      dir: 'ltr',
       disabled: false,
       // floating label state
       labelIsFloated: false,
@@ -81,7 +101,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       notchedLabelWidth: 0,
       // line ripple state
       activeLineRipple: false,
-      lineRippleCenter: null,
+      lineRippleCenter: 0,
       // notched outline state
       outlineIsNotched: false,
       // helper text state
@@ -92,14 +112,16 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       foundation: null
     };
   }
+
   componentDidMount() {
-    const foundationMap = {
+    const foundationMap: object = {
       helperText: this.helperTextAdapter
-    };
+  };
     const foundation = new MDCTextFieldFoundation(this.adapter, foundationMap);
     this.setState({ foundation });
     foundation.init();
   }
+
   componentWillUnmount() {
     this.state.foundation.destroy();
   }
@@ -117,16 +139,18 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       trailingIcon,
       leadingIcon
     } = this.props;
-    return classnames("mdc-text-field", Array.from(classList), className, {
-      "mdc-text-field--outlined": outlined,
-      "mdc-text-field--textarea": textarea,
-      "mdc-text-field--fullwidth": fullWidth,
-      "mdc-text-field--disabled": disabled,
-      "mdc-text-field--with-trailing-icon": trailingIcon,
-      "mdc-text-field--with-leading-icon": leadingIcon,
-      "mdc-text-field--dense": dense
+
+    return classnames('mdc-text-field', Array.from(classList), className, {
+      'mdc-text-field--outlined': outlined,
+      'mdc-text-field--textarea': textarea,
+      'mdc-text-field--fullwidth': fullWidth,
+      'mdc-text-field--disabled': disabled,
+      'mdc-text-field--with-trailing-icon': trailingIcon,
+      'mdc-text-field--with-leading-icon': leadingIcon,
+      'mdc-text-field--dense': dense
     });
   }
+
   get otherProps() {
     const {
       /* eslint-disable no-unused-vars */
@@ -149,6 +173,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
     } = this.props;
     return otherProps;
   }
+
   get adapter() {
     const rootAdapterMethods = {
       addClass: className =>
@@ -158,10 +183,11 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
         classList.delete(className);
         this.setState({ classList });
       },
-      hasClass: className => this.classes.split(" ").includes(className),
+      hasClass: className => this.classes.split(' ').includes(className),
       isFocused: () => this.state.isFocused,
       isRtl: () => this.props.isRtl
     };
+
     return Object.assign(
       {},
       rootAdapterMethods,
@@ -194,7 +220,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
           validity: { badInput, valid }
         };
         // https://stackoverflow.com/a/44913378
-        Object.defineProperty(input, "value", {
+        Object.defineProperty(input, 'value', {
           get: () => this.state.value,
           // set value doesn't need to be done, since value is set via <Input>
           // needs setter here so it browser doesn't throw error
@@ -248,14 +274,14 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       handleFocusChange: isFocused => this.setState({ isFocused }),
       handleValueChange: (value, cb) => this.setState({ value }, cb),
       setDisabled: disabled => this.setState({ disabled }),
-      setInputId: id => this.setState({ inputId: id }),
+      setInputId: (id) => this.setState({ inputId: id }),
       ref: input => {
-        if (typeof ref === "function") {
+        if (typeof ref === 'function') {
           ref(input);
         }
         this.inputComponent_ = input;
       },
-      inputType: this.props.textarea ? "textarea" : "input"
+      inputType: this.props.textarea ? 'textarea' : 'input'
     });
   }
   /**
@@ -278,7 +304,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
         className={this.classes}
         onClick={() => foundation && foundation.handleTextFieldInteraction()}
         onKeyDown={() => foundation && foundation.handleTextFieldInteraction()}
-        key="text-field-container"
+        key='text-field-container'
       >
         {leadingIcon ? this.renderIcon(leadingIcon) : null}
         {foundation ? this.renderInput() : null}
@@ -340,6 +366,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
   }
   renderHelperText() {
     const { helperText } = this.props;
+    if (!helperText) return;
     const {
       isValid,
       showHelperTextToScreenReader: showToScreenReader
@@ -348,7 +375,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       {
         showToScreenReader,
         isValid,
-        key: "text-field-helper-text"
+        key: 'text-field-helper-text'
       },
       helperText.props
     );
@@ -360,19 +387,6 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
     return <Icon disabled={disabled}>{icon}</Icon>;
   }
 }
-TextField.defaultProps = {
-  className: "",
-  dense: false,
-  floatingLabelClassName: "",
-  fullWidth: false,
-  helperText: null,
-  isRtl: false,
-  leadingIcon: null,
-  lineRippleClassName: "",
-  notchedOutlineClassName: "",
-  outlined: false,
-  textarea: false,
-  trailingIcon: null
-};
+
 export { Icon, HelperText, Input };
 export default TextField;

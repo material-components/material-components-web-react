@@ -10,13 +10,16 @@ module.exports = {
     filename: 'bundle.js',
     path: __dirname,
   },
+  resolve: {
+    extensions: [ '.ts', '.tsx', '.js', '.jsx', '.json'],
+  },
   module: {
     rules: [{
       test: /\.js$/,
       loader: 'babel-loader',
       query: {compact: true},
     }, {
-      test: /\.tsx$/,
+      test: /\.tsx?$/,
       loader: 'ts-loader',
     }, {
       test: /\.scss$/,

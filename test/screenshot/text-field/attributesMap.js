@@ -1,5 +1,5 @@
 import React from 'react';
-import {HelperText} from '../../../packages/text-field/index';
+import {HelperText} from '../../../packages/text-field/index.tsx';
 import MaterialIcon from '../../../packages/material-icon/index';
 
 const icon = <MaterialIcon icon='favorite' />;
