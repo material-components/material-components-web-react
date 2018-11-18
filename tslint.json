@@ -1,0 +1,15 @@
+{
+  "lintOptions": {
+    "typeCheck": true
+  },
+  "defaultSeverity": "warning",
+  "rules": {
+    "quotemark": [true, "single", "avoid-escape"],
+    "max-line-length": [false],
+    "indent": ["error", 2],
+    "only-arrow-functions": [false],
+    "object-curly-spacing": ["error", "never"],
+    // Disabled rules
+    "typedef": [false]
+  }
+}

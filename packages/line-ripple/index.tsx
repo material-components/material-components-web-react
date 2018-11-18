@@ -27,7 +27,7 @@ export type LineRippleProps = {
   className?: string,
   style?: object,
   active?: boolean,
-  rippleCenter: number | 0
+  rippleCenter?: number
 };
 
 type LineRippleState = {
@@ -44,7 +44,7 @@ export default class LineRipple extends React.Component<
     className: "",
     style: {},
     active: false,
-    // rippleCenter: 0
+    rippleCenter: 0
   };
 
   foundation_: null | MDCLineRippleFoundation;
@@ -73,11 +73,12 @@ export default class LineRipple extends React.Component<
     // isNaN checks are a temporary fix until MDC Web has fix
     // https://github.com/material-components/material-components-web-react/issues/275
     // https://github.com/material-components/material-components-web/issues/3643
+    const {rippleCenter} = this.props;
     if (
-      this.props.rippleCenter !== prevProps.rippleCenter &&
-      !isNaN(this.props.rippleCenter)
+      rippleCenter && rippleCenter !== prevProps.rippleCenter &&
+      !isNaN(rippleCenter)
     ) {
-      this.foundation_.setRippleCenter(this.props.rippleCenter);
+      this.foundation_.setRippleCenter(rippleCenter);
     }
   }
 
