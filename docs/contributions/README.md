@@ -3,9 +3,11 @@
 MDC React is an open source project, so we encourage contributions! If you are
 looking for a bug to fix, check out [Help Wanted Issues](https://github.com/material-components/material-components-web-react/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) on GitHub. Otherwise please open a [new issue](https://github.com/material-components/material-components-web-react/issues/new).
 
+Please follow all our [Code of Conduct Guide](https://github.com/material-components/material-components/blob/develop/CODE_OF_CONDUCT.md).
+
 ## Fixing a Bug or Adding a Feature
 
-MDC React's goal is to build in parity of [MDC Web](https://github.com/material-components/material-components-web). MDCR's features should have a 1:1 mapping within the constraints of React. If there is part of the API you disagree with please open a [new issue](https://github.com/material-components/material-components-web-react/issues/new). Depending on the content it may fall to MDC Web's plate, which trickles to MDCR a release later.
+MDC React's goal is to build in parity of [MDC Web](https://github.com/material-components/material-components-web). MDCR's features should have a 1:1 mapping within the constraints of React. If there is part of the API you disagree with please open a [new issue](https://github.com/material-components/material-components-web-react/issues/new). Depending on the content it may fall to MDC Web's work queue, which trickles to MDC React to a later release.
 
 **When in doubt open an issue. We're here to _hear_ you!**
 
@@ -14,7 +16,7 @@ MDC React's goal is to build in parity of [MDC Web](https://github.com/material-
 We consider any new API to be a new feature. An API is any of the following:
 
 * Update to React Component APIs
-* Other hooks into React Component
+* Prop updates on React Component
 * Adding a new component
 
 If changes fall under these categories or you'd like to add a new component please open an [issue](https://github.com/material-components/material-components-web-react/issues/new) _first_. The team wants to collaborate with you before you dive head first into making changes and updates.
@@ -68,6 +70,6 @@ Before opening a PR, it should be up to date with targeted release (rc<release_n
 Once you have passed all checks, the process is as follows:
 
 1. Ping one of the admins ([@bonniezhou](https://github.com/bonniezhou), [@moog16](https://github.com/moog16)) in the PR to notify us its ready for review.
-1. We will either approve, request changes, or deny changes. And we'll work from there.
+1. We will either approve, request changes, or explain why we can't accept these changes. And we'll work from there.
 1. Assuming approval, one of the admins will open a new PR so that tests are run on [TravisCI](https://travis-ci.com/material-components/material-components-web-react).
 1. Once tests pass, an admin will close the Test PR and merge your PR.
