@@ -7,7 +7,7 @@ Please follow all our [Code of Conduct Guide](https://github.com/material-compon
 
 ## Fixing a Bug or Adding a Feature
 
-MDC React's goal is to build in parity of [MDC Web](https://github.com/material-components/material-components-web). MDCR's features should have a 1:1 mapping within the constraints of React. If there is part of the API you disagree with please open a [new issue](https://github.com/material-components/material-components-web-react/issues/new). Depending on the content it may fall to MDC Web's work queue, which trickles to MDC React to a later release.
+MDC React's goal is to build in parity of [MDC Web](https://github.com/material-components/material-components-web). MDCR's features should have a 1:1 mapping within the constraints of React. If there is part of the API you disagree with please open a [new issue](https://github.com/material-components/material-components-web-react/issues/new). Depending on the content it may fall to MDC Web's work queue, which MDC React will add in a later release.
 
 **When in doubt open an issue. We're here to _hear_ you!**
 
