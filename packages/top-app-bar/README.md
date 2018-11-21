@@ -61,6 +61,7 @@ navigationIcon | Element | Appears adjacent to the title. This acts as the main 
 short | n/a | Enables short variant.
 shortCollapsed | n/a | Enables short collapsed variant.
 prominent | n/a | Enables prominent variant.
+fixed | n/a | Enables fixed variant.
 
 > NOTE: As per design guidelines, prominent variant should not be used with short or short collapsed.
 
