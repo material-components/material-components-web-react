@@ -1,6 +1,6 @@
 import React from 'react';
-import Tab from '../../../packages/tab';
-import TabBar from '../../../packages/tab-bar';
+import Tab from '../../../packages/tab/index';
+import TabBar from '../../../packages/tab-bar/index';
 
 import './index.scss';
 
@@ -8,6 +8,8 @@ class TabBarTest extends React.Component {
   state = {
     activeIndex: this.props.activeIndex || 0, // eslint-disable-line react/prop-types
   };
+
+  handleActiveIndexUpdate = (activeIndex) => this.setState({activeIndex});
 
   render() {
     const {
@@ -39,7 +41,7 @@ class TabBarTest extends React.Component {
           isRtl={isRtl}
           className={className}
           activeIndex={this.state.activeIndex}
-          handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
+          handleActiveIndexUpdate={this.handleActiveIndexUpdate}
         >
           {[...Array(numTabs).keys()].map(renderTab)}
         </TabBar>
@@ -57,7 +59,7 @@ const TabBarScreenshotTest = () => {
       <div className='tab-bar-container'>
         <TabBarTest numTabs={3} hasUpdateActiveIndexButton />
       </div>
-
+{/*
       Sliding Underline
       <div className='tab-bar-container'>
         <TabBarTest numTabs={3} />
@@ -94,7 +96,7 @@ const TabBarScreenshotTest = () => {
       Scrolling RTL Tabs
       <div className='tab-bar-container'>
         <TabBarTest numTabs={20} isRtl />
-      </div>
+      </div> */}
     </div>
   );
 };

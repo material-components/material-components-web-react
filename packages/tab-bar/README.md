@@ -38,12 +38,14 @@ import TabBar from '@material/react-tab-bar';
 class MyApp extends React.Component {
   state = {activeIndex: 0};
 
+  handleActiveIndexUpdate = (activeIndex) => this.setState({activeIndex});
+
   render() {
     return (
       <div>
         <TabBar
           activeIndex={this.state.activeIndex}
-          handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
+          handleActiveIndexUpdate={this.handleActiveIndexUpdate}
         >
           <Tab>
             <span className='mdc-tab__text-label'>One</span>
