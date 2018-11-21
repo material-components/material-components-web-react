@@ -15,11 +15,13 @@ npm install @material/react-tab
 with Sass:
 ```scss
 import '@material/react-tab/index.scss';
+import '@material/react-tab-indicator/index.scss';
 ```
 
 with CSS:
 ```css
 import '@material/react-tab/dist/tab.css';
+import '@material/react-tab-indicator/dist/tab-indicator.css';
 ```
 
 ### Javascript Instantiation
