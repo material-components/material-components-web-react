@@ -413,6 +413,7 @@ onClose | Function() => void | Callback after the drawer has closed.
 modal | Boolean | Indicates that the drawer is of type modal.
 dismissible | Boolean | Indicates that the drawer is of type dismissible.
 tag | String | Customizes the drawer tag type (default to `<aside>`).
+open | boolean | If true, opens drawer. If false, closes drawer.
 
 ## Sass Mixins
 
