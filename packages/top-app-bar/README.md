@@ -58,10 +58,10 @@ actionItems | Array | Accepts an array of elements that should be rendered to th
 className | String | Classes to be applied to the root element.
 title | String | The title of the Top App Bar.
 navigationIcon | Element | Appears adjacent to the title. This acts as the main action of the Top App Bar.
-short | n/a | Enables short variant.
-shortCollapsed | n/a | Enables short collapsed variant.
-prominent | n/a | Enables prominent variant.
-fixed | n/a | Enables fixed variant.
+short | Boolean | Enables short variant.
+shortCollapsed | Boolean | Enables short collapsed variant.
+prominent | Boolean | Enables prominent variant.
+fixed | Boolean | Enables fixed variant.
 
 > NOTE: As per design guidelines, prominent variant should not be used with short or short collapsed.
 
