@@ -4,7 +4,6 @@ import './index.scss';
 import Switch from '../../../packages/switch';
 
 class SelectTest extends React.Component {
-
   render() {
     return (<div>
       <Switch />
