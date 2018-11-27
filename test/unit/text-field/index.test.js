@@ -288,15 +288,15 @@ test('#events.onKeyDown triggers #foundation.handleTextFieldInteraction', () => 
 
 test('renders leadingIcon if passed as prop', () => {
   const wrapper = shallow(<TextField label='my label'
-    leadingIcon={<i className='test-class-name-icon' />}
-  ><Input /></TextField>);
+      leadingIcon={<i className='test-class-name-icon' />}
+    ><Input /></TextField>);
   assert.equal(wrapper.find('.test-class-name-icon').length, 1);
 });
 
 test('renders trailingIcon if passed as prop', () => {
   const wrapper = shallow(<TextField label='my label'
-    trailingIcon={<i className='test-class-name-icon' />}
-  ><Input /></TextField>);
+      trailingIcon={<i className='test-class-name-icon' />}
+    ><Input /></TextField>);
   assert.equal(wrapper.find('.test-class-name-icon').length, 1);
 });
 

@@ -27,6 +27,7 @@ import classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
 export class Fab extends React.Component {
+
   get classes() {
     const {
       mini,
@@ -82,13 +83,13 @@ export class Fab extends React.Component {
     } = this.props;
 
     return (
-      <button
-        className={this.classes}
-        ref={initRipple}
-        {...otherProps}>
-        {this.renderIcon()}
-        {this.renderTextLabel()}
-      </button>
+        <button
+          className={this.classes}
+          ref={initRipple}
+          {...otherProps}>
+          {this.renderIcon()}
+          {this.renderTextLabel()}
+        </button>
     );
   }
 }

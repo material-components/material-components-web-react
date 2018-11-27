@@ -26,6 +26,7 @@ import classnames from 'classnames';
 import {MDCTextFieldHelperTextFoundation} from '@material/textfield/dist/mdc.textfield';
 
 export default class HelperText extends React.Component {
+
   foundation_ = null;
 
   constructor(props) {

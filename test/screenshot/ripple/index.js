@@ -6,7 +6,7 @@ import './index.scss';
 
 /*eslint-disable */
 const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) => {
-/* eslint-enable */
+/*eslint-enable */
   const classes = `ripple-test-component ${className}`;
   return (
     <div

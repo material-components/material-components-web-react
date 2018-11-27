@@ -26,6 +26,7 @@ import classnames from 'classnames';
 import {MDCMenuSurfaceFoundation, Corner} from '@material/menu-surface';
 
 class MenuSurface extends React.Component {
+
   menuSurfaceElement_ = React.createRef();
   previousFocus_ = null;
   foundation_ = null;

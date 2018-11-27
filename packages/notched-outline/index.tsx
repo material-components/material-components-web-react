@@ -48,7 +48,7 @@ export default class NotchedOutline extends React.Component<
     notch: false,
     notchWidth: 0
   };
-
+  
   state = {
     classList: new Set()
   };
@@ -61,11 +61,11 @@ export default class NotchedOutline extends React.Component<
       this.foundation_.notch(notchWidth, isRtl);
     }
   }
-
+  
   componentWillUnmount() {
     this.foundation_.destroy();
   }
-
+  
   componentDidUpdate(prevProps) {
     const hasToggledNotch = this.props.notch !== prevProps.notch;
     const hasToggleRtl = this.props.isRtl !== prevProps.isRtl;
@@ -82,13 +82,13 @@ export default class NotchedOutline extends React.Component<
       this.foundation_.closeNotch();
     }
   }
-
+  
   get classes() {
     const { classList } = this.state;
     const { className } = this.props;
     return classnames("mdc-notched-outline", Array.from(classList), className);
   }
-
+  
   get adapter() {
     return {
       getWidth: () => this.outlineElement_.current ? this.outlineElement_.current.offsetWidth : 0,
