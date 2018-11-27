@@ -8,7 +8,6 @@ sudo: required
 branches:
   only:
     - master
-    - rc7.0
 
 matrix:
   include:
