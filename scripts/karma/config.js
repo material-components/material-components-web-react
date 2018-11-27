@@ -1,6 +1,5 @@
 // Karma configuration
 // Generated on Tue Mar 06 2018 14:20:28 GMT-0800 (PST)
-const path = require('path');
 
 module.exports = {
   // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -14,7 +13,7 @@ module.exports = {
 
   // list of files / patterns to load in the browser
   files: [
-    'test/unit/index.js'
+    'test/unit/index.js',
   ],
 
 
@@ -25,7 +24,7 @@ module.exports = {
   // preprocess matching files before serving them to the browser
   // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
   preprocessors: {
-    'test/unit/index.js': ['webpack']
+    'test/unit/index.js': ['webpack'],
   },
 
   webpack: {
@@ -43,12 +42,15 @@ module.exports = {
                 'env',
                 'react',
               ],
-              plugins: ['transform-class-properties', 'istanbul']
-            }
-          }
-        }
-      ]
-    }
+              plugins: ['transform-class-properties', 'istanbul'],
+            },
+          },
+        }, {
+          test: /\.tsx?$/,
+          loader: 'ts-loader',
+        },
+      ],
+    },
   },
 
   client: {
@@ -75,15 +77,12 @@ module.exports = {
   // web server port
   port: 9876,
 
-
   // enable / disable colors in the output (reporters and logs)
   colors: true,
-
 
   // level of logging
   // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
   // logLevel: config.LOG_INFO,
-
 
   // enable / disable watching file and executing tests whenever any file changes
   autoWatch: false,
