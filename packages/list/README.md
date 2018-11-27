@@ -227,7 +227,7 @@ tabIndex | Number | Tab index of the list item graphic
 tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item graphic. If false, the tab index will always be -1
 graphic | Element | The graphic element to be displayed in front of list item text
 
-### ListItemGraphic
+### ListItemMeta
 
 Prop Name | Type | Description
 --- | --- | ---
