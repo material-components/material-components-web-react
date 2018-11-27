@@ -2,7 +2,6 @@ import React from 'react';
 import DrawerTest from './DrawerTest';
 
 class PermanentToModalDrawerScreenshotTest extends React.Component {
-
   state = {
     isPhone: window.innerWidth < 599,
   };

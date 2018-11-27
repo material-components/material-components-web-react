@@ -8,7 +8,7 @@ sudo: required
 branches:
   only:
     - master
-    - rc0.7.x
+    - feat/typescript
 
 matrix:
   include:

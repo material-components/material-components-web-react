@@ -25,10 +25,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import {MDCRippleFoundation, util} from '@material/ripple/dist/mdc.ripple';
+/* TODO: remove when converting from JSX to TSX */
+/* eslint-disable */
 
 const withRipple = (WrappedComponent) => {
   class RippledComponent extends Component {
-
     foundation_ = null;
 
     isMounted_ = true;
@@ -254,6 +255,8 @@ const withRipple = (WrappedComponent) => {
 
   return RippledComponent;
 };
+
+/* eslint-enable */
 
 function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';
