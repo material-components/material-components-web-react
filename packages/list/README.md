@@ -1,5 +1,3 @@
-> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
-
 # React List
 
 A React version of an [MDC List](https://github.com/material-components/material-components-web/tree/master/packages/mdc-list).
@@ -112,11 +110,9 @@ class MyApp extends Component {
 }
 ```
 
-### List groups
+### List groups and list dividers
 
-Multiple related lists can be grouped together using the `ListGroup` component. Optional subheaders can be added using `ListGroupSubheader`.
-
-> _NOTE_: You can override the element that the `ListGroup` or `ListGroupSubheader` renders by passing in a `tag` prop. By default, `ListGroup` renders a `div` and `ListGroupSubheader` renders an `h3`.
+Multiple related lists can be grouped together using the `ListGroup` component. Optional subheaders can be added using `ListGroupSubheader`. `ListDivider`s can be used to separate content either within a list or between lists.
 
 ```js
 import React, {Component} from 'react';
@@ -131,6 +127,7 @@ class MyApp extends Component {
           <ListItem><ListItemText primaryText='Photos' /></ListItem>
           ...
         </List>
+        <ListDivider />
         <ListGroupSubheader tag='h2'>Recent Files</ListGroupSubheader>
         <List>
           <ListItem><ListItemText primaryText='Vacation' /></ListItem>
@@ -238,6 +235,29 @@ className | String | Classes to be applied to the list item meta element
 tabIndex | Number | Tab index of the list item meta
 tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item meta. If false, the tab index will always be -1
 meta | Element or String | The meta element or string to be displayed behind list item text
+
+### ListDivider
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the list divider
+tag | String | Element tag of the list divider, defaults to `li`
+role | String | ARIA role of the list divider, defaults to `separator`
+
+### ListGroup
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the list group
+tag | String | Element tag of the list group, defaults to `div`
+
+
+### ListGroupSubheader
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the list group subheader
+tag | String | Element tag of the list group subheader, defaults to `h3`
 
 ## Sass Mixins
 

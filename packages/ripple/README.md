@@ -1,5 +1,3 @@
-> ✨ Are you a part of the Material Design web community? Help us improve by filling out this <a href='https://bit.ly/materialwebsurvey'>**10 minute survey**</a>. ✨
-
 # React Ripple
 
 A React version of an [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple).
@@ -17,6 +15,19 @@ npm install @material/react-ripple
 with Sass:
 ```js
 import '@material/react-ripple/index.scss';
+```
+
+You'll also need to include these sass mixins on the element. Please also refer to [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-ripple/README.md#sass-apis) to customize further.
+
+```sass
+@import "@material/ripple/index.scss";
+
+// refer to element in Javascript portion below
+.ripple-icon-component {
+  @include mdc-ripple-surface;
+  @include mdc-ripple-radius-bounded;
+  @include mdc-states;
+}
 ```
 
 with CSS:

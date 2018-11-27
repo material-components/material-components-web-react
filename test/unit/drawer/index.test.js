@@ -49,6 +49,36 @@ test('when props.open updates to false from true, #foundation.close is called wh
   td.verify(wrapper.instance().foundation_.close(), {times: 1});
 });
 
+test('when changes from permanent to modal drawer with no foundation, creates a foundation', () => {
+  const wrapper = shallow(<Drawer />);
+  assert.notExists(wrapper.instance().foundation_);
+  wrapper.setProps({modal: true});
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from permanent to dismissible drawer with no foundation, creates a foundation', () => {
+  const wrapper = shallow(<Drawer />);
+  assert.notExists(wrapper.instance().foundation_);
+  wrapper.setProps({dismissible: true});
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when the drawer changes from dismissible to modal the foundation changes ', () => {
+  const wrapper = shallow(<Drawer dismissible />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({modal: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when the drawer changes from dismissible to modal the original foundation calls destroy', () => {
+  const wrapper = shallow(<Drawer dismissible />);
+  const destroy = td.func();
+  wrapper.instance().foundation_ = {destroy};
+  wrapper.setProps({modal: true});
+  td.verify(destroy(), {times: 1});
+});
+
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<Drawer dismissible />);
   const foundation = wrapper.instance().foundation_;
@@ -156,17 +186,20 @@ test('#adapter.notifyOpen calls props.onOpen', () => {
   td.verify(onOpen(), {times: 1});
 });
 
-test('#adapter.trapFocus sets state.activeFocusTrap to true', () => {
+test('#adapter.trapFocus calls focusTrap.activate if modal variant', () => {
   const wrapper = shallow(<Drawer modal />);
+  const activate = td.func();
+  wrapper.instance().focusTrap_ = {activate};
   wrapper.instance().foundation_.adapter_.trapFocus();
-  assert.isTrue(wrapper.state().activeFocusTrap);
+  td.verify(activate(), {times: 1});
 });
 
-test('#adapter.releaseFocus sets state.activeFocusTrap to false', () => {
+test('#adapter.releaseFocus calls focusTrap.deactivate if modal variant', () => {
   const wrapper = shallow(<Drawer modal />);
-  wrapper.setState({activeFocusTrap: false});
+  const deactivate = td.func();
+  wrapper.instance().focusTrap_ = {deactivate};
   wrapper.instance().foundation_.adapter_.releaseFocus();
-  assert.isFalse(wrapper.state().activeFocusTrap);
+  td.verify(deactivate(), {times: 1});
 });
 
 test('event keydown triggers props.onKeyDown', () => {
@@ -199,19 +232,6 @@ test('event transitionend triggers foundation.handleTransitionEnd', () => {
   const evt = {test: 'test'};
   wrapper.childAt(0).simulate('transitionend', evt);
   td.verify(wrapper.instance().foundation_.handleTransitionEnd(evt), {times: 1});
-});
-
-test('renders child when state.activeFocusTrap is false', () => {
-  const wrapper = shallow(<Drawer><span>meow</span></Drawer>);
-  const text = wrapper.childAt(0).childAt(0).text();
-  assert.equal(text, 'meow');
-});
-
-test('renders FocusTrap with children when state.activeFocusTrap is true', () => {
-  const wrapper = shallow(<Drawer><span>meow</span></Drawer>);
-  wrapper.setState({activeFocusTrap: true});
-  assert.equal(wrapper.childAt(0).childAt(0).name(), 'FocusTrap');
-  assert.equal(wrapper.childAt(0).childAt(0).childAt(0).text(), 'meow');
 });
 
 test('does not render scrim when props.modal is false', () => {
