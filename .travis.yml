@@ -5,10 +5,10 @@ git:
 dist: trusty
 sudo: required
 
-  branches:
-    only:
-      - master
-      - rc0.7.x
+branches:
+  only:
+    - master
+    - rc0.7.x
 
 matrix:
   include:
