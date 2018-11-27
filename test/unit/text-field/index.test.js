@@ -2,7 +2,7 @@ import React from 'react';
 import td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-import TextField, {HelperText, Input} from '../../../packages/text-field/index';
+import TextField, {HelperText, Input} from '../../../packages/text-field/index.tsx';
 
 suite('Text Field');
 

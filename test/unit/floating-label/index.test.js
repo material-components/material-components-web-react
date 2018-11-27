@@ -2,7 +2,7 @@ import React from 'react';
 import td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-import FloatingLabel from '../../../packages/floating-label/index';
+import FloatingLabel from '../../../packages/floating-label/index.tsx';
 
 suite('Floating Label');
 

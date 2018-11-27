@@ -2,7 +2,7 @@ import React from 'react';
 import {assert} from 'chai';
 import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
-import NotchedOutline from '../../../packages/notched-outline/index';
+import NotchedOutline from '../../../packages/notched-outline/index.tsx';
 
 suite('NotchedOutline');
 

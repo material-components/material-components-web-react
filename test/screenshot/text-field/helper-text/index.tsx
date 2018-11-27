@@ -1,5 +1,5 @@
 import * as React from "react";
-import HelperText from "../../../../packages/text-field/helper-text";
+import HelperText from "../../../../packages/text-field/helper-text/index";
 
 import "../../../../packages/text-field/helper-text/index.scss";
 
