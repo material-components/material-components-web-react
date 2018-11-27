@@ -31,6 +31,7 @@ import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
 
 export default class Select extends React.Component {
+
   foundation_ = null;
 
   constructor(props) {

@@ -26,6 +26,7 @@ import classnames from 'classnames';
 import {MDCTextFieldIconFoundation} from '@material/textfield/dist/mdc.textfield';
 
 export default class Icon extends React.Component {
+
   foundation_ = null;
 
   constructor(props) {

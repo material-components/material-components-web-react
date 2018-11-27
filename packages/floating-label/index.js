@@ -26,6 +26,7 @@ import classnames from 'classnames';
 import {MDCFloatingLabelFoundation} from '@material/floating-label/dist/mdc.floatingLabel';
 
 export default class FloatingLabel extends React.Component {
+
   foundation_ = null;
 
   constructor(props) {

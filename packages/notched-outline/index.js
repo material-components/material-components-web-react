@@ -26,6 +26,7 @@ import classnames from 'classnames';
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
 
 export default class NotchedOutline extends React.Component {
+
   foundation_ = null;
 
   state = {

@@ -29,6 +29,7 @@ import withRipple from '@material/react-ripple';
 import NativeControl from './NativeControl';
 
 export class Checkbox extends Component {
+
   constructor(props) {
     super(props);
     this.inputElement_ = React.createRef();
@@ -149,12 +150,12 @@ export class Checkbox extends Component {
         />
         <div className='mdc-checkbox__background'>
           <svg className='mdc-checkbox__checkmark'
-            viewBox='0 0 24 24'
-            focusable='false'
+              viewBox='0 0 24 24'
+              focusable='false'
           >
             <path className='mdc-checkbox__checkmark-path'
-              fill='none'
-              d='M1.73,12.91 8.1,19.28 22.79,4.59'/>
+                  fill='none'
+                  d='M1.73,12.91 8.1,19.28 22.79,4.59'/>
           </svg>
           <div className='mdc-checkbox__mixedmark'></div>
         </div>
