@@ -26,7 +26,6 @@ import PropTypes from 'prop-types';
 import {MDCLineRippleFoundation} from '@material/line-ripple/dist/mdc.lineRipple';
 
 export default class LineRipple extends Component {
-
   foundation_ = null;
 
   state = {

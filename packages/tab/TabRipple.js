@@ -26,7 +26,6 @@ import classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
 export class TabRipple extends React.Component {
-
   get classes() {
     return classnames('mdc-tab__ripple', this.props.className);
   }
