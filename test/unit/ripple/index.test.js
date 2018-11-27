@@ -8,13 +8,13 @@ import {createMockRaf} from '../helpers/raf';
 
 /*eslint-disable */
 const Div = ({children, className = '', initRipple, unbounded, ...otherProps}) => {
-/*eslint-enable */
+/* eslint-enable */
   const classes = `ripple-test-component ${className}`;
   return (
     <div
-    className={classes}
-    ref={initRipple} {...otherProps}>
-    {children}
+      className={classes}
+      ref={initRipple} {...otherProps}>
+      {children}
     </div>
   );
 };
