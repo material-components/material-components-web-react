@@ -30,7 +30,6 @@ import IconToggle from './IconToggle';
 const {strings} = MDCIconButtonToggleFoundation;
 
 class IconButtonBase extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

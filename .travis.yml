@@ -9,6 +9,7 @@ branches:
   only:
     - master
     - rc0.8.0
+    - feat/typescript
 
 matrix:
   include:

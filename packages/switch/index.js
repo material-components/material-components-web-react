@@ -29,7 +29,6 @@ import ThumbUnderlay from './ThumbUnderlay';
 import NativeControl from './NativeControl';
 
 export default class Switch extends Component {
-
   constructor(props) {
     super(props);
     this.rippleActivator = React.createRef();
