@@ -59,7 +59,7 @@ const TabBarScreenshotTest = () => {
       <div className='tab-bar-container'>
         <TabBarTest numTabs={3} hasUpdateActiveIndexButton />
       </div>
-{/*
+
       Sliding Underline
       <div className='tab-bar-container'>
         <TabBarTest numTabs={3} />
@@ -96,7 +96,7 @@ const TabBarScreenshotTest = () => {
       Scrolling RTL Tabs
       <div className='tab-bar-container'>
         <TabBarTest numTabs={20} isRtl />
-      </div> */}
+      </div>
     </div>
   );
 };
