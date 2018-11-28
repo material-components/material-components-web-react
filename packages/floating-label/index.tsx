@@ -19,9 +19,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import classnames from "classnames";
-import { MDCFloatingLabelFoundation } from "@material/floating-label";
+import * as React from 'react';
+import classnames from 'classnames';
+import {MDCFloatingLabelFoundation} from '@material/floating-label';
 
 export type FloatingLabelProps<T> = Props & React.LabelHTMLAttributes<T>;
 
@@ -38,7 +38,7 @@ type FloatingLabelState = {
 export default class FloatingLabel extends React.Component<
   FloatingLabelProps<object>,
   FloatingLabelState
-> {
+  > {
   foundation_: null | MDCFloatingLabelFoundation;
   labelElement: React.RefObject<HTMLLabelElement>;
 
@@ -46,13 +46,13 @@ export default class FloatingLabel extends React.Component<
     className: '',
     float: false,
   };
-  
+
   constructor(props) {
     super(props);
     this.labelElement = React.createRef();
   }
   state = {
-    classList: new Set()
+    classList: new Set(),
   };
   componentDidMount() {
     this.initializeFoundation();
@@ -77,15 +77,15 @@ export default class FloatingLabel extends React.Component<
     this.foundation_.init();
   };
   get classes() {
-    const { classList } = this.state;
-    const { className } = this.props;
-    return classnames("mdc-floating-label", Array.from(classList), className);
+    const {classList} = this.state;
+    const {className} = this.props;
+    return classnames('mdc-floating-label', Array.from(classList), className);
   }
   get adapter() {
     return {
-      addClass: className =>
-        this.setState({ classList: this.state.classList.add(className) }),
-      removeClass: this.removeClassFromClassList
+      addClass: (className) =>
+        this.setState({classList: this.state.classList.add(className)}),
+      removeClass: this.removeClassFromClassList,
     };
   }
   // must be called via ref
@@ -93,21 +93,21 @@ export default class FloatingLabel extends React.Component<
     this.foundation_.shake(true);
   };
 
-  removeClassFromClassList = className => {
-    const { classList } = this.state;
+  removeClassFromClassList = (className) => {
+    const {classList} = this.state;
     classList.delete(className);
-    this.setState({ classList });
+    this.setState({classList});
   };
 
   handleWidthChange = () => {
-    const { handleWidthChange } = this.props;
+    const {handleWidthChange} = this.props;
     if (handleWidthChange && this.labelElement.current) {
       handleWidthChange(this.labelElement.current.offsetWidth);
     }
   };
 
   onShakeEnd = () => {
-    const { LABEL_SHAKE } = MDCFloatingLabelFoundation.cssClasses;
+    const {LABEL_SHAKE} = MDCFloatingLabelFoundation.cssClasses;
     this.removeClassFromClassList(LABEL_SHAKE);
   };
 

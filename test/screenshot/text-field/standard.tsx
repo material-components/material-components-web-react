@@ -1,5 +1,5 @@
-import * as React from "react";
-import TextFieldPermutations from "./TextFieldPermutations";
+import * as React from 'react';
+import TextFieldPermutations from './TextFieldPermutations';
 const StandardTextField = () => {
   return <TextFieldPermutations />;
 };

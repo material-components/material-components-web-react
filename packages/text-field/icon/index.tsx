@@ -19,11 +19,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import classnames from "classnames";
-import { MDCTextFieldIconFoundation } from "@material/textfield";
+import * as React from 'react';
+import classnames from 'classnames';
+import {MDCTextFieldIconFoundation} from '@material/textfield';
 export type IconProps = {
-  disabled: boolean
+  disabled?: boolean
 };
 
 type IconState = {
@@ -34,22 +34,22 @@ type IconState = {
 export default class Icon extends React.Component<
   IconProps,
   IconState
-> {
+  > {
   foundation_: MDCTextFieldIconFoundation;
 
   static defaultProps = {
-    disabled: false
+    disabled: false,
   };
 
   constructor(props) {
     super(props);
     const {
       tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
-      role
+      role,
     } = props.children.props;
     this.state = {
       tabindex,
-      role
+      role,
     };
   }
 
@@ -72,24 +72,24 @@ export default class Icon extends React.Component<
   }
   get adapter() {
     return {
-      getAttr: attr => this.state[attr],
+      getAttr: (attr) => this.state[attr],
       setAttr: (attr: keyof IconState, value: string) => (
-        this.setState((prevState) => ({...prevState, [attr]: value }))
+        this.setState((prevState) => ({...prevState, [attr]: value}))
       ),
       removeAttr: (attr: keyof IconState) => (
-        this.setState((prevState) => ({...prevState, [attr]: null }))
+        this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
     };
   }
 
   addIconAttrsToChildren = () => {
-    const { tabindex: tabIndex, role } = this.state;
+    const {tabindex: tabIndex, role} = this.state;
     const child = React.Children.only(this.props.children);
-    const className = classnames("mdc-text-field__icon", child.props.className);
+    const className = classnames('mdc-text-field__icon', child.props.className);
     const props = Object.assign({}, child.props, {
       className,
       tabIndex,
-      role
+      role,
     });
     return React.cloneElement(child, props);
   };

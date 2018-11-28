@@ -19,14 +19,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import classnames from "classnames";
-import { MDCNotchedOutlineFoundation } from "@material/notched-outline/dist/mdc.notchedOutline";
+import * as React from 'react';
+import classnames from 'classnames';
+import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
 type NotchedOutlineProps = {
-  className: string,
-  isRtl: boolean,
-  notch: boolean,
-  notchWidth: number
+  className?: string,
+  isRtl?: boolean,
+  notch?: boolean,
+  notchWidth?: number
 };
 
 type NotchedOutlineState = {
@@ -36,36 +36,36 @@ type NotchedOutlineState = {
 export default class NotchedOutline extends React.Component<
   NotchedOutlineProps,
   NotchedOutlineState
-> {
+  > {
   foundation_: MDCNotchedOutlineFoundation;
   outlineElement_: React.RefObject<HTMLDivElement> = React.createRef();
   pathElement_: React.RefObject<SVGPathElement> = React.createRef();
   idleElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
   static defaultProps = {
-    className: "",
+    className: '',
     isRtl: false,
     notch: false,
-    notchWidth: 0
+    notchWidth: 0,
   };
-  
+
   state = {
-    classList: new Set()
+    classList: new Set(),
   };
 
   componentDidMount() {
     this.foundation_ = new MDCNotchedOutlineFoundation(this.adapter);
     this.foundation_.init();
-    const { notch, notchWidth, isRtl } = this.props;
+    const {notch, notchWidth, isRtl} = this.props;
     if (notch) {
       this.foundation_.notch(notchWidth, isRtl);
     }
   }
-  
+
   componentWillUnmount() {
     this.foundation_.destroy();
   }
-  
+
   componentDidUpdate(prevProps) {
     const hasToggledNotch = this.props.notch !== prevProps.notch;
     const hasToggleRtl = this.props.isRtl !== prevProps.isRtl;
@@ -76,42 +76,42 @@ export default class NotchedOutline extends React.Component<
       return;
     }
     if (this.props.notch) {
-      const { notchWidth, isRtl } = this.props;
+      const {notchWidth, isRtl} = this.props;
       this.foundation_.notch(notchWidth, isRtl);
     } else {
       this.foundation_.closeNotch();
     }
   }
-  
+
   get classes() {
-    const { classList } = this.state;
-    const { className } = this.props;
-    return classnames("mdc-notched-outline", Array.from(classList), className);
+    const {classList} = this.state;
+    const {className} = this.props;
+    return classnames('mdc-notched-outline', Array.from(classList), className);
   }
-  
+
   get adapter() {
     return {
       getWidth: () => this.outlineElement_.current ? this.outlineElement_.current.offsetWidth : 0,
       getHeight: () => this.outlineElement_.current ? this.outlineElement_.current.offsetHeight : 0,
-      addClass: className =>
-        this.setState({ classList: this.state.classList.add(className) }),
-      removeClass: className => {
-        const { classList } = this.state;
+      addClass: (className) =>
+        this.setState({classList: this.state.classList.add(className)}),
+      removeClass: (className) => {
+        const {classList} = this.state;
         classList.delete(className);
-        this.setState({ classList });
+        this.setState({classList});
       },
       setOutlinePathAttr: (value: string) => {
         if (this.pathElement_.current) {
           this.pathElement_.current.setAttribute('d', value);
         }
       },
-      getIdleOutlineStyleValue: propertyName => {
+      getIdleOutlineStyleValue: (propertyName) => {
         if (this.idleElement_.current) {
           return window
             .getComputedStyle(this.idleElement_.current)
-            .getPropertyValue(propertyName)
-          }
-      }
+            .getPropertyValue(propertyName);
+        }
+      },
     };
   }
 
@@ -130,7 +130,7 @@ export default class NotchedOutline extends React.Component<
         ref={this.idleElement_}
         className="mdc-notched-outline__idle"
         key="notched-outline-idle"
-      />
+      />,
     ];
   }
 }

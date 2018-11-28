@@ -1,14 +1,14 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   denseMap,
   requiredMap,
   rtlMap,
   disabledMap,
   helperTextMap,
-  getHelperKeyText
-} from "./attributesMap";
-import TestField from "./TestTextField";
-const isValidationMsg = helperTextMap => {
+  getHelperKeyText,
+} from './attributesMap';
+import TestField from './TestTextField';
+const isValidationMsg = (helperTextMap) => {
   const hasHelperText = Object.keys(helperTextMap).length > 0;
   return hasHelperText && helperTextMap.helperText.props.validation;
 };
