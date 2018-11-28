@@ -40,20 +40,18 @@ export default class FloatingLabel extends React.Component<
   FloatingLabelState
   > {
   foundation_: null | MDCFloatingLabelFoundation;
-  labelElement: React.RefObject<HTMLLabelElement>;
+  labelElement: React.RefObject<HTMLLabelElement> = React.createRef();
 
   static defaultProps = {
     className: '',
     float: false,
   };
 
-  constructor(props) {
-    super(props);
-    this.labelElement = React.createRef();
-  }
+  
   state = {
     classList: new Set(),
   };
+  
   componentDidMount() {
     this.initializeFoundation();
     this.handleWidthChange();
@@ -61,9 +59,11 @@ export default class FloatingLabel extends React.Component<
       this.foundation_.float(true);
     }
   }
+  
   componentWillUnmount() {
     this.foundation_.destroy();
   }
+  
   componentDidUpdate(prevProps) {
     if (this.props.children !== prevProps.children) {
       this.handleWidthChange();
@@ -72,15 +72,18 @@ export default class FloatingLabel extends React.Component<
       this.foundation_.float(this.props.float);
     }
   }
+  
   initializeFoundation = () => {
     this.foundation_ = new MDCFloatingLabelFoundation(this.adapter);
     this.foundation_.init();
   };
+  
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;
     return classnames('mdc-floating-label', Array.from(classList), className);
   }
+  
   get adapter() {
     return {
       addClass: (className) =>
@@ -88,6 +91,7 @@ export default class FloatingLabel extends React.Component<
       removeClass: this.removeClassFromClassList,
     };
   }
+
   // must be called via ref
   shake = () => {
     this.foundation_.shake(true);

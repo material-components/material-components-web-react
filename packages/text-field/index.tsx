@@ -197,6 +197,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       this.notchedOutlineAdapter
     );
   }
+
   get inputAdapter() {
     // For reference: This is the shape of what the vanilla component `getNativeInput` returns
     // {
@@ -230,6 +231,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       },
     };
   }
+
   get labelAdapter() {
     return {
       shakeLabel: (shakeLabel) => {
@@ -244,6 +246,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       getLabelWidth: () => this.state.initialLabelWidth,
     };
   }
+
   get lineRippleAdapter() {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
@@ -252,6 +255,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
         this.setState({lineRippleCenter}),
     };
   }
+
   get notchedOutlineAdapter() {
     return {
       notchOutline: (notchedLabelWidth) =>
@@ -260,6 +264,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       hasOutline: () => !!this.props.outlined,
     };
   }
+
   get helperTextAdapter() {
     return {
       showToScreenReader: () =>
@@ -267,6 +272,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       setValidity: (isValid) => this.setState({isValid}),
     };
   }
+
   inputProps(child) {
     const {props, ref} = child;
     return Object.assign({}, props, {
@@ -284,6 +290,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       inputType: this.props.textarea ? 'textarea' : 'input',
     });
   }
+
   /**
    * render methods
    */
@@ -319,11 +326,13 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
     }
     return textField;
   }
+
   renderInput() {
     const child = React.Children.only(this.props.children);
     const props = this.inputProps(child);
     return React.cloneElement(child, props);
   }
+
   renderLabel() {
     const {label, floatingLabelClassName} = this.props;
     const {inputId} = this.state;
@@ -341,6 +350,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       </FloatingLabel>
     );
   }
+
   renderLineRipple() {
     const {lineRippleClassName} = this.props;
     const {activeLineRipple, lineRippleCenter} = this.state;
@@ -352,6 +362,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       />
     );
   }
+  
   renderNotchedOutline() {
     const {isRtl, notchedOutlineClassName} = this.props;
     const {outlineIsNotched, notchedLabelWidth} = this.state;
@@ -364,6 +375,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       />
     );
   }
+
   renderHelperText() {
     const {helperText} = this.props;
     if (!helperText) return;
@@ -381,6 +393,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
     );
     return React.cloneElement(helperText, props);
   }
+
   renderIcon(icon) {
     const {disabled} = this.state;
     // Toggling disabled will trigger icon.foundation.setDisabled()

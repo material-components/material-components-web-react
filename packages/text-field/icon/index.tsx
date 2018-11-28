@@ -23,7 +23,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import {MDCTextFieldIconFoundation} from '@material/textfield';
 export type IconProps = {
-  disabled?: boolean
+  disabled: boolean
 };
 
 type IconState = {
@@ -70,6 +70,7 @@ export default class Icon extends React.Component<
   componentWillUnmount() {
     this.foundation_.destroy();
   }
+
   get adapter() {
     return {
       getAttr: (attr) => this.state[attr],
@@ -93,6 +94,7 @@ export default class Icon extends React.Component<
     });
     return React.cloneElement(child, props);
   };
+  
   render() {
     return this.addIconAttrsToChildren();
   }
