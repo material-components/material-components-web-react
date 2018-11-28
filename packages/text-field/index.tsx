@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import * as React from 'react';
-import classnames from 'classnames';
+import * as classnames from 'classnames';
 import {MDCTextFieldFoundation} from '@material/textfield';
 import Input, {InputProps} from './Input';
 import Icon from './icon/index';
@@ -362,7 +362,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
       />
     );
   }
-  
+
   renderNotchedOutline() {
     const {isRtl, notchedOutlineClassName} = this.props;
     const {outlineIsNotched, notchedLabelWidth} = this.state;

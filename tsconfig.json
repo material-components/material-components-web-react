@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "outDir": "./build/",
     "declaration": true,
     "sourceMap": true,

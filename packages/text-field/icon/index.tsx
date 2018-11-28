@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import * as React from 'react';
-import classnames from 'classnames';
+import * as classnames from 'classnames';
 import {MDCTextFieldIconFoundation} from '@material/textfield';
 export type IconProps = {
   disabled: boolean
@@ -94,7 +94,7 @@ export default class Icon extends React.Component<
     });
     return React.cloneElement(child, props);
   };
-  
+
   render() {
     return this.addIconAttrsToChildren();
   }
