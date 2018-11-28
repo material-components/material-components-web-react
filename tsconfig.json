@@ -5,10 +5,13 @@
     "declaration": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "module": "CommonJS",
+    "module": "commonjs",
     "lib": ["es2015", "es2017", "dom"],
     "jsx": "react",
     "target": "es5",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "exclude": [
     "node_modules",

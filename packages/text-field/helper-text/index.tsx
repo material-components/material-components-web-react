@@ -26,13 +26,13 @@ import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
 export type HelperTextProps = {
   'aria-hidden'?: boolean,
   children: React.ReactNode,
-  className?: string,
-  isValid?: boolean,
-  isValidationMessage?: boolean,
-  persistent?: boolean,
+  className: string,
+  isValid: boolean,
+  isValidationMessage: boolean,
+  persistent: boolean,
   role?: string,
-  showToScreenReader?: boolean,
-  validation?: boolean
+  showToScreenReader: boolean,
+  validation: boolean
 };
 
 type HelperTextState = {
@@ -57,7 +57,7 @@ export default class HelperText extends React.Component<
     'validation': false,
   };
 
-  constructor(props) {
+  constructor(props: HelperTextProps) {
     super(props);
     this.state = {
       'aria-hidden': props['aria-hidden'],
@@ -65,6 +65,7 @@ export default class HelperText extends React.Component<
       'classList': new Set(),
     };
   }
+  
   componentDidMount() {
     this.foundation_ = new MDCTextFieldHelperTextFoundation(this.adapter);
     this.foundation_.init();
@@ -78,7 +79,8 @@ export default class HelperText extends React.Component<
       this.foundation_.setValidation(true);
     }
   }
-  componentDidUpdate(prevProps) {
+  
+  componentDidUpdate(prevProps: HelperTextProps) {
     if (this.props.showToScreenReader !== prevProps.showToScreenReader) {
       this.foundation_.showToScreenReader(this.props.showToScreenReader);
     }
@@ -89,9 +91,11 @@ export default class HelperText extends React.Component<
       this.foundation_.setValidation(this.props.isValidationMessage);
     }
   }
+  
   componentWillUnmount() {
     this.foundation_.destroy();
   }
+  
   get classes() {
     const {className, persistent, validation} = this.props;
     return classnames('mdc-text-field-helper-text', className, {
@@ -99,6 +103,7 @@ export default class HelperText extends React.Component<
       'mdc-text-field-helper-text--validation-msg': validation,
     });
   }
+  
   get adapter() {
     return {
       addClass: (className) =>
@@ -118,6 +123,7 @@ export default class HelperText extends React.Component<
       ),
     };
   }
+  
   render() {
     return (
       <p
