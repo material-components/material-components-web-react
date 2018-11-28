@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@material/list": "^0.41.0",
+    "@material/react-ripple": "^0.7.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.4.2"

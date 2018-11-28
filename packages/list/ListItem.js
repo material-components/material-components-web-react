@@ -23,9 +23,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import withRipple from '@material/react-ripple';
 
-export default class ListItem extends Component {
-  listItemElement_ = React.createRef();
+export class ListItem extends Component {
+  listItemElement_ = null;
 
   componentDidUpdate(prevProps) {
     const {
@@ -44,20 +45,25 @@ export default class ListItem extends Component {
     }
   }
 
+  init = (el) => {
+    this.listItemElement_ = el;
+    this.props.initRipple(el);
+  }
+
   get classes() {
     const {className, classNamesFromList} = this.props;
     return classnames('mdc-list-item', className, classNamesFromList);
   }
 
   focus() {
-    const element = this.listItemElement_.current;
+    const element = this.listItemElement_;
     if (element) {
       element.focus();
     }
   }
 
   followHref() {
-    const element = this.listItemElement_.current;
+    const element = this.listItemElement_;
     if (element && element.href) {
       element.click();
     }
@@ -77,6 +83,8 @@ export default class ListItem extends Component {
       shouldFocus,
       shouldFollowHref,
       shouldToggleCheckbox,
+      initRipple,
+      unbounded,
       /* eslint-enable */
       attributesFromList,
       children,
@@ -89,7 +97,7 @@ export default class ListItem extends Component {
         className={this.classes}
         {...otherProps}
         {...attributesFromList} // overrides attributes in otherProps
-        ref={this.listItemElement_}
+        ref={this.init}
       >
         {React.Children.map(children, this.renderChild)}
       </Tag>
@@ -120,6 +128,8 @@ ListItem.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   tag: PropTypes.string,
+  unbounded: PropTypes.bool,
+  initRipple: PropTypes.func,
 };
 
 ListItem.defaultProps = {
@@ -136,4 +146,8 @@ ListItem.defaultProps = {
   onFocus: () => {},
   onBlur: () => {},
   tag: 'li',
+  unbounded: false,
+  initRipple: () => {},
 };
+
+export default withRipple(ListItem);

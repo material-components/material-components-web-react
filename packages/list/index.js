@@ -188,7 +188,7 @@ export default class List extends Component {
   }
 
   renderChild = (child) => {
-    if (child.type.name === 'ListItem') {
+    if (child.type.displayName && child.type.displayName.includes('ListItem')) {
       return this.renderListItem(child, this.listItemCount++);
     } else {
       return child;
