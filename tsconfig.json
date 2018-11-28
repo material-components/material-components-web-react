@@ -10,8 +10,6 @@
     "jsx": "react",
     "target": "es5",
   },
-  "paths": {
-  },
   "exclude": [
     "node_modules",
     "build",

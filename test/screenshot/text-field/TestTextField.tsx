@@ -1,5 +1,5 @@
-import * as React from "react";
-import TextField, { Input } from "../../../packages/text-field/index.tsx";
+import * as React from 'react';
+import TextField, {Input} from '../../../packages/text-field/index';
 type TestFieldProps = {
   disabled: boolean,
   id: string,
@@ -18,10 +18,10 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value === "" ? props.value : "woof"
+      value: props.value === '' ? props.value : 'woof',
     };
   }
-  
+
   render() {
     const {
       /* eslint-disable react/prop-types */
@@ -35,14 +35,14 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
       /* eslint-enable react/prop-types */
       ...otherProps
     } = this.props;
-    
+
     return (
-      <div dir={isRtl ? "rtl" : "ltr"}>
+      <div dir={isRtl ? 'rtl' : 'ltr'}>
         <TextField
           label="Dog"
-          outlined={variant === "outlined"}
-          fullWidth={variant === "fullWidth"}
-          textarea={variant === "textarea"}
+          outlined={variant === 'outlined'}
+          fullWidth={variant === 'fullWidth'}
+          textarea={variant === 'textarea'}
           {...otherProps}
           className="text-field"
           isRtl={isRtl}
@@ -53,7 +53,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
             minLength={minLength}
             required={required}
             disabled={disabled}
-            onChange={(e) => this.setState({ value: (e.target as HTMLInputElement).value })}
+            onChange={(e) => this.setState({value: (e.target as HTMLInputElement).value})}
           />
         </TextField>
       </div>

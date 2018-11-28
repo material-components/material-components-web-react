@@ -19,24 +19,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import classnames from "classnames";
-import { MDCTextFieldHelperTextFoundation } from "@material/textfield";
+import * as React from 'react';
+import classnames from 'classnames';
+import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
 
 export type HelperTextProps = {
-  "aria-hidden": boolean,
+  'aria-hidden'?: boolean,
   children: React.ReactNode,
-  className: string,
-  isValid: boolean,
-  isValidationMessage: boolean,
-  persistent: boolean,
+  className?: string,
+  isValid?: boolean,
+  isValidationMessage?: boolean,
+  persistent?: boolean,
   role?: string,
-  showToScreenReader: boolean,
-  validation: boolean
+  showToScreenReader?: boolean,
+  validation?: boolean
 };
 
 type HelperTextState = {
-  "aria-hidden": boolean,
+  'aria-hidden': boolean,
   role: string,
   classList: Set<string>
 };
@@ -44,25 +44,25 @@ type HelperTextState = {
 export default class HelperText extends React.Component<
   HelperTextProps,
   HelperTextState
-> {
+  > {
   foundation_: MDCTextFieldHelperTextFoundation;
 
   static defaultProps = {
-    "aria-hidden": false,
-    className: "",
-    isValid: true,
-    isValidationMessage: false,
-    persistent: false,
-    showToScreenReader: false,
-    validation: false
+    'aria-hidden': false,
+    'className': '',
+    'isValid': true,
+    'isValidationMessage': false,
+    'persistent': false,
+    'showToScreenReader': false,
+    'validation': false,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      "aria-hidden": props["aria-hidden"],
-      role: props.role,
-      classList: new Set()
+      'aria-hidden': props['aria-hidden'],
+      'role': props.role,
+      'classList': new Set(),
     };
   }
   componentDidMount() {
@@ -93,28 +93,28 @@ export default class HelperText extends React.Component<
     this.foundation_.destroy();
   }
   get classes() {
-    const { className, persistent, validation } = this.props;
-    return classnames("mdc-text-field-helper-text", className, {
-      "mdc-text-field-helper-text--persistent": persistent,
-      "mdc-text-field-helper-text--validation-msg": validation
+    const {className, persistent, validation} = this.props;
+    return classnames('mdc-text-field-helper-text', className, {
+      'mdc-text-field-helper-text--persistent': persistent,
+      'mdc-text-field-helper-text--validation-msg': validation,
     });
   }
   get adapter() {
     return {
-      addClass: className =>
-        this.setState({ classList: this.state.classList.add(className) }),
-      removeClass: className => {
-        const { classList } = this.state;
+      addClass: (className) =>
+        this.setState({classList: this.state.classList.add(className)}),
+      removeClass: (className) => {
+        const {classList} = this.state;
         classList.delete(className);
-        this.setState({ classList });
+        this.setState({classList});
       },
-      hasClass: className => this.classes.split(" ").includes(className),
+      hasClass: (className) => this.classes.split(' ').includes(className),
       // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
       setAttr: (attr: keyof HelperTextState, value: string) => (
-        this.setState((prevState) => ({...prevState, [attr]: value }))
+        this.setState((prevState) => ({...prevState, [attr]: value}))
       ),
       removeAttr: (attr: keyof HelperTextState) => (
-        this.setState((prevState) => ({...prevState, [attr]: null }))
+        this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
     };
   }
@@ -123,7 +123,7 @@ export default class HelperText extends React.Component<
       <p
         className={this.classes}
         role={this.state.role}
-        aria-hidden={this.state["aria-hidden"]}
+        aria-hidden={this.state['aria-hidden']}
       >
         {this.props.children}
       </p>

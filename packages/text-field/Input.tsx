@@ -19,19 +19,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import classnames from "classnames";
-import { MDCTextFieldFoundation } from '@material/textfield';
-import { VALIDATION_ATTR_WHITELIST } from "@material/textfield/constants";
+import * as React from 'react';
+import classnames from 'classnames';
+import {MDCTextFieldFoundation} from '@material/textfield';
+import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
 export type InputProps<T> = Props & React.InputHTMLAttributes<T>;
 
 type Props = {
-  className?: string,
+  className: string,
   inputType: 'input' | 'textarea',
   disabled: boolean,
-  isValid?: boolean,
-  foundation?: MDCTextFieldFoundation,
+  isValid: boolean,
+  foundation: MDCTextFieldFoundation,
   handleValueChange: (value: any, cb: Function) => void,
   id: string,
   onBlur: (event: React.SyntheticEvent) => void,
@@ -50,11 +50,11 @@ type InputState = {
 
 export default class Input extends React.Component<
   InputProps<object>, InputState
-> {
+  > {
   inputElement_: React.RefObject<HTMLInputElement> = React.createRef();
 
   static defaultProps = {
-    className: "",
+    className: '',
     inputType: 'input',
     disabled: false,
     id: '',
@@ -67,10 +67,10 @@ export default class Input extends React.Component<
     setDisabled: () => {},
     setInputId: () => {},
     handleFocusChange: () => {},
-    value: ""
+    value: '',
   };
-  
-  state = { wasUserTriggeredChange: false };
+
+  state = {wasUserTriggeredChange: false};
 
   componentDidMount() {
     const {
@@ -81,7 +81,7 @@ export default class Input extends React.Component<
       setDisabled,
       handleValueChange,
       foundation,
-      isValid
+      isValid,
     } = this.props;
     if (setInputId && id) {
       setInputId(id);
@@ -97,7 +97,7 @@ export default class Input extends React.Component<
       foundation.setValid(isValid);
     }
   }
-  
+
   componentDidUpdate(prevProps) {
     const {
       id,
@@ -107,32 +107,32 @@ export default class Input extends React.Component<
       foundation,
       value,
       disabled,
-      isValid
+      isValid,
     } = this.props;
-    
+
     this.handleValidationAttributeUpdate(prevProps);
-    
+
     if (disabled !== prevProps.disabled) {
       setDisabled(disabled);
       foundation.setDisabled(disabled);
     }
-    
+
     if (id !== prevProps.id) {
       setInputId(id);
     }
-    
+
     if (value !== prevProps.value) {
       handleValueChange(value, () => {
         // only call #foundation.setValue on programatic changes;
         // not changes by the user.
         if (this.state.wasUserTriggeredChange) {
-          this.setState({ wasUserTriggeredChange: false });
+          this.setState({wasUserTriggeredChange: false});
         } else {
           foundation.setValue(value);
         }
       });
     }
-    
+
     if (isValid !== prevProps.isValid) {
       if (isValid === undefined) {
         foundation.setUseNativeValidation(true);
@@ -143,31 +143,31 @@ export default class Input extends React.Component<
     }
   }
   get classes() {
-    return classnames("mdc-text-field__input", this.props.className);
+    return classnames('mdc-text-field__input', this.props.className);
   }
   get inputElement() {
     const element = this.inputElement_.current;
     return element ? element : null;
   }
-  handleFocus = e => {
-    const { foundation, handleFocusChange, onFocus } = this.props;
+  handleFocus = (e) => {
+    const {foundation, handleFocusChange, onFocus} = this.props;
     foundation.activateFocus();
     handleFocusChange(true);
     onFocus(e);
   };
-  handleBlur = e => {
-    const { foundation, handleFocusChange, onBlur } = this.props;
+  handleBlur = (e) => {
+    const {foundation, handleFocusChange, onBlur} = this.props;
     foundation.deactivateFocus();
     handleFocusChange(false);
     onBlur(e);
   };
-  handleMouseDown = e => {
-    const { foundation, onMouseDown } = this.props;
+  handleMouseDown = (e) => {
+    const {foundation, onMouseDown} = this.props;
     foundation.setTransformOrigin(e);
     onMouseDown(e);
   };
-  handleTouchStart = e => {
-    const { foundation, onTouchStart } = this.props;
+  handleTouchStart = (e) => {
+    const {foundation, onTouchStart} = this.props;
     foundation.setTransformOrigin(e);
     onTouchStart(e);
   };
@@ -176,22 +176,22 @@ export default class Input extends React.Component<
   // is used to let other subcomponents and the foundation know what the current
   // value of the input is.
   handleChange = (e) => {
-    const { foundation, onChange } = this.props;
+    const {foundation, onChange} = this.props;
     // autoCompleteFocus runs on `input` event in MDC Web. In React, onChange and
     // onInput are the same event
     // https://stackoverflow.com/questions/38256332/in-react-whats-the-difference-between-onchange-and-oninput
     foundation.autoCompleteFocus();
-    this.setState({ wasUserTriggeredChange: true });
+    this.setState({wasUserTriggeredChange: true});
     onChange(e);
   };
-  handleValidationAttributeUpdate = nextProps => {
-    const { foundation } = nextProps;
-    VALIDATION_ATTR_WHITELIST.some(attributeName => {
+  handleValidationAttributeUpdate = (nextProps) => {
+    const {foundation} = nextProps;
+    VALIDATION_ATTR_WHITELIST.some((attributeName) => {
       let attr = attributeName;
-      if (attributeName === "minlength") {
-        attr = "minLength";
-      } else if (attributeName === "maxlength") {
-        attr = "maxLength";
+      if (attributeName === 'minlength') {
+        attr = 'minLength';
+      } else if (attributeName === 'maxlength') {
+        attr = 'maxLength';
       }
       if (this.props[attr] !== nextProps[attr]) {
         foundation.handleValidationAttributeChange([attributeName]);

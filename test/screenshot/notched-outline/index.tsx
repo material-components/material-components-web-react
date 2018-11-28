@@ -1,7 +1,7 @@
-import * as React from "react";
-import NotchedOutline from "../../../packages/notched-outline";
-import "../../../packages/notched-outline/index.scss";
-import "./index.scss";
+import * as React from 'react';
+import NotchedOutline from '../../../packages/notched-outline/index';
+import '../../../packages/notched-outline/index.scss';
+import './index.scss';
 
 const NotchedOutlineScreenshotTest = () => {
   return (
