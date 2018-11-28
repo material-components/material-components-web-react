@@ -24,7 +24,7 @@ import classnames from 'classnames';
 import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
 
 export type HelperTextProps = {
-  'aria-hidden'?: boolean,
+  'aria-hidden': boolean,
   children: React.ReactNode,
   className: string,
   isValid: boolean,
@@ -37,7 +37,7 @@ export type HelperTextProps = {
 
 type HelperTextState = {
   'aria-hidden': boolean,
-  role: string,
+  role?: string,
   classList: Set<string>
 };
 
@@ -65,7 +65,7 @@ export default class HelperText extends React.Component<
       'classList': new Set(),
     };
   }
-  
+
   componentDidMount() {
     this.foundation_ = new MDCTextFieldHelperTextFoundation(this.adapter);
     this.foundation_.init();
@@ -79,7 +79,7 @@ export default class HelperText extends React.Component<
       this.foundation_.setValidation(true);
     }
   }
-  
+
   componentDidUpdate(prevProps: HelperTextProps) {
     if (this.props.showToScreenReader !== prevProps.showToScreenReader) {
       this.foundation_.showToScreenReader(this.props.showToScreenReader);
@@ -91,11 +91,11 @@ export default class HelperText extends React.Component<
       this.foundation_.setValidation(this.props.isValidationMessage);
     }
   }
-  
+
   componentWillUnmount() {
     this.foundation_.destroy();
   }
-  
+
   get classes() {
     const {className, persistent, validation} = this.props;
     return classnames('mdc-text-field-helper-text', className, {
@@ -103,7 +103,7 @@ export default class HelperText extends React.Component<
       'mdc-text-field-helper-text--validation-msg': validation,
     });
   }
-  
+
   get adapter() {
     return {
       addClass: (className) =>
@@ -123,7 +123,7 @@ export default class HelperText extends React.Component<
       ),
     };
   }
-  
+
   render() {
     return (
       <p

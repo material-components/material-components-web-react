@@ -36,7 +36,7 @@ export type TextFieldProps = {
   dense: boolean,
   floatingLabelClassName: string,
   fullWidth: boolean,
-  helperText: JSX.Element,
+  helperText?: JSX.Element,
   isRtl: boolean,
   label: React.ReactNode,
   leadingIcon?: JSX.Element,
