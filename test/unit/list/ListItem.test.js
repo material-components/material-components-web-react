@@ -2,7 +2,7 @@ import React from 'react';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import td from 'testdouble';
-import {ListItem} from '../../../packages/list';
+import {ListItem} from '../../../packages/list/ListItem';
 
 suite('ListItem');
 
@@ -44,17 +44,17 @@ test('calls toggleCheckbox when props.shouldToggleCheckbox changes from false to
 
 test('#focus focuses the listItemElement_', () => {
   const wrapper = mount(<ListItem />);
-  wrapper.instance().listItemElement_.current.focus = td.func();
+  wrapper.instance().listItemElement_.focus = td.func();
   wrapper.instance().focus();
-  td.verify(wrapper.instance().listItemElement_.current.focus(), {times: 1});
+  td.verify(wrapper.instance().listItemElement_.focus(), {times: 1});
 });
 
 test('#followHref simulates a click on the listItemElement_ if it has href', () => {
   const wrapper = mount(<ListItem />);
-  wrapper.instance().listItemElement_.current.href = true;
-  wrapper.instance().listItemElement_.current.click = td.func();
+  wrapper.instance().listItemElement_.href = true;
+  wrapper.instance().listItemElement_.click = td.func();
   wrapper.instance().followHref();
-  td.verify(wrapper.instance().listItemElement_.current.click(), {times: 1});
+  td.verify(wrapper.instance().listItemElement_.click(), {times: 1});
 });
 
 test('passes props.childrenTabIndex to children as props.tabIndex', () => {
