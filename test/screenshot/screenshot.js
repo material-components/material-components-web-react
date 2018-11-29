@@ -35,7 +35,7 @@ export default class Screenshot {
   constructor(urlPath, browser) {
     /** @private {string} */
     this.urlPath_ = urlPath;
-    this.browserSingleton_ = browser_;
+    this.browserSingleton_ = browser;
     // TODO allow clients to specify capture-chrome options, like viewport size
   }
 
