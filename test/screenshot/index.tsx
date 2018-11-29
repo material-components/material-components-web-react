@@ -1,10 +1,10 @@
 import * as React from "react";
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom";
 import { HashRouter, Route } from "react-router-dom";
 import App from "./App";
 import topAppBarVariants from "./top-app-bar/variants.js";
 import drawerVariants from "./drawer/variants.js";
-import textFieldVariants from "./text-field/variants.tsx";
+import textFieldVariants from "./text-field/variants";
 import "./index.scss";
 
 ReactDOM.render(
