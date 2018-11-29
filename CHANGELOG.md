@@ -1,5 +1,30 @@
 <a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.6.0...v) (2018-11-07)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.6.2...v) (2018-11-20)
+
+
+### Bug Fixes
+
+* added missing comma from golden.json ([#426](https://github.com/material-components/material-components-web-react/issues/426)) ([dfe44dc](https://github.com/material-components/material-components-web-react/commit/dfe44dc))
+* **chips:** update to v0.41.0 ([#424](https://github.com/material-components/material-components-web-react/issues/424)) ([e40fec6](https://github.com/material-components/material-components-web-react/commit/e40fec6))
+* **drawer:** initialize foundation if props.open updates ([#427](https://github.com/material-components/material-components-web-react/issues/427)) ([36e6316](https://github.com/material-components/material-components-web-react/commit/36e6316))
+* **drawer:** replace focus trap with vanilla version ([#437](https://github.com/material-components/material-components-web-react/issues/437)) ([bd7433b](https://github.com/material-components/material-components-web-react/commit/bd7433b))
+* **linear-progress:** Add linear progress ([#450](https://github.com/material-components/material-components-web-react/issues/450)) ([f38d575](https://github.com/material-components/material-components-web-react/commit/f38d575))
+* **tab-bar:** set previousActiveIndex to props.activeIndex initially to avoid tab of undefined error ([#428](https://github.com/material-components/material-components-web-react/issues/428)) ([8e28944](https://github.com/material-components/material-components-web-react/commit/8e28944))
+* **text-field:** custom validation ([#430](https://github.com/material-components/material-components-web-react/issues/430)) ([f5c9c35](https://github.com/material-components/material-components-web-react/commit/f5c9c35))
+* **text-field:** uncomment test fixed from 0.35.0 ([#404](https://github.com/material-components/material-components-web-react/issues/404)) ([3a908ff](https://github.com/material-components/material-components-web-react/commit/3a908ff))
+
+
+### Features
+
+* **list:** Add list divider ([#420](https://github.com/material-components/material-components-web-react/issues/420)) ([1b8f38f](https://github.com/material-components/material-components-web-react/commit/1b8f38f))
+* **list:** allow semantic tags (mainly, nav on List and a on ListItem) ([#405](https://github.com/material-components/material-components-web-react/issues/405)) ([9672cdb](https://github.com/material-components/material-components-web-react/commit/9672cdb))
+* **radio:** add component ([#448](https://github.com/material-components/material-components-web-react/issues/448)) ([fd8747c](https://github.com/material-components/material-components-web-react/commit/fd8747c))
+* **typography:** add component ([#378](https://github.com/material-components/material-components-web-react/issues/378)) ([e46acf5](https://github.com/material-components/material-components-web-react/commit/e46acf5))
+
+
+
+<a name="0.6.2"></a>
+## [0.6.2](https://github.com/material-components/material-components-web-react/compare/v0.6.0...v0.6.2) (2018-11-07)
 
 
 ### Bug Fixes

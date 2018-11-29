@@ -1,6 +1,6 @@
 {
   "name": "@material/react-line-ripple",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "Material Components React Line Ripple",
   "license": "MIT",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/line-ripple": "^0.40.1",
+    "@material/line-ripple": "^0.41.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.4.2"

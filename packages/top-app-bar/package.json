@@ -1,6 +1,6 @@
 {
   "name": "@material/react-top-app-bar",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "Material Components React Top App Bar",
   "license": "MIT",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "topappbar"
   ],
   "dependencies": {
-    "@material/top-app-bar": "^0.40.1",
+    "@material/top-app-bar": "^0.41.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.4.2"

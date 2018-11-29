@@ -23,42 +23,56 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import {MDCDismissibleDrawerFoundation, MDCModalDrawerFoundation} from '@material/drawer';
+import {MDCDismissibleDrawerFoundation, MDCModalDrawerFoundation, util} from '@material/drawer';
 import {MDCListFoundation} from '@material/list';
 import DrawerHeader from './Header';
 import DrawerContent from './Content';
 import DrawerSubtitle from './Subtitle';
 import DrawerTitle from './Title';
 import DrawerAppContent from './AppContent';
-import FocusTrap from 'focus-trap-react';
 
 const {cssClasses: listCssClasses} = MDCListFoundation;
 
 class Drawer extends React.Component {
   previousFocus_ = null;
   foundation_ = null;
+  focusTrap_ = null;
   drawerElement_ = React.createRef();
 
   state = {classList: new Set()};
 
   componentDidMount() {
-    const {dismissible, modal, open} = this.props;
-    if (dismissible) {
-      this.foundation_ = new MDCDismissibleDrawerFoundation(this.adapter);
-      this.foundation_.init();
-    } else if (modal) {
-      this.foundation_ = new MDCModalDrawerFoundation(this.adapter);
-      this.foundation_.init();
-    }
-
+    const {open} = this.props;
+    this.initFoundation();
     if (open && this.foundation_) {
       this.foundation_.open();
     }
   }
 
+  initFoundation = () => {
+    const {dismissible, modal} = this.props;
+    if (this.foundation_) {
+      this.foundation_.destroy();
+    }
+    if (dismissible) {
+      this.foundation_ = new MDCDismissibleDrawerFoundation(this.adapter);
+      this.foundation_.init();
+    } else if (modal) {
+      this.initializeFocusTrap();
+      this.foundation_ = new MDCModalDrawerFoundation(this.adapter);
+      this.foundation_.init();
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const {dismissible, modal, open} = this.props;
-    if (!(dismissible || modal)) return;
+    const changedToModal = prevProps.modal !== this.props.modal;
+    const changedToDismissible = prevProps.dismissible !== this.props.dismissible;
+    if (!dismissible && !modal) return;
+
+    if (changedToModal || changedToDismissible) {
+      this.initFoundation();
+    }
 
     if (open !== prevProps.open) {
       open ? this.foundation_.open() : this.foundation_.close();
@@ -68,6 +82,10 @@ class Drawer extends React.Component {
   componentWillUnmount() {
     if (!this.foundation_) return;
     this.foundation_.destroy();
+  }
+
+  initializeFocusTrap = () => {
+    this.focusTrap_ = util.createFocusTrapInstance(this.drawerElement_.current);
   }
 
   get classes() {
@@ -116,8 +134,8 @@ class Drawer extends React.Component {
       },
       notifyClose: this.props.onClose,
       notifyOpen: this.props.onOpen,
-      trapFocus: () => this.setState({activeFocusTrap: true}),
-      releaseFocus: () => this.setState({activeFocusTrap: false}),
+      trapFocus: () => this.focusTrap_ && this.focusTrap_.activate(),
+      releaseFocus: () => this.focusTrap_ && this.focusTrap_.deactivate(),
     };
   }
 
@@ -134,7 +152,6 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const {activeFocusTrap} = this.state;
     const {
       /* eslint-disable no-unused-vars */
       onClose,
@@ -150,13 +167,6 @@ class Drawer extends React.Component {
       ...otherProps
     } = this.props;
 
-    const focusTrapOptions = {
-      clickOutsideDeactivates: true,
-      initialFocus: false,
-      escapeDeactivates: false,
-      returnFocusOnDeactivate: false,
-    };
-
     return (
       <React.Fragment>
         <Tag
@@ -165,11 +175,7 @@ class Drawer extends React.Component {
           onTransitionEnd={(evt) => this.handleTransitionEnd(evt)}
           {...otherProps}
         >
-          {activeFocusTrap ? (
-            <FocusTrap focusTrapOptions={focusTrapOptions}>
-              {children}
-            </FocusTrap>
-          ): children}
+          {children}
         </Tag>
         {modal ? this.renderScrim() : null}
       </React.Fragment>
