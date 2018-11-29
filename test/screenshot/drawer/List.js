@@ -4,8 +4,6 @@ import List, {
   ListItem,
   ListItemGraphic,
   ListItemText,
-  ListItemMeta,
-  ListGroup,
   ListGroupSubheader,
 } from '../../../packages/list/index';
 import uuidv1 from 'uuid/v1';
@@ -13,7 +11,9 @@ import uuidv1 from 'uuid/v1';
 import '../../../packages/list/index.scss';
 
 
-const renderListItem = ({title, icon, activated}) => {
+const renderListItem = ({
+  title, icon, // eslint-disable-line react/prop-types
+}) => {
   return (
     <ListItem key={uuidv1()}>
       <ListItemGraphic graphic={<MaterialIcon icon={icon}/>} />
@@ -22,26 +22,6 @@ const renderListItem = ({title, icon, activated}) => {
   );
 };
 
-
-// const renderListItem = ({
-//   title, icon, activated, // eslint-disable-line react/prop-types
-// }, index) => {
-//   return (
-//     <a
-//       key={index}
-//       className={`mdc-list-item {activated ? 'mdc-list-item--activated' : ''}`}
-//       aria-selected='{activated}' tabIndex={activated ? '0' : ''}>
-//       <i className='material-icons mdc-list-item__graphic' aria-hidden='true'>
-//         {icon}
-//       </i>
-//       <span className='mdc-list-item__text'>
-//         {title}
-//         <i className='test-font--redact-prev-letter'></i>
-//       </span>
-//     </a>
-//   );
-// };
-
 class DrawerList extends React.Component {
   state = {
     selectedIndex: 1,
@@ -49,7 +29,7 @@ class DrawerList extends React.Component {
 
   render() {
     const topItems = [{
-      title: 'Inbox', icon: 'inbox', activated: true,
+      title: 'Inbox', icon: 'inbox',
     }, {
       title: 'Star', icon: 'star',
     }, {
