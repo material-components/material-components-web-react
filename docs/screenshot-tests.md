@@ -27,7 +27,7 @@ docker pull mdcreact/screenshots
 Ensure that you have a `MDC_GCLOUD_SERVICE_ACCOUNT_KEY` environment variable (ie. ~/.bashrc, ~/.bash_profile). Otherwise you will need to paste it inline in the command below. You can get this off of the Google Cloud Platform Admin Tool (3rd party contributors will not be able to download/upload screenshots until this is part of the process is changed).
 
 ```
-docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" mdcreact/screenshots /bin/sh
+docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" mdcreact/screenshots /bin/bash
 ```
 
 This command opens a container based from the `mdcreact/screenshots` image you created in Step 1.
