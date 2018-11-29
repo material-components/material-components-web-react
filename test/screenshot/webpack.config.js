@@ -5,7 +5,7 @@ const {read: readComponents} = require('../../scripts/screenshot-directory-reade
 const {importer} = require('../../packages/webpack.util');
 
 module.exports = {
-  entry: ['babel-polyfill', `./test/screenshot/index.js`],
+  entry: ['babel-polyfill', `./test/screenshot/index.tsx`],
   output: {
     filename: 'bundle.js',
     path: __dirname,
