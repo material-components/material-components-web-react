@@ -35,7 +35,7 @@ export default class Screenshot {
   constructor(urlPath, browser) {
     /** @private {string} */
     this.urlPath_ = urlPath;
-    this.browser_ = browser;
+    this.browserSingleton_ = browser_;
     // TODO allow clients to specify capture-chrome options, like viewport size
   }
 
@@ -200,7 +200,8 @@ export default class Screenshot {
    * @private
    */
   async takeScreenshot_() {
-    const browser = this.browser_;
+    const browserSingleton = this.browserSingleton_;
+    const browser = await browserSingleton.launch();
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': ['networkidle2']});
     // await page.waitForSelector('#screenshot-test-app');
