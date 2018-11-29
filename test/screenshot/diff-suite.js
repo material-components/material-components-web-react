@@ -3,10 +3,11 @@ import Browser from './browser';
 import testUrls from './screenshot-test-urls';
 
 const runDiffSuite = async () => {
-  const browser = await new Browser.launch();
+  const browser = new Browser()
+  const launchedBrowser = await browser.launch();
 
   testUrls.forEach((url) => {
-    const screenshot = new Screenshot(url, browser);
+    const screenshot = new Screenshot(url, launchedBrowser);
     screenshot.diff();
   });
 }
