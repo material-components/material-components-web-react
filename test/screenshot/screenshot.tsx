@@ -4,12 +4,13 @@ import { readFile, writeFile } from "fs";
 import { promisify } from "util";
 import puppeteer from "puppeteer";
 import compareImages from "resemblejs/compareImages";
+import {test} from "mocha";
 import { assert } from "chai";
 import Storage from "@google-cloud/storage";
 import comparisonOptions from "./screenshot-comparison-options";
 const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
-const serviceAccountKey = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY;
+const serviceAccountKey: string = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY || '';
 const branchName = process.env.MDC_BRANCH_NAME;
 const commitHash = process.env.MDC_COMMIT_HASH;
 const goldenFilePath = "./test/screenshot/golden.json";
@@ -23,7 +24,7 @@ const storage = new Storage({
 });
 const bucket = storage.bucket(bucketName);
 export default class Screenshot {
-  urlPath_ = null;
+  urlPath_;
   /**
    * @param {string} urlPath The URL path to test
    */
@@ -94,8 +95,8 @@ export default class Screenshot {
    */
   async getGoldenHash_() {
     const goldenFile = await readFilePromise(goldenFilePath);
-    const goldenJSON = JSON.parse(goldenFile);
-    return goldenJSON[this.urlPath_];
+      const goldenJSON = JSON.parse(goldenFile.toString());
+      return goldenJSON[this.urlPath_];
   }
   /**
    * Returns the correct image path
@@ -129,7 +130,7 @@ export default class Screenshot {
    */
   async saveGoldenHash_(goldenHash) {
     const goldenFile = await readFilePromise(goldenFilePath);
-    const goldenJSON = JSON.parse(goldenFile);
+    const goldenJSON = JSON.parse(goldenFile.toString());
     goldenJSON[this.urlPath_] = goldenHash;
     const goldenContent = JSON.stringify(goldenJSON, null, "  ");
     await writeFilePromise(goldenFilePath, `${goldenContent}\r\n`);
