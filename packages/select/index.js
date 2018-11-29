@@ -62,6 +62,10 @@ export default class Select extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // this is to fix onChange being called twice
+    if (this.props.value !== prevProps.value) {
+      this.setState({value: this.props.value});
+    }
     if (this.state.value !== prevState.value) {
       this.foundation_.handleChange();
     }
@@ -133,6 +137,10 @@ export default class Select extends React.Component {
     );
   }
 
+
+  setRippleCenter = (lineRippleCenter) => this.setState({lineRippleCenter});
+  setDisabled = (disabled) => this.setState({disabled});
+
   /**
   * render methods
   */
@@ -167,9 +175,9 @@ export default class Select extends React.Component {
       <NativeControl
         className={nativeControlClassName}
         foundation={this.foundation_}
-        handleDisabled={(disabled) => this.setState({disabled})}
+        handleDisabled={this.setDisabled}
         onChange={this.onChange}
-        setRippleCenter={(lineRippleCenter) => this.setState({lineRippleCenter})}
+        setRippleCenter={this.setRippleCenter}
         {...otherProps}
       >
         {this.renderOptions()}

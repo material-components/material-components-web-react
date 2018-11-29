@@ -1,7 +1,7 @@
 import React from 'react';
 import td from 'testdouble';
 import {assert} from 'chai';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 import NativeControl from '../../../packages/select/NativeControl';
 
 suite('Select Native Input');
@@ -26,14 +26,6 @@ test('calls props.handleDisabled if props.disabled updates', () => {
   const wrapper = shallow(<NativeControl handleDisabled={handleDisabled} />);
   wrapper.setProps({disabled: true});
   td.verify(handleDisabled(true), {times: 1});
-});
-
-test('calls props.onChange if props.value updates', () => {
-  const onChange = td.func();
-  const wrapper = shallow(<NativeControl onChange={onChange} />);
-  const value = 'orange-peel';
-  wrapper.setProps({value});
-  td.verify(onChange({target: {value}}), {times: 1});
 });
 
 test('#event.focus calls #foundation.handleFocus', () => {
@@ -78,12 +70,21 @@ test('#event.mousedown calls #props.onMouseDown', () => {
   td.verify(onMouseDown(testEvt), {times: 1});
 });
 
-test('#event.mousedown calls #props.setRippleCenter', () => {
+test('#event.mousedown calls #props.setRippleCenter if target is nativeControl', () => {
   const setRippleCenter = td.func();
-  const wrapper = shallow(<NativeControl setRippleCenter={setRippleCenter} />);
+  const wrapper = mount(<NativeControl setRippleCenter={setRippleCenter} />);
+  wrapper.instance().nativeControl_ = {current: testEvt.target};
   wrapper.simulate('mousedown', testEvt);
   const left = testEvt.target.getBoundingClientRect().left;
   td.verify(setRippleCenter(testEvt.clientX - left), {times: 1});
+});
+
+test('#event.mousedown does not call #props.setRippleCenter if target is not nativeControl', () => {
+  const setRippleCenter = td.func();
+  const wrapper = mount(<NativeControl setRippleCenter={setRippleCenter} />);
+  wrapper.simulate('mousedown', testEvt);
+  const left = testEvt.target.getBoundingClientRect().left;
+  td.verify(setRippleCenter(testEvt.clientX - left), {times: 0});
 });
 
 test('#event.touchstart calls #props.onTouchStart', () => {
@@ -101,9 +102,26 @@ test('#event.touchstart calls #props.onTouchStart', () => {
   td.verify(onTouchStart(evt), {times: 1});
 });
 
-test('#event.touchstart calls #props.setRippleCenter', () => {
+test('#event.touchstart calls #props.setRippleCenter if target is nativeControl', () => {
   const setRippleCenter = td.func();
-  const wrapper = shallow(<NativeControl setRippleCenter={setRippleCenter} />);
+  const wrapper = mount(<NativeControl setRippleCenter={setRippleCenter} />);
+  const evt = {
+    test: 'test',
+    touches: [{clientX: 20}],
+    target: {
+      getBoundingClientRect: () => ({left: 15}),
+      value: 'value',
+    },
+  };
+  wrapper.instance().nativeControl_ = {current: evt.target};
+  wrapper.simulate('touchstart', evt);
+  const left = evt.target.getBoundingClientRect().left;
+  td.verify(setRippleCenter(20 - left), {times: 1});
+});
+
+test('#event.touchstart does not call #props.setRippleCenter if target is not nativeControl', () => {
+  const setRippleCenter = td.func();
+  const wrapper = mount(<NativeControl setRippleCenter={setRippleCenter} />);
   const evt = {
     test: 'test',
     touches: [{clientX: 20}],
@@ -114,7 +132,7 @@ test('#event.touchstart calls #props.setRippleCenter', () => {
   };
   wrapper.simulate('touchstart', evt);
   const left = evt.target.getBoundingClientRect().left;
-  td.verify(setRippleCenter(20 - left), {times: 1});
+  td.verify(setRippleCenter(20 - left), {times: 0});
 });
 
 test('renders children', () => {
