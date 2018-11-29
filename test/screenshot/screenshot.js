@@ -32,9 +32,10 @@ export default class Screenshot {
   /**
    * @param {string} urlPath The URL path to test
    */
-  constructor(urlPath) {
+  constructor(urlPath, browser) {
     /** @private {string} */
     this.urlPath_ = urlPath;
+    this.browser_ = browser;
     // TODO allow clients to specify capture-chrome options, like viewport size
   }
 
@@ -199,11 +200,7 @@ export default class Screenshot {
    * @private
    */
   async takeScreenshot_() {
-    const browser = await puppeteer.launch({
-      executablePath: 'google-chrome-unstable',
-      // https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#tips
-      args: ['--disable-dev-shm-usage'],
-    });
+    const browser = this.browser_;
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {'waitUntil': ['networkidle2']});
     // await page.waitForSelector('#screenshot-test-app');
