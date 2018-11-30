@@ -6,7 +6,7 @@
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "stop": "./test/screenshot/stop.sh",
     "build": "npm run clean && mkdirp build && webpack --config packages/webpack.config.js --progress --colors",
-    "capture": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --compilers js:babel-core/register --ui tdd --timeout 90000 test/screenshot/capture-suite.js",
+    "capture": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --require ts-node/register --require babel-core/register --ui tdd --timeout 20000 test/screenshot/capture-suite.tsx",
     "clean": "rm -rf build/** build packages/**/dist/",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix --ext .jsx,.js,.tsx,.ts packages test",
