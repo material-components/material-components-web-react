@@ -1,5 +1,17 @@
 # Release
 
+## Pre-release Process
+
+### Create PR to merge RC (release candidate) branch into master
+
+If this is a scheduled release most of the development is on a release candidate branch (ie. rc0.7.x, rc0.8.0). You will need to create a PR merging it into master. Have someone quickly review it -- all issues should have been addressed during the regular PR process for each commit into the RC branch.
+
+> The CLA may not pass since some contributors may be from outside the org. This is ok so long as the previous PRs were signed.
+
+Once merged into master, continue the process below.
+
+
+### Release Steps
 
 #### Setup Local Environment
 > Employees are supposed to do this as part of onboarding, but we've put it here as a reminder.
@@ -58,10 +70,31 @@ conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
 The `CHANGELOG.md` will also be updated with the new version's changes. You will need to edit the header of the file at the very least. If you need to **edit** any other parts of the `CHANGELOG.md`, now is the time.
 
+#### Update .travis.yml config
+
+The `.travis.yml` file will need to be updated before merging into master. Remove the RC branch from the `branches` property in the config.
+
+Original:
+
+```
+branches:
+  only:
+    - master
+    - rc0.7.x # remove this
+```
+
+Updated:
+
+```
+branches:
+  only:
+    - master
+```
+
 #### Commit Changes
 
 ```
-git add packages/ package-lock.json lerna.json CHANGELOG.md
+git add packages/ package-lock.json lerna.json CHANGELOG.md .travis.yml
 git commit -m "chore: Publish"
 ```
 
@@ -94,3 +127,32 @@ You may need to update Github's master branch protection:
 > 1. Click Save changes
 > 1. Perform git push && git push --tags
 > 1. Don't forget to toggle on Include administrators & click Save changes
+
+### Post Process
+
+These steps can be done anytime after the release. But should be taken care of before any new development is started.
+
+#### Create new RC Branch
+
+If it hasn't already been done, you will need to create a new RC branch. If the next release is v0.8.0, create a branch named `rc0.8.0` and push this to the Github repository for everyone to branch from. Once complete follow the remaining checklist items:
+
+* [ ] [Add a new protection rule](https://github.com/material-components/material-components-web-react/settings/branch_protection_rules/new) to the RC Branch.
+  * branch name should match new RC branch name.
+  * check the following:
+    * `Require pull request reviews before merging`
+    * `Require status checks to pass before merging`
+    * `Require branches to be up to date before merging`
+      * `Travis CI - Pull Request`
+      * `cla/google`
+    * `Include administrators`
+    * `Restrict who can push to matching branches`
+    * Should look like this:  ![protectionrule](https://user-images.githubusercontent.com/579873/48811016-b4814400-ece0-11e8-9a7e-1a9838ecf764.png)
+
+* [ ] Update the `.travis.yml` config
+  * Add the RC branch to the `branches` property in the config.
+  * ```
+    branches:
+      only:
+        - master
+        - rc0.8.0 # add this
+  ```
