@@ -56,7 +56,7 @@ export default class Icon extends React.Component<
   componentDidMount() {
     this.foundation_ = new MDCTextFieldIconFoundation(this.adapter);
     this.foundation_.init();
-    debugger
+    debugger;
     if (this.props.disabled) {
       this.foundation_.setDisabled(true);
     }

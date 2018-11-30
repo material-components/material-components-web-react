@@ -30,7 +30,7 @@ import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
 type TextFieldProps<T> = {
-  'children.props'?: InputProps<object>,
+  'children.props'?: InputProps<T>,
   children: JSX.Element,
   className: string,
   dense: boolean,
@@ -49,7 +49,7 @@ type TextFieldProps<T> = {
 
 type TextFieldState = {
   foundation: MDCTextFieldFoundation | null,
-  value: null,
+  value?: string | string[] | number,
   classList: Set<any>,
   inputId: string,
   isFocused: boolean,
@@ -62,7 +62,7 @@ type TextFieldState = {
   lineRippleCenter: number,
   outlineIsNotched: boolean,
   showHelperTextToScreenReader: boolean,
-  isValid: boolean
+  isValid: boolean,
 };
 
 class TextField extends React.Component<TextFieldProps<object>, TextFieldState> {
@@ -89,7 +89,7 @@ class TextField extends React.Component<TextFieldProps<object>, TextFieldState> 
     this.inputComponent_ = null;
     this.state = {
       // root state
-      value: null,
+      value: undefined,
       classList: new Set(),
       inputId: props.children.props.id,
       isFocused: false,
@@ -278,7 +278,7 @@ class TextField extends React.Component<TextFieldProps<object>, TextFieldState> 
     return Object.assign({}, props, {
       foundation: this.state.foundation,
       handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
-      handleValueChange: (value: string | number, cb: Function) => this.setState({value}, cb),
+      handleValueChange: (value: string | number, cb: () => void) => this.setState({value}, cb),
       setDisabled: (disabled: boolean) => this.setState({disabled}),
       setInputId: (id: string) => this.setState({inputId: id}),
       ref: (input: Input) => {

@@ -40,7 +40,7 @@ export type InputProps<T> = {
   setDisabled: (disabled: boolean) => void,
   setInputId: (id: string | number) => void,
   handleFocusChange: (isFocused: boolean) => void,
-} & React.InputHTMLAttributes<T>;
+} & React.InputHTMLAttributes<T> & React.HTMLProps<T>;
 
 type InputState = {
   wasUserTriggeredChange: boolean,

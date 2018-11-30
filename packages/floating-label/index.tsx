@@ -24,7 +24,7 @@ import * as classnames from 'classnames';
 import {MDCFloatingLabelFoundation} from '@material/floating-label';
 
 
-export type FloatingLabelProps<T> {
+export type FloatingLabelProps<T> = {
   className?: string,
   handleWidthChange?: (width: number) => void,
   float?: boolean,
