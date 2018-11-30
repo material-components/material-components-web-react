@@ -25,14 +25,14 @@ import {MDCLineRippleFoundation} from '@material/line-ripple';
 
 export type LineRippleProps = {
   className?: string,
-  style?: object,
+  style?: React.CSSProperties,
   active?: boolean,
   rippleCenter?: number
 };
 
 type LineRippleState = {
   classList: Set<any>,
-  style: {}
+  style: React.CSSProperties,
 };
 
 export default class LineRipple extends React.Component<
@@ -87,14 +87,14 @@ export default class LineRipple extends React.Component<
 
   get adapter() {
     return {
-      addClass: (className) =>
+      addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className) => this.state.classList.has(className),
+      hasClass: (className: string) => this.state.classList.has(className),
       setStyle: this.setStyle,
     };
   }
@@ -105,7 +105,7 @@ export default class LineRipple extends React.Component<
     return classnames('mdc-line-ripple', Array.from(classList), className);
   }
 
-  setStyle = (varName, value) => {
+  setStyle = (varName: string, value: React.CSSProperties) => {
     const styleName = varName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
     const updatedStyle = Object.assign({}, this.state.style);
     updatedStyle[styleName] = value;

@@ -46,7 +46,7 @@ test('calls handleWidthChange with the offhandleWidthChange of the labelElement'
     <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>,
     options
   );
-  td.verify(handleWidthChange(wrapper.getDOMNode().offsetWidth), {times: 1});
+  td.verify(handleWidthChange((wrapper.getDOMNode() as HTMLLabelElement).offsetWidth), {times: 1});
   div.remove();
 });
 
@@ -61,9 +61,10 @@ test('#componentDidUpdate updating the children updates width', () => {
     <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>,
     options
   );
-  const firstLength = (wrapper.getDOMNode()).offsetWidth;
+
+  const firstLength = (wrapper.getDOMNode() as HTMLLabelElement).offsetWidth;
   wrapper.setProps({children: 'Test More Text'});
-  const secondLength = wrapper.getDOMNode().offsetWidth;
+  const secondLength = (wrapper.getDOMNode() as HTMLLabelElement).offsetWidth;
   td.verify(handleWidthChange(firstLength), {times: 1});
   td.verify(handleWidthChange(secondLength), {times: 1});
   div.remove();

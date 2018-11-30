@@ -93,9 +93,9 @@ export default class NotchedOutline extends React.Component<
     return {
       getWidth: () => this.outlineElement_.current ? this.outlineElement_.current.offsetWidth : 0,
       getHeight: () => this.outlineElement_.current ? this.outlineElement_.current.offsetHeight : 0,
-      addClass: (className) =>
+      addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
@@ -105,7 +105,7 @@ export default class NotchedOutline extends React.Component<
           this.pathElement_.current.setAttribute('d', value);
         }
       },
-      getIdleOutlineStyleValue: (propertyName) => {
+      getIdleOutlineStyleValue: (propertyName: string) => {
         if (this.idleElement_.current) {
           return window
             .getComputedStyle(this.idleElement_.current)

@@ -98,7 +98,7 @@ export default class Input extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: InputProps<object>) {
     const {
       id,
       handleValueChange,
@@ -149,44 +149,44 @@ export default class Input extends React.Component<
     const element = this.inputElement_.current;
     return element ? element : null;
   }
-  handleFocus = (e) => {
+  handleFocus = (evt: React.FocusEvent) => {
     const {foundation, handleFocusChange, onFocus} = this.props;
     foundation.activateFocus();
     handleFocusChange(true);
-    onFocus(e);
+    onFocus(evt);
   };
-  handleBlur = (e) => {
+  handleBlur = (evt: React.FocusEvent) => {
     const {foundation, handleFocusChange, onBlur} = this.props;
     foundation.deactivateFocus();
     handleFocusChange(false);
-    onBlur(e);
+    onBlur(evt);
   };
-  handleMouseDown = (e) => {
+  handleMouseDown = (evt: React.MouseEvent) => {
     const {foundation, onMouseDown} = this.props;
-    foundation.setTransformOrigin(e);
-    onMouseDown(e);
+    foundation.setTransformOrigin(evt);
+    onMouseDown(evt);
   };
-  handleTouchStart = (e) => {
+  handleTouchStart = (evt: React.TouchEvent) => {
     const {foundation, onTouchStart} = this.props;
-    foundation.setTransformOrigin(e);
-    onTouchStart(e);
+    foundation.setTransformOrigin(evt);
+    onTouchStart(evt);
   };
   // To stay in sync with the MDC React Text Field Component, handleValueChange()
   // is called to update MDC React Text Field's state. That state variable
   // is used to let other subcomponents and the foundation know what the current
   // value of the input is.
-  handleChange = (e) => {
+  handleChange = (evt: React.ChangeEvent) => {
     const {foundation, onChange} = this.props;
     // autoCompleteFocus runs on `input` event in MDC Web. In React, onChange and
     // onInput are the same event
     // https://stackoverflow.com/questions/38256332/in-react-whats-the-difference-between-onchange-and-oninput
     foundation.autoCompleteFocus();
     this.setState({wasUserTriggeredChange: true});
-    onChange(e);
+    onChange(evt);
   };
-  handleValidationAttributeUpdate = (nextProps) => {
+  handleValidationAttributeUpdate = (nextProps: InputProps<object>) => {
     const {foundation} = nextProps;
-    VALIDATION_ATTR_WHITELIST.some((attributeName) => {
+    VALIDATION_ATTR_WHITELIST.some((attributeName: string) => {
       let attr = attributeName;
       if (attributeName === 'minlength') {
         attr = 'minLength';

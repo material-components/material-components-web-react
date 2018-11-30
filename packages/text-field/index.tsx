@@ -29,7 +29,9 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
-export type TextFieldProps = {
+export type TextFieldProps = TextFieldPropsLocal & React.Props<any>;
+
+type TextFieldPropsLocal = {
   'children.props'?: InputProps<object>,
   children: JSX.Element,
   className: string,
@@ -83,7 +85,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
     trailingIcon: null,
   };
 
-  constructor(props) {
+  constructor(props: TextFieldProps) {
     super(props);
     this.floatingLabelElement = React.createRef();
     this.inputComponent_ = null;
@@ -176,14 +178,14 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
 
   get adapter() {
     const rootAdapterMethods = {
-      addClass: (className) =>
+      addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) => this.classes.split(' ').includes(className),
       isFocused: () => this.state.isFocused,
       isRtl: () => this.props.isRtl,
     };
@@ -234,14 +236,14 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
 
   get labelAdapter() {
     return {
-      shakeLabel: (shakeLabel) => {
+      shakeLabel: (shakeLabel: boolean) => {
         const {floatingLabelElement: floatingLabel} = this;
         if (!shakeLabel) return;
         if (floatingLabel && floatingLabel.current) {
           floatingLabel.current.shake();
         }
       },
-      floatLabel: (labelIsFloated) => this.setState({labelIsFloated}),
+      floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),
       hasLabel: () => !!this.props.label,
       getLabelWidth: () => this.state.initialLabelWidth,
     };
@@ -251,14 +253,14 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
-      setLineRippleTransformOrigin: (lineRippleCenter) =>
+      setLineRippleTransformOrigin: (lineRippleCenter: number) =>
         this.setState({lineRippleCenter}),
     };
   }
 
   get notchedOutlineAdapter() {
     return {
-      notchOutline: (notchedLabelWidth) =>
+      notchOutline: (notchedLabelWidth: number) =>
         this.setState({outlineIsNotched: true, notchedLabelWidth}),
       closeOutline: () => this.setState({outlineIsNotched: false}),
       hasOutline: () => !!this.props.outlined,
@@ -269,19 +271,19 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
     return {
       showToScreenReader: () =>
         this.setState({showHelperTextToScreenReader: true}),
-      setValidity: (isValid) => this.setState({isValid}),
+      setValidity: (isValid: boolean) => this.setState({isValid}),
     };
   }
 
-  inputProps(child) {
+  inputProps(child: React.ReactElement<Input>) {
     const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
-      handleFocusChange: (isFocused) => this.setState({isFocused}),
-      handleValueChange: (value, cb) => this.setState({value}, cb),
-      setDisabled: (disabled) => this.setState({disabled}),
-      setInputId: (id) => this.setState({inputId: id}),
-      ref: (input) => {
+      handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
+      handleValueChange: (value: string | number, cb: Function) => this.setState({value}, cb),
+      setDisabled: (disabled: boolean) => this.setState({disabled}),
+      setInputId: (id: string) => this.setState({inputId: id}),
+      ref: (input: Input) => {
         if (typeof ref === 'function') {
           ref(input);
         }
@@ -394,7 +396,7 @@ class TextField extends React.Component<TextFieldProps, TextFieldState> {
     return React.cloneElement(helperText, props);
   }
 
-  renderIcon(icon) {
+  renderIcon(icon: React.ReactNode) {
     const {disabled} = this.state;
     // Toggling disabled will trigger icon.foundation.setDisabled()
     return <Icon disabled={disabled}>{icon}</Icon>;

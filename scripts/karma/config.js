@@ -51,6 +51,9 @@ module.exports = {
         },
       ],
     },
+    node: {
+      fs: 'empty',
+    },
   },
 
   client: {
