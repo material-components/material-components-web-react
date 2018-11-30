@@ -1,4 +1,4 @@
-7import {Readable} from 'stream';
+import {Readable} from 'stream';
 import {createHash} from 'crypto';
 import {readFile, writeFile} from 'fs';
 import {promisify} from 'util';
