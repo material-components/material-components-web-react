@@ -24,9 +24,7 @@ import * as classnames from 'classnames';
 import {MDCTextFieldFoundation} from '@material/textfield';
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
-export type InputProps<T> = Props & React.InputHTMLAttributes<T>;
-
-type Props = {
+export type InputProps<T> = {
   className: string,
   inputType: 'input' | 'textarea',
   disabled: boolean,
@@ -42,7 +40,7 @@ type Props = {
   setDisabled: (disabled: boolean) => void,
   setInputId: (id: string | number) => void,
   handleFocusChange: (isFocused: boolean) => void,
-};
+} & React.InputHTMLAttributes<T>;
 
 type InputState = {
   wasUserTriggeredChange: boolean,

@@ -23,13 +23,12 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import {MDCFloatingLabelFoundation} from '@material/floating-label';
 
-export type FloatingLabelProps<T> = Props & React.LabelHTMLAttributes<T>;
 
-type Props = {
+export type FloatingLabelProps<T> {
   className?: string,
   handleWidthChange?: (width: number) => void,
   float?: boolean,
-};
+} & React.LabelHTMLAttributes<T>;
 
 type FloatingLabelState = {
   classList: Set<String>,

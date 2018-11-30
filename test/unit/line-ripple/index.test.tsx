@@ -68,7 +68,7 @@ test('does not call #foundation.setRippleCenter when props.rippleCenter is NaN',
 });
 
 test('#adapter.addClass updates state.classList', () => {
-  const wrapper = shallow(<LineRipple />);
+  const wrapper = shallow<LineRipple>(<LineRipple />);
   wrapper.instance().foundation_.adapter_.addClass('test-color-class');
   assert.isTrue(wrapper.state().classList.has('test-color-class'));
 });
@@ -96,7 +96,8 @@ test('#adapter.hasClass returns true if exists in classList', () => {
 test('#adapter.setStyle updates style', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
   wrapper.instance().foundation_.adapter_.setStyle('color', 'blue');
-  assert.equal(wrapper.state().style.color, 'blue');
+  const style = wrapper.state().style as React.CSSProperties;
+  assert.equal(style.color, 'blue');
 });
 
 test('onTransitionEnd calls the #foundation.handleTransitionEnd', () => {
