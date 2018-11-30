@@ -28,10 +28,10 @@ export default {
       red: 255,
       green: 0,
       blue: 255,
-      alpha: 150
+      alpha: 150,
     },
-    errorType: "movementDifferenceIntensity",
-    transparency: 0.3
+    errorType: 'movementDifferenceIntensity',
+    transparency: 0.3,
   },
-  ignore: ["antialiasing"]
+  ignore: ['antialiasing'],
 };
