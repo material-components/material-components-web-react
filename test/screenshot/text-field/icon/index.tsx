@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Icon from '../../../../packages/text-field/icon/index';
-import MaterialIcon from '../../../../packages/material-icon';
+import MaterialIcon from '../../../../packages/material-icon/index.js';
 import '../../../../packages/text-field/icon/index.scss';
 
 const TextFieldIconScreenshotTest = () => {

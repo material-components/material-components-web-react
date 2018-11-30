@@ -13,7 +13,7 @@ module.exports = {
 
   // list of files / patterns to load in the browser
   files: [
-    'test/unit/index.js',
+    'test/unit/index.tsx',
   ],
 
 
@@ -24,7 +24,7 @@ module.exports = {
   // preprocess matching files before serving them to the browser
   // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
   preprocessors: {
-    'test/unit/index.js': ['webpack'],
+    'test/unit/index.tsx': ['webpack'],
   },
 
   webpack: {
