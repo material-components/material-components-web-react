@@ -2,7 +2,8 @@ import * as React from 'react';
 import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import HelperText from '../../../../packages/text-field/helper-text/index';
+// @ts-ignore
+import HelperText from '../../../../packages/text-field/helper-text/index.tsx';
 
 suite('Text Field Helper Text');
 

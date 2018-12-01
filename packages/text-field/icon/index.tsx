@@ -34,7 +34,7 @@ type IconState = {
 export default class Icon extends React.Component<
   IconProps,
   IconState
-  > {
+> {
   foundation_: MDCTextFieldIconFoundation;
 
   static defaultProps = {
@@ -73,7 +73,14 @@ export default class Icon extends React.Component<
 
   get adapter() {
     return {
-      getAttr: (attr) => this.state[attr],
+      // need toString() call when tabindex === 0.
+      // @types/react requires tabIndex is number
+      getAttr: (attr) => {
+        const attr_ = this.state[attr];
+        if (attr_ || (typeof attr_ === 'number' && !isNaN(attr_))) {
+          return attr_.toString();
+        }
+      },
       setAttr: (attr: keyof IconState, value: string) => (
         this.setState((prevState) => ({...prevState, [attr]: value}))
       ),

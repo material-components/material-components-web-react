@@ -45,7 +45,7 @@ type HelperTextState = {
 export default class HelperText extends React.Component<
   HelperTextProps,
   HelperTextState
-  > {
+> {
   foundation_: MDCTextFieldHelperTextFoundation;
 
   static defaultProps = {

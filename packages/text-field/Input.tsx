@@ -40,16 +40,16 @@ export type InputProps<T> = {
   setDisabled: (disabled: boolean) => void,
   setInputId: (id: string | number) => void,
   handleFocusChange: (isFocused: boolean) => void,
-} & React.InputHTMLAttributes<T> & React.TextareaHTMLAttributes<T> & React.HTMLProps<T>;
+} & React.InputHTMLAttributes<T> & React.TextareaHTMLAttributes<T>;
 
 type InputState = {
   wasUserTriggeredChange: boolean,
 };
 
 export default class Input extends React.Component<
-  InputProps<HTMLInputElement | HTMLTextAreaElement>, InputState
-  > {
-  inputElement_: React.RefObject<HTMLInputElement | HTMLTextAreaElement> = React.createRef();
+  InputProps<HTMLInputElement>, InputState
+> {
+  inputElement_: React.RefObject<HTMLInputElement> = React.createRef();
 
   static defaultProps = {
     className: '',
@@ -96,7 +96,7 @@ export default class Input extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps: InputProps<HTMLInputElement | HTMLTextAreaElement>) {
+  componentDidUpdate(prevProps: InputProps<HTMLInputElement>) {
     const {
       id,
       handleValueChange,
@@ -140,42 +140,42 @@ export default class Input extends React.Component<
       }
     }
   }
-  
+
   get classes() {
     return classnames('mdc-text-field__input', this.props.className);
   }
-  
+
   get inputElement() {
     const element = this.inputElement_.current;
     return element ? element : null;
   }
-  
+
   handleFocus = (evt: React.FocusEvent) => {
     const {foundation, handleFocusChange, onFocus} = this.props;
     foundation.activateFocus();
     handleFocusChange(true);
     onFocus(evt);
   };
-  
+
   handleBlur = (evt: React.FocusEvent) => {
     const {foundation, handleFocusChange, onBlur} = this.props;
     foundation.deactivateFocus();
     handleFocusChange(false);
     onBlur(evt);
   };
-  
-  handleMouseDown = (evt: React.MouseEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+  handleMouseDown = (evt: React.MouseEvent<HTMLInputElement>) => {
     const {foundation, onMouseDown} = this.props;
     foundation.setTransformOrigin(evt);
     onMouseDown(evt);
   };
-  
-  handleTouchStart = (evt: React.TouchEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+  handleTouchStart = (evt: React.TouchEvent<HTMLInputElement>) => {
     const {foundation, onTouchStart} = this.props;
     foundation.setTransformOrigin(evt);
     onTouchStart(evt);
   };
-  
+
   // To stay in sync with the MDC React Text Field Component, handleValueChange()
   // is called to update MDC React Text Field's state. That state variable
   // is used to let other subcomponents and the foundation know what the current
@@ -189,7 +189,7 @@ export default class Input extends React.Component<
     this.setState({wasUserTriggeredChange: true});
     onChange(evt);
   };
-  
+
   handleValidationAttributeUpdate = (nextProps: InputProps<object>) => {
     const {foundation} = nextProps;
     VALIDATION_ATTR_WHITELIST.some((attributeName: string) => {
@@ -240,7 +240,7 @@ export default class Input extends React.Component<
       ...otherProps
     } = this.props;
     const InputComponent = inputType;
-    
+
     return (
       <InputComponent
         onFocus={this.handleFocus}

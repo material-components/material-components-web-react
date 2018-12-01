@@ -2,7 +2,8 @@ import * as React from 'react';
 import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import Icon from '../../../../packages/text-field/icon/index';
+// @ts-ignore
+import Icon from '../../../../packages/text-field/icon/index.tsx';
 import MaterialIcon from '../../../../packages/material-icon/index.js';
 
 suite('Text Field Icon');
@@ -41,7 +42,7 @@ test('initializes with role', () => {
       <i role="button" />
     </Icon>
   );
-  assert.equal(wrapper.state().role, 'button');``
+  assert.equal(wrapper.state().role, 'button'); '';
 });
 
 test('#componentDidMount creates foundation', () => {

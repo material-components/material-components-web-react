@@ -6,8 +6,10 @@ import TextField, {
   HelperText,
   Input,
   InputChildType,
-} from '../../../packages/text-field/index';
-import FloatingLabel from '../../../packages/floating-label/index';
+  // @ts-ignore
+} from '../../../packages/text-field/index.tsx';
+// @ts-ignore
+import FloatingLabel from '../../../packages/floating-label/index.tsx';
 
 suite('Text Field');
 
@@ -656,7 +658,7 @@ test('#inputProps.setInputId updates state.disabled', () => {
 });
 
 test('passing a ref to the <Input /> should return the instance of the Input', () => {
-  let inputInstance = null;
+  let inputInstance;
   const wrapper = mount<TextField>(
     <TextField label="my label">
       <Input ref={(input) => (inputInstance = input)} />

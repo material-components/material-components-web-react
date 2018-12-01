@@ -3,7 +3,8 @@ import * as td from 'testdouble';
 import {suite, test} from 'mocha';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-import FloatingLabel from '../../../packages/floating-label/index';
+// @ts-ignore
+import FloatingLabel from '../../../packages/floating-label/index.tsx';
 
 suite('Floating Label');
 

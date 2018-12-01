@@ -2,7 +2,8 @@ import * as React from 'react';
 import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import LineRipple from '../../../packages/line-ripple/index';
+// @ts-ignore
+import LineRipple from '../../../packages/line-ripple/index.tsx';
 
 suite('LineRipple');
 
