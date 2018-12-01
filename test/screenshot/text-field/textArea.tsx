@@ -39,7 +39,7 @@ const textareaFields = textareaVariants.map((variant) => {
             );
             const key = `textarea-${JSON.stringify(props)}${helperTextKey}`;
             return (
-              <TestField variant="textarea" {...props} key={key} id={key} />
+              <TestField variant='textarea' {...props} key={key} id={key} />
             );
           });
         });
@@ -49,7 +49,7 @@ const textareaFields = textareaVariants.map((variant) => {
 });
 
 const TextAreaScreenshotTest = () => (
-  <div className="text-field-container">{textareaFields}</div>
+  <div className='text-field-container'>{textareaFields}</div>
 );
 
 export default TextAreaScreenshotTest;

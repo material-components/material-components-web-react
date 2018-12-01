@@ -35,7 +35,7 @@ type FloatingLabelState = {
 };
 
 export default class FloatingLabel extends React.Component<
-  FloatingLabelProps<object>,
+  FloatingLabelProps<HTMLLabelElement>,
   FloatingLabelState
   > {
   foundation_: null | MDCFloatingLabelFoundation;

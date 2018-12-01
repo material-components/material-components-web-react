@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
-import {mount, shallow, ShallowWrapper} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import NotchedOutline from '../../../packages/notched-outline/index';
 
 suite('NotchedOutline');
@@ -121,7 +121,7 @@ test('#adapter.getWidth returns width of outlineElement_', () => {
   div.style.position = 'relative';
   const options = {attachTo: div};
   const wrapper = mount<NotchedOutline>(<NotchedOutline />, options);
-  const notchedOutlineElement = wrapper.find('.mdc-notched-outline').instance();
+  const notchedOutlineElement = wrapper.find('.mdc-notched-outline').instance() as any;
   const outlineWidth = notchedOutlineElement.offsetWidth;
   assert.equal(
     wrapper.instance().foundation_.adapter_.getWidth(),
@@ -138,8 +138,8 @@ test('#adapter.getHeight returns height of outlineElement_', () => {
   div.style.position = 'relative';
   const options = {attachTo: div};
   const wrapper = mount<NotchedOutline>(<NotchedOutline />, options);
-  const notchedOutlineElement = wrapper.find('.mdc-notched-outline').instance();
-  const outlineHeight = (notchedOutlineElement as HTMLDivElement).offsetHeight;
+  const notchedOutlineElement = wrapper.find('.mdc-notched-outline').instance() as any;
+  const outlineHeight = notchedOutlineElement.offsetHeight;
   assert.equal(
     wrapper.instance().foundation_.adapter_.getHeight(),
     outlineHeight

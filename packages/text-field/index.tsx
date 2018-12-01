@@ -65,9 +65,9 @@ type TextFieldState = {
   isValid: boolean,
 };
 
-class TextField extends React.Component<TextFieldProps<object>, TextFieldState> {
-  floatingLabelElement: React.RefObject<FloatingLabel>;
-  inputComponent_: null | Input;
+class TextField extends React.Component<TextFieldProps<HTMLDivElement>, TextFieldState> {
+  floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
+  inputComponent_: null | Input = null;
 
   static defaultProps = {
     className: '',
@@ -83,10 +83,8 @@ class TextField extends React.Component<TextFieldProps<object>, TextFieldState> 
     trailingIcon: null,
   };
 
-  constructor(props: TextFieldProps<object>) {
+  constructor(props: TextFieldProps<HTMLInputElement | HTMLTextAreaElement>) {
     super(props);
-    this.floatingLabelElement = React.createRef();
-    this.inputComponent_ = null;
     this.state = {
       // root state
       value: undefined,
@@ -273,7 +271,7 @@ class TextField extends React.Component<TextFieldProps<object>, TextFieldState> 
     };
   }
 
-  inputProps(child: React.ReactElement<Input>) {
+  inputProps(child: React.ReactElement<React.Props<HTMLInputElement | HTMLTextAreaElement>>) {
     const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,

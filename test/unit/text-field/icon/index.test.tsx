@@ -41,7 +41,7 @@ test('initializes with role', () => {
       <i role="button" />
     </Icon>
   );
-  assert.equal(wrapper.state().role, 'button');
+  assert.equal(wrapper.state().role, 'button');``
 });
 
 test('#componentDidMount creates foundation', () => {
@@ -63,7 +63,7 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true'
   assert.equal(wrapper.state().role, undefined);
 });
 
-test('#componentDidMount calls #foundation.setDisabled if disabled prop is true', () => {
+test('#componentDidMount calls #foundation.setDisabled if disabled prop is true and tabindex=0', () => {
   const wrapper = shallow<Icon>(
     <Icon disabled>
       <i tabIndex={0} />
@@ -72,6 +72,7 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true'
   assert.equal(wrapper.state().tabindex, -1);
   assert.equal(wrapper.state().role, undefined);
 });
+
 test(
   '#componentDidUpdate calls #foundation.setDisabled if ' +
     'props.disabled updates',
@@ -86,6 +87,7 @@ test(
     td.verify(wrapper.instance().foundation_.setDisabled(true), {times: 1});
   }
 );
+
 test(
   '#componentDidUpdate calls #foundation.setDisabled if ' +
     'props.disabled updates from true to false',
@@ -100,6 +102,7 @@ test(
     td.verify(wrapper.instance().foundation_.setDisabled(false), {times: 1});
   }
 );
+
 test(
   '#componentDidUpdate doesn\'t call #foundation.setDisabled if ' +
     'props.disabled is not updated',

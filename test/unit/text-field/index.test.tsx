@@ -626,7 +626,7 @@ test('#inputProps.handleValueChange calls cb after state is set', () => {
   wrapper
     .instance()
     .inputProps({} as inputPropsType)
-    .handleValueChange('meow', td.func() as () => void);
+    .handleValueChange('meow', callback as () => void);
   td.verify(callback(), {times: 1});
 });
 

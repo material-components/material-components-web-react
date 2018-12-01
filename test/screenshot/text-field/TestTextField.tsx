@@ -39,12 +39,12 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
     return (
       <div dir={isRtl ? 'rtl' : 'ltr'}>
         <TextField
-          label="Dog"
+          label='Dog'
           outlined={variant === 'outlined'}
           fullWidth={variant === 'fullWidth'}
           textarea={variant === 'textarea'}
           {...otherProps}
-          className="text-field"
+          className='text-field'
           isRtl={isRtl}
         >
           <Input

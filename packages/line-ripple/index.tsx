@@ -35,7 +35,7 @@ type LineRippleState = {
 };
 
 export default class LineRipple extends React.Component<
-  LineRippleProps<object>,
+  LineRippleProps<HTMLDivElement>,
   LineRippleState
   > {
   static defaultProps = {

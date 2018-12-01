@@ -59,6 +59,6 @@ const textFields = (variant) => {
   });
 };
 const TextFieldScreenshotTest = (variant) => (
-  <div className="text-field-container">{textFields(variant)}</div>
+  <div className='text-field-container'>{textFields(variant)}</div>
 );
 export default TextFieldScreenshotTest;

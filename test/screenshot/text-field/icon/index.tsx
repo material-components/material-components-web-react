@@ -7,13 +7,13 @@ const TextFieldIconScreenshotTest = () => {
   return (
     <div>
       <Icon>
-        <i className="material-icons" tabIndex={0} role="button">
+        <i className='material-icons' tabIndex={0} role='button'>
           favorite
         </i>
       </Icon>
 
       <Icon>
-        <MaterialIcon tabIndex="0" role="button" icon="favorite" />
+        <MaterialIcon tabIndex='0' role='button' icon='favorite' />
       </Icon>
     </div>
   );
