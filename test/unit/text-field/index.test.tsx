@@ -5,10 +5,9 @@ import {mount, shallow} from 'enzyme';
 import TextField, {
   HelperText,
   Input,
+  InputChildType,
 } from '../../../packages/text-field/index';
 import FloatingLabel from '../../../packages/floating-label/index';
-
-type inputPropsType = React.ReactElement<Input> & React.Props<object>;
 
 suite('Text Field');
 
@@ -598,7 +597,7 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as inputPropsType)
+    .inputProps({} as InputChildType)
     .handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
 });
@@ -611,7 +610,7 @@ test('#inputProps.handleValueChange updates state.value', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as inputPropsType)
+    .inputProps({} as InputChildType)
     .handleValueChange('meow', td.func() as () => void);
   assert.equal(wrapper.state().value, 'meow');
 });
@@ -625,7 +624,7 @@ test('#inputProps.handleValueChange calls cb after state is set', () => {
   const callback = td.func();
   wrapper
     .instance()
-    .inputProps({} as inputPropsType)
+    .inputProps({} as InputChildType)
     .handleValueChange('meow', callback as () => void);
   td.verify(callback(), {times: 1});
 });
@@ -638,7 +637,7 @@ test('#inputProps.setDisabled updates state.disabled', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as inputPropsType)
+    .inputProps({} as InputChildType)
     .setDisabled(true);
   assert.isTrue(wrapper.state().disabled);
 });
@@ -651,7 +650,7 @@ test('#inputProps.setInputId updates state.disabled', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as inputPropsType)
+    .inputProps({} as InputChildType)
     .setInputId('my-id');
   assert.equal(wrapper.state().inputId, 'my-id');
 });

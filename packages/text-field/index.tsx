@@ -65,6 +65,8 @@ type TextFieldState = {
   isValid: boolean,
 };
 
+export type InputChildType = React.ReactElement<React.Props<Input>> & React.Props<Input>;
+
 class TextField extends React.Component<TextFieldProps<HTMLDivElement>, TextFieldState> {
   floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
   inputComponent_: null | Input = null;
@@ -271,7 +273,7 @@ class TextField extends React.Component<TextFieldProps<HTMLDivElement>, TextFiel
     };
   }
 
-  inputProps(child: React.ReactElement<React.Props<Input>> & React.Props<Input>) {
+  inputProps(child: InputChildType) {
     const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
@@ -327,7 +329,7 @@ class TextField extends React.Component<TextFieldProps<HTMLDivElement>, TextFiel
 
   renderInput() {
     const child = React.Children.only(this.props.children);
-    const props = this.inputProps(child);
+    const props = this.inputProps(child as InputChildType);
     return React.cloneElement(child, props);
   }
 
