@@ -83,7 +83,7 @@ class TextField extends React.Component<TextFieldProps<HTMLDivElement>, TextFiel
     trailingIcon: null,
   };
 
-  constructor(props: TextFieldProps<HTMLInputElement | HTMLTextAreaElement>) {
+  constructor(props: TextFieldProps<HTMLDivElement>) {
     super(props);
     this.state = {
       // root state
@@ -271,7 +271,7 @@ class TextField extends React.Component<TextFieldProps<HTMLDivElement>, TextFiel
     };
   }
 
-  inputProps(child: React.ReactElement<React.Props<HTMLInputElement | HTMLTextAreaElement>>) {
+  inputProps(child: React.ReactElement<React.Props<Input>> & React.Props<Input>) {
     const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
