@@ -117,7 +117,7 @@ class MyApp extends Component {
 Multiple related lists can be grouped together using the `ListGroup` component. Optional subheaders can be added using `ListGroupSubheader`. `ListDivider`s can be used to separate content either within a list or between lists.
 
 ```js
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import List, {
   ListItem, ListItemText, ListGroup, 
   ListGroupSubheader,ListDivider
