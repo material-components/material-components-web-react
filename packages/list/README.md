@@ -195,7 +195,7 @@ className | String | Classes to be applied to the list element
 nonInteractive | Boolean | Disables interactivity affordances
 dense | Boolean | Styles the density of the list, making it appear more compact
 avatarList | Boolean | Configures the leading tiles of each row to display images instead of icons. This will make the graphics of the list items larger
-twoLine | Boolean | Styles the list with two linesn
+twoLine | Boolean | Styles the list with two lines
 singleSelection | Boolean | Allows for single selection of list items
 wrapFocus | Boolean | Sets the list to allow the up arrow on the first element to focus the last element of the list and vice versa
 selectedIndex | Number | Toggles the selected state of the list item at the given index
