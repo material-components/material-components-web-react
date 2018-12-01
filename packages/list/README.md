@@ -211,9 +211,9 @@ className | String | Classes to be applied to the list item element
 classNamesFromList | Array<String> | Additional classes to be applied to the list item element, passed down from list
 attributesFromList | Array | Additional attributes to be applied to the list item element, passed down from list
 childrenTabIndex | Number | Tab index to be applied to all children of the list item
-shouldFocus | n/a | Whether to focus the list item
-shouldFollowHref | n/a | Whether to follow the link indicated by the list item
-shouldToggleCheckbox | n/a | Whether to toggle the checkbox on the list item
+shouldFocus | Boolean | Whether to focus the list item
+shouldFollowHref | Boolean | Whether to follow the link indicated by the list item
+shouldToggleCheckbox | Boolean | Whether to toggle the checkbox on the list item
 onClick | Function(evt: Event) => void | Callback for handling a click event
 onKeyDown | Function(evt: Event) => void | Callback for handling a keydown event
 onFocus | Function(evt: Event) => void | Callback for handling a focus event
