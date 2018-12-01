@@ -19,7 +19,7 @@ import '@material/react-list/index.scss';
 
 with CSS:
 ```js
-import "@material/react-list/dist/list.css";
+import '@material/react-list/dist/list.css';
 ```
 
 ### Javascript Instantiation
@@ -117,28 +117,28 @@ class MyApp extends Component {
 Multiple related lists can be grouped together using the `ListGroup` component. Optional subheaders can be added using `ListGroupSubheader`. `ListDivider`s can be used to separate content either within a list or between lists.
 
 ```js
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import List, {
   ListItem, ListItemText, ListGroup, 
   ListGroupSubheader,ListDivider
-} from "@material/react-list";
+} from '@material/react-list';
 
 class MyApp extends Component {
   render() {
     return (
       <ListGroup>
-        <ListGroupSubheader tag="h2">Folders</ListGroupSubheader>
+        <ListGroupSubheader tag='h2'>Folders</ListGroupSubheader>
         <List>
           <ListItem>
-            <ListItemText primaryText="Photos" />
+            <ListItemText primaryText='Photos' />
           </ListItem>
           ...
         </List>
         <ListDivider />
-        <ListGroupSubheader tag="h2">Recent Files</ListGroupSubheader>
+        <ListGroupSubheader tag='h2'>Recent Files</ListGroupSubheader>
         <List>
           <ListItem>
-            <ListItemText primaryText="Vacation" />
+            <ListItemText primaryText='Vacation' />
           </ListItem>
           ...
         </List>
@@ -209,7 +209,7 @@ Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the list item element
 classNamesFromList | Array<String> | Additional classes to be applied to the list item element, passed down from list
-attributesFromList | n/a | Additional attributes to be applied to the list item element, passed down from list
+attributesFromList | Array | Additional attributes to be applied to the list item element, passed down from list
 childrenTabIndex | Number | Tab index to be applied to all children of the list item
 shouldFocus | n/a | Whether to focus the list item
 shouldFollowHref | n/a | Whether to follow the link indicated by the list item
