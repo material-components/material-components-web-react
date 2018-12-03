@@ -19,7 +19,7 @@ import '@material/react-list/index.scss';
 
 with CSS:
 ```js
-import "@material/react-list/dist/list.css";
+import '@material/react-list/dist/list.css';
 ```
 
 ### Javascript Instantiation
@@ -61,7 +61,7 @@ You can use the `twoLine` Boolean prop for `List` combined with the `secondaryTe
 import React, {Component} from 'react';
 import List, {ListItem, ListItemText} from '@material/react-list';
 
-class MyApp extends React.Component {
+class MyApp extends Component {
   render() {
     return (
       <List twoLine>
@@ -92,6 +92,7 @@ You may add a leading visuals or trailing metadata to a list item using `ListIte
 
 ```js
 import React, {Component} from 'react';
+import MaterialIcon from '@material/react-material-icon';
 import List, {ListItem, ListItemGraphic, ListItemText, ListItemMeta} from '@material/react-list';
 
 class MyApp extends Component {
@@ -108,6 +109,7 @@ class MyApp extends Component {
     );
   }
 }
+
 ```
 
 ### List groups and list dividers
@@ -116,7 +118,10 @@ Multiple related lists can be grouped together using the `ListGroup` component. 
 
 ```js
 import React, {Component} from 'react';
-import List, {ListItem, ListItemText, ListGroup, ListGroupSubheader} from '@material/react-list';
+import List, {
+  ListItem, ListItemText, ListGroup, 
+  ListGroupSubheader,ListDivider
+} from '@material/react-list';
 
 class MyApp extends Component {
   render() {
@@ -124,13 +129,17 @@ class MyApp extends Component {
       <ListGroup>
         <ListGroupSubheader tag='h2'>Folders</ListGroupSubheader>
         <List>
-          <ListItem><ListItemText primaryText='Photos' /></ListItem>
+          <ListItem>
+            <ListItemText primaryText='Photos' />
+          </ListItem>
           ...
         </List>
         <ListDivider />
         <ListGroupSubheader tag='h2'>Recent Files</ListGroupSubheader>
         <List>
-          <ListItem><ListItemText primaryText='Vacation' /></ListItem>
+          <ListItem>
+            <ListItemText primaryText='Vacation' />
+          </ListItem>
           ...
         </List>
       </ListGroup>
@@ -146,7 +155,10 @@ You can use the `singleSelection` Boolean prop for `List` to allow for selection
 > _NOTE_: If you are inserting or removing list items, you must update the `selectedIndex` accordingly.
 
 ```js
-class MyApp extends React.Component {
+import React, {Component} from 'react';
+import List, {ListItem, ListItemText} from '@material/react-list';
+
+class MyApp extends Component {
   state = {
     selectedIndex: 1,
   };
@@ -197,11 +209,11 @@ Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the list item element
 classNamesFromList | Array<String> | Additional classes to be applied to the list item element, passed down from list
-attributesFromList | Additional attributes to be applied to the list item element, passed down from list
+attributesFromList | Array | Additional attributes to be applied to the list item element, passed down from list
 childrenTabIndex | Number | Tab index to be applied to all children of the list item
-shouldFocus | Whether to focus the list item
-shouldFollowHref | Whether to follow the link indicated by the list item
-shouldToggleCheckbox | Whether to toggle the checkbox on the list item
+shouldFocus | Boolean | Whether to focus the list item
+shouldFollowHref | Boolean | Whether to follow the link indicated by the list item
+shouldToggleCheckbox | Boolean | Whether to toggle the checkbox on the list item
 onClick | Function(evt: Event) => void | Callback for handling a click event
 onKeyDown | Function(evt: Event) => void | Callback for handling a keydown event
 onFocus | Function(evt: Event) => void | Callback for handling a focus event
