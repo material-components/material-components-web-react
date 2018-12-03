@@ -48,7 +48,7 @@ type InputState = {
 
 export default class Input extends React.Component<
   InputProps<HTMLInputElement>, InputState
-> {
+  > {
   inputElement_: React.RefObject<HTMLInputElement> = React.createRef();
 
   static defaultProps = {

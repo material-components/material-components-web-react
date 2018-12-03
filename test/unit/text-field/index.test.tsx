@@ -8,8 +8,11 @@ import TextField, {
   InputChildType,
   // @ts-ignore
 } from '../../../packages/text-field/index.tsx';
+/* eslint-disable */
+// TODO: fix the ts lint warning 
 // @ts-ignore
 import FloatingLabel from '../../../packages/floating-label/index.tsx';
+/* eslint-enable */
 
 suite('Text Field');
 

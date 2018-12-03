@@ -26,11 +26,10 @@
         "typescript"
       ],
       "rules": {
-        "no-unused-vars": "error",
-        "typescript/no-unused-vars": "error",
+        "typescript/no-unused-vars": "warn",
         "quotes": ["error", "single"]
       },
-      "files": ["**/*.tsx", "**/*.ts"]
+      "files": ["**/*.+(tsx|ts)"]
     }, {
       "parser": "babel-eslint",
       "files": ["**/*.jsx", "**/*.js"]

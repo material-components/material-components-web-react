@@ -34,7 +34,7 @@ type IconState = {
 export default class Icon extends React.Component<
   IconProps,
   IconState
-> {
+  > {
   foundation_: MDCTextFieldIconFoundation;
 
   static defaultProps = {
