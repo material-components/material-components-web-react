@@ -45,7 +45,7 @@ export default class LineRipple extends React.Component<
     rippleCenter: 0,
   };
 
-  foundation_: null | MDCLineRippleFoundation;
+  foundation_?: MDCLineRippleFoundation;
 
   state = {
     classList: new Set(),
@@ -111,11 +111,14 @@ export default class LineRipple extends React.Component<
     this.setState({style: updatedStyle});
   };
 
+  // TODO: look into possible performance hit
   getMergedStyles = () => {
     const {style: wrappedStyle} = this.props;
     const {style} = this.state;
     return Object.assign({}, style, wrappedStyle);
   };
+
+  onTransitionEnd = (evt) => this.foundation_.handleTransitionEnd(evt);
 
   render() {
     const {
@@ -130,7 +133,7 @@ export default class LineRipple extends React.Component<
       <div
         className={this.classes}
         style={this.getMergedStyles()}
-        onTransitionEnd={(evt) => this.foundation_.handleTransitionEnd(evt)}
+        onTransitionEnd={this.onTransitionEnd}
         {...otherProps}
       />
     );

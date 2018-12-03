@@ -119,17 +119,17 @@ export default class NotchedOutline extends React.Component<
     return [
       <div
         className={this.classes}
-        key="notched-outline"
+        key='notched-outline'
         ref={this.outlineElement_}
       >
-        <svg focusable="false">
-          <path ref={this.pathElement_} className="mdc-notched-outline__path" />
+        <svg focusable='false'>
+          <path ref={this.pathElement_} className='mdc-notched-outline__path' />
         </svg>
       </div>,
       <div
         ref={this.idleElement_}
-        className="mdc-notched-outline__idle"
-        key="notched-outline-idle"
+        className='mdc-notched-outline__idle'
+        key='notched-outline-idle'
       />,
     ];
   }

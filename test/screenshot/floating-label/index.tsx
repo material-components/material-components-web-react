@@ -5,11 +5,11 @@ import './index.scss';
 const FloatingLabelScreenshotTest = () => {
   return (
     <div>
-      <div className="floated-label-box-example">
+      <div className='floated-label-box-example'>
         <FloatingLabel>My Label Text</FloatingLabel>
       </div>
 
-      <div className="floated-label-box-example">
+      <div className='floated-label-box-example'>
         <FloatingLabel float>Floated Label</FloatingLabel>
       </div>
     </div>

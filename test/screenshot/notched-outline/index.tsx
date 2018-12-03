@@ -6,15 +6,15 @@ import './index.scss';
 const NotchedOutlineScreenshotTest = () => {
   return (
     <div>
-      <div className="notched-outline-container">
+      <div className='notched-outline-container'>
         <NotchedOutline />
       </div>
 
-      <div className="notched-outline-container">
+      <div className='notched-outline-container'>
         <NotchedOutline notchWidth={50} notch />
       </div>
 
-      <div className="notched-outline-container">
+      <div className='notched-outline-container'>
         <NotchedOutline notchWidth={100} notch isRtl />
       </div>
     </div>

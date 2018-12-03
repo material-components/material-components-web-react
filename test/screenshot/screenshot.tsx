@@ -19,12 +19,15 @@ const defaultMetadata = {
   commit: commitHash,
   branch: branchName,
 };
+
 const storage = new Storage({
   credentials: JSON.parse(serviceAccountKey),
 });
+
 const bucket = storage.bucket(bucketName);
+
 export default class Screenshot {
-  urlPath_;
+  urlPath_: string;
   /**
    * @param {string} urlPath The URL path to test
    */

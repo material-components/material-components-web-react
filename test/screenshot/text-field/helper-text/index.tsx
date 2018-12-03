@@ -1,5 +1,6 @@
 import * as React from 'react';
-import HelperText from '../../../../packages/text-field/helper-text/index';
+// @ts-ignore
+import HelperText from '../../../../packages/text-field/helper-text/index.tsx';
 
 import '../../../../packages/text-field/helper-text/index.scss';
 

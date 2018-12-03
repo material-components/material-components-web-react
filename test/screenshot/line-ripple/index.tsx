@@ -6,11 +6,11 @@ import LineRipple from '../../../packages/line-ripple/index';
 const LineRippleScreenshotTest = () => {
   return (
     <div>
-      <div className="line-ripple-container">
+      <div className='line-ripple-container'>
         <LineRipple />
       </div>
 
-      <div className="line-ripple-container">
+      <div className='line-ripple-container'>
         <LineRipple active />
       </div>
     </div>

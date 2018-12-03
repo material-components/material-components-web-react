@@ -1,5 +1,6 @@
 import * as React from 'react';
-import TextField, {Input} from '../../../packages/text-field/index';
+// @ts-ignore
+import TextField, {Input} from '../../../packages/text-field/index.tsx';
 type TestFieldProps = {
   disabled: boolean,
   id: string,

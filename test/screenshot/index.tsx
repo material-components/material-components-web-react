@@ -11,7 +11,7 @@ import './index.scss';
 ReactDOM.render(
   <HashRouter>
     <div>
-      <Route exact path="/" component={App} />
+      <Route exact path='/' component={App} />
       {COMPONENTS.map((componentPath) => {
         const Component = require(`./${componentPath}/index`).default;
         return (

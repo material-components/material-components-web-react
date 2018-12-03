@@ -38,7 +38,7 @@ export default class FloatingLabel extends React.Component<
   FloatingLabelProps<HTMLLabelElement>,
   FloatingLabelState
   > {
-  foundation_: null | MDCFloatingLabelFoundation;
+  foundation_?: MDCFloatingLabelFoundation;
   labelElement: React.RefObject<HTMLLabelElement> = React.createRef();
 
   static defaultProps = {
