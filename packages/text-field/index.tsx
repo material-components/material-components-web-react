@@ -22,7 +22,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {MDCTextFieldFoundation} from '@material/textfield';
-import Input, {InputProps} from './Input';
+// @ts-ignore
+import Input, {InputProps} from './Input.tsx';
 import Icon from './icon/index';
 import HelperText from './helper-text/index';
 import FloatingLabel from '@material/react-floating-label';

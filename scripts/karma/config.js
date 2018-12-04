@@ -42,12 +42,21 @@ module.exports = {
                 'env',
                 'react',
               ],
-              plugins: ['transform-class-properties', 'istanbul'],
+              plugins: ['transform-class-properties'],
             },
           },
         }, {
           test: /\.tsx?$/,
           loader: 'ts-loader',
+        }, {
+          enforce: 'post',
+          test: /\.(js|ts)x?$/,
+          use: {
+            loader: 'istanbul-instrumenter-loader',
+            options: {esModules: true},
+          },
+          include: require('path').resolve('packages/'),
+          exclude: [/\.test\.(js|ts)x?$/, /node_modules/],
         },
       ],
     },
