@@ -24,13 +24,13 @@ import * as classnames from 'classnames';
 import {MDCTextFieldFoundation} from '@material/textfield';
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
-export type InputProps<T> = {
+export interface InputProps {
   className: string,
   inputType: 'input' | 'textarea',
   disabled: boolean,
   isValid?: boolean,
   foundation?: MDCTextFieldFoundation,
-  handleValueChange: (value: any, cb: Function) => void,
+  handleValueChange: (value: string | number | string[] | undefined, cb: () => void) => void,
   id: string,
   onBlur: (event: React.SyntheticEvent) => void,
   onChange: (event: React.SyntheticEvent) => void,
@@ -40,18 +40,20 @@ export type InputProps<T> = {
   setDisabled: (disabled: boolean) => void,
   setInputId: (id: string | number) => void,
   handleFocusChange: (isFocused: boolean) => void,
-} & React.InputHTMLAttributes<T> & React.TextareaHTMLAttributes<T>;
+};
+
+type Props = InputProps & React.HTMLProps<HTMLInputElement>;
 
 type InputState = {
   wasUserTriggeredChange: boolean,
 };
 
 export default class Input extends React.Component<
-  InputProps<HTMLInputElement>, InputState
+  Props, InputState
   > {
   inputElement_: React.RefObject<HTMLInputElement> = React.createRef();
 
-  static defaultProps = {
+  static defaultProps: Partial<Props> = {
     className: '',
     inputType: 'input',
     disabled: false,
@@ -96,7 +98,7 @@ export default class Input extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps: InputProps<HTMLInputElement>) {
+  componentDidUpdate(prevProps: Props) {
     const {
       id,
       handleValueChange,
@@ -190,7 +192,7 @@ export default class Input extends React.Component<
     onChange(evt);
   };
 
-  handleValidationAttributeUpdate = (nextProps: InputProps<object>) => {
+  handleValidationAttributeUpdate = (nextProps: Props) => {
     const {foundation} = nextProps;
     VALIDATION_ATTR_WHITELIST.some((attributeName: string) => {
       let attr = attributeName;

@@ -23,11 +23,11 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import {MDCLineRippleFoundation} from '@material/line-ripple';
 
-export type LineRippleProps<T> = {
+export interface LineRippleProps {
   className?: string,
   active?: boolean,
   rippleCenter?: number
-} & React.LabelHTMLAttributes<T>;
+};
 
 type LineRippleState = {
   classList: Set<any>,
@@ -35,7 +35,7 @@ type LineRippleState = {
 };
 
 export default class LineRipple extends React.Component<
-  LineRippleProps<HTMLDivElement>,
+  LineRippleProps & React.HTMLProps<HTMLDivElement>,
   LineRippleState
   > {
   static defaultProps = {

@@ -30,8 +30,8 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
-type TextFieldProps<T> = {
-  'children.props'?: InputProps<T>,
+export interface TextFieldProps {
+  'children.props'?: InputProps,
   children: JSX.Element,
   className: string,
   dense: boolean,
@@ -46,7 +46,11 @@ type TextFieldProps<T> = {
   outlined: boolean,
   textarea: boolean,
   trailingIcon?: JSX.Element
-} & React.HTMLAttributes<T>;
+};
+
+type Props = TextFieldProps & React.HTMLProps<HTMLDivElement>;
+
+export type InputChildType = React.ReactElement<React.Props<Input>> & React.Props<Input>;
 
 type TextFieldState = {
   foundation: MDCTextFieldFoundation | null,
@@ -66,9 +70,7 @@ type TextFieldState = {
   isValid: boolean,
 };
 
-export type InputChildType = React.ReactElement<React.Props<Input>> & React.Props<Input>;
-
-class TextField extends React.Component<TextFieldProps<HTMLDivElement>, TextFieldState> {
+class TextField extends React.Component<Props, TextFieldState> {
   floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
   inputComponent_: null | Input = null;
 
@@ -86,7 +88,7 @@ class TextField extends React.Component<TextFieldProps<HTMLDivElement>, TextFiel
     trailingIcon: null,
   };
 
-  constructor(props: TextFieldProps<HTMLDivElement>) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       // root state
