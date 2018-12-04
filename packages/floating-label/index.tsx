@@ -24,18 +24,20 @@ import * as classnames from 'classnames';
 import {MDCFloatingLabelFoundation} from '@material/floating-label';
 
 
-export type FloatingLabelProps<T> = {
+export interface FloatingLabelProps {
   className?: string,
   handleWidthChange?: (width: number) => void,
   float?: boolean,
-} & React.LabelHTMLAttributes<T>;
+};
+
+type Props<T> = FloatingLabelProps & React.LabelHTMLAttributes<T>;
 
 type FloatingLabelState = {
   classList: Set<String>,
 };
 
 export default class FloatingLabel extends React.Component<
-  FloatingLabelProps<HTMLLabelElement>,
+  Props<HTMLLabelElement>,
   FloatingLabelState
   > {
   foundation_?: MDCFloatingLabelFoundation;

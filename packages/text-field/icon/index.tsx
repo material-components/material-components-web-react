@@ -22,7 +22,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {MDCTextFieldIconFoundation} from '@material/textfield';
-export type IconProps = {
+
+export interface IconProps {
   disabled: boolean
 };
 
@@ -32,7 +33,7 @@ type IconState = {
 };
 
 export default class Icon extends React.Component<
-  IconProps,
+  IconProps & React.HTMLProps<HTMLElement>,
   IconState
   > {
   foundation_: MDCTextFieldIconFoundation;

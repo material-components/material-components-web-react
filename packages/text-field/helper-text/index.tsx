@@ -24,7 +24,7 @@ import * as classnames from 'classnames';
 
 import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
 
-export type HelperTextProps = {
+export interface HelperTextProps {
   'aria-hidden': boolean,
   children: React.ReactNode,
   className: string,

@@ -22,7 +22,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
-type NotchedOutlineProps = {
+
+export interface NotchedOutlineProps {
   className: string,
   isRtl: boolean,
   notch: boolean,
