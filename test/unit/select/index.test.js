@@ -33,6 +33,13 @@ test('#foundation_.handleChange gets called when state.value updates', () => {
   td.verify(wrapper.instance().foundation_.handleChange(), {times: 1});
 });
 
+test('state.value updates when props.value changes', () => {
+  const wrapper = shallow(<Select label='my label' value='test val'/>);
+  const updatedValue = 'new test value';
+  wrapper.setProps({value: updatedValue});
+  assert.equal(wrapper.state().value, updatedValue);
+});
+
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow(<Select label='my label' />);
   const foundation = wrapper.instance().foundation_;
