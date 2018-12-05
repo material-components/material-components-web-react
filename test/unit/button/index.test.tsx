@@ -2,7 +2,8 @@ import * as React from "react";
 import { assert } from "chai";
 import * as td from "testdouble";
 import { mount, shallow } from "enzyme";
-import { Button } from "../../../packages/button/index";
+//@ts-ignore
+import { Button } from "../../../packages/button/index.tsx";
 
 suite("Button");
 

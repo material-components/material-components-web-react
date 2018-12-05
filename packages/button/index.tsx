@@ -23,20 +23,28 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
-export type ButtonProps<T> = {
-  raised?: boolean,
-  unelevated?: boolean,
-  outlined?: boolean,
-  dense?: boolean,
-  disabled?: boolean,
-  unbounded?: boolean,
-  initRipple?: (surface: HTMLAnchorElement | HTMLButtonElement) => void,
-  className?: string,
-  icon?: JSX.Element,
-  href?: string
-} & React.HTMLProps<T>;
+export interface ButtonProps<T> {
+  raised: boolean,
+  unelevated: boolean,
+  outlined: boolean,
+  dense: boolean,
+  disabled: boolean,
+  unbounded: boolean,
+  initRipple: (surface:T) => void,
+  className: string,
+  icon: React.ReactNode,
+  href: string
+};
 
-export const Button: React.SFC<ButtonProps<HTMLAnchorElement | HTMLButtonElement>> = (props) => {
+type AnchorElementProps = React.AnchorHTMLAttributes<HTMLAnchorElement>;
+type ButtonElementProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+// type ButtonElementProps = React.HTMLProps<HTMLButtonElement>;
+// type AnchorElementProps = React.HTMLProps<HTMLAnchorElement>;
+
+export const Button = <T extends object>(
+  props: T extends AnchorElementProps ? (ButtonProps<HTMLAnchorElement> & AnchorElementProps) : (ButtonProps<HTMLButtonElement> & ButtonElementProps)
+) => {
   const {
     className,
     raised,
@@ -48,7 +56,7 @@ export const Button: React.SFC<ButtonProps<HTMLAnchorElement | HTMLButtonElement
     initRipple,
     unbounded, // eslint-disable-line no-unused-vars
     ...otherProps
-  } = props;
+  } = props as ButtonProps<HTMLAnchorElement> & AnchorElementProps;
 
   const classes = classnames('mdc-button', className, {
     'mdc-button--raised': raised,
