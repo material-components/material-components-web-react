@@ -149,8 +149,8 @@ test('calls foundation.handleChange in native control props.onChange', () => {
 });
 
 test('calls props.onChange in native control props.onChange', () => {
-  const onChange = td.func();
-  const wrapper = shallow<Checkbox>(<Checkbox onChange={onChange} />);
+  const onChange = td.func() as (evt) => void;
+  const wrapper = shallow(<Checkbox onChange={onChange} />);
   const nativeControl = wrapper.childAt(0);
   const mockEvt = {
     target: {

@@ -31,8 +31,8 @@ export interface CheckboxProps {
   className: string,
   disabled: boolean,
   indeterminate: boolean,
-  nativeControlId: string,
-  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void,
+  nativeControlId?: string,
+  onChange: (evt: React.FormEvent) => void,
   initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void,
   unbounded: boolean,
 };
@@ -175,7 +175,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           checked={this.state.checked}
           disabled={disabled}
           aria-checked={this.state['aria-checked']}
-          onChange={(evt) => {
+          onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
             const {checked, indeterminate} = evt.target;
             this.handleChange(checked, indeterminate);
             onChange(evt);

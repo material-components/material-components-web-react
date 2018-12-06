@@ -26,14 +26,16 @@ export interface NativeControlProps {
   disabled: boolean,
   id: string,
   rippleActivatorRef: React.RefObject<HTMLInputElement>,
+  onChange: (evt: React.FormEvent) => void,
 };
 
-export class NativeControl extends React.Component<NativeControlProps, {}> {
+export class NativeControl extends React.Component<NativeControlProps & React.HTMLProps<HTMLInputElement>, {}> {
   static defaultProps = {
     checked: false,
     disabled: false,
     id: null,
     rippleActivatorRef: null,
+    onChange: () => {},
   };
 
   render() {
