@@ -1,5 +1,5 @@
 import topAppBarVariants from './top-app-bar/variants.js';
-import drawerVariants from './drawer/variants.js';
+import drawerVariants from './drawer/variants';
 import textFieldVariants from './text-field/variants';
 const urls = [
   'button',
