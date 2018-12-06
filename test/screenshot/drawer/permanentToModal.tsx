@@ -1,7 +1,14 @@
-import React from 'react';
+import * as React from 'react';
 import DrawerTest from './DrawerTest';
 
-class PermanentToModalDrawerScreenshotTest extends React.Component {
+type PermanentToModalDrawerScreenshotTestState = {
+  isPhone: boolean
+};
+
+class PermanentToModalDrawerScreenshotTest extends React.Component<
+  {},
+  PermanentToModalDrawerScreenshotTestState
+  > {
   state = {
     isPhone: window.innerWidth < 599,
   };
@@ -24,14 +31,14 @@ class PermanentToModalDrawerScreenshotTest extends React.Component {
   updateDrawerVariant = () => {
     const isPhone = window.innerWidth < 599;
     this.setState({isPhone});
-  }
+  };
 
   render() {
     if (this.state.isPhone) {
-      return <DrawerTest open={false} modal title='Modal Drawer' />;
+      return <DrawerTest open={false} modal title="Modal Drawer" />;
     }
-    return <DrawerTest hideNavigationIcon title='Permanent Drawer' />;
+    return <DrawerTest hideNavigationIcon title="Permanent Drawer" />;
   }
-};
+}
 
 export default PermanentToModalDrawerScreenshotTest;
