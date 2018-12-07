@@ -19,63 +19,57 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-type MediaProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+
+export interface MediaProps {
   className?: string,
   square?: boolean,
   wide?: boolean,
   contentClassName?: string,
   imageUrl?: string,
-  style?: object
+  style?: React.CSSProperties,
 };
-export default class Media extends React.Component<MediaProps, {}> {
-  getStyles = () => {
-    const { imageUrl, style } = this.props;
-    return Object.assign(
-      {},
-      {
-        backgroundImage: `url(${imageUrl})`
-      },
-      style
-    );
-  };
-  render() {
-    const {
-      className,
-      children, // eslint-disable-line no-unused-vars
-      contentClassName, // eslint-disable-line no-unused-vars
-      square,
-      imageUrl, // eslint-disable-line no-unused-vars
-      style, // eslint-disable-line no-unused-vars
-      wide,
-      ...otherProps
-    } = this.props;
-    const classes = classnames("mdc-card__media", className, {
-      "mdc-card__media--square": square,
-      "mdc-card__media--16-9": wide
-    });
-    return (
-      <div className={classes} style={this.getStyles()} {...otherProps}>
-        {this.renderChildren()}
-      </div>
-    );
+
+const renderChildren = ({
+  children, contentClassName, // eslint-disable-line react/prop-types
+}) => {
+  if (!children) {
+    return;
   }
-  renderChildren() {
-    const { children, contentClassName } = this.props;
-    if (!children) {
-      return;
-    }
-    const classes = classnames("mdc-card__media-content", contentClassName);
-    return <div className={classes}>{children}</div>;
-  }
-}
-Media.defaultProps = {
-  className: "",
-  contentClassName: "",
-  children: null,
-  square: false,
-  wide: false,
-  imageUrl: "",
-  style: {}
+  const classes = classnames('mdc-card__media-content', contentClassName);
+  return <div className={classes}>{children}</div>;
 };
+
+const getStyles = ({imageUrl, style}) => {
+  return Object.assign({},
+    {backgroundImage: `url(${imageUrl})`},
+    style
+  );
+};
+
+const Media: React.FunctionComponent<MediaProps & React.HTMLProps<HTMLDivElement>> = ({
+  /* eslint-disable react/prop-types */
+  className = '',
+  contentClassName = '',
+  children,
+  square = false,
+  wide = false,
+  imageUrl = '',
+  style = {},
+  /* eslint-enable react/prop-types */
+  ...otherProps
+}) => {
+  const classes = classnames('mdc-card__media', className, {
+    'mdc-card__media--square': square,
+    'mdc-card__media--16-9': wide,
+  });
+
+  return (
+    <div className={classes} style={getStyles({imageUrl, style})} {...otherProps}>
+      {renderChildren({children, contentClassName})}
+    </div>
+  );
+};
+
+export default Media;

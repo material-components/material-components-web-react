@@ -19,38 +19,34 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-type ActionIconsProps = {
-  className?: string
+import * as React from 'react';
+import * as classnames from 'classnames';
+
+export interface ActionIconsProps {
+  className?: string,
 };
-export default class ActionIcons extends React.Component<ActionIconsProps, {}> {
-  addIconClassToChildren = () => {
-    return React.Children.map(this.props.children, item => {
-      const className = classnames(
-        item.props.className,
-        "mdc-card__action",
-        "mdc-card__action--icon"
-      );
-      const props = Object.assign({}, item.props, { className });
-      return React.cloneElement(item, props);
-    });
-  };
-  render() {
-    const {
-      className,
-      children, // eslint-disable-line no-unused-vars
-      ...otherProps
-    } = this.props;
-    const classes = classnames("mdc-card__action-icons", className);
-    return (
-      <div className={classes} {...otherProps}>
-        {this.addIconClassToChildren()}
-      </div>
+
+const addIconClassToChildren = (children: React.ReactNode) => {
+  return React.Children.map(children, (item: React.ReactElement<React.HTMLProps<Element>>) => {
+    const className = classnames(
+      item.props.className,
+      'mdc-card__action',
+      'mdc-card__action--icon'
     );
-  }
-}
-ActionIcons.defaultProps = {
-  className: "",
-  children: null
+    const props = Object.assign({}, item.props, {className});
+    return React.cloneElement(item, props);
+  });
 };
+
+const ActionIcons: React.SFC<ActionIconsProps & React.HTMLProps<HTMLDivElement>> = ({
+  className = '', children, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card__action-icons', className);
+  return (
+    <div className={classes} {...otherProps}>
+      {addIconClassToChildren(children)}
+    </div>
+  );
+};
+
+export default ActionIcons;

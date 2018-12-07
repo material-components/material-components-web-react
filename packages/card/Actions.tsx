@@ -19,27 +19,25 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-type ActionsProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+
+export interface ActionsProps {
   className?: string,
-  fullBleed?: boolean
+  fullBleed?: boolean,
 };
-export default class Actions extends React.Component<ActionsProps, {}> {
-  render() {
-    const { className, children, fullBleed, ...otherProps } = this.props;
-    const classes = classnames("mdc-card__actions", className, {
-      "mdc-card__actions--full-bleed": fullBleed
-    });
-    return (
-      <div className={classes} {...otherProps}>
-        {children}
-      </div>
-    );
-  }
-}
-Actions.defaultProps = {
-  className: "",
-  children: null,
-  fullBleed: false
+
+const Actions: React.SFC<ActionsProps & React.HTMLProps<HTMLDivElement>> = ({
+  className = '', children, fullBleed = false, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card__actions', className, {
+    'mdc-card__actions--full-bleed': fullBleed,
+  });
+  return (
+    <div className={classes} {...otherProps}>
+      {children}
+    </div>
+  );
 };
+
+export default Actions;

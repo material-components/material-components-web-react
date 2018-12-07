@@ -19,39 +19,43 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-import ActionButtons from "./ActionButtons";
-import ActionIcons from "./ActionIcons";
-import Actions from "./Actions";
-import PrimaryContent from "./PrimaryContent";
-import Media from "./Media";
-type CardProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+// @ts-ignore
+import ActionButtons from './ActionButtons.tsx';
+// @ts-ignore
+import ActionIcons from './ActionIcons.tsx';
+// @ts-ignore
+import Actions from './Actions.tsx';
+// @ts-ignore
+import PrimaryContent from './PrimaryContent.tsx';
+// @ts-ignore
+import Media from './Media.tsx';
+
+export type CardProps = {
   className?: string,
   outlined?: boolean
+} & React.HTMLProps<HTMLDivElement>;
+
+const Card: React.FunctionComponent<CardProps> = ({
+  children, className = '', outlined = false, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card', className, {
+    'mdc-card--outlined': outlined,
+  });
+  return (
+    <div className={classes} {...otherProps}>
+      {children}
+    </div>
+  );
 };
-export default class Card extends React.Component<CardProps, {}> {
-  render() {
-    const { className, children, outlined, ...otherProps } = this.props;
-    const classes = classnames("mdc-card", className, {
-      "mdc-card--outlined": outlined
-    });
-    return (
-      <div className={classes} {...otherProps}>
-        {children}
-      </div>
-    );
-  }
-}
-Card.defaultProps = {
-  children: null,
-  className: "",
-  outlined: false
-};
+
 export {
   ActionButtons as CardActionButtons,
   ActionIcons as CardActionIcons,
   Actions as CardActions,
   PrimaryContent as CardPrimaryContent,
-  Media as CardMedia
+  Media as CardMedia,
 };
+
+export default Card;

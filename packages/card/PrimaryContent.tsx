@@ -19,31 +19,32 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-import withRipple from "@material/react-ripple";
-type PrimaryContentBaseProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+import withRipple from '@material/react-ripple';
+
+export interface PrimaryContentBaseProps {
   className?: string,
-  initRipple?: (...args: any[]) => any,
+  initRipple?: (surface) => void,
   unbounded?: boolean
 };
-export const PrimaryContentBase: React.SFC<PrimaryContentBaseProps> = props => {
-  const {
-    className,
-    initRipple,
-    children,
-    unbounded, // eslint-disable-line no-unused-vars
-    ...otherProps
-  } = props;
-  const classes = classnames("mdc-card__primary-action", className);
+
+export const PrimaryContentBase: React.SFC<PrimaryContentBaseProps & React.HTMLProps<HTMLDivElement>> = ({
+  /* eslint-disable react/prop-types */
+  className = '',
+  initRipple,
+  children,
+  unbounded, // eslint-disable-line no-unused-vars
+  /* eslint-enable react/prop-types */
+  ...otherProps
+}) => {
+  const classes = classnames('mdc-card__primary-action', className);
+
   return (
     <div className={classes} ref={initRipple} {...otherProps}>
       {children}
     </div>
   );
 };
-PrimaryContentBase.defaultProps = {
-  className: "",
-  children: null
-};
+
 export default withRipple(PrimaryContentBase);
