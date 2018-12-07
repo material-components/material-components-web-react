@@ -32,6 +32,8 @@ const DrawerHeader: React.SFC<DrawerHeaderProps> = ({
   tag: Tag = 'div', children, className = '', ...otherProps // eslint-disable-line react/prop-types
 }) => {
   return (
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
     <Tag
       className={classnames('mdc-drawer__header', className)}
       {...otherProps}

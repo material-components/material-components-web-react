@@ -217,8 +217,11 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
       modal,
       ...otherProps
     } = this.props;
+
     return (
       <React.Fragment>
+        {/* https://github.com/Microsoft/TypeScript/issues/28892 
+          // @ts-ignore */}
         <Tag
           className={this.classes}
           ref={this.drawerElement_}
