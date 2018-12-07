@@ -8,13 +8,13 @@ export declare type Alignment = "bottom" | "middle" | "top";
 
 export interface CellProps {
   align?: Alignment,
-  className: string,
+  className?: string,
   columns?: TwelveColumn,
   desktopColumns?: TwelveColumn,
   order?: TwelveColumn,
   phoneColumns?: FourColumn,
   tabletColumns?: EightColumn,
-  tag: string
+  tag?: string
 };
 
 const Cell: React.FunctionComponent<CellProps & React.HTMLProps<HTMLElement>> = ({
@@ -45,4 +45,5 @@ const Cell: React.FunctionComponent<CellProps & React.HTMLProps<HTMLElement>> = 
     </Tag>
   );
 };
+
 export default Cell;

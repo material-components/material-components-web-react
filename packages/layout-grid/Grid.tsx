@@ -4,8 +4,8 @@ import * as classnames from "classnames";
 export interface GridProps {
   align?: Alignment,
   className?: string,
-  fixedColumnWidth: boolean,
-  tag: string
+  fixedColumnWidth?: boolean,
+  tag?: string
 };
 export declare type Alignment = "left" | "right";
 

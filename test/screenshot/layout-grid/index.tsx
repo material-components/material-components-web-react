@@ -1,8 +1,8 @@
-import React from 'react';
-
-import './index.scss';
-import {Cell, Grid, Row} from '../../../packages/layout-grid/index';
-import '../../../packages/layout-grid/index.scss';
+import * as React from "react";
+import "./index.scss";
+// @ts-ignore
+import { Cell, Grid, Row } from "../../../packages/layout-grid/index.tsx";
+import "../../../packages/layout-grid/index.scss";
 
 const NoWidth = () => {
   return (
@@ -20,9 +20,15 @@ const OneThird = () => {
   return (
     <Grid>
       <Row>
-        <Cell className="layout-grid-sample__cell__one" columns={4}>Tennis</Cell>
-        <Cell className="layout-grid-sample__cell__two" columns={4}>Cricket</Cell>
-        <Cell className="layout-grid-sample__cell__three" columns={4}>StarCraft</Cell>
+        <Cell className="layout-grid-sample__cell__one" columns={4}>
+          Tennis
+        </Cell>
+        <Cell className="layout-grid-sample__cell__two" columns={4}>
+          Cricket
+        </Cell>
+        <Cell className="layout-grid-sample__cell__three" columns={4}>
+          StarCraft
+        </Cell>
       </Row>
     </Grid>
   );
@@ -114,9 +120,15 @@ const Ordering = () => {
   return (
     <Grid>
       <Row>
-        <Cell className="layout-grid-sample__cell__one" order={3}>Tennis</Cell>
-        <Cell className="layout-grid-sample__cell__two" order={1}>Cricket</Cell>
-        <Cell className="layout-grid-sample__cell__three" order={2}>StarCraft</Cell>
+        <Cell className="layout-grid-sample__cell__one" order={3}>
+          Tennis
+        </Cell>
+        <Cell className="layout-grid-sample__cell__two" order={1}>
+          Cricket
+        </Cell>
+        <Cell className="layout-grid-sample__cell__three" order={2}>
+          StarCraft
+        </Cell>
       </Row>
     </Grid>
   );
