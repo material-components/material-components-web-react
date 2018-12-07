@@ -19,12 +19,12 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import classnames from "classnames";
-import withRipple from "@material/react-ripple";
-import { MDCIconButtonToggleFoundation } from "@material/icon-button/dist/mdc.iconButton";
+import * as React from 'react';
+import classnames from 'classnames';
+import withRipple from '@material/react-ripple';
+import {MDCIconButtonToggleFoundation} from '@material/icon-button/dist/mdc.iconButton';
 // @ts-ignore
-import IconToggle from "./IconToggle.tsx";
+import IconToggle from './IconToggle.tsx';
 const ARIA_PRESSED = 'aria-pressed';
 
 export interface IconButtonBaseProps<T> {
@@ -40,31 +40,30 @@ type IconButtonBaseState = {
   [ARIA_PRESSED]: string
 };
 
-type AnchorProps = React.HTMLProps<HTMLAnchorElement> & IconButtonBaseProps<HTMLAnchorElement>;
-type ButtonProps = React.HTMLProps<HTMLButtonElement> & IconButtonBaseProps<HTMLButtonElement>;
-type IconButtonProps<T> = T extends ButtonProps ? ButtonProps : AnchorProps;
+export type AnchorProps = React.HTMLProps<HTMLAnchorElement> & IconButtonBaseProps<HTMLAnchorElement>;
+export type ButtonProps = React.HTMLProps<HTMLButtonElement> & IconButtonBaseProps<HTMLButtonElement>;
+export type IconButtonProps<T> = T extends ButtonProps ? ButtonProps : AnchorProps;
 
 class IconButtonBase<T extends {}> extends React.Component<
   IconButtonProps<T>,
   IconButtonBaseState
-> {
+  > {
   foundation_ = MDCIconButtonToggleFoundation;
 
   constructor(props) {
     super(props);
     this.state = {
       classList: new Set(),
-      [ARIA_PRESSED]: props[ARIA_PRESSED]
+      [ARIA_PRESSED]: props[ARIA_PRESSED],
     };
   }
 
   static defaultProps = {
-    children: "",
-    className: "",
+    className: '',
     initRipple: () => {},
     isLink: false,
     onClick: () => {},
-    unbounded: true
+    unbounded: true,
   };
 
   componentDidMount() {
@@ -73,26 +72,26 @@ class IconButtonBase<T extends {}> extends React.Component<
   }
 
   get classes() {
-    const { classList } = this.state;
-    const { className } = this.props;
-    return classnames("mdc-icon-button", Array.from(classList), className);
+    const {classList} = this.state;
+    const {className} = this.props;
+    return classnames('mdc-icon-button', Array.from(classList), className);
   }
 
   get adapter() {
     return {
-      addClass: className =>
-        this.setState({ classList: this.state.classList.add(className) }),
-      removeClass: className => {
+      addClass: (className) =>
+        this.setState({classList: this.state.classList.add(className)}),
+      removeClass: (className) => {
         const classList = new Set(this.state.classList);
         classList.delete(className);
-        this.setState({ classList });
+        this.setState({classList});
       },
-      hasClass: className => this.classes.split(" ").includes(className),
+      hasClass: (className) => this.classes.split(' ').includes(className),
       setAttr: this.updateState,
     };
   }
 
-  updateState = (key: keyof IconButtonBaseProps<T>, value: string | boolean) => {
+  updateState = (key: keyof IconButtonProps<T>, value: string | boolean) => {
     this.setState((prevState) => ({
       ...prevState,
       [key]: value,
@@ -117,13 +116,13 @@ class IconButtonBase<T extends {}> extends React.Component<
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
-    
+
     const props = {
       className: this.classes,
       ref: initRipple,
       [ARIA_PRESSED]: this.state[ARIA_PRESSED],
       onClick: this.handleClick_,
-      ...otherProps
+      ...otherProps,
     };
     if (isLink) {
       return <a {...props}>{children}</a>;
@@ -133,4 +132,4 @@ class IconButtonBase<T extends {}> extends React.Component<
 }
 
 export default withRipple(IconButtonBase);
-export { IconToggle, IconButtonBase };
+export {IconToggle, IconButtonBase};
