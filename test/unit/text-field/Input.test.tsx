@@ -7,14 +7,17 @@ import {Input} from '../../../packages/text-field/index.tsx';
 
 suite('Text Field Input');
 
+const noop = () => {};
 const buildFoundation = (overrides = {}) => ({
-  activateFocus: () => {},
-  deactivateFocus: () => {},
-  handleValidationAttributeChange: () => {},
-  handleValidationAttributeMutation_: () => {},
-  setDisabled: () => {},
-  setUseNativeValidation: () => {},
-  setValid: () => {},
+  activateFocus: noop,
+  autoCompleteFocus: noop,
+  deactivateFocus: noop,
+  handleValidationAttributeChange: noop,
+  handleValidationAttributeMutation_: noop,
+  setDisabled: noop,
+  setTransformOrigin: noop,
+  setUseNativeValidation: noop,
+  setValid: noop,
   ...overrides,
 });
 
@@ -299,7 +302,7 @@ test('foundation.setValue() is called if this.props.value updates', () => {
 
 test('#event.onFocus calls props.handleFocusChange(true)', () => {
   const handleFocusChange = td.func();
-  const props: any = {handleFocusChange};
+  const props: any = {handleFocusChange, foundation: buildFoundation()};
   const wrapper = shallow(<Input {...props} />);
   wrapper.simulate('focus');
   td.verify(handleFocusChange(true), {times: 1});
@@ -314,7 +317,7 @@ test('#event.onFocus calls foundation.activateFocus()', () => {
 
 test('#event.onFocus calls props.onFocus()', () => {
   const onFocus = td.func();
-  const props: any = {onFocus};
+  const props: any = {onFocus, foundation: buildFoundation()};
   const wrapper = shallow(<Input {...props} />);
   const event = {preventDefault: () => {}};
   wrapper.simulate('focus', event);
@@ -323,7 +326,7 @@ test('#event.onFocus calls props.onFocus()', () => {
 
 test('#event.onBlur calls props.handleFocusChange(false)', () => {
   const handleFocusChange = td.func();
-  const props: any = {handleFocusChange};
+  const props: any = {handleFocusChange, foundation: buildFoundation()};
   const wrapper = shallow(<Input {...props} />);
   wrapper.simulate('blur');
   td.verify(handleFocusChange(false), {times: 1});
@@ -338,7 +341,7 @@ test('#event.onBlur calls foundation.deactivateFocus()', () => {
 
 test('#event.onBlur calls props.onBlur()', () => {
   const onBlur = td.func();
-  const props: any = {onBlur};
+  const props: any = {onBlur, foundation: buildFoundation()};
   const wrapper = shallow(<Input {...props} />);
   const event = {preventDefault: () => {}};
   wrapper.simulate('blur', event);
@@ -355,7 +358,7 @@ test('#event.onMouseDown calls foundation.setTransformOrigin()', () => {
 
 test('#event.onMouseDown calls props.onMouseDown()', () => {
   const onMouseDown = td.func();
-  const props: any = {onMouseDown};
+  const props: any = {onMouseDown, foundation: buildFoundation()};
   const wrapper = shallow(<Input {...props} />);
   const event = {preventDefault: () => {}};
   wrapper.simulate('mouseDown', event);
@@ -372,7 +375,7 @@ test('#event.onTouchStart calls foundation.setTransformOrigin()', () => {
 
 test('#event.onTouchStart calls props.onTouchStart()', () => {
   const onTouchStart = td.func();
-  const props: any = {onTouchStart};
+  const props: any = {onTouchStart, foundation: buildFoundation()};
   const wrapper = shallow(<Input {...props} />);
   const event = {preventDefault: () => {}};
   wrapper.simulate('touchStart', event);
@@ -389,7 +392,7 @@ test('#event.onChange calls foundation.autoCompleteFocus()', () => {
 
 test('#event.onChange calls props.onChange()', () => {
   const onChange = td.func();
-  const props: any = {onChange};
+  const props: any = {onChange, foundation: buildFoundation()};
   const wrapper = shallow(<Input {...props} />);
   const event = {target: {value: 'apple'}};
   wrapper.simulate('change', event);
