@@ -24,7 +24,7 @@ import * as classnames from 'classnames';
 import {MDCTextFieldFoundation} from '@material/textfield';
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
-export interface InputProps {
+type Props = {
   className: string,
   inputType: 'input' | 'textarea',
   disabled: boolean,
@@ -35,25 +35,29 @@ export interface InputProps {
   onBlur: (event: React.SyntheticEvent) => void,
   onChange: (event: React.SyntheticEvent) => void,
   onFocus: (event: React.SyntheticEvent) => void,
-  onMouseDown: (event: MouseEvent) => void,
-  onTouchStart: (event: TouchEvent) => void,
+  onMouseDown: (event: React.MouseEvent) => void,
+  onTouchStart: (event: React.TouchEvent) => void,
   setDisabled: (disabled: boolean) => void,
   setInputId: (id: string | number) => void,
   handleFocusChange: (isFocused: boolean) => void,
 };
 
-type Props = InputProps & React.HTMLProps<HTMLInputElement>;
+type InputElementProps = React.HTMLProps<HTMLInputElement>;
+type TextareaElementProps = React.HTMLProps<HTMLTextAreaElement>;
+export type InputProps<T> = Props & (T extends InputElementProps ? InputElementProps : TextareaElementProps);
 
 type InputState = {
   wasUserTriggeredChange: boolean,
 };
 
-export default class Input extends React.Component<
-  Props, InputState
+export default class Input<T extends {}> extends React.Component<
+  InputProps<T>, InputState
   > {
-  inputElement_: React.RefObject<HTMLInputElement> = React.createRef();
+  inputElement_: React.RefObject<
+    T extends InputElementProps ? HTMLInputElement : HTMLTextAreaElement
+  > = React.createRef();
 
-  static defaultProps: Partial<Props> = {
+  static defaultProps = {
     className: '',
     inputType: 'input',
     disabled: false,
@@ -98,7 +102,7 @@ export default class Input extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps) {
     const {
       id,
       handleValueChange,
@@ -192,7 +196,7 @@ export default class Input extends React.Component<
     onChange(evt);
   };
 
-  handleValidationAttributeUpdate = (nextProps: Props) => {
+  handleValidationAttributeUpdate = (nextProps) => {
     const {foundation} = nextProps;
     VALIDATION_ATTR_WHITELIST.some((attributeName: string) => {
       let attr = attributeName;
@@ -241,23 +245,24 @@ export default class Input extends React.Component<
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
-    const InputComponent = inputType;
+    const isInput = inputType === 'input';
+    let props = Object.assign({}, {
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+      onMouseDown: this.handleMouseDown,
+      onTouchStart: this.handleTouchStart,
+      onChange: this.handleChange,
+      disabled: disabled,
+      value: value,
+      ref: this.inputElement_,
+      className: this.classes,
+    }, otherProps);
 
-    return (
-      // https://github.com/Microsoft/TypeScript/issues/28892 
-      // @ts-ignore
-      <InputComponent
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onMouseDown={this.handleMouseDown}
-        onTouchStart={this.handleTouchStart}
-        onChange={this.handleChange}
-        disabled={disabled}
-        value={value}
-        ref={this.inputElement_}
-        className={this.classes}
-        {...otherProps}
-      />
-    );
+    if (isInput) {
+      return (<input {...props} />);
+    }
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
+    return (<textarea {...props} />);
   }
 }

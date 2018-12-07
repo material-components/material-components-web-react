@@ -22,34 +22,37 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {MDCTextFieldFoundation} from '@material/textfield';
-import Input, {InputProps} from './Input';
-import Icon from './icon/index';
-import HelperText from './helper-text/index';
+// @ts-ignore
+import Input, {InputProps} from './Input.tsx';
+// @ts-ignore
+import Icon from './icon/index.tsx';
+// @ts-ignore
+import HelperText from './helper-text/index.tsx';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
-export interface TextFieldProps {
-  'children.props'?: InputProps,
-  children: JSX.Element,
+type Props<T> = {
+  'children.props'?: InputProps<T>,
+  children: React.ReactNode,
   className: string,
   dense: boolean,
   floatingLabelClassName: string,
   fullWidth: boolean,
-  helperText?: JSX.Element,
+  helperText?: React.ReactElement<any>,
   isRtl: boolean,
   label: React.ReactNode,
-  leadingIcon?: JSX.Element,
+  leadingIcon?: React.ReactNode,
   lineRippleClassName: string,
   notchedOutlineClassName: string,
   outlined: boolean,
   textarea: boolean,
-  trailingIcon?: JSX.Element
+  trailingIcon?: React.ReactNode
 };
 
-type Props = TextFieldProps & React.HTMLProps<HTMLDivElement>;
+export type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
 
-export type InputChildType = React.ReactElement<React.Props<Input>> & React.Props<Input>;
+export type InputChildType<T> = React.ReactElement<React.Props<Input<T>>> & React.Props<Input<T>>;
 
 type TextFieldState = {
   foundation: MDCTextFieldFoundation | null,
@@ -69,9 +72,9 @@ type TextFieldState = {
   isValid: boolean,
 };
 
-class TextField extends React.Component<Props, TextFieldState> {
+class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFieldState> {
   floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
-  inputComponent_: null | Input = null;
+  inputComponent_: null | Input<T> = null;
 
   static defaultProps = {
     className: '',
@@ -87,7 +90,7 @@ class TextField extends React.Component<Props, TextFieldState> {
     trailingIcon: null,
   };
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state = {
       // root state
@@ -275,7 +278,7 @@ class TextField extends React.Component<Props, TextFieldState> {
     };
   }
 
-  inputProps(child: InputChildType) {
+  inputProps(child: InputChildType<T>) {
     const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
@@ -283,7 +286,7 @@ class TextField extends React.Component<Props, TextFieldState> {
       handleValueChange: (value: string | number, cb: () => void) => this.setState({value}, cb),
       setDisabled: (disabled: boolean) => this.setState({disabled}),
       setInputId: (id: string) => this.setState({inputId: id}),
-      ref: (input: Input) => {
+      ref: (input: Input<T>) => {
         if (typeof ref === 'function') {
           ref(input);
         }
@@ -331,7 +334,7 @@ class TextField extends React.Component<Props, TextFieldState> {
 
   renderInput() {
     const child = React.Children.only(this.props.children);
-    const props = this.inputProps(child as InputChildType);
+    const props = this.inputProps(child as InputChildType<T>);
     return React.cloneElement(child, props);
   }
 
@@ -391,7 +394,7 @@ class TextField extends React.Component<Props, TextFieldState> {
         isValid,
         key: 'text-field-helper-text',
       },
-      helperText.props
+      helperText.props,
     );
     return React.cloneElement(helperText, props);
   }

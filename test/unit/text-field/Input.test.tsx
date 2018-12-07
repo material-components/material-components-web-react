@@ -35,25 +35,25 @@ test('inputType is "textarea"', () => {
 });
 
 test('#isBadInput returns false if input is ok', () => {
-  const wrapper = mount<Input>(<Input value="meow" />);
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value="meow" />);
   const isBadInput = wrapper.instance().isBadInput();
   assert.isFalse(isBadInput);
 });
 
 test('#isValid returns true if input is valid', () => {
-  const wrapper = mount<Input>(<Input value="m" pattern="[a-z]" />);
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value="m" pattern="[a-z]" />);
   const isValidInput = wrapper.instance().isValid();
   assert.isTrue(isValidInput);
 });
 
 test('#isValid returns false if input is invalid', () => {
-  const wrapper = mount<Input>(<Input value="meow" pattern="[a-z]" />);
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value="meow" pattern="[a-z]" />);
   const isValidInput = wrapper.instance().isValid();
   assert.isFalse(isValidInput);
 });
 
 test('#isValid returns true if prop.isValid is set to true', () => {
-  const wrapper = mount<Input>(
+  const wrapper = mount<Input<HTMLInputElement>>(
     <Input foundation={buildFoundation()} value="m" pattern="[a-z]" isValid />
   );
   const isValidInput = wrapper.instance().isValid();
@@ -61,7 +61,7 @@ test('#isValid returns true if prop.isValid is set to true', () => {
 });
 
 test('#isValid returns false if prop.isValid is set to false', () => {
-  const wrapper = mount<Input>(
+  const wrapper = mount<Input<HTMLInputElement>>(
     <Input
       foundation={buildFoundation()}
       value="m"
@@ -74,7 +74,7 @@ test('#isValid returns false if prop.isValid is set to false', () => {
 });
 
 test('#isValid returns false if prop.isValid is set to false and input is invalid', () => {
-  const wrapper = mount<Input>(
+  const wrapper = mount<Input<HTMLInputElement>>(
     <Input
       foundation={buildFoundation()}
       value="meow"
@@ -87,7 +87,7 @@ test('#isValid returns false if prop.isValid is set to false and input is invali
 });
 
 test('#isValid returns true if prop.isValid is set to true and input is invalid', () => {
-  const wrapper = mount<Input>(
+  const wrapper = mount<Input<HTMLInputElement>>(
     <Input
       foundation={buildFoundation()}
       value="meow"
@@ -102,14 +102,14 @@ test('#isValid returns true if prop.isValid is set to true and input is invalid'
 test('#componentDidMount should call props.setInputId if props.id exists', () => {
   const setInputId = td.func();
   const props: any = {setInputId};
-  shallow<Input>(<Input {...props} id="best-id" />);
+  shallow<Input<HTMLInputElement>>(<Input {...props} id="best-id" />);
   td.verify(setInputId('best-id'), {times: 1});
 });
 
 test('#componentDidMount should call props.disabled if props.disabled is true', () => {
   const setDisabled = td.func();
   const props: any = {setDisabled};
-  shallow<Input>(<Input {...props} disabled />);
+  shallow<Input<HTMLInputElement>>(<Input {...props} disabled />);
   td.verify(setDisabled(true), {times: 1});
 });
 
@@ -397,7 +397,7 @@ test('#event.onChange calls props.onChange()', () => {
 });
 
 test('#inputElement should return the native input', () => {
-  const wrapper = mount<Input>(<Input />);
+  const wrapper = mount<Input<HTMLInputElement>>(<Input />);
   const inputElement = wrapper.instance().inputElement;
   assert.equal(inputElement!.tagName.toLowerCase(), 'input');
   assert.isTrue(inputElement instanceof HTMLInputElement);
