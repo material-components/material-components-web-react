@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 // @ts-ignore
-export { default as Cell } from "./Cell.tsx";
+export {default as Cell} from './Cell.tsx';
 // @ts-ignore
-export { default as Grid } from "./Grid.tsx";
+export {default as Grid} from './Grid.tsx';
 // @ts-ignore
-export { default as Row } from "./Row.tsx";
+export {default as Row} from './Row.tsx';

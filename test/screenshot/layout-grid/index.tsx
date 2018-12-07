@@ -1,8 +1,8 @@
-import * as React from "react";
-import "./index.scss";
+import * as React from 'react';
+import './index.scss';
 // @ts-ignore
-import { Cell, Grid, Row } from "../../../packages/layout-grid/index.tsx";
-import "../../../packages/layout-grid/index.scss";
+import {Cell, Grid, Row} from '../../../packages/layout-grid/index.tsx';
+import '../../../packages/layout-grid/index.scss';
 
 const NoWidth = () => {
   return (

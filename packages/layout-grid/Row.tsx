@@ -1,5 +1,5 @@
-import * as React from "react";
-import * as classnames from "classnames";
+import * as React from 'react';
+import * as classnames from 'classnames';
 
 export interface RowProps {
   className?: string,
@@ -7,11 +7,13 @@ export interface RowProps {
 };
 
 const Row: React.FunctionComponent<RowProps> = ({
-  children = '', className, tag: Tag = 'div', ...otherProps
+  children = '', className, tag: Tag = 'div', ...otherProps // eslint-disable-line react/prop-types
 }) => {
-  const classes = classnames("mdc-layout-grid__inner", className);
+  const classes = classnames('mdc-layout-grid__inner', className);
 
   return (
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
     <Tag className={classes} {...otherProps}>
       {children}
     </Tag>
