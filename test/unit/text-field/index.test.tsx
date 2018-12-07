@@ -9,7 +9,7 @@ import TextField, {
   // @ts-ignore
 } from '../../../packages/text-field/index.tsx';
 /* eslint-disable */
-// TODO: fix the ts lint warning 
+// TODO: fix the ts lint warning
 // @ts-ignore
 import FloatingLabel from '../../../packages/floating-label/index.tsx';
 /* eslint-enable */
@@ -458,26 +458,16 @@ test('#events.onKeyDown triggers #foundation.handleTextFieldInteraction', () => 
 });
 
 test('renders leadingIcon if passed as prop', () => {
-  const wrapper = shallow(
-    <TextField
-      label="my label"
-      leadingIcon={<i className="test-class-name-icon" />}
-    >
-      <Input />
-    </TextField>
-  );
+  const wrapper = shallow(<TextField label='my label'
+    leadingIcon={<i className='test-class-name-icon' />}
+  ><Input /></TextField>);
   assert.equal(wrapper.find('.test-class-name-icon').length, 1);
 });
 
 test('renders trailingIcon if passed as prop', () => {
-  const wrapper = shallow(
-    <TextField
-      label="my label"
-      trailingIcon={<i className="test-class-name-icon" />}
-    >
-      <Input />
-    </TextField>
-  );
+  const wrapper = shallow(<TextField label='my label'
+    trailingIcon={<i className='test-class-name-icon' />}
+  ><Input /></TextField>);
   assert.equal(wrapper.find('.test-class-name-icon').length, 1);
 });
 
