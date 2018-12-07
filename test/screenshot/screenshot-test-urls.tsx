@@ -7,6 +7,7 @@ const urls = [
   'checkbox',
   'chips',
   'line-ripple',
+  'linear-progress',
   'list',
   'fab',
   'floating-label',

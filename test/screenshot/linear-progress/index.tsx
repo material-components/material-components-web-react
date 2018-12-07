@@ -1,14 +1,16 @@
-import React from 'react';
-
+import * as React from 'react';
 import './index.scss';
-import LinearProgress from '../../../packages/linear-progress/index';
+// @ts-ignore
+import LinearProgress from '../../../packages/linear-progress/index.tsx';
 import '../../../packages/linear-progress/index.scss';
 
-class Closable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {closed: false};
-  }
+type ClosableState = {
+  closed: boolean
+};
+
+class Closable extends React.Component<{}, ClosableState> {
+  state = {closed: false};
+
   render() {
     return (
       <React.Fragment>
@@ -18,7 +20,9 @@ class Closable extends React.Component {
           progress={0.8}
         />
         <button
-          onClick={() => this.setState((currentState) => ({closed: !currentState.closed}))}
+          onClick={() =>
+            this.setState((currentState) => ({closed: !currentState.closed}))
+          }
           type="button"
         >
           Close
@@ -29,35 +33,42 @@ class Closable extends React.Component {
 }
 
 const FullBuffer = () => {
-  return (<LinearProgress buffer={1} progress={0.5} />);
+  return <LinearProgress buffer={1} progress={0.5} />;
 };
 
 const FullBufferReversed = () => {
-  return (<LinearProgress buffer={1} progress={0.5} reversed />);
+  return <LinearProgress buffer={1} progress={0.5} reversed />;
 };
 
 const Indeterminate = () => {
-  return (<LinearProgress indeterminate />);
+  return <LinearProgress indeterminate />;
 };
 
 const IndeterminateReversed = () => {
-  return (<LinearProgress indeterminate reversed />);
+  return <LinearProgress indeterminate reversed />;
 };
 
 const Static = () => {
-  return (<LinearProgress buffer={0.8} progress={0.7} />);
+  return <LinearProgress buffer={0.8} progress={0.7} />;
 };
 
 const StaticNoDots = () => {
-  return (<LinearProgress buffer={0.8} bufferingDots={false} progress={0.7} />);
+  return <LinearProgress buffer={0.8} bufferingDots={false} progress={0.7} />;
 };
 
 const StaticReversed = () => {
-  return (<LinearProgress buffer={0.8} progress={0.7} reversed />);
+  return <LinearProgress buffer={0.8} progress={0.7} reversed />;
 };
 
 const StaticReversedNoDots = () => {
-  return (<LinearProgress buffer={0.8} bufferingDots={false} progress={0.7} reversed />);
+  return (
+    <LinearProgress
+      buffer={0.8}
+      bufferingDots={false}
+      progress={0.7}
+      reversed
+    />
+  );
 };
 
 const LinearProgressScreenshot = () => {
@@ -68,7 +79,9 @@ const LinearProgressScreenshot = () => {
         <FullBuffer />
       </div>
       <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Full buffer (reversed)</p>
+        <p className="linear-progress-sample__item__title">
+          Full buffer (reversed)
+        </p>
         <FullBufferReversed />
       </div>
       <div className="linear-progress-sample__item">
@@ -84,7 +97,9 @@ const LinearProgressScreenshot = () => {
         <StaticNoDots />
       </div>
       <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Static (reversed, no dots)</p>
+        <p className="linear-progress-sample__item__title">
+          Static (reversed, no dots)
+        </p>
         <StaticReversedNoDots />
       </div>
       <div className="linear-progress-sample__item">
@@ -92,7 +107,9 @@ const LinearProgressScreenshot = () => {
         <Indeterminate />
       </div>
       <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Indeterminate (reversed)</p>
+        <p className="linear-progress-sample__item__title">
+          Indeterminate (reversed)
+        </p>
         <IndeterminateReversed />
       </div>
       <div className="linear-progress-sample__item">
@@ -102,5 +119,4 @@ const LinearProgressScreenshot = () => {
     </div>
   );
 };
-
 export default LinearProgressScreenshot;

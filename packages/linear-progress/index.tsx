@@ -1,35 +1,52 @@
-import { MDCLinearProgressFoundation } from "@material/linear-progress/dist/mdc.linearProgress";
-import classnames from "classnames";
-import React from "react";
+import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';
+import * as classnames from 'classnames';
+import * as React from 'react';
+
 type LinearProgressProps = {
-  buffer?: number,
-  bufferingDots?: boolean,
-  className?: string,
-  closed?: boolean,
-  indeterminate?: boolean,
-  progress?: number,
-  reversed?: boolean,
-  tag?: string
+  buffer: number,
+  bufferingDots: boolean,
+  className: string,
+  closed: boolean,
+  indeterminate: boolean,
+  progress: number,
+  reversed: boolean,
+  tag: string
 };
+
 type LinearProgressState = {
   classList: Set<any>
 };
+
 class LinearProgress extends React.Component<
   LinearProgressProps,
   LinearProgressState
-> {
+  > {
   isMounted_ = false;
+  bufferElement_: React.RefObject<HTMLDivElement> = React.createRef();
+  primaryBarElement_: React.RefObject<HTMLDivElement> = React.createRef();
+  foundation_: MDCLinearProgressFoundation;
+
   constructor(props) {
     super(props);
-    this.bufferElement_ = React.createRef();
     this.foundation_ = new MDCLinearProgressFoundation(this.adapter);
-    this.primaryBarElement_ = React.createRef();
     this.state = {
-      classList: new Set()
+      classList: new Set(),
     };
   }
+
+  static defaultProps = {
+    buffer: 0,
+    bufferingDots: true,
+    className: '',
+    closed: false,
+    indeterminate: false,
+    progress: 0,
+    reversed: false,
+    tag: 'div',
+  };
+
   componentDidMount() {
-    const { buffer, closed, indeterminate, progress, reversed } = this.props;
+    const {buffer, closed, indeterminate, progress, reversed} = this.props;
     this.isMounted_ = true;
     this.foundation_.init();
     this.foundation_.setBuffer(buffer);
@@ -40,15 +57,16 @@ class LinearProgress extends React.Component<
       this.foundation_.close();
     }
   }
+
   componentDidUpdate(prevProps) {
     const {
       buffer: prevBuffer,
       closed: prevClosed,
       indeterminate: prevIndeterminate,
       progress: prevProgress,
-      reversed: prevReversed
+      reversed: prevReversed,
     } = prevProps;
-    const { buffer, closed, indeterminate, progress, reversed } = this.props;
+    const {buffer, closed, indeterminate, progress, reversed} = this.props;
     if (buffer !== prevBuffer) {
       this.foundation_.setBuffer(buffer);
     }
@@ -68,17 +86,19 @@ class LinearProgress extends React.Component<
       this.foundation_.setReverse(reversed);
     }
   }
+
   componentWillUnmount() {
     this.isMounted_ = false;
     this.foundation_.destroy();
   }
+
   get adapter() {
     return {
-      addClass: className => {
+      addClass: (className) => {
         if (this.isMounted_) {
-          const { classList } = this.state;
+          const {classList} = this.state;
           classList.add(className);
-          this.setState({ classList });
+          this.setState({classList});
         }
       },
       getBuffer: () => {
@@ -87,31 +107,33 @@ class LinearProgress extends React.Component<
       getPrimaryBar: () => {
         return this.primaryBarElement_.current;
       },
-      hasClass: className => {
+      hasClass: (className) => {
         return this.state.classList.has(className);
       },
-      removeClass: className => {
+      removeClass: (className) => {
         if (this.isMounted_) {
-          const { classList } = this.state;
+          const {classList} = this.state;
           classList.delete(className);
-          this.setState({ classList });
+          this.setState({classList});
         }
       },
       setStyle: (element, propertyName, value) => {
         if (this.isMounted_) {
           element.style.setProperty(propertyName, value);
         }
-      }
+      },
     };
   }
+
   get classes() {
-    const { className, indeterminate, reversed } = this.props;
-    const { classList } = this.state;
-    return classnames("mdc-linear-progress", Array.from(classList), className, {
-      "mdc-linear-progress--indeterminate": indeterminate,
-      "mdc-linear-progress--reversed": reversed
+    const {className, indeterminate, reversed} = this.props;
+    const {classList} = this.state;
+    return classnames('mdc-linear-progress', Array.from(classList), className, {
+      'mdc-linear-progress--indeterminate': indeterminate,
+      'mdc-linear-progress--reversed': reversed,
     });
   }
+
   render() {
     const {
       // eslint-disable-next-line no-unused-vars
@@ -131,6 +153,7 @@ class LinearProgress extends React.Component<
       ...otherProps
     } = this.props;
     return (
+      // @ts-ignore
       <Tag className={this.classes} role="progressbar" {...otherProps}>
         {bufferingDots && (
           <div className="mdc-linear-progress__buffering-dots" />
@@ -152,14 +175,5 @@ class LinearProgress extends React.Component<
     );
   }
 }
-LinearProgress.defaultProps = {
-  buffer: 0,
-  bufferingDots: true,
-  className: "",
-  closed: false,
-  indeterminate: false,
-  progress: 0,
-  reversed: false,
-  tag: "div"
-};
+
 export default LinearProgress;
