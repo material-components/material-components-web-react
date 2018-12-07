@@ -244,6 +244,8 @@ export default class Input extends React.Component<
     const InputComponent = inputType;
 
     return (
+      // https://github.com/Microsoft/TypeScript/issues/28892 
+      // @ts-ignore
       <InputComponent
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
