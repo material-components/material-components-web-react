@@ -1,7 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import './index.scss';
 import '../../../packages/list/index.scss';
-
 import MaterialIcon from '../../../packages/material-icon';
 import List, {
   ListItem,
@@ -11,20 +10,30 @@ import List, {
   ListDivider,
   ListGroup,
   ListGroupSubheader,
-} from '../../../packages/list/index';
-import uuidv1 from 'uuid/v1';
+// @ts-ignore
+} from '../../../packages/list/index.tsx';
 
-const renderListItem = (primaryText, secondaryText) => {
+import * as uuidv1 from 'uuid/v1';
+
+type SelectionListTestState = {
+  selectedIndex: number,
+  listItems: string[]
+};
+
+const renderListItem = (primaryText: string, secondaryText?: string) => {
   return (
     <ListItem key={uuidv1()}>
-      <ListItemGraphic graphic={<MaterialIcon icon='folder'/>} />
-      <ListItemText primaryText={primaryText} secondaryText={secondaryText}/>
-      <ListItemMeta tabbableOnListItemFocus meta={<MaterialIcon icon='info'/>} />
+      <ListItemGraphic graphic={<MaterialIcon icon="folder" />} />
+      <ListItemText primaryText={primaryText} secondaryText={secondaryText} />
+      <ListItemMeta
+        tabbableOnListItemFocus
+        meta={<MaterialIcon icon="info" />}
+      />
     </ListItem>
   );
 };
 
-class SelectionListTest extends React.Component {
+class SelectionListTest extends React.Component<{}, SelectionListTestState> {
   state = {
     selectedIndex: 1,
     listItems: ['List item 1', 'List item 2', 'List item 3'],
@@ -34,7 +43,7 @@ class SelectionListTest extends React.Component {
     const {listItems, selectedIndex} = this.state;
     listItems.splice(0, 0, 'New list item');
     this.setState({listItems, selectedIndex: selectedIndex + 1});
-  }
+  };
 
   render() {
     return (
@@ -86,5 +95,4 @@ const ListScreenshotTest = () => {
     </div>
   );
 };
-
 export default ListScreenshotTest;

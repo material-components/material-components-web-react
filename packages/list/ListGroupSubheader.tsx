@@ -19,26 +19,26 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-type ListGroupSubheaderProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+export interface ListGroupSubheaderProps {
   className?: string,
   tag?: string
 };
-const ListGroupSubheader: React.SFC<ListGroupSubheaderProps> = props => {
-  const { tag: Tag, className, children, ...otherProps } = props;
+
+const ListGroupSubheader:React.FunctionComponent<ListGroupSubheaderProps & React.HTMLProps<HTMLElement>> = ({
+  tag: Tag = 'h3', className = '', children, ...otherProps // eslint-disable-line react/prop-types
+}) => {
   return (
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
     <Tag
-      className={classnames("mdc-list-group__subheader", className)}
+      className={classnames('mdc-list-group__subheader', className)}
       {...otherProps}
     >
       {children}
     </Tag>
   );
 };
-ListGroupSubheader.defaultProps = {
-  className: "",
-  children: "",
-  tag: "h3"
-};
+
 export default ListGroupSubheader;

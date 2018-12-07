@@ -1,12 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import {ListDivider} from '../../../packages/list';
+// @ts-ignore
+import {ListDivider} from '../../../packages/list/index.tsx';
 
 suite('ListDivider');
 
 test('className adds classes', () => {
-  const wrapper = shallow(<ListDivider className='test-class-name' />);
+  const wrapper = shallow(<ListDivider className="test-class-name" />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -21,6 +22,6 @@ test('has separator role by default', () => {
 });
 
 test('renders with given tag', () => {
-  const wrapper = shallow(<ListDivider tag='span' />);
+  const wrapper = shallow(<ListDivider tag="span" />);
   assert.exists(wrapper.find('span'));
 });

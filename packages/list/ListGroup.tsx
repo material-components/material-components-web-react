@@ -19,23 +19,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-type ListGroupProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+
+export interface ListGroupProps {
   className?: string,
   tag?: string
 };
-const ListGroup: React.SFC<ListGroupProps> = props => {
-  const { tag: Tag, className, children, ...otherProps } = props;
+
+const ListGroup:React.FunctionComponent<ListGroupProps & React.HTMLProps<HTMLElement>> = ({
+  tag: Tag = 'div', className = '', children, ...otherProps // eslint-disable-line react/prop-types
+}) => {
   return (
-    <Tag className={classnames("mdc-list-group", className)} {...otherProps}>
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
+    <Tag className={classnames('mdc-list-group', className)} {...otherProps}>
       {children}
     </Tag>
   );
 };
-ListGroup.defaultProps = {
-  className: "",
-  children: null,
-  tag: "div"
-};
+
 export default ListGroup;

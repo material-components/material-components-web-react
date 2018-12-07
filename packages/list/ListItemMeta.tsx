@@ -19,39 +19,36 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-type ListItemMetaProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+
+export interface ListItemMetaProps {
   tabbableOnListItemFocus?: boolean,
   className?: string,
   tabIndex?: number,
-  meta?: string | JSX.Element
+  meta: string | React.ReactElement<any>,
+  childrenTabIndex?: number
 };
-const ListItemMeta: React.SFC<ListItemMetaProps> = props => {
-  const {
-    tabIndex, // eslint-disable-line no-unused-vars
-    meta,
-    className,
-    tabbableOnListItemFocus,
-    ...otherProps
-  } = props;
-  let metaElement = null;
-  if (typeof meta === "string") {
+
+const ListItemMeta:React.FunctionComponent<ListItemMetaProps> = ({
+  tabIndex = -1, // eslint-disable-line no-unused-vars
+  meta,
+  className = '',
+  tabbableOnListItemFocus = false,
+  ...otherProps
+}) => {
+  let metaElement: React.ReactElement<any>;
+  if (typeof meta === 'string') {
     metaElement = <span>{meta}</span>;
   } else {
     metaElement = meta;
   }
   const metaProps = {
-    className: classnames("mdc-list-item__meta", className, meta.className),
-    tabIndex: tabbableOnListItemFocus ? props.tabIndex : -1,
-    ...otherProps
+    className: classnames('mdc-list-item__meta', className, metaElement.props.className),
+    tabIndex: tabbableOnListItemFocus ? tabIndex : -1,
+    ...otherProps,
   };
   return React.cloneElement(metaElement, metaProps);
 };
-ListItemMeta.defaultProps = {
-  tabbableOnListItemFocus: false,
-  className: "",
-  tabIndex: -1,
-  meta: null
-};
+
 export default ListItemMeta;

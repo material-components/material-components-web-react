@@ -19,33 +19,30 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-type ListItemGraphicProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+
+export interface ListItemGraphicProps {
   tabbableOnListItemFocus?: boolean,
   className?: string,
   tabIndex?: number,
-  graphic?: JSX.Element
+  graphic: React.ReactElement<any>,
+  childrenTabIndex?: number,
 };
-const ListItemGraphic: React.SFC<ListItemGraphicProps> = props => {
-  const {
-    tabIndex, // eslint-disable-line no-unused-vars
-    graphic,
-    tabbableOnListItemFocus,
-    className,
-    ...otherProps
-  } = props;
+
+const ListItemGraphic:React.FunctionComponent<ListItemGraphicProps> = ({
+  tabIndex = -1, // eslint-disable-line no-unused-vars
+  graphic,
+  tabbableOnListItemFocus = false,
+  className = '',
+  ...otherProps
+}) => {
   const graphicProps = {
-    className: classnames("mdc-list-item__graphic", className),
-    tabIndex: tabbableOnListItemFocus ? props.tabIndex : -1,
-    ...otherProps
+    className: classnames('mdc-list-item__graphic', className),
+    tabIndex: tabbableOnListItemFocus ? tabIndex : -1,
+    ...otherProps,
   };
   return React.cloneElement(graphic, graphicProps);
 };
-ListItemGraphic.defaultProps = {
-  tabbableOnListItemFocus: false,
-  className: "",
-  tabIndex: -1,
-  graphic: {}
-};
+
 export default ListItemGraphic;

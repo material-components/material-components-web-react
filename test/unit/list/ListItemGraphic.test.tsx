@@ -1,12 +1,15 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import {ListItemGraphic} from '../../../packages/list';
+// @ts-ignore
+import {ListItemGraphic} from '../../../packages/list/index.tsx';
 
 suite('ListItemGraphic');
 
 test('className adds classes', () => {
-  const wrapper = shallow(<ListItemGraphic graphic={<i />} className='test-class-name' />);
+  const wrapper = shallow(
+    <ListItemGraphic graphic={<i />} className="test-class-name" />
+  );
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -16,11 +19,15 @@ test('has mdc-list-item__graphic class', () => {
 });
 
 test('has tabIndex of props.tabIndex if specified and tabbableOnListItemFocus is true', () => {
-  const wrapper = shallow(<ListItemGraphic graphic={<i />} tabIndex={3} tabbableOnListItemFocus/>);
+  const wrapper = shallow(
+    <ListItemGraphic graphic={<i />} tabIndex={3} tabbableOnListItemFocus />
+  );
   assert.equal(wrapper.find('.mdc-list-item__graphic').props().tabIndex, 3);
 });
 
 test('has tabIndex of -1 if tabbableOnListItemFocus is false', () => {
-  const wrapper = shallow(<ListItemGraphic graphic={<i />} childrenTabIndex={3}/>);
+  const wrapper = shallow(
+    <ListItemGraphic graphic={<i />} childrenTabIndex={3} />
+  );
   assert.equal(wrapper.find('.mdc-list-item__graphic').props().tabIndex, -1);
 });

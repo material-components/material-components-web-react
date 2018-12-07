@@ -19,25 +19,27 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from "react";
-import classnames from "classnames";
-type ListDividerProps = {
+import * as React from 'react';
+import * as classnames from 'classnames';
+
+export interface ListDividerProps {
   className?: string,
   tag?: string,
   role?: string
 };
-const ListDivider: React.SFC<ListDividerProps> = props => {
-  const { tag: Tag, className, ...otherProps } = props;
+
+const ListDivider: React.FunctionComponent<ListDividerProps & React.HTMLProps<HTMLElement>> = ({
+  tag: Tag = 'li', className = 'li', role = 'separator', ...otherProps // eslint-disable-line react/prop-types
+}) => {
   return (
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
     <Tag
-      className={classnames("mdc-list-divider", className)}
+      className={classnames('mdc-list-divider', className)}
+      role={role}
       {...otherProps}
     />
   );
 };
-ListDivider.defaultProps = {
-  className: "",
-  tag: "li",
-  role: "separator"
-};
+
 export default ListDivider;
