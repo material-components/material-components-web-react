@@ -1,10 +1,10 @@
-import * as React from "react";
-import "../../../packages/menu-surface/index.scss";
-import "@material/list/mdc-list.scss";
-import "./index.scss";
+import * as React from 'react';
+import '../../../packages/menu-surface/index.scss';
+import '@material/list/mdc-list.scss';
+import './index.scss';
 // @ts-ignore
-import MenuSurface, { Corner } from "../../../packages/menu-surface/index.tsx";
-import Button from "../../../packages/button/index";
+import MenuSurface, {Corner} from '../../../packages/menu-surface/index.tsx';
+import Button from '../../../packages/button/index';
 
 type MenuSurfaceButtonProps = {
   contextmenu: boolean,
@@ -15,15 +15,15 @@ type MenuSurfaceButtonProps = {
 
 type MenuSurfaceButtonState = {
   open: boolean,
-  coordinates: { x: number, y: number } | null,
+  coordinates?: { x?: number, y?: number },
   anchorElement: HTMLElement,
 };
 
 class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurfaceButtonState> {
-  rightClickCallback_: (event: React.MouseEvent) => void = (event: React.MouseEvent) => {
+  rightClickCallback_: React.MouseEventHandler = (event: React.MouseEvent) => {
     this.setState({
       open: true,
-      coordinates: { x: event.clientX, y: event.clientY }
+      coordinates: {x: event.clientX, y: event.clientY},
     });
     event.preventDefault();
   };
@@ -32,7 +32,7 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
     super(props);
     this.state = {
       open: props.open,
-      coordinates: null
+      coordinates: undefined,
     } as MenuSurfaceButtonState;
   }
 
@@ -43,28 +43,30 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
 
   componentDidMount() {
     if (this.props.contextmenu) {
-      window.addEventListener("contextmenu", this.rightClickCallback_);
+      // @ts-ignore
+      window.addEventListener('contextmenu', this.rightClickCallback_);
     }
   }
 
   componentWillUnmount() {
-    window.removeEventListener("contextmenu", this.rightClickCallback_);
+    // @ts-ignore
+    window.removeEventListener('contextmenu', this.rightClickCallback_);
   }
 
   setAnchorElement = (element: HTMLElement) => {
-    const { anchorElement } = this.state;
+    const {anchorElement} = this.state;
     if (anchorElement) {
       return;
     }
-    this.setState({ anchorElement: element });
+    this.setState({anchorElement: element});
   };
 
   render() {
-    const { anchorCorner, anchorMargin, contextmenu } = this.props;
-    const { coordinates, open, anchorElement } = this.state;
+    const {anchorCorner, anchorMargin, contextmenu} = this.props;
+    const {coordinates, open, anchorElement} = this.state;
     return (
       <span
-        className={`menu-surface-button mdc-menu-surface--anchor`}
+        className={'menu-surface-button mdc-menu-surface--anchor'}
         ref={this.setAnchorElement}
       >
         {contextmenu ? null : this.renderButton()}
@@ -72,16 +74,16 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
           open={open}
           anchorMargin={anchorMargin}
           anchorCorner={anchorCorner}
-          onClose={() => this.setState({ open: false, coordinates: null })}
+          onClose={() => this.setState({open: false, coordinates: null})}
           anchorElement={coordinates ? undefined : anchorElement}
           coordinates={coordinates}
         >
           <ul className="mdc-list" role="menu">
-            {["Back", "Forward", "Reload"].map((text, index) =>
+            {['Back', 'Forward', 'Reload'].map((text, index) =>
               this.renderListItem(text, index)
             )}
             <li className="mdc-list-divider" role="separator" />
-            {["Help & Feedback", "Settings"].map((text, index) =>
+            {['Help & Feedback', 'Settings'].map((text, index) =>
               this.renderListItem(text, index)
             )}
           </ul>
@@ -100,7 +102,7 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
 
   renderButton() {
     return (
-      <Button raised onClick={() => this.setState({ open: true })}>
+      <Button raised onClick={() => this.setState({open: true})}>
         Open Menu
       </Button>
     );
