@@ -74,7 +74,7 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
           open={open}
           anchorMargin={anchorMargin}
           anchorCorner={anchorCorner}
-          onClose={() => this.setState({open: false, coordinates: null})}
+          onClose={() => this.setState({open: false, coordinates: undefined})}
           anchorElement={coordinates ? undefined : anchorElement}
           coordinates={coordinates}
         >
