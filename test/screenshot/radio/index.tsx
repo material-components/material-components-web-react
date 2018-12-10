@@ -1,29 +1,42 @@
-import React from 'react';
+import * as React from 'react';
 import './index.scss';
 import '../../../packages/list/index.scss';
+// @ts-ignore
+import Radio, {NativeRadioControl} from '../../../packages/radio/index.tsx';
 
-import Radio, {NativeRadioControl} from '../../../packages/radio/index';
+type PetsRadioProps = {
+  name: string,
+  disabled?: boolean,
+  petValue?: string
+};
 
-class PetsRadio extends React.Component {
+type PetsRadioState = {
+  petValue?: string
+};
+
+class PetsRadio extends React.Component<PetsRadioProps, PetsRadioState> {
   constructor(props) {
     super(props);
     this.state = {
-      petValue: props.petValue, // eslint-disable-line react/prop-types
+      petValue: props.petValue,
     };
   }
 
   render() {
     const {petValue} = this.state;
     const {name, disabled} = this.props; // eslint-disable-line react/prop-types
-    const pets = [{
-      value: 'dogs',
-      label: 'Dogs',
-      id: 'radio-dogs',
-    }, {
-      value: 'cats',
-      label: 'Cats',
-      id: 'radio-cats',
-    }];
+    const pets = [
+      {
+        value: 'dogs',
+        label: 'Dogs',
+        id: 'radio-dogs',
+      },
+      {
+        value: 'cats',
+        label: 'Cats',
+        id: 'radio-cats',
+      },
+    ];
 
     return (
       <div>
@@ -35,7 +48,7 @@ class PetsRadio extends React.Component {
               checked={petValue === pet.value}
               value={pet.value}
               id={`${pet.id}-${name}`}
-              onChange={(e) => this.setState({petValue: e.target.value})}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({petValue: e.target.value})}
             />
           </Radio>
         ))}
@@ -44,17 +57,18 @@ class PetsRadio extends React.Component {
     );
   }
 }
+
 const RadioScreenshotTest = () => {
   return (
     <div>
       <h3>Pet Radio Buttons</h3>
-      <PetsRadio name='pets'/>
+      <PetsRadio name="pets" />
 
       <h3>Preselected Radio Buttons</h3>
-      <PetsRadio name='pets-preselect' petValue={'cats'}/>
+      <PetsRadio name="pets-preselect" petValue='cats' />
 
       <h3>Disabled Radio Buttons</h3>
-      <PetsRadio name='pets-disabled' disabled />
+      <PetsRadio name="pets-disabled" disabled />
     </div>
   );
 };

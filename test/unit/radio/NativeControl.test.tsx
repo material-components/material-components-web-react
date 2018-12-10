@@ -1,7 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import {NativeRadioControl} from '../../../packages/radio/index';
+// @ts-ignore
+import {NativeRadioControl} from '../../../packages/radio/index.tsx';
 
 suite('NativeRadioControl');
 
@@ -21,7 +22,7 @@ test('has mdc-radio__native-control class', () => {
 });
 
 test('adds custom classnames', () => {
-  const wrapper = shallow(<NativeRadioControl className='test-class-name' />);
+  const wrapper = shallow(<NativeRadioControl className="test-class-name" />);
   assert.isTrue(wrapper.hasClass('mdc-radio__native-control'));
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
