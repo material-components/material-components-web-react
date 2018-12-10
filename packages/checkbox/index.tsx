@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-import {MDCCheckboxFoundation} from '@material/checkbox/dist/mdc.checkbox';
+import {MDCCheckboxFoundation, MDCCheckboxAdapter} from '@material/checkbox/dist/mdc.checkbox';
 import withRipple from '@material/react-ripple';
 // @ts-ignore
 import NativeControl from './NativeControl.tsx';
@@ -58,7 +58,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     };
   }
 
-  static defaultProps = {
+  static defaultProps: Partial<CheckboxProps> = {
     checked: false,
     className: '',
     disabled: false,
@@ -79,7 +79,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: CheckboxProps) {
     const {checked, indeterminate, disabled} = this.props;
     if (
       checked !== prevProps.checked ||
@@ -96,12 +96,12 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     this.foundation_.destroy();
   }
 
-  init = (el) => {
+  init = (el: HTMLDivElement) => {
     if (!this.inputElement_.current) return;
     this.props.initRipple(el, this.inputElement_.current);
   };
 
-  handleChange = (checked, indeterminate) => {
+  handleChange = (checked: boolean, indeterminate: boolean) => {
     this.setState({checked, indeterminate}, () => {
       this.foundation_.handleChange();
       if (this.inputElement_.current) {
@@ -110,7 +110,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     });
   };
 
-  get classes() {
+  get classes(): string {
     const {classList} = this.state;
     const {className} = this.props;
     return classnames('mdc-checkbox', Array.from(classList), className);
@@ -125,7 +125,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   removeState = (key: keyof CheckboxState) => this.updateState(key, false);
 
-  get adapter() {
+  get adapter(): MDCCheckboxAdapter {
     return {
       addClass: (className) => {
         const {classList} = this.state;

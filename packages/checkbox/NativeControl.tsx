@@ -30,11 +30,9 @@ export interface NativeControlProps {
 };
 
 export class NativeControl extends React.Component<NativeControlProps & React.HTMLProps<HTMLInputElement>, {}> {
-  static defaultProps = {
+  static defaultProps: Partial<NativeControlProps> = {
     checked: false,
     disabled: false,
-    id: null,
-    rippleActivatorRef: null,
     onChange: () => {},
   };
 
