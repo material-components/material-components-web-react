@@ -95,7 +95,7 @@ import Card, {CardPrimaryContent} from '@material/react-card';
 
 ### CardMedia
 
-This component is a container for an image on the card. Optionally, any children of the `<CardMedia>` component is wrapped with an element with the className `.mdc-card__media-content`. CardMedia requires that you have an aspect ratio of either `square` or `wide` in order to display.
+This component is a container for an image on the card. Optionally, any children of the `<CardMedia>` component is wrapped with an element with the className `.mdc-card__media-content`. In order for your image to display, CardMedia requires that you have an aspect ratio of either `square` or `wide`.
 
 ```js
 import {CardMedia} from '@material/react-card';
