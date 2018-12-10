@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-import {MDCMenuSurfaceFoundation, Corner} from '@material/menu-surface';
+import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material/menu-surface';
 
 export interface MenuSurfaceProps {
   className: string,
@@ -61,7 +61,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
   firstFocusableElement_: HTMLElement | null;
   lastFocusableElement_: HTMLElement | null;
 
-  state = {
+  state: MenuSurfaceState = {
     transformOrigin: '',
     maxHeight: undefined,
     styleLeft: undefined,
@@ -69,9 +69,9 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     styleTop: undefined,
     styleBottom: undefined,
     classList: new Set(),
-  } as MenuSurfaceState;
+  };
 
-  static defaultProps = {
+  static defaultProps: Partial<MenuSurfaceProps> = {
     className: '',
     styles: {},
     anchorElement: undefined,
@@ -121,7 +121,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: MenuSurfaceProps) {
     if (this.props.open !== prevProps.open) {
       this.open_();
     }
@@ -144,7 +144,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     this.foundation_.destroy();
   }
 
-  hoistToBody() {
+  hoistToBody(): void {
     // this deviates from the mdc web version.
     // here we force the menu to hoist, and require either
     // this.props.(x,y) or this.props.anchorElement.
@@ -157,13 +157,13 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     this.foundation_.setIsHoisted(true);
   }
 
-  setCoordinates() {
+  setCoordinates(): void {
     if (!this.props.coordinates) return;
     const {x, y} = this.props.coordinates;
     this.foundation_.setAbsolutePosition(x, y);
   }
 
-  get classes() {
+  get classes(): string {
     const {fixed, className} = this.props;
     const {classList} = this.state;
     return classnames('mdc-menu-surface', Array.from(classList), className, {
@@ -171,7 +171,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     });
   }
 
-  get styles() {
+  get styles(): React.CSSProperties {
     const {
       styleLeft,
       styleRight,
@@ -190,7 +190,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     });
   }
 
-  get adapter() {
+  get adapter(): MDCMenuSurfaceAdapter {
     const focusAdapterMethods = {
       isFocused: () =>
         this.menuSurfaceElement_ &&
@@ -298,7 +298,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     );
   }
 
-  open_ = () => {
+  open_ = (): void => {
     if (this.props.open) {
       if (!this.menuSurfaceElement_.current) return;
       const focusableElements = this.menuSurfaceElement_.current.querySelectorAll(
@@ -316,7 +316,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     }
   };
 
-  handleKeydown = (evt) => {
+  handleKeydown = (evt: React.KeyboardEvent) => {
     this.props.onKeyDown(evt);
     this.foundation_.handleKeydown(evt);
   };
