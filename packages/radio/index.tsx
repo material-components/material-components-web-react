@@ -24,7 +24,7 @@ import * as classnames from 'classnames';
 import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
 import withRipple from '@material/react-ripple';
 // @ts-ignore
-import NativeControl from './NativeControl.tsx';
+import NativeControl, {NativeControlProps} from './NativeControl.tsx'; // eslint-disable-line no-unused-vars
 
 export interface RadioProps {
   label: string,
