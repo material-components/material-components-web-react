@@ -15,7 +15,7 @@ type MenuSurfaceButtonProps = {
 
 type MenuSurfaceButtonState = {
   open: boolean,
-  coordinates?: { x?: number, y?: number },
+  coordinates?: { x: number, y: number },
   anchorElement: HTMLElement,
 };
 

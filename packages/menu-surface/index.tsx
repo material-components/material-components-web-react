@@ -25,13 +25,18 @@ import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material
 
 export interface MenuSurfaceProps {
   className: string,
-  anchorElement: HTMLElement,
+  anchorElement?: HTMLElement,
   anchorCorner: number,
-  anchorMargin: object,
-  styles: object,
-  coordinates: {
-    x?: number,
-    y?: number
+  anchorMargin?: {
+    top?: number,
+    left?: number,
+    bottom?: number,
+    right?: number,
+  },
+  styles: React.CSSProperties,
+  coordinates?: {
+    x: number,
+    y: number
   },
   onClose: () => void,
   onOpen: () => void,
@@ -41,7 +46,7 @@ export interface MenuSurfaceProps {
   fixed: boolean
 };
 
-type MenuSurfaceState = {
+interface MenuSurfaceState {
   transformOrigin: string,
   maxHeight?: number,
   styleLeft?: number,
@@ -74,10 +79,8 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
   static defaultProps: Partial<MenuSurfaceProps> = {
     className: '',
     styles: {},
-    anchorElement: undefined,
     anchorCorner: 0,
     anchorMargin: {},
-    coordinates: {},
     onClose: () => {},
     onOpen: () => {},
     onKeyDown: () => {},
