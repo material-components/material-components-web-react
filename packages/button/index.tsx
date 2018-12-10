@@ -24,39 +24,40 @@ import * as classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
 export interface ButtonProps<T> {
-  raised: boolean,
-  unelevated: boolean,
-  outlined: boolean,
-  dense: boolean,
-  disabled: boolean,
-  unbounded: boolean,
-  initRipple: (surface:T) => void,
-  className: string,
-  icon: React.ReactNode,
-  href: string
+  raised?: boolean,
+  unelevated?: boolean,
+  outlined?: boolean,
+  dense?: boolean,
+  disabled?: boolean,
+  unbounded?: boolean,
+  initRipple?: (surface: T) => void,
+  className?: string,
+  icon?: React.ReactNode,
+  href?: string
 };
 
-type AnchorElementProps = React.AnchorHTMLAttributes<HTMLAnchorElement>;
-type ButtonElementProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+type AnchorElementProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonProps<HTMLAnchorElement>;
+type ButtonElementProps = React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps<HTMLButtonElement>;
 
 // type ButtonElementProps = React.HTMLProps<HTMLButtonElement>;
 // type AnchorElementProps = React.HTMLProps<HTMLAnchorElement>;
 
-export const Button = <T extends object>(
-  props: T extends AnchorElementProps ? (ButtonProps<HTMLAnchorElement> & AnchorElementProps) : (ButtonProps<HTMLButtonElement> & ButtonElementProps)
-) => {
-  const {
-    className,
-    raised,
-    unelevated,
-    outlined,
-    dense,
+export const Button = <T extends {}>(
+  {
+    className = '',
+    raised = false,
+    unelevated = false,
+    outlined = false,
+    dense = false,
+    disabled = false,
     icon,
+    href,
     children,
-    initRipple,
-    unbounded, // eslint-disable-line no-unused-vars
+    initRipple = () => {},
+    unbounded = false, // eslint-disable-line no-unused-vars
     ...otherProps
-  } = props as ButtonProps<HTMLAnchorElement> & AnchorElementProps;
+  }: T extends AnchorElementProps ? AnchorElementProps : ButtonElementProps
+) => {
 
   const classes = classnames('mdc-button', className, {
     'mdc-button--raised': raised,
@@ -65,10 +66,16 @@ export const Button = <T extends object>(
     'mdc-button--dense': dense,
   });
 
-  const SemanticButton = props.href ? 'a' : 'button';
+  const SemanticButton = href ? 'a' : 'button';
 
   return (
-    <SemanticButton className={classes} ref={initRipple} {...otherProps}>
+    <SemanticButton
+      className={classes}
+      ref={initRipple}
+      disabled={disabled}
+      href={href}
+      {...otherProps}
+    >
       {icon ? renderIcon(icon) : null}
       {children}
     </SemanticButton>
@@ -83,16 +90,5 @@ const addClassesToElement = (classes, element) => {
 };
 
 const renderIcon = (icon) => addClassesToElement('mdc-button__icon', icon);
-
-Button.defaultProps = {
-  raised: false,
-  unelevated: false,
-  outlined: false,
-  dense: false,
-  disabled: false,
-  unbounded: false,
-  initRipple: () => {},
-  className: '',
-};
 
 export default withRipple(Button);

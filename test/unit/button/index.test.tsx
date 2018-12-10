@@ -1,7 +1,7 @@
 import * as React from "react";
 import { assert } from "chai";
 import * as td from "testdouble";
-import { mount, shallow } from "enzyme";
+import { shallow } from "enzyme";
 //@ts-ignore
 import { Button } from "../../../packages/button/index.tsx";
 
@@ -55,10 +55,9 @@ test("renders a button with an anchor tag", () => {
 });
 
 test("default initRipple function", () => {
-  const defaultProps = Button.defaultProps;
-  defaultProps.initRipple = td.func();
-  mount(<Button />);
-  td.verify(defaultProps.initRipple(td.matchers.isA(Object)), {
+  const initRipple = td.func() as (surface: HTMLButtonElement) => {};
+  shallow(<Button initRipple={initRipple} />);
+  td.verify(initRipple(td.matchers.isA(Object)), {
     times: 1
   });
 });
