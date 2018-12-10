@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import * as classnames from 'classnames';
 import withRipple from '@material/react-ripple';
@@ -30,7 +31,7 @@ export interface FabProps {
   className: string,
   initRipple: (surface: HTMLButtonElement) => void,
   unbounded: boolean,
-};
+}
 
 const Icon: React.FunctionComponent<{icon?: React.ReactElement<HTMLElement>}> = ({icon}) => {
   if (!icon) {
