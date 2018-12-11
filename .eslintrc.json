@@ -1,7 +1,6 @@
 {
   "extends": [
     "google",
-    "airbnb",
     "plugin:react/recommended"
   ],
   "plugins": [

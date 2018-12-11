@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import * as classnames from 'classnames';
 import withRipple from '@material/react-ripple';
@@ -34,13 +35,10 @@ export interface ButtonProps<T> {
   className?: string,
   icon?: React.ReactNode,
   href?: string
-};
+}
 
 type AnchorElementProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonProps<HTMLAnchorElement>;
 type ButtonElementProps = React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps<HTMLButtonElement>;
-
-// type ButtonElementProps = React.HTMLProps<HTMLButtonElement>;
-// type AnchorElementProps = React.HTMLProps<HTMLAnchorElement>;
 
 export const Button = <T extends {}>(
   {
@@ -56,9 +54,8 @@ export const Button = <T extends {}>(
     initRipple = () => {},
     unbounded = false, // eslint-disable-line no-unused-vars
     ...otherProps
-  }: T extends AnchorElementProps ? AnchorElementProps : ButtonElementProps
+  }: T extends HTMLAnchorElement ? AnchorElementProps : ButtonElementProps
 ) => {
-
   const classes = classnames('mdc-button', className, {
     'mdc-button--raised': raised,
     'mdc-button--unelevated': unelevated,
@@ -66,19 +63,26 @@ export const Button = <T extends {}>(
     'mdc-button--dense': dense,
   });
 
-  const SemanticButton = href ? 'a' : 'button';
+  const props = Object.assign({
+    className: classes,
+    ref: initRipple,
+    disabled,
+  }, otherProps);
+
+  if (href) {
+    return (
+      <a {...props} href={href}>
+        {icon ? renderIcon(icon) : null}
+        {children}
+      </a>
+    );
+  }
 
   return (
-    <SemanticButton
-      className={classes}
-      ref={initRipple}
-      disabled={disabled}
-      href={href}
-      {...otherProps}
-    >
+    <button {...props}>
       {icon ? renderIcon(icon) : null}
       {children}
-    </SemanticButton>
+    </button>
   );
 };
 

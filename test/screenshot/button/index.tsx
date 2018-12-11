@@ -1,9 +1,9 @@
-import * as React from "react";
-import MaterialIcon from "../../../packages/material-icon/index";
-import "../../../packages/button/index.scss";
-import "./index.scss";
+import * as React from 'react';
+import MaterialIcon from '../../../packages/material-icon/index';
+import '../../../packages/button/index.scss';
+import './index.scss';
 // @ts-ignore
-import Button from "../../../packages/button/index.tsx";
+import Button from '../../../packages/button/index.tsx';
 const svgIcon = (
   <svg
     width="24px"
