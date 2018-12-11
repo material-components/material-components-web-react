@@ -35,7 +35,7 @@ interface LineRippleState {
   style: React.CSSProperties,
 };
 
-type Props = LineRippleProps & React.HTMLProps<HTMLDivElement>; 
+type Props = LineRippleProps & React.HTMLProps<HTMLDivElement>;
 
 export default class LineRipple extends React.Component<
   Props,
@@ -109,7 +109,7 @@ export default class LineRipple extends React.Component<
 
   setStyle = (varName: string, value: React.CSSProperties) => {
     const styleName = varName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
-    const updatedStyle: React.CSSProperties = Object.assign({}, this.state.style);
+    const updatedStyle: any = Object.assign({}, this.state.style);
     updatedStyle[styleName] = value;
     this.setState({style: updatedStyle});
   };

@@ -7,22 +7,21 @@ import {
   disabledMap,
   helperTextMap,
   getHelperKeyText,
+  HelperTextMapType,
+  isValidationMsg,
 } from './attributesMap';
 import TestField from './TestTextField';
 // @ts-ignore
-import HelperText from '../../../packages/text-field/helper-text.tsx';
+import HelperText from '../../../packages/text-field/helper-text'; // eslint-disable-line no-unused-vars
 
-const isValidationMsg = (helperTextMap: {helperText?: HelperText}) => {
-  const hasHelperText = Object.keys(helperTextMap).length > 0;
-  return hasHelperText && helperTextMap.helperText.props.validation;
-};
+
 const textFields = (variantProps: {variant?: string}) => {
   return iconsMap.map((icon: {leadingIcon?: React.ReactNode, trailingIcon?: React.ReactNode}) => {
     return denseMap.map((dense: {dense?: boolean}) => {
       return rtlMap.map((isRtl: {isRtl?: boolean}) => {
         return requiredMap.map((isRequired: {required?: boolean}) => {
           return disabledMap.map((disabled: {disabled?: boolean}) => {
-            return helperTextMap.map((helperText: {helperText?: HelperText}) => {
+            return helperTextMap.map((helperText: HelperTextMapType | {}) => {
               const isValidationTextField = isValidationMsg(helperText);
               const value = !isValidationTextField
                 ? {value: null}

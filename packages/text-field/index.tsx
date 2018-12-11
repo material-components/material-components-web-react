@@ -33,7 +33,7 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
-type Props<T> = {
+export interface Props<T> {
   'children.props'?: InputProps<T>,
   children: React.ReactElement<Input<T> | HTMLInputElement | HTMLTextAreaElement>,
   className: string,
@@ -51,7 +51,7 @@ type Props<T> = {
   trailingIcon?: React.ReactElement<HTMLOrSVGElement>
 };
 
-export type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
+type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
 
 export type InputChildType<T> = React.ReactElement<React.Props<Input<T>>> & React.Props<Input<T>>;
 

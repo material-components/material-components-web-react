@@ -286,9 +286,8 @@ test('props.handleValueChange() is called if this.props.value updates', () => {
 
 test('foundation.setValue() is called if this.props.value updates', () => {
   const foundation: any = buildFoundation({setValue: td.func()});
-  const handleValueChange = (value: string, cb: (value: string) => void) => {
-    cb(value);
-  };
+  const handleValueChange: (value: string | number | string[] | undefined, cb: () => void) => void
+    = (value, cb) => value && cb();
   const wrapper = shallow(
     <Input
       value="test value"

@@ -23,13 +23,14 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore
 import {MDCTextFieldIconFoundation} from '@material/textfield';
+import {HTMLAttributes} from 'enzyme';
 
 export interface IconProps {
   disabled: boolean,
   children: React.ReactElement<HTMLOrSVGElement>
 };
 
-interface IconState {
+interface IconState extends HTMLAttributes {
   tabindex: number | string,
   role: string,
 };
@@ -80,7 +81,7 @@ export default class Icon extends React.Component<
     return {
       // need toString() call when tabindex === 0.
       // @types/react requires tabIndex is number
-      getAttr: (attr: string) => {
+      getAttr: (attr: keyof HTMLAttributes) => {
         const attr_ = this.state[attr];
         if (attr_ || (typeof attr_ === 'number' && !isNaN(attr_))) {
           return attr_.toString();

@@ -3,6 +3,8 @@ import {HelperText} from '../../../packages/text-field';
 // @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 
+export declare type HelperTextMapType = {helperText: HelperText};
+
 const icon = <MaterialIcon icon='favorite' />;
 
 const iconAlt = <MaterialIcon icon='work' />;
@@ -23,7 +25,7 @@ const helperTextMap = [
   {helperText: <HelperText validation>Error message</HelperText>},
 ];
 
-const getHelperKeyText = (helperTextMap: object, isValidationMsg: boolean): string => {
+const getHelperKeyText = (helperTextMap: HelperTextMapType | {}, isValidationMsg: boolean): string => {
   const hasHelperText = Object.keys(helperTextMap).length > 0;
   if (!hasHelperText) {
     return '';
@@ -34,6 +36,13 @@ const getHelperKeyText = (helperTextMap: object, isValidationMsg: boolean): stri
   }
 };
 
+const isValidationMsg: (helperTextMap: HelperTextMapType | {}) => boolean = (helperTextMap) => {
+  const hasHelperText = Object.keys(helperTextMap).length > 0;
+  if (!hasHelperText) return false;
+  if (!(helperTextMap as HelperTextMapType).helperText) return false;
+  return !!(helperTextMap as HelperTextMapType).helperText.props.validation;
+};
+
 export {
   iconsMap,
   denseMap,
@@ -42,4 +51,5 @@ export {
   disabledMap,
   helperTextMap,
   getHelperKeyText,
+  isValidationMsg,
 };

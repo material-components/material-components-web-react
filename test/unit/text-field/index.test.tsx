@@ -6,12 +6,9 @@ import TextField, {
   HelperText,
   Input,
   InputChildType,
-  // @ts-ignore
-} from '../../../packages/text-field/index.tsx';
+} from '../../../packages/text-field';
 /* eslint-disable */
-// TODO: fix the ts lint warning
-// @ts-ignore
-import FloatingLabel from '../../../packages/floating-label/index.tsx';
+import FloatingLabel from '../../../packages/floating-label';
 /* eslint-enable */
 
 suite('Text Field');
@@ -652,7 +649,7 @@ test('#inputProps.setInputId updates state.disabled', () => {
 
 test('passing a ref to the <Input /> should return the instance of the Input', () => {
   let inputInstance;
-  const inputRef = (input: HTMLInputElement) => inputInstance = input;
+  const inputRef = (input: Input<HTMLInputElement>) => inputInstance = input;
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input ref={inputRef} />
