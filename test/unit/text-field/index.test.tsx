@@ -5,13 +5,10 @@ import {mount, shallow} from 'enzyme';
 import TextField, {
   HelperText,
   Input,
-  InputChildType,
-  // @ts-ignore
-} from '../../../packages/text-field/index.tsx';
+} from '../../../packages/text-field';
+import {InputProps} from '../../../packages/text-field/Input'; // eslint-disable-line no-unused-vars
 /* eslint-disable */
-// TODO: fix the ts lint warning 
-// @ts-ignore
-import FloatingLabel from '../../../packages/floating-label/index.tsx';
+import FloatingLabel from '../../../packages/floating-label';
 /* eslint-enable */
 
 suite('Text Field');
@@ -458,26 +455,16 @@ test('#events.onKeyDown triggers #foundation.handleTextFieldInteraction', () => 
 });
 
 test('renders leadingIcon if passed as prop', () => {
-  const wrapper = shallow(
-    <TextField
-      label="my label"
-      leadingIcon={<i className="test-class-name-icon" />}
-    >
-      <Input />
-    </TextField>
-  );
+  const wrapper = shallow(<TextField label='my label'
+    leadingIcon={<i className='test-class-name-icon' />}
+  ><Input /></TextField>);
   assert.equal(wrapper.find('.test-class-name-icon').length, 1);
 });
 
 test('renders trailingIcon if passed as prop', () => {
-  const wrapper = shallow(
-    <TextField
-      label="my label"
-      trailingIcon={<i className="test-class-name-icon" />}
-    >
-      <Input />
-    </TextField>
-  );
+  const wrapper = shallow(<TextField label='my label'
+    trailingIcon={<i className='test-class-name-icon' />}
+  ><Input /></TextField>);
   assert.equal(wrapper.find('.test-class-name-icon').length, 1);
 });
 
@@ -602,7 +589,7 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as InputChildType<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
 });
@@ -615,7 +602,7 @@ test('#inputProps.handleValueChange updates state.value', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as InputChildType<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .handleValueChange('meow', td.func() as () => void);
   assert.equal(wrapper.state().value, 'meow');
 });
@@ -629,7 +616,7 @@ test('#inputProps.handleValueChange calls cb after state is set', () => {
   const callback = td.func();
   wrapper
     .instance()
-    .inputProps({} as InputChildType<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .handleValueChange('meow', callback as () => void);
   td.verify(callback(), {times: 1});
 });
@@ -642,7 +629,7 @@ test('#inputProps.setDisabled updates state.disabled', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as InputChildType<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .setDisabled(true);
   assert.isTrue(wrapper.state().disabled);
 });
@@ -655,18 +642,20 @@ test('#inputProps.setInputId updates state.disabled', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as InputChildType<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .setInputId('my-id');
   assert.equal(wrapper.state().inputId, 'my-id');
 });
 
 test('passing a ref to the <Input /> should return the instance of the Input', () => {
   let inputInstance;
+  const inputRef = (input: any) => inputInstance = input;
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
-      <Input ref={(input) => (inputInstance = input)} />
+      <Input ref={inputRef} />
     </TextField>
   );
+
   assert.equal(
     wrapper
       .childAt(0)

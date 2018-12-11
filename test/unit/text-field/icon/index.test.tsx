@@ -4,6 +4,7 @@ import {assert} from 'chai';
 import {shallow} from 'enzyme';
 // @ts-ignore
 import Icon from '../../../../packages/text-field/icon/index.tsx';
+// @ts-ignore
 import MaterialIcon from '../../../../packages/material-icon/index.js';
 
 suite('Text Field Icon');
