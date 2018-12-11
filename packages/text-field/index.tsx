@@ -35,7 +35,7 @@ import NotchedOutline from '@material/react-notched-outline';
 
 export interface Props<T> {
   'children.props'?: InputProps<T>,
-  children: React.ReactElement<Input<T> | HTMLInputElement | HTMLTextAreaElement>,
+  children: React.ReactElement<Input<T>>,
   className: string,
   dense: boolean,
   floatingLabelClassName: string,
@@ -52,8 +52,6 @@ export interface Props<T> {
 };
 
 type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
-
-export type InputChildType<T> = React.ReactElement<React.Props<Input<T>>> & React.Props<Input<T>>;
 
 type TextFieldState = {
   foundation: MDCTextFieldFoundation | null,
@@ -284,7 +282,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  inputProps(child: InputChildType<T>) {
+  inputProps(child: Input<T>) {
     const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
@@ -340,7 +338,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
 
   renderInput() {
     const child = React.Children.only(this.props.children);
-    const props = this.inputProps(child as InputChildType<T>);
+    const props = this.inputProps(child as Input<T>);
     return React.cloneElement(child, props);
   }
 
