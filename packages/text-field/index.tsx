@@ -282,7 +282,8 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  inputProps(child: Input<T>) {
+  inputProps(child: React.ReactElement<InputProps<T>>) {
+    // @ts-ignore
     const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
@@ -337,8 +338,8 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
   }
 
   renderInput() {
-    const child = React.Children.only(this.props.children);
-    const props = this.inputProps(child as Input<T>);
+    const child: React.ReactElement<InputProps<T>> = React.Children.only(this.props.children);
+    const props = this.inputProps(child);
     return React.cloneElement(child, props);
   }
 

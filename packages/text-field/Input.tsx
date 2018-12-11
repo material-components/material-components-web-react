@@ -26,7 +26,7 @@ import {MDCTextFieldFoundation} from '@material/textfield';
 // @ts-ignore
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
-export interface Props<T> {
+export interface InputProps<T> {
   className: string,
   inputType: 'input' | 'textarea',
   disabled: boolean,
@@ -34,6 +34,7 @@ export interface Props<T> {
   foundation?: MDCTextFieldFoundation,
   handleValueChange: (value: string | number | string[] | undefined, cb: () => void) => void,
   id: string,
+  ref?: (inputInstance: Input<T>) => void,
   onBlur: Pick<React.HTMLProps<T>, 'onBlur'>,
   onChange: Pick<React.HTMLProps<T>, 'onChange'>,
   onFocus: Pick<React.HTMLProps<T>, 'onFocus'>,
@@ -44,9 +45,9 @@ export interface Props<T> {
   handleFocusChange: (isFocused: boolean) => void,
 };
 
-type InputElementProps = React.HTMLProps<HTMLInputElement>;
-type TextareaElementProps = React.HTMLProps<HTMLTextAreaElement>;
-type InputProps<T> = Props<T> & (T extends HTMLInputElement ? InputElementProps : TextareaElementProps);
+type InputElementProps = Exclude<React.HTMLProps<HTMLInputElement>, 'ref'>;
+type TextareaElementProps = Exclude<React.HTMLProps<HTMLTextAreaElement>, 'ref'>;
+type Props<T> = InputProps<T> & (T extends HTMLInputElement ? InputElementProps : TextareaElementProps);
 
 type InputState = {
   wasUserTriggeredChange: boolean,
@@ -58,7 +59,7 @@ declare type ValidationAttrWhiteListReact =
   Exclude<ValidationAttrWhiteList, 'minlength' | 'maxlength'> | 'minLength' | 'maxLength';
 
 export default class Input<T extends {}> extends React.Component<
-  InputProps<T>, InputState
+  Props<T>, InputState
   > {
   inputElement_: React.RefObject<
     T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement
@@ -109,7 +110,7 @@ export default class Input<T extends {}> extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps: InputProps<T>) {
+  componentDidUpdate(prevProps: Props<T>) {
     const {
       id,
       handleValueChange,
@@ -203,7 +204,7 @@ export default class Input<T extends {}> extends React.Component<
     onChange(evt);
   };
 
-  handleValidationAttributeUpdate = (nextProps: InputProps<T>) => {
+  handleValidationAttributeUpdate = (nextProps: Props<T>) => {
     const {foundation} = nextProps;
     VALIDATION_ATTR_WHITELIST.some((attributeName: ValidationAttrWhiteList) => {
       let attr: ValidationAttrWhiteListReact;

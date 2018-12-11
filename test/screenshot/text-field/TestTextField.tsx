@@ -1,13 +1,13 @@
 import * as React from 'react';
 import TextField, {Input} from '../../../packages/text-field';
 type TestFieldProps = {
-  disabled: boolean,
-  id: string,
-  variant: string,
-  isRtl: boolean,
-  minLength: number,
-  required: boolean,
-  value: string | number | boolean,
+  disabled?: boolean,
+  id?: string,
+  variant?: string,
+  isRtl?: boolean,
+  minLength?: number,
+  required?: boolean,
+  value?: string | number | boolean,
 };
 
 type TestFieldState = {

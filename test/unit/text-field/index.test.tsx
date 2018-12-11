@@ -6,6 +6,7 @@ import TextField, {
   HelperText,
   Input,
 } from '../../../packages/text-field';
+import {InputProps} from '../../../packages/text-field/Input'; // eslint-disable-line no-unused-vars
 /* eslint-disable */
 import FloatingLabel from '../../../packages/floating-label';
 /* eslint-enable */
@@ -588,7 +589,7 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as Input<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
 });
@@ -601,7 +602,7 @@ test('#inputProps.handleValueChange updates state.value', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as Input<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .handleValueChange('meow', td.func() as () => void);
   assert.equal(wrapper.state().value, 'meow');
 });
@@ -615,7 +616,7 @@ test('#inputProps.handleValueChange calls cb after state is set', () => {
   const callback = td.func();
   wrapper
     .instance()
-    .inputProps({} as Input<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .handleValueChange('meow', callback as () => void);
   td.verify(callback(), {times: 1});
 });
@@ -628,7 +629,7 @@ test('#inputProps.setDisabled updates state.disabled', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as Input<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .setDisabled(true);
   assert.isTrue(wrapper.state().disabled);
 });
@@ -641,19 +642,20 @@ test('#inputProps.setInputId updates state.disabled', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as Input<HTMLInputElement>)
+    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
     .setInputId('my-id');
   assert.equal(wrapper.state().inputId, 'my-id');
 });
 
 test('passing a ref to the <Input /> should return the instance of the Input', () => {
   let inputInstance;
-  const inputRef: (input: HTMLInputElement | HTMLTextAreaElement) => void = (input) => inputInstance = input;
+  const inputRef = (input: any) => inputInstance = input;
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input ref={inputRef} />
     </TextField>
   );
+
   assert.equal(
     wrapper
       .childAt(0)
