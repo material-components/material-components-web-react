@@ -21,19 +21,23 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCTextFieldIconFoundation} from '@material/textfield';
 
 export interface IconProps {
-  disabled: boolean
+  disabled: boolean,
+  children: React.ReactElement<HTMLOrSVGElement>
 };
 
-type IconState = {
+interface IconState {
   tabindex: number | string,
   role: string,
 };
 
+type Props = IconProps & React.HTMLProps<HTMLElement>;
+
 export default class Icon extends React.Component<
-  IconProps & React.HTMLProps<HTMLElement>,
+  Props,
   IconState
   > {
   foundation_: MDCTextFieldIconFoundation;
@@ -42,7 +46,7 @@ export default class Icon extends React.Component<
     disabled: false,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const {
       tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
@@ -62,7 +66,7 @@ export default class Icon extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.disabled !== prevProps.disabled) {
       this.foundation_.setDisabled(this.props.disabled);
     }
@@ -76,7 +80,7 @@ export default class Icon extends React.Component<
     return {
       // need toString() call when tabindex === 0.
       // @types/react requires tabIndex is number
-      getAttr: (attr) => {
+      getAttr: (attr: string) => {
         const attr_ = this.state[attr];
         if (attr_ || (typeof attr_ === 'number' && !isNaN(attr_))) {
           return attr_.toString();

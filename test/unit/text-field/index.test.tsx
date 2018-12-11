@@ -652,9 +652,10 @@ test('#inputProps.setInputId updates state.disabled', () => {
 
 test('passing a ref to the <Input /> should return the instance of the Input', () => {
   let inputInstance;
+  const inputRef = (input: HTMLInputElement) => inputInstance = input;
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
-      <Input ref={(input) => (inputInstance = input)} />
+      <Input ref={inputRef} />
     </TextField>
   );
   assert.equal(

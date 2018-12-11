@@ -21,10 +21,12 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCTextFieldFoundation} from '@material/textfield';
+// @ts-ignore
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
-type Props = {
+export interface Props {
   className: string,
   inputType: 'input' | 'textarea',
   disabled: boolean,
@@ -32,19 +34,20 @@ type Props = {
   foundation?: MDCTextFieldFoundation,
   handleValueChange: (value: string | number | string[] | undefined, cb: () => void) => void,
   id: string,
-  onBlur: (event: React.SyntheticEvent) => void,
-  onChange: (event: React.SyntheticEvent) => void,
-  onFocus: (event: React.SyntheticEvent) => void,
+  onBlur: (event: React.FocusEvent) => void,
+  onChange: (event: React.ChangeEvent) => void,
+  onFocus: (event: React.FocusEvent) => void,
   onMouseDown: (event: React.MouseEvent) => void,
   onTouchStart: (event: React.TouchEvent) => void,
   setDisabled: (disabled: boolean) => void,
   setInputId: (id: string | number) => void,
   handleFocusChange: (isFocused: boolean) => void,
+  [key: string]: string
 };
 
 type InputElementProps = React.HTMLProps<HTMLInputElement>;
 type TextareaElementProps = React.HTMLProps<HTMLTextAreaElement>;
-export type InputProps<T> = Props & (T extends InputElementProps ? InputElementProps : TextareaElementProps);
+type InputProps<T> = Props & (T extends InputElementProps ? InputElementProps : TextareaElementProps);
 
 type InputState = {
   wasUserTriggeredChange: boolean,
@@ -102,7 +105,7 @@ export default class Input<T extends {}> extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: InputProps<T>) {
     const {
       id,
       handleValueChange,
@@ -196,7 +199,7 @@ export default class Input<T extends {}> extends React.Component<
     onChange(evt);
   };
 
-  handleValidationAttributeUpdate = (nextProps) => {
+  handleValidationAttributeUpdate = (nextProps: InputProps<T>) => {
     const {foundation} = nextProps;
     VALIDATION_ATTR_WHITELIST.some((attributeName: string) => {
       let attr = attributeName;
@@ -209,6 +212,7 @@ export default class Input<T extends {}> extends React.Component<
         foundation.handleValidationAttributeChange([attributeName]);
         return true;
       }
+      return false;
     });
   };
 

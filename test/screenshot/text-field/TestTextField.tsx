@@ -16,7 +16,7 @@ type TestFieldState = {
 };
 
 class TestField extends React.Component<TestFieldProps, TestFieldState> {
-  constructor(props) {
+  constructor(props: TestFieldProps) {
     super(props);
     this.state = {
       value: props.value === '' ? props.value : 'woof',
@@ -54,7 +54,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
             minLength={minLength}
             required={required}
             disabled={disabled}
-            onChange={(e) => this.setState({value: (e.target as HTMLInputElement).value})}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({value: (e.target as HTMLInputElement).value})}
           />
         </TextField>
       </div>

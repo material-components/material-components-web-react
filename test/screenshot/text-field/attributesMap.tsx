@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {HelperText} from '../../../packages/text-field';
+// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 
 const icon = <MaterialIcon icon='favorite' />;

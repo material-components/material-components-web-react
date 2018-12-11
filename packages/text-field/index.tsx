@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCTextFieldFoundation} from '@material/textfield';
 // @ts-ignore
 import Input, {InputProps} from './Input.tsx';
@@ -34,7 +35,7 @@ import NotchedOutline from '@material/react-notched-outline';
 
 type Props<T> = {
   'children.props'?: InputProps<T>,
-  children: React.ReactNode,
+  children: React.ReactElement<Input<T> | HTMLInputElement | HTMLTextAreaElement>,
   className: string,
   dense: boolean,
   floatingLabelClassName: string,
@@ -42,12 +43,12 @@ type Props<T> = {
   helperText?: React.ReactElement<any>,
   isRtl: boolean,
   label: React.ReactNode,
-  leadingIcon?: React.ReactNode,
+  leadingIcon?: React.ReactElement<HTMLOrSVGElement>,
   lineRippleClassName: string,
   notchedOutlineClassName: string,
   outlined: boolean,
   textarea: boolean,
-  trailingIcon?: React.ReactNode
+  trailingIcon?: React.ReactElement<HTMLOrSVGElement>
 };
 
 export type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
@@ -90,13 +91,18 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     trailingIcon: null,
   };
 
-  constructor(props) {
+  constructor(props: TextFieldProps<T>) {
     super(props);
+    let inputId;
+    if (props.children && React.Children.only(props.children)) {
+      inputId = props.children.props.id;
+    }
+
     this.state = {
       // root state
       value: undefined,
       classList: new Set(),
-      inputId: props.children.props.id,
+      inputId,
       isFocused: false,
       dir: 'ltr',
       disabled: false,
@@ -399,7 +405,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     return React.cloneElement(helperText, props);
   }
 
-  renderIcon(icon: React.ReactNode) {
+  renderIcon(icon: React.ReactElement<HTMLOrSVGElement>) {
     const {disabled} = this.state;
     // Toggling disabled will trigger icon.foundation.setDisabled()
     return <Icon disabled={disabled}>{icon}</Icon>;

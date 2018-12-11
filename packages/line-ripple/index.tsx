@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCLineRippleFoundation} from '@material/line-ripple';
 
 export interface LineRippleProps {
@@ -29,13 +30,15 @@ export interface LineRippleProps {
   rippleCenter?: number
 };
 
-type LineRippleState = {
+interface LineRippleState {
   classList: Set<any>,
   style: React.CSSProperties,
 };
 
+type Props = LineRippleProps & React.HTMLProps<HTMLDivElement>; 
+
 export default class LineRipple extends React.Component<
-  LineRippleProps & React.HTMLProps<HTMLDivElement>,
+  Props,
   LineRippleState
   > {
   static defaultProps = {
@@ -60,7 +63,7 @@ export default class LineRipple extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
         this.foundation_.activate();
@@ -106,7 +109,7 @@ export default class LineRipple extends React.Component<
 
   setStyle = (varName: string, value: React.CSSProperties) => {
     const styleName = varName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
-    const updatedStyle = Object.assign({}, this.state.style);
+    const updatedStyle: React.CSSProperties = Object.assign({}, this.state.style);
     updatedStyle[styleName] = value;
     this.setState({style: updatedStyle});
   };
@@ -118,7 +121,7 @@ export default class LineRipple extends React.Component<
     return Object.assign({}, style, wrappedStyle);
   };
 
-  onTransitionEnd = (evt) => this.foundation_.handleTransitionEnd(evt);
+  onTransitionEnd = (evt: React.TransitionEvent) => this.foundation_.handleTransitionEnd(evt);
 
   render() {
     const {
