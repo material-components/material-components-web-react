@@ -108,7 +108,7 @@ test('style prop adds style attribute', () => {
 });
 
 test('#componentDidMount creates foundation', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -117,7 +117,7 @@ test('#componentDidMount creates foundation', () => {
 });
 
 test('#componentDidUpdate does not call setValue if another property updates', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -130,7 +130,7 @@ test('#componentDidUpdate does not call setValue if another property updates', (
 });
 
 test('#adapter.addClass adds class to state.classList', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -140,7 +140,7 @@ test('#adapter.addClass adds class to state.classList', () => {
 });
 
 test('#adapter.removeClass removes class from state.classList', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -153,7 +153,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
 });
 
 test('#adapter.removeClass removes class from state.classList', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -167,7 +167,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
 });
 
 test('#adapter.isFocused returns true if state.isFocused updates to true', () => {
-  const wrapper = mount<TextField>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -177,7 +177,7 @@ test('#adapter.isFocused returns true if state.isFocused updates to true', () =>
 });
 
 test('#adapter.isRtl returns true props.isRtl if is true', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField isRtl label="my label">
       <Input />
     </TextField>
@@ -186,7 +186,7 @@ test('#adapter.isRtl returns true props.isRtl if is true', () => {
 });
 
 test('#adapter.isRtl returns false props.isRtl if is false', () => {
-  const wrapper = mount<TextField>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -195,7 +195,7 @@ test('#adapter.isRtl returns false props.isRtl if is false', () => {
 });
 
 test('#adapter.input.getNativeInput.validity.valid returns false for invalid input with email pattern', () => {
-  const wrapper = mount<TextField>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input value="123" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
     </TextField>
@@ -206,7 +206,7 @@ test('#adapter.input.getNativeInput.validity.valid returns false for invalid inp
 });
 
 test('#adapter.input.getNativeInput.validity.valid returns false for required field with no value', () => {
-  const wrapper = mount<TextField>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input value="" required />
     </TextField>
@@ -217,7 +217,7 @@ test('#adapter.input.getNativeInput.validity.valid returns false for required fi
 });
 
 test('#adapter.input.getNativeInput.validity.valid returns true for required field with value', () => {
-  const wrapper = mount<TextField>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input value="value" required />
     </TextField>
@@ -228,7 +228,7 @@ test('#adapter.input.getNativeInput.validity.valid returns true for required fie
 });
 
 test('#adapter.input.getNativeInput.validity.valid returns true for valid email', () => {
-  const wrapper = mount<TextField>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input
         value="chevy@gmail.com"
@@ -242,7 +242,7 @@ test('#adapter.input.getNativeInput.validity.valid returns true for valid email'
 });
 
 test('#get adapter.input.value returns state.value', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -253,7 +253,7 @@ test('#get adapter.input.value returns state.value', () => {
 });
 
 test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -270,7 +270,7 @@ test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
 });
 
 test('#adapter.label.shakeLabel does not call floatingLabelElement shake if false is passed', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -287,7 +287,7 @@ test('#adapter.label.shakeLabel does not call floatingLabelElement shake if fals
 });
 
 test('#adapter.label.floatLabel updates state.labelIsFloated to true', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -297,7 +297,7 @@ test('#adapter.label.floatLabel updates state.labelIsFloated to true', () => {
 });
 
 test('#adapter.label.floatLabel updates state.labelIsFloated to false', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -308,7 +308,7 @@ test('#adapter.label.floatLabel updates state.labelIsFloated to false', () => {
 });
 
 test('#adapter.label.hasLabel returns true if label exists', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -320,7 +320,7 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
   const div = document.createElement('div');
   document.body.append(div);
   const options = {attachTo: div};
-  const wrapper = mount<TextField>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>,
@@ -331,7 +331,7 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
 });
 
 test('#adapter.label.getLabelWidth returns state.initialLabelWidth', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -341,7 +341,7 @@ test('#adapter.label.getLabelWidth returns state.initialLabelWidth', () => {
 });
 
 test('#adapter.lineRipple.activeLineRipple sets state.activeLineRipple to true', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -351,7 +351,7 @@ test('#adapter.lineRipple.activeLineRipple sets state.activeLineRipple to true',
 });
 
 test('#adapter.lineRipple.deactivateLineRipple sets state.activeLineRipple to false', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -362,7 +362,7 @@ test('#adapter.lineRipple.deactivateLineRipple sets state.activeLineRipple to fa
 });
 
 test('#adapter.lineRipple.setLineRippleTransformOrigin sets state.lineRippleCenter', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -372,7 +372,7 @@ test('#adapter.lineRipple.setLineRippleTransformOrigin sets state.lineRippleCent
 });
 
 test('#adapter.notchedOutline.notchOutline sets state.outlineIsNotched to true', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -382,7 +382,7 @@ test('#adapter.notchedOutline.notchOutline sets state.outlineIsNotched to true',
 });
 
 test('#adapter.notchedOutline.notchOutline sets state.notchedLabelWidth', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -392,7 +392,7 @@ test('#adapter.notchedOutline.notchOutline sets state.notchedLabelWidth', () => 
 });
 
 test('#adapter.notchedOutline.closeOutline sets state.outlineIsNotched to false', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -402,7 +402,7 @@ test('#adapter.notchedOutline.closeOutline sets state.outlineIsNotched to false'
 });
 
 test('#adapter.notchedOutline.hasOutline returns true if props.outlined is set', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label" outlined>
       <Input />
     </TextField>
@@ -412,7 +412,7 @@ test('#adapter.notchedOutline.hasOutline returns true if props.outlined is set',
 });
 
 test('#adapter.helperText.showToScreenReader toggles state.showHelperTextToScreenReader', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -422,7 +422,7 @@ test('#adapter.helperText.showToScreenReader toggles state.showHelperTextToScree
 });
 
 test('#adapter.helperText.setValidity sets isValid to true', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -432,7 +432,7 @@ test('#adapter.helperText.setValidity sets isValid to true', () => {
 });
 
 test('#events.onClick triggers #foundation.handleTextFieldInteraction', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -445,7 +445,7 @@ test('#events.onClick triggers #foundation.handleTextFieldInteraction', () => {
 });
 
 test('#events.onKeyDown triggers #foundation.handleTextFieldInteraction', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -595,33 +595,33 @@ test('renders input after foundation is created', () => {
 });
 
 test('#inputProps.handleFocusChange updates state.isFocused', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
   );
   wrapper
     .instance()
-    .inputProps({} as InputChildType)
+    .inputProps({} as InputChildType<HTMLInputElement>)
     .handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
 });
 
 test('#inputProps.handleValueChange updates state.value', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
   );
   wrapper
     .instance()
-    .inputProps({} as InputChildType)
+    .inputProps({} as InputChildType<HTMLInputElement>)
     .handleValueChange('meow', td.func() as () => void);
   assert.equal(wrapper.state().value, 'meow');
 });
 
 test('#inputProps.handleValueChange calls cb after state is set', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
@@ -629,40 +629,40 @@ test('#inputProps.handleValueChange calls cb after state is set', () => {
   const callback = td.func();
   wrapper
     .instance()
-    .inputProps({} as InputChildType)
+    .inputProps({} as InputChildType<HTMLInputElement>)
     .handleValueChange('meow', callback as () => void);
   td.verify(callback(), {times: 1});
 });
 
 test('#inputProps.setDisabled updates state.disabled', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
   );
   wrapper
     .instance()
-    .inputProps({} as InputChildType)
+    .inputProps({} as InputChildType<HTMLInputElement>)
     .setDisabled(true);
   assert.isTrue(wrapper.state().disabled);
 });
 
 test('#inputProps.setInputId updates state.disabled', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
   );
   wrapper
     .instance()
-    .inputProps({} as InputChildType)
+    .inputProps({} as InputChildType<HTMLInputElement>)
     .setInputId('my-id');
   assert.equal(wrapper.state().inputId, 'my-id');
 });
 
 test('passing a ref to the <Input /> should return the instance of the Input', () => {
   let inputInstance;
-  const wrapper = mount<TextField>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input ref={(input) => (inputInstance = input)} />
     </TextField>
@@ -677,7 +677,7 @@ test('passing a ref to the <Input /> should return the instance of the Input', (
 });
 
 test('#componentWillUnmount destroys foundation', () => {
-  const wrapper = shallow<TextField>(
+  const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label="my label">
       <Input />
     </TextField>
