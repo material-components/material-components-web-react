@@ -1,6 +1,6 @@
 {
   "name": "@material/react-linear-progress",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Material Components React Linear Progress",
   "license": "MIT",
   "main": "dist/index.js",

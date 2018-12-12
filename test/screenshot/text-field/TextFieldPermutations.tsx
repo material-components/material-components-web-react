@@ -7,19 +7,21 @@ import {
   disabledMap,
   helperTextMap,
   getHelperKeyText,
+  HelperTextMapType,
+  isValidationMsg,
 } from './attributesMap';
 import TestField from './TestTextField';
-const isValidationMsg = (helperTextMap) => {
-  const hasHelperText = Object.keys(helperTextMap).length > 0;
-  return hasHelperText && helperTextMap.helperText.props.validation;
-};
-const textFields = (variant) => {
-  return iconsMap.map((icon) => {
-    return denseMap.map((dense) => {
-      return rtlMap.map((isRtl) => {
-        return requiredMap.map((isRequired) => {
-          return disabledMap.map((disabled) => {
-            return helperTextMap.map((helperText) => {
+// @ts-ignore
+import HelperText from '../../../packages/text-field/helper-text'; // eslint-disable-line no-unused-vars
+
+
+const textFields = (variantProps: {variant?: string}) => {
+  return iconsMap.map((icon: {leadingIcon?: React.ReactNode, trailingIcon?: React.ReactNode}) => {
+    return denseMap.map((dense: {dense?: boolean}) => {
+      return rtlMap.map((isRtl: {isRtl?: boolean}) => {
+        return requiredMap.map((isRequired: {required?: boolean}) => {
+          return disabledMap.map((disabled: {disabled?: boolean}) => {
+            return helperTextMap.map((helperText: HelperTextMapType | {}) => {
               const isValidationTextField = isValidationMsg(helperText);
               const value = !isValidationTextField
                 ? {value: null}
@@ -35,7 +37,7 @@ const textFields = (variant) => {
               );
               const props = Object.assign(
                 {},
-                variant,
+                variantProps,
                 icon,
                 dense,
                 disabled,
@@ -47,7 +49,7 @@ const textFields = (variant) => {
               const key = `${iconKey}-${denseKey}-${disabledKey}-${helperTextKey}-${isRequiredKey}--${rtlKey}`;
               const hasIcon =
                 iconKey === 'leadingIcon' || iconKey === 'trailingIcon';
-              if (hasIcon && variant.variant === 'fullWidth') {
+              if (hasIcon && variantProps.variant === 'fullWidth') {
                 return;
               }
               return <TestField {...props} key={key} id={key} />;
@@ -58,9 +60,11 @@ const textFields = (variant) => {
     });
   });
 };
-const TextFieldScreenshotTest = (variant) => (
+
+const TextFieldScreenshotTest = (variantProps: {variant?: string}) => (
   <div className='text-field-container'>
-    {textFields(variant)}
+    {textFields(variantProps)}
   </div>
 );
+
 export default TextFieldScreenshotTest;

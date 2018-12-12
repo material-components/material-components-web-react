@@ -97,7 +97,6 @@ disabled | Boolean | Disables the select.
 floatingLabelClassName | String | An optional class added to the floating label element.
 id | String | Id of the `<select>` element.
 label | String | Mandatory. Label text that appears as the floating label.
-Whether the direction of the select is set to RTL.
 isRtl | Boolean | Whether the direction of the select is set to RTL.
 lineRippleClassName | String | An optional class added to the line ripple element.
 nativeControlClassName | String | An optional class added to the native `<select>` element.
