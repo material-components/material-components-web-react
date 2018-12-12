@@ -17,7 +17,7 @@ class PermanentToModalDrawerScreenshotTest extends React.Component<
     window.addEventListener('resize', this.updateDrawerVariant);
   }
 
-  shouldComponentUpdate(_, nextState) {
+  shouldComponentUpdate(_: {}, nextState: PermanentToModalDrawerScreenshotTestState) {
     if (nextState.isPhone === this.state.isPhone) {
       return false;
     }

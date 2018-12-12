@@ -28,7 +28,7 @@ export interface DrawerHeaderProps {
   className?: string
 };
 
-const DrawerHeader: React.SFC<DrawerHeaderProps> = ({
+const DrawerHeader: React.FunctionComponent<DrawerHeaderProps> = ({
   tag: Tag = 'div', children, className = '', ...otherProps // eslint-disable-line react/prop-types
 }) => {
   return (

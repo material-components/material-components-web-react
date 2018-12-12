@@ -3,6 +3,7 @@ import '../../../packages/drawer/index.scss';
 import './index.scss';
 import TopAppBar, {
   TopAppBarFixedAdjust,
+// @ts-ignore
 } from '../../../packages/top-app-bar/index';
 import Drawer, {
   DrawerAppContent,
@@ -10,12 +11,23 @@ import Drawer, {
   DrawerSubtitle,
   DrawerTitle,
   DrawerContent,
-  // @ts-ignore
-} from '../../../packages/drawer/index.tsx';
-
+} from '../../../packages/drawer/index';
+// @ts-ignore
 import List from './List.js';
+// @ts-ignore
+import MaterialIcon from '../../../packages/material-icon/index';
 
-const DrawerScreenshotTest = ({
+type DrawerScreenshotTestProps = {
+  onClose: () => void,
+  open: boolean,
+  title: string,
+  modal: boolean,
+  dismissible: boolean,
+  renderLoremIpsum: (section: number) => JSX.Element,
+  renderNavigationIcon: () => MaterialIcon,
+};
+
+const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({
   /* eslint-disable react/prop-types */
   onClose,
   open,

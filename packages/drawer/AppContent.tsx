@@ -28,7 +28,7 @@ export interface DrawerAppContentProps {
   className?: string,
 };
 
-const DrawerAppContent: React.SFC<DrawerAppContentProps> = ({
+const DrawerAppContent: React.FunctionComponent<DrawerAppContentProps> = ({
   tag: Tag = 'div', children, className = '', ...otherProps // eslint-disable-line react/prop-types
 }) => {
   return (

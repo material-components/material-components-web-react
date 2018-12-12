@@ -26,18 +26,16 @@ import {
   MDCDismissibleDrawerFoundation,
   MDCModalDrawerFoundation,
   util,
+// @ts-ignore
 } from '@material/drawer';
+// @ts-ignore
 import {MDCListFoundation} from '@material/list';
-// @ts-ignore
-import DrawerHeader from './Header.tsx';
-// @ts-ignore
-import DrawerContent from './Content.tsx';
-// @ts-ignore
-import DrawerSubtitle from './Subtitle.tsx';
-// @ts-ignore
-import DrawerTitle from './Title.tsx';
-// @ts-ignore
-import DrawerAppContent from './AppContent.tsx';
+import DrawerHeader from './Header';
+import DrawerContent from './Content';
+import DrawerSubtitle from './Subtitle';
+import DrawerTitle from './Title';
+import DrawerAppContent from './AppContent';
+import {FocusTrap} from 'focus-trap';
 
 const {cssClasses: listCssClasses} = MDCListFoundation;
 
@@ -46,8 +44,8 @@ export interface DrawerProps {
   open: boolean,
   onOpen: () => void,
   onClose: () => void,
-  onTransitionEnd: (event: React.TransitionEvent) => void,
-  onKeyDown: (event: React.KeyboardEvent) => void,
+  onTransitionEnd: Pick<React.HTMLProps<HTMLElement>, 'onTransitionEnd'>,
+  onKeyDown: Pick<React.HTMLProps<HTMLElement>, 'onKeyDown'>,
   tag: string,
   dismissible: boolean,
   modal: boolean
@@ -58,9 +56,9 @@ type DrawerState = {
 };
 
 class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>, DrawerState> {
-  previousFocus_: HTMLElement | null;
+  previousFocus_: HTMLElement | null = null;
   foundation_: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
-  focusTrap_;
+  focusTrap_?: FocusTrap;
   drawerElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
   state = {classList: new Set()};
@@ -101,7 +99,7 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
     }
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: DrawerProps & React.HTMLProps<HTMLElement>) {
     const {dismissible, modal, open} = this.props;
     const changedToModal = prevProps.modal !== this.props.modal;
     const changedToDismissible =
@@ -135,18 +133,18 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
 
   get adapter() {
     return {
-      addClass: (className) => {
+      addClass: (className: string) => {
         const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
-      elementHasClass: (element, className) =>
+      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      elementHasClass: (element: HTMLElement, className: string) =>
         element.classList.contains(className),
       saveFocus: () => {
         this.previousFocus_ = document.activeElement as HTMLElement | null;
@@ -190,13 +188,13 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
     };
   }
 
-  handleKeyDown = (evt) => {
+  handleKeyDown = (evt: React.KeyboardEvent<HTMLElement>) => {
     this.props.onKeyDown(evt);
     if (!this.foundation_) return;
     this.foundation_.handleKeydown(evt);
   };
 
-  handleTransitionEnd = (evt) => {
+  handleTransitionEnd = (evt: React.TransitionEvent<HTMLElement>) => {
     this.props.onTransitionEnd(evt);
     if (!this.foundation_) return;
     this.foundation_.handleTransitionEnd(evt);
@@ -220,13 +218,13 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
 
     return (
       <React.Fragment>
-        {/* https://github.com/Microsoft/TypeScript/issues/28892 
+        {/* https://github.com/Microsoft/TypeScript/issues/28892
           // @ts-ignore */}
         <Tag
           className={this.classes}
           ref={this.drawerElement_}
-          onKeyDown={(evt) => this.handleKeyDown(evt)}
-          onTransitionEnd={(evt) => this.handleTransitionEnd(evt)}
+          onKeyDown={this.handleKeyDown}
+          onTransitionEnd={this.handleTransitionEnd}
           {...otherProps}
         >
           {children}

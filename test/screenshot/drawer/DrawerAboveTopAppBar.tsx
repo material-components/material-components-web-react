@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
+// @ts-ignore
 import TopAppBar from '../../../packages/top-app-bar/index';
 import Drawer, {
   DrawerAppContent,
@@ -10,9 +11,22 @@ import Drawer, {
   DrawerContent,
 // @ts-ignore
 } from '../../../packages/drawer/index.tsx';
+// @ts-ignore
 import List from './List.js';
+// @ts-ignore
+import MaterialIcon from '../../../packages/material-icon/index';
 
-const DrawerScreenshotTest = ({
+type DrawerScreenshotTestProps = {
+  onClose: () => void,
+  open: boolean,
+  title: string,
+  modal: boolean,
+  dismissible: boolean,
+  renderLoremIpsum: (section: number) => JSX.Element,
+  renderNavigationIcon: () => MaterialIcon,
+};
+
+const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({
   /* eslint-disable react/prop-types */
   onClose,
   open,

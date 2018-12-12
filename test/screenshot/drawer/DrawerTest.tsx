@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
+// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 import DrawerAboveTopAppBar from './DrawerAboveTopAppBar';
 import DrawerBelowTopAppBar from './DrawerBelowTopAppBar';
@@ -24,10 +25,10 @@ class DrawerScreenshotTest extends React.Component<
   DrawerScreenshotTestProps,
   DrawerScreenshotTestState
   > {
-  constructor(props) {
+  constructor(props: DrawerScreenshotTestProps) {
     super(props);
     this.state = {
-      open: props.open,
+      open: props.open || false,
     };
   }
 
@@ -35,7 +36,7 @@ class DrawerScreenshotTest extends React.Component<
 
   render() {
     const {open} = this.state;
-    const {title, dismissible, modal, isBelow} = this.props; // eslint-disable-line react/prop-types
+    const {title, dismissible = false, modal = false, isBelow} = this.props; // eslint-disable-line react/prop-types
     const Tag = isBelow ? DrawerBelowTopAppBar : DrawerAboveTopAppBar;
 
     return (
@@ -65,9 +66,9 @@ class DrawerScreenshotTest extends React.Component<
     );
   };
 
-  renderLoremIpsum = (_, index) => {
+  renderLoremIpsum: (section: number) => JSX.Element = (section: number) => {
     return (
-      <p className="drawer-lorem-ipsum" key={index}>
+      <p className="drawer-lorem-ipsum" key={section}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         <br />
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

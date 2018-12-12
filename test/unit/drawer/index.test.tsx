@@ -4,6 +4,7 @@ import {shallow, mount} from 'enzyme';
 import * as td from 'testdouble';
 // @ts-ignore
 import Drawer from '../../../packages/drawer/index.tsx';
+import {Options, DeactivateOptions, FocusTrap} from 'focus-trap'; // eslint-disable-line no-unused-vars
 
 suite('Drawer');
 
@@ -217,16 +218,16 @@ test('#adapter.notifyOpen calls props.onOpen', () => {
 
 test('#adapter.trapFocus calls focusTrap.activate if modal variant', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  const activate = td.func();
-  wrapper.instance().focusTrap_ = {activate};
+  const activate = td.func() as (activateOptions?: Pick<Options, "onActivate">) => void; ;
+  wrapper.instance().focusTrap_ = {activate} as FocusTrap;
   wrapper.instance().foundation_.adapter_.trapFocus();
   td.verify(activate(), {times: 1});
 });
 
 test('#adapter.releaseFocus calls focusTrap.deactivate if modal variant', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  const deactivate = td.func();
-  wrapper.instance().focusTrap_ = {deactivate};
+  const deactivate = td.func() as (deactivateOptions?: DeactivateOptions) => void;
+  wrapper.instance().focusTrap_ = {deactivate} as FocusTrap;
   wrapper.instance().foundation_.adapter_.releaseFocus();
   td.verify(deactivate(), {times: 1});
 });
