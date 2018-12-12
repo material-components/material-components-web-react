@@ -21,10 +21,10 @@
 // THE SOFTWARE.
 
 // @ts-ignore
-import Chip from './Chip.tsx';
+import Chip, {ChipProps} from './Chip.tsx';
 // @ts-ignore
 import ChipCheckmark from './ChipCheckmark.tsx';
 // @ts-ignore
-import ChipSet from './ChipSet.tsx';
+import ChipSet, {ChipSetProps} from './ChipSet.tsx';
 
-export {Chip, ChipCheckmark, ChipSet};
+export {Chip, ChipCheckmark, ChipSet, ChipSetProps, ChipProps};

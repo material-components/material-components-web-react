@@ -94,6 +94,7 @@
     "@types/react": "^16.7.7",
     "@types/react-dom": "^16.0.11",
     "@types/react-router-dom": "^4.3.1",
+    "@types/uuid": "^3.4.4",
     "@types/webpack-env": "^1.13.6",
     "autoprefixer": "^8.5.1",
     "babel-core": "^6.26.3",

@@ -24,7 +24,7 @@ import classnames from 'classnames';
 // @ts-ignore
 import {MDCChipSetFoundation} from '@material/chips';
 import ChipCheckmark from './ChipCheckmark';
-import { Chip, ChipProps } from './Chip'; // eslint-ignore-lint no-unused-vars
+import { ChipProps } from './Chip'; // eslint-ignore-lint no-unused-vars
 
 type ChipType = React.ReactElement<ChipProps>;
 
@@ -32,7 +32,7 @@ export interface ChipSetProps {
   className: string,
   selectedChipIds: string[],
   handleSelect: (selectedChipIds: string[]) => void,
-  updateChips: (chips: React.ReactNode) => void,
+  updateChips: (chips: ChipProps[]) => void,
   choice: boolean,
   filter: boolean,
   input: boolean,
@@ -134,7 +134,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   removeChip = (chipId: string) => {
     const {updateChips, children} = this.props;
     if (!children) return;
-    const chips = React.Children.toArray(children).slice() as React.ReactElement<HTMLElement>[];
+    const chips = React.Children.toArray(children).slice() as React.ReactElement<ChipProps>[];
     for (let i = 0; i < chips.length; i++) {
       const chip = chips[i];
       if (chip.props.id === chipId) {

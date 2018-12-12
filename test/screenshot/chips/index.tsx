@@ -1,25 +1,28 @@
 import * as React from 'react';
 import './index.scss';
 import '../../../packages/chips/index.scss';
-import MaterialIcon from '../../../packages/material-icon';
 // @ts-ignore
-import {Chip, ChipSet} from '../../../packages/chips/index.tsx';
+import MaterialIcon from '../../../packages/material-icon';
+import {Chip, ChipSet} from '../../../packages/chips/index';
+import {ChipProps} from '../../../packages/chips/Chip';
 import * as uuidv1 from 'uuid/v1';
 
 type ChipsTestProps = {
   selectedChipIds: string[],
   variant: 'filter' | 'choice',
-  children: React.ReactElement<HTMLElement>[]
+  children: React.ReactElement<ChipProps>[]
 };
 
 type ChipsTestState = {
-  selectedChipIds: any
+  selectedChipIds: string[],
 };
 
 class ChipsTest extends React.Component<ChipsTestProps, ChipsTestState> {
   state = {
     selectedChipIds: this.props.selectedChipIds,
   };
+
+  handleSelect = (selectedChipIds: string[]) => this.setState({selectedChipIds});
 
   render() {
     const {children, variant} = this.props; // eslint-disable-line react/prop-types
@@ -31,7 +34,7 @@ class ChipsTest extends React.Component<ChipsTestProps, ChipsTestState> {
           choice={isChoice}
           filter={isFilter}
           selectedChipIds={this.state.selectedChipIds}
-          handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
+          handleSelect={this.handleSelect}
         >
           {children}
         </ChipSet>
@@ -48,8 +51,13 @@ type InputChipsTestProps = {
   labels: string[],
 };
 
+type InputChip = {
+  label: string,
+  id: string,
+}
+
 type InputChipsTestState = {
-  chips: any[] | any
+  chips: InputChip[],
 };
 
 class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTestState> {
@@ -59,7 +67,7 @@ class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTest
     }),
   };
 
-  addChip(label) {
+  addChip(label: string) {
     // Create a new chips array to ensure that a re-render occurs.
     // See: https://reactjs.org/docs/state-and-lifecycle.html#do-not-modify-state-directly
     const chips = [...this.state.chips];
@@ -67,18 +75,21 @@ class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTest
     this.setState({chips});
   }
 
-  handleKeyDown = (e) => {
-    if (e.key === 'Enter' && e.target.value) {
-      this.addChip(e.target.value);
-      e.target.value = '';
+  handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter' && (e.target as HTMLInputElement).value) {
+      this.addChip((e.target as HTMLInputElement).value);
+      (e.target as HTMLInputElement).value = '';
     }
   }
+
+  updateChips: (chips: InputChip[]) => void
+    = (chips) => {console.log(chips); this.setState({chips})};
 
   render() {
     return (
       <div>
         <input type="text" onKeyDown={this.handleKeyDown} />
-        <ChipSet input updateChips={(chips) => this.setState({chips})}>
+        <ChipSet input updateChips={this.updateChips}>
           {this.state.chips.map((chip) => (
             <Chip
               id={chip.id}
@@ -99,8 +110,8 @@ const sizes = ['Small', 'Medium', 'Large'];
 const clothes = ['Tops', 'Bottoms', 'Shoes'];
 const contacts = ['Jane Smith', 'John Doe'];
 
-const renderChips = (list, hasLeadingIcon = false) => {
-  return list.map((label, index) => (
+const renderChips = (list: string[], hasLeadingIcon: boolean = false) => {
+  return list.map((label: string, index: number) => (
     <Chip
       id={`${index}chip`}
       key={index}
