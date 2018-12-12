@@ -1,4 +1,5 @@
 {
+  "extends": "gts/tsconfig-google.json",
   "compilerOptions": {
     "outDir": "./build/",
     "declaration": true,
