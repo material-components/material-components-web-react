@@ -1,14 +1,13 @@
 import * as React from 'react';
-// @ts-ignore
-import TextField, {Input} from '../../../packages/text-field/index.tsx';
+import TextField, {Input} from '../../../packages/text-field';
 type TestFieldProps = {
-  disabled: boolean,
-  id: string,
-  variant: string,
-  isRtl: boolean,
-  minLength: number,
-  required: boolean,
-  value: string | number | boolean,
+  disabled?: boolean,
+  id?: string,
+  variant?: string,
+  isRtl?: boolean,
+  minLength?: number,
+  required?: boolean,
+  value?: string | number | boolean,
 };
 
 type TestFieldState = {
@@ -16,12 +15,14 @@ type TestFieldState = {
 };
 
 class TestField extends React.Component<TestFieldProps, TestFieldState> {
-  constructor(props) {
+  constructor(props: TestFieldProps) {
     super(props);
     this.state = {
       value: props.value === '' ? props.value : 'woof',
     };
   }
+
+  onChange = (e: React.FormEvent) => this.setState({value: (e.target as HTMLInputElement).value});
 
   render() {
     const {
@@ -54,7 +55,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
             minLength={minLength}
             required={required}
             disabled={disabled}
-            onChange={(e) => this.setState({value: (e.target as HTMLInputElement).value})}
+            onChange={this.onChange}
           />
         </TextField>
       </div>

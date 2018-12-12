@@ -1,4 +1,6 @@
 import * as React from 'react';
+// @ts-ignore
+import HelperText from '../../../packages/text-field/helper-text/index.tsx'; // eslint-disable-line no-unused-vars
 import {
   denseMap,
   requiredMap,
@@ -6,22 +8,19 @@ import {
   disabledMap,
   helperTextMap,
   getHelperKeyText,
+  HelperTextMapType,
+  isValidationMsg,
 } from './attributesMap';
 import TestField from './TestTextField';
-
-const isValidationMsg = (helperTextMap) => {
-  const hasHelperText = Object.keys(helperTextMap).length > 0;
-  return hasHelperText && helperTextMap.helperText.props.validation;
-};
 
 const textareaVariants = [{}, {fullWidth: true}];
 
 const textareaFields = textareaVariants.map((variant) => {
   return requiredMap.map(() => {
-    return denseMap.map((dense) => {
-      return rtlMap.map((isRtl) => {
-        return disabledMap.map((disabled) => {
-          return helperTextMap.map((helperText) => {
+    return denseMap.map((dense: {dense?: boolean}) => {
+      return rtlMap.map((isRtl: {isRtl?: boolean}) => {
+        return disabledMap.map((disabled: {disabled?: boolean}) => {
+          return helperTextMap.map((helperText: HelperTextMapType | {}) => {
             let helperTextKey = getHelperKeyText(
               helperText,
               isValidationMsg(helperText)
