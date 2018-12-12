@@ -3,8 +3,7 @@ import './index.scss';
 import '../../../packages/chips/index.scss';
 // @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
-import {Chip, ChipSet} from '../../../packages/chips/index';
-import {ChipProps} from '../../../packages/chips/Chip';
+import {ChipProps, Chip, ChipSet} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
 import * as uuidv1 from 'uuid/v1';
 
 type ChipsTestProps = {
@@ -54,7 +53,7 @@ type InputChipsTestProps = {
 type InputChip = {
   label: string,
   id: string,
-}
+ };
 
 type InputChipsTestState = {
   chips: InputChip[],
@@ -82,8 +81,8 @@ class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTest
     }
   }
 
-  updateChips: (chips: InputChip[]) => void
-    = (chips) => {console.log(chips); this.setState({chips})};
+  updateChips: (chips: Partial<ChipProps>[]) => void
+    = (chips) => this.setState((prevState) => Object.assign(prevState, {chips}));
 
   render() {
     return (

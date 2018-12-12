@@ -2,12 +2,9 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount} from 'enzyme';
-// @ts-ignore
-import ChipSet from '../../../packages/chips/ChipSet.tsx';
-// @ts-ignore
-import {Chip, ChipProps} from '../../../packages/chips/index.tsx';
-// @ts-ignore
-import ChipCheckmark from '../../../packages/chips/ChipCheckmark.tsx';
+import ChipSet from '../../../packages/chips/ChipSet';
+import {Chip, ChipProps} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
+import ChipCheckmark from '../../../packages/chips/ChipCheckmark';
 
 suite('ChipSet');
 
@@ -172,14 +169,15 @@ test('#handleRemove calls foundation.handleChipRemoval with chipId', () => {
 });
 
 test('#removeChip does not call #props.updateChips if there are no chips', () => {
-  const updateChips = td.func() as (chips: ChipProps[]) => void;
+  const updateChips = td.func() as (chips: Partial<ChipProps>[]) => void;
+  // @ts-ignore
   const wrapper = shallow<ChipSet>(<ChipSet updateChips={updateChips} />);
   wrapper.instance().removeChip(td.matchers.isA(Number));
   td.verify(updateChips(td.matchers.anything()), {times: 0});
 });
 
 test('#removeChip calls #props.updateChips with array of remove chip', () => {
-  const updateChips = td.func() as (chips: ChipProps[]) => void;
+  const updateChips = td.func() as (chips: Partial<ChipProps>[]) => void;
   const wrapper = shallow<ChipSet>(
     <ChipSet updateChips={updateChips}>
       <Chip id="1" />
@@ -190,7 +188,7 @@ test('#removeChip calls #props.updateChips with array of remove chip', () => {
 });
 
 test('#removeChip calls #props.updateChips with array of removed chip', () => {
-  const updateChips = td.func() as (chips: ChipProps[]) => void;
+  const updateChips = td.func() as (chips: Partial<ChipProps>[]) => void;
   const wrapper = shallow<ChipSet>(
     <ChipSet updateChips={updateChips}>
       <Chip id="1" />
@@ -201,7 +199,7 @@ test('#removeChip calls #props.updateChips with array of removed chip', () => {
 });
 
 test('#removeChip calls #props.updateChips with array of remaining chips', () => {
-  const updateChips = td.func() as (chips: ChipProps[]) => void;
+  const updateChips = td.func() as (chips: Partial<ChipProps>[]) => void;
   const wrapper = shallow<ChipSet>(
     <ChipSet updateChips={updateChips}>
       <Chip id="1" />
@@ -209,19 +207,19 @@ test('#removeChip calls #props.updateChips with array of remaining chips', () =>
     </ChipSet>
   );
   wrapper.instance().removeChip('1');
-  td.verify(updateChips([{id: '2'}]), {times: 1});
+  td.verify(updateChips([td.matchers.contains({id: '2'})]), {times: 1});
 });
 
 test('#setCheckmarkWidth sets checkmark width', () => {
   const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
-  wrapper.instance().setCheckmarkWidth({width: 20});
+  wrapper.instance().setCheckmarkWidth({width: 20} as ChipCheckmark);
   assert.equal(wrapper.instance().checkmarkWidth_, 20);
 });
 
 test('#setCheckmarkWidth does not set checkmark width if checkmark width is already set', () => {
   const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
   wrapper.instance().checkmarkWidth_ = 20;
-  wrapper.instance().setCheckmarkWidth({width: 40});
+  wrapper.instance().setCheckmarkWidth({width: 40} as ChipCheckmark);
   assert.equal(wrapper.instance().checkmarkWidth_, 20);
 });
 
@@ -231,7 +229,7 @@ test('#computeBoundingRect returns width and height', () => {
   const chipHeight = 50;
   const chipElement = {
     getBoundingClientRect: () => ({width: chipWidth, height: chipHeight}),
-  };
+  } as HTMLDivElement;
   const {height, width} = wrapper.instance().computeBoundingRect(chipElement);
   assert.equal(height, chipHeight);
   assert.equal(width, chipWidth);
@@ -244,7 +242,7 @@ test('#computeBoundingRect returns width and height', () => {
   wrapper.instance().checkmarkWidth_ = 20;
   const chipElement = {
     getBoundingClientRect: () => ({width: chipWidth, height: chipHeight}),
-  };
+  } as HTMLDivElement;
   const {height, width} = wrapper.instance().computeBoundingRect(chipElement);
   assert.equal(height, chipHeight);
   assert.equal(width, chipWidth + 20);
@@ -286,7 +284,7 @@ test('#chip.props.handleSelect calls #foundation.handleChipSelection', () => {
 
 test('chip is rendered with handleRemove method', () => {
   const wrapper = mount<ChipSet>(<ChipSet><Chip /></ChipSet>);
-  wrapper.instance().handleRemove = td.func();
+  wrapper.instance().handleRemove = td.func() as (chipId: string) => void;
   wrapper.setProps({children: <Chip id="1" />});
   const chip = wrapper.children().props().children[0];
   chip.props.handleRemove('1');

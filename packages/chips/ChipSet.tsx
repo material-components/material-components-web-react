@@ -24,7 +24,7 @@ import classnames from 'classnames';
 // @ts-ignore
 import {MDCChipSetFoundation} from '@material/chips';
 import ChipCheckmark from './ChipCheckmark';
-import { ChipProps } from './Chip'; // eslint-ignore-lint no-unused-vars
+import {ChipProps} from './Chip'; // eslint-disable-line no-unused-vars
 
 type ChipType = React.ReactElement<ChipProps>;
 
@@ -32,7 +32,7 @@ export interface ChipSetProps {
   className: string,
   selectedChipIds: string[],
   handleSelect: (selectedChipIds: string[]) => void,
-  updateChips: (chips: ChipProps[]) => void,
+  updateChips: (chips: Partial<ChipProps>[]) => void,
   choice: boolean,
   filter: boolean,
   input: boolean,

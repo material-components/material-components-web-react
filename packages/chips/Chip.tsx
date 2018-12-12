@@ -119,7 +119,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         if (!this.chipElement_) return;
         return window
           .getComputedStyle(this.chipElement_)
-          .getPropertyValue(propertyName)
+          .getPropertyValue(propertyName);
       },
       setStyleProperty: (propertyName: keyof React.CSSProperties, value: string | null) => {
         if (!this.chipElement_) return;
