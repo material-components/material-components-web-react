@@ -21,7 +21,9 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCCheckboxFoundation, MDCCheckboxAdapter} from '@material/checkbox/dist/mdc.checkbox';
+// @ts-ignore
 import withRipple from '@material/react-ripple';
 // @ts-ignore
 import NativeControl from './NativeControl.tsx';
@@ -32,7 +34,7 @@ export interface CheckboxProps {
   disabled: boolean,
   indeterminate: boolean,
   nativeControlId?: string,
-  onChange: (evt: React.FormEvent) => void,
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void,
   initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void,
   unbounded: boolean,
 };
@@ -48,7 +50,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   inputElement_: React.RefObject<HTMLInputElement> = React.createRef();
   foundation_ = MDCCheckboxFoundation;
 
-  constructor(props) {
+  constructor(props: CheckboxProps) {
     super(props);
     this.state = {
       'checked': props.checked,
@@ -127,12 +129,12 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   get adapter(): MDCCheckboxAdapter {
     return {
-      addClass: (className) => {
+      addClass: (className: string) => {
         const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
@@ -148,6 +150,13 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     };
   }
 
+  onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const {onChange} = this.props;
+    const {checked, indeterminate} = evt.target;
+    this.handleChange(checked, indeterminate);
+    onChange(evt);
+  }
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -155,11 +164,11 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       checked,
       indeterminate,
       initRipple,
+      onChange,
       unbounded,
       /* eslint-enable no-unused-vars */
       disabled,
       nativeControlId,
-      onChange,
       ...otherProps
     } = this.props;
 
@@ -175,11 +184,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           checked={this.state.checked}
           disabled={disabled}
           aria-checked={this.state['aria-checked']}
-          onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-            const {checked, indeterminate} = evt.target;
-            this.handleChange(checked, indeterminate);
-            onChange(evt);
-          }}
+          onChange={this.onChange}
           rippleActivatorRef={this.inputElement_}
         />
         <div className="mdc-checkbox__background">

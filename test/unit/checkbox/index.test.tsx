@@ -149,15 +149,15 @@ test('calls foundation.handleChange in native control props.onChange', () => {
 });
 
 test('calls props.onChange in native control props.onChange', () => {
-  const onChange = td.func() as (evt) => void;
+  const onChange = td.func() as (evt: React.ChangeEvent<HTMLInputElement>) => void;
   const wrapper = shallow(<Checkbox onChange={onChange} />);
   const nativeControl = wrapper.childAt(0);
-  const mockEvt = {
-    target: {
+  const mockEvt = ({
+    target: ({
       checked: true,
       indeterminate: false,
-    },
-  };
+    } as HTMLInputElement),
+  } as React.ChangeEvent<HTMLInputElement>);
   nativeControl.simulate('change', mockEvt);
   td.verify(onChange(mockEvt), {times: 1});
 });
