@@ -22,26 +22,30 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
+type ChildType = React.ReactElement<React.HTMLProps<HTMLImageElement|HTMLOrSVGElement>>;
+
 export interface ActionIconsProps {
   className?: string,
+  children?: ChildType | ChildType[],
 };
 
-const addIconClassToChildren = (children: React.ReactNode) => {
-  return React.Children.map(children, (item: React.ReactElement<React.HTMLProps<Element>>) => {
+const addIconClassToChildren = (children: ChildType | ChildType[]) => {
+  return React.Children.map((children as ChildType | ChildType[]), (item) => {
     const className = classnames(
-      item.props.className,
+      (item as ChildType).props.className,
       'mdc-card__action',
       'mdc-card__action--icon'
     );
-    const props = Object.assign({}, item.props, {className});
-    return React.cloneElement(item, props);
+    const props = Object.assign({}, (item as ChildType).props, {className});
+    return React.cloneElement((item as ChildType), props);
   });
 };
 
-const ActionIcons: React.SFC<ActionIconsProps & React.HTMLProps<HTMLDivElement>> = ({
+const ActionIcons: React.FunctionComponent<ActionIconsProps & React.HTMLProps<HTMLDivElement>> = ({
   className = '', children, ...otherProps // eslint-disable-line react/prop-types
 }) => {
   const classes = classnames('mdc-card__action-icons', className);
+  if (!children) return null;
   return (
     <div className={classes} {...otherProps}>
       {addIconClassToChildren(children)}

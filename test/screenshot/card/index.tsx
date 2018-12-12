@@ -11,6 +11,7 @@ import Card, {
   CardMedia,
 // @ts-ignore
 } from '../../../packages/card/index.tsx';
+// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
 const imageUrl = './../images/1-1.jpg';
 

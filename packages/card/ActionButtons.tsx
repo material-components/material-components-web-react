@@ -22,26 +22,30 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
+type ChildType = React.ReactElement<React.HTMLProps<HTMLButtonElement|HTMLAnchorElement>>;
+
 export interface ActionButtonsProps {
   className?: string,
+  children?: ChildType | ChildType[],
 };
 
-const addButtonClassToChildren = (children: React.ReactNode) => {
-  return React.Children.map(children, (item: React.ReactElement<React.HTMLProps<Element>>) => {
+const addButtonClassToChildren = (children: ChildType | ChildType[]) => {
+  return React.Children.map((children as ChildType | ChildType[]), (item) => {
     const className = classnames(
-      item.props.className,
+      (item as ChildType).props.className,
       'mdc-card__action',
       'mdc-card__action--button'
     );
-    const props = Object.assign({}, item.props, {className});
-    return React.cloneElement(item, props);
+    const props = Object.assign({}, (item as ChildType).props, {className});
+    return React.cloneElement((item as ChildType), props);
   });
 };
 
-const ActionButtons: React.SFC<ActionButtonsProps & React.HTMLProps<HTMLDivElement>> = ({
+const ActionButtons: React.FunctionComponent<ActionButtonsProps & React.HTMLProps<HTMLDivElement>> = ({
   className = '', children, ...otherProps // eslint-disable-line react/prop-types
 }) => {
   const classes = classnames('mdc-card__action-buttons', className);
+  if (!children) return null;
   return (
     <div className={classes} {...otherProps}>
       {addButtonClassToChildren(children)}

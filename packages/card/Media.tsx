@@ -29,9 +29,19 @@ export interface MediaProps {
   contentClassName?: string,
   imageUrl?: string,
   style?: React.CSSProperties,
+}
+
+type MediaChildren = {
+  children: React.ReactNode,
+  contentClassName: string,
 };
 
-const renderChildren = ({
+type StyleValues = {
+  imageUrl: string,
+  style: React.CSSProperties,
+};
+
+const renderChildren: (mediaChildren: MediaChildren) => React.ReactElement<HTMLDivElement> | undefined = ({
   children, contentClassName, // eslint-disable-line react/prop-types
 }) => {
   if (!children) {
@@ -41,7 +51,7 @@ const renderChildren = ({
   return <div className={classes}>{children}</div>;
 };
 
-const getStyles = ({imageUrl, style}) => {
+const getStyles: (styleValues: StyleValues) => React.CSSProperties = ({imageUrl, style}) => {
   return Object.assign({},
     {backgroundImage: `url(${imageUrl})`},
     style
