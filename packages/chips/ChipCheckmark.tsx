@@ -22,7 +22,7 @@
 import * as React from 'react';
 
 export default class ChipCheckmark extends React.Component<{}, {}> {
-  width:number;
+  width: number = 0;
 
   init = (element: HTMLDivElement) => {
     if (!element) {
