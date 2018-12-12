@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCFloatingLabelFoundation} from '@material/floating-label';
 
 
@@ -43,7 +44,7 @@ export default class FloatingLabel extends React.Component<
   foundation_?: MDCFloatingLabelFoundation;
   labelElement: React.RefObject<HTMLLabelElement> = React.createRef();
 
-  static defaultProps = {
+  static defaultProps: Partial<Props<HTMLLabelElement>> = {
     className: '',
     float: false,
   };
@@ -65,7 +66,7 @@ export default class FloatingLabel extends React.Component<
     this.foundation_.destroy();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props<HTMLLabelElement>) {
     if (this.props.children !== prevProps.children) {
       this.handleWidthChange();
     }
@@ -87,7 +88,7 @@ export default class FloatingLabel extends React.Component<
 
   get adapter() {
     return {
-      addClass: (className) =>
+      addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
       removeClass: this.removeClassFromClassList,
     };
@@ -98,7 +99,7 @@ export default class FloatingLabel extends React.Component<
     this.foundation_.shake(true);
   };
 
-  removeClassFromClassList = (className) => {
+  removeClassFromClassList = (className: string) => {
     const {classList} = this.state;
     classList.delete(className);
     this.setState({classList});

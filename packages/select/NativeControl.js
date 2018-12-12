@@ -25,13 +25,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 export default class NativeControl extends React.Component {
+  nativeControl_ = React.createRef();
+
   componentDidUpdate(prevProps) {
     if (this.props.disabled !== prevProps.disabled) {
       this.props.handleDisabled(this.props.disabled);
-    }
-
-    if (this.props.value !== prevProps.value) {
-      this.props.onChange({target: {value: this.props.value}});
     }
   }
 
@@ -64,9 +62,9 @@ export default class NativeControl extends React.Component {
     onTouchStart(evt);
   }
 
-  setRippleCenter = (clientX, target) => {
+  setRippleCenter = (xCoordinate, target) => {
+    if (target !== this.nativeControl_.current) return;
     const targetClientRect = target.getBoundingClientRect();
-    const xCoordinate = clientX;
     const normalizedX = xCoordinate - targetClientRect.left;
     this.props.setRippleCenter(normalizedX);
   }
@@ -82,7 +80,6 @@ export default class NativeControl extends React.Component {
       handleDisabled,
       onFocus,
       onBlur,
-      onChange,
       onTouchStart,
       onMouseDown,
       setRippleCenter,
@@ -94,12 +91,12 @@ export default class NativeControl extends React.Component {
       <select
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        onChange={onChange}
         onMouseDown={this.handleMouseDown}
         onTouchStart={this.handleTouchStart}
         disabled={disabled}
         value={value}
         className={this.classes}
+        ref={this.nativeControl_}
         {...otherProps}
       >
         {children}

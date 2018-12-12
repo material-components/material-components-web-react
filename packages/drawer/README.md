@@ -155,8 +155,10 @@ export default class App extends Component {
         </Drawer>
 
         <DrawerAppContent className='drawer-app-content'>
-          <TopAppBar title='Inbox'
-            navigationIcon={<MaterialIcon icon='menu' />
+          <TopAppBar
+            title='Inbox'
+            navigationIcon={<MaterialIcon icon='menu' />}
+          />
 
           <TopAppBarFixedAdjust>
             Your inbox content
@@ -411,6 +413,7 @@ onClose | Function() => void | Callback after the drawer has closed.
 modal | Boolean | Indicates that the drawer is of type modal.
 dismissible | Boolean | Indicates that the drawer is of type dismissible.
 tag | String | Customizes the drawer tag type (default to `<aside>`).
+open | boolean | If true, opens drawer. If false, closes drawer.
 
 ## Sass Mixins
 

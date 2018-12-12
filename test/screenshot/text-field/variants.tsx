@@ -3,4 +3,5 @@ export default [
   'fullWidth',
   'outlined',
   'textArea',
+  'refTest',
 ];
