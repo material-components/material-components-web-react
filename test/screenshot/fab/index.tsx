@@ -3,6 +3,7 @@ import * as React from 'react';
 import Fab from '../../../packages/fab/index.tsx';
 import '../../../packages/fab/index.scss';
 import './index.scss';
+// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
 
 const FabScreenshotTest = () => {

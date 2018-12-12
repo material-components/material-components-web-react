@@ -22,6 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import withRipple from '@material/react-ripple';
 
 export interface FabProps {
