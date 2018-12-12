@@ -1,6 +1,6 @@
 {
   "name": "@material/react-line-ripple",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Material Components React Line Ripple",
   "license": "MIT",
   "main": "dist/index.js",

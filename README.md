@@ -21,21 +21,25 @@ Component | Spec | MDC Web
 [Drawer](./packages/drawer) | [Drawer Design Page](https://material.io/design/components/navigation-drawer.html) | [MDC Drawer](https://github.com/material-components/material-components-web/tree/master/packages/mdc-drawer)
 [Fab](./packages/fab) | [Fab Design Page](https://material.io/design/components/buttons-floating-action-button.html) | [MDC Fab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-fab)
 [Floating Label](./packages/floating-label) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Floating Label](https://github.com/material-components/material-components-web/tree/master/packages/mdc-floating-label)
+[Icon Button](./packages/icon-button) | [Icon Button Design Page](https://material.io/design/components/buttons.html#toggle-button) | [MDC Icon Button](https://github.com/material-components/material-components-web/tree/latest-release/packages/mdc-icon-button)
 [Layout Grid](./packages/layout-grid) | [Layout Grid Design Page](https://material.io/design/layout/responsive-layout-grid.html#responsive-ui-grid) | [MDC Layout Grid](https://github.com/material-components/material-components-web/tree/latest-release/packages/mdc-layout-grid)
 [Line Ripple](./packages/line-ripple) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Line Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-line-ripple)
+[Linear Progress](./packages/linear-progres) | [Linear Progress Design Page](https://material.io/design/components/progress-indicators.html) | [MDC Linear Progress](https://github.com/material-components/material-components-web/tree/master/packages/mdc-linear-progress)
 [List](./packages/list) | [List Design Page](https://material.io/design/components/lists.html) | [MDC List](https://github.com/material-components/material-components-web/tree/latest-release/packages/mdc-list)
 [Material Icon](./packages/material-icon) | [Material Icon Design Page](https://material.io/design/iconography/system-icons.html#design-principles) | [Material Icon Tool](https://material.io/tools/icons/?style=baseline)
 [Menu Surface](./packages/menu-surface) | [Menu Surface Design Page](https://material.io/design/components/menus.html#design-principles) | [MDC Menu Surface](https://github.com/material-components/material-components-web/tree/master/packages/mdc-menu-surface)
 [Notched Outline](./packages/notched-outline) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Notched Outline](https://github.com/material-components/material-components-web/tree/master/packages/mdc-notched-outline)
+[Radio](./packages/radio) | [Radio Design Page](https://material.io/design/components/selection-controls.html#radio-buttons) | [MDC Radio](https://github.com/material-components/material-components-web/tree/master/packages/mdc-radio)
 [Ripple](./packages/ripple) | [Ripple Design Page](https://material.io/design/interaction/states.html) | [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple)
 [Select](./packages/select) | [Select Design Page](https://material.io/design/components/menus.html#) | [MDC Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select)
 [Switch](./packages/switch) | [Switch Design Page](https://material.io/design/components/selection-controls.html#switches) | [MDC Switch](https://github.com/material-components/material-components-web/tree/master/packages/mdc-switch)
 [Tab](./packages/tab) | [Tabs Design Page](https://material.io/design/components/tabs.html) | [MDC Tab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab)
 [Tab Bar](./packages/tab-bar) | [Tabs Design Page](https://material.io/design/components/tabs.html) | [MDC Tab Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab-bar)
 [Tab Indicator](./packages/tab-indicator) | [Tabs Design Page](https://material.io/design/components/tabs.html) | [MDC Tab Indicator](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab-indicator)
+[Tab Scroller](./packages/tab-scroller) | [Tabs Design Page](https://material.io/design/components/tabs.html) | [MDC Tab Scroller](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab-scroller)
 [Text Field](./packages/text-field) | [Text Field Design Page](https://material.io/design/components/text-fields.html) | [MDC Text Field](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield)
 [Top App Bar](./packages/top-app-bar) | [Top App Bar Design Page](https://material.io/design/components/app-bars-top.html) | [MDC Top App Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-top-app-bar)
-
+[Typography](./packages/typography) | [Typography Design Page](https://material.io/design/typography/the-type-system.html#type-scale.html) | [MDC Typography](https://github.com/material-components/material-components-web/tree/master/packages/mdc-typography)
 
 ## Getting Started
 
