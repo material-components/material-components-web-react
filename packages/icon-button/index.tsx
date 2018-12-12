@@ -21,7 +21,9 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
+// @ts-ignore
 import withRipple from '@material/react-ripple';
+// @ts-ignore
 import {MDCIconButtonToggleFoundation} from '@material/icon-button/dist/mdc.iconButton';
 // @ts-ignore
 import IconToggle from './IconToggle.tsx';
@@ -32,12 +34,13 @@ export interface IconButtonBaseProps<T> {
   initRipple: (surface: T) => void,
   isLink: boolean,
   onClick: (event: React.MouseEvent) => void,
-  unbounded: boolean
+  unbounded: boolean,
+  [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>,
 };
 
 type IconButtonBaseState = {
   classList: Set<string>,
-  [ARIA_PRESSED]: string
+  [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>,
 };
 
 export type AnchorProps = React.HTMLProps<HTMLAnchorElement> & IconButtonBaseProps<HTMLAnchorElement>;
@@ -50,7 +53,7 @@ class IconButtonBase<T extends {}> extends React.Component<
   > {
   foundation_ = MDCIconButtonToggleFoundation;
 
-  constructor(props) {
+  constructor(props: IconButtonProps<T>) {
     super(props);
     this.state = {
       classList: new Set(),
@@ -79,14 +82,14 @@ class IconButtonBase<T extends {}> extends React.Component<
 
   get adapter() {
     return {
-      addClass: (className) =>
+      addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) => this.classes.split(' ').includes(className),
       setAttr: this.updateState,
     };
   }
