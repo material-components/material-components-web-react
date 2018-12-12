@@ -16,12 +16,16 @@ with Sass:
 ```scss
 import '@material/react-tab-bar/index.scss';
 import '@material/react-tab-scroller/index.scss';
+import '@material/react-tab/index.scss';
+import '@material/react-tab-indicator/index.scss';
 ```
 
 with CSS:
 ```css
 import '@material/react-tab-bar/dist/tab-bar.css';
 import '@material/react-tab-scroller/dist/tab-scroller.css';
+import '@material/react-tab/dist/tab.css';
+import '@material/react-tab-indicator/dist/tab-indicator.css';
 ```
 
 ### Javascript Instantiation
@@ -34,12 +38,14 @@ import TabBar from '@material/react-tab-bar';
 class MyApp extends React.Component {
   state = {activeIndex: 0};
 
+  handleActiveIndexUpdate = (activeIndex) => this.setState({activeIndex});
+
   render() {
     return (
       <div>
         <TabBar
           activeIndex={this.state.activeIndex}
-          handleActiveIndexUpdate={(activeIndex) => this.setState({activeIndex})}
+          handleActiveIndexUpdate={this.handleActiveIndexUpdate}
         >
           <Tab>
             <span className='mdc-tab__text-label'>One</span>

@@ -3,6 +3,7 @@ import {createHash} from 'crypto';
 import {readFile, writeFile} from 'fs';
 import {promisify} from 'util';
 import * as puppeteer from 'puppeteer';
+// @ts-ignore
 import * as compareImages from 'resemblejs/compareImages';
 import {test} from 'mocha';
 import {assert} from 'chai';
@@ -31,7 +32,7 @@ export default class Screenshot {
   /**
    * @param {string} urlPath The URL path to test
    */
-  constructor(urlPath) {
+  constructor(urlPath: string) {
     /** @private {string} */
     this.urlPath_ = urlPath;
     // TODO allow clients to specify capture-chrome options, like viewport size
@@ -44,6 +45,10 @@ export default class Screenshot {
       const golden = await this.takeScreenshot_();
       const goldenHash = this.generateImageHash_(golden);
       const goldenPath = this.getImagePath_(goldenHash, 'golden');
+      if (!goldenPath) {
+        console.error('no goldenPath found');
+        return;
+      }
       await Promise.all([
         this.saveImage_(goldenPath, golden),
         this.saveGoldenHash_(goldenHash),
@@ -59,7 +64,11 @@ export default class Screenshot {
       // Get the golden file path from the golden hash
       const goldenHash = await this.getGoldenHash_();
       const goldenPath = this.getImagePath_(goldenHash, 'golden');
-      // Take a snapshot and download the golden iamge
+      if (!goldenPath) {
+        console.error('no goldenPath found');
+        return;
+      }
+      // Take a snapshot and download the golden image
       const [snapshot, golden] = await Promise.all([
         this.takeScreenshot_(),
         this.readImage_(goldenPath),
@@ -71,7 +80,15 @@ export default class Screenshot {
       const snapshotHash = this.generateImageHash_(snapshot);
       const snapshotPath = this.getImagePath_(snapshotHash, 'snapshot');
       const diffPath = this.getImagePath_(snapshotHash, 'diff');
-      const metadata = {golden: goldenHash};
+      const metadata: Storage.CustomFileMetadata = {golden: goldenHash};
+      if (!snapshotPath) {
+        console.error('no snapshotPath found');
+        return;
+      }
+      if (!diffPath) {
+        console.error('no diffPath found');
+        return;
+      }
       // Save the snapshot and the diff
       await Promise.all([
         this.saveImage_(snapshotPath, snapshot, metadata),
@@ -86,7 +103,7 @@ export default class Screenshot {
    * @return {string}
    * @private
    */
-  generateImageHash_(imageBuffer) {
+  generateImageHash_(imageBuffer: Buffer): string {
     return createHash('sha256')
       .update(imageBuffer)
       .digest('hex');
@@ -108,13 +125,14 @@ export default class Screenshot {
    * @return {string|undefined}
    * @private
    */
-  getImagePath_(imageHash, imageType) {
+  getImagePath_(imageHash: string, imageType: string): string | undefined {
     if (imageType === 'golden') {
       return `${this.urlPath_}/${imageHash}.golden.png`;
     }
     if (['snapshot', 'diff'].includes(imageType)) {
       return `${this.urlPath_}/${commitHash}/${imageHash}.${imageType}.png`;
     }
+    return undefined;
   }
   /**
    * Downloads an image from Google Cloud Storage
@@ -122,7 +140,7 @@ export default class Screenshot {
    * @return {Buffer}
    * @private
    */
-  async readImage_(gcsFilePath) {
+  async readImage_(gcsFilePath: string) {
     const data = await bucket.file(gcsFilePath).download();
     return data[0];
   }
@@ -131,7 +149,7 @@ export default class Screenshot {
    * @param {string} goldenHash The hash of the golden image
    * @private
    */
-  async saveGoldenHash_(goldenHash) {
+  async saveGoldenHash_(goldenHash: string) {
     const goldenFile = await readFilePromise(goldenFilePath);
     const goldenJSON = JSON.parse(goldenFile.toString());
     goldenJSON[this.urlPath_] = goldenHash;
@@ -145,8 +163,8 @@ export default class Screenshot {
    * @param {!Object=} customMetadata Optional custom metadata
    * @private
    */
-  async saveImage_(imagePath, imageBuffer, customMetadata = {}) {
-    const metadata = Object.assign({}, defaultMetadata, customMetadata);
+  async saveImage_(imagePath: string, imageBuffer: Buffer, customMetadata: Storage.CustomFileMetadata = {}) {
+    const metadata: Storage.CustomFileMetadata = Object.assign({}, defaultMetadata, customMetadata);
     const file = bucket.file(imagePath);
     // Check if file exists and exit if it does
     const [exists] = await file.exists();
@@ -162,7 +180,7 @@ export default class Screenshot {
     return new Promise((resolve, reject) => {
       stream
         .pipe(file.createWriteStream())
-        .on('error', (err) => {
+        .on('error', (err: string) => {
           reject(err);
         })
         .on('finish', async () => {
