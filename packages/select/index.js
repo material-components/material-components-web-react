@@ -72,7 +72,9 @@ export default class Select extends React.Component {
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    if (this.foundation_) {
+      this.foundation_.destroy();
+    }
   }
 
   onChange = (evt) => {

@@ -69,7 +69,9 @@ export class Checkbox extends Component {
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    if (this.foundation_) {
+      this.foundation_.destroy();
+    }
   }
 
   init = (el) => {

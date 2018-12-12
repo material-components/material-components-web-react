@@ -79,7 +79,9 @@ class TextField extends React.Component {
   }
 
   componentWillUnmount() {
-    this.state.foundation.destroy();
+    if (this.state.foundation) {
+      this.state.foundation.destroy();
+    }
   }
 
   /**
