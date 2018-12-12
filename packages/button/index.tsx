@@ -22,6 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import withRipple from '@material/react-ripple';
 
 export interface ButtonProps<T> {
@@ -33,7 +34,7 @@ export interface ButtonProps<T> {
   unbounded?: boolean,
   initRipple?: (surface: T) => void,
   className?: string,
-  icon?: React.ReactNode,
+  icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>,
   href?: string
 }
 
@@ -86,13 +87,13 @@ export const Button = <T extends {}>(
   );
 };
 
-const addClassesToElement = (classes, element) => {
+const addClassesToElement = (classes: string, element: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) => {
   const propsWithClasses = {
     className: classnames(classes, element.props.className),
   };
   return React.cloneElement(element, propsWithClasses);
 };
 
-const renderIcon = (icon) => addClassesToElement('mdc-button__icon', icon);
+const renderIcon = (icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) => addClassesToElement('mdc-button__icon', icon);
 
 export default withRipple(Button);

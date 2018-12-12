@@ -1,4 +1,5 @@
 import * as React from 'react';
+// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/button/index.scss';
 import './index.scss';
