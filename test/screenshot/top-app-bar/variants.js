@@ -6,4 +6,5 @@ export default [
   'standard',
   'standardNoActionItems',
   'standardWithNavigationIconElement',
+  'prominentToShortCollapsed',
 ];
