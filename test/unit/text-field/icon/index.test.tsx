@@ -4,8 +4,7 @@ import {assert} from 'chai';
 import {shallow} from 'enzyme';
 // @ts-ignore
 import Icon from '../../../../packages/text-field/icon/index.tsx';
-// @ts-ignore
-import MaterialIcon from '../../../../packages/material-icon/index.js';
+import MaterialIcon from '../../../../packages/material-icon/index';
 
 suite('Text Field Icon');
 
@@ -34,7 +33,7 @@ test('initializes with tabIndex', () => {
       <i tabIndex={10} />
     </Icon>
   );
-  assert.equal(wrapper.state().tabindex, 10);
+  assert.equal(wrapper.state().tabindex, '10');
 });
 
 test('initializes with role', () => {
@@ -71,7 +70,7 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true 
       <i tabIndex={0} />
     </Icon>
   );
-  assert.equal(wrapper.state().tabindex, -1);
+  assert.equal(wrapper.state().tabindex, '-1');
   assert.equal(wrapper.state().role, undefined);
 });
 
@@ -166,7 +165,7 @@ test('#adapter.removeAttr for role', () => {
 test('#adapter.getAttr for tabIndex works with Custom Component', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <MaterialIcon icon="favorite" tabIndex="0" />
+      <MaterialIcon icon="favorite" tabIndex={0} />
     </Icon>
   );
   const tabIndex = wrapper.instance().foundation_.adapter_.getAttr('tabindex');
@@ -186,10 +185,10 @@ test('#adapter.getAttr for role works with Custom Component', () => {
 test('#adapter.setAttr for tabIndex works with Custom Component', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <MaterialIcon icon="favorite" tabIndex="0" />
+      <MaterialIcon icon="favorite" tabIndex={0} />
     </Icon>
   );
-  wrapper.instance().foundation_.adapter_.setAttr('tabindex', '-1');
+  wrapper.instance().foundation_.adapter_.setAttr('tabindex', -1);
   assert.equal(wrapper.state().tabindex, '-1');
 });
 
@@ -219,7 +218,7 @@ test('updating the tabIndex reflects on DOM node', () => {
       <i tabIndex={0} />
     </Icon>
   );
-  wrapper.setState({tabindex: -1});
+  wrapper.setState({tabindex: '-1'});
   assert.equal(wrapper.find('.mdc-text-field__icon').props().tabIndex, -1);
 });
 

@@ -31,7 +31,7 @@ export interface IconProps {
 };
 
 interface IconState extends HTMLAttributes {
-  tabindex: number | string,
+  tabindex: string,
   role: string,
 };
 
@@ -87,9 +87,9 @@ export default class Icon extends React.Component<
           return attr_.toString();
         }
       },
-      setAttr: (attr: keyof IconState, value: string) => (
-        this.setState((prevState) => ({...prevState, [attr]: value}))
-      ),
+      setAttr: (attr: keyof IconState, value: string) => {
+        this.setState((prevState) => ({...prevState, [attr]: value}));
+      },
       removeAttr: (attr: keyof IconState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),

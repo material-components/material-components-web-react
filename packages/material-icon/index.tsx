@@ -19,21 +19,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import * as classnames from "classnames";
-import withRipple from "@material/react-ripple";
+import * as React from 'react';
+import * as classnames from 'classnames';
+// @ts-ignore
+import withRipple from '@material/react-ripple';
 
-export interface MaterialIconProps {
+export interface MaterialIconBaseProps {
   icon?: string,
   hasRipple?: boolean
 };
 
+export type MaterialIconProps = MaterialIconBaseProps & React.HTMLProps<HTMLElement>;
+
 export default class MaterialIcon extends React.Component<
   MaterialIconProps,
   {}
-> {
+  > {
+  static defaultProps = {
+    icon: '',
+    className: '',
+    initRipple: () => {},
+    hasRipple: false,
+  };
+
   render() {
-    const { icon, hasRipple, ...otherProps } = this.props;
+    const {icon, hasRipple, ...otherProps} = this.props;
     if (hasRipple) {
       return (
         <RippleMaterialIcon unbounded hasRipple icon={icon} {...otherProps} />
@@ -46,14 +56,15 @@ export default class MaterialIcon extends React.Component<
 type MaterialIconDefaultProps = {
   icon?: string,
   className?: string,
-  initRipple?: (...args: any[]) => any,
+  initRipple?: (surface: HTMLElement) => void,
   hasRipple?: boolean
 };
 
-const MaterialIconDefault: React.SFC<MaterialIconDefaultProps> = props => {
-  const { className, icon, initRipple, hasRipple, ...otherProps } = props;
-  const classes = classnames("material-icons", className, {
-    "material-icons--ripple-surface": hasRipple
+const MaterialIconDefault: React.FunctionComponent<MaterialIconDefaultProps & React.HTMLProps<HTMLElement>> = ({
+  className, icon, initRipple, hasRipple, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('material-icons', className, {
+    'material-icons--ripple-surface': hasRipple,
   });
   return (
     <i className={classes} ref={initRipple} {...otherProps}>
@@ -63,15 +74,3 @@ const MaterialIconDefault: React.SFC<MaterialIconDefaultProps> = props => {
 };
 
 export const RippleMaterialIcon = withRipple(MaterialIconDefault);
-
-MaterialIcon.defaultProps = {
-  icon: "",
-  hasRipple: false
-};
-
-MaterialIconDefault.defaultProps = {
-  icon: "",
-  className: "",
-  initRipple: () => {},
-  hasRipple: false
-};
