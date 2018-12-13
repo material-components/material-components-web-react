@@ -4,6 +4,7 @@ import '@material/list/mdc-list.scss';
 import './index.scss';
 // @ts-ignore
 import MenuSurface, {Corner} from '../../../packages/menu-surface/index.tsx';
+// @ts-ignore
 import Button from '../../../packages/button/index';
 
 type MenuSurfaceButtonProps = {
@@ -28,7 +29,7 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
     event.preventDefault();
   };
 
-  constructor(props) {
+  constructor(props: MenuSurfaceButtonProps) {
     super(props);
     this.state = {
       open: props.open,
@@ -92,7 +93,7 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
     );
   }
 
-  renderListItem(text, index) {
+  renderListItem(text: string, index: number) {
     return (
       <li key={index} className="mdc-list-item" role="menuitem">
         <span className="mdc-list-item__text">{text}</span>

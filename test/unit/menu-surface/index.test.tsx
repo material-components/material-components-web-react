@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
-import {shallow, mount} from 'enzyme';
+import {shallow, mount, ReactWrapper} from 'enzyme';
 // @ts-ignore
 import MenuSurface, {Corner} from '../../../packages/menu-surface/index.tsx';
+import {MenuSurfaceProps, MenuSurfaceState} from '../../../packages/menu-surface';
 
 suite('MenuSurface');
 
-const removeMenuFromBody = (wrapper) => {
+const removeMenuFromBody = (wrapper: ReactWrapper<MenuSurfaceProps, MenuSurfaceState, MenuSurface>) => {
   wrapper
     .find('.mdc-menu-surface')
     .getDOMNode()
@@ -124,7 +125,7 @@ test('foundation_.setQuickOpen is called when props.quickOpen updates to false',
 test('#registerWindowClickListener_ adds click event handler to window', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.instance().foundation_.handleBodyClick = td.func();
-  wrapper.instance().registerWindowClickListener_();
+  wrapper.instance().registerWindowClickListener_!();
   const clickEvent = new Event('click');
   window.dispatchEvent(clickEvent);
   td.verify(wrapper.instance().foundation_.handleBodyClick(clickEvent), {
@@ -135,8 +136,8 @@ test('#registerWindowClickListener_ adds click event handler to window', () => {
 test('#deregisterWindowClickListener_ removes click event handler to window', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.instance().foundation_.handleBodyClick = td.func();
-  wrapper.instance().registerWindowClickListener_();
-  wrapper.instance().deregisterWindowClickListener_();
+  wrapper.instance().registerWindowClickListener_!();
+  wrapper.instance().deregisterWindowClickListener_!();
   const clickEvent = new Event('click');
   window.dispatchEvent(clickEvent);
   td.verify(wrapper.instance().foundation_.handleBodyClick(clickEvent), {
@@ -148,7 +149,7 @@ test('#adapter.notifyOpen calls #registerWindowClickListener_', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.instance().registerWindowClickListener_ = td.func() as () => void;
   wrapper.instance().foundation_.adapter_.notifyOpen();
-  td.verify(wrapper.instance().registerWindowClickListener_(), {times: 1});
+  td.verify(wrapper.instance().registerWindowClickListener_!(), {times: 1});
 });
 
 test('#adapter.notifyOpen calls onOpen', () => {
@@ -414,7 +415,7 @@ test('#adapter.notifyClose calls deregisterWindowClickListener', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.instance().deregisterWindowClickListener_ = td.func() as () => void;
   wrapper.instance().foundation_.adapter_.notifyClose();
-  td.verify(wrapper.instance().deregisterWindowClickListener_(), {times: 1});
+  td.verify(wrapper.instance().deregisterWindowClickListener_!(), {times: 1});
 });
 
 test('#adapter.hasAnchor calls returns false if there is no props.anchorElement', () => {
@@ -501,10 +502,9 @@ test('component styles is applied from this.styles', () => {
 test('#componentWillUnmount calls #deregisterWindowClickListener', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.instance().deregisterWindowClickListener_ = td.func() as () => void;
-  const deregisterWindowClickListener = wrapper.instance()
-    .deregisterWindowClickListener_;
+  const deregisterWindowClickListener = wrapper.instance().deregisterWindowClickListener_;
   wrapper.unmount();
-  td.verify(deregisterWindowClickListener(), {times: 1});
+  td.verify(deregisterWindowClickListener!(), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {

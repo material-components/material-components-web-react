@@ -21,9 +21,10 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material/menu-surface';
 
-export interface MenuSurfaceProps {
+export interface MenuSurfaceBaseProps {
   className: string,
   anchorElement?: HTMLElement,
   anchorCorner: number,
@@ -46,7 +47,7 @@ export interface MenuSurfaceProps {
   fixed: boolean
 };
 
-interface MenuSurfaceState {
+export interface MenuSurfaceState {
   transformOrigin: string,
   maxHeight?: number,
   styleLeft?: number,
@@ -56,15 +57,24 @@ interface MenuSurfaceState {
   classList: Set<string>
 };
 
-class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTMLDivElement>, MenuSurfaceState> {
+type Position = {
+  top?: string,
+  right?: string,
+  bottom?: string,
+  left?: string,
+};
+
+export type MenuSurfaceProps = MenuSurfaceBaseProps & React.HTMLProps<HTMLDivElement>;
+
+class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
   menuSurfaceElement_: React.RefObject<HTMLDivElement> = React.createRef();
   previousFocus_: HTMLElement | null = null;
   foundation_: MDCMenuSurfaceFoundation;
-  handleWindowClick_: EventListener;
-  registerWindowClickListener_: () => void;
-  deregisterWindowClickListener_: () => void;
-  firstFocusableElement_: HTMLElement | null;
-  lastFocusableElement_: HTMLElement | null;
+  handleWindowClick_?: EventListener;
+  registerWindowClickListener_?: () => void;
+  deregisterWindowClickListener_?: () => void;
+  firstFocusableElement_: HTMLElement | null = null;
+  lastFocusableElement_: HTMLElement | null = null;
 
   state: MenuSurfaceState = {
     transformOrigin: '',
@@ -76,7 +86,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     classList: new Set(),
   };
 
-  static defaultProps: Partial<MenuSurfaceProps> = {
+  static defaultProps: Partial<MenuSurfaceBaseProps> = {
     className: '',
     styles: {},
     anchorCorner: 0,
@@ -100,9 +110,9 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     } = this.props;
     this.handleWindowClick_ = (evt) => this.foundation_.handleBodyClick(evt);
     this.registerWindowClickListener_ = () =>
-      window.addEventListener('click', this.handleWindowClick_);
+      window.addEventListener('click', this.handleWindowClick_!);
     this.deregisterWindowClickListener_ = () =>
-      window.removeEventListener('click', this.handleWindowClick_);
+      window.removeEventListener('click', this.handleWindowClick_!);
     this.foundation_ = new MDCMenuSurfaceFoundation(this.adapter);
     this.foundation_.init();
     this.hoistToBody();
@@ -124,7 +134,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
     }
   }
 
-  componentDidUpdate(prevProps: MenuSurfaceProps) {
+  componentDidUpdate(prevProps: MenuSurfaceBaseProps) {
     if (this.props.open !== prevProps.open) {
       this.open_();
     }
@@ -143,8 +153,12 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
   }
 
   componentWillUnmount() {
-    this.deregisterWindowClickListener_();
-    this.foundation_.destroy();
+    if (this.deregisterWindowClickListener_) {
+      this.deregisterWindowClickListener_();
+    }
+    if (this.foundation_) {
+      this.foundation_.destroy();
+    }
   }
 
   hoistToBody(): void {
@@ -247,40 +261,44 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
       getWindowScroll: () => {
         return {x: window.pageXOffset, y: window.pageYOffset};
       },
-      setPosition: (position) => {
-        this.setState({
+      setPosition: (position: Position) => {
+        this.setState((prevState) => Object.assign(prevState, {
           styleLeft: 'left' in position ? position.left : null,
           styleRight: 'right' in position ? position.right : null,
           styleTop: 'top' in position ? position.top : null,
           styleBottom: 'bottom' in position ? position.bottom : null,
-        });
+        }));
       },
-      setMaxHeight: (maxHeight) => this.setState({maxHeight}),
+      setMaxHeight: (maxHeight: number) => this.setState({maxHeight}),
     };
 
     return Object.assign(
       {
-        addClass: (className) => {
+        addClass: (className: string) => {
           const classList = new Set(this.state.classList);
           classList.add(className);
           this.setState({classList});
         },
-        removeClass: (className) => {
+        removeClass: (className: string) => {
           const classList = new Set(this.state.classList);
           classList.delete(className);
           this.setState({classList});
         },
-        hasClass: (className) => this.classes.split(' ').includes(className),
+        hasClass: (className: string) => this.classes.split(' ').includes(className),
         hasAnchor: () => !!this.props.anchorElement,
         notifyOpen: () => {
-          this.registerWindowClickListener_();
+          if (this.registerWindowClickListener_) {
+            this.registerWindowClickListener_();
+          }
           this.props.onOpen();
         },
         notifyClose: () => {
-          this.deregisterWindowClickListener_();
+          if (this.deregisterWindowClickListener_) {
+            this.deregisterWindowClickListener_();
+          }
           this.props.onClose();
         },
-        isElementInContainer: (el) => {
+        isElementInContainer: (el: HTMLElement) => {
           if (!this.menuSurfaceElement_.current) return false;
           if (this.menuSurfaceElement_.current === el) {
             return true;
@@ -294,7 +312,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps & React.HTMLProps<HTM
             .getComputedStyle(this.menuSurfaceElement_.current)
             .getPropertyValue('direction') === 'rtl';
         },
-        setTransformOrigin: (transformOrigin) => this.setState({transformOrigin}),
+        setTransformOrigin: (transformOrigin: string) => this.setState({transformOrigin}),
       },
       focusAdapterMethods,
       dimensionAdapterMethods
