@@ -4,7 +4,7 @@ import TopAppBar from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
 import MainTopAppBarContent from './mainContent';
 
-const TopAppBarProminentScreenshotTest = () => {
+const TopAppBarDenseScreenshotTest = () => {
   return (
     <div className='top-app-bar-container'>
       <TopAppBar
@@ -21,4 +21,4 @@ const TopAppBarProminentScreenshotTest = () => {
   );
 };
 
-export default TopAppBarProminentScreenshotTest;
+export default TopAppBarDenseScreenshotTest;
