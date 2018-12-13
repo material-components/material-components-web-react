@@ -63,9 +63,9 @@ test('tabletColumns prop adds correct className', () => {
 });
 
 test('keeps custom props', () => {
-  const wrapper = shallow(<Cell propOne={true} propTwo="test-prop" />, {
+  const wrapper = shallow(<Cell disabled={true} label="test-prop" />, {
     disableLifecycleMethods: true,
   });
-  assert.isTrue(wrapper.props().propOne);
-  assert.equal(wrapper.props().propTwo, 'test-prop');
+  assert.isTrue(wrapper.props().disabled);
+  assert.equal(wrapper.props().label, 'test-prop');
 });

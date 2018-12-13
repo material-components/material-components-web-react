@@ -6,7 +6,7 @@ export interface RowProps {
   tag?: string
 };
 
-const Row: React.FunctionComponent<RowProps> = ({
+const Row: <T extends {} = HTMLDivElement>(props: RowProps & React.HTMLProps<T>) => React.ReactElement<any> = ({
   children = '', className, tag: Tag = 'div', ...otherProps // eslint-disable-line react/prop-types
 }) => {
   const classes = classnames('mdc-layout-grid__inner', className);

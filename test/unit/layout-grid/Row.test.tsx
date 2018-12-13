@@ -1,8 +1,7 @@
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import * as React from 'react';
-// @ts-ignore
-import {Row} from '../../../packages/layout-grid/index.tsx';
+import {Row} from '../../../packages/layout-grid/index';
 
 suite('LayoutGridRow');
 
@@ -16,11 +15,11 @@ test('classNames adds classes', () => {
 
 test('keeps custom props', () => {
   const wrapper = shallow(
-    <Row propOne={true} propTwo="test-prop">
+    <Row disabled={true} type="test-prop">
       Children
     </Row>,
     {disableLifecycleMethods: true}
   );
-  assert.isTrue(wrapper.props().propOne);
-  assert.equal(wrapper.props().propTwo, 'test-prop');
+  assert.isTrue(wrapper.props().disabled);
+  assert.equal(wrapper.props().type, 'test-prop');
 });

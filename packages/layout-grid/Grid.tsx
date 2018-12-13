@@ -9,17 +9,16 @@ export interface GridProps {
 };
 export declare type Alignment = 'left' | 'right';
 
-const Grid: React.FunctionComponent<GridProps> = (props) => {
-  const {
-    /* eslint-disable react/prop-types */
-    align,
-    children,
-    className = '',
-    fixedColumnWidth = false,
-    tag: Tag = 'div',
-    /* eslint-enable react/prop-types */
-    ...otherProps
-  } = props;
+const Grid: <T extends {} = HTMLDivElement>(props: GridProps & React.HTMLProps<T>) => React.ReactElement<any> = ({
+  /* eslint-disable react/prop-types */
+  align,
+  children,
+  className = '',
+  fixedColumnWidth = false,
+  tag: Tag = 'div',
+  /* eslint-enable react/prop-types */
+  ...otherProps
+}) => {
   const classes = classnames('mdc-layout-grid', className, {
     [`mdc-layout-grid--align-${align}`]: !!align,
     'mdc-layout-grid--fixed-column-width': fixedColumnWidth,

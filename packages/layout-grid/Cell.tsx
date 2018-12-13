@@ -17,7 +17,7 @@ export interface CellProps {
   tag?: string
 };
 
-const Cell: React.FunctionComponent<CellProps & React.HTMLProps<HTMLElement>> = ({
+const Cell: <T extends {} = HTMLDivElement>(props: CellProps & React.HTMLProps<T>) => React.ReactElement<any> = ({
   /* eslint-disable react/prop-types */
   align,
   children,

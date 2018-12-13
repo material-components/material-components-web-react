@@ -32,11 +32,11 @@ test('fixedColumnWidth prop adds correct className', () => {
 
 test('keeps custom props', () => {
   const wrapper = shallow(
-    <Grid propOne={true} propTwo="test-prop">
+    <Grid disabled={true} label="test-prop">
       Children
     </Grid>,
     {disableLifecycleMethods: true}
   );
-  assert.isTrue(wrapper.props().propOne);
-  assert.equal(wrapper.props().propTwo, 'test-prop');
+  assert.isTrue(wrapper.props().disabled);
+  assert.equal(wrapper.props().label, 'test-prop');
 });
