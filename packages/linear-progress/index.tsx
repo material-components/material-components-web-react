@@ -1,3 +1,4 @@
+// @ts-ignore
 import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';
 import * as classnames from 'classnames';
 import * as React from 'react';
@@ -14,11 +15,11 @@ type LinearProgressProps = {
 };
 
 type LinearProgressState = {
-  classList: Set<any>
+  classList: Set<string>
 };
 
-class LinearProgress extends React.Component<
-  LinearProgressProps,
+class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
+  LinearProgressProps & React.HTMLProps<T>,
   LinearProgressState
   > {
   isMounted_ = false;
@@ -26,7 +27,7 @@ class LinearProgress extends React.Component<
   primaryBarElement_: React.RefObject<HTMLDivElement> = React.createRef();
   foundation_: MDCLinearProgressFoundation;
 
-  constructor(props) {
+  constructor(props: LinearProgressProps) {
     super(props);
     this.foundation_ = new MDCLinearProgressFoundation(this.adapter);
     this.state = {
@@ -58,7 +59,7 @@ class LinearProgress extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: LinearProgressProps) {
     const {
       buffer: prevBuffer,
       closed: prevClosed,
@@ -94,7 +95,7 @@ class LinearProgress extends React.Component<
 
   get adapter() {
     return {
-      addClass: (className) => {
+      addClass: (className: string) => {
         if (this.isMounted_) {
           const {classList} = this.state;
           classList.add(className);
@@ -107,17 +108,17 @@ class LinearProgress extends React.Component<
       getPrimaryBar: () => {
         return this.primaryBarElement_.current;
       },
-      hasClass: (className) => {
+      hasClass: (className: string) => {
         return this.state.classList.has(className);
       },
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         if (this.isMounted_) {
           const {classList} = this.state;
           classList.delete(className);
           this.setState({classList});
         }
       },
-      setStyle: (element, propertyName, value) => {
+      setStyle: (element: HTMLElement, propertyName: string, value: string) => {
         if (this.isMounted_) {
           element.style.setProperty(propertyName, value);
         }

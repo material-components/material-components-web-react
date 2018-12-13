@@ -58,12 +58,12 @@ test('Adds a custom class name', () => {
 
 test('Keeps custom props', () => {
   const wrapper = shallow(
-    <LinearProgress propOne={true} propTwo="test-prop" />,
+    <LinearProgress disabled={true} label="test-prop" />,
     {disableLifecycleMethods: true}
   );
   const props = wrapper.props();
-  assert.isTrue(props.propOne);
-  assert.equal(props.propTwo, 'test-prop');
+  assert.isTrue(props.disabled);
+  assert.equal(props.label, 'test-prop');
 });
 
 test('#foundation_.init gets called when the component mounts', () => {
@@ -199,14 +199,14 @@ test('#adapter.removeClass does not remove a class from state if not mounted', (
 test('#adapter.setStyle sets a style property on an element', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress />);
   const instance = wrapper.instance();
-  instance.adapter.setStyle(instance.adapter.getPrimaryBar(), 'width', '0');
-  assert.equal(instance.adapter.getPrimaryBar().style.width, '0px');
+  instance.adapter.setStyle(instance.adapter.getPrimaryBar()!, 'width', '0');
+  assert.equal(instance.adapter.getPrimaryBar()!.style.width, '0px');
 });
 
 test('#adapter.setStyle does not set a style property on an element if not mounted', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress />);
   const instance = wrapper.instance();
   instance.isMounted_ = false;
-  instance.adapter.setStyle(instance.adapter.getPrimaryBar(), 'width', '0');
-  assert.equal(instance.adapter.getPrimaryBar().style.width, '');
+  instance.adapter.setStyle(instance.adapter.getPrimaryBar()!, 'width', '0');
+  assert.equal(instance.adapter.getPrimaryBar()!.style.width, '');
 });
