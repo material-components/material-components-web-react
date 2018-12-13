@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-
+// @ts-ignore
 import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
 
 export interface HelperTextProps {
@@ -107,14 +107,14 @@ export default class HelperText extends React.Component<
 
   get adapter() {
     return {
-      addClass: (className) =>
+      addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) => this.classes.split(' ').includes(className),
       // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
       setAttr: (attr: keyof HelperTextState, value: string) => (
         this.setState((prevState) => ({...prevState, [attr]: value}))

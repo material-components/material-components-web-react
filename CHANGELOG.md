@@ -1,5 +1,13 @@
-<a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.6.2...v) (2018-11-20)
+## [0.7.1](https://github.com/material-components/material-components-web-react/compare/v0.7.0...v) (2018-11-30)
+
+
+### Bug Fixes
+
+* **drawer:** update modal screenshot golden ([#482](https://github.com/material-components/material-components-web-react/issues/482)) ([ce0c314](https://github.com/material-components/material-components-web-react/commit/ce0c314))
+* **select:** added check for nativeControl element before calling props.setRippleCenter in NativeControl ([#478](https://github.com/material-components/material-components-web-react/issues/478)) ([5baad76](https://github.com/material-components/material-components-web-react/commit/5baad76))
+
+
+# [0.7.0](https://github.com/material-components/material-components-web-react/compare/v0.6.2...v0.7.0) (2018-11-20)
 
 
 ### Bug Fixes
@@ -22,8 +30,6 @@
 * **typography:** add component ([#378](https://github.com/material-components/material-components-web-react/issues/378)) ([e46acf5](https://github.com/material-components/material-components-web-react/commit/e46acf5))
 
 
-
-<a name="0.6.2"></a>
 ## [0.6.2](https://github.com/material-components/material-components-web-react/compare/v0.6.0...v0.6.2) (2018-11-07)
 
 
@@ -58,7 +64,6 @@
 
 
 
-<a name="0.6.0"></a>
 # [0.6.0](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v0.6.0) (2018-10-24)
 
 
@@ -88,7 +93,6 @@
 
 
 
-<a name="0.5.1"></a>
 ## [0.5.1](https://github.com/material-components/material-components-web-react/compare/v0.5.0...v0.5.1) (2018-09-25)
 
 
@@ -98,7 +102,6 @@
 
 
 
-<a name="0.5.0"></a>
 # [0.5.0](https://github.com/material-components/material-components-web-react/compare/v0.4.2...v0.5.0) (2018-09-25)
 
 
@@ -136,12 +139,10 @@
 
 
 
-<a name="0.4.2"></a>
 ## [0.4.2](https://github.com/material-components/material-components-web-react/compare/v0.4.1...v0.4.2) (2018-08-14)
 
 
 
-<a name="0.4.1"></a>
 ## [0.4.1](https://github.com/material-components/material-components-web-react/compare/v0.4.0...v0.4.1) (2018-08-13)
 
 
@@ -167,7 +168,6 @@
 
 
 
-<a name="0.4.0"></a>
 # [0.4.0](https://github.com/material-components/material-components-web-react/compare/v0.3.0...v0.4.0) (2018-07-30)
 
 
@@ -182,7 +182,7 @@
 * point packages to MDC Web /dist ES5 files ([#182](https://github.com/material-components/material-components-web-react/issues/182)) ([9d387d3](https://github.com/material-components/material-components-web-react/commit/9d387d3))
 
 
-### Chores
+### chore
 
 * **fab:** Pass icon as a prop, not a child element ([#159](https://github.com/material-components/material-components-web-react/issues/159)) ([1569f97](https://github.com/material-components/material-components-web-react/commit/1569f97))
 
@@ -202,7 +202,6 @@
 
 
 
-<a name="0.3.0"></a>
 # [0.3.0](https://github.com/material-components/material-components-web-react/compare/v0.2.0...v0.3.0) (2018-06-25)
 
 
@@ -226,7 +225,6 @@
 
 
 
-<a name="0.2.0"></a>
 # [0.2.0](https://github.com/material-components/material-components-web-react/compare/v0.1.0...v0.2.0) (2018-06-01)
 
 
@@ -246,7 +244,6 @@
 
 
 
-<a name="0.1.0"></a>
 # [0.1.0](https://github.com/material-components/material-components-web-react/compare/5fd6d86...v0.1.0) (2018-05-09)
 
 

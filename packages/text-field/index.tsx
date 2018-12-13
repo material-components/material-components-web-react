@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCTextFieldFoundation} from '@material/textfield';
 // @ts-ignore
 import Input, {InputProps} from './Input.tsx';
@@ -32,9 +33,9 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
-type Props<T> = {
+export interface Props<T> {
   'children.props'?: InputProps<T>,
-  children: React.ReactNode,
+  children: React.ReactElement<Input<T>>,
   className: string,
   dense: boolean,
   floatingLabelClassName: string,
@@ -42,17 +43,15 @@ type Props<T> = {
   helperText?: React.ReactElement<any>,
   isRtl: boolean,
   label: React.ReactNode,
-  leadingIcon?: React.ReactNode,
+  leadingIcon?: React.ReactElement<HTMLOrSVGElement>,
   lineRippleClassName: string,
   notchedOutlineClassName: string,
   outlined: boolean,
   textarea: boolean,
-  trailingIcon?: React.ReactNode
+  trailingIcon?: React.ReactElement<HTMLOrSVGElement>
 };
 
-export type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
-
-export type InputChildType<T> = React.ReactElement<React.Props<Input<T>>> & React.Props<Input<T>>;
+type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
 
 type TextFieldState = {
   foundation: MDCTextFieldFoundation | null,
@@ -90,13 +89,18 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     trailingIcon: null,
   };
 
-  constructor(props) {
+  constructor(props: TextFieldProps<T>) {
     super(props);
+    let inputId;
+    if (props.children && React.Children.only(props.children)) {
+      inputId = props.children.props.id;
+    }
+
     this.state = {
       // root state
       value: undefined,
       classList: new Set(),
-      inputId: props.children.props.id,
+      inputId,
       isFocused: false,
       dir: 'ltr',
       disabled: false,
@@ -278,7 +282,8 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  inputProps(child: InputChildType<T>) {
+  inputProps(child: React.ReactElement<InputProps<T>>) {
+    // @ts-ignore
     const {props, ref} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
@@ -333,8 +338,8 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
   }
 
   renderInput() {
-    const child = React.Children.only(this.props.children);
-    const props = this.inputProps(child as InputChildType<T>);
+    const child: React.ReactElement<InputProps<T>> = React.Children.only(this.props.children);
+    const props = this.inputProps(child);
     return React.cloneElement(child, props);
   }
 
@@ -399,7 +404,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     return React.cloneElement(helperText, props);
   }
 
-  renderIcon(icon: React.ReactNode) {
+  renderIcon(icon: React.ReactElement<HTMLOrSVGElement>) {
     const {disabled} = this.state;
     // Toggling disabled will trigger icon.foundation.setDisabled()
     return <Icon disabled={disabled}>{icon}</Icon>;
