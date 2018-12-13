@@ -63,6 +63,11 @@ test('has correct fixed class', () => {
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--fixed'));
 });
 
+test('has correct dense class', () => {
+  const wrapper = shallow(<TopAppBar dense />);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--dense'));
+});
+
 test('navigationIcon is rendered with navigation icon class', () => {
   const wrapper = mount(
     <TopAppBar
