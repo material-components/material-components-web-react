@@ -12,6 +12,8 @@ import List, {
   ListGroup,
   ListGroupSubheader,
 } from '../../../packages/list/index';
+import {ListItemProps} from '../../../packages/list/ListItem'; // eslint-disable-line no-unused-vars
+import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line no-unused-vars
 
 import * as uuidv1 from 'uuid/v1';
 
@@ -20,7 +22,9 @@ type SelectionListTestState = {
   listItems: string[]
 };
 
-const renderListItem = (primaryText: string, secondaryText?: string) => {
+const ListItemBase: (p: Partial<ListItemTextProps>) => React.ReactElement<ListItemProps<HTMLDivElement>> = ({
+  primaryText, secondaryText, // eslint-disable-line react/prop-types
+}) => {
   return (
     <ListItem key={uuidv1()}>
       <ListItemGraphic graphic={<MaterialIcon icon="folder" />} />
@@ -55,7 +59,7 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
           selectedIndex={this.state.selectedIndex}
           handleSelect={(selectedIndex) => this.setState({selectedIndex})}
         >
-          {this.state.listItems.map((text) => renderListItem(text))}
+          {this.state.listItems.map((text, key) => <ListItemBase key={key} primaryText={text} />)}
         </List>
       </React.Fragment>
     );
@@ -70,26 +74,26 @@ const ListScreenshotTest = () => {
 
       <h2>Two-line List</h2>
       <List twoLine>
-        {renderListItem('List item', 'Secondary text')}
-        {renderListItem('List item', 'Secondary text')}
-        {renderListItem('List item', 'Secondary text')}
+        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
+        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
+        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
         <ListDivider />
-        {renderListItem('List item', 'Secondary text')}
-        {renderListItem('List item', 'Secondary text')}
+        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
+        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
       </List>
 
       <h2>List group</h2>
       <ListGroup>
         <ListGroupSubheader>Folders</ListGroupSubheader>
         <List>
-          {renderListItem('Photos')}
-          {renderListItem('Recipes')}
-          {renderListItem('Work')}
+          <ListItemBase primaryText='Photos' />
+          <ListItemBase primaryText='Recipes' />
+          <ListItemBase primaryText='Work' />
         </List>
         <ListGroupSubheader>Recent Files</ListGroupSubheader>
         <List>
-          {renderListItem('Vacation itinerary')}
-          {renderListItem('Kitchen remodel')}
+          <ListItemBase primaryText='Vacation itinerary' />
+          <ListItemBase primaryText='Kitchen remodel' />
         </List>
       </ListGroup>
     </div>

@@ -23,7 +23,7 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore
 import {MDCListFoundation} from '@material/list/dist/mdc.list';
-import ListItem, {ListItemProps} from './ListItem';
+import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line no-unused-vars
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
 import ListItemMeta from './ListItemMeta';
@@ -34,7 +34,7 @@ const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 const CHECKBOX_TYPE = 'checkbox';
 
-export interface ListProps {
+export interface ListProps<T> {
   className: string,
   nonInteractive: boolean,
   dense: boolean,
@@ -46,10 +46,8 @@ export interface ListProps {
   wrapFocus: boolean,
   'aria-orientation': string,
   tag: string,
-  children: ListItemElement[] | ListItemElement[],
+  children: ListItem<T> | ListItem<T>[] | React.ReactNode,
 };
-
-type ListItemElement = React.ReactElement<ListItemProps & React.HTMLProps<HTMLElement>>;
 
 type ListState = {
   focusListItemAtIndex: number,
@@ -60,13 +58,17 @@ type ListState = {
   listItemChildrenTabIndex: {[N: number]: number},
 };
 
-type Props = ListProps & React.HTMLProps<HTMLElement>;
+type Props<T> = ListProps<T> & React.HTMLProps<HTMLElement>;
 
 function isCheckbox(element: any): element is HTMLInputElement {
   return element.type === CHECKBOX_TYPE;
-} 
+}
 
-export default class List extends React.Component<Props, ListState> {
+function isReactText(element: any): element is React.ReactText {
+  return typeof element === 'string' || typeof element === 'number';
+}
+
+export default class List<T extends HTMLElement = HTMLElement> extends React.Component<Props<T>, ListState> {
   listItemCount = 0;
   foundation_ = MDCListFoundation;
 
@@ -118,7 +120,7 @@ export default class List extends React.Component<Props, ListState> {
     );
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props<T>) {
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     if (singleSelection !== prevProps.singleSelection) {
       this.foundation_.setSingleSelection(singleSelection);
@@ -291,15 +293,14 @@ export default class List extends React.Component<Props, ListState> {
     );
   }
 
-  renderChild = (child: ListItemElement) => {
-    if (child.type === ListItem) {
-      return this.renderListItem(child, this.listItemCount++);
-    } else {
+  renderChild = (child: React.ReactElement<ListItemProps<T>> | React.ReactChild) => {
+    if (isReactText(child)) {
       return child;
     }
+    return this.renderListItem(child, this.listItemCount++);
   };
 
-  renderListItem = (listItem: ListItemElement, index: number) => {
+  renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
     const {
       onKeyDown,
       onClick,
@@ -317,19 +318,19 @@ export default class List extends React.Component<Props, ListState> {
     } = this.state;
     const props = {
       ...otherProps,
-      onKeyDown: (e: React.KeyboardEvent<any>) => {
+      onKeyDown: (e: React.KeyboardEvent<T>) => {
         onKeyDown(e);
         this.handleKeyDown(e, index);
       },
-      onClick: (e: React.MouseEvent<any>) => {
+      onClick: (e: React.MouseEvent<T>) => {
         onClick(e);
         this.handleClick(e, index);
       },
-      onFocus: (e: React.FocusEvent<any>) => {
+      onFocus: (e: React.FocusEvent<T>) => {
         onFocus(e);
         this.handleFocus(e, index);
       },
-      onBlur: (e: React.FocusEvent<any>) => {
+      onBlur: (e: React.FocusEvent<T>) => {
         onBlur(e);
         this.handleBlur(e, index);
       },

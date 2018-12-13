@@ -22,7 +22,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-export interface ListItemProps {
+export interface ListItemBaseProps {
   className: string,
   classNamesFromList: string[],
   attributesFromList: object,
@@ -36,10 +36,10 @@ export interface ListItemProps {
   onFocus: Pick<React.HTMLProps<HTMLElement>, 'onFocus'>,
   onBlur: Pick<React.HTMLProps<HTMLElement>, 'onBlur'>,
   tag: string,
-  children: React.ReactElement<any>[],
+  children: React.ReactNode,
 };
 
-type Props<T> = ListItemProps & React.HTMLProps<T>;
+export type ListItemProps<T> = ListItemBaseProps & React.HTMLProps<T>;
 
 function isAnchorElement(element: any): element is HTMLAnchorElement {
   return !!element.href;
@@ -50,7 +50,7 @@ function isFocusableElement(element: any): element is HTMLElement {
 }
 
 export default class ListItem<T extends {} = HTMLElement> extends React.Component<
-  Props<T>,
+  ListItemProps<T>,
   {}
   > {
   listItemElement_: React.RefObject<T> = React.createRef();
@@ -71,7 +71,7 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
     tag: 'li',
   };
 
-  componentDidUpdate(prevProps: Props<T>) {
+  componentDidUpdate(prevProps: ListItemProps<T>) {
     const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
     if (shouldFocus !== prevProps.shouldFocus && shouldFocus) {
       this.focus();
@@ -140,7 +140,11 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
     );
   }
 
-  renderChild = (child: React.ReactElement<any>) => {
+  renderChild = (child: React.ReactChild) => {
+    if (typeof child === 'string' || typeof child === 'number') {
+      return child;
+    }
+
     const props = Object.assign({}, child.props, {
       tabIndex: this.props.childrenTabIndex,
     });
