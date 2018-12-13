@@ -1,4 +1,6 @@
+// @ts-ignore
 import topAppBarVariants from './top-app-bar/variants.js';
+// @ts-ignore
 import drawerVariants from './drawer/variants.js';
 import textFieldVariants from './text-field/variants';
 const urls = [
@@ -27,15 +29,15 @@ const urls = [
   'typography',
 ];
 
-topAppBarVariants.forEach((variant) => {
+topAppBarVariants.forEach((variant: string) => {
   urls.push(`top-app-bar/${variant}`);
 });
 
-drawerVariants.forEach((variant) => {
+drawerVariants.forEach((variant: string) => {
   urls.push(`drawer/${variant}`);
 });
 
-textFieldVariants.forEach((variant) => {
+textFieldVariants.forEach((variant: string) => {
   urls.push(`text-field/${variant}`);
 });
 
