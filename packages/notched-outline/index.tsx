@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
 
 export interface NotchedOutlineProps {
@@ -30,7 +31,7 @@ export interface NotchedOutlineProps {
   notchWidth: number
 };
 
-type NotchedOutlineState = {
+interface NotchedOutlineState {
   classList: Set<string>
 };
 
@@ -67,7 +68,7 @@ export default class NotchedOutline extends React.Component<
     this.foundation_.destroy();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: NotchedOutlineProps) {
     const hasToggledNotch = this.props.notch !== prevProps.notch;
     const hasToggleRtl = this.props.isRtl !== prevProps.isRtl;
     const notchWidthUpdated = this.props.notchWidth !== prevProps.notchWidth;
@@ -107,11 +108,10 @@ export default class NotchedOutline extends React.Component<
         }
       },
       getIdleOutlineStyleValue: (propertyName: string) => {
-        if (this.idleElement_.current) {
-          return window
-            .getComputedStyle(this.idleElement_.current)
-            .getPropertyValue(propertyName);
-        }
+        if (!this.idleElement_.current) return;
+        return window
+          .getComputedStyle(this.idleElement_.current)
+          .getPropertyValue(propertyName);
       },
     };
   }

@@ -124,5 +124,6 @@ test('#adapter.setStyle updates style names to camel case', () => {
   wrapper.instance().foundation_.adapter_.setStyle('transform-origin', 25);
   const style = (wrapper.state().style as React.CSSProperties);
   assert.equal(style.transformOrigin, 25);
+  // @ts-ignore
   assert.equal(style['transform-origin'], undefined);
 });
