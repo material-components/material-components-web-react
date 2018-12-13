@@ -31,18 +31,29 @@ export interface ListItemProps {
   shouldFocus: boolean,
   shouldFollowHref: boolean,
   shouldToggleCheckbox: boolean,
-  onKeyDown: (...args: any[]) => any,
-  onClick: (...args: any[]) => any,
-  onFocus: (...args: any[]) => any,
-  onBlur: (...args: any[]) => any,
-  tag: string
+  onKeyDown: Pick<React.HTMLProps<HTMLElement>, 'onKeyDown'>,
+  onClick: Pick<React.HTMLProps<HTMLElement>, 'onClick'>,
+  onFocus: Pick<React.HTMLProps<HTMLElement>, 'onFocus'>,
+  onBlur: Pick<React.HTMLProps<HTMLElement>, 'onBlur'>,
+  tag: string,
+  children: React.ReactElement<any>[],
 };
 
-export default class ListItem<T extends {}> extends React.Component<
-  ListItemProps & (T extends HTMLAnchorElement ? React.HTMLProps<HTMLAnchorElement> : React.HTMLProps<HTMLElement>),
+type Props<T> = ListItemProps & React.HTMLProps<T>;
+
+function isAnchorElement(element: any): element is HTMLAnchorElement {
+  return !!element.href;
+}
+
+function isFocusableElement(element: any): element is HTMLElement {
+  return typeof <HTMLElement>element.focus === 'function';
+}
+
+export default class ListItem<T extends {} = HTMLElement> extends React.Component<
+  Props<T>,
   {}
   > {
-  listItemElement_: React.RefObject<T extends HTMLAnchorElement ? HTMLAnchorElement : HTMLElement> = React.createRef();
+  listItemElement_: React.RefObject<T> = React.createRef();
 
   static defaultProps = {
     className: '',
@@ -60,7 +71,7 @@ export default class ListItem<T extends {}> extends React.Component<
     tag: 'li',
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props<T>) {
     const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
     if (shouldFocus !== prevProps.shouldFocus && shouldFocus) {
       this.focus();
@@ -83,14 +94,14 @@ export default class ListItem<T extends {}> extends React.Component<
 
   focus() {
     const element = this.listItemElement_.current;
-    if (element) {
+    if (isFocusableElement(element)) {
       element.focus();
     }
   }
 
   followHref() {
-    const element = this.listItemElement_.current as HTMLAnchorElement;
-    if (element && element.href) {
+    const element = this.listItemElement_.current;
+    if (isAnchorElement(element)) {
       element.click();
     }
   }
@@ -129,7 +140,7 @@ export default class ListItem<T extends {}> extends React.Component<
     );
   }
 
-  renderChild = (child) => {
+  renderChild = (child: React.ReactElement<any>) => {
     const props = Object.assign({}, child.props, {
       tabIndex: this.props.childrenTabIndex,
     });

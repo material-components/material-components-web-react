@@ -21,23 +21,18 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// @ts-ignore
 import {MDCListFoundation} from '@material/list/dist/mdc.list';
-// @ts-ignore
-import ListItem from './ListItem.tsx';
-// @ts-ignore
-import ListItemGraphic from './ListItemGraphic.tsx';
-// @ts-ignore
-import ListItemText from './ListItemText.tsx';
-// @ts-ignore
-import ListItemMeta from './ListItemMeta.tsx';
-// @ts-ignore
-import ListDivider from './ListDivider.tsx';
-// @ts-ignore
-import ListGroup from './ListGroup.tsx';
-// @ts-ignore
-import ListGroupSubheader from './ListGroupSubheader.tsx';
+import ListItem, {ListItemProps} from './ListItem';
+import ListItemGraphic from './ListItemGraphic';
+import ListItemText from './ListItemText';
+import ListItemMeta from './ListItemMeta';
+import ListDivider from './ListDivider';
+import ListGroup from './ListGroup';
+import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
+const CHECKBOX_TYPE = 'checkbox';
 
 export interface ListProps {
   className: string,
@@ -50,19 +45,28 @@ export interface ListProps {
   handleSelect: (selectedIndex: number) => void,
   wrapFocus: boolean,
   'aria-orientation': string,
-  tag: string
+  tag: string,
+  children: ListItemElement[] | ListItemElement[],
 };
+
+type ListItemElement = React.ReactElement<ListItemProps & React.HTMLProps<HTMLElement>>;
 
 type ListState = {
   focusListItemAtIndex: number,
   followHrefAtIndex: number,
   toggleCheckboxAtIndex: number,
-  listItemAttributes: {},
-  listItemClassNames: {},
-  listItemChildrenTabIndex: {}
+  listItemAttributes: {[N: number]: any},
+  listItemClassNames: {[N: number]: string[]},
+  listItemChildrenTabIndex: {[N: number]: number},
 };
 
-export default class List extends React.Component<ListProps & React.HTMLProps<HTMLElement>, ListState> {
+type Props = ListProps & React.HTMLProps<HTMLElement>;
+
+function isCheckbox(element: any): element is HTMLInputElement {
+  return element.type === CHECKBOX_TYPE;
+} 
+
+export default class List extends React.Component<Props, ListState> {
   listItemCount = 0;
   foundation_ = MDCListFoundation;
 
@@ -114,7 +118,7 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
     );
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     if (singleSelection !== prevProps.singleSelection) {
       this.foundation_.setSingleSelection(singleSelection);
@@ -162,7 +166,7 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
       // Remove when MDC Web issue resolves:
       // https://github.com/material-components/material-components-web/issues/4058
       getFocusedElementIndex: () => -1,
-      setAttributeForElementIndex: (index, attr, value) => {
+      setAttributeForElementIndex: (index: number, attr: string, value: string) => {
         const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
         if (!listItemAttributes[index]) {
@@ -171,7 +175,7 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
         listItemAttributes[index][attr] = value;
         this.setState({listItemAttributes});
       },
-      removeAttributeForElementIndex: (index, attr) => {
+      removeAttributeForElementIndex: (index: number, attr: string) => {
         const {listItemAttributes} = this.state;
         attr = attr === 'tabindex' ? 'tabIndex' : attr;
         if (!listItemAttributes[index]) {
@@ -180,7 +184,7 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
         delete listItemAttributes[index][attr];
         this.setState({listItemAttributes});
       },
-      addClassForElementIndex: (index, className) => {
+      addClassForElementIndex: (index: number, className: string) => {
         const {listItemClassNames} = this.state;
         if (!listItemClassNames[index]) {
           listItemClassNames[index] = [];
@@ -188,7 +192,7 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
         listItemClassNames[index].push(className);
         this.setState({listItemClassNames});
       },
-      removeClassForElementIndex: (index, className) => {
+      removeClassForElementIndex: (index: number, className: string) => {
         const {listItemClassNames} = this.state;
         if (!listItemClassNames[index]) {
           return;
@@ -199,24 +203,24 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
           this.setState({listItemClassNames});
         }
       },
-      setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
+      setTabIndexForListItemChildren: (listItemIndex: number, tabIndexValue: number) => {
         const {listItemChildrenTabIndex} = this.state;
         listItemChildrenTabIndex[listItemIndex] = tabIndexValue;
         this.setState({listItemChildrenTabIndex});
       },
-      focusItemAtIndex: (index) => {
+      focusItemAtIndex: (index: number) => {
         this.setState({focusListItemAtIndex: index});
       },
-      followHref: (index) => {
+      followHref: (index: number) => {
         this.setState({followHrefAtIndex: index});
       },
-      toggleCheckbox: (index) => {
+      toggleCheckbox: (index: number) => {
         this.setState({toggleCheckboxAtIndex: index});
       },
     };
   }
 
-  handleKeyDown = (e, index) => {
+  handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
     e.persist(); // Persist the synthetic event to access its `key`
     this.foundation_.handleKeydown(
       e,
@@ -236,9 +240,10 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
     }
   };
 
-  handleClick = (e, index) => {
+  handleClick = (e: React.MouseEvent<any>, index: number) => {
     // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
-    const toggleCheckbox = e.target.type === 'checkbox';
+    if (!isCheckbox(e.target)) return;
+    const toggleCheckbox = e.target.type === CHECKBOX_TYPE;
     this.foundation_.handleClick(index, toggleCheckbox);
     // Work around until MDC Web issue is resolved:
     // https://github.com/material-components/material-components-web/issues/4053
@@ -249,13 +254,13 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
 
   // Use onFocus as workaround because onFocusIn is not yet supported in React
   // https://github.com/facebook/react/issues/6410
-  handleFocus = (e, index) => {
+  handleFocus = (e: React.FocusEvent, index: number) => {
     this.foundation_.handleFocusIn(e, index);
   };
 
   // Use onBlur as workaround because onFocusOut is not yet supported in React
   // https://github.com/facebook/react/issues/6410
-  handleBlur = (e, index) => {
+  handleBlur = (e: React.FocusEvent, index: number) => {
     this.foundation_.handleFocusOut(e, index);
   };
 
@@ -286,15 +291,15 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
     );
   }
 
-  renderChild = (child) => {
-    if (child.type.name === 'ListItem') {
+  renderChild = (child: ListItemElement) => {
+    if (child.type === ListItem) {
       return this.renderListItem(child, this.listItemCount++);
     } else {
       return child;
     }
   };
 
-  renderListItem = (listItem, index) => {
+  renderListItem = (listItem: ListItemElement, index: number) => {
     const {
       onKeyDown,
       onClick,
@@ -312,19 +317,19 @@ export default class List extends React.Component<ListProps & React.HTMLProps<HT
     } = this.state;
     const props = {
       ...otherProps,
-      onKeyDown: (e) => {
+      onKeyDown: (e: React.KeyboardEvent<any>) => {
         onKeyDown(e);
         this.handleKeyDown(e, index);
       },
-      onClick: (e) => {
+      onClick: (e: React.MouseEvent<any>) => {
         onClick(e);
         this.handleClick(e, index);
       },
-      onFocus: (e) => {
+      onFocus: (e: React.FocusEvent<any>) => {
         onFocus(e);
         this.handleFocus(e, index);
       },
-      onBlur: (e) => {
+      onBlur: (e: React.FocusEvent<any>) => {
         onBlur(e);
         this.handleBlur(e, index);
       },

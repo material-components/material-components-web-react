@@ -28,10 +28,15 @@ export interface ListItemTextProps {
   className?: string,
   primaryText?: React.ReactNode,
   secondaryText?: React.ReactNode,
-  childrenTabIndex?: number
+  childrenTabIndex?: number,
 };
 
-const ListItemText:React.FunctionComponent<ListItemTextProps> = ({
+// https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14064
+function isReactElement(element: any): element is React.ReactElement<any> {
+  return element.props !== undefined && element !== null;
+}
+
+const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
   /* eslint-disable react/prop-types */
   primaryText = '',
   secondaryText ='',
@@ -41,8 +46,9 @@ const ListItemText:React.FunctionComponent<ListItemTextProps> = ({
   /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
-  const renderText = (text, className) => {
-    if (typeof text === 'string') {
+  const renderText = (text: React.ReactNode, className: string) => {
+    if (text === undefined) return null;
+    if (typeof text === 'string' || typeof text === 'number') {
       return (
         <span
           className={className}
@@ -52,6 +58,8 @@ const ListItemText:React.FunctionComponent<ListItemTextProps> = ({
         </span>
       );
     }
+    if (!isReactElement(text)) return null;
+
     const {className: textClassName, ...otherProps} = text.props;
     const props = Object.assign(
       {

@@ -25,14 +25,14 @@ test('attributesFromList adds props', () => {
 });
 
 test('calls focus when props.shouldFocus changes from false to true', () => {
-  const wrapper = mount<ListItem<HTMLElement>>(<ListItem />);
+  const wrapper = mount<ListItem<HTMLElement>>(<ListItem>Test</ListItem>);
   wrapper.instance().focus = td.func() as () => void;
   wrapper.setProps({shouldFocus: true});
   td.verify(wrapper.instance().focus(), {times: 1});
 });
 
 test('calls followHref when props.shouldFollowHref changes from false to true', () => {
-  const wrapper = mount<ListItem<HTMLElement>>(<ListItem />);
+  const wrapper = mount<ListItem<HTMLElement>>(<ListItem>Test</ListItem>);
   wrapper.instance().followHref = td.func() as () => void;
   wrapper.setProps({shouldFollowHref: true});
   td.verify(wrapper.instance().followHref(), {times: 1});
@@ -70,11 +70,11 @@ test('passes props.childrenTabIndex to children as props.tabIndex', () => {
 });
 
 test('renders a list item with default tag', () => {
-  const wrapper = shallow(<ListItem />);
+  const wrapper = shallow(<ListItem><div>Test</div></ListItem>);
   assert.equal(wrapper.type(), 'li');
 });
 
 test('renders a list item with an anchor tag', () => {
-  const wrapper = shallow(<ListItem tag="a" />);
+  const wrapper = shallow(<ListItem tag="a"><div>Test</div></ListItem>);
   assert.equal(wrapper.type(), 'a');
 });

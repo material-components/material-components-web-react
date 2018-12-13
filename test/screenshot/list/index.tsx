@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './index.scss';
 import '../../../packages/list/index.scss';
+// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
 import List, {
   ListItem,
@@ -10,8 +11,7 @@ import List, {
   ListDivider,
   ListGroup,
   ListGroupSubheader,
-// @ts-ignore
-} from '../../../packages/list/index.tsx';
+} from '../../../packages/list/index';
 
 import * as uuidv1 from 'uuid/v1';
 
