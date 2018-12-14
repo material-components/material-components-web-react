@@ -29,16 +29,24 @@ const FixedAdjust = (props) => {
     tag: Tag,
     children,
     className,
+    dense,
+    prominent,
+    short,
     ...otherProps
   } = props;
 
+  const base = 'mdc-top-app-bar';
+  const suffix = '-fixed-adjust';
+  const classes = classnames(className, {
+    [base + '--short' + suffix]: short,
+    [base + '--dense' + suffix]: dense && (!prominent),
+    [base + '--dense-prominent' + suffix]: dense && prominent,
+    [base + '--prominent' + suffix]: (!dense) && prominent,
+    [base + '-' + suffix]: !short && !dense && !prominent,
+  });
+
   return (
-    <Tag
-      className={classnames('mdc-top-app-bar--fixed-adjust', className)}
-      {...otherProps}
-    >
-      {children}
-    </Tag>
+    <Tag className={classes} {...otherProps}>{children}</Tag>
   );
 };
 
@@ -46,11 +54,17 @@ FixedAdjust.propTypes = {
   tag: PropTypes.string,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  dense: PropTypes.bool,
+  prominent: PropTypes.bool,
+  short: PropTypes.bool,
 };
 
 FixedAdjust.defaultProps = {
   tag: 'main',
   className: '',
+  dense: false,
+  prominent: false,
+  short: false,
 };
 
 export default FixedAdjust;

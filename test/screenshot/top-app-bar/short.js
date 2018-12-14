@@ -15,7 +15,7 @@ const TopAppBarShortScreenshotTest = () => {
         />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <MainTopAppBarContent />
+      <MainTopAppBarContent short/>
     </div>
   );
 };
