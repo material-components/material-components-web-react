@@ -26,12 +26,12 @@ import * as classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
 export interface FabProps {
-  mini: boolean,
-  icon?: React.ReactElement<HTMLElement>,
-  textLabel: string,
-  className: string,
-  initRipple: (surface: HTMLButtonElement) => void,
-  unbounded: boolean,
+  mini: boolean;
+  icon?: React.ReactElement<HTMLElement>;
+  textLabel: string;
+  className: string;
+  initRipple: (surface: HTMLButtonElement) => void;
+  unbounded: boolean;
 }
 
 const Icon: React.FunctionComponent<{icon?: React.ReactElement<HTMLElement>}> = ({icon}) => {
