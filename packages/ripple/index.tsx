@@ -21,12 +21,13 @@
 // THE SOFTWARE.
 import * as React from "react";
 import * as classnames from "classnames";
+import { Subtract } from 'utility-types';
 // @ts-ignore
 import { MDCRippleFoundation, util } from "@material/ripple/dist/mdc.ripple";
 
 const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
 
-interface RippledComponentBaseProps<T> {
+interface RippledComponentProps<T> {
   unbounded: boolean,
   disabled: boolean,
   style: React.CSSProperties,
@@ -39,6 +40,7 @@ interface RippledComponentBaseProps<T> {
   onKeyUp: React.KeyboardEventHandler<T>,
   onFocus: React.FocusEventHandler<T>,
   onBlur: React.FocusEventHandler<T>,
+  computeBoundingRect?: (surface: T) => {},
 }
 
 interface RippledComponentState {
@@ -46,7 +48,7 @@ interface RippledComponentState {
   style: React.CSSProperties,
 }
 
-type InjectedProps<P, S, A> = RippledComponentBaseProps<P> & {
+export interface InjectedProps<S, A = Element> extends RippledComponentProps<S> {
   initRipple: (surface: S, activator?: A) => void,
 };
 
@@ -54,11 +56,14 @@ function isElement(element: any): element is Element {
   return element[MATCHES as 'matches'] !== undefined;
 }
 
-const withRipple = <P extends InjectedProps<P, Surface, Activator>, Surface extends Element = Element, Activator extends Element = Element>(
+const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends Element = Element, Activator extends Element = Element>(
   WrappedComponent: React.ComponentType<P>
 ) => {
   return class RippledComponent extends React.Component<
-    P & RippledComponentBaseProps<Surface>,
+  // Subtract removes any props "InjectedProps" if they are on "P"
+  // This allows the developer to override any props
+  // https://medium.com/@jrwebdev/react-higher-order-component-patterns-in-typescript-42278f7590fb
+  Subtract<P, InjectedProps<Surface, Activator>>  & RippledComponentProps<Surface>,
     RippledComponentState
   > {
     foundation_: MDCRippleFoundation | null = null;
@@ -272,24 +277,30 @@ const withRipple = <P extends InjectedProps<P, Surface, Activator>, Surface exte
         /* eslint-enable */
         /* end black list of otherprops */
         ...otherProps
-      } = this.props as RippledComponentBaseProps<Surface>;
+      } = this.props as P;
 
       const updatedProps = {
         onMouseDown: this.handleMouseDown,
-        // onMouseUp: this.handleMouseUp,
-        // onTouchStart: this.handleTouchStart,
-        // onTouchEnd: this.handleTouchEnd,
-        // onKeyDown: this.handleKeyDown,
-        // onKeyUp: this.handleKeyUp,
-        // onFocus: this.handleFocus,
-        // onBlur: this.handleBlur,
-        // call initRipple on ref on root element that needs ripple
-        // initRipple: this.initializeFoundation_,
-        // className: this.classes,
-        // style: this.style,
+        onMouseUp: this.handleMouseUp,
+        onTouchStart: this.handleTouchStart,
+        onTouchEnd: this.handleTouchEnd,
+        onKeyDown: this.handleKeyDown,
+        onKeyUp: this.handleKeyUp,
+        onFocus: this.handleFocus,
+        onBlur: this.handleBlur,
+        initRipple: this.initializeFoundation_,
+        className: this.classes,
+        style: this.style,
       };
 
-      return <WrappedComponent {...updatedProps} {...otherProps} />;
+      return (
+        // this issue is only appearing in TS v3.2.x. I am not seeing this issue appear in v2.9.1
+        // @ts-ignore
+        <WrappedComponent
+          {...updatedProps}
+          {...otherProps}
+        />
+      );
     }
   }
 };
