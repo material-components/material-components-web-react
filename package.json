@@ -144,6 +144,7 @@
     "ts-node": "^7.0.1",
     "typescript": "^3.2.1",
     "typescript-eslint-parser": "^21.0.1",
+    "utility-types": "^2.1.0",
     "uuid": "^3.3.2",
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.11.0",
