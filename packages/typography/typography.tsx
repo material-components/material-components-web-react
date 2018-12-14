@@ -2,20 +2,21 @@ import * as classnames from 'classnames';
 import * as React from 'react';
 
 export interface TypographyProps<T> extends React.HTMLProps<T> {
-  children?: React.ReactNode,
-  className?: string,
-  tag?: string,
+  children?: React.ReactNode;
+  className?: string;
+  tag?: string;
 }
 
 interface EnhancedProps {
-  tag: string,
-  classModifier: string,
+  tag: string;
+  classModifier: string;
 }
 
 const typographyHOC = <T extends {}>(options: EnhancedProps) => {
   const {tag, classModifier} = options;
 
   const Typography: React.FunctionComponent<TypographyProps<T>> = ({
+    // TODO: clean up after removing eslint react/prop-types
     /* eslint-disable */
     children,
     className = '',
