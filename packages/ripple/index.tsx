@@ -19,11 +19,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import * as classnames from "classnames";
-import { Subtract } from 'utility-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
+import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 // @ts-ignore
-import { MDCRippleFoundation, util } from "@material/ripple/dist/mdc.ripple";
+import {MDCRippleFoundation, util} from '@material/ripple/dist/mdc.ripple';
 
 const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
 
@@ -56,16 +56,23 @@ function isElement(element: any): element is Element {
   return element[MATCHES as 'matches'] !== undefined;
 }
 
-const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends Element = Element, Activator extends Element = Element>(
-  WrappedComponent: React.ComponentType<P>
-) => {
+type ActivateEventTypes<Surface>
+  = React.MouseEvent<Surface> | React.TouchEvent<Surface> | React.KeyboardEvent<Surface> | React.FocusEvent<Surface>;
+
+const withRipple = <
+  P extends InjectedProps<Surface, Activator>,
+  Surface extends Element = Element,
+  Activator extends Element = Element
+>(
+    WrappedComponent: React.ComponentType<P>
+  ) => {
   return class RippledComponent extends React.Component<
   // Subtract removes any props "InjectedProps" if they are on "P"
   // This allows the developer to override any props
   // https://medium.com/@jrwebdev/react-higher-order-component-patterns-in-typescript-42278f7590fb
-  Subtract<P, InjectedProps<Surface, Activator>>  & RippledComponentProps<Surface>,
+    Subtract<P, InjectedProps<Surface, Activator>> & RippledComponentProps<Surface>,
     RippledComponentState
-  > {
+    > {
     foundation_: MDCRippleFoundation | null = null;
     isMounted_: boolean = true;
 
@@ -75,12 +82,12 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
       classList: new Set(),
       style: {},
     };
-    
+
     static defaultProps = {
       unbounded: false,
       disabled: false,
       style: {},
-      className: "",
+      className: '',
       onMouseDown: () => {},
       onMouseUp: () => {},
       onTouchStart: () => {},
@@ -88,14 +95,14 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
       onKeyDown: () => {},
       onKeyUp: () => {},
       onFocus: () => {},
-      onBlur: () => {}
+      onBlur: () => {},
     };
 
     componentDidMount() {
       if (!this.foundation_) {
         throw new Error(
-          "You must call initRipple from the element's " +
-            "ref prop to initialize the adapter for withRipple"
+          'You must call initRipple from the element\'s ' +
+            'ref prop to initialize the adapter for withRipple'
         );
       }
     }
@@ -138,15 +145,15 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
           if (!this.isMounted_) {
             return;
           }
-          this.setState({ classList: this.state.classList.add(className) });
+          this.setState({classList: this.state.classList.add(className)});
         },
         removeClass: (className: string) => {
           if (!this.isMounted_) {
             return;
           }
-          const { classList } = this.state;
+          const {classList} = this.state;
           classList.delete(className);
-          this.setState({ classList });
+          this.setState({classList});
         },
         registerDocumentInteractionHandler: (evtType: string, handler: EventListener) =>
           document.documentElement.addEventListener(
@@ -161,9 +168,9 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
             util.applyPassive()
           ),
         registerResizeHandler: (handler: EventListener) =>
-          window.addEventListener("resize", handler),
+          window.addEventListener('resize', handler),
         deregisterResizeHandler: (handler: EventListener) =>
-          window.removeEventListener("resize", handler),
+          window.removeEventListener('resize', handler),
         updateCssVariable: this.updateCssVariable,
         computeBoundingRect: () => {
           if (!this.isMounted_) {
@@ -177,8 +184,8 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
         },
         getWindowPageOffset: () => ({
           x: window.pageXOffset,
-          y: window.pageYOffset
-        })
+          y: window.pageYOffset,
+        }),
       };
     };
 
@@ -222,7 +229,7 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
       this.deactivateRipple(e);
     };
 
-    activateRipple = (e: React.MouseEvent<Surface> | React.TouchEvent<Surface> | React.KeyboardEvent<Surface> | React.FocusEvent<Surface>) => {
+    activateRipple = (e: ActivateEventTypes<Surface>) => {
       // https://reactjs.org/docs/events.html#event-pooling
       e.persist();
       requestAnimationFrame(() => {
@@ -230,7 +237,7 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
       });
     };
 
-    deactivateRipple = (e: React.MouseEvent<Surface> | React.TouchEvent<Surface> | React.KeyboardEvent<Surface> | React.FocusEvent<Surface>) => {
+    deactivateRipple = (e: ActivateEventTypes<Surface>) => {
       this.foundation_.deactivate(e);
     };
 
@@ -242,20 +249,20 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
         const updatedStyle = Object.assign({}, this.state.style) as React.CSSProperties;
         updatedStyle[varName] = value;
         return Object.assign(prevState, {
-          style: updatedStyle
+          style: updatedStyle,
         });
       });
     };
 
     get classes() {
-      const { className: wrappedComponentClasses } = this.props;
-      const { classList } = this.state;
+      const {className: wrappedComponentClasses} = this.props;
+      const {classList} = this.state;
       return classnames(Array.from(classList), wrappedComponentClasses);
     }
 
     get style() {
-      const { style: wrappedStyle } = this.props;
-      const { style } = this.state;
+      const {style: wrappedStyle} = this.props;
+      const {style} = this.state;
       return Object.assign({}, style, wrappedStyle);
     }
 
@@ -302,7 +309,7 @@ const withRipple = <P extends InjectedProps<Surface, Activator>, Surface extends
         />
       );
     }
-  }
+  };
 };
 
 function getDisplayName<P extends {}>(WrappedComponent: React.ComponentType<P>) {
