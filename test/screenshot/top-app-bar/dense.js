@@ -12,7 +12,7 @@ const TopAppBarDenseScreenshotTest = () => {
         title='Miami, FL'
         navigationIcon={<MaterialIcon
           icon='menu'
-          onClick={() => console.log('prominent click')}
+          onClick={() => console.log('dense click')}
         />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
