@@ -1,8 +1,7 @@
 import * as React from 'react';
 import './index.scss';
 import '../../../packages/list/index.scss';
-// @ts-ignore
-import Radio, {NativeRadioControl} from '../../../packages/radio/index.tsx';
+import Radio, {NativeRadioControl} from '../../../packages/radio/index';
 
 type PetsRadioProps = {
   name: string,
@@ -15,7 +14,7 @@ type PetsRadioState = {
 };
 
 class PetsRadio extends React.Component<PetsRadioProps, PetsRadioState> {
-  constructor(props) {
+  constructor(props: PetsRadioProps) {
     super(props);
     this.state = {
       petValue: props.petValue,

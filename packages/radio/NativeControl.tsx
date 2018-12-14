@@ -22,7 +22,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-type Props = {
+interface Props {
   className?: string,
   rippleActivatorRef?: React.RefObject<HTMLInputElement>
 };

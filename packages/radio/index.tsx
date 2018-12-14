@@ -21,12 +21,13 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
-import withRipple from '@material/react-ripple';
 // @ts-ignore
-import NativeControl, {NativeControlProps} from './NativeControl.tsx'; // eslint-disable-line no-unused-vars
+import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
+// @ts-ignore
+import withRipple from '@material/react-ripple';
+import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
 
-export interface RadioProps {
+export interface RadioBaseProps {
   label: string,
   initRipple: (surface: HTMLDivElement, rippleActivatorRef: HTMLInputElement) => void,
   className: string,
@@ -35,13 +36,15 @@ export interface RadioProps {
   children: React.ReactElement<NativeControlProps>,
 };
 
+export type RadioProps = RadioBaseProps & React.HTMLProps<HTMLDivElement>;
+
 type RadioState = {
   nativeControlId: string,
   classList: Set<string>,
   disabled: boolean
 };
 
-class Radio extends React.Component<RadioProps & React.HTMLProps<HTMLDivElement>, RadioState> {
+class Radio extends React.Component<RadioProps, RadioState> {
   foundation_: MDCRadioFoundation;
   radioElement_: React.RefObject<HTMLDivElement> = React.createRef();
   rippleActivatorRef: React.RefObject<HTMLInputElement> = React.createRef();
@@ -52,7 +55,7 @@ class Radio extends React.Component<RadioProps & React.HTMLProps<HTMLDivElement>
     nativeControlId: '',
   };
 
-  constructor(props) {
+  constructor(props: RadioProps) {
     super(props);
     this.foundation_ = new MDCRadioFoundation(this.adapter);
   }
@@ -87,7 +90,7 @@ class Radio extends React.Component<RadioProps & React.HTMLProps<HTMLDivElement>
     this.foundation_.destroy();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: RadioProps) {
     const {children} = this.props;
     if (!children) {
       React.Children.only(children);
@@ -110,17 +113,17 @@ class Radio extends React.Component<RadioProps & React.HTMLProps<HTMLDivElement>
 
   get adapter() {
     return {
-      addClass: (className) => {
+      addClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.add(className);
         this.setState({classList});
       },
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.delete(className);
         this.setState({classList});
       },
-      setNativeControlDisabled: (disabled) => this.setState({disabled}),
+      setNativeControlDisabled: (disabled: boolean) => this.setState({disabled}),
     };
   }
 
