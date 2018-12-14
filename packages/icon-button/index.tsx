@@ -31,25 +31,25 @@ import IconToggle from './IconToggle.tsx';
 const ARIA_PRESSED = 'aria-pressed';
 
 export interface IconButtonBaseProps<T> {
-  className: string,
-  initRipple: (surface: T) => void,
-  isLink: boolean,
-  onClick: (event: React.MouseEvent) => void,
-  unbounded: boolean,
-  [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>,
-};
+  className: string;
+  initRipple: (surface: T) => void;
+  isLink: boolean;
+  onClick: (event: React.MouseEvent) => void;
+  unbounded: boolean;
+  [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>;
+}
 
 type IconButtonBaseState = {
-  classList: Set<string>,
-  [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>,
-};
+  classList: Set<string>;
+  [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>;
+}
 
 export type AnchorProps = React.HTMLProps<HTMLAnchorElement> & IconButtonBaseProps<HTMLAnchorElement>;
 export type ButtonProps = React.HTMLProps<HTMLButtonElement> & IconButtonBaseProps<HTMLButtonElement>;
 export type IconButtonProps<T> = T extends ButtonProps ? ButtonProps : AnchorProps;
 
 class IconButtonBase<T extends {}> extends React.Component<
-  IconButtonProps<T>,
+  IconButtonProps<T>;
   IconButtonBaseState
   > {
   foundation_ = MDCIconButtonToggleFoundation;
