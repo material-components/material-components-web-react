@@ -68,6 +68,12 @@ test('has correct dense class', () => {
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--dense'));
 });
 
+test('has correct prominent dense class', () => {
+  const wrapper = shallow(<TopAppBar prominent dense />);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--dense'));
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--prominent'));
+});
+
 test('navigationIcon is rendered with navigation icon class', () => {
   const wrapper = mount(
     <TopAppBar
