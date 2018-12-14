@@ -24,31 +24,29 @@ import * as classnames from 'classnames';
 // @ts-ignore
 import {MDCFloatingLabelFoundation} from '@material/floating-label';
 
-
-export interface FloatingLabelProps {
+export interface FloatingLabelBaseProps {
   className?: string,
   handleWidthChange?: (width: number) => void,
   float?: boolean,
 };
 
-type Props<T> = FloatingLabelProps & React.LabelHTMLAttributes<T>;
+export type FloatingLabelProps = FloatingLabelBaseProps & React.LabelHTMLAttributes<HTMLLabelElement>;
 
 type FloatingLabelState = {
   classList: Set<String>,
 };
 
 export default class FloatingLabel extends React.Component<
-  Props<HTMLLabelElement>,
+  FloatingLabelProps,
   FloatingLabelState
   > {
   foundation_?: MDCFloatingLabelFoundation;
   labelElement: React.RefObject<HTMLLabelElement> = React.createRef();
 
-  static defaultProps: Partial<Props<HTMLLabelElement>> = {
+  static defaultProps: FloatingLabelProps = {
     className: '',
     float: false,
   };
-
 
   state = {
     classList: new Set(),
@@ -66,7 +64,7 @@ export default class FloatingLabel extends React.Component<
     this.foundation_.destroy();
   }
 
-  componentDidUpdate(prevProps: Props<HTMLLabelElement>) {
+  componentDidUpdate(prevProps: FloatingLabelProps) {
     if (this.props.children !== prevProps.children) {
       this.handleWidthChange();
     }
