@@ -24,9 +24,9 @@ import * as React from 'react';
 import classnames from 'classnames';
 
 export interface IconToggleProps {
-  className?: string,
-  isOn?: boolean
-};
+  className?: string;
+  isOn?: boolean;
+}
 
 const IconToggle: React.FunctionComponent<IconToggleProps> = ({
   isOn = false, className = '', children = '', // eslint-disable-line react/prop-types
