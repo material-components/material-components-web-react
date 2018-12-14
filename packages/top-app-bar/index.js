@@ -47,6 +47,7 @@ export default class TopAppBar extends React.Component {
     const {classList} = this.state;
     const {
       className,
+      dense,
       fixed,
       prominent,
       short,
@@ -58,6 +59,7 @@ export default class TopAppBar extends React.Component {
       'mdc-top-app-bar--short': shortCollapsed || short,
       'mdc-top-app-bar--short-collapsed': shortCollapsed,
       'mdc-top-app-bar--prominent': prominent,
+      'mdc-top-app-bar--dense': dense,
     });
   }
 
@@ -222,6 +224,7 @@ export default class TopAppBar extends React.Component {
 TopAppBar.propTypes = {
   actionItems: PropTypes.arrayOf(PropTypes.element),
   className: PropTypes.string,
+  dense: PropTypes.bool,
   fixed: PropTypes.bool,
   navigationIcon: PropTypes.element,
   prominent: PropTypes.bool,
@@ -236,6 +239,7 @@ TopAppBar.propTypes = {
 TopAppBar.defaultProps = {
   actionItems: null,
   className: '',
+  dense: false,
   fixed: false,
   navigationIcon: null,
   prominent: false,

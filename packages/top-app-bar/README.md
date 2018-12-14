@@ -62,8 +62,9 @@ short | Boolean | Enables short variant.
 shortCollapsed | Boolean | Enables short collapsed variant.
 prominent | Boolean | Enables prominent variant.
 fixed | Boolean | Enables fixed variant.
+dense | Boolean | Enables dense variant.
 
-> NOTE: As per design guidelines, prominent variant should not be used with short or short collapsed.
+> NOTE: As per design guidelines, prominent and dense variants should not be used with short or short collapsed.
 
 
 ## Icons
