@@ -71,8 +71,7 @@ export default class TopAppBar extends React.Component {
 
   componentDidUpdate(prevProps) {
     const foundationChanged = ['short', 'shortCollapsed', 'fixed']
-      .filter((variant) => this.props[variant] !== prevProps[variant] )
-      .length;
+      .some((variant) => this.props[variant] !== prevProps[variant] );
 
     if (foundationChanged) {
       this.initializeFoundation();
