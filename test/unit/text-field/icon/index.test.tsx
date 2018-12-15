@@ -12,7 +12,7 @@ suite('Text Field Icon');
 test('classNames adds classes', () => {
   const wrapper = shallow(
     <Icon>
-      <i className="test-class-name" />
+      <i className='test-class-name' />
     </Icon>
   );
   assert.isTrue(wrapper.hasClass('test-class-name'));
@@ -40,7 +40,7 @@ test('initializes with tabIndex', () => {
 test('initializes with role', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <i role="button" />
+      <i role='button' />
     </Icon>
   );
   assert.equal(wrapper.state().role, 'button'); '';
@@ -136,7 +136,7 @@ test('#adapter.getAttr for tabIndex', () => {
 test('#adapter.getAttr for role', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <i role="button" />
+      <i role='button' />
     </Icon>
   );
   const role = wrapper.instance().foundation_.adapter_.getAttr('role');
@@ -156,7 +156,7 @@ test('#adapter.setAttr for tabIndex', () => {
 test('#adapter.removeAttr for role', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <i role="button" />
+      <i role='button' />
     </Icon>
   );
   wrapper.instance().foundation_.adapter_.removeAttr('role');
@@ -166,7 +166,7 @@ test('#adapter.removeAttr for role', () => {
 test('#adapter.getAttr for tabIndex works with Custom Component', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <MaterialIcon icon="favorite" tabIndex="0" />
+      <MaterialIcon icon='favorite' tabIndex='0' />
     </Icon>
   );
   const tabIndex = wrapper.instance().foundation_.adapter_.getAttr('tabindex');
@@ -176,7 +176,7 @@ test('#adapter.getAttr for tabIndex works with Custom Component', () => {
 test('#adapter.getAttr for role works with Custom Component', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <MaterialIcon icon="favorite" role="button" />
+      <MaterialIcon icon='favorite' role='button' />
     </Icon>
   );
   const role = wrapper.instance().foundation_.adapter_.getAttr('role');
@@ -186,7 +186,7 @@ test('#adapter.getAttr for role works with Custom Component', () => {
 test('#adapter.setAttr for tabIndex works with Custom Component', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <MaterialIcon icon="favorite" tabIndex="0" />
+      <MaterialIcon icon='favorite' tabIndex='0' />
     </Icon>
   );
   wrapper.instance().foundation_.adapter_.setAttr('tabindex', '-1');
@@ -196,7 +196,7 @@ test('#adapter.setAttr for tabIndex works with Custom Component', () => {
 test('#adapter.removeAttr for role works with Custom Component', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <MaterialIcon icon="favorite" role="button" />
+      <MaterialIcon icon='favorite' role='button' />
     </Icon>
   );
   wrapper.instance().foundation_.adapter_.removeAttr('role');
@@ -206,7 +206,7 @@ test('#adapter.removeAttr for role works with Custom Component', () => {
 test('updating the role reflects on DOM node', () => {
   const wrapper = shallow(
     <Icon>
-      <i role="button" />
+      <i role='button' />
     </Icon>
   );
   wrapper.setState({role: 'label'});

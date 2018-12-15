@@ -27,7 +27,8 @@
       ],
       "rules": {
         "typescript/no-unused-vars": "warn",
-        "quotes": ["error", "single"]
+        "quotes": ["error", "single"],
+        "jsx-quotes": ["error", "prefer-single"]
       },
       "files": ["**/*.+(tsx|ts)"]
     }, {

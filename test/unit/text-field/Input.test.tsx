@@ -22,7 +22,7 @@ const buildFoundation = (overrides = {}) => ({
 });
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Input className="test-class-name" />);
+  const wrapper = shallow(<Input className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-text-field__input'));
 });
@@ -33,31 +33,31 @@ test('default inputType is "input"', () => {
 });
 
 test('inputType is "textarea"', () => {
-  const wrapper = shallow(<Input inputType="textarea" />);
+  const wrapper = shallow(<Input inputType='textarea' />);
   assert.equal(wrapper.type(), 'textarea');
 });
 
 test('#isBadInput returns false if input is ok', () => {
-  const wrapper = mount<Input<HTMLInputElement>>(<Input value="meow" />);
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value='meow' />);
   const isBadInput = wrapper.instance().isBadInput();
   assert.isFalse(isBadInput);
 });
 
 test('#isValid returns true if input is valid', () => {
-  const wrapper = mount<Input<HTMLInputElement>>(<Input value="m" pattern="[a-z]" />);
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value='m' pattern='[a-z]' />);
   const isValidInput = wrapper.instance().isValid();
   assert.isTrue(isValidInput);
 });
 
 test('#isValid returns false if input is invalid', () => {
-  const wrapper = mount<Input<HTMLInputElement>>(<Input value="meow" pattern="[a-z]" />);
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value='meow' pattern='[a-z]' />);
   const isValidInput = wrapper.instance().isValid();
   assert.isFalse(isValidInput);
 });
 
 test('#isValid returns true if prop.isValid is set to true', () => {
   const wrapper = mount<Input<HTMLInputElement>>(
-    <Input foundation={buildFoundation()} value="m" pattern="[a-z]" isValid />
+    <Input foundation={buildFoundation()} value='m' pattern='[a-z]' isValid />
   );
   const isValidInput = wrapper.instance().isValid();
   assert.isTrue(isValidInput);
@@ -67,8 +67,8 @@ test('#isValid returns false if prop.isValid is set to false', () => {
   const wrapper = mount<Input<HTMLInputElement>>(
     <Input
       foundation={buildFoundation()}
-      value="m"
-      pattern="[a-z]"
+      value='m'
+      pattern='[a-z]'
       isValid={false}
     />
   );
@@ -80,8 +80,8 @@ test('#isValid returns false if prop.isValid is set to false and input is invali
   const wrapper = mount<Input<HTMLInputElement>>(
     <Input
       foundation={buildFoundation()}
-      value="meow"
-      pattern="[a-z]"
+      value='meow'
+      pattern='[a-z]'
       isValid={false}
     />
   );
@@ -93,8 +93,8 @@ test('#isValid returns true if prop.isValid is set to true and input is invalid'
   const wrapper = mount<Input<HTMLInputElement>>(
     <Input
       foundation={buildFoundation()}
-      value="meow"
-      pattern="[a-z]"
+      value='meow'
+      pattern='[a-z]'
       isValid
     />
   );
@@ -105,7 +105,7 @@ test('#isValid returns true if prop.isValid is set to true and input is invalid'
 test('#componentDidMount should call props.setInputId if props.id exists', () => {
   const setInputId = td.func();
   const props: any = {setInputId};
-  shallow<Input<HTMLInputElement>>(<Input {...props} id="best-id" />);
+  shallow<Input<HTMLInputElement>>(<Input {...props} id='best-id' />);
   td.verify(setInputId('best-id'), {times: 1});
 });
 
@@ -121,7 +121,7 @@ test('#componentDidMount does not error if props.disabled is true and no setDisa
 });
 
 test('#componentDidMount does not throw errow if props.id is passed', () => {
-  shallow(<Input id="123-best-id" />);
+  shallow(<Input id='123-best-id' />);
 });
 
 test('#componentDidMount should not call any method if disabled and id do not exist', () => {
@@ -211,7 +211,7 @@ test(
 test('#componentDidUpdate calls setInputId if id updates', () => {
   const setInputId = td.func();
   const props: any = {setInputId};
-  const wrapper = shallow(<Input {...props} id="best-id" />);
+  const wrapper = shallow(<Input {...props} id='best-id' />);
   wrapper.setProps({id: 'better-id'});
   td.verify(setInputId('better-id'), {times: 1});
 });
@@ -243,7 +243,7 @@ test('#componentDidUpdate calls handleValueChange when the foundation initialize
   const setValue = td.func();
   const handleValueChange = td.func();
   const props: any = {handleValueChange};
-  const wrapper = shallow(<Input value="test value" {...props} />);
+  const wrapper = shallow(<Input value='test value' {...props} />);
   wrapper.setProps({foundation: buildFoundation({setValue})});
   td.verify(handleValueChange('test value', td.matchers.isA(Function)), {
     times: 1,
@@ -253,7 +253,7 @@ test('#componentDidUpdate calls handleValueChange when the foundation initialize
 test('#componentDidUpdate calls setUseNativeValidation when isValid changes to undefined', () => {
   const foundation: any = buildFoundation({setUseNativeValidation: td.func()});
   const wrapper = shallow(
-    <Input isValid={false} value="test value" foundation={foundation} />
+    <Input isValid={false} value='test value' foundation={foundation} />
   );
   wrapper.setProps({isValid: undefined});
   td.verify(foundation.setUseNativeValidation(false), {times: 1});
@@ -261,7 +261,7 @@ test('#componentDidUpdate calls setUseNativeValidation when isValid changes to u
 
 test('#componentDidUpdate calls setUseNativeValidation when isValid changes', () => {
   const foundation: any = buildFoundation({setUseNativeValidation: td.func()});
-  const wrapper = shallow(<Input value="test value" foundation={foundation} />);
+  const wrapper = shallow(<Input value='test value' foundation={foundation} />);
   wrapper.setProps({isValid: true});
   td.verify(foundation.setUseNativeValidation(false), {times: 1});
 });
@@ -269,7 +269,7 @@ test('#componentDidUpdate calls setUseNativeValidation when isValid changes', ()
 test('#componentDidUpdate calls setValid when isValid changes', () => {
   const foundation: any = buildFoundation({setValid: td.func()});
   const wrapper = shallow(
-    <Input isValid={false} value="test value" foundation={foundation} />
+    <Input isValid={false} value='test value' foundation={foundation} />
   );
   wrapper.setProps({isValid: true});
   td.verify(foundation.setValid(false), {times: 1});
@@ -290,7 +290,7 @@ test('foundation.setValue() is called if this.props.value updates', () => {
     = (value, cb) => value && cb();
   const wrapper = shallow(
     <Input
-      value="test value"
+      value='test value'
       foundation={foundation}
       handleValueChange={handleValueChange}
     />

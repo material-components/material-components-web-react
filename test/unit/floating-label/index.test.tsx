@@ -10,7 +10,7 @@ suite('Floating Label');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(
-    <FloatingLabel className="test-class-name">Test</FloatingLabel>
+    <FloatingLabel className='test-class-name'>Test</FloatingLabel>
   );
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-floating-label'));
