@@ -8,7 +8,7 @@ suite('ListItemGraphic');
 
 test('className adds classes', () => {
   const wrapper = shallow(
-    <ListItemGraphic graphic={<i />} className="test-class-name" />
+    <ListItemGraphic graphic={<i />} className='test-class-name' />
   );
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });

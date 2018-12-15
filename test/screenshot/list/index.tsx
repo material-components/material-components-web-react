@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './index.scss';
 import '../../../packages/list/index.scss';
+// TODO: https://github.com/material-components/material-components-web-react/issues/513
 // @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
 import List, {
@@ -12,26 +13,25 @@ import List, {
   ListGroup,
   ListGroupSubheader,
 } from '../../../packages/list/index';
-import {ListItemProps} from '../../../packages/list/ListItem'; // eslint-disable-line no-unused-vars
 import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line no-unused-vars
 
-import * as uuidv1 from 'uuid/v1';
+import * as uuidv4 from 'uuid/v4';
 
 type SelectionListTestState = {
   selectedIndex: number,
   listItems: string[]
 };
 
-const ListItemBase: (p: Partial<ListItemTextProps>) => React.ReactElement<ListItemProps<HTMLDivElement>> = ({
-  primaryText, secondaryText, // eslint-disable-line react/prop-types
-}) => {
+function renderListItem(options: ListItemTextProps) {
+  const {primaryText, secondaryText} = options;
+  const key = uuidv4();
   return (
-    <ListItem key={uuidv1()}>
-      <ListItemGraphic graphic={<MaterialIcon icon="folder" />} />
+    <ListItem key={key}>
+      <ListItemGraphic graphic={<MaterialIcon icon='folder' />} />
       <ListItemText primaryText={primaryText} secondaryText={secondaryText} />
       <ListItemMeta
         tabbableOnListItemFocus
-        meta={<MaterialIcon icon="info" />}
+        meta={<MaterialIcon icon='info' />}
       />
     </ListItem>
   );
@@ -54,12 +54,11 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
       <React.Fragment>
         <button onClick={this.insertListItem}>Insert new list item</button>
         <List
-          {...this.props}
           singleSelection
           selectedIndex={this.state.selectedIndex}
           handleSelect={(selectedIndex) => this.setState({selectedIndex})}
         >
-          {this.state.listItems.map((text, key) => <ListItemBase key={key} primaryText={text} />)}
+          {this.state.listItems.map((text) => renderListItem({primaryText: text}))}
         </List>
       </React.Fragment>
     );
@@ -74,26 +73,26 @@ const ListScreenshotTest = () => {
 
       <h2>Two-line List</h2>
       <List twoLine>
-        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
-        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
-        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
+        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'})}
+        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'})}
+        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'})}
         <ListDivider />
-        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
-        <ListItemBase primaryText='List item' secondaryText='Secondary text' />
+        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'})}
+        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'})}
       </List>
 
       <h2>List group</h2>
       <ListGroup>
         <ListGroupSubheader>Folders</ListGroupSubheader>
         <List>
-          <ListItemBase primaryText='Photos' />
-          <ListItemBase primaryText='Recipes' />
-          <ListItemBase primaryText='Work' />
+          {renderListItem({primaryText: 'Photos'})}
+          {renderListItem({primaryText: 'Recipes'})}
+          {renderListItem({primaryText: 'Work'})}
         </List>
         <ListGroupSubheader>Recent Files</ListGroupSubheader>
         <List>
-          <ListItemBase primaryText='Vacation itinerary' />
-          <ListItemBase primaryText='Kitchen remodel' />
+          {renderListItem({primaryText: 'Vacation itinerary'})}
+          {renderListItem({primaryText: 'Kitchen remodel'})}
         </List>
       </ListGroup>
     </div>

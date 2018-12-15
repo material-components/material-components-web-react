@@ -68,6 +68,10 @@ function isReactText(element: any): element is React.ReactText {
   return typeof element === 'string' || typeof element === 'number';
 }
 
+function isListItem(element: any): element is ListItem {
+  return element.type === ListItem;
+}
+
 export default class List<T extends HTMLElement = HTMLElement> extends React.Component<Props<T>, ListState> {
   listItemCount = 0;
   foundation_ = MDCListFoundation;
@@ -244,8 +248,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   handleClick = (e: React.MouseEvent<any>, index: number) => {
     // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
-    if (!isCheckbox(e.target)) return;
-    const toggleCheckbox = e.target.type === CHECKBOX_TYPE;
+    const toggleCheckbox = isCheckbox(e.target);
     this.foundation_.handleClick(index, toggleCheckbox);
     // Work around until MDC Web issue is resolved:
     // https://github.com/material-components/material-components-web/issues/4053
@@ -294,10 +297,10 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   }
 
   renderChild = (child: React.ReactElement<ListItemProps<T>> | React.ReactChild) => {
-    if (isReactText(child)) {
-      return child;
+    if (!isReactText(child) && isListItem(child)) {
+      return this.renderListItem(child, this.listItemCount++);
     }
-    return this.renderListItem(child, this.listItemCount++);
+    return child;
   };
 
   renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {

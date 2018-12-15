@@ -69,7 +69,7 @@ test('calls foundation.setSelectedIndex when props.selectedIndex changes', () =>
 });
 
 test('calls foundation.setVerticalOrientation when \'aria-orientation\' changes from vertical to horizontal', () => {
-  const wrapper = mount<List>(<List aria-orientation="vertical">{children()}</List>);
+  const wrapper = mount<List>(<List aria-orientation='vertical'>{children()}</List>);
   wrapper.instance().foundation_.setVerticalOrientation = td.func();
   wrapper.setProps({'aria-orientation': 'horizontal'});
   td.verify(wrapper.instance().foundation_.setVerticalOrientation(false), {
@@ -78,7 +78,7 @@ test('calls foundation.setVerticalOrientation when \'aria-orientation\' changes 
 });
 
 test('calls foundation.setVerticalOrientation when \'aria-orientation\' changes from horizontal to vertical', () => {
-  const wrapper = mount<List>(<List aria-orientation="horizontal">{children()}</List>);
+  const wrapper = mount<List>(<List aria-orientation='horizontal'>{children()}</List>);
   wrapper.instance().foundation_.setVerticalOrientation = td.func();
   wrapper.setProps({'aria-orientation': 'vertical'});
   td.verify(wrapper.instance().foundation_.setVerticalOrientation(true), {
@@ -87,7 +87,7 @@ test('calls foundation.setVerticalOrientation when \'aria-orientation\' changes 
 });
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<List className="test-class-name">{children()}</List>);
+  const wrapper = shallow(<List className='test-class-name'>{children()}</List>);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -123,9 +123,9 @@ test('#adapter.getListItemCount returns number of list items', () => {
 test('#adapter.getListItemCount returns correct number of list items if List has a non-item child', () => {
   const wrapper = mount<List>(
     <List>
-      <ListItem id="item1"><div>meow</div></ListItem>
-      <ListItem id="item2"><div>meow</div></ListItem>
-      <ListItem id="item3"><div>meow</div></ListItem>
+      <ListItem id='item1'><div>meow</div></ListItem>
+      <ListItem id='item2'><div>meow</div></ListItem>
+      <ListItem id='item3'><div>meow</div></ListItem>
     </List>
   );
   assert.equal(wrapper.instance().adapter.getListItemCount(), 3);
@@ -398,6 +398,6 @@ test('renders a list with default tag', () => {
 });
 
 test('renders a list with a nav tag', () => {
-  const wrapper = shallow(<List tag="nav">{children()}</List>);
+  const wrapper = shallow(<List tag='nav'>{children()}</List>);
   assert.equal(wrapper.type(), 'nav');
 });

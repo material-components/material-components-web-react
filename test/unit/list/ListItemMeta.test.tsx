@@ -8,20 +8,20 @@ suite('ListItemMeta');
 
 test('className adds classes if meta is a string', () => {
   const wrapper = shallow(
-    <ListItemMeta meta="info" className="test-class-name" />
+    <ListItemMeta meta='info' className='test-class-name' />
   );
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
 test('className adds classes if meta is an element', () => {
   const wrapper = shallow(
-    <ListItemMeta meta={<button />} className="test-class-name" />
+    <ListItemMeta meta={<button />} className='test-class-name' />
   );
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
 test('has mdc-list-item__meta class if meta is a string', () => {
-  const wrapper = shallow(<ListItemMeta meta="info" />);
+  const wrapper = shallow(<ListItemMeta meta='info' />);
   assert.isTrue(wrapper.hasClass('mdc-list-item__meta'));
 });
 
@@ -31,7 +31,7 @@ test('has mdc-list-item__meta class if meta is an element', () => {
 });
 
 test('renders span element if meta is a string', () => {
-  const wrapper = shallow(<ListItemMeta meta="info" />);
+  const wrapper = shallow(<ListItemMeta meta='info' />);
   assert.equal(wrapper.find('.mdc-list-item__meta').type(), 'span');
 });
 

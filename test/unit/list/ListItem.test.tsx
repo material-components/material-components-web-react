@@ -7,7 +7,7 @@ import {ListItem} from '../../../packages/list/index';
 suite('ListItem');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<ListItem className="test-class-name"><div>meow</div></ListItem>);
+  const wrapper = shallow(<ListItem className='test-class-name'><div>meow</div></ListItem>);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -62,7 +62,7 @@ test('#followHref simulates a click on the listItemElement_ if it has href', () 
 test('passes props.childrenTabIndex to children as props.tabIndex', () => {
   const wrapper = mount(
     <ListItem childrenTabIndex={2}>
-      <div className="list-item-child" />
+      <div className='list-item-child' />
     </ListItem>
   );
   assert.equal(wrapper.find('.list-item-child').props().tabIndex, 2);
@@ -74,6 +74,6 @@ test('renders a list item with default tag', () => {
 });
 
 test('renders a list item with an anchor tag', () => {
-  const wrapper = shallow(<ListItem tag="a"><div>Test</div></ListItem>);
+  const wrapper = shallow(<ListItem tag='a'><div>Test</div></ListItem>);
   assert.equal(wrapper.type(), 'a');
 });

@@ -7,7 +7,7 @@ import {ListGroup} from '../../../packages/list/index.tsx';
 suite('ListGroup');
 
 test('className adds classes', () => {
-  const wrapper = shallow(<ListGroup className="test-class-name" />);
+  const wrapper = shallow(<ListGroup className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -19,13 +19,13 @@ test('has mdc-list-group class', () => {
 test('renders children', () => {
   const wrapper = shallow(
     <ListGroup>
-      <div className="child-list" />
+      <div className='child-list' />
     </ListGroup>
   );
   assert.exists(wrapper.find('.child-list'));
 });
 
 test('renders with given tag', () => {
-  const wrapper = shallow(<ListGroup tag="span" />);
+  const wrapper = shallow(<ListGroup tag='span' />);
   assert.exists(wrapper.find('span'));
 });
