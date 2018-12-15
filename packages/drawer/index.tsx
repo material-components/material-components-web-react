@@ -150,25 +150,20 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
         this.previousFocus_ = document.activeElement as HTMLElement | null;
       },
       restoreFocus: () => {
-        const hasPreviousFocus =
-          this.previousFocus_ && this.previousFocus_.focus;
-        const drawerElement =
-          this.drawerElement_ && this.drawerElement_.current;
-        if (
-          drawerElement &&
-          hasPreviousFocus &&
-          drawerElement.contains(document.activeElement)
-        ) {
-          this.previousFocus_!.focus();
+        const drawerElement = this.drawerElement_ && this.drawerElement_.current;
+        if (drawerElement &&
+          this.previousFocus_ &&
+          this.previousFocus_.focus &&
+          drawerElement.contains(document.activeElement)) {
+          this.previousFocus_.focus();
         }
       },
       focusActiveNavigationItem: () => {
         const drawerElement =
           this.drawerElement_ && this.drawerElement_.current;
         if (!drawerElement) return;
-        const activeNavItemEl = drawerElement.querySelector(
-          `.${listCssClasses.LIST_ITEM_ACTIVATED_CLASS}`
-        ) as HTMLElement | null;
+        const activeNavItemEl
+          = drawerElement.querySelector(`.${listCssClasses.LIST_ITEM_ACTIVATED_CLASS}`) as HTMLElement | null;
         if (activeNavItemEl) {
           activeNavItemEl.focus();
         }
@@ -236,7 +231,7 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
   renderScrim() {
     return (
       <div
-        className="mdc-drawer-scrim"
+        className='mdc-drawer-scrim'
         onClick={() => this.foundation_.handleScrimClick()}
       />
     );

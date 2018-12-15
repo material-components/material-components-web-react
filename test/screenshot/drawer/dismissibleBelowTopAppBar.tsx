@@ -7,7 +7,7 @@ const DismissibleDrawerScreenshotTest = () => {
       open
       isBelow
       dismissible
-      title="Dismissible Drawer Below Top App Bar"
+      title='Dismissible Drawer Below Top App Bar'
     />
   );
 };

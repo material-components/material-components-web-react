@@ -188,7 +188,7 @@ test('#adapter.focusActiveNavigationItem focuses on first list item in drawer', 
   const wrapper = mount<Drawer>(
     <Drawer modal>
       <ul>
-        <li className="mdc-list-item--activated" tabIndex={0}>
+        <li className='mdc-list-item--activated' tabIndex={0}>
           list item 1
         </li>
       </ul>

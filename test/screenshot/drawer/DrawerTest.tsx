@@ -58,17 +58,17 @@ class DrawerScreenshotTest extends React.Component<
     if (this.props.hideNavigationIcon) return; // eslint-disable-line react/prop-types
     return (
       <MaterialIcon
-        tabIndex="0"
+        tabIndex='0'
         onClick={() => this.setState({open: !this.state.open})}
         onKeyDown={() => this.setState({open: !this.state.open})}
-        icon="menu"
+        icon='menu'
       />
     );
   };
 
   renderLoremIpsum: (section: number) => JSX.Element = (section: number) => {
     return (
-      <p className="drawer-lorem-ipsum" key={section}>
+      <p className='drawer-lorem-ipsum' key={section}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         <br />
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

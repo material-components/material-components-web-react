@@ -41,7 +41,7 @@ const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> =
     <React.Fragment>
       <TopAppBar title={title} navigationIcon={renderNavigationIcon()} />
 
-      <TopAppBarFixedAdjust className="drawer-screenshot-test drawer-screenshot-test--is-below">
+      <TopAppBarFixedAdjust className='drawer-screenshot-test drawer-screenshot-test--is-below'>
         <Drawer open={open} onClose={onClose} dismissible={dismissible} modal={modal}>
           <DrawerHeader>
             <DrawerTitle>Inbox</DrawerTitle>
@@ -53,7 +53,7 @@ const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> =
           </DrawerContent>
         </Drawer>
 
-        <DrawerAppContent className="drawer-app-content">
+        <DrawerAppContent className='drawer-app-content'>
           {[0, 1, 2, 3, 4, 5].map(renderLoremIpsum)}
         </DrawerAppContent>
       </TopAppBarFixedAdjust>

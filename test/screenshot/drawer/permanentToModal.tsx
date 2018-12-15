@@ -35,9 +35,9 @@ class PermanentToModalDrawerScreenshotTest extends React.Component<
 
   render() {
     if (this.state.isPhone) {
-      return <DrawerTest open={false} modal title="Modal Drawer" />;
+      return <DrawerTest open={false} modal title='Modal Drawer' />;
     }
-    return <DrawerTest hideNavigationIcon title="Permanent Drawer" />;
+    return <DrawerTest hideNavigationIcon title='Permanent Drawer' />;
   }
 }
 
