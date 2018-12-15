@@ -94,7 +94,8 @@ const addClassesToElement = (classes: string, element: React.ReactElement<React.
   return React.cloneElement(element, propsWithClasses);
 };
 
-const renderIcon = (icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>)
-=> addClassesToElement('mdc-button__icon', icon);
+const renderIcon = (icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) => (
+  addClassesToElement('mdc-button__icon', icon)
+);
 
 export default withRipple(Button);
