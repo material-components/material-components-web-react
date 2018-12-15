@@ -8,7 +8,7 @@ import {IconButtonBase as IconButton, ButtonProps} from '../../../packages/icon-
 suite('IconButton');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<IconButton className="test-class-name" />);
+  const wrapper = shallow(<IconButton className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-icon-button'));
 });
@@ -16,7 +16,7 @@ test('classNames adds classes', () => {
 test('renders child', () => {
   const wrapper = shallow(
     <IconButton>
-      <i className="test-icon" />
+      <i className='test-icon' />
     </IconButton>
   );
   assert.equal(wrapper.find('.test-icon').length, 1);
@@ -49,7 +49,7 @@ test('props.onClick gets called onClick', () => {
 
 test('aria-pressed is set true if passed as prop and on className is passed', () => {
   const wrapper = shallow(
-    <IconButton aria-pressed className="mdc-icon-button--on" />
+    <IconButton aria-pressed className='mdc-icon-button--on' />
   );
   assert.equal(wrapper.props()['aria-pressed'], 'true');
 });

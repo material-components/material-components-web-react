@@ -42,14 +42,14 @@ export interface IconButtonBaseProps<T> {
 type IconButtonBaseState = {
   classList: Set<string>;
   [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>;
-}
+};
 
 export type AnchorProps = React.HTMLProps<HTMLAnchorElement> & IconButtonBaseProps<HTMLAnchorElement>;
 export type ButtonProps = React.HTMLProps<HTMLButtonElement> & IconButtonBaseProps<HTMLButtonElement>;
 export type IconButtonProps<T> = T extends ButtonProps ? ButtonProps : AnchorProps;
 
 class IconButtonBase<T extends {}> extends React.Component<
-  IconButtonProps<T>;
+  IconButtonProps<T>,
   IconButtonBaseState
   > {
   foundation_ = MDCIconButtonToggleFoundation;
