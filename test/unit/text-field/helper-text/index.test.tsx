@@ -9,7 +9,7 @@ suite('Text Field Helper Text');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(
-    <HelperText className="test-class-name">Helper</HelperText>
+    <HelperText className='test-class-name'>Helper</HelperText>
   );
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-text-field-helper-text'));
@@ -48,7 +48,7 @@ test('initially sets aria-hidden correctly', () => {
 });
 
 test('initially sets role correctly', () => {
-  const wrapper = shallow<HelperText>(<HelperText role="button">Helper Text</HelperText>);
+  const wrapper = shallow<HelperText>(<HelperText role='button'>Helper Text</HelperText>);
   assert.equal(wrapper.state()['role'], 'button');
 });
 
@@ -58,7 +58,7 @@ test('initially removes aria-hidden if showToScreenReader is true', () => {
 });
 
 test('sets validity to false if props.isValid is initially false', () => {
-  const wrapper = shallow<HelperText>(<HelperText role="button" isValid={false}>Helper Text</HelperText>);
+  const wrapper = shallow<HelperText>(<HelperText role='button' isValid={false}>Helper Text</HelperText>);
   assert.equal(wrapper.state().role, undefined);
 });
 test(
@@ -132,7 +132,7 @@ test('#adapter.removeClass updates state.classList', () => {
 });
 
 test('#adapter.hasClass', () => {
-  const wrapper = shallow<HelperText>(<HelperText className="test-class-name">Helper Text</HelperText>);
+  const wrapper = shallow<HelperText>(<HelperText className='test-class-name'>Helper Text</HelperText>);
   assert.isTrue(
     wrapper.instance().foundation_.adapter_.hasClass('test-class-name')
   );
@@ -157,7 +157,7 @@ test('#adapter.removeAttr sets role to null', () => {
 });
 
 test('#adapter.removeAttr sets aria-hidden to null', () => {
-  const wrapper = shallow<HelperText>(<HelperText role="button">Helper Text</HelperText>);
+  const wrapper = shallow<HelperText>(<HelperText role='button'>Helper Text</HelperText>);
   wrapper.instance().foundation_.adapter_.removeAttr('role');
   assert.equal(wrapper.state().role, null);
 });
