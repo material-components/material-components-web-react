@@ -91,10 +91,10 @@ export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
 
 const renderIcon = (icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) => (
   icon ?
-  React.cloneElement(icon, {
-    className: classnames(BUTTON_CLASS_NAME, icon.props.className),
-  }) :
-  null
+    React.cloneElement(icon, {
+      className: classnames(BUTTON_CLASS_NAME, icon.props.className),
+    }) :
+    null
 );
 
 export default withRipple(Button);

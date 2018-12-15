@@ -7,7 +7,7 @@ import {Button} from '../../../packages/button/index';
 suite('Button');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Button className="test-class-name" />);
+  const wrapper = shallow(<Button className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-button'));
 });
@@ -18,7 +18,7 @@ test('does not render icon if props.icon is null', () => {
 });
 
 test('renders an icon', () => {
-  const icon = <i className="test-icon" />;
+  const icon = <i className='test-icon' />;
   const wrapper = shallow(<Button icon={icon} />);
   assert.isTrue(wrapper.find('.test-icon').hasClass('mdc-button__icon'));
 });
@@ -49,7 +49,7 @@ test('renders a button tag', () => {
 });
 
 test('renders a button with an anchor tag', () => {
-  const wrapper = shallow(<Button href="https://www.google.com" />);
+  const wrapper = shallow(<Button href='https://www.google.com' />);
   assert.equal(wrapper.type(), 'a');
 });
 
