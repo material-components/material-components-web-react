@@ -22,10 +22,13 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
+// TODO: fix with https://github.com/material-components/material-components-web-react/issues/528
 // @ts-ignore
 import withRipple from '@material/react-ripple';
 
-export interface ButtonProps<T> {
+const BUTTON_CLASS_NAME = 'mdc-button__icon';
+
+export interface ButtonBaseProps<T> {
   raised?: boolean,
   unelevated?: boolean,
   outlined?: boolean,
@@ -38,10 +41,10 @@ export interface ButtonProps<T> {
   href?: string
 }
 
-type AnchorElementProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonProps<HTMLAnchorElement>;
-type ButtonElementProps = React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps<HTMLButtonElement>;
+export type AnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonBaseProps<HTMLAnchorElement>;
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonBaseProps<HTMLButtonElement>;
 
-export const Button = <T extends {}>(
+export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
   {
     className = '',
     raised = false,
@@ -52,28 +55,27 @@ export const Button = <T extends {}>(
     icon,
     href,
     children,
-    initRipple = () => {},
+    initRipple,
     unbounded = false, // eslint-disable-line no-unused-vars
     ...otherProps
-  }: T extends HTMLAnchorElement ? AnchorElementProps : ButtonElementProps
+  }: T extends HTMLAnchorElement ? AnchorProps : ButtonProps
 ) => {
-  const classes = classnames('mdc-button', className, {
-    'mdc-button--raised': raised,
-    'mdc-button--unelevated': unelevated,
-    'mdc-button--outlined': outlined,
-    'mdc-button--dense': dense,
-  });
-
-  const props = Object.assign({
-    className: classes,
+  const props = {
+    className: classnames('mdc-button', className, {
+      'mdc-button--raised': raised,
+      'mdc-button--unelevated': unelevated,
+      'mdc-button--outlined': outlined,
+      'mdc-button--dense': dense,
+    }),
     ref: initRipple,
     disabled,
-  }, otherProps);
+    ...otherProps,
+  };
 
   if (href) {
     return (
       <a {...props} href={href}>
-        {icon ? renderIcon(icon) : null}
+        {renderIcon(icon)}
         {children}
       </a>
     );
@@ -81,21 +83,18 @@ export const Button = <T extends {}>(
 
   return (
     <button {...props}>
-      {icon ? renderIcon(icon) : null}
+      {renderIcon(icon)}
       {children}
     </button>
   );
 };
 
-const addClassesToElement = (classes: string, element: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) => {
-  const propsWithClasses = {
-    className: classnames(classes, element.props.className),
-  };
-  return React.cloneElement(element, propsWithClasses);
-};
-
-const renderIcon = (icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) => (
-  addClassesToElement('mdc-button__icon', icon)
+const renderIcon = (icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) => (
+  icon ?
+  React.cloneElement(icon, {
+    className: classnames(BUTTON_CLASS_NAME, icon.props.className),
+  }) :
+  null
 );
 
 export default withRipple(Button);
