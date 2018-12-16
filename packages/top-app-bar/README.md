@@ -75,7 +75,7 @@ Prop Name | Type | Description
 className | String | Classes to be applied to the root element.
 dense | Boolean | Enables dense variant. 
 prominent | Boolean | Enables prominent variant.
-short | Boolean | Enables short variant.A
+short | Boolean | Enables short variant.
 tag | String | Customizes the TopAppBarFixedAdjust tag (defaults to `<main>`)
 
 > NOTE: if not dense, prominent, or short will apply `mdc-top-app-bar--fixed-adjust`
