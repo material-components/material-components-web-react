@@ -13,10 +13,7 @@ class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component {
   }
 
   shouldComponentUpdate(_, nextState) {
-    if (nextState.isPhone === this.state.isPhone) {
-      return false;
-    }
-    return true;
+    return nextState.isPhone !== this.state.isPhone;
   }
 
   componentWillUnmount() {
