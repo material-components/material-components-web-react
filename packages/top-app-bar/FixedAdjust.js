@@ -39,9 +39,9 @@ const FixedAdjust = (props) => {
   const suffix = '-fixed-adjust';
   const classes = classnames(className, {
     [base + '--short' + suffix]: short,
-    [base + '--dense' + suffix]: dense && (!prominent),
+    [base + '--dense' + suffix]: dense && !prominent,
     [base + '--dense-prominent' + suffix]: dense && prominent,
-    [base + '--prominent' + suffix]: (!dense) && prominent,
+    [base + '--prominent' + suffix]: !dense && prominent,
     [base + '-' + suffix]: !short && !dense && !prominent,
   });
 
