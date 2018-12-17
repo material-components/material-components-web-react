@@ -17,7 +17,7 @@ const TopAppBarProminentDenseScreenshotTest = () => {
         />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <MainTopAppBarContent />
+      <MainTopAppBarContent prominent dense/>
     </div>
   );
 };

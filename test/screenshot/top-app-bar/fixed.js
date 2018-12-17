@@ -15,7 +15,7 @@ const TopAppBarFixedScreenshotTest = () => {
         />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <MainTopAppBarContent />
+      <MainTopAppBarContent/>
     </div>
   );
 };
