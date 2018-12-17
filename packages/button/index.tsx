@@ -29,16 +29,16 @@ import withRipple from '@material/react-ripple';
 const BUTTON_CLASS_NAME = 'mdc-button__icon';
 
 export interface ButtonBaseProps<T> {
-  raised?: boolean,
-  unelevated?: boolean,
-  outlined?: boolean,
-  dense?: boolean,
-  disabled?: boolean,
-  unbounded?: boolean,
-  initRipple?: (surface: T) => void,
-  className?: string,
-  icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>,
-  href?: string
+  raised?: boolean;
+  unelevated?: boolean;
+  outlined?: boolean;
+  dense?: boolean;
+  disabled?: boolean;
+  unbounded?: boolean;
+  initRipple?: (surface: T) => void;
+  className?: string;
+  icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+  href?: string;
 }
 
 export type AnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonBaseProps<HTMLAnchorElement>;
