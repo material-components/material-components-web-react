@@ -8,7 +8,7 @@ import NotchedOutline from '../../../packages/notched-outline/index.tsx';
 suite('NotchedOutline');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<NotchedOutline className="test-class-name" />);
+  const wrapper = shallow(<NotchedOutline className='test-class-name' />);
   const outlineElement = wrapper.first().first();
   assert.isTrue(outlineElement.hasClass('mdc-notched-outline'));
   assert.isTrue(outlineElement.hasClass('test-class-name'));

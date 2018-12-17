@@ -8,7 +8,7 @@ import LineRipple from '../../../packages/line-ripple/index.tsx';
 suite('LineRipple');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<LineRipple className="test-class-name" />);
+  const wrapper = shallow(<LineRipple className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-line-ripple'));
 });

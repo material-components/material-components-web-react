@@ -42,7 +42,7 @@ class MyApp extends Component {
           indeterminate: e.target.indeterminate})
         }
       />
-      <label for='my-checkbox'>My Checkbox</label>
+      <label htmlFor='my-checkbox'>My Checkbox</label>
     );
   }
 }
