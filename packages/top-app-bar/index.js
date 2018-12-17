@@ -46,6 +46,7 @@ export default class TopAppBar extends React.Component {
     const {classList} = this.state;
     const {
       className,
+      dense,
       fixed,
       prominent,
       short,
@@ -57,6 +58,7 @@ export default class TopAppBar extends React.Component {
       'mdc-top-app-bar--short': shortCollapsed || short,
       'mdc-top-app-bar--short-collapsed': shortCollapsed,
       'mdc-top-app-bar--prominent': prominent,
+      'mdc-top-app-bar--dense': dense,
     });
   }
 
@@ -68,10 +70,25 @@ export default class TopAppBar extends React.Component {
     this.foundation_.destroy();
   }
 
+  componentDidUpdate(prevProps) {
+    const foundationChanged = ['short', 'shortCollapsed', 'fixed']
+      .some((variant) => this.props[variant] !== prevProps[variant] );
+
+    if (foundationChanged) {
+      this.initializeFoundation();
+    }
+  }
+
+
   initializeFoundation = () => {
-    if (this.props.short) {
+    const {short, shortCollapsed, fixed} = this.props;
+    if (this.foundation_) {
+      this.foundation_.destroy();
+    }
+
+    if (short || shortCollapsed) {
       this.foundation_ = new MDCShortTopAppBarFoundation(this.adapter);
-    } else if (this.props.fixed) {
+    } else if (fixed) {
       this.foundation_ = new MDCFixedTopAppBarFoundation(this.adapter);
     } else {
       this.foundation_ = new MDCTopAppBarFoundation(this.adapter);
@@ -79,6 +96,7 @@ export default class TopAppBar extends React.Component {
 
     this.foundation_.init();
   }
+
 
   addClassesToElement(classes, element) {
     const updatedProps = {
@@ -140,6 +158,7 @@ export default class TopAppBar extends React.Component {
       /* eslint-disable no-unused-vars */
       actionItems,
       className,
+      dense,
       fixed,
       title,
       navigationIcon,
@@ -220,6 +239,7 @@ export default class TopAppBar extends React.Component {
 TopAppBar.propTypes = {
   actionItems: PropTypes.arrayOf(PropTypes.element),
   className: PropTypes.string,
+  dense: PropTypes.bool,
   fixed: PropTypes.bool,
   navigationIcon: PropTypes.element,
   prominent: PropTypes.bool,
@@ -234,6 +254,7 @@ TopAppBar.propTypes = {
 TopAppBar.defaultProps = {
   actionItems: null,
   className: '',
+  dense: false,
   fixed: false,
   navigationIcon: null,
   prominent: false,
