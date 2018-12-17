@@ -27,30 +27,30 @@ import {MDCTextFieldFoundation} from '@material/textfield';
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 
 export interface InputProps<T> {
-  className: string,
-  inputType: 'input' | 'textarea',
-  disabled: boolean,
-  isValid?: boolean,
-  foundation?: MDCTextFieldFoundation,
-  handleValueChange: (value: string | number | string[] | undefined, cb: () => void) => void,
-  id: string,
+  className: string;
+  inputType: 'input' | 'textarea';
+  disabled: boolean;
+  isValid?: boolean;
+  foundation?: MDCTextFieldFoundation;
+  handleValueChange: (value: string | number | string[] | undefined, cb: () => void) => void;
+  id: string;
   ref?: (inputInstance: Input<T>) => void,
-  onBlur: Pick<React.HTMLProps<T>, 'onBlur'>,
-  onChange: Pick<React.HTMLProps<T>, 'onChange'>,
-  onFocus: Pick<React.HTMLProps<T>, 'onFocus'>,
-  onMouseDown: Pick<React.HTMLProps<T>, 'onMouseDown'>,
-  onTouchStart: Pick<React.HTMLProps<T>, 'onTouchStart'>,
-  setDisabled: (disabled: boolean) => void,
-  setInputId: (id: string | number) => void,
-  handleFocusChange: (isFocused: boolean) => void,
+  onBlur?: Pick<React.HTMLProps<T>, 'onBlur'>;
+  onChange?: Pick<React.HTMLProps<T>, 'onChange'>;
+  onFocus?: Pick<React.HTMLProps<T>, 'onFocus'>;
+  onMouseDown?: Pick<React.HTMLProps<T>, 'onMouseDown'>;
+  onTouchStart?: Pick<React.HTMLProps<T>, 'onTouchStart'>;
+  setDisabled: (disabled: boolean) => void;
+  setInputId: (id: string | number) => void;
+  handleFocusChange: (isFocused: boolean) => void;
 };
 
 type InputElementProps = Exclude<React.HTMLProps<HTMLInputElement>, 'ref'>;
 type TextareaElementProps = Exclude<React.HTMLProps<HTMLTextAreaElement>, 'ref'>;
 type Props<T> = InputProps<T> & (T extends HTMLInputElement ? InputElementProps : TextareaElementProps);
 
-type InputState = {
-  wasUserTriggeredChange: boolean,
+interface InputState {
+  wasUserTriggeredChange: boolean;
 };
 
 declare type ValidationAttrWhiteList =
@@ -71,11 +71,6 @@ export default class Input<T extends {}> extends React.Component<
     disabled: false,
     id: '',
     handleValueChange: () => {},
-    onBlur: () => {},
-    onChange: () => {},
-    onFocus: () => {},
-    onMouseDown: () => {},
-    onTouchStart: () => {},
     setDisabled: () => {},
     setInputId: () => {},
     handleFocusChange: () => {},
@@ -165,27 +160,27 @@ export default class Input<T extends {}> extends React.Component<
   }
 
   handleFocus = (evt: React.FocusEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
-    const {foundation, handleFocusChange, onFocus} = this.props;
+    const {foundation, handleFocusChange, onFocus = () => {}} = this.props;
     foundation.activateFocus();
     handleFocusChange(true);
     onFocus(evt);
   };
 
   handleBlur = (evt: React.FocusEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
-    const {foundation, handleFocusChange, onBlur} = this.props;
+    const {foundation, handleFocusChange, onBlur = () => {}} = this.props;
     foundation.deactivateFocus();
     handleFocusChange(false);
     onBlur(evt);
   };
 
   handleMouseDown = (evt: React.MouseEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
-    const {foundation, onMouseDown} = this.props;
+    const {foundation, onMouseDown = () => {}} = this.props;
     foundation.setTransformOrigin(evt);
     onMouseDown(evt);
   };
 
   handleTouchStart = (evt: React.TouchEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
-    const {foundation, onTouchStart} = this.props;
+    const {foundation, onTouchStart = () => {}} = this.props;
     foundation.setTransformOrigin(evt);
     onTouchStart(evt);
   };
@@ -195,7 +190,7 @@ export default class Input<T extends {}> extends React.Component<
   // is used to let other subcomponents and the foundation know what the current
   // value of the input is.
   handleChange = (evt: React.FormEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
-    const {foundation, onChange} = this.props;
+    const {foundation, onChange = () => {}} = this.props;
     // autoCompleteFocus runs on `input` event in MDC Web. In React, onChange and
     // onInput are the same event
     // https://stackoverflow.com/questions/38256332/in-react-whats-the-difference-between-onchange-and-oninput
