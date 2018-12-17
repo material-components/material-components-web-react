@@ -1,24 +1,24 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
-import td from 'testdouble';
+import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import TabBar from '../../../packages/tab-bar/index';
 
 suite('TabBar');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<TabBar className='test-class-name'/>);
+  const wrapper = shallow(<TabBar className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-tab-bar'));
 });
 
 test('has a foundation after mount', () => {
-  const wrapper = mount(<TabBar />);
+  const wrapper = mount<TabBar>(<TabBar />);
   assert.exists(wrapper.instance().foundation_);
 });
 
 test('#componentWillUnmount destroys foundation', () => {
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   const foundation = wrapper.instance().foundation_;
   foundation.destroy = td.func();
   wrapper.unmount();
@@ -27,12 +27,12 @@ test('#componentWillUnmount destroys foundation', () => {
 
 test('initially sets state.previousActiveIndex to props.activeIndex', () => {
   const activeIndex = 4;
-  const wrapper = shallow(<TabBar activeIndex={activeIndex}/>);
+  const wrapper = shallow<TabBar>(<TabBar activeIndex={activeIndex} />);
   assert.equal(wrapper.state().previousActiveIndex, activeIndex);
 });
 
 test('key down event calls foundation.handleKeyDown', () => {
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   const foundation = wrapper.instance().foundation_;
   foundation.handleKeyDown = td.func();
   const evt = {
@@ -43,34 +43,37 @@ test('key down event calls foundation.handleKeyDown', () => {
 });
 
 test('key down event calls props.onKeyDown', () => {
-  const onKeyDown = td.func();
-  const wrapper = shallow(<TabBar onKeyDown={onKeyDown} />);
+  const onKeyDown = td.func() as React.KeyboardEventHandler<HTMLDivElement>;
+  const wrapper = shallow<TabBar>(<TabBar onKeyDown={onKeyDown} />);
   const evt = {
     persist: () => {},
-  };
+  } as React.KeyboardEvent<HTMLDivElement>;
   wrapper.simulate('keyDown', evt);
   td.verify(onKeyDown(evt), {times: 1});
 });
 
 test('click on tab calls props.onClick', () => {
-  const onClick = td.func();
+  const onClick = td.func() as React.MouseEventHandler<HTMLDivElement>;
   const wrapper = shallow(
     <TabBar onClick={onClick}>
-      <div className='tab'/>
+      <div className='tab' />
     </TabBar>
   );
-  const evt = {};
+  const evt = {} as React.MouseEvent<HTMLDivElement>;
   wrapper.find('.tab').simulate('click', evt);
   td.verify(onClick(evt), {times: 1});
 });
 
 test('#adapter.getPreviousActiveTabIndex returns state.previousActiveIndex', () => {
-  const wrapper = shallow(<TabBar />);
-  assert.equal(wrapper.instance().adapter.getPreviousActiveTabIndex(), wrapper.state().previousActiveIndex);
+  const wrapper = shallow<TabBar>(<TabBar />);
+  assert.equal(
+    wrapper.instance().adapter.getPreviousActiveTabIndex(),
+    wrapper.state().previousActiveIndex
+  );
 });
 
 test('#adapter.scrollTo calls scrollTo on tab scroller', () => {
-  const wrapper = mount(<TabBar />);
+  const wrapper = mount<TabBar>(<TabBar />);
   const scroller = wrapper.instance().tabScroller_.current;
   scroller.scrollTo = td.func();
   wrapper.instance().adapter.scrollTo(100);
@@ -78,7 +81,7 @@ test('#adapter.scrollTo calls scrollTo on tab scroller', () => {
 });
 
 test('#adapter.incrementScroll calls incrementScroll on tab scroller', () => {
-  const wrapper = mount(<TabBar />);
+  const wrapper = mount<TabBar>(<TabBar />);
   const scroller = wrapper.instance().tabScroller_.current;
   scroller.incrementScroll = td.func();
   wrapper.instance().adapter.incrementScroll(100);
@@ -86,7 +89,7 @@ test('#adapter.incrementScroll calls incrementScroll on tab scroller', () => {
 });
 
 test('#adapter.getScrollPosition calls getScrollPosition on tab scroller', () => {
-  const wrapper = mount(<TabBar />);
+  const wrapper = mount<TabBar>(<TabBar />);
   const scroller = wrapper.instance().tabScroller_.current;
   scroller.getScrollPosition = td.func();
   wrapper.instance().adapter.getScrollPosition();
@@ -94,7 +97,7 @@ test('#adapter.getScrollPosition calls getScrollPosition on tab scroller', () =>
 });
 
 test('#adapter.getScrollContentWidth calls getScrollContentWidth on tab scroller', () => {
-  const wrapper = mount(<TabBar />);
+  const wrapper = mount<TabBar>(<TabBar />);
   const scroller = wrapper.instance().tabScroller_.current;
   scroller.getScrollContentWidth = td.func();
   wrapper.instance().adapter.getScrollContentWidth();
@@ -102,35 +105,40 @@ test('#adapter.getScrollContentWidth calls getScrollContentWidth on tab scroller
 });
 
 test('#adapter.getOffsetWidth returns tab bar element offsetWidth', () => {
-  const wrapper = mount(<TabBar />);
-  assert.equal(wrapper.instance().adapter.getOffsetWidth(), wrapper.instance().tabBarElement_.current.offsetWidth);
+  const wrapper = mount<TabBar>(<TabBar />);
+  assert.equal(
+    wrapper.instance().adapter.getOffsetWidth(),
+    wrapper.instance().tabBarElement_.current!.offsetWidth
+  );
 });
 
 test('#adapter.isRTL returns true if props.isRtl is true', () => {
-  const wrapper = shallow(<TabBar isRtl />);
+  const wrapper = shallow<TabBar>(<TabBar isRtl />);
   assert.isTrue(wrapper.instance().foundation_.adapter_.isRTL());
 });
 
 test('#adapter.isRTL returns false is props.isRtl is false', () => {
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   assert.isFalse(wrapper.instance().foundation_.adapter_.isRTL());
 });
 
 test('#adapter.setActiveTab calls props.handleActiveIndexUpdate', () => {
-  const handleActiveIndexUpdate = td.func();
+  const handleActiveIndexUpdate = td.func() as (n: number) => void;
   const tab0 = {};
   const tab1 = {};
-  const wrapper = shallow(<TabBar handleActiveIndexUpdate={handleActiveIndexUpdate} />);
+  const wrapper = shallow<TabBar>(
+    <TabBar handleActiveIndexUpdate={handleActiveIndexUpdate} />
+  );
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.setActiveTab(1);
   td.verify(handleActiveIndexUpdate(1));
 });
 
 test('#adapter.activateTabAtIndex calls activate on tab at index', () => {
-  const clientRect = {test: 1};
+  const clientRect = {test: 1} as unknown as ClientRect;
   const tab0 = {};
   const tab1 = {activate: td.func()};
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.activateTabAtIndex(1, clientRect);
   td.verify(tab1.activate(clientRect));
@@ -139,7 +147,7 @@ test('#adapter.activateTabAtIndex calls activate on tab at index', () => {
 test('#adapter.deactivateTabAtIndex calls deactivate on tab at index', () => {
   const tab0 = {};
   const tab1 = {deactivate: td.func()};
-  const wrapper = shallow(<TabBar activeIndex={1} />);
+  const wrapper = shallow<TabBar>(<TabBar activeIndex={1} />);
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.deactivateTabAtIndex(1);
   td.verify(tab1.deactivate());
@@ -148,7 +156,7 @@ test('#adapter.deactivateTabAtIndex calls deactivate on tab at index', () => {
 test('#adapter.focusTabAtIndex calls focus on tab at index', () => {
   const tab0 = {};
   const tab1 = {focus: td.func()};
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.focusTabAtIndex(1);
   td.verify(tab1.focus());
@@ -157,7 +165,7 @@ test('#adapter.focusTabAtIndex calls focus on tab at index', () => {
 test('#adapter.getTabIndicatorClientRectAtIndex calls computeIndicatorClientRect on tab at index', () => {
   const tab0 = {};
   const tab1 = {computeIndicatorClientRect: td.func()};
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.getTabIndicatorClientRectAtIndex(1);
   td.verify(tab1.computeIndicatorClientRect());
@@ -166,7 +174,7 @@ test('#adapter.getTabIndicatorClientRectAtIndex calls computeIndicatorClientRect
 test('#adapter.getTabDimensionsAtIndex calls computeDimensions on tab at index', () => {
   const tab0 = {};
   const tab1 = {computeDimensions: td.func()};
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.instance().adapter.getTabDimensionsAtIndex(1);
   td.verify(tab1.computeDimensions());
@@ -175,13 +183,13 @@ test('#adapter.getTabDimensionsAtIndex calls computeDimensions on tab at index',
 test('#adapter.getIndexOfTab returns index of given tab', () => {
   const tab0 = {};
   const tab1 = {};
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().tabList_ = [tab0, tab1];
   assert.equal(wrapper.instance().adapter.getIndexOfTab(tab1), 1);
 });
 
 test('#adapter.getTabListLength returns length of tab list', () => {
-  const wrapper = shallow(<TabBar />);
+  const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().tabList_ = [{}, {}, {}];
   assert.equal(wrapper.instance().adapter.getTabListLength(), 3);
 });
@@ -189,7 +197,7 @@ test('#adapter.getTabListLength returns length of tab list', () => {
 test('props.activeIndex updates to different value when not initially set calls foundation.activateTab', () => {
   const tab0 = {};
   const tab1 = {deactivate: td.func()};
-  const wrapper = shallow(<TabBar/>);
+  const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().foundation_.activateTab = td.func();
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.setProps({activeIndex: 1});
@@ -199,7 +207,7 @@ test('props.activeIndex updates to different value when not initially set calls 
 test('props.indexInView updates to different value  when not initially set calls foundation.scrollIntoView', () => {
   const tab0 = {};
   const tab1 = {deactivate: td.func()};
-  const wrapper = shallow(<TabBar/>);
+  const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().foundation_.scrollIntoView = td.func();
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.setProps({indexInView: 1});
@@ -209,7 +217,7 @@ test('props.indexInView updates to different value  when not initially set calls
 test('props.activeIndex updates to different value with a set value calls foundation.activateTab', () => {
   const tab0 = {};
   const tab1 = {deactivate: td.func()};
-  const wrapper = shallow(<TabBar activeIndex={1}/>);
+  const wrapper = shallow<TabBar>(<TabBar activeIndex={1} />);
   wrapper.instance().foundation_.activateTab = td.func();
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.setProps({activeIndex: 0});
@@ -219,7 +227,7 @@ test('props.activeIndex updates to different value with a set value calls founda
 test('props.indexInView updates to different value with a set value calls foundation.scrollIntoView', () => {
   const tab0 = {};
   const tab1 = {deactivate: td.func()};
-  const wrapper = shallow(<TabBar indexInView={1}/>);
+  const wrapper = shallow<TabBar>(<TabBar indexInView={1} />);
   wrapper.instance().foundation_.scrollIntoView = td.func();
   wrapper.instance().tabList_ = [tab0, tab1];
   wrapper.setProps({indexInView: 0});
