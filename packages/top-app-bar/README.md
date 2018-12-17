@@ -52,6 +52,8 @@ Use the `<TopAppBarFixedAdjust />` component to give your content top-padding, s
 
 ## Props
 
+### TopAppBar
+
 Prop Name | Type | Description
 --- | --- | ---
 actionItems | Array | Accepts an array of elements that should be rendered to the opposite side of the title. Note that a single action item should also be passed as an array.
@@ -62,10 +64,21 @@ short | Boolean | Enables short variant.
 shortCollapsed | Boolean | Enables short collapsed variant.
 prominent | Boolean | Enables prominent variant.
 fixed | Boolean | Enables fixed variant.
-dense | Boolean | Enables dense variant.
+dense | Boolean | Enables dense variant. 
 
-> NOTE: As per design guidelines, prominent and dense variants should not be used with short or short collapsed.
+> NOTES: As per design guidelines, prominent and dense variants should not be used with short or short collapsed. Additionally, dense variants should only be used on desktop.
 
+### TopAppBarFixedAdjust
+
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the root element.
+dense | Boolean | Enables dense variant. 
+prominent | Boolean | Enables prominent variant.
+short | Boolean | Enables short variant.
+tag | String | Customizes the TopAppBarFixedAdjust tag (defaults to `<main>`)
+
+> NOTE: if not dense, prominent, or short will apply `mdc-top-app-bar--fixed-adjust`
 
 ## Icons
 

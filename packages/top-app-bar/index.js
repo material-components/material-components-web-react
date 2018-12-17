@@ -143,6 +143,7 @@ export default class TopAppBar extends React.Component {
       /* eslint-disable no-unused-vars */
       actionItems,
       className,
+      dense,
       fixed,
       title,
       navigationIcon,
