@@ -25,3 +25,31 @@ test('renders as a different tag name when passed props.tag', () => {
   assert.equal(wrapper.find('main').length, 0);
   assert.equal(wrapper.type(), 'div');
 });
+
+test('has correct dense class', () => {
+  const wrapper = shallow(<TopAppBarFixedAdjust dense>
+    hello
+  </TopAppBarFixedAdjust>);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--dense-fixed-adjust'));
+});
+
+test('has correct dense prominent class', () => {
+  const wrapper = shallow(<TopAppBarFixedAdjust dense prominent>
+    hello
+  </TopAppBarFixedAdjust>);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--dense-prominent-fixed-adjust'));
+});
+
+test('has correct prominent class', () => {
+  const wrapper = shallow(<TopAppBarFixedAdjust prominent>
+    hello
+  </TopAppBarFixedAdjust>);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--prominent-fixed-adjust'));
+});
+
+test('has correct short class', () => {
+  const wrapper = shallow(<TopAppBarFixedAdjust short>
+    hello
+  </TopAppBarFixedAdjust>);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--short-fixed-adjust'));
+});
