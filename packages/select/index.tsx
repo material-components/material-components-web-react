@@ -19,37 +19,32 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from "react";
-import * as classnames from "classnames";
+import * as React from 'react';
+import * as classnames from 'classnames';
 // no mdc .d.ts file
 // @ts-ignore
-import { MDCSelectFoundation } from "@material/select/dist/mdc.select";
-import FloatingLabel from "@material/react-floating-label";
-import LineRipple from "@material/react-line-ripple";
-import NotchedOutline from "@material/react-notched-outline";
-import NativeControl from "./NativeControl";
-
-interface CustomOption extends React.ReactElement<HTMLOptionElement> {
-  label: string;
-}
+import {MDCSelectFoundation} from '@material/select/dist/mdc.select';
+import FloatingLabel from '@material/react-floating-label';
+import LineRipple from '@material/react-line-ripple';
+import NotchedOutline from '@material/react-notched-outline';
+import NativeControl from './NativeControl';
 
 export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
   box: boolean;
   className: string;
   disabled: boolean;
-  floatingLabelClassName: string;
+  floatingLabelClassName?: string;
   isRtl: boolean;
   label: string;
   lineRippleClassName: string;
   nativeControlClassName: string;
   notchedOutlineClassName: string;
   outlined: boolean;
-  options: (string | CustomOption)[];
-  value: Pick<React.HTMLProps<HTMLSelectElement>, 'value'>;
+  options: (string | React.HTMLProps<HTMLOptionElement>)[];
 }
 
 interface SelectState {
-  value: Pick<React.HTMLProps<HTMLSelectElement>, 'value'>;
+  value?: string | string[] | number,
   classList: Set<string>;
   disabled: boolean;
   labelIsFloated: boolean;
@@ -75,24 +70,24 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       activeLineRipple: false,
       lineRippleCenter: undefined,
       // notched outline state
-      outlineIsNotched: false
+      outlineIsNotched: false,
     };
   }
 
   static defaultProps = {
     box: false,
-    className: "",
+    className: '',
     disabled: false,
-    floatingLabelClassName: "",
+    floatingLabelClassName: '',
     isRtl: false,
-    lineRippleClassName: "",
-    nativeControlClassName: "",
-    notchedOutlineClassName: "",
+    lineRippleClassName: '',
+    nativeControlClassName: '',
+    notchedOutlineClassName: '',
     outlined: false,
     options: [],
     onChange: () => {},
   };
-  
+
   componentDidMount() {
     this.foundation_ = new MDCSelectFoundation(this.adapter);
     this.foundation_.init();
@@ -102,7 +97,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   componentDidUpdate(prevProps: SelectProps, prevState: SelectState) {
     // this is to fix onChange being called twice
     if (this.props.value !== prevProps.value) {
-      this.setState({ value: this.props.value });
+      this.setState({value: this.props.value});
     }
     if (this.state.value !== prevState.value) {
       this.foundation_.handleChange();
@@ -114,20 +109,20 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
   onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     this.props.onChange && this.props.onChange(evt);
-    const { value } = evt.target;
-    this.setState({ value });
+    const {value} = evt.target;
+    this.setState({value});
   };
-  
+
   /**
    * getters
    */
   get classes() {
-    const { classList, disabled } = this.state;
-    const { className, box, outlined } = this.props;
-    return classnames("mdc-select", Array.from(classList), className, {
-      "mdc-select--outlined": outlined,
-      "mdc-select--disabled": disabled,
-      "mdc-select--box": box
+    const {classList, disabled} = this.state;
+    const {className, box, outlined} = this.props;
+    return classnames('mdc-select', Array.from(classList), className, {
+      'mdc-select--outlined': outlined,
+      'mdc-select--disabled': disabled,
+      'mdc-select--box': box,
     });
   }
 
@@ -136,30 +131,30 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       addClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.add(className);
-        this.setState({ classList });
+        this.setState({classList});
       },
       removeClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.delete(className);
-        this.setState({ classList });
+        this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(" ").includes(className),
+      hasClass: (className: string) => this.classes.split(' ').includes(className),
       isRtl: () => this.props.isRtl,
-      getValue: () => this.state.value
+      getValue: () => this.state.value,
     };
     const labelAdapter = {
-      floatLabel: (labelIsFloated: boolean) => this.setState({ labelIsFloated }),
+      floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),
       hasLabel: () => !!this.props.label,
-      getLabelWidth: () => this.state.labelWidth
+      getLabelWidth: () => this.state.labelWidth,
     };
     const lineRippleAdapter = {
-      activateBottomLine: () => this.setState({ activeLineRipple: true }),
-      deactivateBottomLine: () => this.setState({ activeLineRipple: false })
+      activateBottomLine: () => this.setState({activeLineRipple: true}),
+      deactivateBottomLine: () => this.setState({activeLineRipple: false}),
     };
     const notchedOutlineAdapter = {
-      notchOutline: () => this.setState({ outlineIsNotched: true }),
-      closeOutline: () => this.setState({ outlineIsNotched: false }),
-      hasOutline: () => !!this.props.outlined
+      notchOutline: () => this.setState({outlineIsNotched: true}),
+      closeOutline: () => this.setState({outlineIsNotched: false}),
+      hasOutline: () => !!this.props.outlined,
     };
     return Object.assign(
       {},
@@ -170,8 +165,8 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     );
   }
 
-  setRippleCenter = (lineRippleCenter: number) => this.setState({ lineRippleCenter });
-  setDisabled = (disabled: boolean) => this.setState({ disabled });
+  setRippleCenter = (lineRippleCenter: number) => this.setState({lineRippleCenter});
+  setDisabled = (disabled: boolean) => this.setState({disabled});
 
   /**
    * render methods
@@ -218,16 +213,16 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       </NativeControl>
     );
   }
-  
+
   renderOptions() {
-    const { children, options } = this.props;
+    const {children, options} = this.props;
 
     if (options === undefined || !options.length) {
       return children;
     }
 
     return options.map((optionData, index) => {
-      if (typeof optionData === "string") {
+      if (typeof optionData === 'string') {
         return (
           <option key={index} value={optionData}>
             {optionData}
@@ -235,7 +230,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
         );
       }
 
-      const { label, ...nonLabelOptionData } = optionData;
+      const {label, ...nonLabelOptionData} = optionData;
       return (
         // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31485
         // @ts-ignore
@@ -245,24 +240,24 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       );
     });
   }
-  
+
   renderLabel() {
-    const { id, label, floatingLabelClassName } = this.props;
+    const {id, label, floatingLabelClassName} = this.props;
     return (
       <FloatingLabel
         className={floatingLabelClassName}
         float={this.state.labelIsFloated}
-        handleWidthChange={labelWidth => this.setState({ labelWidth })}
+        handleWidthChange={(labelWidth) => this.setState({labelWidth})}
         htmlFor={id}
       >
         {label}
       </FloatingLabel>
     );
   }
-  
+
   renderLineRipple() {
-    const { lineRippleClassName } = this.props;
-    const { activeLineRipple, lineRippleCenter } = this.state;
+    const {lineRippleClassName} = this.props;
+    const {activeLineRipple, lineRippleCenter} = this.state;
     return (
       <LineRipple
         rippleCenter={lineRippleCenter}
@@ -271,10 +266,10 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       />
     );
   }
-  
+
   renderNotchedOutline() {
-    const { isRtl, notchedOutlineClassName } = this.props;
-    const { outlineIsNotched, labelWidth } = this.state;
+    const {isRtl, notchedOutlineClassName} = this.props;
+    const {outlineIsNotched, labelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
