@@ -71,10 +71,25 @@ export default class TopAppBar extends React.Component {
     this.foundation_.destroy();
   }
 
+  componentDidUpdate(prevProps) {
+    const foundationChanged = ['short', 'shortCollapsed', 'fixed']
+      .some((variant) => this.props[variant] !== prevProps[variant] );
+
+    if (foundationChanged) {
+      this.initializeFoundation();
+    }
+  }
+
+
   initializeFoundation = () => {
-    if (this.props.short) {
+    const {short, shortCollapsed, fixed} = this.props;
+    if (this.foundation_) {
+      this.foundation_.destroy();
+    }
+
+    if (short || shortCollapsed) {
       this.foundation_ = new MDCShortTopAppBarFoundation(this.adapter);
-    } else if (this.props.fixed) {
+    } else if (fixed) {
       this.foundation_ = new MDCFixedTopAppBarFoundation(this.adapter);
     } else {
       this.foundation_ = new MDCTopAppBarFoundation(this.adapter);
@@ -82,6 +97,7 @@ export default class TopAppBar extends React.Component {
 
     this.foundation_.init();
   }
+
 
   addClassesToElement(classes, element) {
     const updatedProps = {
