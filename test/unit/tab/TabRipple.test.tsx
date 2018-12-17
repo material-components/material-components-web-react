@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {mount} from 'enzyme';
 import TabRipple from '../../../packages/tab/TabRipple';
@@ -11,6 +11,6 @@ test('has mdc-tab__ripple class', () => {
 });
 
 test('classNames adds classes', () => {
-  const wrapper = mount(<TabRipple className='test-class-name'/>);
+  const wrapper = mount(<TabRipple className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
