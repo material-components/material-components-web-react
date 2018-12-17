@@ -27,7 +27,7 @@ import withRipple from '@material/react-ripple';
 
 export interface ThumbUnderlayProps extends React.HTMLProps<HTMLDivElement> {
   className: string,
-  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => any,
+  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void,
   unbounded: boolean,
   rippleActivator?: React.RefObject<HTMLInputElement>
 };
