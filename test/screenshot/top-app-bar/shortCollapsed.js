@@ -10,10 +10,10 @@ const TopAppBarShortCollapsedScreenshotTest = () => {
         shortCollapsed
         navigationIcon={<MaterialIcon
           icon='menu'
-          onClick={() => console.log('click')}
+          onClick={() => console.log('shortCollapsed click')}
         />}
       />
-      <MainTopAppBarContent />
+      <MainTopAppBarContent short/>
     </div>
   );
 };
