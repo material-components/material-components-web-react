@@ -32,6 +32,7 @@
   "top-app-bar/standard": "7a2dd6318d62ac2eabd66f1b28100db7c15840ccb753660065fa9524db6435d6",
   "top-app-bar/standardNoActionItems": "6d361edb994cafcc6ac720336d12ee7d7114745993e16abd6e6b00f078424ff2",
   "top-app-bar/standardWithNavigationIconElement": "95afd559c35dede805e4d4b51ad1fabd82b4117c358a8679e3166b88e059bf68",
+  "top-app-bar/prominentToShortCollapsed": "ce23a6060af19f93ee0255e45ebe51c7243ff12c14b2c09d070501ea7806e316",
   "drawer/permanentBelowTopAppBar": "587ee2605c4b3e3f0408c6130b824b58587e05cedf9b964e14fc481b9de1e4c2",
   "drawer/dismissibleBelowTopAppBar": "a9bf24c0edd3dcc9167516ce3bdd146fd1a352c4f5b9ea76a1f9dad1ba61e0f8",
   "drawer/permanent": "6355905c2241b5e6fdddc2e25119a1cc3b062577375a88b59e6750c4b76e4561",
