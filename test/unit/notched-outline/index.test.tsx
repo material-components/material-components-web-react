@@ -48,6 +48,7 @@ test('#componentDidUpdate updating notch to true calls #foundation.notch', () =>
   wrapper.setProps({notch: true});
   td.verify(wrapper.instance().foundation_.notch(0, false), {times: 1});
 });
+
 test(
   '#componentDidUpdate updating notch to false calls ' +
     '#foundation.closeNotch',
@@ -61,6 +62,7 @@ test(
     td.verify(wrapper.instance().foundation_.closeNotch(), {times: 1});
   }
 );
+
 test(
   '#componentDidUpdate updating notchWidth calls ' +
     '#foundation.notch with correct arguments',
