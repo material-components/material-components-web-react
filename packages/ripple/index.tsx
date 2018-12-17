@@ -73,7 +73,7 @@ const withRipple = <
     Subtract<P, InjectedProps<Surface, Activator>> & RippledComponentProps<Surface>,
     RippledComponentState
     > {
-    foundation_: MDCRippleFoundation | null = null;
+    foundation_?: MDCRippleFoundation = undefined;
     isMounted_: boolean = true;
 
     displayName = `WithRipple(${getDisplayName<P>(WrappedComponent)})`;
@@ -268,7 +268,6 @@ const withRipple = <
 
     render() {
       const {
-        /* start black list of otherprops */
         /* eslint-disable */
         unbounded,
         style,
@@ -282,7 +281,6 @@ const withRipple = <
         onFocus,
         onBlur,
         /* eslint-enable */
-        /* end black list of otherprops */
         ...otherProps
       } = this.props as P;
 
