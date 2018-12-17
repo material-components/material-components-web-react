@@ -13,7 +13,7 @@ const TopAppBarStandardNoActionItemsScreenshotTest = () => {
           onClick={() => console.log('click')}
         />}
       />
-      <MainTopAppBarContent />
+      <MainTopAppBarContent/>
     </div>
   );
 };
