@@ -148,8 +148,8 @@ test('#adapter.setAttr for tabIndex', () => {
       <i tabIndex={0} />
     </Icon>
   );
-  wrapper.instance().foundation_.adapter_.setAttr('tabindex', '-1');
-  assert.equal(wrapper.state().tabindex, '-1');
+  wrapper.instance().foundation_.adapter_.setAttr('tabindex', -1);
+  assert.equal(wrapper.state().tabindex, -1);
 });
 
 test('#adapter.removeAttr for role', () => {

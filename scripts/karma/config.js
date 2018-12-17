@@ -30,6 +30,9 @@ module.exports = {
 
   webpack: {
     devtool: 'source-map',
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    },
     module: {
       rules: [
         {
