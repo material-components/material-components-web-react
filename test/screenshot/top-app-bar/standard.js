@@ -10,11 +10,11 @@ const TopAppBarStandardScreenshotTest = () => {
         title='Miami, FL'
         navigationIcon={<MaterialIcon
           icon='menu'
-          onClick={() => console.log('click')}
+          onClick={() => console.log('standard click')}
         />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <MainTopAppBarContent />
+      <MainTopAppBarContent/>
     </div>
   );
 };
