@@ -35,10 +35,11 @@ const TopAppBarStandardWithNavigationIconElementScreenshotTest = () => {
     <div className='top-app-bar-container'>
       <TopAppBar
         title='Miami, FL'
+        dense={false}
         navigationIcon={<NavigationIconWithRipple unbounded />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <MainTopAppBarContent />
+      <MainTopAppBarContent/>
     </div>
   );
 };
