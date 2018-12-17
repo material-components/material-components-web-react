@@ -18,17 +18,17 @@ const imageUrl = './../images/1-1.jpg';
 // TODO: swap mdc-button for @material/button
 const BasicCard = () => {
   return (
-    <Card className="basic-card">
+    <Card className='basic-card'>
       <CardPrimaryContent>
-        <CardMedia className="basic-card-image" imageUrl={imageUrl} />
+        <CardMedia className='basic-card-image' imageUrl={imageUrl} />
       </CardPrimaryContent>
       <CardActions>
         <CardActionButtons>
-          <button className="mdc-button">Leave Comment</button>
+          <button className='mdc-button'>Leave Comment</button>
         </CardActionButtons>
         <CardActionIcons>
-          <MaterialIcon icon="thumb_up" />
-          <MaterialIcon icon="thumb_down" />
+          <MaterialIcon icon='thumb_up' />
+          <MaterialIcon icon='thumb_down' />
         </CardActionIcons>
       </CardActions>
     </Card>
@@ -37,32 +37,32 @@ const BasicCard = () => {
 
 const HorizontalCard = () => {
   return (
-    <Card className="horizontal-card">
+    <Card className='horizontal-card'>
       <CardPrimaryContent>
-        <div className="horizontal-card-content">
+        <div className='horizontal-card-content'>
           <CardMedia
             square
-            className="horizontal-card-image"
+            className='horizontal-card-image'
             imageUrl={imageUrl}
           />
-          <div className="horizontal-card-header">
-            <h2 className="mdc-typography--body1 card-title">Khalid</h2>
-            <h3 className="mdc-typography--body1 card-subtitle">Silence</h3>
-            <h3 className="mdc-typography--body1 card-subtitle">(2017)</h3>
+          <div className='horizontal-card-header'>
+            <h2 className='mdc-typography--body1 card-title'>Khalid</h2>
+            <h3 className='mdc-typography--body1 card-subtitle'>Silence</h3>
+            <h3 className='mdc-typography--body1 card-subtitle'>(2017)</h3>
           </div>
         </div>
       </CardPrimaryContent>
-      <hr className="mdc-list-divider" />
+      <hr className='mdc-list-divider' />
       <CardActions fullBleed>
         <CardActionButtons>
-          <button className="mdc-button">Rate this album</button>
+          <button className='mdc-button'>Rate this album</button>
         </CardActionButtons>
         <CardActionIcons>
-          <MaterialIcon className="horizontal-card-icon" icon="star_border" />
-          <MaterialIcon className="horizontal-card-icon" icon="star_border" />
-          <MaterialIcon className="horizontal-card-icon" icon="star_border" />
-          <MaterialIcon className="horizontal-card-icon" icon="star_border" />
-          <MaterialIcon className="horizontal-card-icon" icon="star_border" />
+          <MaterialIcon className='horizontal-card-icon' icon='star_border' />
+          <MaterialIcon className='horizontal-card-icon' icon='star_border' />
+          <MaterialIcon className='horizontal-card-icon' icon='star_border' />
+          <MaterialIcon className='horizontal-card-icon' icon='star_border' />
+          <MaterialIcon className='horizontal-card-icon' icon='star_border' />
         </CardActionIcons>
       </CardActions>
     </Card>
@@ -86,16 +86,16 @@ const newsContent = [
 
 const NewsCard = () => {
   return (
-    <Card className="news-card" outlined>
+    <Card className='news-card' outlined>
       {newsContent.map((content, index) => (
         <NewsRow {...content} key={index} index={index} />
       ))}
-      <hr className="mdc-list-divider" />
+      <hr className='mdc-list-divider' />
       <CardActions fullBleed>
-        <CardActionButtons className="news-buttons">
-          <button className="mdc-button">
+        <CardActionButtons className='news-buttons'>
+          <button className='mdc-button'>
             All business headlines
-            <MaterialIcon icon="arrow_forward" />
+            <MaterialIcon icon='arrow_forward' />
           </button>
         </CardActionButtons>
       </CardActions>
@@ -108,10 +108,10 @@ const NewsRow: React.FunctionComponent<{title: string, snippet: string, index: n
 }) => {
   return (
     <React.Fragment>
-      <hr key={`title-${index}`} className="mdc-list-divider" />
-      <div key={`snippet-${index}`} className="news-row">
-        <h2 className="mdc-typography--body1 card-title">{title}</h2>
-        <p className="mdc-typography--body1 card-subtitle">{snippet}</p>
+      <hr key={`title-${index}`} className='mdc-list-divider' />
+      <div key={`snippet-${index}`} className='news-row'>
+        <h2 className='mdc-typography--body1 card-title'>{title}</h2>
+        <p className='mdc-typography--body1 card-subtitle'>{snippet}</p>
       </div>
     </React.Fragment>
   );
@@ -119,24 +119,24 @@ const NewsRow: React.FunctionComponent<{title: string, snippet: string, index: n
 
 const ContentOnMediaCard = () => {
   return (
-    <Card className="content-on-media-card">
+    <Card className='content-on-media-card'>
       <CardPrimaryContent>
         <CardMedia
           square
-          contentClassName="content-on-media-content"
-          className="content-on-media-card-image"
+          contentClassName='content-on-media-content'
+          className='content-on-media-card-image'
           imageUrl={imageUrl}
         >
-          <div className="content-on-media-content__text mdc-typography--subtitle1">
+          <div className='content-on-media-content__text mdc-typography--subtitle1'>
             Vacation Images
           </div>
         </CardMedia>
       </CardPrimaryContent>
       <CardActions>
         <CardActionIcons>
-          <MaterialIcon icon="favorite_border" />
-          <MaterialIcon icon="bookmark_border" />
-          <MaterialIcon icon="share" />
+          <MaterialIcon icon='favorite_border' />
+          <MaterialIcon icon='bookmark_border' />
+          <MaterialIcon icon='share' />
         </CardActionIcons>
       </CardActions>
     </Card>
