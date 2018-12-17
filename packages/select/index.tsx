@@ -45,6 +45,7 @@ export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
   notchedOutlineClassName: string;
   outlined: boolean;
   options: (string | CustomOption)[];
+  value: Pick<React.HTMLProps<HTMLSelectElement>, 'value'>;
 }
 
 interface SelectState {
