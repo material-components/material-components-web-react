@@ -1,9 +1,9 @@
 import React from 'react';
 import {TopAppBarFixedAdjust} from '../../../packages/top-app-bar';
 
-const MainTopAppBarContent = () => {
+const MainTopAppBarContent = (props) => {
   return (
-    <TopAppBarFixedAdjust>
+    <TopAppBarFixedAdjust {...props}>
       <h1>
         {'Look at me I\'m a header'}
       </h1>
