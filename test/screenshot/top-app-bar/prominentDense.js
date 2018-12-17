@@ -1,23 +1,25 @@
 import React from 'react';
 import TopAppBar from '../../../packages/top-app-bar';
+
 import MaterialIcon from '../../../packages/material-icon';
 import MainTopAppBarContent from './mainContent';
 
-const TopAppBarFixedScreenshotTest = () => {
+const TopAppBarProminentDenseScreenshotTest = () => {
   return (
     <div className='top-app-bar-container'>
       <TopAppBar
-        fixed
+        prominent
+        dense
         title='Miami, FL'
         navigationIcon={<MaterialIcon
           icon='menu'
-          onClick={() => console.log('fixed click')}
+          onClick={() => console.log('prominent dense click')}
         />}
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <MainTopAppBarContent/>
+      <MainTopAppBarContent prominent dense/>
     </div>
   );
 };
 
-export default TopAppBarFixedScreenshotTest;
+export default TopAppBarProminentDenseScreenshotTest;
