@@ -23,36 +23,34 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore
 import {MDCTextFieldIconFoundation} from '@material/textfield';
-import {HTMLAttributes} from 'enzyme';
 
-export interface IconProps {
-  disabled: boolean,
-  children: React.ReactElement<HTMLOrSVGElement>
+export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
+  disabled: boolean;
+  children: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
 };
 
-interface IconState extends HTMLAttributes {
-  tabindex: number | string,
-  role: string,
-};
-
-type Props = IconProps & React.HTMLProps<HTMLElement>;
+interface IconState {
+  tabindex?: number;
+  role?: string;
+}
 
 export default class Icon extends React.Component<
-  Props,
+  IconProps,
   IconState
   > {
   foundation_: MDCTextFieldIconFoundation;
 
-  static defaultProps = {
+  static defaultProps: Partial<IconProps> = {
     disabled: false,
   };
 
-  constructor(props: Props) {
+  constructor(props: IconProps) {
     super(props);
     const {
       tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
       role,
     } = props.children.props;
+
     this.state = {
       tabindex,
       role,
@@ -67,7 +65,7 @@ export default class Icon extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: IconProps) {
     if (this.props.disabled !== prevProps.disabled) {
       this.foundation_.setDisabled(this.props.disabled);
     }
@@ -81,13 +79,14 @@ export default class Icon extends React.Component<
     return {
       // need toString() call when tabindex === 0.
       // @types/react requires tabIndex is number
-      getAttr: (attr: keyof HTMLAttributes) => {
+      getAttr: (attr: keyof IconState) => {
         const attr_ = this.state[attr];
         if (attr_ || (typeof attr_ === 'number' && !isNaN(attr_))) {
           return attr_.toString();
         }
+        return '';
       },
-      setAttr: (attr: keyof IconState, value: string) => (
+      setAttr: (attr: keyof IconState, value: string | number) => (
         this.setState((prevState) => ({...prevState, [attr]: value}))
       ),
       removeAttr: (attr: keyof IconState) => (
