@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no mdc .d.ts
 // @ts-ignore
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
 
@@ -44,14 +45,14 @@ export default class NotchedOutline extends React.Component<
   pathElement_: React.RefObject<SVGPathElement> = React.createRef();
   idleElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
-  static defaultProps = {
+  static defaultProps: Partial<NotchedOutlineProps> = {
     className: '',
     isRtl: false,
     notch: false,
     notchWidth: 0,
   };
 
-  state = {
+  state: NotchedOutlineState = {
     classList: new Set(),
   };
 
