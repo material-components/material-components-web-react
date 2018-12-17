@@ -1,6 +1,8 @@
 export default [
   'fixed',
+  'dense',
   'prominent',
+  'prominentDense',
   'short',
   'shortCollapsed',
   'standard',
