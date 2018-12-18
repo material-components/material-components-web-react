@@ -54,6 +54,11 @@ module.exports = {
         },
       ],
     },
+    plugins: [
+      new webpack.SourceMapDevToolPlugin({
+        test: /\.(tsx|js)($|\?)/i,
+      }),
+    ],
     node: {
       fs: 'empty',
     },
