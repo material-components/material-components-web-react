@@ -21,27 +21,27 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no .d.ts file
 // @ts-ignore
 import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
+// TODO: fix with #528
 // @ts-ignore
 import withRipple from '@material/react-ripple';
 import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
 
-export interface RadioBaseProps {
-  label: string,
-  initRipple: (surface: HTMLDivElement, rippleActivatorRef: HTMLInputElement) => void,
-  className: string,
-  wrapperClasses: string,
-  unbounded: boolean,
-  children: React.ReactElement<NativeControlProps>,
+export interface RadioProps extends React.HTMLProps<HTMLDivElement> {
+  label: string;
+  initRipple: (surface: HTMLDivElement, rippleActivatorRef: HTMLInputElement) => void;
+  className: string;
+  wrapperClasses: string;
+  unbounded: boolean;
+  children: React.ReactElement<NativeControlProps>;
 };
 
-export type RadioProps = RadioBaseProps & React.HTMLProps<HTMLDivElement>;
-
-type RadioState = {
-  nativeControlId: string,
-  classList: Set<string>,
-  disabled: boolean
+interface RadioState {
+  nativeControlId: string;
+  classList: Set<string>;
+  disabled: boolean;
 };
 
 class Radio extends React.Component<RadioProps, RadioState> {
@@ -49,7 +49,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
   radioElement_: React.RefObject<HTMLDivElement> = React.createRef();
   rippleActivatorRef: React.RefObject<HTMLInputElement> = React.createRef();
 
-  state = {
+  state: RadioState = {
     classList: new Set(),
     disabled: false,
     nativeControlId: '',
@@ -60,13 +60,12 @@ class Radio extends React.Component<RadioProps, RadioState> {
     this.foundation_ = new MDCRadioFoundation(this.adapter);
   }
 
-  static defaultProps = {
+  static defaultProps: Partial<RadioProps> = {
     label: '',
     initRipple: () => {},
     className: '',
     wrapperClasses: '',
     unbounded: true,
-    children: null,
   };
 
   componentDidMount() {
@@ -143,9 +142,9 @@ class Radio extends React.Component<RadioProps, RadioState> {
       <div className={classnames('mdc-form-field', wrapperClasses)}>
         <div className={this.classes} ref={this.radioElement_} {...otherProps}>
           {this.renderNativeControl()}
-          <div className="mdc-radio__background">
-            <div className="mdc-radio__outer-circle" />
-            <div className="mdc-radio__inner-circle" />
+          <div className='mdc-radio__background'>
+            <div className='mdc-radio__outer-circle' />
+            <div className='mdc-radio__inner-circle' />
           </div>
         </div>
         {label ? <label htmlFor={nativeControlId}>{label}</label> : null}

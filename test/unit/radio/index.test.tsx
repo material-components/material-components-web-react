@@ -2,14 +2,13 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow, ReactWrapper} from 'enzyme';
-// @ts-ignore
-import {Radio, NativeRadioControl, RadioProps} from '../../../packages/radio/index.tsx';
+import {Radio, NativeRadioControl, RadioProps} from '../../../packages/radio/index';
 
 const NativeControlUpdate: React.FunctionComponent<React.HTMLProps<HTMLInputElement>> = ({
   disabled, id, // eslint-disable-line react/prop-types
 }) => {
   return (
-    <Radio label="meow">
+    <Radio label='meow'>
       <NativeRadioControl disabled={disabled} id={id} />
     </Radio>
   );
@@ -28,7 +27,7 @@ test('renders wrapper mdc-form-field element', () => {
 
 test('classNames adds classes', () => {
   const wrapper = shallow(
-    <Radio className="test-class-name">
+    <Radio className='test-class-name'>
       <NativeRadioControl />
     </Radio>
   );
@@ -37,7 +36,7 @@ test('classNames adds classes', () => {
 
 test('classNames has mdc-radio class', () => {
   const wrapper = shallow(
-    <Radio className="test-class-name">
+    <Radio className='test-class-name'>
       <NativeRadioControl />
     </Radio>
   );
@@ -56,7 +55,7 @@ test('classNames adds classes from state.classList', () => {
 
 test('renders label if props.label is provided', () => {
   const wrapper = shallow(
-    <Radio label="meow">
+    <Radio label='meow'>
       <NativeRadioControl />
     </Radio>
   );
@@ -96,8 +95,8 @@ test('calls foundation.setDisabled if child.props.disabled is true', () => {
 
 test('sets state.nativeControlId if child has props.id', () => {
   const wrapper = shallow<Radio>(
-    <Radio className="test-class-name">
-      <NativeRadioControl id="123" />
+    <Radio className='test-class-name'>
+      <NativeRadioControl id='123' />
     </Radio>
   );
   assert.equal(wrapper.state().nativeControlId, '123');
@@ -124,8 +123,8 @@ test('calls props.initRipple', () => {
 
 test('renders label with for attribute tied to native control id', () => {
   const wrapper = shallow<Radio>(
-    <Radio label="meow">
-      <NativeRadioControl id="123" />
+    <Radio label='meow'>
+      <NativeRadioControl id='123' />
     </Radio>
   );
   assert.equal(wrapper.childAt(1).props().htmlFor, '123');
@@ -227,8 +226,8 @@ test('renders nativeControl with updated disabled prop', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Radio>(
-    <Radio label="meow">
-      <NativeRadioControl id="123" />
+    <Radio label='meow'>
+      <NativeRadioControl id='123' />
     </Radio>
   );
   const foundation = wrapper.instance().foundation_;

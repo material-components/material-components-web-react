@@ -61,13 +61,13 @@ const RadioScreenshotTest = () => {
   return (
     <div>
       <h3>Pet Radio Buttons</h3>
-      <PetsRadio name="pets" />
+      <PetsRadio name='pets' />
 
       <h3>Preselected Radio Buttons</h3>
-      <PetsRadio name="pets-preselect" petValue='cats' />
+      <PetsRadio name='pets-preselect' petValue='cats' />
 
       <h3>Disabled Radio Buttons</h3>
-      <PetsRadio name="pets-disabled" disabled />
+      <PetsRadio name='pets-disabled' disabled />
     </div>
   );
 };

@@ -22,19 +22,17 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-interface Props {
+export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
   className?: string,
   rippleActivatorRef?: React.RefObject<HTMLInputElement>
 };
-
-export type NativeControlProps = Props & React.HTMLProps<HTMLInputElement>;
 
 const NativeControl: React.FunctionComponent<NativeControlProps> = ({
   rippleActivatorRef, className = '', ...otherProps // eslint-disable-line react/prop-types
 }) => {
   return (
     <input
-      type="radio"
+      type='radio'
       className={classnames('mdc-radio__native-control', className)}
       ref={rippleActivatorRef}
       {...otherProps}
