@@ -21,9 +21,9 @@ test('adds text to children', () => {
   assert.equal(wrapper.text(), 'Test');
 });
 
-test('creates labelElement', () => {
+test('creates labelElement_', () => {
   const wrapper = mount<FloatingLabel>(<FloatingLabel />);
-  assert.exists(wrapper.instance().labelElement.current);
+  assert.exists(wrapper.instance().labelElement_.current);
 });
 
 test('#initializeFoundation creates foundation', () => {
@@ -36,7 +36,7 @@ test('initializing with float to true floats the label', () => {
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));
 });
 
-test('calls handleWidthChange with the offhandleWidthChange of the labelElement', () => {
+test('calls handleWidthChange with the offhandleWidthChange of the labelElement_', () => {
   const handleWidthChange = td.func() as (width: number) => void;
   const div = document.createElement('div');
   // needs to be attached to real DOM to get width
