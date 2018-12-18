@@ -20,18 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from "react";
-import classnames from "classnames";
+import * as React from 'react';
+import classnames from 'classnames';
 import {
   MDCFadingTabIndicatorFoundation,
-  MDCSlidingTabIndicatorFoundation
+  MDCSlidingTabIndicatorFoundation,
 // No mdc .d.ts files
 // @ts-ignore
-} from "@material/tab-indicator/dist/mdc.tabIndicator";
+} from '@material/tab-indicator/dist/mdc.tabIndicator';
 
-function isCSSPropReadOnly(prop: any): prop is Readonly<CSSStyleDeclaration> {
-  return true;
-}
 export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
   active?: boolean;
   className?: string;
@@ -46,7 +43,7 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
 
   static defaultProps: Partial<TabIndicatorProps> = {
     active: false,
-    className: "",
+    className: '',
     fade: false,
     icon: false,
   };
@@ -62,11 +59,11 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
       this.foundation_.activate();
     }
   }
-  
+
   componentWillUnmount() {
     this.foundation_.destroy();
   }
-  
+
   componentDidUpdate(prevProps: TabIndicatorProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
@@ -76,22 +73,22 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
       }
     }
   }
-  
+
   get classes() {
-    const { className, fade } = this.props;
-    return classnames("mdc-tab-indicator", className, {
-      "mdc-tab-indicator--fade": fade
+    const {className, fade} = this.props;
+    return classnames('mdc-tab-indicator', className, {
+      'mdc-tab-indicator--fade': fade,
     });
   }
-  
+
   get contentClasses() {
-    const { icon } = this.props;
-    return classnames("mdc-tab-indicator__content", {
-      "mdc-tab-indicator__content--icon": icon,
-      "mdc-tab-indicator__content--underline": !icon
+    const {icon} = this.props;
+    return classnames('mdc-tab-indicator__content', {
+      'mdc-tab-indicator__content--icon': icon,
+      'mdc-tab-indicator__content--underline': !icon,
     });
   }
-  
+
   get adapter() {
     return {
       addClass: (className: string) => {
@@ -113,23 +110,25 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
       computeContentClientRect: this.computeContentClientRect,
       // setContentStyleProperty was using setState, but due to the method's
       // async nature, its not condusive to the FLIP technique
-        setContentStyleProperty: (prop: keyof CSSStyleDeclaration, value: string) => {
+      setContentStyleProperty: (prop: keyof CSSStyleDeclaration, value: string) => {
         const contentElement = this.getNativeContentElement() as HTMLElement;
         if (!contentElement) return;
-        if (!isCSSPropReadOnly(prop)) return;
+        // length and parentRule are readonly properties of CSSStyleDeclaration that
+        // cannot be set
+        if (prop === 'length' || prop === 'parentRule') return;
+        // https://github.com/Microsoft/TypeScript/issues/11914
         contentElement.style[prop] = value;
-      }
+      },
     };
   }
 
   private getNativeContentElement = () => {
-    
     if (!this.tabIndicatorElement_.current) return;
     // need to use getElementsByClassName since tabIndicator could be
     // a non-semantic element (span, i, etc.). This is a problem since refs to a non semantic elements
     // return the instance of the component.
     return this.tabIndicatorElement_.current.getElementsByClassName(
-      "mdc-tab-indicator__content"
+      'mdc-tab-indicator__content'
     )[0];
   };
 
@@ -161,11 +160,11 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
       </span>
     );
   }
-  
+
   addContentClassesToChildren = () => {
     const child = React.Children.only(this.props.children);
     const className = classnames(child.props.className, this.contentClasses);
-    const props = Object.assign({}, child.props, { className });
+    const props = Object.assign({}, child.props, {className});
     return React.cloneElement(child, props);
   };
 

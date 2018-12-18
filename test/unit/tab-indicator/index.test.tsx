@@ -1,112 +1,112 @@
-import * as React from "react";
-import { assert } from "chai";
-import * as td from "testdouble";
-import { mount, shallow } from "enzyme";
-import TabIndicator from "../../../packages/tab-indicator/index";
+import * as React from 'react';
+import {assert} from 'chai';
+import * as td from 'testdouble';
+import {mount, shallow} from 'enzyme';
+import TabIndicator from '../../../packages/tab-indicator/index';
 // TODO: fix when #513
 // @ts-ignore
-import MaterialIcon from "../../../packages/material-icon/index";
+import MaterialIcon from '../../../packages/material-icon/index';
 
-suite("TabIndicator");
+suite('TabIndicator');
 
-test("classNames adds classes", () => {
-  const wrapper = shallow(<TabIndicator className="test-class-name" />);
-  assert.isTrue(wrapper.hasClass("test-class-name"));
-  assert.isTrue(wrapper.hasClass("mdc-tab-indicator"));
+test('classNames adds classes', () => {
+  const wrapper = shallow(<TabIndicator className='test-class-name' />);
+  assert.isTrue(wrapper.hasClass('test-class-name'));
+  assert.isTrue(wrapper.hasClass('mdc-tab-indicator'));
 });
 
-test("adds the fade class if props.fade is true", () => {
+test('adds the fade class if props.fade is true', () => {
   const wrapper = shallow(<TabIndicator fade />);
-  assert.isTrue(wrapper.hasClass("mdc-tab-indicator--fade"));
+  assert.isTrue(wrapper.hasClass('mdc-tab-indicator--fade'));
 });
 
-test("adds the active class if props.active is true", () => {
+test('adds the active class if props.active is true', () => {
   // need to mount,
   // since classList is now applied by ref
   const wrapper = mount(<TabIndicator active />);
   assert.isTrue(
-    wrapper.getDOMNode().classList.contains("mdc-tab-indicator--active")
+    wrapper.getDOMNode().classList.contains('mdc-tab-indicator--active')
   );
 });
 
-test("adds the icon class to the content element if props.icon is true", () => {
+test('adds the icon class to the content element if props.icon is true', () => {
   const wrapper = shallow(<TabIndicator icon />);
   const contentElement = wrapper.children().first();
-  assert.isTrue(contentElement.hasClass("mdc-tab-indicator__content--icon"));
+  assert.isTrue(contentElement.hasClass('mdc-tab-indicator__content--icon'));
 });
 
-test("adds the underline class to the content element by default", () => {
+test('adds the underline class to the content element by default', () => {
   const wrapper = shallow(<TabIndicator />);
   const contentElement = wrapper.children().first();
   assert.isTrue(
-    contentElement.hasClass("mdc-tab-indicator__content--underline")
+    contentElement.hasClass('mdc-tab-indicator__content--underline')
   );
 });
 
-test("if props.active changes from true to false, it calls deactivate", () => {
+test('if props.active changes from true to false, it calls deactivate', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator active />);
   wrapper.instance().foundation_.deactivate = td.func();
-  wrapper.setProps({ active: false });
-  td.verify(wrapper.instance().foundation_.deactivate(), { times: 1 });
+  wrapper.setProps({active: false});
+  td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
 });
 
-test("if props.active changes from false to true, it calls activate", () => {
-  const previousIndicatorClientRect = { width: 20 } as ClientRect;
+test('if props.active changes from false to true, it calls activate', () => {
+  const previousIndicatorClientRect = {width: 20} as ClientRect;
   const wrapper = shallow<TabIndicator>(
     <TabIndicator previousIndicatorClientRect={previousIndicatorClientRect} />
   );
   wrapper.instance().foundation_.activate = td.func();
-  wrapper.setProps({ active: true });
+  wrapper.setProps({active: true});
   td.verify(
     wrapper.instance().foundation_.activate(previousIndicatorClientRect),
-    { times: 1 }
+    {times: 1}
   );
 });
 
-test("#adapter.addClass adds to dom element classList", () => {
+test('#adapter.addClass adds to dom element classList', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator />);
-  wrapper.instance().adapter.addClass("meow-class");
-  assert.isTrue(wrapper.getDOMNode().classList.contains("meow-class"));
+  wrapper.instance().adapter.addClass('meow-class');
+  assert.isTrue(wrapper.getDOMNode().classList.contains('meow-class'));
 });
 
-test("#adapter.removeClass removes from dom element classList", () => {
+test('#adapter.removeClass removes from dom element classList', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator />);
-  wrapper.getDOMNode().classList.add("meow-class");
-  wrapper.instance().adapter.removeClass("meow-class");
-  assert.isFalse(wrapper.getDOMNode().classList.contains("meow-class"));
+  wrapper.getDOMNode().classList.add('meow-class');
+  wrapper.instance().adapter.removeClass('meow-class');
+  assert.isFalse(wrapper.getDOMNode().classList.contains('meow-class'));
 });
 
-test("#adapter.setContentStyleProperty sets the style property on the contentElement", () => {
+test('#adapter.setContentStyleProperty sets the style property on the contentElement', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator />);
-  const transform = "translateX(10px)";
-  wrapper.instance().adapter.setContentStyleProperty("transform", transform);
+  const transform = 'translateX(10px)';
+  wrapper.instance().adapter.setContentStyleProperty('transform', transform);
   const contentElement = wrapper
-    .find(".mdc-tab-indicator__content")
+    .find('.mdc-tab-indicator__content')
     .getDOMNode() as HTMLElement;
   assert.equal(contentElement.style.transform, transform);
 });
 
-test("#adapter.computeContentClientRect calls getBoundingClientRect on the contentElement", () => {
+test('#adapter.computeContentClientRect calls getBoundingClientRect on the contentElement', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator />);
   const contentElement = wrapper
-    .find(".mdc-tab-indicator__content")
+    .find('.mdc-tab-indicator__content')
     .getDOMNode();
   contentElement.getBoundingClientRect = td.func() as () => ClientRect;
   wrapper.instance().adapter.computeContentClientRect();
-  td.verify(contentElement.getBoundingClientRect(), { times: 1 });
+  td.verify(contentElement.getBoundingClientRect(), {times: 1});
 });
 
-test("#computeContentClientRect calls getBoundingClientRect on the contentElement", () => {
+test('#computeContentClientRect calls getBoundingClientRect on the contentElement', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator />);
   const contentElement = wrapper
-    .find(".mdc-tab-indicator__content")
+    .find('.mdc-tab-indicator__content')
     .getDOMNode();
   contentElement.getBoundingClientRect = td.func() as () => ClientRect;
   wrapper.instance().computeContentClientRect();
-  td.verify(contentElement.getBoundingClientRect(), { times: 1 });
+  td.verify(contentElement.getBoundingClientRect(), {times: 1});
 });
 
-test("child element should be rendered", () => {
+test('child element should be rendered', () => {
   const wrapper = shallow(
     <TabIndicator>
       <i>meow</i>
@@ -117,47 +117,47 @@ test("child element should be rendered", () => {
       .children()
       .first()
       .type(),
-    "i"
+    'i'
   );
   assert.equal(
     wrapper
       .children()
       .first()
       .text(),
-    "meow"
+    'meow'
   );
 });
 
-test("child element should include props.className and contentClasses", () => {
+test('child element should include props.className and contentClasses', () => {
   const wrapper = shallow(
     <TabIndicator>
-      <i className="test-class-name">meow</i>
+      <i className='test-class-name'>meow</i>
     </TabIndicator>
   );
   assert.isTrue(
     wrapper
       .children()
       .first()
-      .hasClass("test-class-name")
+      .hasClass('test-class-name')
   );
   assert.isTrue(
     wrapper
       .children()
       .first()
-      .hasClass("mdc-tab-indicator__content")
+      .hasClass('mdc-tab-indicator__content')
   );
   assert.isTrue(
     wrapper
       .children()
       .first()
-      .hasClass("mdc-tab-indicator__content--underline")
+      .hasClass('mdc-tab-indicator__content--underline')
   );
 });
 
-test("child custom element should render correctly", () => {
+test('child custom element should render correctly', () => {
   const wrapper = shallow(
     <TabIndicator>
-      <MaterialIcon icon="favorite" />
+      <MaterialIcon icon='favorite' />
     </TabIndicator>
   );
   assert.equal(
@@ -169,30 +169,30 @@ test("child custom element should render correctly", () => {
   );
 });
 
-test("child custom element should have content classes", () => {
+test('child custom element should have content classes', () => {
   const wrapper = shallow(
     <TabIndicator icon>
-      <MaterialIcon icon="favorite" />
+      <MaterialIcon icon='favorite' />
     </TabIndicator>
   );
   assert.isTrue(
     wrapper
       .children()
       .first()
-      .hasClass("mdc-tab-indicator__content")
+      .hasClass('mdc-tab-indicator__content')
   );
   assert.isTrue(
     wrapper
       .children()
       .first()
-      .hasClass("mdc-tab-indicator__content--icon")
+      .hasClass('mdc-tab-indicator__content--icon')
   );
 });
 
-test("#componentWillUnmount destroys foundation", () => {
+test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TabIndicator>(<TabIndicator />);
   const foundation = wrapper.instance().foundation_;
   foundation.destroy = td.func();
   wrapper.unmount();
-  td.verify(foundation.destroy(), { times: 1 });
+  td.verify(foundation.destroy(), {times: 1});
 });
