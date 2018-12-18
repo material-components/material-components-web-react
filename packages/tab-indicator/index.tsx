@@ -28,7 +28,6 @@ import {
 // No mdc .d.ts files
 // @ts-ignore
 } from "@material/tab-indicator/dist/mdc.tabIndicator";
-import { StyleTagOptions } from "puppeteer";
 
 export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
   active?: boolean;
@@ -40,7 +39,7 @@ export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
 
 export default class TabIndicator extends React.Component<TabIndicatorProps, {}> {
   tabIndicatorElement_: React.RefObject<HTMLSpanElement> = React.createRef();
-  foundation_: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation | null = null;
+  foundation_?: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
 
   static defaultProps: Partial<TabIndicatorProps> = {
     active: false,
@@ -114,7 +113,7 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
       setContentStyleProperty: (prop: string, value: string) => {
         const contentElement = this.getNativeContentElement() as HTMLElement;
         if (!contentElement) return;
-        contentElement.style[prop] = value;
+        (contentElement.style)[prop] = value;
       }
     };
   }
