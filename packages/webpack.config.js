@@ -25,7 +25,8 @@ const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {readMaterialPackages} = require('../scripts/package-json-reader');
-const {convertToImportPaths} = require('../scripts/package-name-converter');
+const {convertToImportMDCWebPaths} = require('../scripts/package-name-converter');
+const {getDirectories} = require('../scripts/directory-reader');
 const {importer} = require('./webpack.util');
 
 const isDirectory = (source) => lstatSync(source).isDirectory();
@@ -76,12 +77,23 @@ function getCommonWebpackParams(entryPath, chunk, {isCss, modules}) {
   };
 }
 
+function getReactMaterialExternals() {
+  return getDirectories('./packages').map((directory) => (
+    `react-${path.parse(directory).name}`
+  ));
+}
+
 function getMaterialExternals() {
   const externals = {};
-  const importPaths = convertToImportPaths(readMaterialPackages());
+  const importPaths = convertToImportMDCWebPaths(readMaterialPackages());
   importPaths.forEach((importPath) => {
-    externals[importPath] = importPath;
+    externals[importPath] = `${importPath}.js`;
   });
+
+  getReactMaterialExternals().forEach((path) => {
+    externals[`@material/${path}`] = `@material/${path}/dist/index.js`;
+  });
+
   return externals;
 }
 

@@ -7,7 +7,7 @@ const isDirectory = source => lstatSync(source).isDirectory();
 const getDirectories = source =>
   readdirSync(source).map(name => join(source, name)).filter(isDirectory);
 
-function read(
+function readScreenshotDirectory(
   components = [],
   path = resolve(__dirname, '../test/screenshot'),
   parentDirectory = ''
@@ -28,4 +28,4 @@ function read(
   return components;
 }
 
-module.exports = {read};
+module.exports = {read: readScreenshotDirectory, getDirectories};
