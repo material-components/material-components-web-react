@@ -33,7 +33,6 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
     super(props);
     this.state = {
       open: props.open,
-      coordinates: undefined,
     } as MenuSurfaceButtonState;
   }
 
