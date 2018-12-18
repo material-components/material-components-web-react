@@ -24,9 +24,9 @@ import * as classnames from 'classnames';
 
 type ChildType = React.ReactElement<React.HTMLProps<HTMLImageElement|HTMLOrSVGElement>>;
 
-export interface ActionIconsProps {
-  className?: string,
-  children?: ChildType | ChildType[],
+export interface ActionIconsProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  children?: ChildType | ChildType[];
 };
 
 const addIconClassToChildren = (children: ChildType | ChildType[]) => {
@@ -41,7 +41,7 @@ const addIconClassToChildren = (children: ChildType | ChildType[]) => {
   });
 };
 
-const ActionIcons: React.FunctionComponent<ActionIconsProps & React.HTMLProps<HTMLDivElement>> = ({
+const ActionIcons: React.FunctionComponent<ActionIconsProps> = ({
   className = '', children, ...otherProps // eslint-disable-line react/prop-types
 }) => {
   const classes = classnames('mdc-card__action-icons', className);

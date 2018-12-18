@@ -22,23 +22,23 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-export interface MediaProps {
-  className?: string,
-  square?: boolean,
-  wide?: boolean,
-  contentClassName?: string,
-  imageUrl?: string,
-  style?: React.CSSProperties,
+export interface MediaProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  square?: boolean;
+  wide?: boolean;
+  contentClassName?: string;
+  imageUrl?: string;
+  style?: React.CSSProperties;
 }
 
-type MediaChildren = {
-  children: React.ReactNode,
-  contentClassName: string,
+interface MediaChildren {
+  children?: React.ReactNode;
+  contentClassName?: string;
 };
 
-type StyleValues = {
-  imageUrl: string,
-  style: React.CSSProperties,
+interface StyleValues {
+  imageUrl: string;
+  style: React.CSSProperties;
 };
 
 const renderChildren: (mediaChildren: MediaChildren) => React.ReactElement<HTMLDivElement> | undefined = ({
@@ -58,7 +58,7 @@ const getStyles: (styleValues: StyleValues) => React.CSSProperties = ({imageUrl,
   );
 };
 
-const Media: React.FunctionComponent<MediaProps & React.HTMLProps<HTMLDivElement>> = ({
+const Media: React.FunctionComponent<MediaProps> = ({
   /* eslint-disable react/prop-types */
   className = '',
   contentClassName = '',

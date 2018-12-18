@@ -24,9 +24,9 @@ import * as classnames from 'classnames';
 
 type ChildType = React.ReactElement<React.HTMLProps<HTMLButtonElement|HTMLAnchorElement>>;
 
-export interface ActionButtonsProps {
-  className?: string,
-  children?: ChildType | ChildType[],
+export interface ActionButtonsProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  children?: ChildType | ChildType[];
 };
 
 const addButtonClassToChildren = (children: ChildType | ChildType[]) => {
@@ -41,7 +41,7 @@ const addButtonClassToChildren = (children: ChildType | ChildType[]) => {
   });
 };
 
-const ActionButtons: React.FunctionComponent<ActionButtonsProps & React.HTMLProps<HTMLDivElement>> = ({
+const ActionButtons: React.FunctionComponent<ActionButtonsProps> = ({
   className = '', children, ...otherProps // eslint-disable-line react/prop-types
 }) => {
   const classes = classnames('mdc-card__action-buttons', className);

@@ -22,12 +22,12 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-export interface ActionsProps {
-  className?: string,
-  fullBleed?: boolean,
+export interface ActionsProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  fullBleed?: boolean;
 };
 
-const Actions: React.SFC<ActionsProps & React.HTMLProps<HTMLDivElement>> = ({
+const Actions: React.FunctionComponent<ActionsProps> = ({
   className = '', children, fullBleed = false, ...otherProps // eslint-disable-line react/prop-types
 }) => {
   const classes = classnames('mdc-card__actions', className, {

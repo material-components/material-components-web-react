@@ -21,21 +21,16 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-// @ts-ignore
-import ActionButtons from './ActionButtons.tsx';
-// @ts-ignore
-import ActionIcons from './ActionIcons.tsx';
-// @ts-ignore
-import Actions from './Actions.tsx';
-// @ts-ignore
-import PrimaryContent from './PrimaryContent.tsx';
-// @ts-ignore
-import Media from './Media.tsx';
+import ActionButtons from './ActionButtons';
+import ActionIcons from './ActionIcons';
+import Actions from './Actions';
+import PrimaryContent from './PrimaryContent';
+import Media from './Media';
 
-export type CardProps = {
+export interface CardProps extends React.HTMLProps<HTMLDivElement> {
   className?: string,
   outlined?: boolean
-} & React.HTMLProps<HTMLDivElement>;
+}
 
 const Card: React.FunctionComponent<CardProps> = ({
   children, className = '', outlined = false, ...otherProps // eslint-disable-line react/prop-types

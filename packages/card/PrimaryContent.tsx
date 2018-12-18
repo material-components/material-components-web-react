@@ -24,13 +24,13 @@ import * as classnames from 'classnames';
 // @ts-ignore
 import withRipple from '@material/react-ripple';
 
-export interface PrimaryContentBaseProps {
-  className?: string,
-  initRipple?: (surface: HTMLDivElement) => void,
-  unbounded?: boolean
+export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>{
+  className: string;
+  initRipple?: (surface: HTMLDivElement) => void;
+  unbounded?: boolean;
 };
 
-export const PrimaryContentBase: React.SFC<PrimaryContentBaseProps & React.HTMLProps<HTMLDivElement>> = ({
+export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps> = ({
   /* eslint-disable react/prop-types */
   className = '',
   initRipple,
