@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-export declare type TwelveColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-export declare type FourColumn = 1 | 2 | 3 | 4;
-export declare type EightColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-export declare type Alignment = 'bottom' | 'middle' | 'top';
+export type TwelveColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export type FourColumn = 1 | 2 | 3 | 4;
+export type EightColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+export type Alignment = 'bottom' | 'middle' | 'top';
 
-export interface CellProps {
+export interface CellProps<T> extends React.HTMLProps<T> {
   align?: Alignment,
   className?: string,
   columns?: TwelveColumn,
@@ -17,7 +17,7 @@ export interface CellProps {
   tag?: string
 };
 
-const Cell: <T extends {} = HTMLDivElement>(props: CellProps & React.HTMLProps<T>) => React.ReactElement<any> = ({
+const Cell: <T extends {} = HTMLDivElement>(props: CellProps<T>) => React.ReactElement<any> = ({
   /* eslint-disable react/prop-types */
   align,
   children,

@@ -6,7 +6,7 @@ import {Row} from '../../../packages/layout-grid/index';
 suite('LayoutGridRow');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Row className="test-class-name">Children</Row>, {
+  const wrapper = shallow(<Row className='test-class-name'>Children</Row>, {
     disableLifecycleMethods: true,
   });
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__inner'));
@@ -15,7 +15,7 @@ test('classNames adds classes', () => {
 
 test('keeps custom props', () => {
   const wrapper = shallow(
-    <Row disabled={true} type="test-prop">
+    <Row disabled={true} type='test-prop'>
       Children
     </Row>,
     {disableLifecycleMethods: true}

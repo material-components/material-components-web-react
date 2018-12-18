@@ -1,13 +1,12 @@
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import * as React from 'react';
-// @ts-ignore
-import {Cell} from '../../../packages/layout-grid/index.tsx';
+import {Cell} from '../../../packages/layout-grid/index';
 
 suite('LayoutGridCell');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Cell className="test-class-name" />, {
+  const wrapper = shallow(<Cell className='test-class-name' />, {
     disableLifecycleMethods: true,
   });
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell'));
@@ -15,7 +14,7 @@ test('classNames adds classes', () => {
 });
 
 test('align prop adds correct className', () => {
-  const wrapper = shallow(<Cell align="bottom" />, {
+  const wrapper = shallow(<Cell align='bottom' />, {
     disableLifecycleMethods: true,
   });
   assert.isTrue(wrapper.hasClass('mdc-layout-grid__cell'));
@@ -63,7 +62,7 @@ test('tabletColumns prop adds correct className', () => {
 });
 
 test('keeps custom props', () => {
-  const wrapper = shallow(<Cell disabled={true} label="test-prop" />, {
+  const wrapper = shallow(<Cell disabled={true} label='test-prop' />, {
     disableLifecycleMethods: true,
   });
   assert.isTrue(wrapper.props().disabled);
