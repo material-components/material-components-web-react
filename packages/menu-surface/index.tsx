@@ -21,40 +21,41 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no .d.ts file
 // @ts-ignore
 import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material/menu-surface';
 
-export interface MenuSurfaceBaseProps {
-  className: string,
-  anchorElement?: HTMLElement,
-  anchorCorner: number,
+export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
+  className: string;
+  anchorElement?: HTMLElement;
+  anchorCorner: number;
   anchorMargin?: {
-    top?: number,
-    left?: number,
-    bottom?: number,
-    right?: number,
-  },
-  styles: React.CSSProperties,
+    top?: number;
+    left?: number;
+    bottom?: number;
+    right?: number;
+  };
+  styles: React.CSSProperties;
   coordinates?: {
-    x: number,
-    y: number
-  },
-  onClose: () => void,
-  onOpen: () => void,
-  onKeyDown: (event: React.KeyboardEvent) => void,
-  quickOpen: boolean,
-  open: boolean,
-  fixed: boolean
+    x: number;
+    y: number;
+  };
+  onClose: () => void;
+  onOpen: () => void;
+  onKeyDown: (event: React.KeyboardEvent) => void;
+  quickOpen: boolean;
+  open: boolean;
+  fixed: boolean;
 };
 
 export interface MenuSurfaceState {
-  transformOrigin: string,
-  maxHeight?: number,
-  styleLeft?: number,
-  styleRight?: number,
-  styleTop?: number,
-  styleBottom?: number,
-  classList: Set<string>
+  transformOrigin: string;
+  maxHeight?: number;
+  styleLeft?: number;
+  styleRight?: number;
+  styleTop?: number;
+  styleBottom?: number;
+  classList: Set<string>;
 };
 
 type Position = {
@@ -63,8 +64,6 @@ type Position = {
   bottom?: string,
   left?: string,
 };
-
-export type MenuSurfaceProps = MenuSurfaceBaseProps & React.HTMLProps<HTMLDivElement>;
 
 class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
   menuSurfaceElement_: React.RefObject<HTMLDivElement> = React.createRef();
@@ -86,7 +85,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     classList: new Set(),
   };
 
-  static defaultProps: Partial<MenuSurfaceBaseProps> = {
+  static defaultProps: Partial<MenuSurfaceProps> = {
     className: '',
     styles: {},
     anchorCorner: 0,
@@ -134,7 +133,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     }
   }
 
-  componentDidUpdate(prevProps: MenuSurfaceBaseProps) {
+  componentDidUpdate(prevProps: MenuSurfaceProps) {
     if (this.props.open !== prevProps.open) {
       this.open_();
     }
@@ -161,7 +160,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     }
   }
 
-  hoistToBody(): void {
+  private hoistToBody(): void {
     // this deviates from the mdc web version.
     // here we force the menu to hoist, and require either
     // this.props.(x,y) or this.props.anchorElement.
@@ -174,7 +173,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     this.foundation_.setIsHoisted(true);
   }
 
-  setCoordinates(): void {
+  private setCoordinates(): void {
     if (!this.props.coordinates) return;
     const {x, y} = this.props.coordinates;
     this.foundation_.setAbsolutePosition(x, y);

@@ -2,8 +2,7 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount, ReactWrapper} from 'enzyme';
-// @ts-ignore
-import MenuSurface, {Corner} from '../../../packages/menu-surface/index.tsx';
+import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
 import {MenuSurfaceProps, MenuSurfaceState} from '../../../packages/menu-surface';
 
 suite('MenuSurface');
@@ -16,7 +15,7 @@ const removeMenuFromBody = (wrapper: ReactWrapper<MenuSurfaceProps, MenuSurfaceS
 };
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<MenuSurface className="test-class-name" />);
+  const wrapper = shallow(<MenuSurface className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-menu-surface'));
 });
@@ -217,7 +216,7 @@ test('#adapter.restoreFocus restores focus to an element within the menuSurfaceE
   const wrapper = mount<MenuSurface>(
     <MenuSurface>
       <button>hello</button>
-      <a href="#">link</a>
+      <a href='#'>link</a>
     </MenuSurface>,
     options
   );

@@ -2,8 +2,8 @@ import * as React from 'react';
 import '../../../packages/menu-surface/index.scss';
 import '@material/list/mdc-list.scss';
 import './index.scss';
-// @ts-ignore
-import MenuSurface, {Corner} from '../../../packages/menu-surface/index.tsx';
+import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
+// TODO: Fix when button component is converted
 // @ts-ignore
 import Button from '../../../packages/button/index';
 
@@ -79,11 +79,11 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
           anchorElement={coordinates ? undefined : anchorElement}
           coordinates={coordinates}
         >
-          <ul className="mdc-list" role="menu">
+          <ul className='mdc-list' role='menu'>
             {['Back', 'Forward', 'Reload'].map((text, index) =>
               this.renderListItem(text, index)
             )}
-            <li className="mdc-list-divider" role="separator" />
+            <li className='mdc-list-divider' role='separator' />
             {['Help & Feedback', 'Settings'].map((text, index) =>
               this.renderListItem(text, index)
             )}
@@ -95,8 +95,8 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
 
   renderListItem(text: string, index: number) {
     return (
-      <li key={index} className="mdc-list-item" role="menuitem">
-        <span className="mdc-list-item__text">{text}</span>
+      <li key={index} className='mdc-list-item' role='menuitem'>
+        <span className='mdc-list-item__text'>{text}</span>
       </li>
     );
   }
@@ -112,7 +112,7 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
 
 const MenuSurfaceScreenshotTest = () => {
   return (
-    <div className="menu-surface-screenshot-test">
+    <div className='menu-surface-screenshot-test'>
       <MenuSurfaceButton open anchorCorner={Corner.BOTTOM_LEFT} />
       <MenuSurfaceButton contextmenu />
     </div>
