@@ -46,7 +46,6 @@ export default class TabBar extends React.Component<
     isRtl: false,
   };
 
-
   componentDidMount() {
     this.foundation_ = new MDCTabBarFoundation(this.adapter);
     this.foundation_.init();
