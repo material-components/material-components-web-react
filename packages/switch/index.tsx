@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import * as classnames from 'classnames';
 // No mdc .d.ts files
@@ -114,7 +115,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
   onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({nativeControlChecked: evt.target.checked});
     this.foundation_ && this.foundation_.handleChange(evt);
-  }
+  };
 
   render() {
     const {

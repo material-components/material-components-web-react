@@ -19,10 +19,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
-  rippleActivatorRef?: React.RefObject<HTMLInputElement>
-};
+  rippleActivatorRef?: React.RefObject<HTMLInputElement>;
+}
 
 const NativeControl: React.FunctionComponent<NativeControlProps> = ({
   rippleActivatorRef, ...otherProps // eslint-disable-line react/prop-types

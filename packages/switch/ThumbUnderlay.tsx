@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import * as classnames from 'classnames';
 
@@ -26,11 +27,11 @@ import * as classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
 export interface ThumbUnderlayProps extends React.HTMLProps<HTMLDivElement> {
-  className: string,
-  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void,
-  unbounded: boolean,
-  rippleActivator?: React.RefObject<HTMLInputElement>
-};
+  className: string;
+  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void;
+  unbounded: boolean;
+  rippleActivator?: React.RefObject<HTMLInputElement>;
+}
 
 function isHTMLInputElement(element: any): element is HTMLInputElement {
   return element !== null;
