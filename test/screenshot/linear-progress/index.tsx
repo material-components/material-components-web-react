@@ -1,11 +1,10 @@
 import * as React from 'react';
 import './index.scss';
-// @ts-ignore
-import LinearProgress from '../../../packages/linear-progress/index.tsx';
+import LinearProgress from '../../../packages/linear-progress/index';
 import '../../../packages/linear-progress/index.scss';
 
-type ClosableState = {
-  closed: boolean
+interface ClosableState {
+  closed: boolean;
 };
 
 class Closable extends React.Component<{}, ClosableState> {
@@ -23,7 +22,7 @@ class Closable extends React.Component<{}, ClosableState> {
           onClick={() =>
             this.setState((currentState) => ({closed: !currentState.closed}))
           }
-          type="button"
+          type='button'
         >
           Close
         </button>
@@ -73,47 +72,47 @@ const StaticReversedNoDots = () => {
 
 const LinearProgressScreenshot = () => {
   return (
-    <div className="linear-progress-sample__container test-animation--paused">
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Full buffer</p>
+    <div className='linear-progress-sample__container test-animation--paused'>
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>Full buffer</p>
         <FullBuffer />
       </div>
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>
           Full buffer (reversed)
         </p>
         <FullBufferReversed />
       </div>
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Static</p>
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>Static</p>
         <Static />
       </div>
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Static (reversed)</p>
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>Static (reversed)</p>
         <StaticReversed />
       </div>
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Static (no dots)</p>
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>Static (no dots)</p>
         <StaticNoDots />
       </div>
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>
           Static (reversed, no dots)
         </p>
         <StaticReversedNoDots />
       </div>
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Indeterminate</p>
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>Indeterminate</p>
         <Indeterminate />
       </div>
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>
           Indeterminate (reversed)
         </p>
         <IndeterminateReversed />
       </div>
-      <div className="linear-progress-sample__item">
-        <p className="linear-progress-sample__item__title">Closable</p>
+      <div className='linear-progress-sample__item'>
+        <p className='linear-progress-sample__item__title'>Closable</p>
         <Closable />
       </div>
     </div>

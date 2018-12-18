@@ -2,8 +2,7 @@ import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
 import * as React from 'react';
 import * as td from 'testdouble';
-// @ts-ignore
-import LinearProgress from '../../../packages/linear-progress/index.tsx';
+import LinearProgress from '../../../packages/linear-progress/index';
 
 suite('LinearProgress');
 
@@ -15,7 +14,7 @@ test('Skips rendering the buffering dots when props.bufferingDots is false', () 
 });
 
 test('renders a different tag', () => {
-  const wrapper = shallow(<LinearProgress tag="span" />, {
+  const wrapper = shallow(<LinearProgress tag='span' />, {
     disableLifecycleMethods: true,
   });
   assert.equal(wrapper.type(), 'span');
@@ -50,7 +49,7 @@ test('Adds the reversed class when props.reversed is true', () => {
 });
 
 test('Adds a custom class name', () => {
-  const wrapper = shallow(<LinearProgress className="test-class-name" />, {
+  const wrapper = shallow(<LinearProgress className='test-class-name' />, {
     disableLifecycleMethods: true,
   });
   assert.isTrue(wrapper.hasClass('test-class-name'));
@@ -58,7 +57,7 @@ test('Adds a custom class name', () => {
 
 test('Keeps custom props', () => {
   const wrapper = shallow(
-    <LinearProgress disabled={true} label="test-prop" />,
+    <LinearProgress disabled={true} label='test-prop' />,
     {disableLifecycleMethods: true}
   );
   const props = wrapper.props();

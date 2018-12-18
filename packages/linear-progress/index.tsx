@@ -1,25 +1,26 @@
-// @ts-ignore
-import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';
 import * as classnames from 'classnames';
 import * as React from 'react';
+// no .d.ts file
+// @ts-ignore
+import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';
 
-type LinearProgressProps = {
-  buffer: number,
-  bufferingDots: boolean,
-  className: string,
-  closed: boolean,
-  indeterminate: boolean,
-  progress: number,
-  reversed: boolean,
-  tag: string
+interface LinearProgressProps<T> extends React.HTMLProps<T> {
+  buffer: number;
+  bufferingDots: boolean;
+  className: string;
+  closed: boolean;
+  indeterminate: boolean;
+  progress: number;
+  reversed: boolean;
+  tag: string;
 };
 
-type LinearProgressState = {
-  classList: Set<string>
+interface LinearProgressState {
+  classList: Set<string>;
 };
 
 class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
-  LinearProgressProps & React.HTMLProps<T>,
+  LinearProgressProps<T>,
   LinearProgressState
   > {
   isMounted_ = false;
@@ -27,7 +28,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
   primaryBarElement_: React.RefObject<HTMLDivElement> = React.createRef();
   foundation_: MDCLinearProgressFoundation;
 
-  constructor(props: LinearProgressProps) {
+  constructor(props: LinearProgressProps<T>) {
     super(props);
     this.foundation_ = new MDCLinearProgressFoundation(this.adapter);
     this.state = {
@@ -59,7 +60,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps: LinearProgressProps) {
+  componentDidUpdate(prevProps: LinearProgressProps<T>) {
     const {
       buffer: prevBuffer,
       closed: prevClosed,
@@ -155,22 +156,22 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
     } = this.props;
     return (
       // @ts-ignore
-      <Tag className={this.classes} role="progressbar" {...otherProps}>
+      <Tag className={this.classes} role='progressbar' {...otherProps}>
         {bufferingDots && (
-          <div className="mdc-linear-progress__buffering-dots" />
+          <div className='mdc-linear-progress__buffering-dots' />
         )}
         <div
-          className="mdc-linear-progress__buffer"
+          className='mdc-linear-progress__buffer'
           ref={this.bufferElement_}
         />
         <div
-          className="mdc-linear-progress__bar mdc-linear-progress__primary-bar"
+          className='mdc-linear-progress__bar mdc-linear-progress__primary-bar'
           ref={this.primaryBarElement_}
         >
-          <span className="mdc-linear-progress__bar-inner" />
+          <span className='mdc-linear-progress__bar-inner' />
         </div>
-        <div className="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-          <span className="mdc-linear-progress__bar-inner" />
+        <div className='mdc-linear-progress__bar mdc-linear-progress__secondary-bar'>
+          <span className='mdc-linear-progress__bar-inner' />
         </div>
       </Tag>
     );
