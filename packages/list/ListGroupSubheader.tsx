@@ -21,12 +21,12 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-export interface ListGroupSubheaderProps {
+export interface ListGroupSubheaderProps extends React.HTMLProps<HTMLElement> {
   className?: string,
   tag?: string
 };
 
-const ListGroupSubheader:React.FunctionComponent<ListGroupSubheaderProps & React.HTMLProps<HTMLElement>> = ({
+const ListGroupSubheader:React.FunctionComponent<ListGroupSubheaderProps> = ({
   tag: Tag = 'h3', className = '', children, ...otherProps // eslint-disable-line react/prop-types
 }) => {
   return (

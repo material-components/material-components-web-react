@@ -23,12 +23,12 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 
 export interface ListItemTextProps {
-  tabbableOnListItemFocus?: boolean,
-  tabIndex?: number,
-  className?: string,
-  primaryText?: React.ReactNode,
-  secondaryText?: React.ReactNode,
-  childrenTabIndex?: number,
+  tabbableOnListItemFocus?: boolean;
+  tabIndex?: number;
+  className?: string;
+  primaryText?: React.ReactNode;
+  secondaryText?: React.ReactNode;
+  childrenTabIndex?: number;
 };
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14064

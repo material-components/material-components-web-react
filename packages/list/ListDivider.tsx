@@ -22,13 +22,13 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-export interface ListDividerProps {
+export interface ListDividerProps extends React.HTMLProps<HTMLElement>{
   className?: string,
   tag?: string,
   role?: string
 };
 
-const ListDivider: React.FunctionComponent<ListDividerProps & React.HTMLProps<HTMLElement>> = ({
+const ListDivider: React.FunctionComponent<ListDividerProps> = ({
   tag: Tag = 'li', className = 'li', role = 'separator', ...otherProps // eslint-disable-line react/prop-types
 }) => {
   return (

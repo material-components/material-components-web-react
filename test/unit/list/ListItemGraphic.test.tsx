@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-// @ts-ignore
-import {ListItemGraphic} from '../../../packages/list/index.tsx';
+import {ListItemGraphic} from '../../../packages/list/index';
 
 suite('ListItemGraphic');
 

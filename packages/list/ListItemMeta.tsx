@@ -23,11 +23,11 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 
 export interface ListItemMetaProps {
-  tabbableOnListItemFocus?: boolean,
-  className?: string,
-  tabIndex?: number,
-  meta: string | React.ReactElement<any>,
-  childrenTabIndex?: number
+  tabbableOnListItemFocus?: boolean;
+  className?: string;
+  tabIndex?: number;
+  meta: string | React.ReactElement<any>;
+  childrenTabIndex?: number;
 };
 
 const ListItemMeta:React.FunctionComponent<ListItemMetaProps> = ({

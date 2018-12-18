@@ -22,7 +22,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-export interface ListItemBaseProps {
+export interface ListItemProps<T> extends React.HTMLProps<T> {
   className: string,
   classNamesFromList: string[],
   attributesFromList: object,
@@ -31,15 +31,13 @@ export interface ListItemBaseProps {
   shouldFocus: boolean,
   shouldFollowHref: boolean,
   shouldToggleCheckbox: boolean,
-  onKeyDown: Pick<React.HTMLProps<HTMLElement>, 'onKeyDown'>,
-  onClick: Pick<React.HTMLProps<HTMLElement>, 'onClick'>,
-  onFocus: Pick<React.HTMLProps<HTMLElement>, 'onFocus'>,
-  onBlur: Pick<React.HTMLProps<HTMLElement>, 'onBlur'>,
+  onKeyDown: React.KeyboardEventHandler<T>;
+  onClick: React.MouseEventHandler<T>;
+  onFocus: React.FocusEventHandler<T>;
+  onBlur: React.FocusEventHandler<T>;
   tag: string,
   children: React.ReactNode,
 };
-
-export type ListItemProps<T> = ListItemBaseProps & React.HTMLProps<T>;
 
 function isAnchorElement(element: any): element is HTMLAnchorElement {
   return !!element.href;
@@ -55,7 +53,7 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
   > {
   listItemElement_: React.RefObject<T> = React.createRef();
 
-  static defaultProps = {
+  static defaultProps: Partial<ListItemProps<HTMLElement>> = {
     className: '',
     classNamesFromList: [],
     attributesFromList: {},
@@ -64,10 +62,10 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
     shouldFocus: false,
     shouldFollowHref: false,
     shouldToggleCheckbox: false,
-    onKeyDown: () => {},
-    onClick: () => {},
-    onFocus: () => {},
-    onBlur: () => {},
+    onKeyDown: (_: React.KeyboardEvent<HTMLElement>) => {},
+    onClick: (_: React.MouseEvent<HTMLElement>) => {},
+    onFocus: (_: React.FocusEvent<HTMLElement>) => {},
+    onBlur: (_: React.FocusEvent<HTMLElement>) => {},
     tag: 'li',
   };
 

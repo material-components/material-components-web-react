@@ -15,6 +15,8 @@ import List, {
 } from '../../../packages/list/index';
 import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line no-unused-vars
 
+// no .d.ts file
+// @ts-ignore
 import * as uuidv4 from 'uuid/v4';
 
 type SelectionListTestState = {

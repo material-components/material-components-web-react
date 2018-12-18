@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-// @ts-ignore
-import {ListGroup} from '../../../packages/list/index.tsx';
+import {ListGroup} from '../../../packages/list/index';
 
 suite('ListGroup');
 

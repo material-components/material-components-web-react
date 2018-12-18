@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no .d.ts file
 // @ts-ignore
 import {MDCListFoundation} from '@material/list/dist/mdc.list';
 import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line no-unused-vars
@@ -34,31 +35,28 @@ const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 const CHECKBOX_TYPE = 'checkbox';
 
-export interface ListProps<T> {
-  className: string,
-  nonInteractive: boolean,
-  dense: boolean,
-  avatarList: boolean,
-  twoLine: boolean,
-  singleSelection: boolean,
-  selectedIndex: number,
-  handleSelect: (selectedIndex: number) => void,
-  wrapFocus: boolean,
-  'aria-orientation': string,
-  tag: string,
-  children: ListItem<T> | ListItem<T>[] | React.ReactNode,
+export interface ListProps<T> extends React.HTMLProps<HTMLElement> {
+  className: string;
+  nonInteractive: boolean;
+  dense: boolean;
+  avatarList: boolean;
+  twoLine: boolean;
+  singleSelection: boolean;
+  selectedIndex: number;
+  handleSelect: (selectedIndex: number) => void;
+  wrapFocus: boolean;
+  tag: string;
+  children: ListItem<T> | ListItem<T>[] | React.ReactNode;
 };
 
-type ListState = {
-  focusListItemAtIndex: number,
-  followHrefAtIndex: number,
-  toggleCheckboxAtIndex: number,
-  listItemAttributes: {[N: number]: any},
-  listItemClassNames: {[N: number]: string[]},
-  listItemChildrenTabIndex: {[N: number]: number},
+interface ListState {
+  focusListItemAtIndex: number;
+  followHrefAtIndex: number;
+  toggleCheckboxAtIndex: number;
+  listItemAttributes: {[N: number]: any};
+  listItemClassNames: {[N: number]: string[]};
+  listItemChildrenTabIndex: {[N: number]: number};
 };
-
-type Props<T> = ListProps<T> & React.HTMLProps<HTMLElement>;
 
 function isCheckbox(element: any): element is HTMLInputElement {
   return element.type === CHECKBOX_TYPE;
@@ -72,7 +70,7 @@ function isListItem(element: any): element is ListItem {
   return element.type === ListItem;
 }
 
-export default class List<T extends HTMLElement = HTMLElement> extends React.Component<Props<T>, ListState> {
+export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, ListState> {
   listItemCount = 0;
   foundation_ = MDCListFoundation;
 
@@ -92,7 +90,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     listItemChildrenTabIndex: {},
   };
 
-  static defaultProps = {
+  static defaultProps: Partial<ListProps<HTMLElement>> = {
     'className': '',
     'nonInteractive': false,
     'dense': false,
@@ -124,7 +122,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     );
   }
 
-  componentDidUpdate(prevProps: Props<T>) {
+  componentDidUpdate(prevProps: ListProps<T>) {
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     if (singleSelection !== prevProps.singleSelection) {
       this.foundation_.setSingleSelection(singleSelection);

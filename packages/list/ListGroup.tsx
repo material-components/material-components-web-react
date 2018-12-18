@@ -22,12 +22,12 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 
-export interface ListGroupProps {
+export interface ListGroupProps extends React.HTMLProps<HTMLElement>{
   className?: string,
   tag?: string
 };
 
-const ListGroup:React.FunctionComponent<ListGroupProps & React.HTMLProps<HTMLElement>> = ({
+const ListGroup:React.FunctionComponent<ListGroupProps> = ({
   tag: Tag = 'div', className = '', children, ...otherProps // eslint-disable-line react/prop-types
 }) => {
   return (

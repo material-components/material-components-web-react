@@ -23,11 +23,11 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 
 export interface ListItemGraphicProps {
-  tabbableOnListItemFocus?: boolean,
-  className?: string,
-  tabIndex?: number,
-  graphic: React.ReactElement<any>,
-  childrenTabIndex?: number,
+  tabbableOnListItemFocus?: boolean;
+  className?: string;
+  tabIndex?: number;
+  graphic: React.ReactElement<any>;
+  childrenTabIndex?: number;
 };
 
 const ListItemGraphic:React.FunctionComponent<ListItemGraphicProps> = ({
