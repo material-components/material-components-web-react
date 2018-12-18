@@ -29,6 +29,9 @@ import {
 // @ts-ignore
 } from "@material/tab-indicator/dist/mdc.tabIndicator";
 
+function isCSSPropReadOnly(prop: any): prop is Readonly<CSSStyleDeclaration> {
+  return true;
+}
 export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
   active?: boolean;
   className?: string;
@@ -110,15 +113,16 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
       computeContentClientRect: this.computeContentClientRect,
       // setContentStyleProperty was using setState, but due to the method's
       // async nature, its not condusive to the FLIP technique
-      setContentStyleProperty: (prop: string, value: string) => {
+        setContentStyleProperty: (prop: keyof CSSStyleDeclaration, value: string) => {
         const contentElement = this.getNativeContentElement() as HTMLElement;
         if (!contentElement) return;
-        (contentElement.style)[prop] = value;
+        if (!isCSSPropReadOnly(prop)) return;
+        contentElement.style[prop] = value;
       }
     };
   }
 
-  getNativeContentElement = () => {
+  private getNativeContentElement = () => {
     
     if (!this.tabIndicatorElement_.current) return;
     // need to use getElementsByClassName since tabIndicator could be
