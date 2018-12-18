@@ -1,9 +1,8 @@
 import * as React from 'react';
 import './index.scss';
-// @ts-ignore
-import Checkbox from '../../../packages/checkbox/index.tsx';
+import Checkbox from '../../../packages/checkbox/index';
 
-const CheckboxScreenshotTest = () => {
+const CheckboxScreenshotTest: React.FunctionComponent = () => {
   return (
     <div>
       <Checkbox />
@@ -11,7 +10,7 @@ const CheckboxScreenshotTest = () => {
       <Checkbox indeterminate checked />
       <Checkbox checked />
       <Checkbox disabled />
-      <div dir="rtl">
+      <div dir='rtl'>
         <Checkbox />
         <Checkbox indeterminate />
         <Checkbox indeterminate checked />
@@ -19,11 +18,11 @@ const CheckboxScreenshotTest = () => {
         <Checkbox disabled />
       </div>
       <Checkbox
-        className="custom-checkbox"
-        nativeControlId="custom-checkbox-input"
+        className='custom-checkbox'
+        nativeControlId='custom-checkbox-input'
         checked
       />
-      <label htmlFor="custom-checkbox-input">Custom checkbox with label</label>
+      <label htmlFor='custom-checkbox-input'>Custom checkbox with label</label>
     </div>
   );
 };

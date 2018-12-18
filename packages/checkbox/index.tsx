@@ -23,27 +23,27 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore
 import {MDCCheckboxFoundation, MDCCheckboxAdapter} from '@material/checkbox/dist/mdc.checkbox';
+// TODO: fix with #528
 // @ts-ignore
 import withRipple from '@material/react-ripple';
-// @ts-ignore
-import NativeControl from './NativeControl.tsx';
+import NativeControl from './NativeControl';
 
 export interface CheckboxProps {
-  checked: boolean,
-  className: string,
-  disabled: boolean,
-  indeterminate: boolean,
-  nativeControlId?: string,
-  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void,
-  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void,
-  unbounded: boolean,
+  checked: boolean;
+  className: string;
+  disabled: boolean;
+  indeterminate: boolean;
+  nativeControlId?: string;
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void;
+  unbounded: boolean;
 };
 
-type CheckboxState = {
-  checked: boolean,
-  indeterminate: boolean,
-  classList: Set<string>,
-  'aria-checked': boolean,
+interface CheckboxState {
+  checked: boolean;
+  indeterminate: boolean;
+  classList: Set<string>;
+  'aria-checked': boolean;
 };
 
 export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
@@ -187,19 +187,19 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           onChange={this.onChange}
           rippleActivatorRef={this.inputElement_}
         />
-        <div className="mdc-checkbox__background">
+        <div className='mdc-checkbox__background'>
           <svg
-            className="mdc-checkbox__checkmark"
-            viewBox="0 0 24 24"
-            focusable="false"
+            className='mdc-checkbox__checkmark'
+            viewBox='0 0 24 24'
+            focusable='false'
           >
             <path
-              className="mdc-checkbox__checkmark-path"
-              fill="none"
-              d="M1.73,12.91 8.1,19.28 22.79,4.59"
+              className='mdc-checkbox__checkmark-path'
+              fill='none'
+              d='M1.73,12.91 8.1,19.28 22.79,4.59'
             />
           </svg>
-          <div className="mdc-checkbox__mixedmark" />
+          <div className='mdc-checkbox__mixedmark' />
         </div>
       </div>
     );

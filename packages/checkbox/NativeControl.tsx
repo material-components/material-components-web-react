@@ -21,15 +21,15 @@
 // THE SOFTWARE.
 import * as React from 'react';
 
-export interface NativeControlProps {
-  checked: boolean,
-  disabled: boolean,
-  id: string,
-  rippleActivatorRef: React.RefObject<HTMLInputElement>,
-  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void,
+export interface NativeControlProps extends React.HTMLProps<HTMLInputElement>{
+  checked: boolean;
+  disabled: boolean;
+  id: string;
+  rippleActivatorRef: React.RefObject<HTMLInputElement>;
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export class NativeControl extends React.Component<NativeControlProps & React.HTMLProps<HTMLInputElement>, {}> {
+export class NativeControl extends React.Component<NativeControlProps, {}> {
   static defaultProps: Partial<NativeControlProps> = {
     checked: false,
     disabled: false,
@@ -40,8 +40,8 @@ export class NativeControl extends React.Component<NativeControlProps & React.HT
     const {rippleActivatorRef, ...otherProps} = this.props;
     return (
       <input
-        type="checkbox"
-        className="mdc-checkbox__native-control"
+        type='checkbox'
+        className='mdc-checkbox__native-control'
         ref={rippleActivatorRef}
         {...otherProps}
       />

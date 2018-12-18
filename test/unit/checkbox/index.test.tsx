@@ -2,8 +2,7 @@ import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import * as td from 'testdouble';
-// @ts-ignore
-import {Checkbox} from '../../../packages/checkbox/index.tsx';
+import {Checkbox} from '../../../packages/checkbox/index';
 
 suite('Checkbox');
 
@@ -23,7 +22,7 @@ test('renders native control', () => {
 });
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Checkbox className="test-class-name" />);
+  const wrapper = shallow(<Checkbox className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -130,7 +129,7 @@ test('#adapter.removeNativeControlAttr sets aria-checked state as false', () => 
 });
 
 test('passes nativeControlId to NativeControl through props', () => {
-  const wrapper = shallow(<Checkbox nativeControlId="test-id" />);
+  const wrapper = shallow(<Checkbox nativeControlId='test-id' />);
   assert.equal(wrapper.childAt(0).props().id, 'test-id');
 });
 
