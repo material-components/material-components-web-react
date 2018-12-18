@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// https://github.com/material-components/material-components-web-react/issues/528
 // @ts-ignore
 import withRipple from '@material/react-ripple';
 
