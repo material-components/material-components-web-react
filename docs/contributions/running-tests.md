@@ -7,7 +7,7 @@ If you need help updating, please see [NVM](https://github.com/creationix/nvm#in
 
 ## Screenshot Tests
 
-Please refer to [screenshot tests](../screnshot-tests.md).
+Please refer to [screenshot tests](../screenshot-tests.md).
 
 ## Unit Tests
 

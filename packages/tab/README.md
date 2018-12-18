@@ -6,6 +6,7 @@ A React version of an [MDC Tab](https://github.com/material-components/material-
 
 ```
 npm install @material/react-tab
+npm install @material/react-tab-indicator
 ```
 
 ## Usage
