@@ -28,7 +28,7 @@ const Div: React.FunctionComponent<DivProps> = ({
 
 const DivRipple = withRipple<DivProps, HTMLDivElement>(Div);
 
-const RippleScreenshotTest = () => {
+const RippleScreenshotTest: React.FunctionComponent = () => {
   return (
     <div>
       <DivRipple>Woof</DivRipple>
@@ -39,7 +39,7 @@ const RippleScreenshotTest = () => {
 
       <br />
 
-      <DivRipple unbounded className="ripple-unbounded">
+      <DivRipple unbounded className='ripple-unbounded'>
         Unbounded
       </DivRipple>
     </div>

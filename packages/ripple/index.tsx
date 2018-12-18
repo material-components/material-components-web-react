@@ -23,7 +23,7 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 // @ts-ignore
-import {MDCRippleFoundation, util} from '@material/ripple/dist/mdc.ripple';
+import {MDCRippleFoundation, MDCRippleAdapter, util} from '@material/ripple/dist/mdc.ripple';
 
 const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
 
@@ -40,7 +40,7 @@ interface RippledComponentProps<T> {
   onKeyUp: React.KeyboardEventHandler<T>,
   onFocus: React.FocusEventHandler<T>,
   onBlur: React.FocusEventHandler<T>,
-  computeBoundingRect?: (surface: T) => {},
+  computeBoundingRect?: (surface: T) => ClientRect,
 }
 
 interface RippledComponentState {
@@ -48,6 +48,7 @@ interface RippledComponentState {
   style: React.CSSProperties,
 }
 
+// props to be injected by this HOC.
 export interface InjectedProps<S, A = Element> extends RippledComponentProps<S> {
   initRipple: (surface: S, activator?: A) => void,
 };
@@ -59,6 +60,7 @@ function isElement(element: any): element is Element {
 type ActivateEventTypes<Surface>
   = React.MouseEvent<Surface> | React.TouchEvent<Surface> | React.KeyboardEvent<Surface> | React.FocusEvent<Surface>;
 
+// This is an HOC that adds Ripple to the component passed as an argument
 const withRipple = <
   P extends InjectedProps<Surface, Activator>,
   Surface extends Element = Element,
@@ -78,12 +80,12 @@ const withRipple = <
 
     displayName = `WithRipple(${getDisplayName<P>(WrappedComponent)})`;
 
-    state = {
+    state: RippledComponentState = {
       classList: new Set(),
       style: {},
     };
 
-    static defaultProps = {
+    static defaultProps: Partial<RippledComponentProps<HTMLElement>> = {
       unbounded: false,
       disabled: false,
       style: {},
@@ -123,7 +125,7 @@ const withRipple = <
       this.foundation_.init();
     };
 
-    createAdapter_ = (surface: Surface, activator?: Activator) => {
+    createAdapter_: MDCRippleAdapter = (surface: Surface, activator?: Activator) => {
       return {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
         isUnbounded: () => this.props.unbounded,
@@ -310,7 +312,7 @@ const withRipple = <
   };
 };
 
-function getDisplayName<P extends {}>(WrappedComponent: React.ComponentType<P>) {
+function getDisplayName<P extends {}>(WrappedComponent: React.ComponentType<P>): string {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 

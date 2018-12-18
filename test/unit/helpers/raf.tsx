@@ -49,7 +49,8 @@ interface MockRaf {
   cancelAnimationFrame: (id: number) => void,
 }
 
-export function createMockRaf() {
+// creates a mock of a requestAnimationFrame. This allows tests to synchronously run.
+export function createMockRaf(): MockRaf {
   const origRaf = window.requestAnimationFrame;
   const origCancel = window.cancelAnimationFrame;
 
@@ -76,7 +77,7 @@ export function createMockRaf() {
       window.cancelAnimationFrame = origCancel;
     },
 
-    requestAnimationFrame(fn: FrameRequestCallback) {
+    requestAnimationFrame(fn: FrameRequestCallback): number {
       const frameId = ++this.lastFrameId;
       this.pendingFrames.push({id: frameId, fn});
       return frameId;
