@@ -30,7 +30,7 @@ import withRipple from '@material/react-ripple';
 
 const BUTTON_CLASS_NAME = 'mdc-button__icon';
 
-export interface ButtonBaseProps<T> {
+export interface ButtonProps<T> {
   raised?: boolean;
   unelevated?: boolean;
   outlined?: boolean;
@@ -43,8 +43,8 @@ export interface ButtonBaseProps<T> {
   href?: string;
 }
 
-export type AnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonBaseProps<HTMLAnchorElement>;
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonBaseProps<HTMLButtonElement>;
+export type AnchorAttributesAndProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonProps<HTMLAnchorElement>;
+export type ButtonAttributesAndProps = React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps<HTMLButtonElement>;
 
 export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
   {
@@ -64,7 +64,7 @@ export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
     // a warning.
     unbounded = false, // eslint-disable-line no-unused-vars
     ...otherProps
-  }: T extends HTMLAnchorElement ? AnchorProps : ButtonProps
+  }: T extends HTMLAnchorElement ? AnchorAttributesAndProps : ButtonAttributesAndProps
 ) => {
   const props = {
     className: classnames('mdc-button', className, {
