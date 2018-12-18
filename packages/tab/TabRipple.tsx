@@ -32,7 +32,7 @@ export interface TabRippleProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 export class TabRipple extends React.Component<TabRippleProps, {}> {
-  static defaultProps = {
+  static defaultProps: Partial<TabRippleProps> = {
     className: '',
     initRipple: () => {},
     unbounded: false,

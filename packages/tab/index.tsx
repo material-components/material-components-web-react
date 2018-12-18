@@ -30,22 +30,22 @@ import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
 import TabRipple, {TabRipple as TabRippleBase} from './TabRipple';
 
 export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
-  active?: boolean,
-  className?: string,
-  isFadingIndicator?: boolean,
-  indicatorContent?: React.ReactNode,
-  minWidth?: boolean,
-  isMinWidthIndicator?: boolean,
-  stacked?: boolean,
-  previousIndicatorClientRect?: ClientRect
+  active?: boolean;
+  className?: string;
+  isFadingIndicator?: boolean;
+  indicatorContent?: React.ReactNode;
+  minWidth?: boolean;
+  isMinWidthIndicator?: boolean;
+  stacked?: boolean;
+  previousIndicatorClientRect?: ClientRect;
 }
 
 interface TabState {
-  classList: Set<string>,
-  'aria-selected': boolean,
-  tabIndex: undefined,
-  activateIndicator: boolean,
-  previousIndicatorClientRect?: ClientRect
+  classList: Set<string>;
+  'aria-selected': boolean;
+  tabIndex?: number;
+  activateIndicator: boolean;
+  previousIndicatorClientRect?: ClientRect;
 }
 
 // https://github.com/material-components/material-components-web-react/issues/528
@@ -73,10 +73,9 @@ export default class Tab extends React.Component<TabProps, TabState> {
     stacked: false,
   };
 
-  state = {
+  state: TabState = {
     'classList': new Set(),
     'aria-selected': false,
-    'tabIndex': undefined,
     'activateIndicator': false,
     'previousIndicatorClientRect': this.props.previousIndicatorClientRect,
   };
