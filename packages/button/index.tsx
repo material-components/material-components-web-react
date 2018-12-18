@@ -23,6 +23,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // TODO: fix with https://github.com/material-components/material-components-web-react/issues/528
+// This is being ignored because the react ripple is not yet converted to typescript.
+// this is a temporary work around until the react ripple PR is merged into the feature branch.
 // @ts-ignore
 import withRipple from '@material/react-ripple';
 
@@ -56,6 +58,10 @@ export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
     href,
     children,
     initRipple,
+    // eslint disabled since we do not want to include
+    // this in ...otherProps.
+    // if unbounded is passed to the <button> element, it will throw
+    // a warning.
     unbounded = false, // eslint-disable-line no-unused-vars
     ...otherProps
   }: T extends HTMLAnchorElement ? AnchorProps : ButtonProps
