@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {HashRouter, Route} from 'react-router-dom';
 import App from './App';
-// @ts-ignore
-import topAppBarVariants from './top-app-bar/variants.js';
+import topAppBarVariants from './top-app-bar/variants';
 // @ts-ignore
 import drawerVariants from './drawer/variants.js';
 import textFieldVariants from './text-field/variants';
