@@ -22,6 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
+// TODO: fix with #528
 // @ts-ignore
 import withRipple from '@material/react-ripple';
 
@@ -50,7 +51,7 @@ const TextLabel: React.FunctionComponent<{textLabel: string}> = ({
   if (textLabel.length === 0) {
     return null;
   }
-  return <span className="mdc-fab__label">{textLabel}</span>;
+  return <span className='mdc-fab__label'>{textLabel}</span>;
 };
 
 export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonElement>> = ({
