@@ -22,12 +22,12 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
+// TODO: fix with #528
 // @ts-ignore
 import withRipple from '@material/react-ripple';
 // @ts-ignore
 import {MDCIconButtonToggleFoundation} from '@material/icon-button/dist/mdc.iconButton';
-// @ts-ignore
-import IconToggle from './IconToggle.tsx';
+import IconToggle from './IconToggle';
 const ARIA_PRESSED = 'aria-pressed';
 
 export interface IconButtonBaseProps<T> {
