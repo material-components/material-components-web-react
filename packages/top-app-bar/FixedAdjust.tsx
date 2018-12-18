@@ -19,22 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+export interface TopAppbarFixedAdjustProps {
+  tag?: string;
+  className?: string;
+  dense?: boolean;
+  prominent?: boolean;
+  short?: boolean
+};
 
-const FixedAdjust = (props) => {
-  const {
-    tag: Tag,
-    children,
-    className,
-    dense,
-    prominent,
-    short,
-    ...otherProps
-  } = props;
-
+const FixedAdjust: React.FunctionComponent<TopAppbarFixedAdjustProps> = ({
+  /* eslint-disable react/prop-types */
+  tag: Tag = 'main',
+  children,
+  className = '',
+  dense = false,
+  prominent = false,
+  short = false,
+  /* eslint-enable react/prop-types */
+  ...otherProps
+}) => {
   const base = 'mdc-top-app-bar';
   const suffix = '-fixed-adjust';
   const classes = classnames(className, {
@@ -46,25 +52,12 @@ const FixedAdjust = (props) => {
   });
 
   return (
-    <Tag className={classes} {...otherProps}>{children}</Tag>
+    // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    // @ts-ignore
+    <Tag className={classes} {...otherProps}>
+      {children}
+    </Tag>
   );
-};
-
-FixedAdjust.propTypes = {
-  tag: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  dense: PropTypes.bool,
-  prominent: PropTypes.bool,
-  short: PropTypes.bool,
-};
-
-FixedAdjust.defaultProps = {
-  tag: 'main',
-  className: '',
-  dense: false,
-  prominent: false,
-  short: false,
 };
 
 export default FixedAdjust;

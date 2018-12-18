@@ -19,28 +19,60 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import TopAppBarFixedAdjust from './FixedAdjust';
+import * as React from 'react';
+import * as classnames from 'classnames';
+import TopAppBarFixedAdjust, {TopAppbarFixedAdjustProps} from './FixedAdjust';
 import {
   MDCFixedTopAppBarFoundation,
   MDCTopAppBarFoundation,
   MDCShortTopAppBarFoundation,
+// no mdc .d.ts file
+// @ts-ignore
 } from '@material/top-app-bar/dist/mdc.topAppBar';
 
-export default class TopAppBar extends React.Component {
-  foundation_ = null;
+export interface TopAppBarProps {
+  actionItems?: React.ReactElement<any>[];
+  className: string;
+  dense: boolean;
+  fixed: boolean;
+  navigationIcon?: React.ReactElement<any>;
+  prominent: boolean;
+  short: boolean;
+  shortCollapsed: boolean;
+  style: React.CSSProperties;
+  title: React.ReactNode;
+}
 
-  state = {
+interface TopAppBarState {
+  classList: Set<string>;
+  style: React.CSSProperties;
+}
+
+type Props = TopAppBarProps & React.HTMLProps<HTMLElement>;
+type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
+
+export default class TopAppBar extends React.Component<
+  Props,
+  TopAppBarState
+  > {
+  topAppBarElement: React.RefObject<HTMLElement> = React.createRef();
+  foundation_?: MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
+
+  state: TopAppBarState = {
     classList: new Set(),
+    style: {},
   };
 
-  constructor(props) {
-    super(props);
-    this.topAppBarElement = React.createRef();
-  }
+  static defaultProps: Partial<Props> = {
+    className: '',
+    dense: false,
+    fixed: false,
+    prominent: false,
+    short: false,
+    shortCollapsed: false,
+    style: {},
+    title: '',
+  };
 
   get classes() {
     const {classList} = this.state;
@@ -52,7 +84,6 @@ export default class TopAppBar extends React.Component {
       short,
       shortCollapsed,
     } = this.props;
-
     return classnames('mdc-top-app-bar', Array.from(classList), className, {
       'mdc-top-app-bar--fixed': fixed,
       'mdc-top-app-bar--short': shortCollapsed || short,
@@ -62,6 +93,7 @@ export default class TopAppBar extends React.Component {
     });
   }
 
+
   componentDidMount() {
     this.initializeFoundation();
   }
@@ -70,22 +102,20 @@ export default class TopAppBar extends React.Component {
     this.foundation_.destroy();
   }
 
-  componentDidUpdate(prevProps) {
-    const foundationChanged = ['short', 'shortCollapsed', 'fixed']
-      .some((variant) => this.props[variant] !== prevProps[variant] );
-
+  componentDidUpdate(prevProps: Props) {
+    const foundationChanged = ['short', 'shortCollapsed', 'fixed'].some(
+      (variant: string) => this.props[variant as VariantType] !== prevProps[variant as VariantType]
+    );
     if (foundationChanged) {
       this.initializeFoundation();
     }
   }
 
-
-  initializeFoundation = () => {
+  private initializeFoundation = () => {
     const {short, shortCollapsed, fixed} = this.props;
     if (this.foundation_) {
       this.foundation_.destroy();
     }
-
     if (short || shortCollapsed) {
       this.foundation_ = new MDCShortTopAppBarFoundation(this.adapter);
     } else if (fixed) {
@@ -93,49 +123,34 @@ export default class TopAppBar extends React.Component {
     } else {
       this.foundation_ = new MDCTopAppBarFoundation(this.adapter);
     }
-
     this.foundation_.init();
-  }
+  };
 
-
-  addClassesToElement(classes, element) {
+  addClassesToElement(classes: string, element: React.ReactElement<any>) {
     const updatedProps = {
       className: classnames(classes, element.props.className),
     };
     return React.cloneElement(element, updatedProps);
   }
 
-  enableRippleOnElement(element) {
-    // If `element` is a Native React Element, throw error to enforce
-    // ripple
-    if (typeof element.type === 'string') {
-      const errorText = 'Material Design requires all Top App Bar Icons to ' +
-        'have ripple. Please use @material/react-ripple HOC with your icons.';
-      throw new Error(errorText);
-    }
-
-    return React.cloneElement(element, {hasRipple: true});
-  }
-
   getMergedStyles = () => {
     const {style} = this.state;
     return Object.assign({}, style, this.props.style);
-  }
+  };
 
   get adapter() {
     const {actionItems} = this.props;
-
     return {
-      addClass: (className) =>
+      addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
-      setStyle: (varName, value) => {
-        const updatedStyle = Object.assign({}, this.state.style);
+      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      setStyle: (varName: keyof React.CSSProperties, value: string) => {
+        const updatedStyle = Object.assign({}, this.state.style) as React.CSSProperties;
         updatedStyle[varName] = value;
         this.setState({style: updatedStyle});
       },
@@ -143,17 +158,18 @@ export default class TopAppBar extends React.Component {
         if (this.topAppBarElement && this.topAppBarElement.current) {
           return this.topAppBarElement.current.clientHeight;
         }
+        return 0;
       },
-      registerScrollHandler: (handler) =>
+      registerScrollHandler: (handler: EventListener) =>
         window.addEventListener('scroll', handler),
-      deregisterScrollHandler: (handler) =>
+      deregisterScrollHandler: (handler: EventListener) =>
         window.removeEventListener('scroll', handler),
       getViewportScrollY: () => window.pageYOffset,
       getTotalActionItems: () => !!(actionItems && actionItems.length),
     };
   }
 
-  get otherProps() {
+  render() {
     const {
       /* eslint-disable no-unused-vars */
       actionItems,
@@ -169,16 +185,13 @@ export default class TopAppBar extends React.Component {
       ...otherProps
     } = this.props;
 
-    return otherProps;
-  }
-
-  render() {
     return (
       <header
-        {...this.otherProps}
+        {...otherProps}
         className={this.classes}
         style={this.getMergedStyles()}
-        ref={this.topAppBarElement}>
+        ref={this.topAppBarElement}
+      >
         <div className='mdc-top-app-bar__row'>
           {this.renderTitleAndNavigationSection()}
           {this.renderActionItems()}
@@ -191,26 +204,23 @@ export default class TopAppBar extends React.Component {
     const {title} = this.props;
     const classes =
       'mdc-top-app-bar__section mdc-top-app-bar__section--align-start';
-
     return (
       <section className={classes}>
         {this.renderNavigationIcon()}
-        <span className="mdc-top-app-bar__title">
-          {title}
-        </span>
+        <span className='mdc-top-app-bar__title'>{title}</span>
       </section>
     );
   }
 
   renderNavigationIcon() {
     const {navigationIcon} = this.props;
-
     if (!navigationIcon) {
       return;
     }
-
-    const elementWithClasses = this.addClassesToElement('mdc-top-app-bar__navigation-icon', navigationIcon);
-    return this.enableRippleOnElement(elementWithClasses);
+    return this.addClassesToElement(
+      'mdc-top-app-bar__navigation-icon',
+      navigationIcon
+    );
   }
 
   renderActionItems() {
@@ -218,50 +228,21 @@ export default class TopAppBar extends React.Component {
     if (!actionItems) {
       return;
     }
-
     return (
       <section
         className='mdc-top-app-bar__section mdc-top-app-bar__section--align-end'
         role='toolbar'
       >
-        {/* to set key on the element, the element needs to be cloned */}
         {actionItems.map((item, key) => {
           const elementWithClasses = this.addClassesToElement(
-            'mdc-top-app-bar__action-item', item);
-          const elementWithRipple = this.enableRippleOnElement(elementWithClasses);
-          return React.cloneElement(elementWithRipple, {key});
+            'mdc-top-app-bar__action-item',
+            item
+          );
+          return React.cloneElement(elementWithClasses, {key});
         })}
       </section>
     );
   }
 }
 
-TopAppBar.propTypes = {
-  actionItems: PropTypes.arrayOf(PropTypes.element),
-  className: PropTypes.string,
-  dense: PropTypes.bool,
-  fixed: PropTypes.bool,
-  navigationIcon: PropTypes.element,
-  prominent: PropTypes.bool,
-  short: PropTypes.bool,
-  shortCollapsed: PropTypes.bool,
-  style: PropTypes.object,
-  title: PropTypes.oneOfType([
-    PropTypes.string, PropTypes.element,
-  ]),
-};
-
-TopAppBar.defaultProps = {
-  actionItems: null,
-  className: '',
-  dense: false,
-  fixed: false,
-  navigationIcon: null,
-  prominent: false,
-  short: false,
-  shortCollapsed: false,
-  style: {},
-  title: '',
-};
-
-export {TopAppBarFixedAdjust};
+export {TopAppBarFixedAdjust, TopAppbarFixedAdjustProps};
