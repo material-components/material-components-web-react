@@ -55,7 +55,7 @@ export default class MaterialIcon extends React.Component<
   }
 }
 
-interface MaterialIconDefaultProps {
+interface MaterialIconDefaultProps extends React.HTMLProps<HTMLElement> {
   icon?: string;
   className?: string;
   initRipple?: (surface: HTMLElement) => void;
@@ -63,7 +63,7 @@ interface MaterialIconDefaultProps {
   unbounded?: boolean;
 };
 
-const MaterialIconDefault: React.FunctionComponent<MaterialIconDefaultProps & React.HTMLProps<HTMLElement>> = ({
+const MaterialIconDefault: React.FunctionComponent<MaterialIconDefaultProps> = ({
   className, icon, initRipple, hasRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
 }) => {
   const classes = classnames('material-icons', className, {
