@@ -30,7 +30,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
 
   constructor(props: LinearProgressProps<T>) {
     super(props);
-    this.foundation_ = new MDCLinearProgressFoundation(this.adapter); 
+    this.foundation_ = new MDCLinearProgressFoundation(this.adapter);
     this.state = {
       classList: new Set(),
     };
