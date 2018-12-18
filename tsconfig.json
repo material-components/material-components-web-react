@@ -1,7 +1,7 @@
 {
   "extends": "gts/tsconfig-google.json",
   "compilerOptions": {
-    "outDir": "./build/",
+    "outDir": "./types/",
     "declaration": true,
     "sourceMap": true,
     "strictNullChecks": true,
@@ -14,6 +14,6 @@
   },
   "exclude": [
     "node_modules",
-    "build",
+    "build"
   ]
 }
