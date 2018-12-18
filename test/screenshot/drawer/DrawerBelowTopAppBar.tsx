@@ -14,17 +14,18 @@ import Drawer, {
 } from '../../../packages/drawer/index';
 // @ts-ignore
 import List from './List.js';
+// TODO: fix with #513
 // @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 
-type DrawerScreenshotTestProps = {
-  onClose: () => void,
-  open: boolean,
-  title: string,
-  modal: boolean,
-  dismissible: boolean,
-  renderLoremIpsum: (section: number) => JSX.Element,
-  renderNavigationIcon: () => MaterialIcon,
+interface DrawerScreenshotTestProps {
+  onClose: () => void;
+  open: boolean;
+  title: string;
+  modal: boolean;
+  dismissible: boolean;
+  renderLoremIpsum: (section: number) => JSX.Element;
+  renderNavigationIcon: () => MaterialIcon;
 };
 
 const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({

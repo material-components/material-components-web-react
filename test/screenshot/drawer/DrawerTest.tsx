@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
+// TODO: fix with #513
 // @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 import DrawerAboveTopAppBar from './DrawerAboveTopAppBar';
@@ -8,17 +9,17 @@ import DrawerBelowTopAppBar from './DrawerBelowTopAppBar';
 
 const noop = () => {};
 
-type DrawerScreenshotTestProps = {
-  open?: boolean,
-  title: string,
-  dismissible?: boolean,
-  modal?: boolean,
-  isBelow?: boolean,
-  hideNavigationIcon?: boolean
+interface DrawerScreenshotTestProps {
+  open?: boolean;
+  title: string;
+  dismissible?: boolean;
+  modal?: boolean;
+  isBelow?: boolean;
+  hideNavigationIcon?: boolean;
 };
 
-type DrawerScreenshotTestState = {
-  open: boolean
+interface DrawerScreenshotTestState {
+  open: boolean;
 };
 
 class DrawerScreenshotTest extends React.Component<

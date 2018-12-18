@@ -26,8 +26,10 @@ import {
   MDCDismissibleDrawerFoundation,
   MDCModalDrawerFoundation,
   util,
+// no .d.ts file
 // @ts-ignore
 } from '@material/drawer';
+// no .d.ts file
 // @ts-ignore
 import {MDCListFoundation} from '@material/list';
 import DrawerHeader from './Header';
@@ -39,31 +41,31 @@ import {FocusTrap} from 'focus-trap';
 
 const {cssClasses: listCssClasses} = MDCListFoundation;
 
-export interface DrawerProps {
-  className: string,
-  open: boolean,
-  onOpen: () => void,
-  onClose: () => void,
-  onTransitionEnd: Pick<React.HTMLProps<HTMLElement>, 'onTransitionEnd'>,
-  onKeyDown: Pick<React.HTMLProps<HTMLElement>, 'onKeyDown'>,
-  tag: string,
-  dismissible: boolean,
-  modal: boolean
+export interface DrawerProps extends React.HTMLProps<HTMLElement>{
+  className: string;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+  onTransitionEnd: React.TransitionEventHandler<HTMLElement>;
+  onKeyDown: React.KeyboardEventHandler<HTMLElement>;
+  tag: string;
+  dismissible: boolean;
+  modal: boolean;
 };
 
-type DrawerState = {
-  classList: Set<string>
+interface DrawerState {
+  classList: Set<string>;
 };
 
-class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>, DrawerState> {
+class Drawer extends React.Component<DrawerProps, DrawerState> {
   previousFocus_: HTMLElement | null = null;
   foundation_: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
   focusTrap_?: FocusTrap;
   drawerElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
-  state = {classList: new Set()};
+  state: DrawerState = {classList: new Set()};
 
-  static defaultProps = {
+  static defaultProps: Partial<DrawerProps> = {
     className: '',
     children: null,
     open: false,
@@ -84,7 +86,7 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
     }
   }
 
-  initFoundation = () => {
+  private initFoundation = () => {
     const {dismissible, modal} = this.props;
     if (this.foundation_) {
       this.foundation_.destroy();
@@ -118,7 +120,7 @@ class Drawer extends React.Component<DrawerProps & React.HTMLProps<HTMLElement>,
     this.foundation_.destroy();
   }
 
-  initializeFocusTrap = () => {
+  private initializeFocusTrap = () => {
     this.focusTrap_ = util.createFocusTrapInstance(this.drawerElement_.current);
   };
 

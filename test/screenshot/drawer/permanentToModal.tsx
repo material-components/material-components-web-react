@@ -1,8 +1,8 @@
 import * as React from 'react';
 import DrawerTest from './DrawerTest';
 
-type PermanentToModalDrawerScreenshotTestState = {
-  isPhone: boolean
+interface PermanentToModalDrawerScreenshotTestState {
+  isPhone: boolean;
 };
 
 class PermanentToModalDrawerScreenshotTest extends React.Component<

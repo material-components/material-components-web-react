@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DrawerTest from './DrawerTest';
 
-const PermanentDrawerScreenshotTest = () => {
+const PermanentDrawerScreenshotTest: React.FunctionComponent = () => {
   return <DrawerTest hideNavigationIcon title='Permanent Drawer' />;
 };
 

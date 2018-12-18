@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 
 export interface DrawerTitleProps {
-  tag?: string,
-  className?: string
+  tag?: string;
+  className?: string;
 };
 
 const DrawerTitle: React.FunctionComponent<DrawerTitleProps> = ({

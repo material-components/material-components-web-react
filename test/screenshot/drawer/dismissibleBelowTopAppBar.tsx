@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DrawerTest from './DrawerTest';
 
-const DismissibleDrawerScreenshotTest = () => {
+const DismissibleDrawerScreenshotTest: React.FunctionComponent = () => {
   return (
     <DrawerTest
       open

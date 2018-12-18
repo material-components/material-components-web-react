@@ -4,7 +4,7 @@ import drawerVariants from './variants';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
 
-const DrawerHomePage = () => {
+const DrawerHomePage: React.FunctionComponent = () => {
   return (
     <div>
       {drawerVariants.map((variant, index) => (
