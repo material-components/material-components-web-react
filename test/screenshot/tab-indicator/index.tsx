@@ -3,7 +3,7 @@ import TabIndicator from '../../../packages/tab-indicator/index';
 // TODO: fix when #513
 // @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
-import '../../../packages/tab-indicator/index';
+import '../../../packages/tab-indicator/index.scss';
 import './index.scss';
 
 const Tab: React.FunctionComponent<{
