@@ -1,19 +1,22 @@
 import * as React from 'react';
 import './index.scss';
 import '../../../packages/chips/index.scss';
+// TODO: fix in #513
 // @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
 import {ChipProps, Chip, ChipSet} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
+// no .d.ts file
+// @ts-ignore
 import * as uuidv1 from 'uuid/v1';
 
-type ChipsTestProps = {
-  selectedChipIds: string[],
-  variant: 'filter' | 'choice',
-  children: React.ReactElement<ChipProps>[]
+interface ChipsTestProps {
+  selectedChipIds: string[];
+  variant: 'filter' | 'choice';
+  children: React.ReactElement<ChipProps>[];
 };
 
-type ChipsTestState = {
-  selectedChipIds: string[],
+interface ChipsTestState {
+  selectedChipIds: string[];
 };
 
 class ChipsTest extends React.Component<ChipsTestProps, ChipsTestState> {
@@ -87,15 +90,15 @@ class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTest
   render() {
     return (
       <div>
-        <input type="text" onKeyDown={this.handleKeyDown} />
+        <input type='text' onKeyDown={this.handleKeyDown} />
         <ChipSet input updateChips={this.updateChips}>
           {this.state.chips.map((chip) => (
             <Chip
               id={chip.id}
               key={chip.id} // The chip s key cannot be its index, because its index may change
               label={chip.label}
-              leadingIcon={<MaterialIcon icon="face" />}
-              removeIcon={<MaterialIcon icon="cancel" />}
+              leadingIcon={<MaterialIcon icon='face' />}
+              removeIcon={<MaterialIcon icon='cancel' />}
             />
           ))}
         </ChipSet>
@@ -116,7 +119,7 @@ const renderChips = (list: string[], hasLeadingIcon: boolean = false) => {
       key={index}
       label={label}
       leadingIcon={
-        hasLeadingIcon ? <MaterialIcon icon="shopping_basket" /> : null
+        hasLeadingIcon ? <MaterialIcon icon='shopping_basket' /> : null
       }
     />
   ));
@@ -128,11 +131,11 @@ const ChipsScreenshotTest = () => {
       Default Chips
       <ChipSet>{renderChips(seasons)}</ChipSet>
       Choice Chips
-      <ChipsTest variant="choice" selectedChipIds={['2chip']}>
+      <ChipsTest variant='choice' selectedChipIds={['2chip']}>
         {renderChips(sizes)}
       </ChipsTest>
       Filter Chips with Leading Icon
-      <ChipsTest variant="filter" selectedChipIds={['1chip', '2chip']}>
+      <ChipsTest variant='filter' selectedChipIds={['1chip', '2chip']}>
         {renderChips(clothes, true)}
       </ChipsTest>
       <InputChipsTest labels={contacts} />

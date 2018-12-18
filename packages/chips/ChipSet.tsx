@@ -29,20 +29,20 @@ import {ChipProps} from './Chip'; // eslint-disable-line no-unused-vars
 type ChipType = React.ReactElement<ChipProps>;
 
 export interface ChipSetProps {
-  className: string,
-  selectedChipIds: string[],
-  handleSelect: (selectedChipIds: string[]) => void,
-  updateChips: (chips: Partial<ChipProps>[]) => void,
-  choice: boolean,
-  filter: boolean,
-  input: boolean,
-  children: ChipType | ChipType[],
+  className: string;
+  selectedChipIds: string[];
+  handleSelect: (selectedChipIds: string[]) => void;
+  updateChips: (chips: Partial<ChipProps>[]) => void;
+  choice: boolean;
+  filter: boolean;
+  input: boolean;
+  children: ChipType | ChipType[];
 };
 
-type ChipSetState = {
-  foundation: MDCChipSetFoundation,
-  selectedChipIds: string[],
-  hasInitialized: boolean
+interface ChipSetState {
+  foundation: MDCChipSetFoundation;
+  selectedChipIds: string[];
+  hasInitialized: boolean;
 };
 
 export default class ChipSet extends React.Component<ChipSetProps, ChipSetState> {
@@ -56,7 +56,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
     };
   }
 
-  static defaultProps = {
+  static defaultProps: Partial<ChipSetProps> = {
     className: '',
     selectedChipIds: [],
     handleSelect: () => {},

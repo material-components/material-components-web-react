@@ -17,7 +17,7 @@ test('creates foundation', () => {
 test('updates state.selectedChipIds when the props.selectedChipIds change', () => {
   const wrapper = shallow<ChipSet>(
     <ChipSet>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   const selectedChipIds = ['1'];
@@ -28,7 +28,7 @@ test('updates state.selectedChipIds when the props.selectedChipIds change', () =
 test('filter classname is added if is filter variant', () => {
   const wrapper = shallow(
     <ChipSet filter>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.hasClass('mdc-chip-set--filter');
@@ -37,7 +37,7 @@ test('filter classname is added if is filter variant', () => {
 test('choice classname is added if is choice variant', () => {
   const wrapper = shallow(
     <ChipSet choice>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.hasClass('mdc-chip-set--choice');
@@ -46,7 +46,7 @@ test('choice classname is added if is choice variant', () => {
 test('input classname is added if is input variant', () => {
   const wrapper = shallow(
     <ChipSet input>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.hasClass('mdc-chip-set--input');
@@ -54,8 +54,8 @@ test('input classname is added if is input variant', () => {
 
 test('#adapter.hasClass returns true if component contains class', () => {
   const wrapper = shallow<ChipSet>(
-    <ChipSet className="test-class-name">
-      <div id="1" />
+    <ChipSet className='test-class-name'>
+      <div id='1' />
     </ChipSet>
   );
   assert.isTrue(wrapper.instance().adapter.hasClass('test-class-name'));
@@ -64,7 +64,7 @@ test('#adapter.hasClass returns true if component contains class', () => {
 test('#adapter.hasClass returns false if component does not contains class', () => {
   const wrapper = shallow<ChipSet>(
     <ChipSet>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   assert.isFalse(wrapper.instance().adapter.hasClass('test-class-name'));
@@ -76,7 +76,7 @@ test('#adapter.setSelected adds selectedChipId to state', () => {
   const foundation = {getSelectedChipIds};
   const wrapper = shallow<ChipSet>(
     <ChipSet handleSelect={handleSelect}>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.setState({foundation});
@@ -91,7 +91,7 @@ test('#adapter.setSelected adds selectedChipId to state', () => {
 test('#adapter.setSelected removes selectedChipId from state', () => {
   const wrapper = shallow<ChipSet>(
     <ChipSet>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.setState({selectedChipIds: ['1']});
@@ -105,7 +105,7 @@ test(
   () => {
     const wrapper = shallow<ChipSet>(
       <ChipSet>
-        <div id="1" />
+        <div id='1' />
       </ChipSet>
     );
     wrapper.state().foundation.select = td.func();
@@ -121,7 +121,7 @@ test('#handleSelect calls foundation.handleChipSelection with selectedChipId and
   const foundation = {handleChipSelection};
   const wrapper = shallow<ChipSet>(
     <ChipSet>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.setState({foundation});
@@ -134,7 +134,7 @@ test('#handleSelect calls foundation.handleChipSelection with selectedChipId and
   const foundation = {handleChipSelection};
   const wrapper = shallow<ChipSet>(
     <ChipSet>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.setState({foundation});
@@ -147,7 +147,7 @@ test('#handleInteraction calls #foundation.handleChipInteraction', () => {
   const foundation = {handleChipInteraction};
   const wrapper = shallow<ChipSet>(
     <ChipSet>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.setState({foundation});
@@ -160,7 +160,7 @@ test('#handleRemove calls foundation.handleChipRemoval with chipId', () => {
   const foundation = {handleChipRemoval};
   const wrapper = shallow<ChipSet>(
     <ChipSet>
-      <div id="1" />
+      <div id='1' />
     </ChipSet>
   );
   wrapper.setState({foundation});
@@ -180,7 +180,7 @@ test('#removeChip calls #props.updateChips with array of remove chip', () => {
   const updateChips = td.func() as (chips: Partial<ChipProps>[]) => void;
   const wrapper = shallow<ChipSet>(
     <ChipSet updateChips={updateChips}>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   wrapper.instance().removeChip('1');
@@ -191,7 +191,7 @@ test('#removeChip calls #props.updateChips with array of removed chip', () => {
   const updateChips = td.func() as (chips: Partial<ChipProps>[]) => void;
   const wrapper = shallow<ChipSet>(
     <ChipSet updateChips={updateChips}>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   wrapper.instance().removeChip('1');
@@ -202,8 +202,8 @@ test('#removeChip calls #props.updateChips with array of remaining chips', () =>
   const updateChips = td.func() as (chips: Partial<ChipProps>[]) => void;
   const wrapper = shallow<ChipSet>(
     <ChipSet updateChips={updateChips}>
-      <Chip id="1" />
-      <Chip id="2" />
+      <Chip id='1' />
+      <Chip id='2' />
     </ChipSet>
   );
   wrapper.instance().removeChip('1');
@@ -251,7 +251,7 @@ test('#computeBoundingRect returns width and height', () => {
 test('chip is rendered with selected prop as false', () => {
   const wrapper = mount(
     <ChipSet>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   const chip = wrapper.children().props().children[0];
@@ -261,7 +261,7 @@ test('chip is rendered with selected prop as false', () => {
 test('chip is rendered with selected prop as true', () => {
   const wrapper = mount(
     <ChipSet>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   wrapper.setState({selectedChipIds: ['1']});
@@ -273,7 +273,7 @@ test('#chip.props.handleSelect calls #foundation.handleChipSelection', () => {
   const foundation = {handleChipSelection: td.func()};
   const wrapper = mount(
     <ChipSet>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   wrapper.setState({foundation});
@@ -285,7 +285,7 @@ test('#chip.props.handleSelect calls #foundation.handleChipSelection', () => {
 test('chip is rendered with handleRemove method', () => {
   const wrapper = mount<ChipSet>(<ChipSet><Chip /></ChipSet>);
   wrapper.instance().handleRemove = td.func() as (chipId: string) => void;
-  wrapper.setProps({children: <Chip id="1" />});
+  wrapper.setProps({children: <Chip id='1' />});
   const chip = wrapper.children().props().children[0];
   chip.props.handleRemove('1');
   td.verify(wrapper.instance().handleRemove('1'), {times: 1});
@@ -294,7 +294,7 @@ test('chip is rendered with handleRemove method', () => {
 test('chip is rendered ChipCheckmark if is filter variants', () => {
   const wrapper = mount(
     <ChipSet filter>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   const chip = wrapper.children().props().children[0];
@@ -304,7 +304,7 @@ test('chip is rendered ChipCheckmark if is filter variants', () => {
 test('chip is rendered ChipCheckmark if is not filter variants', () => {
   const wrapper = mount(
     <ChipSet>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   const chip = wrapper.children().props().children[0];
@@ -314,7 +314,7 @@ test('chip is rendered ChipCheckmark if is not filter variants', () => {
 test('chip is rendered computeBoundingRect method prop if is filter variant', () => {
   const wrapper = mount(
     <ChipSet filter>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   const chip = wrapper.children().props().children[0];
@@ -330,7 +330,7 @@ test('chip is rendered computeBoundingRect method prop if is filter variant', ()
 test('chip is rendered with computeBoundingRect method prop if is not filter variant', () => {
   const wrapper = mount(
     <ChipSet>
-      <Chip id="1" />
+      <Chip id='1' />
     </ChipSet>
   );
   const chip = wrapper.children().props().children[0];

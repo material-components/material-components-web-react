@@ -27,34 +27,34 @@ import withRipple from '@material/react-ripple';
 import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
 
 export interface ChipProps {
-  id: string,
-  label: string,
-  className: string,
-  selected: boolean,
-  handleSelect: (id: string, selected: boolean) => void,
-  handleRemove: (id: string) => void,
-  handleInteraction: (id: string) => void,
-  onClick: React.MouseEventHandler<HTMLDivElement>,
-  onKeyDown: React.KeyboardEventHandler<HTMLDivElement>,
-  onTransitionEnd: React.TransitionEventHandler<HTMLDivElement>,
-  initRipple: (surface: HTMLDivElement) => void,
-  computeBoundingRect: (chipElement: React.ReactElement<HTMLDivElement>) => void,
-  unbounded?: boolean,
-  chipCheckmark?: React.ReactElement<HTMLElement>,
-  leadingIcon?: React.ReactElement<HTMLElement>,
-  removeIcon?: React.ReactElement<HTMLElement>,
+  id: string;
+  label: string;
+  className: string;
+  selected: boolean;
+  handleSelect: (id: string, selected: boolean) => void;
+  handleRemove: (id: string) => void;
+  handleInteraction: (id: string) => void;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+  onKeyDown: React.KeyboardEventHandler<HTMLDivElement>;
+  onTransitionEnd: React.TransitionEventHandler<HTMLDivElement>;
+  initRipple: (surface: HTMLDivElement) => void;
+  computeBoundingRect: (chipElement: React.ReactElement<HTMLDivElement>) => void;
+  unbounded?: boolean;
+  chipCheckmark?: React.ReactElement<HTMLElement>;
+  leadingIcon?: React.ReactElement<HTMLElement>;
+  removeIcon?: React.ReactElement<HTMLElement>;
 };
 
 type ChipState = {
-  classList: Set<string>,
-  leadingIconClassList: Set<string>
+  classList: Set<string>;
+  leadingIconClassList: Set<string>;
 };
 
 export class Chip extends React.Component<ChipProps, ChipState> {
   chipElement_: HTMLDivElement | null = null;
   foundation_: MDCChipFoundation;
 
-  static defaultProps = {
+  static defaultProps: Partial<ChipProps> = {
     label: '',
     className: '',
     selected: false,
@@ -225,7 +225,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       >
         {leadingIcon ? this.renderLeadingIcon(leadingIcon) : null}
         {chipCheckmark}
-        <div className="mdc-chip__text">{label}</div>
+        <div className='mdc-chip__text'>{label}</div>
         {removeIcon ? this.renderRemoveIcon(removeIcon) : null}
       </div>
     );

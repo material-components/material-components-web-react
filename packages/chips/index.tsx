@@ -20,11 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// @ts-ignore
-import Chip, {ChipProps} from './Chip.tsx';
-// @ts-ignore
-import ChipCheckmark from './ChipCheckmark.tsx';
-// @ts-ignore
-import ChipSet, {ChipSetProps} from './ChipSet.tsx';
+import Chip, {ChipProps} from './Chip';
+import ChipCheckmark from './ChipCheckmark';
+import ChipSet, {ChipSetProps} from './ChipSet';
 
 export {Chip, ChipCheckmark, ChipSet, ChipSetProps, ChipProps};

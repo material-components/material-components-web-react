@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {assert} from 'chai';
 import {mount} from 'enzyme';
-// @ts-ignore
-import ChipCheckmark from '../../../packages/chips/ChipCheckmark.tsx';
+import ChipCheckmark from '../../../packages/chips/ChipCheckmark';
 
 suite('ChipCheckmark');
 
