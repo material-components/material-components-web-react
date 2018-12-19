@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import * as classnames from 'classnames';
 import TopAppBarFixedAdjust, {TopAppbarFixedAdjustProps} from './FixedAdjust';
@@ -30,12 +31,14 @@ import {
 // @ts-ignore
 } from '@material/top-app-bar/dist/mdc.topAppBar';
 
+type IconType = React.ReactElement<React.HTMLProps<HTMLOrSVGElement | HTMLImageElement>>;
+
 export interface TopAppBarProps {
-  actionItems?: React.ReactElement<any>[];
+  actionItems?: IconType[];
   className: string;
   dense: boolean;
   fixed: boolean;
-  navigationIcon?: React.ReactElement<any>;
+  navigationIcon?: IconType;
   prominent: boolean;
   short: boolean;
   shortCollapsed: boolean;
@@ -49,7 +52,7 @@ interface TopAppBarState {
 }
 
 type Props = TopAppBarProps & React.HTMLProps<HTMLElement>;
-type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
+export type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
 
 export default class TopAppBar extends React.Component<
   Props,
@@ -126,7 +129,7 @@ export default class TopAppBar extends React.Component<
     this.foundation_.init();
   };
 
-  addClassesToElement(classes: string, element: React.ReactElement<any>) {
+  addClassesToElement(classes: string, element: IconType) {
     const updatedProps = {
       className: classnames(classes, element.props.className),
     };
