@@ -35,7 +35,7 @@ export type MaterialIconProps = MaterialIconBaseProps & React.HTMLProps<HTMLElem
 
 export default class MaterialIcon extends React.Component<
   MaterialIconProps, {}
-> {
+  > {
   static defaultProps: Partial<MaterialIconProps> = {
     icon: '',
     className: '',
