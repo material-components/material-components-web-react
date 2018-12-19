@@ -21,25 +21,26 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no mdc .d.ts
 // @ts-ignore
 import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
 
 export interface HelperTextProps {
-  'aria-hidden': boolean,
-  children: React.ReactNode,
-  className: string,
-  isValid: boolean,
-  isValidationMessage: boolean,
-  persistent: boolean,
-  role?: string,
-  showToScreenReader: boolean,
-  validation: boolean
+  'aria-hidden': boolean;
+  children: React.ReactNode;
+  className: string;
+  isValid: boolean;
+  isValidationMessage: boolean;
+  persistent: boolean;
+  role?: string;
+  showToScreenReader: boolean;
+  validation: boolean;
 };
 
-type HelperTextState = {
-  'aria-hidden': boolean,
-  role?: string,
-  classList: Set<string>
+interface HelperTextState {
+  'aria-hidden': boolean;
+  role?: string;
+  classList: Set<string>;
 };
 
 export default class HelperText extends React.Component<
