@@ -3,8 +3,7 @@ import * as td from 'testdouble';
 import {suite, test} from 'mocha';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-// @ts-ignore
-import FloatingLabel from '../../../packages/floating-label/index.tsx';
+import FloatingLabel from '../../../packages/floating-label/index';
 
 suite('Floating Label');
 
@@ -77,15 +76,12 @@ test('#componentDidUpdate updating float to true floats the label', () => {
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));
 });
 
-test(
-  'initializing float to true, and then updating it to false ' +
-    'removes the class',
-  () => {
-    const wrapper = shallow(<FloatingLabel float />);
-    wrapper.setProps({float: false});
-    assert.isFalse(wrapper.hasClass('mdc-floating-label--float-above'));
-  }
-);
+test('initializing float to true, and then updating it to false ' +
+  'removes the class', () => {
+  const wrapper = shallow(<FloatingLabel float/>);
+  wrapper.setProps({float: false});
+  assert.isFalse(wrapper.hasClass('mdc-floating-label--float-above'));
+});
 
 test('on animationend should remove the shake class', () => {
   const wrapper = mount(<FloatingLabel />);
