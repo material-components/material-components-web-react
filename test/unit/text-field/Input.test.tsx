@@ -4,8 +4,6 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import {Input} from '../../../packages/text-field/index';
 
-suite('Text Field Input');
-
 const noop = () => {};
 const buildFoundation = (overrides = {}) => ({
   activateFocus: noop,
@@ -19,6 +17,8 @@ const buildFoundation = (overrides = {}) => ({
   setValid: noop,
   ...overrides,
 });
+
+suite('Text Field Input');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<Input className='test-class-name' />);
