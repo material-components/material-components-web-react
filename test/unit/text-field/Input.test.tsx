@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-// @ts-ignore
-import {Input} from '../../../packages/text-field/index.tsx';
+import {Input} from '../../../packages/text-field/index';
 
 suite('Text Field Input');
 
