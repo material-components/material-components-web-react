@@ -59,16 +59,16 @@ export default class TabScroller extends React.Component<
   > {
   areaElement_: React.RefObject<HTMLDivElement> = React.createRef();
   contentElement_: React.RefObject<HTMLDivElement> = React.createRef();
-  foundation_: MDCTabScrollerFoundation | null = null;
+  foundation_?: MDCTabScrollerFoundation;
 
-  state = {
+  state: TabScrollerState = {
     classList: new Set(),
     areaClassList: new Set(),
     scrollAreaStyleProperty: {},
     scrollContentStyleProperty: {},
   };
 
-  static defaultProps = {
+  static defaultProps: Partial<TabScrollerProps> = {
     alignStart: false,
     alignEnd: false,
     alignCenter: false,
