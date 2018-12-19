@@ -1,5 +1,4 @@
-// @ts-ignore
-import topAppBarVariants from './top-app-bar/variants.js';
+import topAppBarVariants from './top-app-bar/variants';
 // @ts-ignore
 import drawerVariants from './drawer/variants.js';
 import textFieldVariants from './text-field/variants';
