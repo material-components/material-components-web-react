@@ -251,8 +251,8 @@ export default class Input<T extends {}> extends React.Component<
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
-    const isInput = inputType === 'input';
-    let props = Object.assign({}, {
+
+    const props = Object.assign({}, {
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
       onMouseDown: this.handleMouseDown,
@@ -264,7 +264,7 @@ export default class Input<T extends {}> extends React.Component<
       className: this.classes,
     }, otherProps);
 
-    if (isInput) {
+    if (inputType === 'input') {
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
       return (<input {...props} />);
