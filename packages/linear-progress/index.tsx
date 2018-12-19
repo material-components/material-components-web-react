@@ -24,7 +24,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
   LinearProgressState
   > {
   isMounted_ = false;
-  bufferElement_: React.RefObject<HTMLDivElement> = React.createRef();
+  bufferElement: React.RefObject<HTMLDivElement> = React.createRef();
   primaryBarElement_: React.RefObject<HTMLDivElement> = React.createRef();
   foundation_: MDCLinearProgressFoundation;
 
@@ -104,7 +104,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
         }
       },
       getBuffer: () => {
-        return this.bufferElement_.current;
+        return this.bufferElement.current;
       },
       getPrimaryBar: () => {
         return this.primaryBarElement_.current;
@@ -155,6 +155,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
       ...otherProps
     } = this.props;
     return (
+      // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
       <Tag className={this.classes} role='progressbar' {...otherProps}>
         {bufferingDots && (
@@ -162,7 +163,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
         )}
         <div
           className='mdc-linear-progress__buffer'
-          ref={this.bufferElement_}
+          ref={this.bufferElement}
         />
         <div
           className='mdc-linear-progress__bar mdc-linear-progress__primary-bar'
