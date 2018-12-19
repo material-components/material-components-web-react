@@ -21,8 +21,10 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// TODO: fix in #528
 // @ts-ignore
 import withRipple from '@material/react-ripple';
+// no mdc .d.ts file
 // @ts-ignore
 import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
 
@@ -51,8 +53,8 @@ type ChipState = {
 };
 
 export class Chip extends React.Component<ChipProps, ChipState> {
-  chipElement_: HTMLDivElement | null = null;
-  foundation_: MDCChipFoundation;
+  chipElement_?: HTMLDivElement;
+  foundation_?: MDCChipFoundation;
 
   static defaultProps: Partial<ChipProps> = {
     label: '',

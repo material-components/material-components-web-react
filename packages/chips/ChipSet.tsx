@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
+// no mdc .d.ts file
 // @ts-ignore
 import {MDCChipSetFoundation} from '@material/chips';
 import ChipCheckmark from './ChipCheckmark';
