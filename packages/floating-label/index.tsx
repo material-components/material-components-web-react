@@ -72,7 +72,7 @@ export default class FloatingLabel extends React.Component<
     }
   }
 
-  private initializeFoundation = () => {
+  initializeFoundation = () => {
     this.foundation_ = new MDCFloatingLabelFoundation(this.adapter);
     this.foundation_.init();
   };

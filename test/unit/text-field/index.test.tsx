@@ -249,36 +249,36 @@ test('#get adapter.input.value returns state.value', () => {
   assert.equal(value, '123');
 });
 
-test('#adapter.label.shakeLabel calls floatingLabelElement_ shake', () => {
+test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
   const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label='my label'>
       <Input />
     </TextField>
   );
-  wrapper.instance().floatingLabelElement_ = td.object({
+  wrapper.instance().floatingLabelElement = td.object({
     current: td.object({
       shake: td.func(),
     }),
   }) as React.RefObject<FloatingLabel>;
   wrapper.state().foundation.adapter_.shakeLabel(true);
-  td.verify(wrapper.instance().floatingLabelElement_.current!.shake(), {
+  td.verify(wrapper.instance().floatingLabelElement.current!.shake(), {
     times: 1,
   });
 });
 
-test('#adapter.label.shakeLabel does not call floatingLabelElement_ shake if false is passed', () => {
+test('#adapter.label.shakeLabel does not call floatingLabelElement shake if false is passed', () => {
   const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label='my label'>
       <Input />
     </TextField>
   );
-  wrapper.instance().floatingLabelElement_ = td.object({
+  wrapper.instance().floatingLabelElement = td.object({
     current: td.object({
       shake: td.func(),
     }),
   }) as React.RefObject<FloatingLabel>;
   wrapper.state().foundation.adapter_.shakeLabel(false);
-  td.verify(wrapper.instance().floatingLabelElement_.current!.shake(), {
+  td.verify(wrapper.instance().floatingLabelElement.current!.shake(), {
     times: 0,
   });
 });

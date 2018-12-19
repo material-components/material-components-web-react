@@ -71,7 +71,7 @@ interface TextFieldState {
 };
 
 class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFieldState> {
-  floatingLabelElement_: React.RefObject<FloatingLabel> = React.createRef();
+  floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
   inputComponent_: null | Input<T> = null;
 
   static defaultProps = {
@@ -241,7 +241,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
   get labelAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       shakeLabel: (shakeLabel: boolean) => {
-        const {floatingLabelElement_: floatingLabel} = this;
+        const {floatingLabelElement: floatingLabel} = this;
         if (!shakeLabel) return;
         if (floatingLabel && floatingLabel.current) {
           floatingLabel.current.shake();
@@ -356,7 +356,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
         handleWidthChange={(initialLabelWidth) =>
           this.setState({initialLabelWidth})
         }
-        ref={this.floatingLabelElement_}
+        ref={this.floatingLabelElement}
         htmlFor={inputId}
       >
         {label}
