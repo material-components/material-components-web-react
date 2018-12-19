@@ -20,7 +20,7 @@ function readScreenshotDirectory(
     // recursively get sub directories
     const subDirectories = getDirectories(resolve(path, packageName));
     if (subDirectories.length > 0) {
-      read(components, resolve(path, packageName), packageName);
+      readScreenshotDirectory(components, resolve(path, packageName), packageName);
     }
     components.push(`${parentDirectory ? parentDirectory + '/' : ''}${packageName}`);
   });
