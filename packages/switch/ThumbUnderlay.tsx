@@ -22,7 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-
+// TODO: fix with #528
 // @ts-ignore
 import withRipple from '@material/react-ripple';
 
