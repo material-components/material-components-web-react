@@ -22,7 +22,15 @@
       "parserOptions": {
         "jsx": true
       },
-      "files": ["**/*.tsx", "**/*.ts"]
+      "plugins": [
+        "typescript"
+      ],
+      "rules": {
+        "typescript/no-unused-vars": "warn",
+        "quotes": ["error", "single"],
+        "jsx-quotes": ["error", "prefer-single"]
+      },
+      "files": ["**/*.+(tsx|ts)"]
     }, {
       "parser": "babel-eslint",
       "files": ["**/*.jsx", "**/*.js"]
