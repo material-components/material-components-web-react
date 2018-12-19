@@ -31,7 +31,6 @@ import {
 } from '@material/top-app-bar/dist/mdc.topAppBar';
 
 export default class TopAppBar extends React.Component {
-
   foundation_ = null;
 
   state = {
@@ -235,7 +234,6 @@ export default class TopAppBar extends React.Component {
       </section>
     );
   }
-
 }
 
 TopAppBar.propTypes = {
