@@ -23,20 +23,20 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 
 export interface ListItemProps<T> extends React.HTMLProps<T> {
-  className: string,
-  classNamesFromList: string[],
-  attributesFromList: object,
-  childrenTabIndex: number,
-  tabIndex: number,
-  shouldFocus: boolean,
-  shouldFollowHref: boolean,
-  shouldToggleCheckbox: boolean,
+  className: string;
+  classNamesFromList: string[];
+  attributesFromList: object;
+  childrenTabIndex: number;
+  tabIndex: number;
+  shouldFocus: boolean;
+  shouldFollowHref: boolean;
+  shouldToggleCheckbox: boolean;
   onKeyDown: React.KeyboardEventHandler<T>;
   onClick: React.MouseEventHandler<T>;
   onFocus: React.FocusEventHandler<T>;
   onBlur: React.FocusEventHandler<T>;
-  tag: string,
-  children: React.ReactNode,
+  tag: string;
+  children: React.ReactNode;
 };
 
 function isAnchorElement(element: any): element is HTMLAnchorElement {
@@ -71,16 +71,13 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
 
   componentDidUpdate(prevProps: ListItemProps<T>) {
     const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
-    if (shouldFocus !== prevProps.shouldFocus && shouldFocus) {
+    if (shouldFocus && !prevProps.shouldFocus) {
       this.focus();
     }
-    if (shouldFollowHref !== prevProps.shouldFollowHref && shouldFollowHref) {
+    if (shouldFollowHref && !prevProps.shouldFollowHref) {
       this.followHref();
     }
-    if (
-      shouldToggleCheckbox &&
-      shouldToggleCheckbox !== prevProps.shouldToggleCheckbox
-    ) {
+    if (shouldToggleCheckbox && !prevProps.shouldToggleCheckbox) {
       this.toggleCheckbox();
     }
   }

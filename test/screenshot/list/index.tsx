@@ -19,9 +19,9 @@ import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint
 // @ts-ignore
 import * as uuidv4 from 'uuid/v4';
 
-type SelectionListTestState = {
-  selectedIndex: number,
-  listItems: string[],
+interface SelectionListTestState {
+  selectedIndex: number;
+  listItems: string[];
 };
 
 function renderListItem(options: ListItemTextProps) {
