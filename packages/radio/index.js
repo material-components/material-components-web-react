@@ -28,7 +28,6 @@ import withRipple from '@material/react-ripple';
 import NativeControl from './NativeControl';
 
 class Radio extends React.Component {
-
   foundation_ = null;
   radioElement_ = React.createRef();
   rippleActivatorRef = React.createRef();

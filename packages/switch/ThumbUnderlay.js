@@ -26,7 +26,6 @@ import classnames from 'classnames';
 import withRipple from '@material/react-ripple';
 
 export class ThumbUnderlay extends React.Component {
-
   init = (el) => {
     this.props.initRipple(el, this.props.rippleActivator.current);
   }

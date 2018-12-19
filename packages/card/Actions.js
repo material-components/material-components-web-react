@@ -25,7 +25,6 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 export default class Actions extends React.Component {
-
   render() {
     const {
       className,
