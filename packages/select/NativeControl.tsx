@@ -76,14 +76,14 @@ export default class NativeControl extends React.Component<
 
   handleMouseDown = (evt: React.MouseEvent<HTMLSelectElement>) => {
     const {onMouseDown} = this.props;
-    this.setRippleCenter(evt.clientX, evt.currentTarget);
+    this.setRippleCenter(evt.clientX, evt.target as HTMLSelectElement);
     onMouseDown && onMouseDown(evt);
   };
 
   handleTouchStart = (evt: React.TouchEvent<HTMLSelectElement>) => {
     const {onTouchStart} = this.props;
     const clientX = evt.touches[0] && evt.touches[0].clientX;
-    this.setRippleCenter(clientX, evt.currentTarget);
+    this.setRippleCenter(clientX, evt.target as HTMLSelectElement);
     onTouchStart && onTouchStart(evt);
   };
 

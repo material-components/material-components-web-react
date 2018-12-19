@@ -74,7 +74,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     };
   }
 
-  static defaultProps = {
+  static defaultProps: Partial<SelectProps> = {
     box: false,
     className: '',
     disabled: false,
@@ -86,6 +86,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     outlined: false,
     options: [],
     onChange: () => {},
+    value: '',
   };
 
   componentDidMount() {

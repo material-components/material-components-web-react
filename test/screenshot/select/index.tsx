@@ -43,19 +43,19 @@ class SelectTest extends React.Component<SelectProps, SelectTestState> {
       <div dir={isRtl ? 'rtl' : 'ltr'}>
         <Select
           {...otherProps}
-          className="test-select"
-          label="Dog"
+          className='test-select'
+          label='Dog'
           id={id}
           isRtl={isRtl}
           disabled={disabled}
           onChange={this.onChange}
           value={this.state.value}
         >
-          <option value="" disabled />
-          <option value="labradoodle">Labradoodle</option>
-          <option value="pomsky">Pomsky</option>
-          <option value="aussiepom">Aussiepom</option>
-          <option value="bullmation">Bullmation</option>
+          <option value='' disabled />
+          <option value='labradoodle'>Labradoodle</option>
+          <option value='pomsky'>Pomsky</option>
+          <option value='aussiepom'>Aussiepom</option>
+          <option value='bullmation'>Bullmation</option>
         </Select>
       </div>
     );
@@ -79,6 +79,6 @@ const selects = variants.map((variant) => {
 });
 
 const SelectScreenshotTest = () => {
-  return <div className="select-container">{selects}</div>;
+  return <div className='select-container'>{selects}</div>;
 };
 export default SelectScreenshotTest;

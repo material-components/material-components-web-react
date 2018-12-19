@@ -21,7 +21,7 @@ test('has mdc-select__native-control class', () => {
 });
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<NativeControl className="test-class-name" />);
+  const wrapper = shallow(<NativeControl className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -142,7 +142,7 @@ test('#event.touchstart does not call #props.setRippleCenter if target is not na
 test('renders children', () => {
   const wrapper = shallow(
     <NativeControl>
-      <option value="test">test</option>
+      <option value='test'>test</option>
     </NativeControl>
   );
   assert.equal(wrapper.find('option[value="test"]').length, 1);
