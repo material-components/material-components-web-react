@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import * as classnames from 'classnames';
 // no mdc .d.ts
@@ -40,7 +41,7 @@ export default class FloatingLabel extends React.Component<
   FloatingLabelState
   > {
   foundation_?: MDCFloatingLabelFoundation;
-  labelElement: React.RefObject<HTMLLabelElement> = React.createRef();
+  labelElement_: React.RefObject<HTMLLabelElement> = React.createRef();
 
   static defaultProps: Partial<FloatingLabelProps> = {
     className: '',
@@ -72,7 +73,7 @@ export default class FloatingLabel extends React.Component<
     }
   }
 
-  private initializeFoundation = () => {
+  initializeFoundation = () => {
     this.foundation_ = new MDCFloatingLabelFoundation(this.adapter);
     this.foundation_.init();
   };
@@ -104,8 +105,8 @@ export default class FloatingLabel extends React.Component<
 
   handleWidthChange = () => {
     const {handleWidthChange} = this.props;
-    if (handleWidthChange && this.labelElement.current) {
-      handleWidthChange(this.labelElement.current.offsetWidth);
+    if (handleWidthChange && this.labelElement_.current) {
+      handleWidthChange(this.labelElement_.current.offsetWidth);
     }
   };
 
@@ -126,7 +127,7 @@ export default class FloatingLabel extends React.Component<
     return (
       <label
         className={this.classes}
-        ref={this.labelElement}
+        ref={this.labelElement_}
         onAnimationEnd={this.onShakeEnd}
         {...otherProps}
       >
