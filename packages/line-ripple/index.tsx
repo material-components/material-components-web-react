@@ -21,24 +21,23 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no mdc .d.ts
 // @ts-ignore
 import {MDCLineRippleFoundation} from '@material/line-ripple';
 
-export interface LineRippleProps {
-  className?: string,
-  active?: boolean,
-  rippleCenter?: number
+export interface LineRippleProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  active?: boolean;
+  rippleCenter?: number;
 };
 
 interface LineRippleState {
-  classList: Set<any>,
-  style: React.CSSProperties,
+  classList: Set<string>;
+  style: React.CSSProperties;
 };
 
-type Props = LineRippleProps & React.HTMLProps<HTMLDivElement>;
-
 export default class LineRipple extends React.Component<
-  Props,
+  LineRippleProps,
   LineRippleState
   > {
   static defaultProps = {
@@ -50,7 +49,7 @@ export default class LineRipple extends React.Component<
 
   foundation_?: MDCLineRippleFoundation;
 
-  state = {
+  state: LineRippleState = {
     classList: new Set(),
     style: {},
   };
@@ -63,7 +62,7 @@ export default class LineRipple extends React.Component<
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: LineRippleProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
         this.foundation_.activate();

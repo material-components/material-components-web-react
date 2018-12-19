@@ -21,54 +21,53 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no mdc .d.ts
 // @ts-ignore
-import {MDCTextFieldFoundation} from '@material/textfield';
-// @ts-ignore
-import Input, {InputProps} from './Input.tsx';
-// @ts-ignore
-import Icon from './icon/index.tsx';
-// @ts-ignore
-import HelperText from './helper-text/index.tsx';
+import {MDCTextFieldFoundation, MDCTextFieldAdapter} from '@material/textfield';
+import Input, {InputProps} from './Input';
+import Icon, {IconProps} from './icon/index';
+import HelperText, {HelperTextProps} from './helper-text/index';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
 export interface Props<T> {
-  'children.props'?: InputProps<T>,
-  children: React.ReactElement<Input<T>>,
-  className: string,
-  dense: boolean,
-  floatingLabelClassName: string,
-  fullWidth: boolean,
-  helperText?: React.ReactElement<any>,
-  isRtl: boolean,
-  label: React.ReactNode,
-  leadingIcon?: React.ReactElement<HTMLOrSVGElement>,
-  lineRippleClassName: string,
-  notchedOutlineClassName: string,
-  outlined: boolean,
-  textarea: boolean,
-  trailingIcon?: React.ReactElement<HTMLOrSVGElement>
+  // InputProps<T> includes the prop `id`, which we use below in the constructor
+  'children.props'?: InputProps<T>;
+  children: React.ReactElement<Input<T>>;
+  className: string;
+  dense: boolean;
+  floatingLabelClassName: string;
+  fullWidth: boolean;
+  helperText?: React.ReactElement<any>;
+  isRtl: boolean;
+  label: React.ReactNode;
+  leadingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+  lineRippleClassName: string;
+  notchedOutlineClassName: string;
+  outlined: boolean;
+  textarea: boolean;
+  trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
 };
 
 type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
 
-type TextFieldState = {
-  foundation: MDCTextFieldFoundation | null,
-  value?: string | string[] | number,
-  classList: Set<any>,
-  inputId: string,
-  isFocused: boolean,
-  dir: string,
-  disabled: boolean,
-  labelIsFloated: boolean,
-  initialLabelWidth: number,
-  notchedLabelWidth: number,
-  activeLineRipple: boolean,
-  lineRippleCenter: number,
-  outlineIsNotched: boolean,
-  showHelperTextToScreenReader: boolean,
-  isValid: boolean,
+interface TextFieldState {
+  foundation?: MDCTextFieldFoundation;
+  value?: string | string[] | number;
+  classList: Set<string>;
+  inputId: string;
+  isFocused: boolean;
+  dir: string;
+  disabled: boolean;
+  labelIsFloated: boolean;
+  initialLabelWidth: number;
+  notchedLabelWidth: number;
+  activeLineRipple: boolean;
+  lineRippleCenter: number;
+  outlineIsNotched: boolean;
+  showHelperTextToScreenReader: boolean;
+  isValid: boolean;
 };
 
 class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFieldState> {
@@ -81,12 +80,10 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     floatingLabelClassName: '',
     fullWidth: false,
     isRtl: false,
-    leadingIcon: null,
     lineRippleClassName: '',
     notchedOutlineClassName: '',
     outlined: false,
     textarea: false,
-    trailingIcon: null,
   };
 
   constructor(props: TextFieldProps<T>) {
@@ -118,7 +115,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
       isValid: true,
       // foundation is on state,
       // so that the Input renders after this component
-      foundation: null,
+      foundation: undefined,
     };
   }
 
@@ -183,7 +180,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     return otherProps;
   }
 
-  get adapter() {
+  get adapter(): MDCTextFieldAdapter {
     const rootAdapterMethods = {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
@@ -207,7 +204,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     );
   }
 
-  get inputAdapter() {
+  get inputAdapter(): Partial<MDCTextFieldAdapter> {
     // For reference: This is the shape of what the vanilla component `getNativeInput` returns
     // {
     //  value: string,
@@ -241,7 +238,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  get labelAdapter() {
+  get labelAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       shakeLabel: (shakeLabel: boolean) => {
         const {floatingLabelElement: floatingLabel} = this;
@@ -256,7 +253,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  get lineRippleAdapter() {
+  get lineRippleAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
@@ -265,7 +262,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  get notchedOutlineAdapter() {
+  get notchedOutlineAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       notchOutline: (notchedLabelWidth: number) =>
         this.setState({outlineIsNotched: true, notchedLabelWidth}),
@@ -274,7 +271,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  get helperTextAdapter() {
+  get helperTextAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       showToScreenReader: () =>
         this.setState({showHelperTextToScreenReader: true}),
@@ -331,8 +328,14 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
         {trailingIcon ? this.renderIcon(trailingIcon) : null}
       </div>
     );
+
     if (helperText) {
-      return [textField, this.renderHelperText()];
+      return (
+        <React.Fragment>
+          {textField}
+          {this.renderHelperText()}
+        </React.Fragment>
+      );
     }
     return textField;
   }
@@ -404,12 +407,12 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     return React.cloneElement(helperText, props);
   }
 
-  renderIcon(icon: React.ReactElement<HTMLOrSVGElement>) {
+  renderIcon(icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) {
     const {disabled} = this.state;
     // Toggling disabled will trigger icon.foundation.setDisabled()
     return <Icon disabled={disabled}>{icon}</Icon>;
   }
 }
 
-export {Icon, HelperText, Input};
+export {Icon, HelperText, Input, IconProps, HelperTextProps, InputProps};
 export default TextField;
