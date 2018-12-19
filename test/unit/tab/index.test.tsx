@@ -106,12 +106,14 @@ test('#adapter.getOffsetWidth returns tabElement_.offsetWidth', () => {
 
 test('#adapter.getContentOffsetLeft returns tabContentElement_.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getContentOffsetLeft(), wrapper.instance().tabContentElement_.current!.offsetLeft);
+  assert.equal(wrapper.instance().adapter.getContentOffsetLeft(),
+    wrapper.instance().tabContentElement_.current!.offsetLeft);
 });
 
 test('#adapter.getContentOffsetWidth returns tabContentElement_.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getContentOffsetWidth(), wrapper.instance().tabContentElement_.current!.offsetWidth);
+  assert.equal(wrapper.instance().adapter.getContentOffsetWidth(),
+    wrapper.instance().tabContentElement_.current!.offsetWidth);
 });
 
 test('#adapter.focus focuses the tabElement_', () => {
