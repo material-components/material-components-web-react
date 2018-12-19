@@ -30,6 +30,8 @@ import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
 
+type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
+
 export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
   box: boolean;
   className: string;
@@ -41,7 +43,7 @@ export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
   nativeControlClassName: string;
   notchedOutlineClassName: string;
   outlined: boolean;
-  options: (string | React.HTMLProps<HTMLOptionElement>)[];
+  options: SelectOptionsType;
 }
 
 interface SelectState {
