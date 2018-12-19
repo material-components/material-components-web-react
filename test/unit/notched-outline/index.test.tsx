@@ -2,16 +2,14 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
-// @ts-ignore
-import NotchedOutline from '../../../packages/notched-outline/index.tsx';
+import NotchedOutline from '../../../packages/notched-outline/index';
 
 suite('NotchedOutline');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<NotchedOutline className='test-class-name' />);
-  const outlineElement = wrapper.first().first();
-  assert.isTrue(outlineElement.hasClass('mdc-notched-outline'));
-  assert.isTrue(outlineElement.hasClass('test-class-name'));
+  assert.isTrue(wrapper.children().first().hasClass('mdc-notched-outline'));
+  assert.isTrue(wrapper.children().first().hasClass('test-class-name'));
 });
 
 test('creates outlineElement_', () => {
