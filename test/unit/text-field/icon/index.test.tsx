@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-// @ts-ignore
-import Icon from '../../../../packages/text-field/icon/index.tsx';
+import Icon from '../../../../packages/text-field/icon/index';
+// TODO: fix with #513
 // @ts-ignore
 import MaterialIcon from '../../../../packages/material-icon/index.js';
 
