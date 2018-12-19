@@ -21,19 +21,18 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no mdc .d.ts
 // @ts-ignore
 import {MDCFloatingLabelFoundation} from '@material/floating-label';
 
-export interface FloatingLabelBaseProps {
-  className?: string,
-  handleWidthChange?: (width: number) => void,
-  float?: boolean,
+export interface FloatingLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  className?: string;
+  handleWidthChange?: (width: number) => void;
+  float?: boolean;
 };
 
-export type FloatingLabelProps = FloatingLabelBaseProps & React.LabelHTMLAttributes<HTMLLabelElement>;
-
-type FloatingLabelState = {
-  classList: Set<String>,
+interface FloatingLabelState {
+  classList: Set<string>;
 };
 
 export default class FloatingLabel extends React.Component<
@@ -41,14 +40,14 @@ export default class FloatingLabel extends React.Component<
   FloatingLabelState
   > {
   foundation_?: MDCFloatingLabelFoundation;
-  labelElement: React.RefObject<HTMLLabelElement> = React.createRef();
+  labelElement_: React.RefObject<HTMLLabelElement> = React.createRef();
 
-  static defaultProps: FloatingLabelProps = {
+  static defaultProps: Partial<FloatingLabelProps> = {
     className: '',
     float: false,
   };
 
-  state = {
+  state: FloatingLabelState = {
     classList: new Set(),
   };
 
@@ -105,8 +104,8 @@ export default class FloatingLabel extends React.Component<
 
   handleWidthChange = () => {
     const {handleWidthChange} = this.props;
-    if (handleWidthChange && this.labelElement.current) {
-      handleWidthChange(this.labelElement.current.offsetWidth);
+    if (handleWidthChange && this.labelElement_.current) {
+      handleWidthChange(this.labelElement_.current.offsetWidth);
     }
   };
 
@@ -127,7 +126,7 @@ export default class FloatingLabel extends React.Component<
     return (
       <label
         className={this.classes}
-        ref={this.labelElement}
+        ref={this.labelElement_}
         onAnimationEnd={this.onShakeEnd}
         {...otherProps}
       >
