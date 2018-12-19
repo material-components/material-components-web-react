@@ -32,7 +32,8 @@ import {
 } from '@material/top-app-bar/dist/mdc.topAppBar';
 
 type IconType = React.ReactElement<React.HTMLProps<HTMLOrSVGElement | HTMLImageElement>>;
-export type MDCTopAppBarFoundationTypes = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
+export type MDCTopAppBarFoundationTypes 
+  = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
 
 export interface TopAppBarProps {
   actionItems?: IconType[];
