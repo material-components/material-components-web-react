@@ -9,9 +9,8 @@ suite('NotchedOutline');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<NotchedOutline className='test-class-name' />);
-  const outlineElement = wrapper.first().first();
-  assert.isTrue(outlineElement.hasClass('mdc-notched-outline'));
-  assert.isTrue(outlineElement.hasClass('test-class-name'));
+  assert.isTrue(wrapper.children().first().hasClass('mdc-notched-outline'));
+  assert.isTrue(wrapper.children().first().hasClass('test-class-name'));
 });
 
 test('creates outlineElement_', () => {
@@ -48,6 +47,7 @@ test('#componentDidUpdate updating notch to true calls #foundation.notch', () =>
   wrapper.setProps({notch: true});
   td.verify(wrapper.instance().foundation_.notch(0, false), {times: 1});
 });
+
 test(
   '#componentDidUpdate updating notch to false calls ' +
     '#foundation.closeNotch',
@@ -61,6 +61,7 @@ test(
     td.verify(wrapper.instance().foundation_.closeNotch(), {times: 1});
   }
 );
+
 test(
   '#componentDidUpdate updating notchWidth calls ' +
     '#foundation.notch with correct arguments',

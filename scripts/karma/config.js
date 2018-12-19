@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Tue Mar 06 2018 14:20:28 GMT-0800 (PST)
+const webpack = require('webpack');
 
 module.exports = {
   // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -29,6 +30,9 @@ module.exports = {
 
   webpack: {
     devtool: 'source-map',
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    },
     module: {
       rules: [
         {
@@ -60,6 +64,11 @@ module.exports = {
         },
       ],
     },
+    plugins: [
+      new webpack.SourceMapDevToolPlugin({
+        test: /\.(tsx|js)($|\?)/i,
+      }),
+    ],
     node: {
       fs: 'empty',
     },
