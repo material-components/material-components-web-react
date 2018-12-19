@@ -5,16 +5,22 @@ const {read: readComponents} = require('../../scripts/screenshot-directory-reade
 const {importer} = require('../../packages/webpack.util');
 
 module.exports = {
-  entry: ['babel-polyfill', `./test/screenshot/index.js`],
+  entry: ['babel-polyfill', `./test/screenshot/index.tsx`],
   output: {
     filename: 'bundle.js',
     path: __dirname,
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
   module: {
     rules: [{
       test: /\.js$/,
       loader: 'babel-loader',
       query: {compact: true},
+    }, {
+      test: /\.tsx?$/,
+      loader: 'ts-loader',
     }, {
       test: /\.scss$/,
       use: ExtractTextPlugin.extract({

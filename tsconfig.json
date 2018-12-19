@@ -1,0 +1,19 @@
+{
+  "extends": "gts/tsconfig-google.json",
+  "compilerOptions": {
+    "outDir": "./build/",
+    "declaration": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "module": "commonjs",
+    "lib": ["es2015", "es2017", "dom"],
+    "jsx": "react",
+    "target": "es5",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+  ]
+}
