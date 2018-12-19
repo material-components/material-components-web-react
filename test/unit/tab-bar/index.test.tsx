@@ -52,11 +52,11 @@ test('key down event calls props.onKeyDown', () => {
   td.verify(onKeyDown(evt), {times: 1});
 });
 
-test('click on tab calls props.onClick', () => {
+test('click on tab calls tab.props.onClick', () => {
   const onClick = td.func() as React.MouseEventHandler<HTMLDivElement>;
   const wrapper = shallow(
-    <TabBar onClick={onClick}>
-      <div className='tab' />
+    <TabBar>
+      <div className='tab' onClick={onClick} />
     </TabBar>
   );
   const evt = {} as React.MouseEvent<HTMLDivElement>;
