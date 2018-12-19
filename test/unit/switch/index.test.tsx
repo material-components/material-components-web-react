@@ -8,7 +8,7 @@ suite('Switch');
 
 test('creates foundation', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('has mdc-switch class', () => {
@@ -45,23 +45,23 @@ test('has checked class when props.checked is true', () => {
   assert.isTrue(wrapper.hasClass('mdc-switch--checked'));
 });
 
-test('#foundation_.setChecked gets called when prop.checked updates', () => {
+test('#foundation.setChecked gets called when prop.checked updates', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  wrapper.instance().foundation_.setChecked = td.func();
+  wrapper.instance().foundation.setChecked = td.func();
   wrapper.setProps({checked: true});
-  td.verify(wrapper.instance().foundation_.setChecked(true), {times: 1});
+  td.verify(wrapper.instance().foundation.setChecked(true), {times: 1});
 });
 
-test('#foundation_.setDisabled gets called when prop.disabled updates', () => {
+test('#foundation.setDisabled gets called when prop.disabled updates', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  wrapper.instance().foundation_.setDisabled = td.func();
+  wrapper.instance().foundation.setDisabled = td.func();
   wrapper.setProps({disabled: true});
-  td.verify(wrapper.instance().foundation_.setDisabled(true), {times: 1});
+  td.verify(wrapper.instance().foundation.setDisabled(true), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
@@ -69,20 +69,20 @@ test('#componentWillUnmount destroys foundation', () => {
 
 test('#adapter.addClass adds class to state.classList', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  wrapper.instance().foundation_.adapter_.addClass('test-class-name');
+  wrapper.instance().foundation.adapter_.addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
 
 test('#adapter.removeClass removes class from state.classList', () => {
   const wrapper = shallow<Switch>(<Switch />);
   wrapper.setState({classList: new Set(['test-class-name'])});
-  wrapper.instance().foundation_.adapter_.removeClass('test-class-name');
+  wrapper.instance().foundation.adapter_.removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
 test('#adapter.setNativeControlChecked updates state.nativeControlChecked', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  wrapper.instance().foundation_.adapter_.setNativeControlChecked(true);
+  wrapper.instance().foundation.adapter_.setNativeControlChecked(true);
   assert.isTrue(wrapper.state().nativeControlChecked);
 });
 
@@ -94,7 +94,7 @@ test('#state.nativeControlChecked updates NativeControl', () => {
 
 test('#adapter.setNativeControlDisabled updates state.nativeControlDisabled', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  wrapper.instance().foundation_.adapter_.setNativeControlDisabled(true);
+  wrapper.instance().foundation.adapter_.setNativeControlDisabled(true);
   assert.isTrue(wrapper.state().nativeControlDisabled);
 });
 
@@ -121,7 +121,7 @@ test('calls foundation.handleChange in NativeControl props.onChange', () => {
       checked: true,
     },
   } as React.ChangeEvent<HTMLInputElement>;
-  wrapper.instance().foundation_.handleChange = td.func();
+  wrapper.instance().foundation.handleChange = td.func();
   nativeControl.props().onChange!(mockEvt);
-  td.verify(wrapper.instance().foundation_.handleChange(mockEvt), {times: 1});
+  td.verify(wrapper.instance().foundation.handleChange(mockEvt), {times: 1});
 });
