@@ -2,8 +2,7 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow} from 'enzyme';
-// @ts-ignore
-import {IconButtonBase as IconButton, ButtonProps} from '../../../packages/icon-button/index.tsx';
+import {IconButtonBase as IconButton, ButtonProps} from '../../../packages/icon-button/index';
 
 suite('IconButton');
 
