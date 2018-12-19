@@ -38,12 +38,12 @@ class MyComponent extends React.Component {
     super(props);
     // createRef was introduce in React v16.3
     // https://reactjs.org/docs/refs-and-the-dom.html#creating-refs
-    this.floatingLabelElement = React.createRef();
+    this.floatingLabelElement_ = React.createRef();
   }
 
   render() {
     return (
-      <FloatingLabel ref={this.floatingLabelElement}/>
+      <FloatingLabel ref={this.floatingLabelElement_}/>
         My Label
       </FloatingLabel>
     );
@@ -51,7 +51,7 @@ class MyComponent extends React.Component {
 
   // ... later in code ...
 
-  this.floatingLabelElement.current.shake();
+  this.floatingLabelElement_.current.shake();
 }
 ```
 

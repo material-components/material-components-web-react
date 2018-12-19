@@ -23,15 +23,16 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 // no mdc .d.ts
 // @ts-ignore
-import {MDCTextFieldFoundation} from '@material/textfield';
+import {MDCTextFieldFoundation, MDCTextFieldAdapter} from '@material/textfield';
 import Input, {InputProps} from './Input';
-import Icon from './icon/index';
-import HelperText from './helper-text/index';
+import Icon, {IconProps} from './icon/index';
+import HelperText, {HelperTextProps} from './helper-text/index';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
 export interface Props<T> {
+  // InputProps<T> includes the prop `id`, which we use below in the constructor
   'children.props'?: InputProps<T>;
   children: React.ReactElement<Input<T>>;
   className: string;
@@ -70,7 +71,7 @@ interface TextFieldState {
 };
 
 class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFieldState> {
-  floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
+  floatingLabelElement_: React.RefObject<FloatingLabel> = React.createRef();
   inputComponent_: null | Input<T> = null;
 
   static defaultProps = {
@@ -179,7 +180,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     return otherProps;
   }
 
-  get adapter() {
+  get adapter(): MDCTextFieldAdapter {
     const rootAdapterMethods = {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
@@ -203,7 +204,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     );
   }
 
-  get inputAdapter() {
+  get inputAdapter(): Partial<MDCTextFieldAdapter> {
     // For reference: This is the shape of what the vanilla component `getNativeInput` returns
     // {
     //  value: string,
@@ -237,10 +238,10 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  get labelAdapter() {
+  get labelAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       shakeLabel: (shakeLabel: boolean) => {
-        const {floatingLabelElement: floatingLabel} = this;
+        const {floatingLabelElement_: floatingLabel} = this;
         if (!shakeLabel) return;
         if (floatingLabel && floatingLabel.current) {
           floatingLabel.current.shake();
@@ -252,7 +253,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  get lineRippleAdapter() {
+  get lineRippleAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
@@ -261,7 +262,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  get notchedOutlineAdapter() {
+  get notchedOutlineAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       notchOutline: (notchedLabelWidth: number) =>
         this.setState({outlineIsNotched: true, notchedLabelWidth}),
@@ -270,7 +271,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     };
   }
 
-  get helperTextAdapter() {
+  get helperTextAdapter(): Partial<MDCTextFieldAdapter> {
     return {
       showToScreenReader: () =>
         this.setState({showHelperTextToScreenReader: true}),
@@ -327,8 +328,14 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
         {trailingIcon ? this.renderIcon(trailingIcon) : null}
       </div>
     );
+
     if (helperText) {
-      return [textField, this.renderHelperText()];
+      return (
+        <React.Fragment>
+          {textField}
+          {this.renderHelperText()}
+        </React.Fragment>
+      );
     }
     return textField;
   }
@@ -349,7 +356,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
         handleWidthChange={(initialLabelWidth) =>
           this.setState({initialLabelWidth})
         }
-        ref={this.floatingLabelElement}
+        ref={this.floatingLabelElement_}
         htmlFor={inputId}
       >
         {label}
@@ -407,5 +414,5 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
   }
 }
 
-export {Icon, HelperText, Input};
+export {Icon, HelperText, Input, IconProps, HelperTextProps, InputProps};
 export default TextField;
