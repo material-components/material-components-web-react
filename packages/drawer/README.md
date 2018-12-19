@@ -156,7 +156,7 @@ export default class App extends Component {
 
         <DrawerAppContent className='drawer-app-content'>
           <TopAppBar title='Inbox'
-            navigationIcon={<MaterialIcon icon='menu' />
+            navigationIcon={<MaterialIcon icon='menu' />} />
 
           <TopAppBarFixedAdjust>
             Your inbox content
