@@ -25,11 +25,11 @@ module.exports = {
   // preprocess matching files before serving them to the browser
   // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
   preprocessors: {
-    'test/unit/index.tsx': ['webpack'],
+    'test/unit/index.tsx': ['webpack', 'sourcemap'],
   },
 
   webpack: {
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     },
@@ -46,12 +46,21 @@ module.exports = {
                 'env',
                 'react',
               ],
-              plugins: ['transform-class-properties', 'istanbul'],
+              plugins: ['transform-class-properties'],
             },
           },
         }, {
           test: /\.tsx?$/,
           loader: 'ts-loader',
+        }, {
+          enforce: 'post',
+          test: /\.(js|ts)x?$/,
+          use: {
+            loader: 'istanbul-instrumenter-loader',
+            options: {esModules: true, produceSourceMap: true},
+          },
+          include: require('path').resolve('packages/'),
+          exclude: [/\.test\.(js|ts)x?$/, /node_modules/],
         },
       ],
     },
@@ -75,10 +84,11 @@ module.exports = {
   // test results reporter to use
   // possible values: 'dots', 'progress'
   // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-  reporters: ['progress', 'coverage'],
+  reporters: ['progress', 'coverage-istanbul'],
 
-  coverageReporter: {
+  coverageIstanbulReporter: {
     dir: 'coverage',
+    skipFilesWithNoCoverage: true,
     reporters: [
       {type: 'lcovonly', subdir: '.'},
       {type: 'json', subdir: '.', file: 'coverage.json'},
