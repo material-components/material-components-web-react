@@ -38,7 +38,7 @@ export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
 }
 
 export default class TabIndicator extends React.Component<TabIndicatorProps, {}> {
-  tabIndicatorElement_: React.RefObject<HTMLSpanElement> = React.createRef();
+  private tabIndicatorElement_: React.RefObject<HTMLSpanElement> = React.createRef();
   foundation_?: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
 
   static defaultProps: Partial<TabIndicatorProps> = {
