@@ -38,7 +38,7 @@ export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
 }
 
 export default class TabIndicator extends React.Component<TabIndicatorProps, {}> {
-  private tabIndicatorElement_: React.RefObject<HTMLSpanElement> = React.createRef();
+  private tabIndicatorElement: React.RefObject<HTMLSpanElement> = React.createRef();
   foundation_?: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
 
   static defaultProps: Partial<TabIndicatorProps> = {
@@ -92,19 +92,19 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
   get adapter() {
     return {
       addClass: (className: string) => {
-        if (!this.tabIndicatorElement_.current) return;
+        if (!this.tabIndicatorElement.current) return;
         // since the sliding indicator depends on the FLIP method,
         // our regular pattern of managing classes does not work here.
         // setState is async, which does not work well with the FLIP method
         // without a requestAnimationFrame, which was done in this PR:
         // https://github.com/material-components
         // /material-components-web/pull/3337/files#diff-683d792d28dad99754294121e1afbfb5L62
-        this.tabIndicatorElement_.current.classList.add(className);
+        this.tabIndicatorElement.current.classList.add(className);
         this.forceUpdate();
       },
       removeClass: (className: string) => {
-        if (!this.tabIndicatorElement_.current) return;
-        this.tabIndicatorElement_.current.classList.remove(className);
+        if (!this.tabIndicatorElement.current) return;
+        this.tabIndicatorElement.current.classList.remove(className);
         this.forceUpdate();
       },
       computeContentClientRect: this.computeContentClientRect,
@@ -112,10 +112,11 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
       // async nature, its not condusive to the FLIP technique
       setContentStyleProperty: (prop: keyof CSSStyleDeclaration, value: string) => {
         const contentElement = this.getNativeContentElement() as HTMLElement;
-        if (!contentElement) return;
         // length and parentRule are readonly properties of CSSStyleDeclaration that
         // cannot be set
-        if (prop === 'length' || prop === 'parentRule') return;
+        if (!contentElement || prop === 'length' || prop === 'parentRule') {
+          return;
+        }
         // https://github.com/Microsoft/TypeScript/issues/11914
         contentElement.style[prop] = value;
       },
@@ -123,13 +124,11 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
   }
 
   private getNativeContentElement = () => {
-    if (!this.tabIndicatorElement_.current) return;
+    if (!this.tabIndicatorElement.current) return;
     // need to use getElementsByClassName since tabIndicator could be
     // a non-semantic element (span, i, etc.). This is a problem since refs to a non semantic elements
     // return the instance of the component.
-    return this.tabIndicatorElement_.current.getElementsByClassName(
-      'mdc-tab-indicator__content'
-    )[0];
+    return this.tabIndicatorElement.current.getElementsByClassName('mdc-tab-indicator__content')[0];
   };
 
   computeContentClientRect = () => {
@@ -153,7 +152,7 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
     return (
       <span
         className={this.classes}
-        ref={this.tabIndicatorElement_}
+        ref={this.tabIndicatorElement}
         {...otherProps}
       >
         {this.renderContent()}
