@@ -355,4 +355,5 @@ export {
   ListDivider,
   ListGroup,
   ListGroupSubheader,
+  ListItemProps,
 };

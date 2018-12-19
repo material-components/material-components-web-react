@@ -21,7 +21,7 @@ import * as uuidv4 from 'uuid/v4';
 
 type SelectionListTestState = {
   selectedIndex: number,
-  listItems: string[]
+  listItems: string[],
 };
 
 function renderListItem(options: ListItemTextProps) {

@@ -2,9 +2,9 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount} from 'enzyme';
-import List from '../../../packages/list';
-import {ListItem} from '../../../packages/list/index';
-import {ListItemProps} from '../../../packages/list/ListItem'; // eslint-disable-line no-unused-vars
+import List, {
+  ListItem, ListItemProps, // eslint-disable-line no-unused-vars
+} from '../../../packages/list/index';
 
 suite('List');
 

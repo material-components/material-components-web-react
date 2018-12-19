@@ -33,13 +33,13 @@ export interface ListItemTextProps {
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14064
 function isReactElement(element: any): element is React.ReactElement<any> {
-  return element.props !== undefined && element !== null;
+  return element !== null && element.props !== undefined;
 }
 
 const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
   /* eslint-disable react/prop-types */
   primaryText = '',
-  secondaryText ='',
+  secondaryText = '',
   tabbableOnListItemFocus = false,
   tabIndex = -1,
   className = '',
@@ -61,12 +61,9 @@ const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
     if (!isReactElement(text)) return null;
 
     const {className: textClassName, ...otherProps} = text.props;
-    const props = Object.assign(
-      {
-        className: classnames(className, textClassName),
-      },
-      ...otherProps
-    );
+    className = classnames(className, textClassName);
+    const props = {...otherProps, className};
+
     return React.cloneElement(text, props);
   };
 

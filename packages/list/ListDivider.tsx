@@ -29,7 +29,7 @@ export interface ListDividerProps extends React.HTMLProps<HTMLElement>{
 };
 
 const ListDivider: React.FunctionComponent<ListDividerProps> = ({
-  tag: Tag = 'li', className = 'li', role = 'separator', ...otherProps // eslint-disable-line react/prop-types
+  tag: Tag = 'li', className = '', role = 'separator', ...otherProps // eslint-disable-line react/prop-types
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

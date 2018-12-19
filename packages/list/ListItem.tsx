@@ -62,10 +62,10 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
     shouldFocus: false,
     shouldFollowHref: false,
     shouldToggleCheckbox: false,
-    onKeyDown: (_: React.KeyboardEvent<HTMLElement>) => {},
-    onClick: (_: React.MouseEvent<HTMLElement>) => {},
-    onFocus: (_: React.FocusEvent<HTMLElement>) => {},
-    onBlur: (_: React.FocusEvent<HTMLElement>) => {},
+    onKeyDown: () => {},
+    onClick: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
     tag: 'li',
   };
 
@@ -78,8 +78,8 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
       this.followHref();
     }
     if (
-      shouldToggleCheckbox !== prevProps.shouldToggleCheckbox &&
-      shouldToggleCheckbox
+      shouldToggleCheckbox &&
+      shouldToggleCheckbox !== prevProps.shouldToggleCheckbox
     ) {
       this.toggleCheckbox();
     }
@@ -143,9 +143,8 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
       return child;
     }
 
-    const props = Object.assign({}, child.props, {
-      tabIndex: this.props.childrenTabIndex,
-    });
+    const tabIndex = this.props.childrenTabIndex;
+    const props = {...child.props, tabIndex};
     return React.cloneElement(child, props);
   };
 }
