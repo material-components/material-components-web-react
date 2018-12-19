@@ -1,3 +1,25 @@
+// The MIT License
+//
+// Copyright (c) 2018 Google, Inc.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 import * as classnames from 'classnames';
 import * as React from 'react';
 // no .d.ts file
@@ -23,14 +45,14 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
   LinearProgressProps<T>,
   LinearProgressState
   > {
-  isMounted_ = false;
+  isMounted_: boolean = false;
   bufferElement: React.RefObject<HTMLDivElement> = React.createRef();
-  primaryBarElement_: React.RefObject<HTMLDivElement> = React.createRef();
-  foundation_: MDCLinearProgressFoundation;
+  primaryBarElement: React.RefObject<HTMLDivElement> = React.createRef();
+  foundation: MDCLinearProgressFoundation;
 
   constructor(props: LinearProgressProps<T>) {
     super(props);
-    this.foundation_ = new MDCLinearProgressFoundation(this.adapter);
+    this.foundation = new MDCLinearProgressFoundation(this.adapter);
     this.state = {
       classList: new Set(),
     };
@@ -50,13 +72,13 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
   componentDidMount() {
     const {buffer, closed, indeterminate, progress, reversed} = this.props;
     this.isMounted_ = true;
-    this.foundation_.init();
-    this.foundation_.setBuffer(buffer);
-    this.foundation_.setDeterminate(!indeterminate);
-    this.foundation_.setProgress(progress);
-    this.foundation_.setReverse(reversed);
+    this.foundation.init();
+    this.foundation.setBuffer(buffer);
+    this.foundation.setDeterminate(!indeterminate);
+    this.foundation.setProgress(progress);
+    this.foundation.setReverse(reversed);
     if (closed) {
-      this.foundation_.close();
+      this.foundation.close();
     }
   }
 
@@ -70,28 +92,28 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
     } = prevProps;
     const {buffer, closed, indeterminate, progress, reversed} = this.props;
     if (buffer !== prevBuffer) {
-      this.foundation_.setBuffer(buffer);
+      this.foundation.setBuffer(buffer);
     }
     if (closed && !prevClosed) {
-      this.foundation_.close();
+      this.foundation.close();
     }
     if (!closed && prevClosed) {
-      this.foundation_.open();
+      this.foundation.open();
     }
     if (indeterminate !== prevIndeterminate) {
-      this.foundation_.setDeterminate(!indeterminate);
+      this.foundation.setDeterminate(!indeterminate);
     }
     if (progress !== prevProgress) {
-      this.foundation_.setProgress(progress);
+      this.foundation.setProgress(progress);
     }
     if (reversed !== prevReversed) {
-      this.foundation_.setReverse(reversed);
+      this.foundation.setReverse(reversed);
     }
   }
 
   componentWillUnmount() {
     this.isMounted_ = false;
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   get adapter() {
@@ -107,7 +129,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
         return this.bufferElement.current;
       },
       getPrimaryBar: () => {
-        return this.primaryBarElement_.current;
+        return this.primaryBarElement.current;
       },
       hasClass: (className: string) => {
         return this.state.classList.has(className);
@@ -167,7 +189,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
         />
         <div
           className='mdc-linear-progress__bar mdc-linear-progress__primary-bar'
-          ref={this.primaryBarElement_}
+          ref={this.primaryBarElement}
         >
           <span className='mdc-linear-progress__bar-inner' />
         </div>

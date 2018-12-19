@@ -24,7 +24,7 @@ test('Creates the foundation', () => {
   const wrapper = shallow<LinearProgress>(<LinearProgress />, {
     disableLifecycleMethods: true,
   });
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('Adds the mdc-linear-progress class', () => {
@@ -65,102 +65,102 @@ test('Keeps custom props', () => {
   assert.equal(props.label, 'test-prop');
 });
 
-test('#foundation_.init gets called when the component mounts', () => {
+test('#foundation.init gets called when the component mounts', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress />);
   const instance = wrapper.instance();
-  instance.foundation_.init = td.func();
+  instance.foundation.init = td.func();
   instance.componentDidMount();
-  td.verify(instance.foundation_.init(), {times: 1});
+  td.verify(instance.foundation.init(), {times: 1});
 });
 
-test('#foundation_.setBuffer gets called when the component mounts', () => {
+test('#foundation.setBuffer gets called when the component mounts', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress buffer={0.1} />);
   const instance = wrapper.instance();
-  instance.foundation_.setBuffer = td.func();
+  instance.foundation.setBuffer = td.func();
   instance.componentDidMount();
-  td.verify(instance.foundation_.setBuffer(0.1), {times: 1});
+  td.verify(instance.foundation.setBuffer(0.1), {times: 1});
 });
 
-test('#foundation_.setDeterminate gets called when the component mounts', () => {
+test('#foundation.setDeterminate gets called when the component mounts', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress indeterminate={true} />);
   const instance = wrapper.instance();
-  instance.foundation_.setDeterminate = td.func();
+  instance.foundation.setDeterminate = td.func();
   instance.componentDidMount();
-  td.verify(instance.foundation_.setDeterminate(false), {times: 1});
+  td.verify(instance.foundation.setDeterminate(false), {times: 1});
 });
 
-test('#foundation_.setProgress gets called when the component mounts', () => {
+test('#foundation.setProgress gets called when the component mounts', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress progress={0.1} />);
   const instance = wrapper.instance();
-  instance.foundation_.setProgress = td.func();
+  instance.foundation.setProgress = td.func();
   instance.componentDidMount();
-  td.verify(instance.foundation_.setProgress(0.1), {times: 1});
+  td.verify(instance.foundation.setProgress(0.1), {times: 1});
 });
 
-test('#foundation_.setReverse gets called when the component mounts', () => {
+test('#foundation.setReverse gets called when the component mounts', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress reversed={true} />);
   const instance = wrapper.instance();
-  instance.foundation_.setReverse = td.func();
+  instance.foundation.setReverse = td.func();
   instance.componentDidMount();
-  td.verify(instance.foundation_.setReverse(true), {times: 1});
+  td.verify(instance.foundation.setReverse(true), {times: 1});
 });
 
-test('#foundation_.close gets called when the component mounts', () => {
+test('#foundation.close gets called when the component mounts', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress closed />);
   const instance = wrapper.instance();
-  instance.foundation_.close = td.func();
+  instance.foundation.close = td.func();
   instance.componentDidMount();
-  td.verify(instance.foundation_.close(), {times: 1});
+  td.verify(instance.foundation.close(), {times: 1});
 });
 
-test('#foundation_.setBuffer gets called when props.buffer updates', () => {
+test('#foundation.setBuffer gets called when props.buffer updates', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress buffer={0.1} />);
-  wrapper.instance().foundation_.setBuffer = td.func();
+  wrapper.instance().foundation.setBuffer = td.func();
   wrapper.setProps({buffer: 0.2});
-  td.verify(wrapper.instance().foundation_.setBuffer(0.2), {times: 1});
+  td.verify(wrapper.instance().foundation.setBuffer(0.2), {times: 1});
 });
 
-test('#foundation_.close gets called when props.closed updates', () => {
+test('#foundation.close gets called when props.closed updates', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress closed={false} />);
-  wrapper.instance().foundation_.close = td.func();
+  wrapper.instance().foundation.close = td.func();
   wrapper.setProps({closed: true});
-  td.verify(wrapper.instance().foundation_.close(), {times: 1});
+  td.verify(wrapper.instance().foundation.close(), {times: 1});
 });
 
-test('#foundation_.open gets called when props.closed updates', () => {
+test('#foundation.open gets called when props.closed updates', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress closed={true} />);
-  wrapper.instance().foundation_.open = td.func();
+  wrapper.instance().foundation.open = td.func();
   wrapper.setProps({closed: false});
-  td.verify(wrapper.instance().foundation_.open(), {times: 1});
+  td.verify(wrapper.instance().foundation.open(), {times: 1});
 });
 
-test('#foundation_.setDeterminate gets called when props.indeterminate updates', () => {
+test('#foundation.setDeterminate gets called when props.indeterminate updates', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress indeterminate={false} />);
-  wrapper.instance().foundation_.setDeterminate = td.func();
+  wrapper.instance().foundation.setDeterminate = td.func();
   wrapper.setProps({indeterminate: true});
-  td.verify(wrapper.instance().foundation_.setDeterminate(false), {times: 1});
+  td.verify(wrapper.instance().foundation.setDeterminate(false), {times: 1});
 });
 
-test('#foundation_.setProgress gets called when props.progress updates', () => {
+test('#foundation.setProgress gets called when props.progress updates', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress progress={0.1} />);
-  wrapper.instance().foundation_.setProgress = td.func();
+  wrapper.instance().foundation.setProgress = td.func();
   wrapper.setProps({progress: 0.2});
-  td.verify(wrapper.instance().foundation_.setProgress(0.2), {times: 1});
+  td.verify(wrapper.instance().foundation.setProgress(0.2), {times: 1});
 });
 
-test('#foundation_.setReverse gets called when props.reversed updates', () => {
+test('#foundation.setReverse gets called when props.reversed updates', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress reversed={false} />);
-  wrapper.instance().foundation_.setReverse = td.func();
+  wrapper.instance().foundation.setReverse = td.func();
   wrapper.setProps({reversed: true});
-  td.verify(wrapper.instance().foundation_.setReverse(true), {times: 1});
+  td.verify(wrapper.instance().foundation.setReverse(true), {times: 1});
 });
 
-test('#foundation_.destroy gets called when the component unmounts', () => {
+test('#foundation.destroy gets called when the component unmounts', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress />);
   const instance = wrapper.instance();
-  instance.foundation_.destroy = td.func();
+  instance.foundation.destroy = td.func();
   wrapper.unmount();
-  td.verify(instance.foundation_.destroy(), {times: 1});
+  td.verify(instance.foundation.destroy(), {times: 1});
 });
 
 test('#adapter.addClass adds a class to state', () => {
