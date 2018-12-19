@@ -19,7 +19,7 @@ export interface TabBarProps extends React.HTMLProps<HTMLDivElement> {
 };
 
 interface TabBarState {
-  previousActiveIndex: any;
+  previousActiveIndex: number;
 };
 
 export default class TabBar extends React.Component<
@@ -28,7 +28,7 @@ export default class TabBar extends React.Component<
   tabBarElement_: React.RefObject<HTMLDivElement> = React.createRef();
   tabScroller_: React.RefObject<TabScroller> = React.createRef();
   tabList_: Tab[] = [];
-  foundation_: MDCTabBarFoundation | null = null;
+  foundation_?: MDCTabBarFoundation;
 
   constructor(props: TabBarProps) {
     super(props);
