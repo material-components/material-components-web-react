@@ -96,34 +96,22 @@ test('#adapter.setAttr sets aria-selected on state', () => {
 
 test('#adapter.getOffsetLeft returns tabElement_.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab />);
-  assert.equal(
-    wrapper.instance().adapter.getOffsetLeft(),
-    wrapper.instance().tabElement_.current!.offsetLeft
-  );
+  assert.equal(wrapper.instance().adapter.getOffsetLeft(), wrapper.instance().tabElement_.current!.offsetLeft);
 });
 
 test('#adapter.getOffsetWidth returns tabElement_.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(
-    wrapper.instance().adapter.getOffsetWidth(),
-    wrapper.instance().tabElement_.current!.offsetWidth
-  );
+  assert.equal(wrapper.instance().adapter.getOffsetWidth(), wrapper.instance().tabElement_.current!.offsetWidth);
 });
 
 test('#adapter.getContentOffsetLeft returns tabContentElement_.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(
-    wrapper.instance().adapter.getContentOffsetLeft(),
-    wrapper.instance().tabContentElement_.current!.offsetLeft
-  );
+  assert.equal(wrapper.instance().adapter.getContentOffsetLeft(), wrapper.instance().tabContentElement_.current!.offsetLeft);
 });
 
 test('#adapter.getContentOffsetWidth returns tabContentElement_.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(
-    wrapper.instance().adapter.getContentOffsetWidth(),
-    wrapper.instance().tabContentElement_.current!.offsetWidth
-  );
+  assert.equal(wrapper.instance().adapter.getContentOffsetWidth(), wrapper.instance().tabContentElement_.current!.offsetWidth);
 });
 
 test('#adapter.focus focuses the tabElement_', () => {
@@ -166,10 +154,7 @@ test('#computeIndicatorClientRect returns the tabIndicator_ clientRect', () => {
   const wrapper = mount<Tab>(<Tab />);
   wrapper.instance().tabIndicator_.current.computeContentClientRect = td.func();
   wrapper.instance().computeIndicatorClientRect();
-  td.verify(
-    wrapper.instance().tabIndicator_.current.computeContentClientRect(),
-    {times: 1}
-  );
+  td.verify(wrapper.instance().tabIndicator_.current.computeContentClientRect(), {times: 1});
 });
 
 test('#computeDimensions calls foundation.computeDimensions', () => {
