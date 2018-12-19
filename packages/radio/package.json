@@ -1,6 +1,6 @@
 {
   "name": "@material/react-radio",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Material Componens React Radio",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@material/form-field": "^0.41.0",
     "@material/radio": "^0.41.0",
-    "@material/react-ripple": "^0.7.0",
+    "@material/react-ripple": "^0.7.1",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.1",
     "react": "^16.4.2"

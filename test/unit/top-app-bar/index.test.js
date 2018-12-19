@@ -63,6 +63,17 @@ test('has correct fixed class', () => {
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--fixed'));
 });
 
+test('has correct dense class', () => {
+  const wrapper = shallow(<TopAppBar dense />);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--dense'));
+});
+
+test('has correct prominent dense class', () => {
+  const wrapper = shallow(<TopAppBar prominent dense />);
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--dense'));
+  assert.isTrue(wrapper.hasClass('mdc-top-app-bar--prominent'));
+});
+
 test('navigationIcon is rendered with navigation icon class', () => {
   const wrapper = mount(
     <TopAppBar
@@ -202,6 +213,111 @@ test('#enableRippleOnElement throws error if a native element', () => {
     'Material Design requires all Top App Bar Icons to have ripple. '
       + 'Please use @material/react-ripple HOC with your icons.'
   );
+});
+
+test('when changes from short to fixed the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar short />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({fixed: true, short: false});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from short to fixed the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar short />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({fixed: true, short: false});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from short to standard the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar short />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({short: false});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from short to prominent the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar short />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({short: false, prominent: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from short to shortCollpased the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar short />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({shortCollapsed: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from fixed to prominent the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar fixed/>);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({fixed: false, prominent: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from fixed to short the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar fixed/>);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({fixed: false, short: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from fixed to shortCollpased the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar fixed/>);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({fixed: false, shortCollapsed: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from fixed to standard the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar fixed/>);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({fixed: false});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from standard to fixed the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({fixed: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from standard to short the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({short: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from standard to shortCollapsed the foundation changes', () => {
+  const wrapper = shallow(<TopAppBar />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({shortCollapsed: true});
+  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
+});
+
+test('when changes from standard to prominent the foundation does not ' +
+  'change', () => {
+  const wrapper = shallow(<TopAppBar />);
+  const originalFoundation = wrapper.instance().foundation_;
+  wrapper.setProps({prominent: true});
+  assert.equal(wrapper.instance().foundation_, originalFoundation);
+  assert.exists(wrapper.instance().foundation_);
 });
 
 test('#componentWillUnmount destroys foundation', () => {
