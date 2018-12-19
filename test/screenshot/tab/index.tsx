@@ -24,6 +24,10 @@ interface TabsProps {
   children: React.ReactNode;
 }
 
+function isElementTab(element: any): element is Tab {
+  return element !== null;
+}
+
 const Tabs: (args: TabsProps) => JSX.Element = ({
   children, // eslint-disable-line react/prop-types
 }) => {
@@ -44,8 +48,8 @@ class TabsController extends React.Component<TabsControllerProps, TabsController
 
   state = {activeIndex: 0, previousActiveIndex: 0};
 
-  tabInit = (tabEl: Tab | null, index: number) => {
-    if (tabEl) {
+  tabInit = (tabEl: React.Ref<Tab>, index: number) => {
+    if (isElementTab(tabEl)) {
       this.tabBoundingRects[index] = tabEl.computeIndicatorClientRect();
     }
   }
@@ -67,7 +71,7 @@ class TabsController extends React.Component<TabsControllerProps, TabsController
             previousIndicatorClientRect={this.tabBoundingRects[previousActiveIndex]}
             // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/28884
             // @ts-ignore
-            ref={(el: Tab | null) => this.tabInit(el, index)}
+            ref={(el: React.Ref<Tab>) => this.tabInit(el, index)}
             onClick={() =>
               this.setState({
                 previousActiveIndex: activeIndex,

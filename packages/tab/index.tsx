@@ -51,11 +51,11 @@ interface TabState {
 // https://github.com/material-components/material-components-web-react/issues/528
 // TODO: switch when ripple is converted to TSX
 function isElementTabRipple(element: any): element is TabRippleBase {
-  return element !;
+  return !!element;
 }
 
 export default class Tab extends React.Component<TabProps, TabState> {
-  foundation_: MDCTabFoundation | null = null;
+  foundation_?: MDCTabFoundation;
   tabElement_: React.RefObject<HTMLButtonElement> = React.createRef();
   tabContentElement_: React.RefObject<HTMLSpanElement> = React.createRef();
   tabIndicator_: React.RefObject<TabIndicator> = React.createRef();
