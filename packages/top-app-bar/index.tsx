@@ -32,6 +32,7 @@ import {
 } from '@material/top-app-bar/dist/mdc.topAppBar';
 
 type IconType = React.ReactElement<React.HTMLProps<HTMLOrSVGElement | HTMLImageElement>>;
+type MDCTopAppBarFoundationTypes = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
 
 export interface TopAppBarProps {
   actionItems?: IconType[];
@@ -59,7 +60,7 @@ export default class TopAppBar extends React.Component<
   TopAppBarState
   > {
   topAppBarElement: React.RefObject<HTMLElement> = React.createRef();
-  foundation_?: MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
+  foundation_?: MDCTopAppBarFoundationTypes;
 
   state: TopAppBarState = {
     classList: new Set(),
