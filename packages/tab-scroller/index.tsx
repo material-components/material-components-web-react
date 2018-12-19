@@ -120,7 +120,7 @@ export default class TabScroller extends React.Component<
   get adapter() {
     return {
       eventTargetMatchesSelector: (evtTarget: HTMLDivElement, selector: string) => {
-        if (selector && isElement(selector)) {
+        if (selector && isElement(evtTarget)) {
           return evtTarget[MATCHES as 'matches'](selector);
         }
         return false;
