@@ -64,16 +64,21 @@ class SelectTest extends React.Component<SelectProps, SelectTestState> {
 
 const variants = [{}, {box: true}, {outlined: true}];
 const rtlMap = [{}, {isRtl: true}];
-const disabledMap = [{}, {value: 'pomsky'}, {disabled: true}];
+const disabledMap = [{}, {disabled: true}];
+const valueMap = [{}, {value: 'pomsky'}];
+
 const selects = variants.map((variant) => {
   return rtlMap.map((isRtl) => {
     return disabledMap.map((disabled) => {
-      const props = Object.assign({}, variant, disabled, isRtl);
-      const variantKey = Object.keys(variant)[0] || '';
-      const rtlKey = Object.keys(isRtl)[0] || '';
-      const disabledKey = Object.keys(disabled)[0] || '';
-      const key = `${variantKey}-${disabledKey}--${rtlKey}`;
-      return <SelectTest {...props} key={key} id={key} />;
+      return valueMap.map((value) => {
+        const props = Object.assign({}, variant, disabled, isRtl, value);
+        const valueKey = Object.keys(value)[0] || '';
+        const variantKey = Object.keys(variant)[0] || '';
+        const rtlKey = Object.keys(isRtl)[0] || '';
+        const disabledKey = Object.keys(disabled)[0] || '';
+        const key = `${variantKey}-${disabledKey}-${valueKey}--${rtlKey}`;
+        return <SelectTest {...props} key={key} id={key} />;
+      });
     });
   });
 });
