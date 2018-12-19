@@ -6,7 +6,7 @@ import {Body1} from '../../../packages/typography/index';
 suite('TypographyBody1');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Body1 className="test-class-name">Text</Body1>, {
+  const wrapper = shallow(<Body1 className='test-class-name'>Text</Body1>, {
     disableLifecycleMethods: true,
   });
   assert.isTrue(wrapper.hasClass('mdc-typography'));
@@ -15,7 +15,7 @@ test('classNames adds classes', () => {
 });
 
 test('renders a different tag', () => {
-  const wrapper = shallow(<Body1 tag="h1">Text</Body1>, {
+  const wrapper = shallow(<Body1 tag='h1'>Text</Body1>, {
     disableLifecycleMethods: true,
   });
   assert.equal(wrapper.type(), 'h1');
@@ -23,7 +23,7 @@ test('renders a different tag', () => {
 
 test('keeps custom props', () => {
   const wrapper = shallow(
-    <Body1 disabled={true} label="test-prop">
+    <Body1 disabled={true} label='test-prop'>
       Children
     </Body1>,
     {disableLifecycleMethods: true}

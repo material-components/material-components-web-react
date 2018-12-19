@@ -6,7 +6,7 @@ import {Caption} from '../../../packages/typography/index';
 suite('TypographyCaption');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Caption className="test-class-name">Text</Caption>, {
+  const wrapper = shallow(<Caption className='test-class-name'>Text</Caption>, {
     disableLifecycleMethods: true,
   });
   assert.isTrue(wrapper.hasClass('mdc-typography'));
@@ -15,7 +15,7 @@ test('classNames adds classes', () => {
 });
 
 test('renders a different tag', () => {
-  const wrapper = shallow(<Caption tag="h2">Text</Caption>, {
+  const wrapper = shallow(<Caption tag='h2'>Text</Caption>, {
     disableLifecycleMethods: true,
   });
   assert.equal(wrapper.type(), 'h2');
@@ -23,7 +23,7 @@ test('renders a different tag', () => {
 
 test('keeps custom props', () => {
   const wrapper = shallow(
-    <Caption disabled={true} label="test-prop">
+    <Caption disabled={true} label='test-prop'>
       Children
     </Caption>,
     {disableLifecycleMethods: true}

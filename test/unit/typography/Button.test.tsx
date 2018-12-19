@@ -6,7 +6,7 @@ import {Button} from '../../../packages/typography/index';
 suite('TypographyButton');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<Button className="test-class-name">Text</Button>, {
+  const wrapper = shallow(<Button className='test-class-name'>Text</Button>, {
     disableLifecycleMethods: true,
   });
   assert.isTrue(wrapper.hasClass('mdc-typography'));
@@ -15,7 +15,7 @@ test('classNames adds classes', () => {
 });
 
 test('renders a different tag', () => {
-  const wrapper = shallow(<Button tag="h2">Text</Button>, {
+  const wrapper = shallow(<Button tag='h2'>Text</Button>, {
     disableLifecycleMethods: true,
   });
   assert.equal(wrapper.type(), 'h2');
@@ -23,7 +23,7 @@ test('renders a different tag', () => {
 
 test('keeps custom props', () => {
   const wrapper = shallow(
-    <Button disabled={true} label="test-prop">
+    <Button disabled={true} label='test-prop'>
       Children
     </Button>,
     {disableLifecycleMethods: true}

@@ -7,7 +7,7 @@ suite('TypographyHeadline4');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(
-    <Headline4 className="test-class-name">Text</Headline4>,
+    <Headline4 className='test-class-name'>Text</Headline4>,
     {disableLifecycleMethods: true}
   );
   assert.isTrue(wrapper.hasClass('mdc-typography'));
@@ -16,7 +16,7 @@ test('classNames adds classes', () => {
 });
 
 test('renders a different tag', () => {
-  const wrapper = shallow(<Headline4 tag="p">Text</Headline4>, {
+  const wrapper = shallow(<Headline4 tag='p'>Text</Headline4>, {
     disableLifecycleMethods: true,
   });
   assert.equal(wrapper.type(), 'p');
@@ -24,7 +24,7 @@ test('renders a different tag', () => {
 
 test('keeps custom props', () => {
   const wrapper = shallow(
-    <Headline4 disabled={true} label="test-prop">
+    <Headline4 disabled={true} label='test-prop'>
       Children
     </Headline4>,
     {disableLifecycleMethods: true}

@@ -7,7 +7,7 @@ suite('TypographyOverline');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(
-    <Overline className="test-class-name">Text</Overline>,
+    <Overline className='test-class-name'>Text</Overline>,
     {disableLifecycleMethods: true}
   );
   assert.isTrue(wrapper.hasClass('mdc-typography'));
@@ -16,7 +16,7 @@ test('classNames adds classes', () => {
 });
 
 test('renders a different tag', () => {
-  const wrapper = shallow(<Overline tag="p">Text</Overline>, {
+  const wrapper = shallow(<Overline tag='p'>Text</Overline>, {
     disableLifecycleMethods: true,
   });
   assert.equal(wrapper.type(), 'p');
@@ -24,7 +24,7 @@ test('renders a different tag', () => {
 
 test('keeps custom props', () => {
   const wrapper = shallow(
-    <Overline disabled={true} label="test-prop">
+    <Overline disabled={true} label='test-prop'>
       Children
     </Overline>,
     {disableLifecycleMethods: true}
