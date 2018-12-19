@@ -37,7 +37,7 @@ export interface ButtonProps<T> {
   dense?: boolean;
   disabled?: boolean;
   unbounded?: boolean;
-  initRipple?: (surface: T) => void;
+  initRipple?: React.Ref<T>;
   className?: string;
   icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   href?: string;
