@@ -78,7 +78,7 @@ test('initializes foundation', () => {
       <NativeRadioControl />
     </Radio>
   );
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('calls foundation.setDisabled if child.props.disabled is true', () => {
@@ -88,7 +88,7 @@ test('calls foundation.setDisabled if child.props.disabled is true', () => {
       <NativeRadioControl disabled />
     </Radio>
   );
-  wrapper.instance().foundation_ = {init: () => {}, setDisabled};
+  wrapper.instance().foundation = {init: () => {}, setDisabled};
   wrapper.instance().componentDidMount();
   td.verify(setDisabled(true), {times: 1});
 });
@@ -132,24 +132,24 @@ test('renders label with for attribute tied to native control id', () => {
 
 test('calls foundation.setDisabled if children.props.disabled updates', () => {
   const wrapper = mount(<NativeControlUpdate />);
-  (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>).instance().foundation_.setDisabled = td.func();
+  (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>).instance().foundation.setDisabled = td.func();
   wrapper.setProps({disabled: true});
   td.verify(
     (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>)
       .instance()
-      .foundation_.setDisabled(true),
+      .foundation.setDisabled(true),
     {times: 1}
   );
 });
 
 test('calls foundation.setDisabled if children.props.disabled updates to false', () => {
   const wrapper = mount(<NativeControlUpdate disabled />);
-  (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>).instance().foundation_.setDisabled = td.func();
+  (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>).instance().foundation.setDisabled = td.func();
   wrapper.setProps({disabled: false});
   td.verify(
     (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>)
       .instance()
-      .foundation_.setDisabled(false),
+      .foundation.setDisabled(false),
     {times: 1}
   );
 });
@@ -230,7 +230,7 @@ test('#componentWillUnmount destroys foundation', () => {
       <NativeRadioControl id='123' />
     </Radio>
   );
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
