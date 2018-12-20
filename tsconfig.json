@@ -10,8 +10,10 @@
     "jsx": "react",
     "target": "es5",
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true
   },
+  "compileOnSave": true,
   "exclude": [
     "node_modules",
     "build",
