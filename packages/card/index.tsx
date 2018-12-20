@@ -20,50 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
 import ActionButtons from './ActionButtons';
 import ActionIcons from './ActionIcons';
 import Actions from './Actions';
 import PrimaryContent from './PrimaryContent';
 import Media from './Media';
 
-export default class Card extends React.Component {
-  render() {
-    const {
-      className,
-      children,
-      outlined,
-      ...otherProps
-    } = this.props;
-    const classes = classnames('mdc-card', className, {
-      'mdc-card--outlined': outlined,
-    });
-
-    return (
-      <div
-        className={classes}
-        {...otherProps}
-      >
-        {children}
-      </div>
-    );
-  }
+export interface CardProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string,
+  outlined?: boolean
 }
 
-Card.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  outlined: PropTypes.bool,
+const Card: React.FunctionComponent<CardProps> = ({
+  children, className = '', outlined = false, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card', className, {
+    'mdc-card--outlined': outlined,
+  });
+  return (
+    <div className={classes} {...otherProps}>
+      {children}
+    </div>
+  );
 };
-
-Card.defaultProps = {
-  children: null,
-  className: '',
-  outlined: false,
-};
-
 
 export {
   ActionButtons as CardActionButtons,
@@ -72,3 +53,5 @@ export {
   PrimaryContent as CardPrimaryContent,
   Media as CardMedia,
 };
+
+export default Card;

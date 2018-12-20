@@ -20,45 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
+import * as Ripple from '@material/react-ripple';
 
-export default class ActionButtons extends React.Component {
-  addButtonClassToChildren = () => {
-    return React.Children.map(this.props.children, (item) => {
-      const className = classnames(
-        item.props.className, 'mdc-card__action', 'mdc-card__action--button');
-      const props = Object.assign({}, item.props, {className});
-      return React.cloneElement(item, props);
-    });
-  };
-
-  render() {
-    const {
-      className,
-      children, // eslint-disable-line no-unused-vars
-      ...otherProps
-    } = this.props;
-    const classes = classnames('mdc-card__action-buttons', className);
-
-    return (
-      <div
-        className={classes}
-        {...otherProps}
-      >
-        {this.addButtonClassToChildren()}
-      </div>
-    );
-  }
-}
-
-ActionButtons.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
+export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement>{
+  className: string;
+  unbounded?: boolean;
 };
 
-ActionButtons.defaultProps = {
-  className: '',
-  children: null,
+export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps> = ({
+  /* eslint-disable react/prop-types */
+  className = '',
+  initRipple,
+  children,
+  unbounded, // eslint-disable-line no-unused-vars
+  /* eslint-enable react/prop-types */
+  ...otherProps
+}) => {
+  const classes = classnames('mdc-card__primary-action', className);
+
+  return (
+    <div className={classes} ref={initRipple} {...otherProps}>
+      {children}
+    </div>
+  );
 };
+
+export default Ripple.withRipple<PrimaryContentBaseProps, HTMLDivElement>(PrimaryContentBase);
