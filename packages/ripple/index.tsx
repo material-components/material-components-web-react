@@ -28,7 +28,7 @@ import {MDCRippleFoundation, MDCRippleAdapter, util} from '@material/ripple/dist
 
 const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
 
-interface RippledComponentProps<T> {
+export interface RippledComponentProps<T> {
   unbounded?: boolean;
   disabled?: boolean;
   style?: React.CSSProperties;
@@ -44,7 +44,7 @@ interface RippledComponentProps<T> {
   computeBoundingRect?: (surface: T) => ClientRect;
 }
 
-interface RippledComponentState {
+export interface RippledComponentState {
   classList: Set<string>;
   style: React.CSSProperties;
 }
@@ -286,6 +286,7 @@ export const withRipple = <
     } = this.props as P;
 
     const updatedProps = {
+      ...otherProps,
       onMouseDown: this.handleMouseDown,
       onMouseUp: this.handleMouseUp,
       onTouchStart: this.handleTouchStart,
@@ -304,7 +305,6 @@ export const withRipple = <
       // @ts-ignore
       <WrappedComponent
         {...updatedProps}
-        {...otherProps}
       />
     );
   }

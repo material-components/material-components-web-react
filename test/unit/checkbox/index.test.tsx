@@ -3,6 +3,7 @@ import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import * as td from 'testdouble';
 import {Checkbox} from '../../../packages/checkbox/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('Checkbox');
 
@@ -148,15 +149,15 @@ test('calls foundation.handleChange in native control props.onChange', () => {
 });
 
 test('calls props.onChange in native control props.onChange', () => {
-  const onChange = td.func() as (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  const onChange = coerceForTesting<(evt: React.ChangeEvent<HTMLInputElement>) => void>(td.func());
   const wrapper = shallow(<Checkbox onChange={onChange} />);
   const nativeControl = wrapper.childAt(0);
-  const mockEvt = ({
-    target: ({
+  const mockEvt = coerceForTesting<React.ChangeEvent<HTMLInputElement>>({
+    target: {
       checked: true,
       indeterminate: false,
-    } as HTMLInputElement),
-  } as React.ChangeEvent<HTMLInputElement>);
+    },
+  });
   nativeControl.simulate('change', mockEvt);
   td.verify(onChange(mockEvt), {times: 1});
 });
