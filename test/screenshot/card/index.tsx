@@ -10,8 +10,6 @@ import Card, {
   CardPrimaryContent,
   CardMedia,
 } from '../../../packages/card/index';
-//
-// @ts-ignore issue #513
 import MaterialIcon from '../../../packages/material-icon';
 const imageUrl = './../images/1-1.jpg';
 

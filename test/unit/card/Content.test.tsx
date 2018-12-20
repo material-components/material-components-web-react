@@ -2,8 +2,6 @@ import * as React from 'react';
 import {assert} from 'chai';
 import {mount} from 'enzyme';
 import {CardPrimaryContent} from '../../../packages/card/index';
-// TODO: fix in #528
-// @ts-ignore
 import {createMockRaf} from '../helpers/raf';
 
 suite('CardPrimaryContent');

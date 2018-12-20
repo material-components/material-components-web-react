@@ -22,11 +22,10 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
 
-export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>{
+export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement>{
   className: string;
-  initRipple?: (surface: HTMLDivElement) => void;
   unbounded?: boolean;
 };
 
@@ -48,4 +47,4 @@ export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps
   );
 };
 
-export default withRipple(PrimaryContentBase);
+export default Ripple.withRipple<PrimaryContentBaseProps, HTMLDivElement>(PrimaryContentBase);
