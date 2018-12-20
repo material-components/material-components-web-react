@@ -40,7 +40,11 @@ const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
     'material-icons--ripple-surface': hasRipple,
   });
   return (
-    <i className={classes} ref={initRipple} {...otherProps}>
+    <i
+      className={classes}
+      ref={initRipple}
+      {...otherProps}
+    >
       {icon}
     </i>
   );
@@ -62,9 +66,19 @@ export default class MaterialIcon extends React.Component<
     const {icon, hasRipple, unbounded, ...otherProps} = this.props; // eslint-disable-line no-unused-vars
     if (hasRipple) {
       return (
-        <RippleMaterialIcon unbounded hasRipple icon={icon} {...otherProps} />
+        <RippleMaterialIcon
+          unbounded
+          hasRipple
+          icon={icon}
+          {...otherProps}
+        />
       );
     }
-    return <MaterialIconDefault icon={icon} {...otherProps} />;
+    return (
+      <MaterialIconDefault
+        icon={icon}
+        {...otherProps}
+      />
+    );
   }
 }
