@@ -3,9 +3,7 @@ import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import Icon from '../../../../packages/text-field/icon/index';
-// TODO: fix with #513
-// @ts-ignore
-import MaterialIcon from '../../../../packages/material-icon/index.js';
+import MaterialIcon from '../../../../packages/material-icon/index';
 
 suite('Text Field Icon');
 
