@@ -5,7 +5,7 @@ import {shallow, mount} from 'enzyme';
 import ChipSet from '../../../packages/chips/ChipSet';
 import {Chip, ChipProps} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
 import ChipCheckmark from '../../../packages/chips/ChipCheckmark';
-import { coerceForTesting } from '../helpers/types';
+import {coerceForTesting} from '../helpers/types';
 
 suite('ChipSet');
 
