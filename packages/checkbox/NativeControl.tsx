@@ -19,17 +19,25 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+import * as React from 'react';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+export interface NativeControlProps extends React.HTMLProps<HTMLInputElement>{
+  checked: boolean;
+  disabled: boolean;
+  id: string;
+  rippleActivatorRef: React.RefObject<HTMLInputElement>;
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-export class NativeControl extends React.Component {
+export class NativeControl extends React.Component<NativeControlProps, {}> {
+  static defaultProps: Partial<NativeControlProps> = {
+    checked: false,
+    disabled: false,
+    onChange: () => {},
+  };
+
   render() {
-    const {
-      rippleActivatorRef,
-      ...otherProps
-    } = this.props;
-
+    const {rippleActivatorRef, ...otherProps} = this.props;
     return (
       <input
         type='checkbox'
@@ -39,20 +47,6 @@ export class NativeControl extends React.Component {
       />
     );
   }
-};
-
-NativeControl.propTypes = {
-  checked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  id: PropTypes.string,
-  rippleActivatorRef: PropTypes.object,
-};
-
-NativeControl.defaultProps = {
-  checked: false,
-  disabled: false,
-  id: null,
-  rippleActivatorRef: null,
-};
+}
 
 export default NativeControl;
