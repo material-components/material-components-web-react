@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const {read: readComponents} = require('../../scripts/screenshot-directory-reader');
+const {read: readComponents} = require('../../scripts/directory-reader');
 const {importer} = require('../../packages/webpack.util');
 
 module.exports = {
