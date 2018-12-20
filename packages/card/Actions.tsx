@@ -20,41 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-export default class Actions extends React.Component {
-  render() {
-    const {
-      className,
-      children,
-      fullBleed,
-      ...otherProps
-    } = this.props;
-    const classes = classnames('mdc-card__actions', className, {
-      'mdc-card__actions--full-bleed': fullBleed,
-    });
-
-    return (
-      <div
-        className={classes}
-        {...otherProps}
-      >
-        {children}
-      </div>
-    );
-  }
-}
-
-Actions.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  fullBleed: PropTypes.bool,
+export interface ActionsProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  fullBleed?: boolean;
 };
 
-Actions.defaultProps = {
-  className: '',
-  children: null,
-  fullBleed: false,
+const Actions: React.FunctionComponent<ActionsProps> = ({
+  className = '', children, fullBleed = false, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card__actions', className, {
+    'mdc-card__actions--full-bleed': fullBleed,
+  });
+  return (
+    <div className={classes} {...otherProps}>
+      {children}
+    </div>
+  );
 };
+
+export default Actions;
