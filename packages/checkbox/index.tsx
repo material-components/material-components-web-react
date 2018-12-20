@@ -19,27 +19,56 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-import React, {Component} from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import {MDCCheckboxFoundation} from '@material/checkbox/dist/mdc.checkbox';
+import * as React from 'react';
+import * as classnames from 'classnames';
+// @ts-ignore
+import {MDCCheckboxFoundation, MDCCheckboxAdapter} from '@material/checkbox/dist/mdc.checkbox';
+// TODO: fix with #528
+// @ts-ignore
 import withRipple from '@material/react-ripple';
-
 import NativeControl from './NativeControl';
 
-export class Checkbox extends Component {
-  constructor(props) {
+export interface CheckboxProps {
+  checked: boolean;
+  className: string;
+  disabled: boolean;
+  indeterminate: boolean;
+  nativeControlId?: string;
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void;
+  unbounded: boolean;
+};
+
+interface CheckboxState {
+  checked: boolean;
+  indeterminate: boolean;
+  classList: Set<string>;
+  'aria-checked': boolean;
+};
+
+export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+  inputElement_: React.RefObject<HTMLInputElement> = React.createRef();
+  foundation_ = MDCCheckboxFoundation;
+
+  constructor(props: CheckboxProps) {
     super(props);
-    this.inputElement_ = React.createRef();
-    this.foundation_ = null;
     this.state = {
-      checked: props.checked,
-      indeterminate: props.indeterminate,
-      classList: new Set(),
-      ['aria-checked']: false,
+      'checked': props.checked,
+      'indeterminate': props.indeterminate,
+      'classList': new Set(),
+      'aria-checked': false,
     };
   }
+
+  static defaultProps: Partial<CheckboxProps> = {
+    checked: false,
+    className: '',
+    disabled: false,
+    indeterminate: false,
+    onChange: () => {},
+    initRipple: () => {},
+    unbounded: true,
+  };
 
   componentDidMount() {
     this.foundation_ = new MDCCheckboxFoundation(this.adapter);
@@ -52,14 +81,12 @@ export class Checkbox extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const {
-      checked,
-      indeterminate,
-      disabled,
-    } = this.props;
-
-    if (checked !== prevProps.checked || indeterminate !== prevProps.indeterminate) {
+  componentDidUpdate(prevProps: CheckboxProps) {
+    const {checked, indeterminate, disabled} = this.props;
+    if (
+      checked !== prevProps.checked ||
+      indeterminate !== prevProps.indeterminate
+    ) {
       this.handleChange(checked, indeterminate);
     }
     if (disabled !== prevProps.disabled) {
@@ -73,33 +100,43 @@ export class Checkbox extends Component {
     }
   }
 
-  init = (el) => {
+  init = (el: HTMLDivElement) => {
+    if (!this.inputElement_.current) return;
     this.props.initRipple(el, this.inputElement_.current);
-  }
+  };
 
-  handleChange = (checked, indeterminate) => {
+  handleChange = (checked: boolean, indeterminate: boolean) => {
     this.setState({checked, indeterminate}, () => {
       this.foundation_.handleChange();
       if (this.inputElement_.current) {
         this.inputElement_.current.indeterminate = indeterminate;
       }
     });
-  }
+  };
 
-  get classes() {
+  get classes(): string {
     const {classList} = this.state;
     const {className} = this.props;
     return classnames('mdc-checkbox', Array.from(classList), className);
   }
 
-  get adapter() {
+  updateState = (key: keyof CheckboxState, value: string | boolean) => {
+    this.setState((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  }
+
+  removeState = (key: keyof CheckboxState) => this.updateState(key, false);
+
+  get adapter(): MDCCheckboxAdapter {
     return {
-      addClass: (className) => {
+      addClass: (className: string) => {
         const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
@@ -110,9 +147,16 @@ export class Checkbox extends Component {
       isAttachedToDOM: () => true,
       isChecked: () => this.state.checked,
       isIndeterminate: () => this.state.indeterminate,
-      setNativeControlAttr: (attr, value) => this.setState({[attr]: value}),
-      removeNativeControlAttr: (attr) => this.setState({[attr]: false}),
+      setNativeControlAttr: this.updateState,
+      removeNativeControlAttr: this.removeState,
     };
+  }
+
+  onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const {onChange} = this.props;
+    const {checked, indeterminate} = evt.target;
+    this.handleChange(checked, indeterminate);
+    onChange(evt);
   }
 
   render() {
@@ -122,11 +166,11 @@ export class Checkbox extends Component {
       checked,
       indeterminate,
       initRipple,
+      onChange,
       unbounded,
       /* eslint-enable no-unused-vars */
       disabled,
       nativeControlId,
-      onChange,
       ...otherProps
     } = this.props;
 
@@ -142,49 +186,26 @@ export class Checkbox extends Component {
           checked={this.state.checked}
           disabled={disabled}
           aria-checked={this.state['aria-checked']}
-          onChange={(evt) => {
-            const {checked, indeterminate} = evt.target;
-            this.handleChange(checked, indeterminate);
-            onChange(evt);
-          }}
+          onChange={this.onChange}
           rippleActivatorRef={this.inputElement_}
         />
         <div className='mdc-checkbox__background'>
-          <svg className='mdc-checkbox__checkmark'
+          <svg
+            className='mdc-checkbox__checkmark'
             viewBox='0 0 24 24'
             focusable='false'
           >
-            <path className='mdc-checkbox__checkmark-path'
+            <path
+              className='mdc-checkbox__checkmark-path'
               fill='none'
-              d='M1.73,12.91 8.1,19.28 22.79,4.59'/>
+              d='M1.73,12.91 8.1,19.28 22.79,4.59'
+            />
           </svg>
-          <div className='mdc-checkbox__mixedmark'></div>
+          <div className='mdc-checkbox__mixedmark' />
         </div>
       </div>
     );
   }
 }
-
-Checkbox.propTypes = {
-  checked: PropTypes.bool,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  indeterminate: PropTypes.bool,
-  nativeControlId: PropTypes.string,
-  onChange: PropTypes.func,
-  initRipple: PropTypes.func,
-  unbounded: PropTypes.bool,
-};
-
-Checkbox.defaultProps = {
-  checked: false,
-  className: '',
-  disabled: false,
-  indeterminate: false,
-  nativeControlId: null,
-  onChange: () => {},
-  initRipple: () => {},
-  unbounded: true,
-};
 
 export default withRipple(Checkbox);
