@@ -20,52 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
+import * as Ripple from '@material/react-ripple';
 
-import {withRipple} from '@material/react-ripple';
+export interface MaterialIconDefaultProps extends React.HTMLAttributes<HTMLElement> {
+  icon?: string;
+  className?: string;
+  hasRipple?: boolean;
+  unbounded?: boolean;
+};
 
-export default class MaterialIcon extends React.Component {
-  render() {
-    const {
-      icon,
-      hasRipple,
-      ...otherProps
-    } = this.props;
+export interface MaterialIconProps extends MaterialIconDefaultProps, Ripple.InjectedProps<HTMLElement> {};
 
-    if (hasRipple) {
-      return (
-        <RippleMaterialIcon
-          unbounded
-          hasRipple
-          icon={icon}
-          {...otherProps}
-        />
-      );
-    }
-
-    return (
-      <MaterialIconDefault
-        icon={icon}
-        {...otherProps}
-      />
-    );
-  }
-}
-
-const MaterialIconDefault = (props) => {
-  const {
-    className,
-    icon,
-    initRipple,
-    hasRipple,
-    ...otherProps
-  } = props;
+const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
+  className, icon, initRipple, hasRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
+}) => {
   const classes = classnames('material-icons', className, {
     'material-icons--ripple-surface': hasRipple,
   });
-
   return (
     <i
       className={classes}
@@ -77,28 +50,35 @@ const MaterialIconDefault = (props) => {
   );
 };
 
-export const RippleMaterialIcon = withRipple(MaterialIconDefault);
+export const RippleMaterialIcon = Ripple.withRipple<MaterialIconProps, HTMLElement>(MaterialIconDefault);
 
-MaterialIcon.propTypes = {
-  icon: PropTypes.string,
-  hasRipple: PropTypes.bool,
-};
+export default class MaterialIcon extends React.Component<
+  MaterialIconProps, {}
+  > {
+  static defaultProps: Partial<MaterialIconProps> = {
+    icon: '',
+    className: '',
+    hasRipple: false,
+    unbounded: false,
+  };
 
-MaterialIcon.defaultProps = {
-  icon: '',
-  hasRipple: false,
-};
-
-MaterialIconDefault.propTypes = {
-  icon: PropTypes.string,
-  className: PropTypes.string,
-  initRipple: PropTypes.func,
-  hasRipple: PropTypes.bool,
-};
-
-MaterialIconDefault.defaultProps = {
-  icon: '',
-  className: '',
-  initRipple: () => {},
-  hasRipple: false,
-};
+  render() {
+    const {icon, hasRipple, unbounded, ...otherProps} = this.props; // eslint-disable-line no-unused-vars
+    if (hasRipple) {
+      return (
+        <RippleMaterialIcon
+          unbounded
+          hasRipple
+          icon={icon}
+          {...otherProps}
+        />
+      );
+    }
+    return (
+      <MaterialIconDefault
+        icon={icon}
+        {...otherProps}
+      />
+    );
+  }
+}
