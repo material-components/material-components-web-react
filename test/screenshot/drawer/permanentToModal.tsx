@@ -1,7 +1,14 @@
-import React from 'react';
+import * as React from 'react';
 import DrawerTest from './DrawerTest';
 
-class PermanentToModalDrawerScreenshotTest extends React.Component {
+interface PermanentToModalDrawerScreenshotTestState {
+  isPhone: boolean;
+};
+
+class PermanentToModalDrawerScreenshotTest extends React.Component<
+  {},
+  PermanentToModalDrawerScreenshotTestState
+  > {
   state = {
     isPhone: window.innerWidth < 599,
   };
@@ -10,7 +17,7 @@ class PermanentToModalDrawerScreenshotTest extends React.Component {
     window.addEventListener('resize', this.updateDrawerVariant);
   }
 
-  shouldComponentUpdate(_, nextState) {
+  shouldComponentUpdate(_: {}, nextState: PermanentToModalDrawerScreenshotTestState) {
     if (nextState.isPhone === this.state.isPhone) {
       return false;
     }
@@ -24,7 +31,7 @@ class PermanentToModalDrawerScreenshotTest extends React.Component {
   updateDrawerVariant = () => {
     const isPhone = window.innerWidth < 599;
     this.setState({isPhone});
-  }
+  };
 
   render() {
     if (this.state.isPhone) {
@@ -32,6 +39,6 @@ class PermanentToModalDrawerScreenshotTest extends React.Component {
     }
     return <DrawerTest hideNavigationIcon title='Permanent Drawer' />;
   }
-};
+}
 
 export default PermanentToModalDrawerScreenshotTest;
