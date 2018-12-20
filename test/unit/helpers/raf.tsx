@@ -19,7 +19,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 // Creates an object which stubs out window.{requestAnimationFrame,cancelAnimationFrame}, and returns an object
 // that gives control over to when animation frames are executed. It works a lot like lolex, but for rAF.
 //
@@ -35,32 +34,55 @@
 // raf.flush(); // logs "first frame inner"
 // raf.restore(); // window.{rAF,cAF} set back to normal.
 // ```
-export function createMockRaf() {
+
+interface Frame {
+  id: number,
+  fn: FrameRequestCallback,
+}
+
+interface MockRaf {
+  lastFrameId: number,
+  pendingFrames: Frame[],
+  flush: () => void,
+  restore: () => void,
+  requestAnimationFrame: (fn: FrameRequestCallback) => number,
+  cancelAnimationFrame: (id: number) => void,
+}
+
+// creates a mock of a requestAnimationFrame. This allows tests to synchronously run.
+export function createMockRaf(): MockRaf {
   const origRaf = window.requestAnimationFrame;
   const origCancel = window.cancelAnimationFrame;
-  const mockRaf = {
+
+  const mockRaf: MockRaf = {
     lastFrameId: 0,
     pendingFrames: [],
+
     flush() {
       const framesToRun = this.pendingFrames.slice();
       while (framesToRun.length) {
-        const {id, fn} = framesToRun.shift();
-        fn();
+        const frame = framesToRun.shift();
+        if (!frame) return;
+        const {id, fn} = frame;
+        fn(id);
         // Short-cut to remove the frame from the actual pendingFrames array.
         cancelAnimationFrame(id);
       }
     },
+
     restore() {
       this.lastFrameId = 0;
       this.pendingFrames = [];
       window.requestAnimationFrame = origRaf;
       window.cancelAnimationFrame = origCancel;
     },
-    requestAnimationFrame(fn) {
+
+    requestAnimationFrame(fn: FrameRequestCallback): number {
       const frameId = ++this.lastFrameId;
       this.pendingFrames.push({id: frameId, fn});
       return frameId;
     },
+
     cancelAnimationFrame(id) {
       for (let i = 0, frame; (frame = this.pendingFrames[i]); i++) {
         if (frame.id === id) {
@@ -71,8 +93,8 @@ export function createMockRaf() {
     },
   };
 
-  window.requestAnimationFrame = (fn) => mockRaf.requestAnimationFrame(fn);
-  window.cancelAnimationFrame = (id) => mockRaf.cancelAnimationFrame(id);
+  window.requestAnimationFrame = (fn: FrameRequestCallback) => mockRaf.requestAnimationFrame(fn);
+  window.cancelAnimationFrame = (id: number) => mockRaf.cancelAnimationFrame(id);
 
   return mockRaf;
 }
