@@ -280,6 +280,7 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
   }
 
   inputProps(child: React.ReactElement<InputProps<T>>) {
+    // ref does exist on React.ReactElement<InputProps<T>>
     // @ts-ignore
     const {props, ref} = child;
     return Object.assign({}, props, {

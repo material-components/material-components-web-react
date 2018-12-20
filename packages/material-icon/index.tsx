@@ -22,17 +22,31 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// https://github.com/material-components/material-components-web-react/issues/528
-// @ts-ignore
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
 
-export interface MaterialIconBaseProps {
+export interface MaterialIconDefaultProps extends React.HTMLAttributes<HTMLElement> {
   icon?: string;
+  className?: string;
   hasRipple?: boolean;
   unbounded?: boolean;
 };
 
-export type MaterialIconProps = MaterialIconBaseProps & React.HTMLProps<HTMLElement>;
+export interface MaterialIconProps extends MaterialIconDefaultProps, Ripple.InjectedProps<HTMLElement> {};
+
+const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
+  className, icon, initRipple, hasRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('material-icons', className, {
+    'material-icons--ripple-surface': hasRipple,
+  });
+  return (
+    <i className={classes} ref={initRipple} {...otherProps}>
+      {icon}
+    </i>
+  );
+};
+
+export const RippleMaterialIcon = Ripple.withRipple<MaterialIconProps, HTMLElement>(MaterialIconDefault);
 
 export default class MaterialIcon extends React.Component<
   MaterialIconProps, {}
@@ -54,26 +68,3 @@ export default class MaterialIcon extends React.Component<
     return <MaterialIconDefault icon={icon} {...otherProps} />;
   }
 }
-
-interface MaterialIconDefaultProps extends React.HTMLProps<HTMLElement> {
-  icon?: string;
-  className?: string;
-  initRipple?: (surface: HTMLElement) => void;
-  hasRipple?: boolean;
-  unbounded?: boolean;
-};
-
-const MaterialIconDefault: React.FunctionComponent<MaterialIconDefaultProps> = ({
-  className, icon, initRipple, hasRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
-}) => {
-  const classes = classnames('material-icons', className, {
-    'material-icons--ripple-surface': hasRipple,
-  });
-  return (
-    <i className={classes} ref={initRipple} {...otherProps}>
-      {icon}
-    </i>
-  );
-};
-
-export const RippleMaterialIcon = withRipple(MaterialIconDefault);
