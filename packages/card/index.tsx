@@ -20,45 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
+import ActionButtons from './ActionButtons';
+import ActionIcons from './ActionIcons';
+import Actions from './Actions';
+import PrimaryContent from './PrimaryContent';
+import Media from './Media';
 
-import withRipple from '@material/react-ripple';
+export interface CardProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string,
+  outlined?: boolean
+}
 
-export const PrimaryContentBase = (props) => {
-  const {
-    className,
-    initRipple,
-    children,
-    unbounded, // eslint-disable-line no-unused-vars
-    ...otherProps
-  } = props;
-
-  const classes = classnames('mdc-card__primary-action', className);
+const Card: React.FunctionComponent<CardProps> = ({
+  children, className = '', outlined = false, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card', className, {
+    'mdc-card--outlined': outlined,
+  });
   return (
-    <div
-      className={classes}
-      ref={initRipple}
-      {...otherProps}
-    >
+    <div className={classes} {...otherProps}>
       {children}
     </div>
   );
 };
 
-
-PrimaryContentBase.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  // The following props are handled by withRipple and do not require defaults.
-  initRipple: PropTypes.func,
-  unbounded: PropTypes.bool,
+export {
+  ActionButtons as CardActionButtons,
+  ActionIcons as CardActionIcons,
+  Actions as CardActions,
+  PrimaryContent as CardPrimaryContent,
+  Media as CardMedia,
 };
 
-PrimaryContentBase.defaultProps = {
-  className: '',
-  children: null,
-};
-
-export default withRipple(PrimaryContentBase);
+export default Card;

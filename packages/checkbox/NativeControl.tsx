@@ -19,42 +19,34 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+import * as React from 'react';
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+export interface NativeControlProps extends React.HTMLProps<HTMLInputElement>{
+  checked: boolean;
+  disabled: boolean;
+  id: string;
+  rippleActivatorRef: React.RefObject<HTMLInputElement>;
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-export default class Actions extends React.Component {
+export class NativeControl extends React.Component<NativeControlProps, {}> {
+  static defaultProps: Partial<NativeControlProps> = {
+    checked: false,
+    disabled: false,
+    onChange: () => {},
+  };
+
   render() {
-    const {
-      className,
-      children,
-      fullBleed,
-      ...otherProps
-    } = this.props;
-    const classes = classnames('mdc-card__actions', className, {
-      'mdc-card__actions--full-bleed': fullBleed,
-    });
-
+    const {rippleActivatorRef, ...otherProps} = this.props;
     return (
-      <div
-        className={classes}
+      <input
+        type='checkbox'
+        className='mdc-checkbox__native-control'
+        ref={rippleActivatorRef}
         {...otherProps}
-      >
-        {children}
-      </div>
+      />
     );
   }
 }
 
-Actions.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  fullBleed: PropTypes.bool,
-};
-
-Actions.defaultProps = {
-  className: '',
-  children: null,
-  fullBleed: false,
-};
+export default NativeControl;

@@ -20,39 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-export class NativeControl extends React.Component {
-  render() {
-    const {
-      rippleActivatorRef,
-      ...otherProps
-    } = this.props;
+type ChildType = React.ReactElement<React.HTMLProps<HTMLImageElement|HTMLOrSVGElement>>;
 
-    return (
-      <input
-        type='checkbox'
-        className='mdc-checkbox__native-control'
-        ref={rippleActivatorRef}
-        {...otherProps}
-      />
+export interface ActionIconsProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  children?: ChildType | ChildType[];
+};
+
+const addIconClassToChildren = (children: ChildType | ChildType[]) => {
+  return React.Children.map((children as ChildType | ChildType[]), (item) => {
+    const className = classnames(
+      (item as ChildType).props.className,
+      'mdc-card__action',
+      'mdc-card__action--icon'
     );
-  }
+    const props = Object.assign({}, (item as ChildType).props, {className});
+    return React.cloneElement((item as ChildType), props);
+  });
 };
 
-NativeControl.propTypes = {
-  checked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  id: PropTypes.string,
-  rippleActivatorRef: PropTypes.object,
+const ActionIcons: React.FunctionComponent<ActionIconsProps> = ({
+  className = '', children, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card__action-icons', className);
+  if (!children) return null;
+  return (
+    <div className={classes} {...otherProps}>
+      {addIconClassToChildren(children)}
+    </div>
+  );
 };
 
-NativeControl.defaultProps = {
-  checked: false,
-  disabled: false,
-  id: null,
-  rippleActivatorRef: null,
-};
-
-export default NativeControl;
+export default ActionIcons;

@@ -40,7 +40,7 @@ import '@material/react-ripple/dist/ripple.css';
 To wrap a component with the ripple HOC, please follow this example:
 
 ```js
-import withRipple from '@material/react-ripple';
+import {withRipple} from '@material/react-ripple';
 
 const Icon = (props) => {
   const {
@@ -75,6 +75,51 @@ const RippleIcon = withRipple(Icon);
 Wrap your Icon component with the HOC `withRipple`, which returns a component
 with a ripple capable surface.
 
+### Typescript
+
+If you're using TS, you will need to extend from the provided InjectedProps.
+
+```js
+
+import {withRipple, InjectedProps} from '@material/react-ripple';
+
+interface IconProps extends InjectedProps<HTMLDivElement> {
+  children?: React.ReactNode;
+  className: string;
+  initRipple: React.Ref<HTMLDivElement>;
+  unbounded: boolean;
+}
+
+const Icon = (props) => {
+  const {
+    children,
+    className = '',
+    // You must call `initRipple` from the root element's ref. This attaches the ripple
+    // to the element.
+    initRipple,
+    // include `unbounded` to remove warnings when passing `otherProps` to the
+    // root element.
+    unbounded,
+    ...otherProps
+  } = props;
+
+  // any classes needed on your component needs to be merged with
+  // `className` passed from `props`.
+  const classes = `ripple-icon-component ${className}`;
+
+  return (
+    <div
+      className={classes}
+      ref={initRipple}
+      {...otherProps}>
+      {children}
+    </div>
+  );
+};
+
+const RippleIcon = withRipple<IconProps, HTMLDivElement>(Icon);
+```
+
 ## Advanced Usage
 
 ### Ripple surface and ripple activator
@@ -84,7 +129,7 @@ You may want to apply the visual treatment (CSS classes and styles) for a ripple
 The `initRipple` callback prop can take in an extra `activator` argument for the case where the ripple activator differs from the ripple surface. If the `activator` argument is not provided, the ripple surface will also serve as the ripple activator.
 
 ```js
-import withRipple from '@material/react-ripple';
+import {withRipple} from '@material/react-ripple';
 
 const MyInput = (props) => {
   const {
