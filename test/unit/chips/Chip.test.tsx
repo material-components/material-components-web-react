@@ -4,6 +4,7 @@ import {mount, shallow} from 'enzyme';
 import * as td from 'testdouble';
 import {Chip} from '../../../packages/chips/Chip';
 import ChipCheckmark from '../../../packages/chips/ChipCheckmark';
+import {coerceForTesting} from '../helpers/types';
 
 suite('Chip');
 
@@ -68,7 +69,7 @@ test('#adapter.getComputedStyleValue should get styles from chip element', () =>
   const options = {attachTo: div};
   const wrapper = mount<Chip>(<Chip id='1' />, options);
   const width = '10px';
-  const chipElement = wrapper.find('.mdc-chip').getDOMNode() as HTMLDivElement;
+  const chipElement = coerceForTesting<HTMLDivElement>(wrapper.find('.mdc-chip').getDOMNode());
   chipElement.style.setProperty('width', width);
   assert.equal(
     wrapper.instance().adapter.getComputedStyleValue('width'),
@@ -81,7 +82,7 @@ test('#adapter.setStyleProperty should add styles to chip', () => {
   const wrapper = mount<Chip>(<Chip id='1' />);
   const width = '10px';
   wrapper.instance().adapter.setStyleProperty('width', width);
-  const chipElement = wrapper.find('.mdc-chip').getDOMNode() as HTMLDivElement;
+  const chipElement = coerceForTesting<HTMLDivElement>(wrapper.find('.mdc-chip').getDOMNode());
   assert.equal(chipElement.style.width, width);
 });
 
@@ -109,7 +110,7 @@ test('#adapter.removeClassFromLeadingIcon removes from state.leadingIconClassLis
 });
 
 test('#adapter.notifyInteraction calls #props.handleInteraction w/ chipId', () => {
-  const handleInteraction = td.func() as (id: string) => void;
+  const handleInteraction = coerceForTesting<(id: string) => void>(td.func());
   const wrapper = shallow<Chip>(
     <Chip id='123' handleInteraction={handleInteraction} />
   );
@@ -118,30 +119,30 @@ test('#adapter.notifyInteraction calls #props.handleInteraction w/ chipId', () =
 });
 
 test('#adapter.notifyRemoval calls #props.handleRemove w/ chipId', () => {
-  const handleRemove = td.func() as (id: string) => void;
+  const handleRemove = coerceForTesting<(id: string) => void>(td.func());
   const wrapper = shallow<Chip>(<Chip id='123' handleRemove={handleRemove} />);
   wrapper.instance().foundation.adapter_.notifyRemoval();
   td.verify(handleRemove('123'), {times: 1});
 });
 
 test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected false', () => {
-  const handleSelect = td.func() as (id: string, selected: boolean) => void;
+  const handleSelect = coerceForTesting<(id: string, selected: boolean) => void>(td.func());
   const wrapper = shallow<Chip>(<Chip id='123' handleSelect={handleSelect} />);
   wrapper.instance().foundation.adapter_.notifySelection(false);
   td.verify(handleSelect('123', false), {times: 2});
 });
 
 test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected true', () => {
-  const handleSelect = td.func() as (id: string, selected: boolean) => void;
+  const handleSelect = coerceForTesting<(id: string, selected: boolean) => void>(td.func());
   const wrapper = shallow<Chip>(<Chip id='123' handleSelect={handleSelect} />);
   wrapper.instance().foundation.adapter_.notifySelection(true);
   td.verify(handleSelect('123', true), {times: 1});
 });
 
 test('on click calls #props.onClick', () => {
-  const onClick = td.func() as (event: React.MouseEvent) => void;
+  const onClick = coerceForTesting<(event: React.MouseEvent) => void>(td.func());
   const wrapper = shallow<Chip>(<Chip id='1' onClick={onClick} />);
-  const evt = {} as React.MouseEvent;
+  const evt = coerceForTesting<React.MouseEvent>({});
   wrapper.simulate('click', evt);
   td.verify(onClick(evt), {times: 1});
 });
@@ -157,9 +158,9 @@ test('on click calls #foudation.handleInteraction', () => {
 });
 
 test('on keydown calls #props.onKeyDown', () => {
-  const onKeyDown = td.func() as (event: React.KeyboardEvent) => void;
+  const onKeyDown = coerceForTesting<(event: React.KeyboardEvent) => void>(td.func());
   const wrapper = shallow(<Chip id='1' onKeyDown={onKeyDown} />);
-  const evt = {} as React.KeyboardEvent;
+  const evt = coerceForTesting<React.KeyboardEvent>({});
   wrapper.simulate('keydown', evt);
   td.verify(onKeyDown(evt), {times: 1});
 });
@@ -307,12 +308,12 @@ test('calls #foundation.handleTransitionEnd on transitionend event', () => {
 });
 
 test('calls #props.onTransitionEnd on transitionend event', () => {
-  const onTransitionEnd = td.func() as (event: React.TransitionEvent) => void;
+  const onTransitionEnd = coerceForTesting<(event: React.TransitionEvent) => void>(td.func());
   const wrapper = shallow<Chip>(<Chip id='1' onTransitionEnd={onTransitionEnd} />);
   // need to remove foundation, since React.TransitionEvent does not have classList on EventTarget
   // see https://github.com/DefinitelyTyped/DefinitelyTyped/pull/12239
   wrapper.instance().foundation = {handleTransitionEnd: () => {}};
-  const evt = {} as React.TransitionEvent;
+  const evt = coerceForTesting<React.TransitionEvent>({});
   wrapper.simulate('transitionend', evt);
   td.verify(onTransitionEnd(evt), {times: 1});
 });
