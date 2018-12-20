@@ -20,6 +20,7 @@
   ],
   "baseUrl": ".",
   "paths": {
-    "@material/react-ripple": ["packages/ripple/"]
+    "@material/react-ripple": ["packages/ripple/"],
+    "@material/react-material-icon": ["packages/material-icon/"],
   }
 }
