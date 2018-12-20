@@ -27,11 +27,11 @@ import withRipple from '@material/react-ripple';
 
 export interface TabRippleProps extends React.HTMLProps<HTMLDivElement> {
   className: string;
-  initRipple: (surface: HTMLDivElement) => void;
+  initRipple: (surface: React.Ref<HTMLDivElement>) => void;
   unbounded: boolean;
 }
 
-export class TabRipple extends React.Component<TabRippleProps, {}> {
+export class TabRippleBase extends React.Component<TabRippleProps, {}> {
   static defaultProps: Partial<TabRippleProps> = {
     className: '',
     initRipple: () => {},
@@ -50,8 +50,14 @@ export class TabRipple extends React.Component<TabRippleProps, {}> {
       initRipple,
       ...otherProps
     } = this.props;
-    return <div className={this.classes} ref={initRipple} {...otherProps} />;
+    return (
+      <div
+        className={this.classes}
+        {...otherProps}
+        ref={initRipple}
+      />
+    );
   }
 }
 
-export default withRipple(TabRipple);
+export default withRipple(TabRippleBase);

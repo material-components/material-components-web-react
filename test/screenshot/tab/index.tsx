@@ -56,7 +56,7 @@ class TabsController extends React.Component<TabsControllerProps, TabsController
 
   render() {
     const {
-      tabContent, // eslint-disable-line
+      tabContent,
       ...otherProps
     } = this.props;
 
@@ -71,7 +71,7 @@ class TabsController extends React.Component<TabsControllerProps, TabsController
             previousIndicatorClientRect={this.tabBoundingRects[previousActiveIndex]}
             // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/28884
             // @ts-ignore
-            ref={(el: React.Ref<Tab>) => this.tabInit(el, index)}
+            ref={(el: Tab) => this.tabInit(el, index)}
             onClick={() =>
               this.setState({
                 previousActiveIndex: activeIndex,

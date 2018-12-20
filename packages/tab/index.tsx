@@ -27,7 +27,7 @@ import TabIndicator from '@material/react-tab-indicator';
 // No mdc .d.ts files
 // @ts-ignore
 import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
-import TabRipple, {TabRipple as TabRippleBase} from './TabRipple';
+import TabRipple, {TabRippleBase} from './TabRipple';
 
 export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   active?: boolean;
@@ -129,9 +129,9 @@ export default class Tab extends React.Component<TabProps, TabState> {
         this.setState((prevState) => ({...prevState, [attr]: value}))
       ),
       getOffsetLeft: () =>
-        this.tabElement_.current && this.tabElement_.current.offsetLeft,
+        Number(this.tabElement_.current && this.tabElement_.current.offsetLeft),
       getOffsetWidth: () =>
-        this.tabElement_.current && this.tabElement_.current.offsetWidth,
+        Number(this.tabElement_.current && this.tabElement_.current.offsetWidth),
       getContentOffsetLeft: () =>
         this.tabContentElement_.current &&
         this.tabContentElement_.current.offsetLeft,
@@ -202,7 +202,11 @@ export default class Tab extends React.Component<TabProps, TabState> {
       isMinWidthIndicator,
       ...otherProps
     } = this.props;
-    const {tabIndex, ['aria-selected']: ariaSelected} = this.state;
+    const {
+      tabIndex,
+      ['aria-selected']: ariaSelected,
+    } = this.state;
+
     return (
       <button
         className={this.classes}
