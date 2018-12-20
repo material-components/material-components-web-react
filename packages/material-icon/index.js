@@ -24,7 +24,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-import withRipple from '@material/react-ripple';
+import {withRipple} from '@material/react-ripple';
 
 export default class MaterialIcon extends React.Component {
   render() {

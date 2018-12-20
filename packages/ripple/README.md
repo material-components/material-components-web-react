@@ -40,7 +40,7 @@ import '@material/react-ripple/dist/ripple.css';
 To wrap a component with the ripple HOC, please follow this example:
 
 ```js
-import withRipple from '@material/react-ripple';
+import {withRipple} from '@material/react-ripple';
 
 const Icon = (props) => {
   const {
@@ -84,7 +84,7 @@ You may want to apply the visual treatment (CSS classes and styles) for a ripple
 The `initRipple` callback prop can take in an extra `activator` argument for the case where the ripple activator differs from the ripple surface. If the `activator` argument is not provided, the ripple surface will also serve as the ripple activator.
 
 ```js
-import withRipple from '@material/react-ripple';
+import {withRipple} from '@material/react-ripple';
 
 const MyInput = (props) => {
   const {

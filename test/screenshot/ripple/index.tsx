@@ -1,5 +1,5 @@
 import * as React from 'react';
-import withRipple, {InjectedProps} from '../../../packages/ripple';
+import {withRipple, InjectedProps} from '../../../packages/ripple';
 import './index.scss';
 
 interface DivProps extends InjectedProps<HTMLDivElement> {
