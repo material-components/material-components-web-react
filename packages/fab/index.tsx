@@ -22,16 +22,14 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// TODO: fix with #528
-// @ts-ignore
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
 
-export interface FabProps {
-  mini: boolean;
+export interface FabProps extends Ripple.InjectedProps<HTMLButtonElement> {
+  mini?: boolean;
   icon?: React.ReactElement<HTMLElement>;
-  textLabel: string;
-  className: string;
-  initRipple: (surface: HTMLButtonElement) => void;
+  textLabel?: string;
+  className?: string;
+  initRipple: React.Ref<HTMLButtonElement>;
   unbounded: boolean;
 }
 
@@ -79,4 +77,4 @@ export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonE
   );
 };
 
-export default withRipple(Fab);
+export default Ripple.withRipple<FabProps, HTMLButtonElement>(Fab);

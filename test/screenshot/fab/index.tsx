@@ -2,8 +2,6 @@ import * as React from 'react';
 import Fab from '../../../packages/fab/index';
 import '../../../packages/fab/index.scss';
 import './index.scss';
-// TODO: fix with #513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
 
 const FabScreenshotTest = () => {
