@@ -22,7 +22,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore
-import {MDCTextFieldIconFoundation} from '@material/textfield';
+import {MDCTextFieldIconFoundation} from '@material/textfield/dist/mdc.textfield';
 
 export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
   disabled: boolean;
