@@ -15,9 +15,9 @@ interface DivProps extends InjectedProps<HTMLDivElement> {
 }
 
 const Div: React.FunctionComponent<DivProps> = ({
-  /*eslint-disable react/prop-types */
+  /* eslint-disable react/prop-types */
   children,
-  className = "",
+  className = '',
   initRipple,
   unbounded,
   /* eslint-enable */
