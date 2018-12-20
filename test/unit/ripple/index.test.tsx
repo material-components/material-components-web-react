@@ -8,21 +8,21 @@ import withRipple, {InjectedProps} from '../../../packages/ripple/index';
 import {createMockRaf} from '../helpers/raf';
 
 interface DivProps extends InjectedProps<HTMLDivElement> {
-  children?: React.ReactNode,
-  className: string,
-  initRipple: (surface: HTMLDivElement) => void,
-  unbounded: boolean,
+  children?: React.ReactNode;
+  className: string;
+  initRipple: React.Ref<HTMLDivElement>;
+  unbounded: boolean;
 }
 
-/*eslint-disable */
 const Div: React.FunctionComponent<DivProps> = ({
+  /*eslint-disable react/prop-types */
   children,
   className = "",
   initRipple,
   unbounded,
+  /* eslint-enable */
   ...otherProps
 }) => {
-  /* eslint-enable */
   const classes = `ripple-test-component ${className}`;
   return (
     <div className={classes} ref={initRipple} {...otherProps}>

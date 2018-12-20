@@ -22,36 +22,37 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
+// no mdc .d.ts file
 // @ts-ignore
 import {MDCRippleFoundation, MDCRippleAdapter, util} from '@material/ripple/dist/mdc.ripple';
 
 const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
 
 interface RippledComponentProps<T> {
-  unbounded: boolean,
-  disabled: boolean,
-  style: React.CSSProperties,
-  className: string,
-  onMouseDown: React.MouseEventHandler<T>,
-  onMouseUp: React.MouseEventHandler<T>,
-  onTouchStart: React.TouchEventHandler<T>,
-  onTouchEnd: React.TouchEventHandler<T>,
-  onKeyDown: React.KeyboardEventHandler<T>,
-  onKeyUp: React.KeyboardEventHandler<T>,
-  onFocus: React.FocusEventHandler<T>,
-  onBlur: React.FocusEventHandler<T>,
-  computeBoundingRect?: (surface: T) => ClientRect,
+  unbounded: boolean;
+  disabled: boolean;
+  style: React.CSSProperties;
+  className: string;
+  onMouseDown: React.MouseEventHandler<T>;
+  onMouseUp: React.MouseEventHandler<T>;
+  onTouchStart: React.TouchEventHandler<T>;
+  onTouchEnd: React.TouchEventHandler<T>;
+  onKeyDown: React.KeyboardEventHandler<T>;
+  onKeyUp: React.KeyboardEventHandler<T>;
+  onFocus: React.FocusEventHandler<T>;
+  onBlur: React.FocusEventHandler<T>;
+  computeBoundingRect?: (surface: T) => ClientRect;
 }
 
 interface RippledComponentState {
-  classList: Set<string>,
-  style: React.CSSProperties,
+  classList: Set<string>;
+  style: React.CSSProperties;
 }
 
 // props to be injected by this HOC.
 export interface InjectedProps<S, A = Element> extends RippledComponentProps<S> {
-  initRipple: (surface: S, activator?: A) => void,
-};
+  initRipple: React.Ref<S> | ((surface: S | null, activator?: A | null) => void);
+}
 
 function isElement(element: any): element is Element {
   return element[MATCHES as 'matches'] !== undefined;
@@ -75,7 +76,7 @@ const withRipple = <
     Subtract<P, InjectedProps<Surface, Activator>> & RippledComponentProps<Surface>,
     RippledComponentState
     > {
-    foundation_?: MDCRippleFoundation = undefined;
+    foundation_?: MDCRippleFoundation;
     isMounted_: boolean = true;
 
     displayName = `WithRipple(${getDisplayName<P>(WrappedComponent)})`;
