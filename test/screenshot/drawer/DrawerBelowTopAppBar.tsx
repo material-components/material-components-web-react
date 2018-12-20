@@ -14,8 +14,6 @@ import Drawer, {
 } from '../../../packages/drawer/index';
 // @ts-ignore
 import List from './List.js';
-// TODO: fix with #513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 
 interface DrawerScreenshotTestProps {
@@ -25,7 +23,7 @@ interface DrawerScreenshotTestProps {
   modal: boolean;
   dismissible: boolean;
   renderLoremIpsum: (section: number) => JSX.Element;
-  renderNavigationIcon: () => MaterialIcon;
+  renderNavigationIcon: () => MaterialIcon | void;
 };
 
 const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({

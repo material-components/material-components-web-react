@@ -1,8 +1,6 @@
 import * as React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
-// TODO: fix with #513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 import DrawerAboveTopAppBar from './DrawerAboveTopAppBar';
 import DrawerBelowTopAppBar from './DrawerBelowTopAppBar';
@@ -48,9 +46,7 @@ class DrawerScreenshotTest extends React.Component<
         open={open}
         onClose={this.onClose}
         renderLoremIpsum={this.renderLoremIpsum}
-        renderNavigationIcon={
-          dismissible || modal ? this.renderNavigationIcon : noop
-        }
+        renderNavigationIcon={dismissible || modal ? this.renderNavigationIcon : noop}
       />
     );
   }
@@ -59,7 +55,7 @@ class DrawerScreenshotTest extends React.Component<
     if (this.props.hideNavigationIcon) return; // eslint-disable-line react/prop-types
     return (
       <MaterialIcon
-        tabIndex='0'
+        tabIndex={0}
         onClick={() => this.setState({open: !this.state.open})}
         onKeyDown={() => this.setState({open: !this.state.open})}
         icon='menu'

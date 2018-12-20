@@ -2,88 +2,88 @@ import * as React from 'react';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
 import * as td from 'testdouble';
-// @ts-ignore
-import Drawer from '../../../packages/drawer/index.tsx';
+import Drawer from '../../../packages/drawer/index';
 import {Options, DeactivateOptions, FocusTrap} from 'focus-trap'; // eslint-disable-line no-unused-vars
+import {coerceForTesting} from '../helpers/types';
 
 suite('Drawer');
 
 test('creates foundation if dismissible', () => {
   const wrapper = shallow<Drawer>(<Drawer dismissible />);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('creates foundation if modal', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('doesnot create foundation if standard', () => {
   const wrapper = shallow<Drawer>(<Drawer />);
-  assert.notExists(wrapper.instance().foundation_);
+  assert.notExists(wrapper.instance().foundation);
 });
 
 test('when props.open updates to true, #foundation.open is called when dismissible', () => {
   const wrapper = shallow<Drawer>(<Drawer dismissible />);
-  wrapper.instance().foundation_.open = td.func();
+  wrapper.instance().foundation.open = td.func();
   wrapper.setProps({open: true});
-  td.verify(wrapper.instance().foundation_.open(), {times: 1});
+  td.verify(wrapper.instance().foundation.open(), {times: 1});
 });
 
 test('when props.open updates to false from true, #foundation.close is called when dismissible', () => {
   const wrapper = shallow<Drawer>(<Drawer open dismissible />);
-  wrapper.instance().foundation_.close = td.func();
+  wrapper.instance().foundation.close = td.func();
   wrapper.setProps({open: false});
-  td.verify(wrapper.instance().foundation_.close(), {times: 1});
+  td.verify(wrapper.instance().foundation.close(), {times: 1});
 });
 
 test('when props.open updates to true, #foundation.open is called when modal', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  wrapper.instance().foundation_.open = td.func();
+  wrapper.instance().foundation.open = td.func();
   wrapper.setProps({open: true});
-  td.verify(wrapper.instance().foundation_.open(), {times: 1});
+  td.verify(wrapper.instance().foundation.open(), {times: 1});
 });
 
 test('when props.open updates to false from true, #foundation.close is called when modal', () => {
   const wrapper = shallow<Drawer>(<Drawer open modal />);
-  wrapper.instance().foundation_.close = td.func();
+  wrapper.instance().foundation.close = td.func();
   wrapper.setProps({open: false});
-  td.verify(wrapper.instance().foundation_.close(), {times: 1});
+  td.verify(wrapper.instance().foundation.close(), {times: 1});
 });
 
 test('when changes from permanent to modal drawer with no foundation, creates a foundation', () => {
   const wrapper = shallow<Drawer>(<Drawer />);
-  assert.notExists(wrapper.instance().foundation_);
+  assert.notExists(wrapper.instance().foundation);
   wrapper.setProps({modal: true});
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from permanent to dismissible drawer with no foundation, creates a foundation', () => {
   const wrapper = shallow<Drawer>(<Drawer />);
-  assert.notExists(wrapper.instance().foundation_);
+  assert.notExists(wrapper.instance().foundation);
   wrapper.setProps({dismissible: true});
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when the drawer changes from dismissible to modal the foundation changes ', () => {
   const wrapper = shallow<Drawer>(<Drawer dismissible />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({modal: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when the drawer changes from dismissible to modal the original foundation calls destroy', () => {
   const wrapper = shallow<Drawer>(<Drawer dismissible />);
   const destroy = td.func();
-  wrapper.instance().foundation_ = {destroy};
+  wrapper.instance().foundation = {destroy};
   wrapper.setProps({modal: true});
   td.verify(destroy(), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Drawer>(<Drawer dismissible />);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
@@ -106,21 +106,21 @@ test('has mdc drawer class', () => {
 
 test('#adapter.addClass should update state with new className', () => {
   const wrapper = mount<Drawer>(<Drawer modal />);
-  wrapper.instance().foundation_.adapter_.addClass('test-class');
+  wrapper.instance().foundation.adapter_.addClass('test-class');
   assert.isTrue(wrapper.state().classList.has('test-class'));
 });
 
 test('#adapter.removeClass should update state with new className', () => {
   const wrapper = mount<Drawer>(<Drawer modal />);
   wrapper.setState({classList: new Set(['test-class'])});
-  wrapper.instance().foundation_.adapter_.removeClass('test-class');
+  wrapper.instance().foundation.adapter_.removeClass('test-class');
   assert.isFalse(wrapper.state().classList.has('test-class'));
 });
 
 test('#adapter.hasClass returns true if class is contained in classes', () => {
   const wrapper = mount<Drawer>(<Drawer modal />);
   wrapper.setState({classList: new Set(['test-class'])});
-  assert.isTrue(wrapper.instance().foundation_.adapter_.hasClass('test-class'));
+  assert.isTrue(wrapper.instance().foundation.adapter_.hasClass('test-class'));
 });
 
 test('#adapter.elementHasClass should return true when element has class', () => {
@@ -144,14 +144,14 @@ test('#adapter.elementHasClass should return false when element does not have cl
     .getDOMNode();
   const hasClass = wrapper
     .instance()
-    .foundation_.adapter_.elementHasClass(element, 'test-class');
+    .foundation.adapter_.elementHasClass(element, 'test-class');
   assert.isFalse(hasClass);
 });
 
-test('#adapter.saveFocus updates previousFocus_', () => {
+test('#adapter.saveFocus updates previousFocus', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  wrapper.instance().foundation_.adapter_.saveFocus();
-  assert.exists(wrapper.instance().previousFocus_);
+  wrapper.instance().foundation.adapter_.saveFocus();
+  assert.exists(wrapper.instance().previousFocus);
 });
 test(
   '#adapter.restoreFocus, focuses on component\'s previousFocus element ' +
@@ -168,13 +168,13 @@ test(
       </Drawer>,
       options
     );
-    wrapper.instance().previousFocus_ = focusedElement;
-    const drawerButtonElement = wrapper
+    wrapper.instance().previousFocus = focusedElement;
+    const drawerButtonElement = coerceForTesting<HTMLElement>(wrapper
       .childAt(0)
       .childAt(0)
-      .getDOMNode() as HTMLElement;
+      .getDOMNode());
     drawerButtonElement.focus();
-    wrapper.instance().foundation_.adapter_.restoreFocus();
+    wrapper.instance().foundation.adapter_.restoreFocus();
     assert.equal(focusedElement, document.activeElement);
     div.remove();
     focusedElement.remove();
@@ -195,7 +195,7 @@ test('#adapter.focusActiveNavigationItem focuses on first list item in drawer', 
     </Drawer>,
     options
   );
-  wrapper.instance().foundation_.adapter_.focusActiveNavigationItem();
+  wrapper.instance().foundation.adapter_.focusActiveNavigationItem();
   assert.isTrue(
     document.activeElement!.classList.contains('mdc-list-item--activated')
   );
@@ -203,65 +203,65 @@ test('#adapter.focusActiveNavigationItem focuses on first list item in drawer', 
 });
 
 test('#adapter.notifyClose calls props.onClose', () => {
-  const onClose = td.func() as () => void;
+  const onClose = coerceForTesting<() => void>(td.func());
   const wrapper = shallow<Drawer>(<Drawer modal onClose={onClose} />);
-  wrapper.instance().foundation_.adapter_.notifyClose();
+  wrapper.instance().foundation.adapter_.notifyClose();
   td.verify(onClose(), {times: 1});
 });
 
 test('#adapter.notifyOpen calls props.onOpen', () => {
-  const onOpen = td.func() as () => void;
+  const onOpen = coerceForTesting<() => void>(td.func());
   const wrapper = shallow<Drawer>(<Drawer modal onOpen={onOpen} />);
-  wrapper.instance().foundation_.adapter_.notifyOpen();
+  wrapper.instance().foundation.adapter_.notifyOpen();
   td.verify(onOpen(), {times: 1});
 });
 
 test('#adapter.trapFocus calls focusTrap.activate if modal variant', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  const activate = td.func() as (activateOptions?: Pick<Options, "onActivate">) => void; ;
-  wrapper.instance().focusTrap_ = {activate} as FocusTrap;
-  wrapper.instance().foundation_.adapter_.trapFocus();
+  const activate = coerceForTesting<(activateOptions?: Pick<Options, "onActivate">) => void>(td.func());
+  wrapper.instance().focusTrap = coerceForTesting<FocusTrap>({activate});
+  wrapper.instance().foundation.adapter_.trapFocus();
   td.verify(activate(), {times: 1});
 });
 
 test('#adapter.releaseFocus calls focusTrap.deactivate if modal variant', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  const deactivate = td.func() as (deactivateOptions?: DeactivateOptions) => void;
-  wrapper.instance().focusTrap_ = {deactivate} as FocusTrap;
-  wrapper.instance().foundation_.adapter_.releaseFocus();
+  const deactivate = coerceForTesting<(deactivateOptions?: DeactivateOptions) => void>(td.func());
+  wrapper.instance().focusTrap = coerceForTesting<FocusTrap>({deactivate});
+  wrapper.instance().foundation.adapter_.releaseFocus();
   td.verify(deactivate(), {times: 1});
 });
 
 test('event keydown triggers props.onKeyDown', () => {
-  const onKeyDown = td.func() as (event: React.KeyboardEvent) => void;
+  const onKeyDown = coerceForTesting<(event: React.KeyboardEvent) => void>(td.func());
   const wrapper = shallow(<Drawer onKeyDown={onKeyDown} />);
-  const evt = {} as React.KeyboardEvent;
+  const evt = coerceForTesting<React.KeyboardEvent>({});
   wrapper.childAt(0).simulate('keydown', evt);
   td.verify(onKeyDown(evt), {times: 1});
 });
 
 test('event keydown triggers foundation.handleKeydown', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  wrapper.instance().foundation_.handleKeydown = td.func();
-  const evt = {} as KeyboardEvent;
+  wrapper.instance().foundation.handleKeydown = td.func();
+  const evt = coerceForTesting<React.KeyboardEvent>({});
   wrapper.childAt(0).simulate('keydown', evt);
-  td.verify(wrapper.instance().foundation_.handleKeydown(evt), {times: 1});
+  td.verify(wrapper.instance().foundation.handleKeydown(evt), {times: 1});
 });
 
 test('event transitionend triggers props.onTransitionEnd', () => {
-  const onTransitionEnd = td.func() as (event: React.TransitionEvent) => void;
+  const onTransitionEnd = coerceForTesting<(event: React.TransitionEvent) => void>(td.func());
   const wrapper = shallow(<Drawer onTransitionEnd={onTransitionEnd} />);
-  const evt = {} as React.TransitionEvent;
+  const evt = coerceForTesting<React.TransitionEvent>({});
   wrapper.childAt(0).simulate('transitionend', evt);
   td.verify(onTransitionEnd(evt), {times: 1});
 });
 
 test('event transitionend triggers foundation.handleTransitionEnd', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  wrapper.instance().foundation_.handleTransitionEnd = td.func();
-  const evt = {} as React.TransitionEvent;
+  wrapper.instance().foundation.handleTransitionEnd = td.func();
+  const evt = coerceForTesting<React.TransitionEvent>({});
   wrapper.childAt(0).simulate('transitionend', evt);
-  td.verify(wrapper.instance().foundation_.handleTransitionEnd(evt), {
+  td.verify(wrapper.instance().foundation.handleTransitionEnd(evt), {
     times: 1,
   });
 });
@@ -276,10 +276,10 @@ test('renders scrim when props.modal is true', () => {
   assert.isTrue(wrapper.childAt(1).hasClass('mdc-drawer-scrim'));
 });
 
-test('click on scrim calls #foundation_.handleScrimClick', () => {
+test('click on scrim calls #foundation.handleScrimClick', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  wrapper.instance().foundation_.handleScrimClick = td.func();
+  wrapper.instance().foundation.handleScrimClick = td.func();
   const scrim = wrapper.childAt(1);
   scrim.simulate('click');
-  td.verify(wrapper.instance().foundation_.handleScrimClick(), {times: 1});
+  td.verify(wrapper.instance().foundation.handleScrimClick(), {times: 1});
 });

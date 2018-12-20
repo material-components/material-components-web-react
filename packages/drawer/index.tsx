@@ -58,10 +58,10 @@ interface DrawerState {
 };
 
 class Drawer extends React.Component<DrawerProps, DrawerState> {
-  previousFocus_: HTMLElement | null = null;
-  foundation_: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
-  focusTrap_?: FocusTrap;
-  drawerElement_: React.RefObject<HTMLDivElement> = React.createRef();
+  previousFocus: HTMLElement | null = null;
+  foundation: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
+  focusTrap?: FocusTrap;
+  drawerElement: React.RefObject<HTMLDivElement> = React.createRef();
 
   state: DrawerState = {classList: new Set()};
 
@@ -81,23 +81,23 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
   componentDidMount() {
     const {open} = this.props;
     this.initFoundation();
-    if (open && this.foundation_) {
-      this.foundation_.open();
+    if (open && this.foundation) {
+      this.foundation.open();
     }
   }
 
   private initFoundation = () => {
     const {dismissible, modal} = this.props;
-    if (this.foundation_) {
-      this.foundation_.destroy();
+    if (this.foundation) {
+      this.foundation.destroy();
     }
     if (dismissible) {
-      this.foundation_ = new MDCDismissibleDrawerFoundation(this.adapter);
-      this.foundation_.init();
+      this.foundation = new MDCDismissibleDrawerFoundation(this.adapter);
+      this.foundation.init();
     } else if (modal) {
       this.initializeFocusTrap();
-      this.foundation_ = new MDCModalDrawerFoundation(this.adapter);
-      this.foundation_.init();
+      this.foundation = new MDCModalDrawerFoundation(this.adapter);
+      this.foundation.init();
     }
   };
 
@@ -111,17 +111,17 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       this.initFoundation();
     }
     if (open !== prevProps.open) {
-      open ? this.foundation_.open() : this.foundation_.close();
+      open ? this.foundation.open() : this.foundation.close();
     }
   }
 
   componentWillUnmount() {
-    if (!this.foundation_) return;
-    this.foundation_.destroy();
+    if (!this.foundation) return;
+    this.foundation.destroy();
   }
 
   private initializeFocusTrap = () => {
-    this.focusTrap_ = util.createFocusTrapInstance(this.drawerElement_.current);
+    this.focusTrap = util.createFocusTrapInstance(this.drawerElement.current);
   };
 
   get classes() {
@@ -149,20 +149,20 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       elementHasClass: (element: HTMLElement, className: string) =>
         element.classList.contains(className),
       saveFocus: () => {
-        this.previousFocus_ = document.activeElement as HTMLElement | null;
+        this.previousFocus = document.activeElement as HTMLElement | null;
       },
       restoreFocus: () => {
-        const drawerElement = this.drawerElement_ && this.drawerElement_.current;
+        const drawerElement = this.drawerElement && this.drawerElement.current;
         if (drawerElement &&
-          this.previousFocus_ &&
-          this.previousFocus_.focus &&
+          this.previousFocus &&
+          this.previousFocus.focus &&
           drawerElement.contains(document.activeElement)) {
-          this.previousFocus_.focus();
+          this.previousFocus.focus();
         }
       },
       focusActiveNavigationItem: () => {
         const drawerElement =
-          this.drawerElement_ && this.drawerElement_.current;
+          this.drawerElement && this.drawerElement.current;
         if (!drawerElement) return;
         const activeNavItemEl
           = drawerElement.querySelector(`.${listCssClasses.LIST_ITEM_ACTIVATED_CLASS}`) as HTMLElement | null;
@@ -173,13 +173,13 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       notifyClose: this.props.onClose,
       notifyOpen: this.props.onOpen,
       trapFocus: () => {
-        if (this.focusTrap_) {
-          this.focusTrap_.activate();
+        if (this.focusTrap) {
+          this.focusTrap.activate();
         }
       },
       releaseFocus: () => {
-        if (this.focusTrap_) {
-          this.focusTrap_.deactivate();
+        if (this.focusTrap) {
+          this.focusTrap.deactivate();
         }
       },
     };
@@ -187,14 +187,14 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   handleKeyDown = (evt: React.KeyboardEvent<HTMLElement>) => {
     this.props.onKeyDown(evt);
-    if (!this.foundation_) return;
-    this.foundation_.handleKeydown(evt);
+    if (!this.foundation) return;
+    this.foundation.handleKeydown(evt);
   };
 
   handleTransitionEnd = (evt: React.TransitionEvent<HTMLElement>) => {
     this.props.onTransitionEnd(evt);
-    if (!this.foundation_) return;
-    this.foundation_.handleTransitionEnd(evt);
+    if (!this.foundation) return;
+    this.foundation.handleTransitionEnd(evt);
   };
 
   render() {
@@ -219,7 +219,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
           // @ts-ignore */}
         <Tag
           className={this.classes}
-          ref={this.drawerElement_}
+          ref={this.drawerElement}
           onKeyDown={this.handleKeyDown}
           onTransitionEnd={this.handleTransitionEnd}
           {...otherProps}
@@ -234,7 +234,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     return (
       <div
         className='mdc-drawer-scrim'
-        onClick={() => this.foundation_.handleScrimClick()}
+        onClick={this.foundation.handleScrimClick}
       />
     );
   }
