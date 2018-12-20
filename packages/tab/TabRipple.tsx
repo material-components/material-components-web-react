@@ -27,26 +27,26 @@ import withRipple from '@material/react-ripple';
 
 export interface TabRippleProps extends React.HTMLProps<HTMLDivElement> {
   className: string;
-  initRipple: (surface: React.Ref<HTMLDivElement>) => void;
+  initRipple: React.Ref<HTMLDivElement>;
   unbounded: boolean;
 }
 
 export class TabRippleBase extends React.Component<TabRippleProps, {}> {
   static defaultProps: Partial<TabRippleProps> = {
     className: '',
-    initRipple: () => {},
     unbounded: false,
   };
 
   get classes() {
     return classnames('mdc-tab__ripple', this.props.className);
   }
+
   render() {
     const {
-      /* eslint-disable */
+      /* eslint-disable no-unused-vars keeping out of ...otherProps */
       className,
       unbounded,
-      /* eslint-enable */
+      /* eslint-enable no-unused-vars */
       initRipple,
       ...otherProps
     } = this.props;

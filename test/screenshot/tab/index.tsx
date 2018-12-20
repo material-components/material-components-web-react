@@ -11,14 +11,16 @@ interface TabContentType {
   num: number;
 }
 
-const TabContent: (args: TabContentType) => React.ReactElement<any> = ({
+function TabContent({
   num, // eslint-disable-line react/prop-types
-}) => (
-  <React.Fragment>
-    <MaterialIcon className='mdc-tab__icon' icon='favorite' />
-    <span className='mdc-tab__text-label'>Tab {num}</span>
-  </React.Fragment>
-);
+}: TabContentType) {
+  return (
+    <React.Fragment>
+      <MaterialIcon className='mdc-tab__icon' icon='favorite' />
+      <span className='mdc-tab__text-label'>Tab {num}</span>
+    </React.Fragment>
+  );
+}
 
 interface TabsProps {
   children: React.ReactNode;
@@ -28,9 +30,9 @@ function isElementTab(element: any): element is Tab {
   return element !== null;
 }
 
-const Tabs: (args: TabsProps) => JSX.Element = ({
+function Tabs({
   children, // eslint-disable-line react/prop-types
-}) => {
+}: TabsProps) {
   return <div className='tabs'>{children}</div>;
 };
 
@@ -88,7 +90,7 @@ class TabsController extends React.Component<TabsControllerProps, TabsController
   }
 }
 
-const TabScreenshotTest = () => {
+function TabScreenshotTest() {
   return (
     <div>
       <h3>Basic Tabs</h3>
@@ -130,5 +132,6 @@ const TabScreenshotTest = () => {
       />
     </div>
   );
-};
+}
+
 export default TabScreenshotTest;

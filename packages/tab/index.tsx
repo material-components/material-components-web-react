@@ -40,10 +40,13 @@ export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   previousIndicatorClientRect?: ClientRect;
 }
 
-interface TabState {
-  classList: Set<string>;
+interface TabAttributes {
   'aria-selected': boolean;
   tabIndex?: number;
+}
+
+interface TabState extends TabAttributes {
+  classList: Set<string>;
   activateIndicator: boolean;
   previousIndicatorClientRect?: ClientRect;
 }
@@ -125,7 +128,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
         this.setState({classList});
       },
       hasClass: (className: string) => this.classes.split(' ').includes(className),
-      setAttr: (attr: keyof TabState, value?: string | boolean) => (
+      setAttr: (attr: keyof TabAttributes, value?: string | boolean) => (
         this.setState((prevState) => ({...prevState, [attr]: value}))
       ),
       getOffsetLeft: () =>
@@ -170,7 +173,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
   };
 
   onFocus = (e: React.FocusEvent) => {
-    if (isElementTabRipple(this.tabRipple_.current)) {
+    if (this.tabRipple_.current) {
       // https://github.com/material-components/material-components-web-react/issues/528
       // TODO: switch when ripple is converted to TSX
       // @ts-ignore
