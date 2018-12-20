@@ -3,9 +3,7 @@ import TopAppBar from '../../../packages/top-app-bar';
 // TODO: fix with #513
 // @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
-// TODO: fix with #528
-// @ts-ignore
-import withRipple from '../../../packages/ripple';
+import {withRipple} from '../../../packages/ripple';
 import MainTopAppBarContent from './mainContent';
 
 interface RippleProps {

@@ -3,9 +3,7 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import * as td from 'testdouble';
 import TopAppBar from '../../../packages/top-app-bar/index';
-// TODO: Replace with real tsx ripple props. Fix with #528
-// @ts-ignore
-import withRipple from '../../../packages/ripple/index';
+import {withRipple} from '../../../packages/ripple/index';
 
 suite('TopAppBar');
 
