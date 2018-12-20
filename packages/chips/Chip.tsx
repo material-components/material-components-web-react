@@ -21,8 +21,6 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-// TODO: fix in #528
-// @ts-ignore
 import withRipple from '@material/react-ripple';
 // no mdc .d.ts file
 // @ts-ignore
