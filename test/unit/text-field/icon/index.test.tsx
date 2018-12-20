@@ -3,9 +3,7 @@ import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import Icon from '../../../../packages/text-field/icon/index';
-// TODO: fix with #513
-// @ts-ignore
-import MaterialIcon from '../../../../packages/material-icon/index.js';
+import MaterialIcon from '../../../../packages/material-icon/index';
 
 suite('Text Field Icon');
 
@@ -166,7 +164,7 @@ test('#adapter.removeAttr for role', () => {
 test('#adapter.getAttr for tabIndex works with Custom Component', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <MaterialIcon icon='favorite' tabIndex='0' />
+      <MaterialIcon icon='favorite' tabIndex={0} />
     </Icon>
   );
   const tabIndex = wrapper.instance().foundation_.adapter_.getAttr('tabindex');
@@ -186,7 +184,7 @@ test('#adapter.getAttr for role works with Custom Component', () => {
 test('#adapter.setAttr for tabIndex works with Custom Component', () => {
   const wrapper = shallow<Icon>(
     <Icon>
-      <MaterialIcon icon='favorite' tabIndex='0' />
+      <MaterialIcon icon='favorite' tabIndex={0} />
     </Icon>
   );
   wrapper.instance().foundation_.adapter_.setAttr('tabindex', -1);

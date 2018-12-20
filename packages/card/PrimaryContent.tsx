@@ -20,55 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import ActionButtons from './ActionButtons';
-import ActionIcons from './ActionIcons';
-import Actions from './Actions';
-import PrimaryContent from './PrimaryContent';
-import Media from './Media';
+import * as React from 'react';
+import * as classnames from 'classnames';
+import * as Ripple from '@material/react-ripple';
 
-export default class Card extends React.Component {
-  render() {
-    const {
-      className,
-      children,
-      outlined,
-      ...otherProps
-    } = this.props;
-    const classes = classnames('mdc-card', className, {
-      'mdc-card--outlined': outlined,
-    });
-
-    return (
-      <div
-        className={classes}
-        {...otherProps}
-      >
-        {children}
-      </div>
-    );
-  }
-}
-
-Card.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  outlined: PropTypes.bool,
+export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement>{
+  className: string;
+  unbounded?: boolean;
 };
 
-Card.defaultProps = {
-  children: null,
-  className: '',
-  outlined: false,
+export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps> = ({
+  /* eslint-disable react/prop-types */
+  className = '',
+  initRipple,
+  children,
+  unbounded, // eslint-disable-line no-unused-vars
+  /* eslint-enable react/prop-types */
+  ...otherProps
+}) => {
+  const classes = classnames('mdc-card__primary-action', className);
+
+  return (
+    <div className={classes} ref={initRipple} {...otherProps}>
+      {children}
+    </div>
+  );
 };
 
-
-export {
-  ActionButtons as CardActionButtons,
-  ActionIcons as CardActionIcons,
-  Actions as CardActions,
-  PrimaryContent as CardPrimaryContent,
-  Media as CardMedia,
-};
+export default Ripple.withRipple<PrimaryContentBaseProps, HTMLDivElement>(PrimaryContentBase);

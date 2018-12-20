@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config test/screenshot/webpack.config.js --content-base test/screenshot",
     "stop": "./test/screenshot/stop.sh",
-    "build": "npm run clean && mkdirp build && webpack --config packages/webpack.config.js --progress --colors",
+    "build": "npm run clean && mkdirp build && node --max_old_space_size=8192 node_modules/.bin/webpack --config packages/webpack.config.js --progress --colors",
     "capture": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --require ts-node/register --require babel-core/register --ui tdd --timeout 20000 test/screenshot/capture-suite.tsx",
     "clean": "rm -rf build/** build packages/**/dist/",
     "commitmsg": "validate-commit-msg",
@@ -144,6 +144,7 @@
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2",
     "typescript-eslint-parser": "^21.0.1",
+    "utility-types": "^2.1.0",
     "uuid": "^3.3.2",
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.11.0",

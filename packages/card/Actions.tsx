@@ -20,45 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-export default class ActionButtons extends React.Component {
-  addButtonClassToChildren = () => {
-    return React.Children.map(this.props.children, (item) => {
-      const className = classnames(
-        item.props.className, 'mdc-card__action', 'mdc-card__action--button');
-      const props = Object.assign({}, item.props, {className});
-      return React.cloneElement(item, props);
-    });
-  };
-
-  render() {
-    const {
-      className,
-      children, // eslint-disable-line no-unused-vars
-      ...otherProps
-    } = this.props;
-    const classes = classnames('mdc-card__action-buttons', className);
-
-    return (
-      <div
-        className={classes}
-        {...otherProps}
-      >
-        {this.addButtonClassToChildren()}
-      </div>
-    );
-  }
-}
-
-ActionButtons.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
+export interface ActionsProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  fullBleed?: boolean;
 };
 
-ActionButtons.defaultProps = {
-  className: '',
-  children: null,
+const Actions: React.FunctionComponent<ActionsProps> = ({
+  className = '', children, fullBleed = false, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card__actions', className, {
+    'mdc-card__actions--full-bleed': fullBleed,
+  });
+  return (
+    <div className={classes} {...otherProps}>
+      {children}
+    </div>
+  );
 };
+
+export default Actions;
