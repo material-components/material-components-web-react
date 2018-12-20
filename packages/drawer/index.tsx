@@ -234,7 +234,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     return (
       <div
         className='mdc-drawer-scrim'
-        onClick={this.foundation.handleScrimClick}
+        onClick={() => this.foundation.handleScrimClick()}
       />
     );
   }
