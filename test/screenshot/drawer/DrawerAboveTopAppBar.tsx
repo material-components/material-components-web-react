@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
-
+// @ts-ignore
 import TopAppBar from '../../../packages/top-app-bar/index';
 import Drawer, {
   DrawerAppContent,
@@ -10,9 +10,21 @@ import Drawer, {
   DrawerTitle,
   DrawerContent,
 } from '../../../packages/drawer/index';
-import List from './List';
+// @ts-ignore
+import List from './List.js';
+import MaterialIcon from '../../../packages/material-icon/index';
 
-const DrawerScreenshotTest = ({
+interface DrawerScreenshotTestProps {
+  onClose: () => void;
+  open: boolean;
+  title: string;
+  modal: boolean;
+  dismissible: boolean;
+  renderLoremIpsum: (section: number) => JSX.Element;
+  renderNavigationIcon: () => MaterialIcon | void;
+};
+
+const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({
   /* eslint-disable react/prop-types */
   onClose,
   open,
@@ -21,7 +33,6 @@ const DrawerScreenshotTest = ({
   modal,
   renderLoremIpsum,
   renderNavigationIcon,
-  /* eslint-enable react/prop-types */
 }) => {
   return (
     <div className='drawer-screenshot-test'>
@@ -32,12 +43,8 @@ const DrawerScreenshotTest = ({
         modal={modal}
       >
         <DrawerHeader>
-          <DrawerTitle>
-            Inbox
-          </DrawerTitle>
-          <DrawerSubtitle>
-            ralph@gmail.com
-          </DrawerSubtitle>
+          <DrawerTitle>Inbox</DrawerTitle>
+          <DrawerSubtitle>ralph@gmail.com</DrawerSubtitle>
         </DrawerHeader>
 
         <DrawerContent>
@@ -46,10 +53,7 @@ const DrawerScreenshotTest = ({
       </Drawer>
 
       <DrawerAppContent className='drawer-app-content'>
-        <TopAppBar
-          title={title}
-          navigationIcon={renderNavigationIcon()}
-        />
+        <TopAppBar title={title} navigationIcon={renderNavigationIcon()} />
         <div className='mdc-top-app-bar--fixed-adjust'>
           {[0, 1, 2, 3, 4, 5].map(renderLoremIpsum)}
         </div>
@@ -57,5 +61,4 @@ const DrawerScreenshotTest = ({
     </div>
   );
 };
-
 export default DrawerScreenshotTest;
