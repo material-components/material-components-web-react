@@ -118,9 +118,7 @@ const renderChips = (list: string[], hasLeadingIcon: boolean = false) => {
       id={`${index}chip`}
       key={index}
       label={label}
-      leadingIcon={
-        hasLeadingIcon ? <MaterialIcon icon='shopping_basket' /> : null
-      }
+      leadingIcon={hasLeadingIcon ? <MaterialIcon icon='shopping_basket' /> : undefined}
     />
   ));
 };

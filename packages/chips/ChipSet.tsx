@@ -47,7 +47,7 @@ interface ChipSetState {
 };
 
 export default class ChipSet extends React.Component<ChipSetProps, ChipSetState> {
-  checkmarkWidth_ = 0;
+  checkmarkWidth = 0;
   constructor(props: ChipSetProps) {
     super(props);
     this.state = {
@@ -112,7 +112,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   initChipSelection() {
     React.Children.forEach((this.props.children as ChipType | ChipType[]), (child) => {
       const {id} = (child as ChipType).props;
-      const selected = this.state.selectedChipIds.indexOf(id) > -1;
+      const selected = this.state.selectedChipIds.indexOf(id!) > -1;
       if (selected) {
         this.state.foundation.select(id);
       }
@@ -148,15 +148,15 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   };
 
   setCheckmarkWidth = (checkmark: ChipCheckmark) => {
-    if (!!this.checkmarkWidth_) {
+    if (!!this.checkmarkWidth) {
       return;
     }
-    this.checkmarkWidth_ = checkmark.width;
+    this.checkmarkWidth = checkmark.width;
   };
 
   computeBoundingRect = (chipElement: HTMLDivElement) => {
     const {height, width: chipWidth} = chipElement.getBoundingClientRect();
-    const width = chipWidth + this.checkmarkWidth_;
+    const width = chipWidth + this.checkmarkWidth;
     return {height, width};
   };
 

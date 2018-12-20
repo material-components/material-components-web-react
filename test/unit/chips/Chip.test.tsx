@@ -9,7 +9,7 @@ suite('Chip');
 
 test('creates foundation', () => {
   const wrapper = mount<Chip>(<Chip id='1' />);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('calls setSelected if props.selected is true (#foundation.setSelected)', () => {
@@ -89,7 +89,7 @@ test('#adapter.addClassToLeadingIcon adds to state.leadingIconClassList', () => 
   const wrapper = shallow<Chip>(<Chip id='123' />);
   wrapper
     .instance()
-    .foundation_.adapter_.addClassToLeadingIcon('test-leading-icon-class');
+    .foundation.adapter_.addClassToLeadingIcon('test-leading-icon-class');
   assert.isTrue(
     wrapper.state().leadingIconClassList.has('test-leading-icon-class')
   );
@@ -102,7 +102,7 @@ test('#adapter.removeClassFromLeadingIcon removes from state.leadingIconClassLis
   });
   wrapper
     .instance()
-    .foundation_.adapter_.removeClassFromLeadingIcon('test-leading-icon-class');
+    .foundation.adapter_.removeClassFromLeadingIcon('test-leading-icon-class');
   assert.isFalse(
     wrapper.state().leadingIconClassList.has('test-leading-icon-class')
   );
@@ -113,28 +113,28 @@ test('#adapter.notifyInteraction calls #props.handleInteraction w/ chipId', () =
   const wrapper = shallow<Chip>(
     <Chip id='123' handleInteraction={handleInteraction} />
   );
-  wrapper.instance().foundation_.adapter_.notifyInteraction();
+  wrapper.instance().foundation.adapter_.notifyInteraction();
   td.verify(handleInteraction('123'), {times: 1});
 });
 
 test('#adapter.notifyRemoval calls #props.handleRemove w/ chipId', () => {
   const handleRemove = td.func() as (id: string) => void;
   const wrapper = shallow<Chip>(<Chip id='123' handleRemove={handleRemove} />);
-  wrapper.instance().foundation_.adapter_.notifyRemoval();
+  wrapper.instance().foundation.adapter_.notifyRemoval();
   td.verify(handleRemove('123'), {times: 1});
 });
 
 test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected false', () => {
   const handleSelect = td.func() as (id: string, selected: boolean) => void;
   const wrapper = shallow<Chip>(<Chip id='123' handleSelect={handleSelect} />);
-  wrapper.instance().foundation_.adapter_.notifySelection(false);
+  wrapper.instance().foundation.adapter_.notifySelection(false);
   td.verify(handleSelect('123', false), {times: 2});
 });
 
 test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected true', () => {
   const handleSelect = td.func() as (id: string, selected: boolean) => void;
   const wrapper = shallow<Chip>(<Chip id='123' handleSelect={handleSelect} />);
-  wrapper.instance().foundation_.adapter_.notifySelection(true);
+  wrapper.instance().foundation.adapter_.notifySelection(true);
   td.verify(handleSelect('123', true), {times: 1});
 });
 
@@ -148,10 +148,10 @@ test('on click calls #props.onClick', () => {
 
 test('on click calls #foudation.handleInteraction', () => {
   const wrapper = shallow<Chip>(<Chip id='123' />);
-  wrapper.instance().foundation_.handleInteraction = td.func();
+  wrapper.instance().foundation.handleInteraction = td.func();
   const evt = {};
   wrapper.simulate('click', evt);
-  td.verify(wrapper.instance().foundation_.handleInteraction(evt), {
+  td.verify(wrapper.instance().foundation.handleInteraction(evt), {
     times: 1,
   });
 });
@@ -166,10 +166,10 @@ test('on keydown calls #props.onKeyDown', () => {
 
 test('on keydown calls #foudation.handleInteraction', () => {
   const wrapper = shallow<Chip>(<Chip id='123' />);
-  wrapper.instance().foundation_.handleInteraction = td.func();
+  wrapper.instance().foundation.handleInteraction = td.func();
   const evt = {};
   wrapper.simulate('keydown', evt);
-  td.verify(wrapper.instance().foundation_.handleInteraction(evt), {
+  td.verify(wrapper.instance().foundation.handleInteraction(evt), {
     times: 1,
   });
 });
@@ -271,13 +271,13 @@ test('renders remove icon with base class names', () => {
 test('remove icon click calls #foundation.handleTrailingIconInteraction', () => {
   const removeIcon = <i className='remove-icon' />;
   const wrapper = shallow<Chip>(<Chip id='1' removeIcon={removeIcon} />);
-  wrapper.instance().foundation_.handleTrailingIconInteraction = td.func();
+  wrapper.instance().foundation.handleTrailingIconInteraction = td.func();
   const evt = {};
   wrapper
     .children()
     .last()
     .simulate('click', evt);
-  td.verify(wrapper.instance().foundation_.handleTrailingIconInteraction(evt), {
+  td.verify(wrapper.instance().foundation.handleTrailingIconInteraction(evt), {
     times: 1,
   });
 });
@@ -285,23 +285,23 @@ test('remove icon click calls #foundation.handleTrailingIconInteraction', () => 
 test('remove icon keydown calls #foundation.handleTrailingIconInteraction', () => {
   const removeIcon = <i className='remove-icon' />;
   const wrapper = shallow<Chip>(<Chip id='1' removeIcon={removeIcon} />);
-  wrapper.instance().foundation_.handleTrailingIconInteraction = td.func();
+  wrapper.instance().foundation.handleTrailingIconInteraction = td.func();
   const evt = {};
   wrapper
     .children()
     .last()
     .simulate('keydown', evt);
-  td.verify(wrapper.instance().foundation_.handleTrailingIconInteraction(evt), {
+  td.verify(wrapper.instance().foundation.handleTrailingIconInteraction(evt), {
     times: 1,
   });
 });
 
 test('calls #foundation.handleTransitionEnd on transitionend event', () => {
   const wrapper = shallow<Chip>(<Chip id='1' />);
-  wrapper.instance().foundation_.handleTransitionEnd = td.func();
+  wrapper.instance().foundation.handleTransitionEnd = td.func();
   const evt = {target: {}};
   wrapper.simulate('transitionend', evt);
-  td.verify(wrapper.instance().foundation_.handleTransitionEnd(evt), {
+  td.verify(wrapper.instance().foundation.handleTransitionEnd(evt), {
     times: 1,
   });
 });
@@ -311,7 +311,7 @@ test('calls #props.onTransitionEnd on transitionend event', () => {
   const wrapper = shallow<Chip>(<Chip id='1' onTransitionEnd={onTransitionEnd} />);
   // need to remove foundation, since React.TransitionEvent does not have classList on EventTarget
   // see https://github.com/DefinitelyTyped/DefinitelyTyped/pull/12239
-  wrapper.instance().foundation_ = {handleTransitionEnd: () => {}};
+  wrapper.instance().foundation = {handleTransitionEnd: () => {}};
   const evt = {} as React.TransitionEvent;
   wrapper.simulate('transitionend', evt);
   td.verify(onTransitionEnd(evt), {times: 1});
@@ -346,7 +346,7 @@ test('renders label text', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Chip>(<Chip id='1' />);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());

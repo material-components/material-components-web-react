@@ -21,28 +21,26 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
 // no mdc .d.ts file
 // @ts-ignore
 import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
 
-export interface ChipProps {
-  id: string;
-  label: string;
-  className: string;
-  selected: boolean;
-  handleSelect: (id: string, selected: boolean) => void;
-  handleRemove: (id: string) => void;
-  handleInteraction: (id: string) => void;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
-  onKeyDown: React.KeyboardEventHandler<HTMLDivElement>;
-  onTransitionEnd: React.TransitionEventHandler<HTMLDivElement>;
-  initRipple: (surface: HTMLDivElement) => void;
-  computeBoundingRect: (chipElement: React.ReactElement<HTMLDivElement>) => void;
-  unbounded?: boolean;
+export interface ChipProps extends Ripple.InjectedProps<HTMLDivElement> {
+  id?: string;
+  label?: string;
+  className?: string;
+  selected?: boolean;
+  handleSelect?: (id: string, selected: boolean) => void;
+  handleRemove?: (id: string) => void;
+  handleInteraction?: (id: string) => void;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
+  onTransitionEnd?: React.TransitionEventHandler<HTMLDivElement>;
   chipCheckmark?: React.ReactElement<HTMLElement>;
   leadingIcon?: React.ReactElement<HTMLElement>;
   removeIcon?: React.ReactElement<HTMLElement>;
+  initRipple: (surface: HTMLElement | null) => void;
 };
 
 type ChipState = {
@@ -51,10 +49,11 @@ type ChipState = {
 };
 
 export class Chip extends React.Component<ChipProps, ChipState> {
-  chipElement_?: HTMLDivElement;
-  foundation_?: MDCChipFoundation;
+  chipElement: HTMLDivElement | null = null;
+  foundation?: MDCChipFoundation;
 
   static defaultProps: Partial<ChipProps> = {
+    id: '',
     label: '',
     className: '',
     selected: false,
@@ -65,7 +64,6 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     handleSelect: () => {},
     handleRemove: () => {},
     handleInteraction: () => {},
-    computeBoundingRect: () => {},
   };
 
   state = {
@@ -74,24 +72,24 @@ export class Chip extends React.Component<ChipProps, ChipState> {
   };
 
   componentDidMount() {
-    this.foundation_ = new MDCChipFoundation(this.adapter);
-    this.foundation_.init();
-    this.foundation_.setSelected(this.props.selected);
+    this.foundation = new MDCChipFoundation(this.adapter);
+    this.foundation.init();
+    this.foundation.setSelected(this.props.selected);
   }
 
   componentDidUpdate(prevProps: ChipProps) {
     if (this.props.selected !== prevProps.selected) {
-      this.foundation_.setSelected(this.props.selected);
+      this.foundation.setSelected(this.props.selected);
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
-  init = (el: HTMLDivElement) => {
-    this.chipElement_ = el;
-    this.props.initRipple(el);
+  init = (el: HTMLDivElement | null) => {
+    this.chipElement = el;
+    this.props.initRipple && this.props.initRipple(el);
   };
 
   get classes() {
@@ -116,19 +114,19 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       eventTargetHasClass: (target: HTMLElement, className: string) =>
         target.classList.contains(className),
       getComputedStyleValue: (propertyName: string) => {
-        if (!this.chipElement_) return;
+        if (!this.chipElement) return;
         return window
-          .getComputedStyle(this.chipElement_)
+          .getComputedStyle(this.chipElement)
           .getPropertyValue(propertyName);
       },
       setStyleProperty: (propertyName: keyof React.CSSProperties, value: string | null) => {
-        if (!this.chipElement_) return;
-        this.chipElement_.style.setProperty(propertyName, value);
+        if (!this.chipElement) return;
+        this.chipElement.style.setProperty(propertyName, value);
       },
-      notifyRemoval: () => this.props.handleRemove(this.props.id),
-      notifyInteraction: () => this.props.handleInteraction(this.props.id),
+      notifyRemoval: () => this.props.handleRemove!(this.props.id!),
+      notifyInteraction: () => this.props.handleInteraction!(this.props.id!),
       notifySelection: (selected: boolean) =>
-        this.props.handleSelect(this.props.id, selected),
+        this.props.handleSelect!(this.props.id!, selected),
       addClassToLeadingIcon: (className: string) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.add(className);
@@ -143,20 +141,20 @@ export class Chip extends React.Component<ChipProps, ChipState> {
   }
 
   onClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.props.onClick(e);
-    this.foundation_.handleInteraction(e);
+    this.props.onClick!(e);
+    this.foundation.handleInteraction(e);
   };
 
   onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    this.props.onKeyDown(e);
-    this.foundation_.handleInteraction(e);
+    this.props.onKeyDown!(e);
+    this.foundation.handleInteraction(e);
   };
 
-  handleRemoveIconClick = (e: React.MouseEvent) => this.foundation_.handleTrailingIconInteraction(e);
+  handleRemoveIconClick = (e: React.MouseEvent) => this.foundation.handleTrailingIconInteraction(e);
 
   handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    this.props.onTransitionEnd(e);
-    this.foundation_.handleTransitionEnd(e);
+    this.props.onTransitionEnd!(e);
+    this.foundation.handleTransitionEnd(e);
   };
 
   renderLeadingIcon = (leadingIcon: React.ReactElement<HTMLElement>) => {
@@ -232,4 +230,4 @@ export class Chip extends React.Component<ChipProps, ChipState> {
   }
 }
 
-export default withRipple(Chip);
+export default Ripple.withRipple<ChipProps, HTMLDivElement>(Chip);

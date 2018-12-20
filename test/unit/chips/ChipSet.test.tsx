@@ -213,14 +213,14 @@ test('#removeChip calls #props.updateChips with array of remaining chips', () =>
 test('#setCheckmarkWidth sets checkmark width', () => {
   const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
   wrapper.instance().setCheckmarkWidth({width: 20} as ChipCheckmark);
-  assert.equal(wrapper.instance().checkmarkWidth_, 20);
+  assert.equal(wrapper.instance().checkmarkWidth, 20);
 });
 
 test('#setCheckmarkWidth does not set checkmark width if checkmark width is already set', () => {
   const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
-  wrapper.instance().checkmarkWidth_ = 20;
+  wrapper.instance().checkmarkWidth = 20;
   wrapper.instance().setCheckmarkWidth({width: 40} as ChipCheckmark);
-  assert.equal(wrapper.instance().checkmarkWidth_, 20);
+  assert.equal(wrapper.instance().checkmarkWidth, 20);
 });
 
 test('#computeBoundingRect returns width and height', () => {
@@ -239,7 +239,7 @@ test('#computeBoundingRect returns width and height', () => {
   const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
   const chipWidth = 20;
   const chipHeight = 50;
-  wrapper.instance().checkmarkWidth_ = 20;
+  wrapper.instance().checkmarkWidth = 20;
   const chipElement = {
     getBoundingClientRect: () => ({width: chipWidth, height: chipHeight}),
   } as HTMLDivElement;
