@@ -7,7 +7,7 @@ const isDirectory = source => lstatSync(source).isDirectory();
 const getDirectories = source =>
   readdirSync(source).map(name => join(source, name)).filter(isDirectory);
 
-function read(
+function readScreenshotDirectory(
   components = [],
   path = resolve(__dirname, '../test/screenshot'),
   parentDirectory = ''
@@ -20,7 +20,7 @@ function read(
     // recursively get sub directories
     const subDirectories = getDirectories(resolve(path, packageName));
     if (subDirectories.length > 0) {
-      read(components, resolve(path, packageName), packageName);
+      readScreenshotDirectory(components, resolve(path, packageName), packageName);
     }
     components.push(`${parentDirectory ? parentDirectory + '/' : ''}${packageName}`);
   });
@@ -28,4 +28,4 @@ function read(
   return components;
 }
 
-module.exports = {read};
+module.exports = {read: readScreenshotDirectory, getDirectories};
