@@ -3,6 +3,7 @@ import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import LineRipple from '../../../packages/line-ripple/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('LineRipple');
 
@@ -98,7 +99,7 @@ test('#adapter.hasClass returns true if exists in classList', () => {
 test('#adapter.setStyle updates style', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
   wrapper.instance().foundation_.adapter_.setStyle('color', 'blue');
-  const style = wrapper.state().style as React.CSSProperties;
+  const style = coerceForTesting<React.CSSProperties>(wrapper.state().style);
   assert.equal(style.color, 'blue');
 });
 
@@ -123,7 +124,7 @@ test('#componentWillUnmount destroys foundation', () => {
 test('#adapter.setStyle updates style names to camel case', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
   wrapper.instance().foundation_.adapter_.setStyle('transform-origin', 25);
-  const style = (wrapper.state().style as React.CSSProperties);
+  const style = coerceForTesting<React.CSSProperties>(wrapper.state().style);
   assert.equal(style.transformOrigin, 25);
   // @ts-ignore
   assert.equal(style['transform-origin'], undefined);
