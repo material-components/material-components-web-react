@@ -23,7 +23,7 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 // no mdc .d.ts
 // @ts-ignore
-import {MDCLineRippleFoundation} from '@material/line-ripple';
+import {MDCLineRippleFoundation} from '@material/line-ripple/dist/mdc.lineRipple';
 
 export interface LineRippleProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;
