@@ -20,45 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-export default class ActionIcons extends React.Component {
-  addIconClassToChildren = () => {
-    return React.Children.map(this.props.children, (item) => {
-      const className = classnames(
-        item.props.className, 'mdc-card__action', 'mdc-card__action--icon');
-      const props = Object.assign({}, item.props, {className});
-      return React.cloneElement(item, props);
-    });
-  };
+type ChildType = React.ReactElement<React.HTMLProps<HTMLButtonElement|HTMLAnchorElement>>;
 
-  render() {
-    const {
-      className,
-      children, // eslint-disable-line no-unused-vars
-      ...otherProps
-    } = this.props;
-    const classes = classnames('mdc-card__action-icons', className);
+export interface ActionButtonsProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  children?: ChildType | ChildType[];
+};
 
-    return (
-      <div
-        className={classes}
-        {...otherProps}
-      >
-        {this.addIconClassToChildren()}
-      </div>
+const addButtonClassToChildren = (children: ChildType | ChildType[]) => {
+  return React.Children.map((children as ChildType | ChildType[]), (item) => {
+    const className = classnames(
+      (item as ChildType).props.className,
+      'mdc-card__action',
+      'mdc-card__action--button'
     );
-  }
-}
-
-ActionIcons.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
+    const props = Object.assign({}, (item as ChildType).props, {className});
+    return React.cloneElement((item as ChildType), props);
+  });
 };
 
-ActionIcons.defaultProps = {
-  className: '',
-  children: null,
+const ActionButtons: React.FunctionComponent<ActionButtonsProps> = ({
+  className = '', children, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card__action-buttons', className);
+  if (!children) return null;
+  return (
+    <div className={classes} {...otherProps}>
+      {addButtonClassToChildren(children)}
+    </div>
+  );
 };
+
+export default ActionButtons;

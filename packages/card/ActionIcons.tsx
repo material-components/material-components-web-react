@@ -20,45 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-import {withRipple} from '@material/react-ripple';
+type ChildType = React.ReactElement<React.HTMLProps<HTMLImageElement|HTMLOrSVGElement>>;
 
-export const PrimaryContentBase = (props) => {
-  const {
-    className,
-    initRipple,
-    children,
-    unbounded, // eslint-disable-line no-unused-vars
-    ...otherProps
-  } = props;
+export interface ActionIconsProps extends React.HTMLProps<HTMLDivElement> {
+  className?: string;
+  children?: ChildType | ChildType[];
+};
 
-  const classes = classnames('mdc-card__primary-action', className);
+const addIconClassToChildren = (children: ChildType | ChildType[]) => {
+  return React.Children.map((children as ChildType | ChildType[]), (item) => {
+    const className = classnames(
+      (item as ChildType).props.className,
+      'mdc-card__action',
+      'mdc-card__action--icon'
+    );
+    const props = Object.assign({}, (item as ChildType).props, {className});
+    return React.cloneElement((item as ChildType), props);
+  });
+};
+
+const ActionIcons: React.FunctionComponent<ActionIconsProps> = ({
+  className = '', children, ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames('mdc-card__action-icons', className);
+  if (!children) return null;
   return (
-    <div
-      className={classes}
-      ref={initRipple}
-      {...otherProps}
-    >
-      {children}
+    <div className={classes} {...otherProps}>
+      {addIconClassToChildren(children)}
     </div>
   );
 };
 
-
-PrimaryContentBase.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  // The following props are handled by withRipple and do not require defaults.
-  initRipple: PropTypes.func,
-  unbounded: PropTypes.bool,
-};
-
-PrimaryContentBase.defaultProps = {
-  className: '',
-  children: null,
-};
-
-export default withRipple(PrimaryContentBase);
+export default ActionIcons;
