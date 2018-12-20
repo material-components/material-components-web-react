@@ -75,6 +75,51 @@ const RippleIcon = withRipple(Icon);
 Wrap your Icon component with the HOC `withRipple`, which returns a component
 with a ripple capable surface.
 
+### Typescript
+
+If you're using TS, you will need to extend from the provided InjectedProps.
+
+```js
+
+import {withRipple, InjectedProps} from '@material/react-ripple';
+
+interface IconProps extends InjectedProps<HTMLDivElement> {
+  children?: React.ReactNode;
+  className: string;
+  initRipple: React.Ref<HTMLDivElement>;
+  unbounded: boolean;
+}
+
+const Icon = (props) => {
+  const {
+    children,
+    className = '',
+    // You must call `initRipple` from the root element's ref. This attaches the ripple
+    // to the element.
+    initRipple,
+    // include `unbounded` to remove warnings when passing `otherProps` to the
+    // root element.
+    unbounded,
+    ...otherProps
+  } = props;
+
+  // any classes needed on your component needs to be merged with
+  // `className` passed from `props`.
+  const classes = `ripple-icon-component ${className}`;
+
+  return (
+    <div
+      className={classes}
+      ref={initRipple}
+      {...otherProps}>
+      {children}
+    </div>
+  );
+};
+
+const RippleIcon = withRipple<IconProps, HTMLDivElement>(Icon);
+```
+
 ## Advanced Usage
 
 ### Ripple surface and ripple activator
