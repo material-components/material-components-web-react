@@ -32,7 +32,7 @@ export interface SwitchProps extends React.HTMLProps<HTMLInputElement> {
   checked: boolean;
   className: string;
   disabled: boolean;
-  nativeControlId: string;
+  nativeControlId?: string;
 }
 
 interface SwitchState {
@@ -58,11 +58,10 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
     };
   }
 
-  static defaultProps = {
+  static defaultProps: Partial<SwitchProps> = {
     checked: false,
     className: '',
     disabled: false,
-    nativeControlId: null,
   };
 
   componentDidMount() {

@@ -22,7 +22,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore
-import {MDCTextFieldFoundation} from '@material/textfield';
+import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
 // @ts-ignore
 import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
 

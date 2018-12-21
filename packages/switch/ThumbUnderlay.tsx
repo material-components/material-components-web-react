@@ -22,33 +22,24 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// TODO: fix with #528
-// @ts-ignore
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
 
-export interface ThumbUnderlayProps extends React.HTMLProps<HTMLDivElement> {
-  className: string;
-  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void;
-  unbounded: boolean;
-  rippleActivator?: React.RefObject<HTMLInputElement>;
-}
-
-function isHTMLInputElement(element: any): element is HTMLInputElement {
-  return element !== null;
+export interface ThumbUnderlayProps
+  extends Ripple.InjectedProps<HTMLDivElement, HTMLInputElement>, React.HTMLProps<HTMLDivElement> {
+    rippleActivator: React.RefObject<HTMLInputElement>;
+    initRipple: (surface: HTMLDivElement, activator?: HTMLInputElement) => void;
 }
 
 export class ThumbUnderlay extends React.Component<ThumbUnderlayProps, {}> {
-  static defaultProps = {
+  static defaultProps: Partial<ThumbUnderlayProps> = {
     className: '',
     initRipple: () => {},
     unbounded: true,
   };
 
   init = (el: HTMLDivElement) => {
-    if (this.props.rippleActivator) {
-      if (isHTMLInputElement(this.props.rippleActivator.current)) {
-        this.props.initRipple(el, this.props.rippleActivator.current);
-      }
+    if (this.props.rippleActivator.current) {
+      this.props.initRipple(el, this.props.rippleActivator.current);
     }
   };
 
@@ -75,4 +66,4 @@ export class ThumbUnderlay extends React.Component<ThumbUnderlayProps, {}> {
   }
 }
 
-export default withRipple(ThumbUnderlay);
+export default Ripple.withRipple<ThumbUnderlayProps, HTMLDivElement, HTMLInputElement>(ThumbUnderlay);
