@@ -20,34 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
+import * as React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 
-export default class IconToggle extends Component {
-  render() {
-    const {isOn, className, children} = this.props;
-    const classes = classnames(
-      'mdc-icon-button__icon',
-      {'mdc-icon-button__icon--on': isOn},
-      className,
-    );
-    return (
-      <div className={classes}>
-        {children}
-      </div>
-    );
-  }
+export interface IconToggleProps {
+  className?: string;
+  isOn?: boolean;
 }
 
-IconToggle.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  isOn: PropTypes.bool,
+const IconToggle: React.FunctionComponent<IconToggleProps> = ({
+  isOn = false, className = '', children = '', // eslint-disable-line react/prop-types
+}) => {
+  const classes = classnames(
+    'mdc-icon-button__icon',
+    {'mdc-icon-button__icon--on': isOn},
+    className
+  );
+  return <div className={classes}>{children}</div>;
 };
 
-IconToggle.defaultProps = {
-  children: '',
-  className: '',
-  isOn: false,
-};
+export default IconToggle;
