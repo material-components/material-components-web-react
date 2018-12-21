@@ -20,15 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import {withRipple} from '@material/react-ripple';
+import * as React from 'react';
+import * as classnames from 'classnames';
+import * as Ripple from '@material/react-ripple';
 
-export class ThumbUnderlay extends React.Component {
-  init = (el) => {
-    this.props.initRipple(el, this.props.rippleActivator.current);
-  }
+export interface ThumbUnderlayProps
+  extends Ripple.InjectedProps<HTMLDivElement, HTMLInputElement>, React.HTMLProps<HTMLDivElement> {
+    rippleActivator: React.RefObject<HTMLInputElement>;
+    initRipple: (surface: HTMLDivElement, activator?: HTMLInputElement) => void;
+}
+
+export class ThumbUnderlay extends React.Component<ThumbUnderlayProps, {}> {
+  static defaultProps: Partial<ThumbUnderlayProps> = {
+    className: '',
+    initRipple: () => {},
+    unbounded: true,
+  };
+
+  init = (el: HTMLDivElement) => {
+    if (this.props.rippleActivator.current) {
+      this.props.initRipple(el, this.props.rippleActivator.current);
+    }
+  };
 
   get classes() {
     return classnames('mdc-switch__thumb-underlay', this.props.className);
@@ -45,34 +58,12 @@ export class ThumbUnderlay extends React.Component {
       /* eslint-enable */
       ...otherProps
     } = this.props;
-
     return (
-      <div
-        className={this.classes}
-        ref={this.init}
-        {...otherProps}
-      >
-        <div className='mdc-switch__thumb'>
-          {children}
-        </div>
+      <div className={this.classes} ref={this.init} {...otherProps}>
+        <div className='mdc-switch__thumb'>{children}</div>
       </div>
     );
   }
 }
 
-ThumbUnderlay.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  initRipple: PropTypes.func,
-  unbounded: PropTypes.bool,
-  rippleActivator: PropTypes.object,
-};
-
-ThumbUnderlay.defaultProps = {
-  className: '',
-  onChange: () => {},
-  initRipple: () => {},
-  unbounded: true,
-};
-
-export default withRipple(ThumbUnderlay);
+export default Ripple.withRipple<ThumbUnderlayProps, HTMLDivElement, HTMLInputElement>(ThumbUnderlay);
