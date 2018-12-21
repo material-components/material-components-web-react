@@ -171,7 +171,6 @@ test('#handleRemove calls foundation.handleChipRemoval with chipId', () => {
 
 test('#removeChip does not call #props.updateChips if there are no chips', () => {
   const updateChips = coerceForTesting<(chips: Partial<ChipProps>[]) => void>(td.func());
-  // @ts-ignore
   const wrapper = shallow<ChipSet>(<ChipSet updateChips={updateChips} />);
   wrapper.instance().removeChip(td.matchers.isA(Number));
   td.verify(updateChips(td.matchers.anything()), {times: 0});

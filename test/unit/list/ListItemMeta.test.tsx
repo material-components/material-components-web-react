@@ -1,17 +1,21 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import {ListItemMeta} from '../../../packages/list';
+import {ListItemMeta} from '../../../packages/list/index';
 
 suite('ListItemMeta');
 
 test('className adds classes if meta is a string', () => {
-  const wrapper = shallow(<ListItemMeta meta='info' className='test-class-name' />);
+  const wrapper = shallow(
+    <ListItemMeta meta='info' className='test-class-name' />
+  );
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
 test('className adds classes if meta is an element', () => {
-  const wrapper = shallow(<ListItemMeta meta={<button />} className='test-class-name' />);
+  const wrapper = shallow(
+    <ListItemMeta meta={<button />} className='test-class-name' />
+  );
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
@@ -36,11 +40,15 @@ test('renders element if meta is an element', () => {
 });
 
 test('has tabIndex of props.tabIndex if specified and tabbableOnListItemFocus is true', () => {
-  const wrapper = shallow(<ListItemMeta meta={<button />} tabIndex={3} tabbableOnListItemFocus/>);
+  const wrapper = shallow(
+    <ListItemMeta meta={<button />} tabIndex={3} tabbableOnListItemFocus />
+  );
   assert.equal(wrapper.find('.mdc-list-item__meta').props().tabIndex, 3);
 });
 
 test('has tabIndex of -1 if tabbableOnListItemFocus is false', () => {
-  const wrapper = shallow(<ListItemMeta meta={<button />} childrenTabIndex={3}/>);
+  const wrapper = shallow(
+    <ListItemMeta meta={<button />} childrenTabIndex={3} />
+  );
   assert.equal(wrapper.find('.mdc-list-item__meta').props().tabIndex, -1);
 });

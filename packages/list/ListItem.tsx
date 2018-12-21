@@ -20,26 +20,65 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-export default class ListItem extends Component {
-  listItemElement_ = React.createRef();
+export interface ListItemProps<T> extends React.HTMLProps<T> {
+  className: string;
+  classNamesFromList: string[];
+  attributesFromList: object;
+  childrenTabIndex: number;
+  tabIndex: number;
+  shouldFocus: boolean;
+  shouldFollowHref: boolean;
+  shouldToggleCheckbox: boolean;
+  onKeyDown: React.KeyboardEventHandler<T>;
+  onClick: React.MouseEventHandler<T>;
+  onFocus: React.FocusEventHandler<T>;
+  onBlur: React.FocusEventHandler<T>;
+  tag: string;
+  children: React.ReactNode;
+};
 
-  componentDidUpdate(prevProps) {
-    const {
-      shouldFocus,
-      shouldFollowHref,
-      shouldToggleCheckbox,
-    } = this.props;
-    if (shouldFocus !== prevProps.shouldFocus && shouldFocus) {
+function isAnchorElement(element: any): element is HTMLAnchorElement {
+  return !!element.href;
+}
+
+function isFocusableElement(element: any): element is HTMLElement {
+  return typeof <HTMLElement>element.focus === 'function';
+}
+
+export default class ListItem<T extends {} = HTMLElement> extends React.Component<
+  ListItemProps<T>,
+  {}
+  > {
+  listItemElement_: React.RefObject<T> = React.createRef();
+
+  static defaultProps: Partial<ListItemProps<HTMLElement>> = {
+    className: '',
+    classNamesFromList: [],
+    attributesFromList: {},
+    childrenTabIndex: -1,
+    tabIndex: -1,
+    shouldFocus: false,
+    shouldFollowHref: false,
+    shouldToggleCheckbox: false,
+    onKeyDown: () => {},
+    onClick: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
+    tag: 'li',
+  };
+
+  componentDidUpdate(prevProps: ListItemProps<T>) {
+    const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
+    if (shouldFocus && !prevProps.shouldFocus) {
       this.focus();
     }
-    if (shouldFollowHref !== prevProps.shouldFollowHref && shouldFollowHref) {
+    if (shouldFollowHref && !prevProps.shouldFollowHref) {
       this.followHref();
     }
-    if (shouldToggleCheckbox !== prevProps.shouldToggleCheckbox && shouldToggleCheckbox) {
+    if (shouldToggleCheckbox && !prevProps.shouldToggleCheckbox) {
       this.toggleCheckbox();
     }
   }
@@ -51,14 +90,14 @@ export default class ListItem extends Component {
 
   focus() {
     const element = this.listItemElement_.current;
-    if (element) {
+    if (isFocusableElement(element)) {
       element.focus();
     }
   }
 
   followHref() {
     const element = this.listItemElement_.current;
-    if (element && element.href) {
+    if (isAnchorElement(element)) {
       element.click();
     }
   }
@@ -83,8 +122,9 @@ export default class ListItem extends Component {
       tag: Tag,
       ...otherProps
     } = this.props;
-
     return (
+      // https://github.com/Microsoft/TypeScript/issues/28892
+      // @ts-ignore
       <Tag
         className={this.classes}
         {...otherProps}
@@ -96,44 +136,13 @@ export default class ListItem extends Component {
     );
   }
 
-  renderChild = (child) => {
-    const props = Object.assign({},
-      child.props,
-      {tabIndex: this.props.childrenTabIndex}
-    );
+  renderChild = (child: React.ReactChild) => {
+    if (typeof child === 'string' || typeof child === 'number') {
+      return child;
+    }
+
+    const tabIndex = this.props.childrenTabIndex;
+    const props = {...child.props, tabIndex};
     return React.cloneElement(child, props);
-  }
+  };
 }
-
-ListItem.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  classNamesFromList: PropTypes.array,
-  attributesFromList: PropTypes.object,
-  childrenTabIndex: PropTypes.number,
-  tabIndex: PropTypes.number,
-  shouldFocus: PropTypes.bool,
-  shouldFollowHref: PropTypes.bool,
-  shouldToggleCheckbox: PropTypes.bool,
-  onKeyDown: PropTypes.func,
-  onClick: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  tag: PropTypes.string,
-};
-
-ListItem.defaultProps = {
-  className: '',
-  classNamesFromList: [],
-  attributesFromList: {},
-  childrenTabIndex: -1,
-  tabIndex: -1,
-  shouldFocus: false,
-  shouldFollowHref: false,
-  shouldToggleCheckbox: false,
-  onKeyDown: () => {},
-  onClick: () => {},
-  onFocus: () => {},
-  onBlur: () => {},
-  tag: 'li',
-};
