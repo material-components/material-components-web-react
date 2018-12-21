@@ -23,7 +23,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 // no mdc .d.ts file
 // @ts-ignore
-import {MDCChipSetFoundation} from '@material/chips';
+import {MDCChipSetFoundation} from '@material/chips/dist/mdc.chips';
 import ChipCheckmark from './ChipCheckmark';
 import {ChipProps} from './Chip'; // eslint-disable-line no-unused-vars
 
