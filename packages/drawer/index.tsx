@@ -28,10 +28,10 @@ import {
   util,
 // no .d.ts file
 // @ts-ignore
-} from '@material/drawer';
+} from '@material/drawer/dist/mdc.drawer';
 // no .d.ts file
 // @ts-ignore
-import {MDCListFoundation} from '@material/list';
+import {MDCListFoundation} from '@material/list/dist/mdc.list';
 import DrawerHeader from './Header';
 import DrawerContent from './Content';
 import DrawerSubtitle from './Subtitle';
