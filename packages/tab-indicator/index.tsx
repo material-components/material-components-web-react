@@ -20,41 +20,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classnames from 'classnames';
-
 import {
   MDCFadingTabIndicatorFoundation,
   MDCSlidingTabIndicatorFoundation,
+// No mdc .d.ts files
+// @ts-ignore
 } from '@material/tab-indicator/dist/mdc.tabIndicator';
 
-export default class TabIndicator extends Component {
-  tabIndicatorElement_ = React.createRef();
+export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
+  active?: boolean;
+  className?: string;
+  fade?: boolean;
+  icon?: boolean;
+  previousIndicatorClientRect?: ClientRect;
+}
+
+export default class TabIndicator extends React.Component<TabIndicatorProps, {}> {
+  private tabIndicatorElement: React.RefObject<HTMLSpanElement> = React.createRef();
+  foundation?: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
+
+  static defaultProps: Partial<TabIndicatorProps> = {
+    active: false,
+    className: '',
+    fade: false,
+    icon: false,
+  };
 
   componentDidMount() {
     if (this.props.fade) {
-      this.foundation_ = new MDCFadingTabIndicatorFoundation(this.adapter);
+      this.foundation = new MDCFadingTabIndicatorFoundation(this.adapter);
     } else {
-      this.foundation_ = new MDCSlidingTabIndicatorFoundation(this.adapter);
+      this.foundation = new MDCSlidingTabIndicatorFoundation(this.adapter);
     }
-    this.foundation_.init();
-
+    this.foundation.init();
     if (this.props.active) {
-      this.foundation_.activate();
+      this.foundation.activate();
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: TabIndicatorProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
-        this.foundation_.activate(this.props.previousIndicatorClientRect);
+        this.foundation.activate(this.props.previousIndicatorClientRect);
       } else {
-        this.foundation_.deactivate();
+        this.foundation.deactivate();
       }
     }
   }
@@ -76,46 +91,51 @@ export default class TabIndicator extends Component {
 
   get adapter() {
     return {
-      addClass: (className) => {
-        if (!this.tabIndicatorElement_.current) return;
+      addClass: (className: string) => {
+        if (!this.tabIndicatorElement.current) return;
         // since the sliding indicator depends on the FLIP method,
         // our regular pattern of managing classes does not work here.
         // setState is async, which does not work well with the FLIP method
         // without a requestAnimationFrame, which was done in this PR:
         // https://github.com/material-components
         // /material-components-web/pull/3337/files#diff-683d792d28dad99754294121e1afbfb5L62
-        this.tabIndicatorElement_.current.classList.add(className);
+        this.tabIndicatorElement.current.classList.add(className);
         this.forceUpdate();
       },
-      removeClass: (className) => {
-        if (!this.tabIndicatorElement_.current) return;
-        this.tabIndicatorElement_.current.classList.remove(className);
+      removeClass: (className: string) => {
+        if (!this.tabIndicatorElement.current) return;
+        this.tabIndicatorElement.current.classList.remove(className);
         this.forceUpdate();
       },
       computeContentClientRect: this.computeContentClientRect,
       // setContentStyleProperty was using setState, but due to the method's
       // async nature, its not condusive to the FLIP technique
-      setContentStyleProperty: (prop, value) => {
-        const contentElement = this.getNativeContentElement();
-        if (!contentElement) return;
+      setContentStyleProperty: (prop: keyof CSSStyleDeclaration, value: string) => {
+        const contentElement = this.getNativeContentElement() as HTMLElement;
+        // length and parentRule are readonly properties of CSSStyleDeclaration that
+        // cannot be set
+        if (!contentElement || prop === 'length' || prop === 'parentRule') {
+          return;
+        }
+        // https://github.com/Microsoft/TypeScript/issues/11914
         contentElement.style[prop] = value;
       },
     };
   }
 
-  getNativeContentElement = () => {
-    if (!this.tabIndicatorElement_.current) return;
+  private getNativeContentElement = () => {
+    if (!this.tabIndicatorElement.current) return;
     // need to use getElementsByClassName since tabIndicator could be
     // a non-semantic element (span, i, etc.). This is a problem since refs to a non semantic elements
     // return the instance of the component.
-    return this.tabIndicatorElement_.current.getElementsByClassName('mdc-tab-indicator__content')[0];
-  }
+    return this.tabIndicatorElement.current.getElementsByClassName('mdc-tab-indicator__content')[0];
+  };
 
   computeContentClientRect = () => {
     const contentElement = this.getNativeContentElement();
     if (!(contentElement && contentElement.getBoundingClientRect)) return;
     return contentElement.getBoundingClientRect();
-  }
+  };
 
   render() {
     const {
@@ -129,11 +149,10 @@ export default class TabIndicator extends Component {
       /* eslint-enable */
       ...otherProps
     } = this.props;
-
     return (
       <span
         className={this.classes}
-        ref={this.tabIndicatorElement_}
+        ref={this.tabIndicatorElement}
         {...otherProps}
       >
         {this.renderContent()}
@@ -152,26 +171,7 @@ export default class TabIndicator extends Component {
     if (this.props.children) {
       return this.addContentClassesToChildren();
     }
-    return (
-      <span className={this.contentClasses} />
-    );
+    return <span className={this.contentClasses} />;
   }
 }
 
-TabIndicator.propTypes = {
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.element,
-  fade: PropTypes.bool,
-  icon: PropTypes.bool,
-  previousIndicatorClientRect: PropTypes.object,
-};
-
-TabIndicator.defaultProps = {
-  active: false,
-  className: '',
-  children: null,
-  fade: false,
-  icon: false,
-  previousIndicatorClientRect: {},
-};
