@@ -218,7 +218,7 @@ test('#adapter.notifyOpen calls props.onOpen', () => {
 
 test('#adapter.trapFocus calls focusTrap.activate if modal variant', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  const activate = coerceForTesting<(activateOptions?: Pick<Options, "onActivate">) => void>(td.func());
+  const activate = coerceForTesting<(activateOptions?: Pick<Options, 'onActivate'>) => void>(td.func());
   wrapper.instance().focusTrap = coerceForTesting<FocusTrap>({activate});
   wrapper.instance().foundation.adapter_.trapFocus();
   td.verify(activate(), {times: 1});
