@@ -4,6 +4,7 @@ import {suite, test} from 'mocha';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import FloatingLabel from '../../../packages/floating-label/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('Floating Label');
 
@@ -36,7 +37,7 @@ test('initializing with float to true floats the label', () => {
 });
 
 test('calls handleWidthChange with the offhandleWidthChange of the labelElement_', () => {
-  const handleWidthChange = td.func() as (width: number) => void;
+  const handleWidthChange = coerceForTesting<(width: number) => void>(td.func());
   const div = document.createElement('div');
   // needs to be attached to real DOM to get width
   // https://github.com/airbnb/enzyme/issues/1525
@@ -46,12 +47,12 @@ test('calls handleWidthChange with the offhandleWidthChange of the labelElement_
     <FloatingLabel handleWidthChange={handleWidthChange}>Test</FloatingLabel>,
     options
   );
-  td.verify(handleWidthChange((wrapper.getDOMNode() as HTMLLabelElement).offsetWidth), {times: 1});
+  td.verify(handleWidthChange(coerceForTesting<HTMLLabelElement>(wrapper.getDOMNode()).offsetWidth), {times: 1});
   div.remove();
 });
 
 test('#componentDidUpdate updating the children updates width', () => {
-  const handleWidthChange = td.func() as (width: number) => void;
+  const handleWidthChange = coerceForTesting<(width: number) => void>(td.func());
   const div = document.createElement('div');
   // needs to be attached to real DOM to get width
   // https://github.com/airbnb/enzyme/issues/1525
@@ -62,9 +63,9 @@ test('#componentDidUpdate updating the children updates width', () => {
     options
   );
 
-  const firstLength = (wrapper.getDOMNode() as HTMLLabelElement).offsetWidth;
+  const firstLength = coerceForTesting<HTMLLabelElement>(wrapper.getDOMNode()).offsetWidth;
   wrapper.setProps({children: 'Test More Text'});
-  const secondLength = (wrapper.getDOMNode() as HTMLLabelElement).offsetWidth;
+  const secondLength = coerceForTesting<HTMLLabelElement>(wrapper.getDOMNode()).offsetWidth;
   td.verify(handleWidthChange(firstLength), {times: 1});
   td.verify(handleWidthChange(secondLength), {times: 1});
   div.remove();
