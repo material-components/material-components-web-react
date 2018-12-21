@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import {IconToggle} from '../../../packages/icon-button/index';
@@ -21,22 +21,46 @@ test('has icon button on icon class if props.isOn is true', () => {
 });
 
 test('renders icon', () => {
-  const wrapper = shallow(<IconToggle>
-    <i className='test-icon' />
-  </IconToggle>);
-  assert.equal(wrapper.children().first().type(), 'i');
+  const wrapper = shallow(
+    <IconToggle>
+      <i className='test-icon' />
+    </IconToggle>
+  );
+  assert.equal(
+    wrapper
+      .children()
+      .first()
+      .type(),
+    'i'
+  );
 });
 
 test('renders svg', () => {
-  const wrapper = shallow(<IconToggle>
-    <svg className='test-svg' />
-  </IconToggle>);
-  assert.equal(wrapper.children().first().type(), 'svg');
+  const wrapper = shallow(
+    <IconToggle>
+      <svg className='test-svg' />
+    </IconToggle>
+  );
+  assert.equal(
+    wrapper
+      .children()
+      .first()
+      .type(),
+    'svg'
+  );
 });
 
 test('renders img', () => {
-  const wrapper = shallow(<IconToggle>
-    <img className='test-img' />
-  </IconToggle>);
-  assert.equal(wrapper.children().first().type(), 'img');
+  const wrapper = shallow(
+    <IconToggle>
+      <img className='test-img' />
+    </IconToggle>
+  );
+  assert.equal(
+    wrapper
+      .children()
+      .first()
+      .type(),
+    'img'
+  );
 });

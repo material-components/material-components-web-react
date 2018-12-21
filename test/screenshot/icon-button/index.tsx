@@ -1,11 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/icon-button/index.scss';
 import './index.scss';
-
 import IconButton, {IconToggle} from '../../../packages/icon-button/index';
 
-class IconButtonTest extends React.Component {
+class IconButtonTest extends React.Component<{}, {}> {
   render() {
     return (
       <div>
@@ -22,7 +21,6 @@ class IconButtonTest extends React.Component {
         <IconButton isLink>
           <MaterialIcon icon='favorite' />
         </IconButton>
-
         <IconButton disabled>
           <MaterialIcon icon='favorite' />
         </IconButton>
@@ -39,5 +37,4 @@ class IconButtonTest extends React.Component {
     );
   }
 }
-
 export default IconButtonTest;
