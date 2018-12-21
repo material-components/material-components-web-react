@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-// @ts-ignore
-import {IconToggle} from '../../../packages/icon-button/index.tsx';
+import {IconToggle} from '../../../packages/icon-button/index';
 
 suite('IconButtonIconToggle');
 

@@ -22,37 +22,35 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-// TODO: fix with #528
-// @ts-ignore
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
+// no mdc .d.ts file
 // @ts-ignore
 import {MDCIconButtonToggleFoundation} from '@material/icon-button/dist/mdc.iconButton';
 import IconToggle from './IconToggle';
 const ARIA_PRESSED = 'aria-pressed';
 
-export interface IconButtonBaseProps<T> {
-  className: string;
-  initRipple: (surface: T) => void;
-  isLink: boolean;
-  onClick: (event: React.MouseEvent) => void;
-  unbounded: boolean;
-  [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>;
+interface ElementAttributes {
+  // from HTMLAttributes
+  [ARIA_PRESSED]?: boolean | 'false' | 'mixed' | 'true';
 }
 
-type IconButtonBaseState = {
-  classList: Set<string>;
-  [ARIA_PRESSED]?: Pick<React.HTMLProps<HTMLElement>, 'aria-pressed'>;
+type IconButtonTypes = HTMLButtonElement | HTMLAnchorElement;
+export interface IconButtonBaseProps extends ElementAttributes {
+  isLink?: boolean;
 };
 
-export type AnchorProps = React.HTMLProps<HTMLAnchorElement> & IconButtonBaseProps<HTMLAnchorElement>;
-export type ButtonProps = React.HTMLProps<HTMLButtonElement> & IconButtonBaseProps<HTMLButtonElement>;
-export type IconButtonProps<T> = T extends ButtonProps ? ButtonProps : AnchorProps;
+interface IconButtonBaseState extends ElementAttributes {
+  classList: Set<string>;
+};
 
-class IconButtonBase<T extends {}> extends React.Component<
+export interface IconButtonProps<T extends IconButtonTypes>
+  extends Ripple.InjectedProps<T>, IconButtonBaseProps, React.HTMLProps<T> {};
+
+class IconButtonBase<T extends IconButtonTypes> extends React.Component<
   IconButtonProps<T>,
   IconButtonBaseState
   > {
-  foundation_ = MDCIconButtonToggleFoundation;
+  foundation = MDCIconButtonToggleFoundation;
 
   constructor(props: IconButtonProps<T>) {
     super(props);
@@ -71,8 +69,8 @@ class IconButtonBase<T extends {}> extends React.Component<
   };
 
   componentDidMount() {
-    this.foundation_ = new MDCIconButtonToggleFoundation(this.adapter);
-    this.foundation_.init();
+    this.foundation = new MDCIconButtonToggleFoundation(this.adapter);
+    this.foundation.init();
   }
 
   get classes() {
@@ -95,16 +93,16 @@ class IconButtonBase<T extends {}> extends React.Component<
     };
   }
 
-  updateState = (key: keyof IconButtonProps<T>, value: string | boolean) => {
+  updateState = (key: keyof IconButtonBaseState, value: string | boolean) => {
     this.setState((prevState) => ({
       ...prevState,
       [key]: value,
     }));
   }
 
-  handleClick_ = (e: React.MouseEvent) => {
-    this.props.onClick(e);
-    this.foundation_.handleClick();
+  handleClick_ = (e: React.MouseEvent<T>) => {
+    this.props.onClick!(e);
+    this.foundation.handleClick();
   };
 
   render() {
@@ -129,11 +127,13 @@ class IconButtonBase<T extends {}> extends React.Component<
       ...otherProps,
     };
     if (isLink) {
-      return <a {...props}>{children}</a>;
+      return <a {...props as IconButtonProps<HTMLAnchorElement>}>{children}</a>;
     }
-    return <button {...props}>{children}</button>;
+    return <button {...props as IconButtonProps<HTMLButtonElement>}>{children}</button>;
   }
 }
 
-export default withRipple(IconButtonBase);
+const IconButton = Ripple.withRipple<IconButtonProps<IconButtonTypes>, IconButtonTypes>(IconButtonBase);
+
+export default IconButton;
 export {IconToggle, IconButtonBase};

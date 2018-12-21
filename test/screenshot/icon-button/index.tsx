@@ -1,6 +1,4 @@
 import * as React from 'react';
-// TODO: fix with #513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/icon-button/index.scss';
 import './index.scss';
@@ -23,7 +21,6 @@ class IconButtonTest extends React.Component<{}, {}> {
         <IconButton isLink>
           <MaterialIcon icon='favorite' />
         </IconButton>
-
         <IconButton disabled>
           <MaterialIcon icon='favorite' />
         </IconButton>

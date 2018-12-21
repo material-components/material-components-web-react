@@ -2,7 +2,8 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow} from 'enzyme';
-import {IconButtonBase as IconButton, ButtonProps} from '../../../packages/icon-button/index';
+import {IconButtonBase as IconButton} from '../../../packages/icon-button/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('IconButton');
 
@@ -32,16 +33,16 @@ test('renders anchor tag when isLink is true', () => {
 });
 
 test('#foundation.handleClick gets called onClick', () => {
-  const wrapper = shallow<IconButton<ButtonProps>>(<IconButton />);
-  wrapper.instance().foundation_.handleClick = td.func();
+  const wrapper = shallow<IconButton<HTMLButtonElement>>(<IconButton />);
+  wrapper.instance().foundation.handleClick = td.func();
   wrapper.simulate('click');
-  td.verify(wrapper.instance().foundation_.handleClick(), {times: 1});
+  td.verify(wrapper.instance().foundation.handleClick(), {times: 1});
 });
 
 test('props.onClick gets called onClick', () => {
-  const onClick = td.func() as (event: React.MouseEvent) => void;
+  const onClick = coerceForTesting<(event: React.MouseEvent) => void>(td.func());
   const wrapper = shallow(<IconButton onClick={onClick} />);
-  const evt = {} as React.MouseEvent;
+  const evt = coerceForTesting<React.MouseEvent>({});
   wrapper.simulate('click', evt);
   td.verify(onClick(evt), {times: 1});
 });
@@ -65,31 +66,31 @@ test('#get.classes has a class added to state.classList', () => {
 });
 
 test('#adapter.addClass adds a class to state.classList', () => {
-  const wrapper = shallow<IconButton<ButtonProps>>(<IconButton />);
+  const wrapper = shallow<IconButton<HTMLButtonElement>>(<IconButton />);
   wrapper.instance().adapter.addClass('test-class');
   wrapper.state().classList.has('test-class');
 });
 
 test('#adapter.removeClass removes a class to state.classList', () => {
-  const wrapper = shallow<IconButton<ButtonProps>>(<IconButton />);
+  const wrapper = shallow<IconButton<HTMLButtonElement>>(<IconButton />);
   wrapper.setState({classList: new Set(['test-class'])});
   wrapper.instance().adapter.removeClass('test-class');
   assert.isFalse(wrapper.state().classList.has('test-class'));
 });
 
 test('#adapter.hasClass returns true if element contains class', () => {
-  const wrapper = shallow<IconButton<ButtonProps>>(<IconButton />);
+  const wrapper = shallow<IconButton<HTMLButtonElement>>(<IconButton />);
   wrapper.setState({classList: new Set(['test-class'])});
   assert.isTrue(wrapper.instance().adapter.hasClass('test-class'));
 });
 
 test('#adapter.hasClass returns false if element does not contains class', () => {
-  const wrapper = shallow<IconButton<ButtonProps>>(<IconButton />);
+  const wrapper = shallow<IconButton<HTMLButtonElement>>(<IconButton />);
   assert.isFalse(wrapper.instance().adapter.hasClass('test-class'));
 });
 
 test('#adapter.setAttr sets aria-pressed', () => {
-  const wrapper = shallow<IconButton<ButtonProps>>(<IconButton />);
+  const wrapper = shallow<IconButton<HTMLButtonElement>>(<IconButton />);
   wrapper.instance().adapter.setAttr('aria-pressed', true);
   assert.isTrue(wrapper.state()['aria-pressed']);
 });
