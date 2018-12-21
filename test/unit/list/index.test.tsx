@@ -5,6 +5,7 @@ import {shallow, mount} from 'enzyme';
 import List, {
   ListItem, ListItemProps, // eslint-disable-line no-unused-vars
 } from '../../../packages/list/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('List');
 
@@ -18,12 +19,12 @@ test('creates foundation', () => {
   const wrapper = shallow<List>(<List>
     {children()}
   </List>);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());
@@ -31,57 +32,57 @@ test('#componentWillUnmount destroys foundation', () => {
 
 test('calls foundation.setSingleSelection when props.singleSelection changes from false to true', () => {
   const wrapper = mount<List>(<List>{children()}</List>);
-  wrapper.instance().foundation_.setSingleSelection = td.func();
+  wrapper.instance().foundation.setSingleSelection = td.func();
   wrapper.setProps({singleSelection: true});
-  td.verify(wrapper.instance().foundation_.setSingleSelection(true), {
+  td.verify(wrapper.instance().foundation.setSingleSelection(true), {
     times: 1,
   });
 });
 
 test('calls foundation.setSingleSelection when props.singleSelection changes from true to false', () => {
   const wrapper = mount<List>(<List singleSelection>{children()}</List>);
-  wrapper.instance().foundation_.setSingleSelection = td.func();
+  wrapper.instance().foundation.setSingleSelection = td.func();
   wrapper.setProps({singleSelection: false});
-  td.verify(wrapper.instance().foundation_.setSingleSelection(false), {
+  td.verify(wrapper.instance().foundation.setSingleSelection(false), {
     times: 1,
   });
 });
 
 test('calls foundation.setWrapFocus when props.wrapFocus changes from false to true', () => {
   const wrapper = mount<List>(<List wrapFocus={false}>{children()}</List>);
-  wrapper.instance().foundation_.setWrapFocus = td.func();
+  wrapper.instance().foundation.setWrapFocus = td.func();
   wrapper.setProps({wrapFocus: true});
-  td.verify(wrapper.instance().foundation_.setWrapFocus(true), {times: 1});
+  td.verify(wrapper.instance().foundation.setWrapFocus(true), {times: 1});
 });
 
 test('calls foundation.setWrapFocus when props.wrapFocus changes from true to false', () => {
   const wrapper = mount<List>(<List wrapFocus>{children()}</List>);
-  wrapper.instance().foundation_.setWrapFocus = td.func();
+  wrapper.instance().foundation.setWrapFocus = td.func();
   wrapper.setProps({wrapFocus: false});
-  td.verify(wrapper.instance().foundation_.setWrapFocus(false), {times: 1});
+  td.verify(wrapper.instance().foundation.setWrapFocus(false), {times: 1});
 });
 
 test('calls foundation.setSelectedIndex when props.selectedIndex changes', () => {
   const wrapper = mount<List>(<List selectedIndex={0}>{children()}</List>);
-  wrapper.instance().foundation_.setSelectedIndex = td.func();
+  wrapper.instance().foundation.setSelectedIndex = td.func();
   wrapper.setProps({selectedIndex: 1});
-  td.verify(wrapper.instance().foundation_.setSelectedIndex(1), {times: 1});
+  td.verify(wrapper.instance().foundation.setSelectedIndex(1), {times: 1});
 });
 
 test('calls foundation.setVerticalOrientation when \'aria-orientation\' changes from vertical to horizontal', () => {
   const wrapper = mount<List>(<List aria-orientation='vertical'>{children()}</List>);
-  wrapper.instance().foundation_.setVerticalOrientation = td.func();
+  wrapper.instance().foundation.setVerticalOrientation = td.func();
   wrapper.setProps({'aria-orientation': 'horizontal'});
-  td.verify(wrapper.instance().foundation_.setVerticalOrientation(false), {
+  td.verify(wrapper.instance().foundation.setVerticalOrientation(false), {
     times: 1,
   });
 });
 
 test('calls foundation.setVerticalOrientation when \'aria-orientation\' changes from horizontal to vertical', () => {
   const wrapper = mount<List>(<List aria-orientation='horizontal'>{children()}</List>);
-  wrapper.instance().foundation_.setVerticalOrientation = td.func();
+  wrapper.instance().foundation.setVerticalOrientation = td.func();
   wrapper.setProps({'aria-orientation': 'vertical'});
-  td.verify(wrapper.instance().foundation_.setVerticalOrientation(true), {
+  td.verify(wrapper.instance().foundation.setVerticalOrientation(true), {
     times: 1,
   });
 });
@@ -213,18 +214,18 @@ test('#adapter.toggleCheckbox sets state.toggleCheckboxAtIndex', () => {
 
 test('#handleKeyDown calls #foudation.handleKeydown', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().foundation_.handleKeydown = td.func();
-  const evt = {persist: () => {}} as React.KeyboardEvent;
+  wrapper.instance().foundation.handleKeydown = td.func();
+  const evt = coerceForTesting<React.KeyboardEvent>({persist: () => {}});
   wrapper.instance().handleKeyDown(evt, 1);
-  td.verify(wrapper.instance().foundation_.handleKeydown(evt, true, 1), {
+  td.verify(wrapper.instance().foundation.handleKeydown(evt, true, 1), {
     times: 1,
   });
 });
 
 test('#handleKeyDown calls #props.handleSelect if key is enter', () => {
-  const handleSelect = td.func() as (selectedIndex: number) => void;
+  const handleSelect = coerceForTesting<(selectedIndex: number) => void>(td.func());
   const wrapper = shallow<List>(<List handleSelect={handleSelect}>{children()}</List>);
-  const evt = {persist: () => {}, key: 'Enter'} as React.KeyboardEvent;
+  const evt = coerceForTesting<React.KeyboardEvent>({persist: () => {}, key: 'Enter'});
   wrapper.instance().handleKeyDown(evt, 1);
   td.verify(handleSelect(1), {times: 1});
 });
@@ -232,16 +233,16 @@ test('#handleKeyDown calls #props.handleSelect if key is enter', () => {
 test('#handleClick calls #foudation.handleClick', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
   const target = {type: 'span'};
-  const evt = {target} as unknown as React.MouseEvent<HTMLSpanElement>;
-  wrapper.instance().foundation_.handleClick = td.func();
+  const evt = coerceForTesting<React.MouseEvent<HTMLSpanElement>>({target});
+  wrapper.instance().foundation.handleClick = td.func();
   wrapper.instance().handleClick(evt, 1);
-  td.verify(wrapper.instance().foundation_.handleClick(1, false), {times: 1});
+  td.verify(wrapper.instance().foundation.handleClick(1, false), {times: 1});
 });
 
 test('#handleClick calls #props.handleSelect', () => {
-  const handleSelect = td.func() as (selectedIndex: number) => void;
+  const handleSelect = coerceForTesting<(selectedIndex: number) => void>(td.func());
   const target = {type: 'span'};
-  const evt = {target} as unknown as React.MouseEvent<HTMLSpanElement>;
+  const evt = coerceForTesting<React.MouseEvent<HTMLSpanElement>>({target});
   const wrapper = shallow<List>(<List handleSelect={handleSelect}>{children()}</List>);
   wrapper.instance().handleClick(evt, 1);
   td.verify(handleSelect(1), {times: 1});
@@ -249,18 +250,18 @@ test('#handleClick calls #props.handleSelect', () => {
 
 test('#handleFocus calls #foudation.handleFocusIn', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().foundation_.handleFocusIn = td.func();
-  const evt = {} as React.FocusEvent;
+  wrapper.instance().foundation.handleFocusIn = td.func();
+  const evt = coerceForTesting<React.FocusEvent>({});
   wrapper.instance().handleFocus(evt, 1);
-  td.verify(wrapper.instance().foundation_.handleFocusIn(evt, 1), {times: 1});
+  td.verify(wrapper.instance().foundation.handleFocusIn(evt, 1), {times: 1});
 });
 
 test('#handleBlur calls #foudation.handleFocusOut', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().foundation_.handleFocusOut = td.func();
-  const evt = {} as React.FocusEvent;
+  wrapper.instance().foundation.handleFocusOut = td.func();
+  const evt = coerceForTesting<React.FocusEvent>({});
   wrapper.instance().handleBlur(evt, 1);
-  td.verify(wrapper.instance().foundation_.handleFocusOut(evt, 1), {
+  td.verify(wrapper.instance().foundation.handleFocusOut(evt, 1), {
     times: 1,
   });
 });

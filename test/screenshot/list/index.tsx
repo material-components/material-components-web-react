@@ -1,8 +1,6 @@
 import * as React from 'react';
 import './index.scss';
 import '../../../packages/list/index.scss';
-// TODO: https://github.com/material-components/material-components-web-react/issues/513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
 import List, {
   ListItem,

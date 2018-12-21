@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import * as classnames from 'classnames';
 // no .d.ts file
@@ -72,7 +73,7 @@ function isListItem(element: any): element is ListItem {
 
 export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, ListState> {
   listItemCount = 0;
-  foundation_ = MDCListFoundation;
+  foundation = MDCListFoundation;
 
   state: ListState = {
     focusListItemAtIndex: -1,
@@ -106,18 +107,18 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   componentDidMount() {
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
-    this.foundation_ = new MDCListFoundation(this.adapter);
-    this.foundation_.init();
-    this.foundation_.setSingleSelection(singleSelection);
+    this.foundation = new MDCListFoundation(this.adapter);
+    this.foundation.init();
+    this.foundation.setSingleSelection(singleSelection);
     if (
       singleSelection &&
       typeof selectedIndex === 'number' &&
       !isNaN(selectedIndex)
     ) {
-      this.foundation_.setSelectedIndex(selectedIndex);
+      this.foundation.setSelectedIndex(selectedIndex);
     }
-    this.foundation_.setWrapFocus(wrapFocus);
-    this.foundation_.setVerticalOrientation(
+    this.foundation.setWrapFocus(wrapFocus);
+    this.foundation.setVerticalOrientation(
       this.props[ARIA_ORIENTATION] === VERTICAL
     );
   }
@@ -125,27 +126,27 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   componentDidUpdate(prevProps: ListProps<T>) {
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     if (singleSelection !== prevProps.singleSelection) {
-      this.foundation_.setSingleSelection(singleSelection);
+      this.foundation.setSingleSelection(singleSelection);
     }
     if (
       selectedIndex !== prevProps.selectedIndex &&
       typeof selectedIndex === 'number' &&
       !isNaN(selectedIndex)
     ) {
-      this.foundation_.setSelectedIndex(selectedIndex);
+      this.foundation.setSelectedIndex(selectedIndex);
     }
     if (wrapFocus !== prevProps.wrapFocus) {
-      this.foundation_.setWrapFocus(wrapFocus);
+      this.foundation.setWrapFocus(wrapFocus);
     }
     if (this.props[ARIA_ORIENTATION] !== prevProps[ARIA_ORIENTATION]) {
-      this.foundation_.setVerticalOrientation(
+      this.foundation.setVerticalOrientation(
         this.props[ARIA_ORIENTATION] === VERTICAL
       );
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   get classes() {
@@ -226,7 +227,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
     e.persist(); // Persist the synthetic event to access its `key`
-    this.foundation_.handleKeydown(
+    this.foundation.handleKeydown(
       e,
       true /* isRootListItem is true if index >= 0 */,
       index
@@ -247,7 +248,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   handleClick = (e: React.MouseEvent<any>, index: number) => {
     // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
     const toggleCheckbox = isCheckbox(e.target);
-    this.foundation_.handleClick(index, toggleCheckbox);
+    this.foundation.handleClick(index, toggleCheckbox);
     // Work around until MDC Web issue is resolved:
     // https://github.com/material-components/material-components-web/issues/4053
     if (index >= 0) {
@@ -258,13 +259,13 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   // Use onFocus as workaround because onFocusIn is not yet supported in React
   // https://github.com/facebook/react/issues/6410
   handleFocus = (e: React.FocusEvent, index: number) => {
-    this.foundation_.handleFocusIn(e, index);
+    this.foundation.handleFocusIn(e, index);
   };
 
   // Use onBlur as workaround because onFocusOut is not yet supported in React
   // https://github.com/facebook/react/issues/6410
   handleBlur = (e: React.FocusEvent, index: number) => {
-    this.foundation_.handleFocusOut(e, index);
+    this.foundation.handleFocusOut(e, index);
   };
 
   render() {
