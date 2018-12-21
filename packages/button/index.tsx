@@ -22,31 +22,24 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// TODO: fix with https://github.com/material-components/material-components-web-react/issues/528
-// This is being ignored because the react ripple is not yet converted to typescript.
-// this is a temporary work around until the react ripple PR is merged into the feature branch.
-// @ts-ignore
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
 
 const BUTTON_CLASS_NAME = 'mdc-button__icon';
 
-export interface ButtonProps<T> {
+type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
+
+export interface ButtonProps<T extends ButtonTypes> extends Ripple.InjectedProps<T>, React.HTMLAttributes<T> {
   raised?: boolean;
   unelevated?: boolean;
   outlined?: boolean;
   dense?: boolean;
   disabled?: boolean;
-  unbounded?: boolean;
-  initRipple?: React.Ref<T>;
   className?: string;
   icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   href?: string;
 }
 
-export type AnchorAttributesAndProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonProps<HTMLAnchorElement>;
-export type ButtonAttributesAndProps = React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps<HTMLButtonElement>;
-
-export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
+export const Button = <T extends ButtonTypes>(
   {
     className = '',
     raised = false,
@@ -64,7 +57,7 @@ export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
     // a warning.
     unbounded = false, // eslint-disable-line no-unused-vars
     ...otherProps
-  }: T extends HTMLAnchorElement ? AnchorAttributesAndProps : ButtonAttributesAndProps
+  }: ButtonProps<T>
 ) => {
   const props = {
     className: classnames('mdc-button', className, {
@@ -80,7 +73,7 @@ export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
 
   if (href) {
     return (
-      <a {...props} href={href}>
+      <a {...props as React.HTMLProps<HTMLAnchorElement>} href={href}>
         {renderIcon(icon)}
         {children}
       </a>
@@ -88,7 +81,7 @@ export const Button = <T extends HTMLAnchorElement | HTMLButtonElement>(
   }
 
   return (
-    <button {...props}>
+    <button {...props as React.HTMLProps<HTMLButtonElement>}>
       {renderIcon(icon)}
       {children}
     </button>
@@ -103,4 +96,8 @@ const renderIcon = (icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>
     null
 );
 
-export default withRipple(Button);
+Button.defaultProps = {
+  initRipple: () => {},
+};
+
+export default Ripple.withRipple<ButtonProps<ButtonTypes>, ButtonTypes>(Button);

@@ -1,8 +1,4 @@
 import * as React from 'react';
-// TODO: fix with https://github.com/material-components/material-components-web-react/issues/513
-// This is being ignored because the react material icon is not yet converted to typescript.
-// this is a temporary work around until the material icon PR is merged into the typescript feature branch.
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/button/index.scss';
 import './index.scss';
