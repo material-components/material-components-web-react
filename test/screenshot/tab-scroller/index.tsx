@@ -1,23 +1,21 @@
-import React from 'react';
+import * as React from 'react';
 import TabScroller from '../../../packages/tab-scroller';
 import '../../../packages/tab-scroller/index.scss';
 import './index.scss';
 
-const Tab = ({
+const Tab: React.FunctionComponent<{number: number}> = ({
   number, // eslint-disable-line react/prop-types
 }) => {
-  return (
-    <div className='tab'>
-      Tab {number}
-    </div>
-  );
+  return <div className='tab'>Tab {number}</div>;
 };
 
-const Tabs = () => {
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((tabNumber) => (
-    <Tab key={tabNumber} number={tabNumber} />
-  ));
-};
+const Tabs = () => (
+  <React.Fragment>
+    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((tabNumber: number) => (
+      <Tab key={tabNumber} number={tabNumber} />
+    ))}
+  </React.Fragment>
+);
 
 const TabScrollerScreenshotTest = () => {
   return (
@@ -41,9 +39,7 @@ const TabScrollerScreenshotTest = () => {
       <TabScroller alignCenter className='tab-scroller-screenshot'>
         <Tabs />
       </TabScroller>
-
     </div>
   );
 };
-
 export default TabScrollerScreenshotTest;
