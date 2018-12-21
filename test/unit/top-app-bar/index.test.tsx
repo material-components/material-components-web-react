@@ -16,8 +16,6 @@ interface RippleProps<T> extends InjectedProps<T> {
 type DivRippleProps = RippleProps<HTMLDivElement> & React.HTMLProps<HTMLDivElement>;
 type ActionItemRippleProps = RippleProps<HTMLAnchorElement> & React.HTMLProps<HTMLAnchorElement>;
 
-// TODO: Replace with real tsx ripple props. Fix with #528
-// @ts-ignore
 const NavigationIcon: React.FunctionComponent<DivRippleProps> = ({
   /* eslint-disable react/prop-types */
   initRipple,
