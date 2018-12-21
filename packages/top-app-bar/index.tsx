@@ -31,16 +31,15 @@ import {
 // @ts-ignore
 } from '@material/top-app-bar/dist/mdc.topAppBar';
 
-type IconType = React.ReactElement<React.HTMLProps<HTMLOrSVGElement | HTMLImageElement>>;
 export type MDCTopAppBarFoundationTypes
   = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
 
 export interface TopAppBarProps {
-  actionItems?: IconType[];
+  actionItems?: React.ReactElement<any>[];
   className: string;
   dense: boolean;
   fixed: boolean;
-  navigationIcon?: IconType;
+  navigationIcon?: React.ReactElement<any>;
   prominent: boolean;
   short: boolean;
   shortCollapsed: boolean;
@@ -55,13 +54,17 @@ interface TopAppBarState {
 
 type Props = TopAppBarProps & React.HTMLProps<HTMLElement>;
 export type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
-
+// function isElement(element: any): element is React.ReactElement<any> {
+//   return typeof element !== 'string' ||
+//   typeof element !== 'number' ||
+//   typeof element !== 'boolean';
+// }
 export default class TopAppBar extends React.Component<
   Props,
   TopAppBarState
   > {
   topAppBarElement: React.RefObject<HTMLElement> = React.createRef();
-  foundation_?: MDCTopAppBarFoundationTypes;
+  foundation?: MDCTopAppBarFoundationTypes;
 
   state: TopAppBarState = {
     classList: new Set(),
@@ -104,7 +107,7 @@ export default class TopAppBar extends React.Component<
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -118,20 +121,20 @@ export default class TopAppBar extends React.Component<
 
   private initializeFoundation = () => {
     const {short, shortCollapsed, fixed} = this.props;
-    if (this.foundation_) {
-      this.foundation_.destroy();
+    if (this.foundation) {
+      this.foundation.destroy();
     }
     if (short || shortCollapsed) {
-      this.foundation_ = new MDCShortTopAppBarFoundation(this.adapter);
+      this.foundation = new MDCShortTopAppBarFoundation(this.adapter);
     } else if (fixed) {
-      this.foundation_ = new MDCFixedTopAppBarFoundation(this.adapter);
+      this.foundation = new MDCFixedTopAppBarFoundation(this.adapter);
     } else {
-      this.foundation_ = new MDCTopAppBarFoundation(this.adapter);
+      this.foundation = new MDCTopAppBarFoundation(this.adapter);
     }
-    this.foundation_.init();
+    this.foundation.init();
   };
 
-  addClassesToElement(classes: string, element: IconType) {
+  addClassesToElement(classes: string, element: React.ReactElement<any>) {
     const updatedProps = {
       className: classnames(classes, element.props.className),
     };

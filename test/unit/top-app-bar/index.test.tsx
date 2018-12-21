@@ -3,14 +3,13 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import * as td from 'testdouble';
 import TopAppBar from '../../../packages/top-app-bar/index';
-import {withRipple} from '../../../packages/ripple/index';
+import {withRipple, InjectedProps} from '../../../packages/ripple/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('TopAppBar');
 
-interface RippleProps<T> {
-  initRipple: (surface: T | null) => void;
-  hasRipple: boolean;
-  unbounded: boolean;
+interface RippleProps<T> extends InjectedProps<T> {
+  hasRipple?: boolean;
   className: string;
 }
 
@@ -35,7 +34,7 @@ const NavigationIcon: React.FunctionComponent<DivRippleProps> = ({
   />
 );
 
-const RippledNavigationIcon = withRipple(NavigationIcon);
+const RippledNavigationIcon = withRipple<RippleProps<HTMLDivElement>, HTMLDivElement>(NavigationIcon);
 
 const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
   /* eslint-disable react/prop-types */
@@ -55,7 +54,7 @@ const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
   />
 );
 
-const RippledActionItem = withRipple(ActionItem);
+const RippledActionItem = withRipple<RippleProps<HTMLAnchorElement>, HTMLAnchorElement>(ActionItem);
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<TopAppBar className='test-class-name' />);
@@ -140,7 +139,7 @@ test('actionItems are rendered as a custom component that accepts a className pr
 test('top app bar style should be set by state', () => {
   const wrapper = mount(<TopAppBar />);
   wrapper.setState({style: {color: 'blue'}});
-  assert.equal((wrapper.getDOMNode() as HTMLElement).style.color, 'blue');
+  assert.equal(coerceForTesting<HTMLElement>(wrapper.getDOMNode()).style.color, 'blue');
 });
 
 test('#adapter.addClass adds a class to state', () => {
@@ -165,7 +164,7 @@ test('#adapter.hasClass returns true for an added className', () => {
 
 test('#adapter.registerScrollHandler triggers handler on window scroll', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
-  const testHandler = td.func() as EventListener;
+  const testHandler = coerceForTesting<EventListener>(td.func());
   wrapper.instance().adapter.registerScrollHandler(testHandler);
   const event = new Event('scroll');
   window.dispatchEvent(event);
@@ -176,7 +175,7 @@ test(
     'after registering scroll handler',
   () => {
     const wrapper = shallow<TopAppBar>(<TopAppBar />);
-    const testHandler = td.func() as EventListener;
+    const testHandler = coerceForTesting<EventListener>(td.func());
     wrapper.instance().adapter.registerScrollHandler(testHandler);
     const event = new Event('scroll');
     wrapper.instance().adapter.deregisterScrollHandler(testHandler);
@@ -224,114 +223,114 @@ test('#adapter.getTopAppBarHeight should return clientHeight', () => {
 
 test('when changes from short to fixed the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar short />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({fixed: true, short: false});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from short to fixed the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar short />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({fixed: true, short: false});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from short to standard the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar short />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({short: false});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from short to prominent the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar short />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({short: false, prominent: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from short to shortCollpased the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar short />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({shortCollapsed: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from fixed to prominent the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar fixed />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({fixed: false, prominent: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from fixed to short the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar fixed />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({fixed: false, short: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from fixed to shortCollpased the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar fixed />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({fixed: false, shortCollapsed: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from fixed to standard the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar fixed />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({fixed: false});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from standard to fixed the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({fixed: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from standard to short the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({short: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('when changes from standard to shortCollapsed the foundation changes', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
-  const originalFoundation = wrapper.instance().foundation_;
+  const originalFoundation = wrapper.instance().foundation;
   wrapper.setProps({shortCollapsed: true});
-  assert.notEqual(wrapper.instance().foundation_, originalFoundation);
-  assert.exists(wrapper.instance().foundation_);
+  assert.notEqual(wrapper.instance().foundation, originalFoundation);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test(
   'when changes from standard to prominent the foundation does not ' + 'change',
   () => {
     const wrapper = shallow<TopAppBar>(<TopAppBar />);
-    const originalFoundation = wrapper.instance().foundation_;
+    const originalFoundation = wrapper.instance().foundation;
     wrapper.setProps({prominent: true});
-    assert.equal(wrapper.instance().foundation_, originalFoundation);
-    assert.exists(wrapper.instance().foundation_);
+    assert.equal(wrapper.instance().foundation, originalFoundation);
+    assert.exists(wrapper.instance().foundation);
   }
 );
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());

@@ -1,15 +1,11 @@
 import * as React from 'react';
 import TopAppBar from '../../../packages/top-app-bar';
-// TODO: fix with #513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
-import {withRipple} from '../../../packages/ripple';
+import {withRipple, InjectedProps} from '../../../packages/ripple';
 import MainTopAppBarContent from './mainContent';
 
-interface RippleProps {
-  hasRipple: boolean;
-  initRipple: (surface: HTMLAnchorElement) => {};
-  unbounded: boolean;
+interface RippleProps extends InjectedProps<HTMLAnchorElement> {
+  hasRipple?: boolean;
 }
 
 // TODO: Replace RippleProps with real tsx ripple props. Fix with #528
@@ -48,7 +44,7 @@ const NavigationIcon: React.FunctionComponent<RippleProps> = ({
   </a>
 );
 
-const NavigationIconWithRipple = withRipple(NavigationIcon);
+const NavigationIconWithRipple = withRipple<RippleProps, HTMLAnchorElement>(NavigationIcon);
 
 const TopAppBarStandardWithNavigationIconElementScreenshotTest: React.FunctionComponent = () => {
   return (

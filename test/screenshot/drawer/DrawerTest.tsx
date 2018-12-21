@@ -5,7 +5,7 @@ import MaterialIcon from '../../../packages/material-icon/index';
 import DrawerAboveTopAppBar from './DrawerAboveTopAppBar';
 import DrawerBelowTopAppBar from './DrawerBelowTopAppBar';
 
-const noop = () => {};
+const noop = () => undefined;
 
 interface DrawerScreenshotTestProps {
   open?: boolean;
