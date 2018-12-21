@@ -20,53 +20,83 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
+// @ts-ignore no .d.ts file
 import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
-import {withRipple} from '@material/react-ripple';
-import NativeControl from './NativeControl';
+import * as Ripple from '@material/react-ripple';
+import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
 
-class Radio extends React.Component {
-  foundation_ = null;
-  radioElement_ = React.createRef();
-  rippleActivatorRef = React.createRef();
+export interface RadioProps
+  extends Ripple.InjectedProps<HTMLDivElement, HTMLInputElement>, React.HTMLProps<HTMLDivElement> {
+    label?: string;
+    initRipple: (surface: HTMLDivElement, rippleActivatorRef?: HTMLInputElement) => void;
+    wrapperClasses?: string;
+    children: React.ReactElement<NativeControlProps>;
+}
 
-  state = {
+interface RadioState {
+  nativeControlId: string;
+  classList: Set<string>;
+  disabled: boolean;
+}
+
+class Radio extends React.Component<RadioProps, RadioState> {
+  foundation: MDCRadioFoundation;
+  private radioElement: React.RefObject<HTMLDivElement> = React.createRef();
+  rippleActivatorRef: React.RefObject<HTMLInputElement> = React.createRef();
+
+  state: RadioState = {
     classList: new Set(),
     disabled: false,
     nativeControlId: '',
   };
 
-  constructor(props) {
+  constructor(props: RadioProps) {
     super(props);
-    this.foundation_ = new MDCRadioFoundation(this.adapter);
+    this.foundation = new MDCRadioFoundation(this.adapter);
   }
 
+  static defaultProps: Partial<RadioProps> = {
+    label: '',
+    initRipple: () => {},
+    className: '',
+    wrapperClasses: '',
+    unbounded: true,
+  };
+
   componentDidMount() {
-    this.foundation_.init();
+    this.foundation.init();
     const childProps = this.props.children.props;
     if (childProps.disabled) {
-      this.foundation_.setDisabled(childProps.disabled);
+      this.foundation.setDisabled(childProps.disabled);
     }
     if (childProps.id) {
       this.setState({nativeControlId: childProps.id});
     }
     if (this.rippleActivatorRef && this.rippleActivatorRef.current) {
-      this.props.initRipple(this.radioElement_.current, this.rippleActivatorRef.current);
+      this.props.initRipple(
+        this.radioElement.current as HTMLDivElement,
+        this.rippleActivatorRef.current
+      );
     }
   }
 
   componentWillUnmount() {
-    if (this.foundation_) {
-      this.foundation_.destroy();
+    if (this.foundation) {
+      this.foundation.destroy();
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const childProps = this.props.children.props;
+  componentDidUpdate(prevProps: RadioProps) {
+    const {children} = this.props;
+    if (!children) {
+      React.Children.only(children);
+      return;
+    }
+    const childProps = children.props;
     if (childProps.disabled !== prevProps.children.props.disabled) {
-      this.foundation_.setDisabled(childProps.disabled);
+      this.foundation.setDisabled(childProps.disabled);
     }
     if (childProps.id !== prevProps.children.props.id) {
       this.setState({nativeControlId: childProps.id});
@@ -81,17 +111,17 @@ class Radio extends React.Component {
 
   get adapter() {
     return {
-      addClass: (className) => {
+      addClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.add(className);
         this.setState({classList});
       },
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.delete(className);
         this.setState({classList});
       },
-      setNativeControlDisabled: (disabled) => this.setState({disabled}),
+      setNativeControlDisabled: (disabled: boolean) => this.setState({disabled}),
     };
   }
 
@@ -107,14 +137,13 @@ class Radio extends React.Component {
       wrapperClasses,
       ...otherProps
     } = this.props;
-
     return (
       <div className={classnames('mdc-form-field', wrapperClasses)}>
-        <div className={this.classes} ref={this.radioElement_} {...otherProps}>
+        <div className={this.classes} ref={this.radioElement} {...otherProps}>
           {this.renderNativeControl()}
           <div className='mdc-radio__background'>
-            <div className='mdc-radio__outer-circle'></div>
-            <div className='mdc-radio__inner-circle'></div>
+            <div className='mdc-radio__outer-circle' />
+            <div className='mdc-radio__inner-circle' />
           </div>
         </div>
         {label ? <label htmlFor={nativeControlId}>{label}</label> : null}
@@ -128,29 +157,9 @@ class Radio extends React.Component {
       disabled: this.state.disabled,
       rippleActivatorRef: this.rippleActivatorRef,
     });
-    return (
-      React.cloneElement(children, updatedProps)
-    );
+    return React.cloneElement(children, updatedProps);
   }
 }
 
-Radio.propTypes = {
-  label: PropTypes.string,
-  initRipple: PropTypes.func,
-  className: PropTypes.string,
-  wrapperClasses: PropTypes.string,
-  unbounded: PropTypes.bool,
-  children: PropTypes.element.isRequired,
-};
-
-Radio.defaultProps = {
-  label: '',
-  initRipple: () => {},
-  className: '',
-  wrapperClasses: '',
-  unbounded: true,
-  children: null,
-};
-
-export default withRipple(Radio);
+export default Ripple.withRipple<RadioProps, HTMLDivElement, HTMLInputElement>(Radio);
 export {Radio, NativeControl as NativeRadioControl};
