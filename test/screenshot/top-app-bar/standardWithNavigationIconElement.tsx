@@ -8,8 +8,6 @@ interface RippleProps extends InjectedProps<HTMLAnchorElement> {
   hasRipple?: boolean;
 }
 
-// TODO: Replace RippleProps with real tsx ripple props. Fix with #528
-// @ts-ignore
 const NavigationIcon: React.FunctionComponent<RippleProps> = ({
   /* eslint-disable react/prop-types */
   hasRipple,
