@@ -1,5 +1,4 @@
-import React from 'react';
-
+import * as React from 'react';
 import {
   Body1,
   Body2,
@@ -29,16 +28,26 @@ const Standard = () => (
     <Subtitle2>Jim Raynor</Subtitle2>
     <Body1>Kerrigan</Body1>
     <Body2>Arcturus Mengsk</Body2>
-    <div><Caption>Valerian Mengsk</Caption></div>
-    <div><Button>Donny Vermillion</Button></div>
-    <div><Overline>Kate Lockwell</Overline></div>
+    <div>
+      <Caption>Valerian Mengsk</Caption>
+    </div>
+    <div>
+      <Button>Donny Vermillion</Button>
+    </div>
+    <div>
+      <Overline>Kate Lockwell</Overline>
+    </div>
   </React.Fragment>
 );
 
 const Nested = () => (
   <React.Fragment>
-    <Body1>Kate <Caption>Lockwell</Caption></Body1>
-    <Body2>Donny <Button>Vermillion</Button></Body2>
+    <Body1>
+      Kate <Caption>Lockwell</Caption>
+    </Body1>
+    <Body2>
+      Donny <Button>Vermillion</Button>
+    </Body2>
   </React.Fragment>
 );
 

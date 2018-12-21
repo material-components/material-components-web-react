@@ -20,18 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import typographyHOC from './typography';
+import * as classnames from 'classnames';
+import * as React from 'react';
 
-export const Body1 = typographyHOC({classModifier: 'body1', tag: 'p'});
-export const Body2 = typographyHOC({classModifier: 'body2', tag: 'p'});
-export const Button = typographyHOC({classModifier: 'button', tag: 'span'});
-export const Caption = typographyHOC({classModifier: 'caption', tag: 'span'});
-export const Headline1 = typographyHOC({classModifier: 'headline1', tag: 'h1'});
-export const Headline2 = typographyHOC({classModifier: 'headline2', tag: 'h2'});
-export const Headline3 = typographyHOC({classModifier: 'headline3', tag: 'h3'});
-export const Headline4 = typographyHOC({classModifier: 'headline4', tag: 'h4'});
-export const Headline5 = typographyHOC({classModifier: 'headline5', tag: 'h5'});
-export const Headline6 = typographyHOC({classModifier: 'headline6', tag: 'h6'});
-export const Overline = typographyHOC({classModifier: 'overline', tag: 'span'});
-export const Subtitle1 = typographyHOC({classModifier: 'subtitle1', tag: 'h6'});
-export const Subtitle2 = typographyHOC({classModifier: 'subtitle2', tag: 'h6'});
+export interface TypographyProps<T> extends React.HTMLProps<T> {
+  children?: React.ReactNode;
+  className?: string;
+  tag?: string;
+}
+
+interface EnhancedProps {
+  tag: string;
+  classModifier: string;
+}
+
+const typographyHOC = <T extends {}>(options: EnhancedProps) => {
+  const {tag, classModifier} = options;
+
+  const Typography: React.FunctionComponent<TypographyProps<T>> = ({
+    // TODO: clean up after removing eslint react/prop-types
+    /* eslint-disable */
+    children,
+    className = '',
+    tag: Tag = tag,
+    /* eslint-enable */
+    ...otherProps
+  }) => {
+    const classes = classnames(
+      'mdc-typography',
+      `mdc-typography--${classModifier}`,
+      className
+    );
+
+    return (
+      // https://github.com/Microsoft/TypeScript/issues/28892
+      // @ts-ignore
+      <Tag className={classes} {...otherProps}>
+        {children}
+      </Tag>
+    );
+  };
+
+  return Typography;
+};
+
+export default typographyHOC;
