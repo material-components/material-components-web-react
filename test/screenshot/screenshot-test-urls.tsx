@@ -1,7 +1,5 @@
-// @ts-ignore
-import topAppBarVariants from './top-app-bar/variants.js';
-// @ts-ignore
-import drawerVariants from './drawer/variants.js';
+import topAppBarVariants from './top-app-bar/variants';
+import drawerVariants from './drawer/variants';
 import textFieldVariants from './text-field/variants';
 const urls = [
   'button',

@@ -80,11 +80,29 @@ function cpAsset(asset) {
     .then(() => console.log(`cp ${asset} -> ${destDir}`));
 }
 
-Promise.all(globSync('build/*.{css,js,map}').map(cpAsset))
-  .then(() => {
-    console.log('done!');
-  })
-  .catch((err) => {
+// takes assetPath, computes the destination file directory path
+// and copies file into destination directory
+function cpTypes(typeAsset) {
+  const {dir, base} = path.parse(typeAsset);
+  let destDir = dir.split('build/types/')[1];
+  destDir = destDir.split('/');
+  destDir.splice(2, 0, 'dist');
+  destDir = `${destDir.join('/')}/${base}`;
+  return cpFile(typeAsset, destDir)
+    .then(() => console.log(`cp ${typeAsset} -> ${destDir}`));
+}
+
+async function copyPackages() {
+  try {
+    await Promise.all(globSync('build/*.{css,js,map}').map(cpAsset));
+    console.log('-- Copied CSS, JS, and Map Files to Destination Directory');
+    await Promise.all(globSync('build/types/packages/**/*.d.ts').map(cpTypes));
+    console.log('-- Copied Typescript Type Files to Destination Directory');
+  } catch (err) {
     console.error(`Error encountered copying assets: ${err}`);
     process.exit(1);
-  });
+  }
+}
+
+copyPackages();
+

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {HelperText} from '../../../packages/text-field';
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 
 export declare type HelperTextMapType = {helperText: HelperText};
