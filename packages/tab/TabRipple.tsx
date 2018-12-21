@@ -20,15 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classnames from 'classnames';
-import {withRipple} from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
 
-export interface TabRippleProps extends React.HTMLProps<HTMLDivElement> {
+export interface TabRippleProps extends React.HTMLProps<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement> {
   className: string;
-  initRipple: React.Ref<HTMLDivElement>;
-  unbounded: boolean;
 }
 
 export class TabRippleBase extends React.Component<TabRippleProps, {}> {
@@ -60,4 +57,4 @@ export class TabRippleBase extends React.Component<TabRippleProps, {}> {
   }
 }
 
-export default withRipple(TabRippleBase);
+export default Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);

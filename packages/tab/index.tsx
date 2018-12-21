@@ -19,15 +19,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import * as classnames from 'classnames';
-// TODO: Come back and use .d.ts file
-// @ts-ignore
 import TabIndicator from '@material/react-tab-indicator';
 // No mdc .d.ts files
 // @ts-ignore
 import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
-import TabRipple, {TabRippleBase} from './TabRipple';
+import TabRipple, {TabRippleProps} from './TabRipple';
+
+export {
+  TabRipple,
+  Tab,
+  TabRippleProps,
+};
 
 export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   active?: boolean;
@@ -51,20 +56,12 @@ interface TabState extends TabAttributes {
   previousIndicatorClientRect?: ClientRect;
 }
 
-// https://github.com/material-components/material-components-web-react/issues/528
-// TODO: switch when ripple is converted to TSX
-function isElementTabRipple(element: any): element is TabRippleBase {
-  return !!element;
-}
-
 export default class Tab extends React.Component<TabProps, TabState> {
-  foundation_?: MDCTabFoundation;
-  tabElement_: React.RefObject<HTMLButtonElement> = React.createRef();
-  tabContentElement_: React.RefObject<HTMLSpanElement> = React.createRef();
-  tabIndicator_: React.RefObject<TabIndicator> = React.createRef();
-  // https://github.com/material-components/material-components-web-react/issues/528
-  // TODO: switch when ripple is converted to TSX
-  tabRipple_: React.RefObject<TabRippleBase> = React.createRef();
+  foundation?: MDCTabFoundation;
+  tabElement: React.RefObject<HTMLButtonElement> = React.createRef();
+  tabContentElement: React.RefObject<HTMLSpanElement> = React.createRef();
+  tabIndicator: React.RefObject<TabIndicator> = React.createRef();
+  tabRipple: React.RefObject<TabRipple> = React.createRef();
 
   static defaultProps: Partial<TabProps> = {
     active: false,
@@ -84,15 +81,15 @@ export default class Tab extends React.Component<TabProps, TabState> {
   };
 
   componentDidMount() {
-    this.foundation_ = new MDCTabFoundation(this.adapter);
-    this.foundation_.init();
+    this.foundation = new MDCTabFoundation(this.adapter);
+    this.foundation.init();
     if (this.props.active) {
-      this.foundation_.activate();
+      this.foundation.activate();
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   componentDidUpdate(prevProps: TabProps) {
@@ -132,16 +129,16 @@ export default class Tab extends React.Component<TabProps, TabState> {
         this.setState((prevState) => ({...prevState, [attr]: value}))
       ),
       getOffsetLeft: () =>
-        Number(this.tabElement_.current && this.tabElement_.current.offsetLeft),
+        Number(this.tabElement.current && this.tabElement.current.offsetLeft),
       getOffsetWidth: () =>
-        Number(this.tabElement_.current && this.tabElement_.current.offsetWidth),
+        Number(this.tabElement.current && this.tabElement.current.offsetWidth),
       getContentOffsetLeft: () =>
-        this.tabContentElement_.current &&
-        this.tabContentElement_.current.offsetLeft,
+        this.tabContentElement.current &&
+        this.tabContentElement.current.offsetLeft,
       getContentOffsetWidth: () =>
-        this.tabContentElement_.current &&
-        this.tabContentElement_.current.offsetWidth,
-      focus: () => this.tabElement_.current && this.tabElement_.current.focus(),
+        this.tabContentElement.current &&
+        this.tabContentElement.current.offsetWidth,
+      focus: () => this.tabElement.current && this.tabElement.current.focus(),
       activateIndicator: (previousIndicatorClientRect: ClientRect) =>
         this.setState({
           activateIndicator: true,
@@ -152,42 +149,37 @@ export default class Tab extends React.Component<TabProps, TabState> {
   }
 
   activate(computeIndicatorClientRect?: ClientRect) {
-    this.foundation_.activate(computeIndicatorClientRect);
+    this.foundation.activate(computeIndicatorClientRect);
   }
 
   deactivate() {
-    this.foundation_.deactivate();
+    this.foundation.deactivate();
   }
 
   computeIndicatorClientRect = () => {
-    if (!this.tabIndicator_.current) return;
-    return this.tabIndicator_.current.computeContentClientRect();
+    if (!this.tabIndicator.current) return;
+    return this.tabIndicator.current.computeContentClientRect();
   };
 
   computeDimensions = () => {
-    return this.foundation_.computeDimensions();
+    return this.foundation.computeDimensions();
   };
 
   focus = () => {
-    this.tabElement_.current && this.tabElement_.current.focus();
+    this.tabElement.current && this.tabElement.current.focus();
   };
 
   onFocus = (e: React.FocusEvent) => {
-    if (this.tabRipple_.current) {
+    if (this.tabRipple.current) {
       // https://github.com/material-components/material-components-web-react/issues/528
       // TODO: switch when ripple is converted to TSX
       // @ts-ignore
-      this.tabRipple_.current.handleFocus(e);
+      this.tabRipple.current.handleFocus(e);
     }
   }
 
   onBlur = (e: React.FocusEvent) => {
-    if (isElementTabRipple(this.tabRipple_.current)) {
-      // https://github.com/material-components/material-components-web-react/issues/528
-      // TODO: switch when ripple is converted to TSX
-      // @ts-ignore
-      this.tabRipple_.current.handleBlur(e);
-    }
+    this.tabRipple.current && this.tabRipple.current.handleBlur(e);
   }
 
   render() {
@@ -218,15 +210,15 @@ export default class Tab extends React.Component<TabProps, TabState> {
         tabIndex={tabIndex}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
-        ref={this.tabElement_}
+        ref={this.tabElement}
         {...otherProps}
       >
-        <span className='mdc-tab__content' ref={this.tabContentElement_}>
+        <span className='mdc-tab__content' ref={this.tabContentElement}>
           {children}
           {isMinWidthIndicator ? this.renderIndicator() : null}
         </span>
         {isMinWidthIndicator ? null : this.renderIndicator()}
-        <TabRipple ref={this.tabRipple_} />
+        <TabRipple ref={this.tabRipple} />
       </button>
     );
   }
@@ -240,7 +232,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
         fade={isFadingIndicator}
         active={activateIndicator}
         previousIndicatorClientRect={previousIndicatorClientRect}
-        ref={this.tabIndicator_}
+        ref={this.tabIndicator}
       >
         {indicatorContent}
       </TabIndicator>

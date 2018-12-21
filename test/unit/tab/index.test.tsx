@@ -36,7 +36,7 @@ test('adds a class from state.classList', () => {
 
 test('has a foundation after mount', () => {
   const wrapper = mount<Tab>(<Tab active />);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('if props.active updates to true, activate is called with previousIndicatorClientRect prop', () => {
@@ -92,33 +92,33 @@ test('#adapter.setAttr sets aria-selected on state', () => {
   assert.isTrue(wrapper.state()['aria-selected']);
 });
 
-test('#adapter.getOffsetLeft returns tabElement_.offsetLeft', () => {
+test('#adapter.getOffsetLeft returns tabElement.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab />);
-  assert.equal(wrapper.instance().adapter.getOffsetLeft(), wrapper.instance().tabElement_.current!.offsetLeft);
+  assert.equal(wrapper.instance().adapter.getOffsetLeft(), wrapper.instance().tabElement.current!.offsetLeft);
 });
 
-test('#adapter.getOffsetWidth returns tabElement_.offsetWidth', () => {
+test('#adapter.getOffsetWidth returns tabElement.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getOffsetWidth(), wrapper.instance().tabElement_.current!.offsetWidth);
+  assert.equal(wrapper.instance().adapter.getOffsetWidth(), wrapper.instance().tabElement.current!.offsetWidth);
 });
 
-test('#adapter.getContentOffsetLeft returns tabContentElement_.offsetLeft', () => {
+test('#adapter.getContentOffsetLeft returns tabContentElement.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
   assert.equal(wrapper.instance().adapter.getContentOffsetLeft(),
-    wrapper.instance().tabContentElement_.current!.offsetLeft);
+    wrapper.instance().tabContentElement.current!.offsetLeft);
 });
 
-test('#adapter.getContentOffsetWidth returns tabContentElement_.offsetWidth', () => {
+test('#adapter.getContentOffsetWidth returns tabContentElement.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
   assert.equal(wrapper.instance().adapter.getContentOffsetWidth(),
-    wrapper.instance().tabContentElement_.current!.offsetWidth);
+    wrapper.instance().tabContentElement.current!.offsetWidth);
 });
 
-test('#adapter.focus focuses the tabElement_', () => {
+test('#adapter.focus focuses the tabElement', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  wrapper.instance().tabElement_.current!.focus = td.func() as () => void;
+  wrapper.instance().tabElement.current!.focus = td.func() as () => void;
   wrapper.instance().adapter.focus();
-  td.verify(wrapper.instance().tabElement_.current!.focus(), {times: 1});
+  td.verify(wrapper.instance().tabElement.current!.focus(), {times: 1});
 });
 
 test('#adapter.activateIndicator sets state.activateIndicator and state.previousIndicatorClientRect', () => {
@@ -138,37 +138,37 @@ test('#adapter.deactivateIndicator sets state.activateIndicator', () => {
 test('#activate calls foundation.activate', () => {
   const clientRect = {test: 1} as unknown as ClientRect; ;
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation_.activate = td.func();
+  wrapper.instance().foundation.activate = td.func();
   wrapper.instance().activate(clientRect);
-  td.verify(wrapper.instance().foundation_.activate(clientRect), {times: 1});
+  td.verify(wrapper.instance().foundation.activate(clientRect), {times: 1});
 });
 
 test('#deactivate calls foundation.deactivate', () => {
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation_.deactivate = td.func();
+  wrapper.instance().foundation.deactivate = td.func();
   wrapper.instance().deactivate();
-  td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
+  td.verify(wrapper.instance().foundation.deactivate(), {times: 1});
 });
 
-test('#computeIndicatorClientRect returns the tabIndicator_ clientRect', () => {
+test('#computeIndicatorClientRect returns the tabIndicator clientRect', () => {
   const wrapper = mount<Tab>(<Tab />);
-  wrapper.instance().tabIndicator_.current.computeContentClientRect = td.func();
+  wrapper.instance().tabIndicator.current.computeContentClientRect = td.func();
   wrapper.instance().computeIndicatorClientRect();
-  td.verify(wrapper.instance().tabIndicator_.current.computeContentClientRect(), {times: 1});
+  td.verify(wrapper.instance().tabIndicator.current.computeContentClientRect(), {times: 1});
 });
 
 test('#computeDimensions calls foundation.computeDimensions', () => {
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation_.computeDimensions = td.func();
+  wrapper.instance().foundation.computeDimensions = td.func();
   wrapper.instance().computeDimensions();
-  td.verify(wrapper.instance().foundation_.computeDimensions(), {times: 1});
+  td.verify(wrapper.instance().foundation.computeDimensions(), {times: 1});
 });
 
-test('#focus focuses the tabElement_', () => {
+test('#focus focuses the tabElement', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  wrapper.instance().tabElement_.current!.focus = td.func() as () => void;
+  wrapper.instance().tabElement.current!.focus = td.func() as () => void;
   wrapper.instance().focus();
-  td.verify(wrapper.instance().tabElement_.current!.focus(), {times: 1});
+  td.verify(wrapper.instance().tabElement.current!.focus(), {times: 1});
 });
 
 test('tab should have the role=tab', () => {
@@ -288,7 +288,7 @@ test('props.indicatorContent should render with a ref attached', () => {
   const wrapper = mount<Tab>(
     <Tab indicatorContent={<i className='icon'>icon</i>} />
   );
-  assert.instanceOf(wrapper.instance().tabIndicator_.current, TabIndicator);
+  assert.instanceOf(wrapper.instance().tabIndicator.current, TabIndicator);
 });
 
 test('props.isMinWidthIndicator renders indicator within the content element', () => {
@@ -300,7 +300,7 @@ test('props.isMinWidthIndicator renders indicator within the content element', (
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Tab>(<Tab />);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
@@ -308,7 +308,7 @@ test('#componentWillUnmount destroys foundation', () => {
 
 test('on focus event calls handleFocus on TabRipple', () => {
   const wrapper = mount<Tab>(<Tab />);
-  const ripple = wrapper.instance().tabRipple_.current;
+  const ripple = wrapper.instance().tabRipple.current;
   // https://github.com/material-components/material-components-web-react/issues/528
   // TODO: switch when ripple is converted to TSX
   // @ts-ignore
@@ -322,7 +322,7 @@ test('on focus event calls handleFocus on TabRipple', () => {
 
 test('on blur event calls handleBlur on TabRipple', () => {
   const wrapper = mount<Tab>(<Tab />);
-  const ripple = wrapper.instance().tabRipple_.current;
+  const ripple = wrapper.instance().tabRipple.current;
   // https://github.com/material-components/material-components-web-react/issues/528
   // TODO: switch when ripple is converted to TSX
   // @ts-ignore
