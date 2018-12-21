@@ -3,8 +3,6 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import TabIndicator from '../../../packages/tab-indicator/index';
-// TODO: fix when #513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 
 suite('TabIndicator');
