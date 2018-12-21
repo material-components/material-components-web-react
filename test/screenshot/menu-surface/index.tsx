@@ -3,8 +3,6 @@ import '../../../packages/menu-surface/index.scss';
 import '@material/list/mdc-list.scss';
 import './index.scss';
 import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
-// TODO: Fix when button component is converted
-// @ts-ignore
 import Button from '../../../packages/button/index';
 
 type MenuSurfaceButtonProps = {
