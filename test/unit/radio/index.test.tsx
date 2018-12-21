@@ -103,7 +103,7 @@ test('sets state.nativeControlId if child has props.id', () => {
 });
 
 test('calls props.initRipple', () => {
-  const initRipple = td.func() as (surface: HTMLDivElement, activator: HTMLInputElement) => void;
+  const initRipple = td.func() as (surface: HTMLDivElement, activator?: HTMLInputElement) => void;
   const wrapper = mount(
     <Radio initRipple={initRipple}>
       <NativeRadioControl />

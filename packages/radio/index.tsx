@@ -25,17 +25,13 @@ import * as classnames from 'classnames';
 // no .d.ts file
 // @ts-ignore
 import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
-// TODO: fix with #528
-// @ts-ignore
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
 import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
 
-export interface RadioProps extends React.HTMLProps<HTMLDivElement> {
-  label: string;
-  initRipple: (surface: HTMLDivElement, rippleActivatorRef: HTMLInputElement) => void;
-  className: string;
-  wrapperClasses: string;
-  unbounded: boolean;
+export interface RadioProps extends Ripple.InjectedProps<HTMLDivElement, HTMLInputElement>, React.HTMLProps<HTMLDivElement> {
+  label?: string;
+  initRipple: (surface: HTMLDivElement, rippleActivatorRef?: HTMLInputElement) => void;
+  wrapperClasses?: string;
   children: React.ReactElement<NativeControlProps>;
 }
 
@@ -163,5 +159,5 @@ class Radio extends React.Component<RadioProps, RadioState> {
   }
 }
 
-export default withRipple(Radio);
+export default Ripple.withRipple<RadioProps, HTMLDivElement, HTMLInputElement>(Radio);
 export {Radio, NativeControl as NativeRadioControl};
