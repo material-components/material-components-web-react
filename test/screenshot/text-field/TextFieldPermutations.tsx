@@ -11,9 +11,6 @@ import {
   isValidationMsg,
 } from './attributesMap';
 import TestField from './TestTextField';
-// @ts-ignore
-import HelperText from '../../../packages/text-field/helper-text'; // eslint-disable-line no-unused-vars
-
 
 const textFields = (variantProps: {variant?: string}) => {
   return iconsMap.map((icon: {leadingIcon?: React.ReactNode, trailingIcon?: React.ReactNode}) => {
