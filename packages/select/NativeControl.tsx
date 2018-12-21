@@ -20,14 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
+// no mdc .d.ts file
+// @ts-ignore
+import {MDCSelectFoundation} from '@material/select/dist/mdc.select';
 
-export default class NativeControl extends React.Component {
-  nativeControl_ = React.createRef();
+export interface NativeControlProps extends React.HTMLProps<HTMLSelectElement> {
+  className: string;
+  disabled: boolean;
+  foundation: MDCSelectFoundation;
+  setRippleCenter: (lineRippleCenter: number) => void;
+  handleDisabled: (disabled: boolean) => void;
+}
 
-  componentDidUpdate(prevProps) {
+export default class NativeControl extends React.Component<
+  NativeControlProps,
+  {}
+  > {
+  nativeControl_: React.RefObject<HTMLSelectElement> = React.createRef();
+
+  static defaultProps: NativeControlProps = {
+    className: '',
+    children: null,
+    disabled: false,
+    foundation: {
+      handleFocus: () => {},
+      handleBlur: () => {},
+    },
+    setRippleCenter: () => {},
+    handleDisabled: () => {},
+  };
+
+
+  componentDidUpdate(prevProps: NativeControlProps) {
     if (this.props.disabled !== prevProps.disabled) {
       this.props.handleDisabled(this.props.disabled);
     }
@@ -37,37 +63,37 @@ export default class NativeControl extends React.Component {
     return classnames('mdc-select__native-control', this.props.className);
   }
 
-  handleFocus = (evt) => {
+  handleFocus = (evt: React.FocusEvent<HTMLSelectElement>) => {
     const {foundation, onFocus} = this.props;
     foundation.handleFocus(evt);
-    onFocus(evt);
-  }
+    onFocus && onFocus(evt);
+  };
 
-  handleBlur = (evt) => {
+  handleBlur = (evt: React.FocusEvent<HTMLSelectElement>) => {
     const {foundation, onBlur} = this.props;
     foundation.handleBlur(evt);
-    onBlur(evt);
-  }
+    onBlur && onBlur(evt);
+  };
 
-  handleMouseDown = (evt) => {
+  handleMouseDown = (evt: React.MouseEvent<HTMLSelectElement>) => {
     const {onMouseDown} = this.props;
-    this.setRippleCenter(evt.clientX, evt.target);
-    onMouseDown(evt);
-  }
+    this.setRippleCenter(evt.clientX, evt.target as HTMLSelectElement);
+    onMouseDown && onMouseDown(evt);
+  };
 
-  handleTouchStart = (evt) => {
+  handleTouchStart = (evt: React.TouchEvent<HTMLSelectElement>) => {
     const {onTouchStart} = this.props;
     const clientX = evt.touches[0] && evt.touches[0].clientX;
-    this.setRippleCenter(clientX, evt.target);
-    onTouchStart(evt);
-  }
+    this.setRippleCenter(clientX, evt.target as HTMLSelectElement);
+    onTouchStart && onTouchStart(evt);
+  };
 
-  setRippleCenter = (xCoordinate, target) => {
+  setRippleCenter = (xCoordinate: number, target: HTMLSelectElement) => {
     if (target !== this.nativeControl_.current) return;
     const targetClientRect = target.getBoundingClientRect();
     const normalizedX = xCoordinate - targetClientRect.left;
     this.props.setRippleCenter(normalizedX);
-  }
+  };
 
   render() {
     const {
@@ -104,44 +130,3 @@ export default class NativeControl extends React.Component {
     );
   }
 }
-
-NativeControl.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  disabled: PropTypes.bool,
-  foundation: PropTypes.shape({
-    handleFocus: PropTypes.func,
-    handleBlur: PropTypes.func,
-  }),
-  id: PropTypes.string,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  onFocus: PropTypes.func,
-  onTouchStart: PropTypes.func,
-  onMouseDown: PropTypes.func,
-  setRippleCenter: PropTypes.func,
-  handleDisabled: PropTypes.func,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-};
-
-NativeControl.defaultProps = {
-  className: '',
-  children: null,
-  disabled: false,
-  foundation: {
-    handleFocus: () => {},
-    handleBlur: () => {},
-  },
-  id: null,
-  onBlur: () => {},
-  onChange: () => {},
-  onFocus: () => {},
-  onTouchStart: () => {},
-  onMouseDown: () => {},
-  setRippleCenter: () => {},
-  handleDisabled: () => {},
-  value: '',
-};
