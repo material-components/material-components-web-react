@@ -28,7 +28,7 @@ import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
 import * as Ripple from '@material/react-ripple';
 import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
 
-export interface RadioProps 
+export interface RadioProps
   extends Ripple.InjectedProps<HTMLDivElement, HTMLInputElement>, React.HTMLProps<HTMLDivElement> {
     label?: string;
     initRipple: (surface: HTMLDivElement, rippleActivatorRef?: HTMLInputElement) => void;
