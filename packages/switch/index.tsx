@@ -20,19 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
+// No mdc .d.ts files
+// @ts-ignore
 import {MDCSwitchFoundation} from '@material/switch/dist/mdc.switch';
-
 import ThumbUnderlay from './ThumbUnderlay';
 import NativeControl from './NativeControl';
 
-export default class Switch extends Component {
-  constructor(props) {
+export interface SwitchProps extends React.HTMLProps<HTMLInputElement> {
+  checked: boolean;
+  className: string;
+  disabled: boolean;
+  nativeControlId?: string;
+}
+
+interface SwitchState {
+  nativeControlChecked: boolean;
+  checked: boolean;
+  classList: Set<string>;
+  disabled: boolean;
+  nativeControlDisabled: boolean;
+}
+
+export default class Switch extends React.Component<SwitchProps, SwitchState> {
+  rippleActivator: React.RefObject<HTMLInputElement> = React.createRef();
+  foundation?: MDCSwitchFoundation;
+
+  constructor(props: SwitchProps) {
     super(props);
-    this.rippleActivator = React.createRef();
-    this.foundation_ = null;
     this.state = {
       checked: props.checked,
       classList: new Set(),
@@ -42,24 +58,30 @@ export default class Switch extends Component {
     };
   }
 
+  static defaultProps: Partial<SwitchProps> = {
+    checked: false,
+    className: '',
+    disabled: false,
+  };
+
   componentDidMount() {
-    this.foundation_ = new MDCSwitchFoundation(this.adapter);
-    this.foundation_.init();
-    this.foundation_.setChecked(this.props.checked);
-    this.foundation_.setDisabled(this.props.disabled);
+    this.foundation = new MDCSwitchFoundation(this.adapter);
+    this.foundation.init();
+    this.foundation.setChecked(this.props.checked);
+    this.foundation.setDisabled(this.props.disabled);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: SwitchProps) {
     if (this.props.checked !== prevProps.checked) {
-      this.foundation_.setChecked(this.props.checked);
+      this.foundation.setChecked(this.props.checked);
     }
     if (this.props.disabled !== prevProps.disabled) {
-      this.foundation_.setDisabled(this.props.disabled);
+      this.foundation.setDisabled(this.props.disabled);
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   get classes() {
@@ -70,24 +92,29 @@ export default class Switch extends Component {
 
   get adapter() {
     return {
-      addClass: (className) => {
+      addClass: (className: string) => {
         const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      setNativeControlChecked: (nativeControlChecked) => {
+      setNativeControlChecked: (nativeControlChecked: boolean) => {
         this.setState({nativeControlChecked});
       },
-      setNativeControlDisabled: (nativeControlDisabled) => {
+      setNativeControlDisabled: (nativeControlDisabled: boolean) => {
         this.setState({nativeControlDisabled});
       },
     };
   }
+
+  onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({nativeControlChecked: evt.target.checked});
+    this.foundation && this.foundation.handleChange(evt);
+  };
 
   render() {
     const {
@@ -99,23 +126,15 @@ export default class Switch extends Component {
       nativeControlId,
       ...otherProps
     } = this.props;
-
     return (
-      <div
-        className={this.classes}
-        {...otherProps}
-      >
+      <div className={this.classes} {...otherProps}>
         <div className='mdc-switch__track' />
-        <ThumbUnderlay
-          rippleActivator={this.rippleActivator}>
+        <ThumbUnderlay rippleActivator={this.rippleActivator}>
           <NativeControl
             id={nativeControlId}
             checked={this.state.nativeControlChecked}
             disabled={this.state.nativeControlDisabled}
-            onChange={(evt) => {
-              this.setState({nativeControlChecked: evt.target.checked});
-              this.foundation_ && this.foundation_.handleChange(evt);
-            }}
+            onChange={this.onChange}
             rippleActivatorRef={this.rippleActivator}
           />
         </ThumbUnderlay>
@@ -123,17 +142,3 @@ export default class Switch extends Component {
     );
   }
 }
-
-Switch.propTypes = {
-  checked: PropTypes.bool,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  nativeControlId: PropTypes.string,
-};
-
-Switch.defaultProps = {
-  checked: false,
-  className: '',
-  disabled: false,
-  nativeControlId: null,
-};
