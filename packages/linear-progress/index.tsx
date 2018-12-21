@@ -26,7 +26,7 @@ import * as React from 'react';
 // @ts-ignore
 import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';
 
-interface LinearProgressProps<T> extends React.HTMLProps<T> {
+export interface LinearProgressProps<T> extends React.HTMLProps<T> {
   buffer: number;
   bufferingDots: boolean;
   className: string;
@@ -45,7 +45,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
   LinearProgressProps<T>,
   LinearProgressState
   > {
-  isMounted_: boolean = false;
+  isComponentMounted: boolean = false;
   bufferElement: React.RefObject<HTMLDivElement> = React.createRef();
   primaryBarElement: React.RefObject<HTMLDivElement> = React.createRef();
   foundation: MDCLinearProgressFoundation;
@@ -71,7 +71,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
 
   componentDidMount() {
     const {buffer, closed, indeterminate, progress, reversed} = this.props;
-    this.isMounted_ = true;
+    this.isComponentMounted = true;
     this.foundation.init();
     this.foundation.setBuffer(buffer);
     this.foundation.setDeterminate(!indeterminate);
@@ -112,14 +112,14 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
   }
 
   componentWillUnmount() {
-    this.isMounted_ = false;
+    this.isComponentMounted = false;
     this.foundation.destroy();
   }
 
   get adapter() {
     return {
       addClass: (className: string) => {
-        if (this.isMounted_) {
+        if (this.isComponentMounted) {
           const {classList} = this.state;
           classList.add(className);
           this.setState({classList});
@@ -135,14 +135,14 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
         return this.state.classList.has(className);
       },
       removeClass: (className: string) => {
-        if (this.isMounted_) {
+        if (this.isComponentMounted) {
           const {classList} = this.state;
           classList.delete(className);
           this.setState({classList});
         }
       },
       setStyle: (element: HTMLElement, propertyName: string, value: string) => {
-        if (this.isMounted_) {
+        if (this.isComponentMounted) {
           element.style.setProperty(propertyName, value);
         }
       },
@@ -160,20 +160,16 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
 
   render() {
     const {
-      // eslint-disable-next-line no-unused-vars
+      /* eslint-disable no-unused-vars */
       buffer,
       bufferingDots,
-      // eslint-disable-next-line no-unused-vars
       className,
-      // eslint-disable-next-line no-unused-vars
       closed,
-      // eslint-disable-next-line no-unused-vars
       indeterminate,
-      // eslint-disable-next-line no-unused-vars
       progress,
-      // eslint-disable-next-line no-unused-vars
       reversed,
       tag: Tag,
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
     return (

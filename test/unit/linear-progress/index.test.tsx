@@ -173,7 +173,7 @@ test('#adapter.addClass adds a class to state', () => {
 test('#adapter.addClass does not add a class to state if not mounted', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress />);
   const instance = wrapper.instance();
-  instance.isMounted_ = false;
+  instance.isComponentMounted = false;
   instance.adapter.addClass('test-class');
   assert.isFalse(instance.adapter.hasClass('test-class'));
 });
@@ -190,7 +190,7 @@ test('#adapter.removeClass does not remove a class from state if not mounted', (
   const wrapper = mount<LinearProgress>(<LinearProgress />);
   const instance = wrapper.instance();
   instance.adapter.addClass('test-class');
-  instance.isMounted_ = false;
+  instance.isComponentMounted = false;
   instance.adapter.removeClass('test-class');
   assert.isTrue(instance.adapter.hasClass('test-class'));
 });
@@ -205,7 +205,7 @@ test('#adapter.setStyle sets a style property on an element', () => {
 test('#adapter.setStyle does not set a style property on an element if not mounted', () => {
   const wrapper = mount<LinearProgress>(<LinearProgress />);
   const instance = wrapper.instance();
-  instance.isMounted_ = false;
+  instance.isComponentMounted = false;
   instance.adapter.setStyle(instance.adapter.getPrimaryBar()!, 'width', '0');
   assert.equal(instance.adapter.getPrimaryBar()!.style.width, '');
 });
