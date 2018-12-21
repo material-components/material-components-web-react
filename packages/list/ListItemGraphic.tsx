@@ -20,50 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-const ListItemMeta = (props) => {
-  const {
-    tabIndex, // eslint-disable-line no-unused-vars
-    meta,
-    className,
-    tabbableOnListItemFocus,
-    ...otherProps
-  } = props;
+export interface ListItemGraphicProps {
+  tabbableOnListItemFocus?: boolean;
+  className?: string;
+  tabIndex?: number;
+  graphic: React.ReactElement<any>;
+  childrenTabIndex?: number;
+};
 
-  let metaElement = null;
-  if (typeof meta === 'string') {
-    metaElement = <span>{meta}</span>;
-  } else {
-    metaElement = meta;
-  }
-
-  const metaProps = {
-    className: classnames('mdc-list-item__meta', className, meta.className),
-    tabIndex: tabbableOnListItemFocus ? props.tabIndex : -1,
+const ListItemGraphic:React.FunctionComponent<ListItemGraphicProps> = ({
+  tabIndex = -1, // eslint-disable-line no-unused-vars
+  graphic,
+  tabbableOnListItemFocus = false,
+  className = '',
+  ...otherProps
+}) => {
+  const graphicProps = {
+    className: classnames('mdc-list-item__graphic', className),
+    tabIndex: tabbableOnListItemFocus ? tabIndex : -1,
     ...otherProps,
   };
-
-  return React.cloneElement(metaElement, metaProps);
+  return React.cloneElement(graphic, graphicProps);
 };
 
-ListItemMeta.propTypes = {
-  tabbableOnListItemFocus: PropTypes.bool,
-  className: PropTypes.string,
-  tabIndex: PropTypes.number,
-  meta: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
-};
-
-ListItemMeta.defaultProps = {
-  tabbableOnListItemFocus: false,
-  className: '',
-  tabIndex: -1,
-  meta: null,
-};
-
-export default ListItemMeta;
+export default ListItemGraphic;

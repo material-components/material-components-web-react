@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import {ListDivider} from '../../../packages/list';
+import {ListDivider} from '../../../packages/list/index';
 
 suite('ListDivider');
 

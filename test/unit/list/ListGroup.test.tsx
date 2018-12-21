@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import {ListGroup} from '../../../packages/list';
+import {ListGroup} from '../../../packages/list/index';
 
 suite('ListGroup');
 
@@ -16,7 +16,11 @@ test('has mdc-list-group class', () => {
 });
 
 test('renders children', () => {
-  const wrapper = shallow(<ListGroup><div className='child-list'/></ListGroup>);
+  const wrapper = shallow(
+    <ListGroup>
+      <div className='child-list' />
+    </ListGroup>
+  );
   assert.exists(wrapper.find('.child-list'));
 });
 
