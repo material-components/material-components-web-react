@@ -58,7 +58,7 @@ interface SelectState {
 };
 
 export default class Select extends React.Component<SelectProps, SelectState> {
-  foundation_: MDCSelectFoundation | null = null;
+  foundation?: MDCSelectFoundation;
 
   constructor(props: SelectProps) {
     super(props);
@@ -93,9 +93,9 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   };
 
   componentDidMount() {
-    this.foundation_ = new MDCSelectFoundation(this.adapter);
-    this.foundation_.init();
-    this.foundation_.handleChange();
+    this.foundation = new MDCSelectFoundation(this.adapter);
+    this.foundation.init();
+    this.foundation.handleChange();
   }
 
   componentDidUpdate(prevProps: SelectProps, prevState: SelectState) {
@@ -104,12 +104,12 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       this.setState({value: this.props.value});
     }
     if (this.state.value !== prevState.value) {
-      this.foundation_.handleChange();
+      this.foundation.handleChange();
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
   onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     this.props.onChange && this.props.onChange(evt);
@@ -206,7 +206,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     return (
       <NativeControl
         className={nativeControlClassName}
-        foundation={this.foundation_}
+        foundation={this.foundation}
         handleDisabled={this.setDisabled}
         onChange={this.onChange}
         setRippleCenter={this.setRippleCenter}

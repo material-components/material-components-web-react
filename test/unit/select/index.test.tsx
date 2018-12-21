@@ -4,6 +4,7 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import Select from '../../../packages/select/index';
 import NativeControl from '../../../packages/select/NativeControl';
+import { coerceForTesting } from '../helpers/types';
 
 suite('Select');
 
@@ -21,15 +22,15 @@ test('classNames adds classes', () => {
 
 test('creates foundation', () => {
   const wrapper = mount<Select>(<Select label='my label' />);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
-test('#foundation_.handleChange gets called when state.value updates', () => {
+test('#foundation.handleChange gets called when state.value updates', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
-  wrapper.instance().foundation_.handleChange = td.func();
+  wrapper.instance().foundation.handleChange = td.func();
   const value = 'value';
   wrapper.setState({value});
-  td.verify(wrapper.instance().foundation_.handleChange(), {times: 1});
+  td.verify(wrapper.instance().foundation.handleChange(), {times: 1});
 });
 
 test('state.value updates when props.value changes', () => {
@@ -41,7 +42,7 @@ test('state.value updates when props.value changes', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
@@ -94,12 +95,12 @@ test('#adapter.hasClass returns false if the string is not in state.classList', 
 
 test('#adapter.isRtl returns true if props.isRtl is true', () => {
   const wrapper = mount<Select>(<Select label='my label' isRtl />);
-  assert.isTrue(wrapper.instance().foundation_.adapter_.isRtl());
+  assert.isTrue(wrapper.instance().foundation.adapter_.isRtl());
 });
 
 test('#adapter.isRtl returns false if parent is not dir="rtl"', () => {
   const wrapper = mount<Select>(<Select label='my label' />);
-  assert.isFalse(wrapper.instance().foundation_.adapter_.isRtl());
+  assert.isFalse(wrapper.instance().foundation.adapter_.isRtl());
 });
 
 test('adapter.getValue returns state.value', () => {
@@ -215,9 +216,9 @@ test('#NativeControl.onChange will update state.value', () => {
 });
 
 test('#NativeControl.onChange will call this.props.onChange', () => {
-  const onChange = td.func() as React.ChangeEventHandler<HTMLSelectElement>;
+  const onChange = coerceForTesting<React.ChangeEventHandler<HTMLSelectElement>>(td.func());
   const wrapper = shallow<Select>(<Select label='my label' onChange={onChange} />);
-  const evt = {target: {value: 'orange'}} as React.ChangeEvent<HTMLSelectElement>;
+  const evt = coerceForTesting<React.ChangeEvent<HTMLSelectElement>>({target: {value: 'orange'}});
   wrapper
     .childAt(0)
     .props()
@@ -240,7 +241,7 @@ test('passes foundation to NativeControl', () => {
     .childAt(0)
     .childAt(0)
     .props();
-  assert.equal(nativeControl.foundation, wrapper.instance().foundation_);
+  assert.equal(nativeControl.foundation, wrapper.instance().foundation);
 });
 
 test('renders just one option passed as children', () => {

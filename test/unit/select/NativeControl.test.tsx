@@ -3,6 +3,7 @@ import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
 import NativeControl from '../../../packages/select/NativeControl';
+import { coerceForTesting } from '../helpers/types';
 
 suite('Select Native Input');
 
@@ -26,7 +27,7 @@ test('classNames adds classes', () => {
 });
 
 test('calls props.handleDisabled if props.disabled updates', () => {
-  const handleDisabled = td.func() as (d: boolean) => void;
+  const handleDisabled = coerceForTesting<(d: boolean) => void>(td.func());
   const wrapper = shallow(<NativeControl handleDisabled={handleDisabled} />);
   wrapper.setProps({disabled: true});
   td.verify(handleDisabled(true), {times: 1});
@@ -40,51 +41,52 @@ test('#event.focus calls #foundation.handleFocus', () => {
 });
 
 test('#event.focus calls #props.onFocus', () => {
-  const onFocus = td.func() as React.FocusEventHandler<HTMLSelectElement>;
+  const onFocus = coerceForTesting<React.FocusEventHandler<HTMLSelectElement>>(td.func());
   const wrapper = shallow(<NativeControl onFocus={onFocus} />);
   wrapper.simulate('focus', testEvt);
-  td.verify(onFocus(testEvt as unknown as React.FocusEvent<HTMLSelectElement>), {times: 1});
+  td.verify(onFocus(coerceForTesting<React.FocusEvent<HTMLSelectElement>>(testEvt)), {times: 1});
 });
 
 test('#event.blur calls #foundation.handleBlur', () => {
-  const foundation = {handleBlur: td.func() as React.FocusEventHandler<HTMLSelectElement>};
+  const foundation = {handleBlur: coerceForTesting<React.FocusEventHandler<HTMLSelectElement>>(td.func())};
   const wrapper = shallow(<NativeControl foundation={foundation} />);
   wrapper.simulate('blur', testEvt);
-  td.verify(foundation.handleBlur(testEvt as unknown as React.FocusEvent<HTMLSelectElement>), {times: 1});
+  td.verify(foundation.handleBlur(coerceForTesting<React.FocusEvent<HTMLSelectElement>>(testEvt)), {times: 1});
 });
 
 test('#event.blur calls #props.onBlur', () => {
-  const onBlur = td.func() as React.FocusEventHandler<HTMLSelectElement>;
+  const onBlur = coerceForTesting<React.FocusEventHandler<HTMLSelectElement>>(td.func());
   const wrapper = shallow(<NativeControl onBlur={onBlur} />);
   wrapper.simulate('blur', testEvt);
-  td.verify(onBlur(testEvt as unknown as React.FocusEvent<HTMLSelectElement>), {times: 1});
+  td.verify(onBlur(coerceForTesting<React.FocusEvent<HTMLSelectElement>>(testEvt)), {times: 1});
 });
 
 test('#event.change calls #props.onChange', () => {
-  const onChange = td.func() as React.ChangeEventHandler<HTMLSelectElement>;
+  const onChange = coerceForTesting<React.ChangeEventHandler<HTMLSelectElement>>(td.func());
   const wrapper = shallow(<NativeControl onChange={onChange} />);
   wrapper.simulate('change', testEvt);
-  td.verify(onChange(testEvt as unknown as React.FocusEvent<HTMLSelectElement>), {times: 1});
+  td.verify(onChange(coerceForTesting<React.FocusEvent<HTMLSelectElement>>(testEvt)), {times: 1});
 });
 
 test('#event.mousedown calls #props.onMouseDown', () => {
-  const onMouseDown = td.func() as React.MouseEventHandler<HTMLSelectElement>;
+  const onMouseDown = coerceForTesting<React.MouseEventHandler<HTMLSelectElement>>(td.func());
   const wrapper = shallow(<NativeControl onMouseDown={onMouseDown} />);
   wrapper.simulate('mousedown', testEvt);
-  td.verify(onMouseDown(testEvt as unknown as React.MouseEvent<HTMLSelectElement>), {times: 1});
+  td.verify(onMouseDown(coerceForTesting<React.MouseEvent<HTMLSelectElement>>(testEvt)), {times: 1});
 });
 
 test('#event.mousedown calls #props.setRippleCenter if target is nativeControl', () => {
-  const setRippleCenter = td.func() as (rippleCenter: number) => void;
+  const setRippleCenter = coerceForTesting<(rippleCenter: number) => void>(td.func());
   const wrapper = mount<NativeControl>(<NativeControl setRippleCenter={setRippleCenter} />);
-  wrapper.instance().nativeControl_ = {current: testEvt.target} as React.RefObject<HTMLSelectElement>;
+  wrapper.instance().nativeControl_ 
+    = coerceForTesting<React.RefObject<HTMLSelectElement>>({current: testEvt.target});
   wrapper.simulate('mousedown', testEvt);
   const left = testEvt.target.getBoundingClientRect().left;
   td.verify(setRippleCenter(testEvt.clientX - left), {times: 1});
 });
 
 test('#event.mousedown does not call #props.setRippleCenter if target is not nativeControl', () => {
-  const setRippleCenter = td.func() as (rippleCenter: number) => void;
+  const setRippleCenter = coerceForTesting<(rippleCenter: number) => void>(td.func());
   const wrapper = mount(<NativeControl setRippleCenter={setRippleCenter} />);
   wrapper.simulate('mousedown', testEvt);
   const left = testEvt.target.getBoundingClientRect().left;
@@ -92,22 +94,22 @@ test('#event.mousedown does not call #props.setRippleCenter if target is not nat
 });
 
 test('#event.touchstart calls #props.onTouchStart', () => {
-  const onTouchStart = td.func() as React.TouchEventHandler<HTMLSelectElement>;
+  const onTouchStart = coerceForTesting<React.TouchEventHandler<HTMLSelectElement>>(td.func());
   const wrapper = shallow(<NativeControl onTouchStart={onTouchStart} />);
-  const evt = {
+  const evt = coerceForTesting<React.TouchEvent<HTMLSelectElement>>({
     test: 'test',
     touches: [{clientX: 20}],
     target: {
       getBoundingClientRect: () => ({left: 15}),
       value: 'value',
     },
-  } as unknown as React.TouchEvent<HTMLSelectElement>;
+  });
   wrapper.simulate('touchstart', evt);
   td.verify(onTouchStart(evt), {times: 1});
 });
 
 test('#event.touchstart calls #props.setRippleCenter if target is nativeControl', () => {
-  const setRippleCenter = td.func() as (rippleCenter: number) => void;
+  const setRippleCenter = coerceForTesting<(rippleCenter: number) => void>(td.func());
   const wrapper = mount<NativeControl>(<NativeControl setRippleCenter={setRippleCenter} />);
   const evt = {
     test: 'test',
@@ -117,14 +119,14 @@ test('#event.touchstart calls #props.setRippleCenter if target is nativeControl'
       value: 'value',
     },
   };
-  wrapper.instance().nativeControl_ = {current: evt.target} as React.RefObject<HTMLSelectElement>;
+  wrapper.instance().nativeControl_ = coerceForTesting<React.RefObject<HTMLSelectElement>>({current: evt.target});
   wrapper.simulate('touchstart', evt);
   const left = evt.target.getBoundingClientRect().left;
   td.verify(setRippleCenter(20 - left), {times: 1});
 });
 
 test('#event.touchstart does not call #props.setRippleCenter if target is not nativeControl', () => {
-  const setRippleCenter = td.func() as (rippleCenter: number) => void;
+  const setRippleCenter = coerceForTesting<(rippleCenter: number) => void>(td.func());
   const wrapper = mount(<NativeControl setRippleCenter={setRippleCenter} />);
   const evt = {
     test: 'test',
