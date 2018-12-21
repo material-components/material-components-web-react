@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import * as React from 'react';
 import classnames from 'classnames';
 import {
@@ -57,9 +58,9 @@ export default class TabScroller extends React.Component<
   TabScrollerProps,
   TabScrollerState
   > {
-  areaElement_: React.RefObject<HTMLDivElement> = React.createRef();
-  contentElement_: React.RefObject<HTMLDivElement> = React.createRef();
-  foundation_?: MDCTabScrollerFoundation;
+  areaElement: React.RefObject<HTMLDivElement> = React.createRef();
+  contentElement: React.RefObject<HTMLDivElement> = React.createRef();
+  foundation?: MDCTabScrollerFoundation;
 
   state: TabScrollerState = {
     classList: new Set(),
@@ -83,12 +84,12 @@ export default class TabScroller extends React.Component<
   };
 
   componentDidMount() {
-    this.foundation_ = new MDCTabScrollerFoundation(this.adapter);
-    this.foundation_.init();
+    this.foundation = new MDCTabScrollerFoundation(this.adapter);
+    this.foundation.init();
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   get classes() {
@@ -145,77 +146,77 @@ export default class TabScroller extends React.Component<
       setScrollContentStyleProperty: (prop: string, value: string) =>
         this.setStyleToElement(prop, value, 'scrollContentStyleProperty'),
       getScrollContentStyleValue: (propName: string) =>
-        this.contentElement_.current &&
+        this.contentElement.current &&
         window
-          .getComputedStyle(this.contentElement_.current)
+          .getComputedStyle(this.contentElement.current)
           .getPropertyValue(propName),
       setScrollAreaScrollLeft: (scrollX: number) => {
-        if (!this.areaElement_.current) return;
-        this.areaElement_.current.scrollLeft = scrollX;
+        if (!this.areaElement.current) return;
+        this.areaElement.current.scrollLeft = scrollX;
       },
       getScrollAreaScrollLeft: () =>
-        this.areaElement_.current && this.areaElement_.current.scrollLeft,
+        this.areaElement.current && this.areaElement.current.scrollLeft,
       getScrollContentOffsetWidth: this.getScrollContentWidth,
       getScrollAreaOffsetWidth: () =>
-        this.areaElement_.current && this.areaElement_.current.offsetWidth,
+        this.areaElement.current && this.areaElement.current.offsetWidth,
       computeScrollAreaClientRect: () =>
-        this.areaElement_.current &&
-        this.areaElement_.current.getBoundingClientRect(),
+        this.areaElement.current &&
+        this.areaElement.current.getBoundingClientRect(),
       computeScrollContentClientRect: () =>
-        this.contentElement_.current &&
-        this.contentElement_.current.getBoundingClientRect(),
+        this.contentElement.current &&
+        this.contentElement.current.getBoundingClientRect(),
       computeHorizontalScrollbarHeight: () =>
         util.computeHorizontalScrollbarHeight(document),
     };
   }
 
   getScrollPosition = () => {
-    return this.foundation_.getScrollPosition();
+    return this.foundation.getScrollPosition();
   };
 
   // needs to be public class method for react tab-bar
   getScrollContentWidth = () => {
     return (
-      this.contentElement_.current && this.contentElement_.current.offsetWidth
+      this.contentElement.current && this.contentElement.current.offsetWidth
     );
   };
 
   incrementScroll = (scrollXIncrement: number) => {
-    this.foundation_.incrementScroll(scrollXIncrement);
+    this.foundation.incrementScroll(scrollXIncrement);
   };
 
   scrollTo = (scrollX: number) => {
-    this.foundation_.scrollTo(scrollX);
+    this.foundation.scrollTo(scrollX);
   };
 
   handleWheel_ = (evt: React.WheelEvent<HTMLDivElement>) => {
     this.props.onWheel && this.props.onWheel(evt);
-    this.foundation_.handleInteraction(evt);
+    this.foundation.handleInteraction(evt);
   };
 
   handleTouchStart_ = (evt: React.TouchEvent<HTMLDivElement>) => {
     this.props.onTouchStart && this.props.onTouchStart(evt);
-    this.foundation_.handleInteraction(evt);
+    this.foundation.handleInteraction(evt);
   };
 
   handlePointerDown_ = (evt: React.PointerEvent<HTMLDivElement>) => {
     this.props.onPointerDown && this.props.onPointerDown(evt);
-    this.foundation_.handleInteraction(evt);
+    this.foundation.handleInteraction(evt);
   };
 
   handleMouseDown_ = (evt: React.MouseEvent<HTMLDivElement>) => {
     this.props.onMouseDown && this.props.onMouseDown(evt);
-    this.foundation_.handleInteraction(evt);
+    this.foundation.handleInteraction(evt);
   };
 
   handleKeyDown_ = (evt: React.KeyboardEvent<HTMLDivElement>) => {
     this.props.onKeyDown && this.props.onKeyDown(evt);
-    this.foundation_.handleInteraction(evt);
+    this.foundation.handleInteraction(evt);
   };
 
   handleTransitionEnd_ = (evt: React.TransitionEvent<HTMLDivElement>) => {
     this.props.onTransitionEnd && this.props.onTransitionEnd(evt);
-    this.foundation_.handleTransitionEnd(evt);
+    this.foundation.handleTransitionEnd(evt);
   };
 
   render() {
@@ -259,12 +260,12 @@ export default class TabScroller extends React.Component<
         <div
           className={areaClasses}
           style={scrollAreaStyleProperty}
-          ref={this.areaElement_}
+          ref={this.areaElement}
         >
           <div
             className='mdc-tab-scroller__scroll-content'
             style={scrollContentStyleProperty}
-            ref={this.contentElement_}
+            ref={this.contentElement}
           >
             {children}
           </div>
