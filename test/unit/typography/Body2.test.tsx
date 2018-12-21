@@ -5,7 +5,6 @@ import {Body2} from '../../../packages/typography/index';
 
 suite('TypographyBody2');
 
-
 test('classNames adds classes', () => {
   const wrapper = shallow(<Body2 className='test-class-name'>Text</Body2>, {
     disableLifecycleMethods: true,

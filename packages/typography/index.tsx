@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 import typographyHOC from './typography';
 
 export const Body1 = typographyHOC<HTMLParagraphElement>({classModifier: 'body1', tag: 'p'});
