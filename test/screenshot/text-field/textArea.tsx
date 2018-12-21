@@ -1,6 +1,4 @@
 import * as React from 'react';
-// @ts-ignore
-import HelperText from '../../../packages/text-field/helper-text/index.tsx'; // eslint-disable-line no-unused-vars
 import {
   denseMap,
   requiredMap,

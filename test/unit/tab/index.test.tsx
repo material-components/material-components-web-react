@@ -3,8 +3,6 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import Tab from '../../../packages/tab/index';
-// https://github.com/material-components/material-components-web-react/issues/531
-// @ts-ignore
 import TabIndicator from '../../../packages/tab-indicator/index';
 
 suite('Tab');

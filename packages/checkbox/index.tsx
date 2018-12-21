@@ -21,34 +21,35 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
+// no mdc .d.ts file
 // @ts-ignore
 import {MDCCheckboxFoundation, MDCCheckboxAdapter} from '@material/checkbox/dist/mdc.checkbox';
-// TODO: fix with #528
-// @ts-ignore
-import withRipple from '@material/react-ripple';
+import * as Ripple from '@material/react-ripple';
+
 import NativeControl from './NativeControl';
 
-export interface CheckboxProps {
-  checked: boolean;
-  className: string;
-  disabled: boolean;
-  indeterminate: boolean;
+export interface CheckboxProps extends Ripple.InjectedProps<HTMLDivElement, HTMLInputElement> {
+  checked?: boolean;
+  className?: string;
+  disabled?: boolean;
+  indeterminate?: boolean;
   nativeControlId?: string;
-  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
-  initRipple: (surface: HTMLDivElement, activator: HTMLInputElement) => void;
+  onChange?: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  initRipple: (surface: HTMLDivElement, activator?: HTMLInputElement) => void;
+  children?: React.ReactNode;
   unbounded: boolean;
 };
 
 interface CheckboxState {
-  checked: boolean;
-  indeterminate: boolean;
+  checked?: boolean;
+  indeterminate?: boolean;
   classList: Set<string>;
   'aria-checked': boolean;
 };
 
 export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
-  inputElement_: React.RefObject<HTMLInputElement> = React.createRef();
-  foundation_ = MDCCheckboxFoundation;
+  inputElement: React.RefObject<HTMLInputElement> = React.createRef();
+  foundation = MDCCheckboxFoundation;
 
   constructor(props: CheckboxProps) {
     super(props);
@@ -66,18 +67,17 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     disabled: false,
     indeterminate: false,
     onChange: () => {},
-    initRipple: () => {},
     unbounded: true,
   };
 
   componentDidMount() {
-    this.foundation_ = new MDCCheckboxFoundation(this.adapter);
-    this.foundation_.init();
-    this.foundation_.setDisabled(this.props.disabled);
+    this.foundation = new MDCCheckboxFoundation(this.adapter);
+    this.foundation.init();
+    this.foundation.setDisabled(this.props.disabled);
     // indeterminate property on checkboxes is not supported:
     // https://github.com/facebook/react/issues/1798#issuecomment-333414857
-    if (this.inputElement_.current) {
-      this.inputElement_.current.indeterminate = this.state.indeterminate;
+    if (this.inputElement.current) {
+      this.inputElement.current.indeterminate = this.state.indeterminate!;
     }
   }
 
@@ -87,27 +87,27 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       checked !== prevProps.checked ||
       indeterminate !== prevProps.indeterminate
     ) {
-      this.handleChange(checked, indeterminate);
+      this.handleChange(checked!, indeterminate!);
     }
     if (disabled !== prevProps.disabled) {
-      this.foundation_.setDisabled(disabled);
+      this.foundation.setDisabled(disabled);
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   init = (el: HTMLDivElement) => {
-    if (!this.inputElement_.current) return;
-    this.props.initRipple(el, this.inputElement_.current);
+    if (!this.inputElement.current) return;
+    this.props.initRipple(el, this.inputElement.current);
   };
 
   handleChange = (checked: boolean, indeterminate: boolean) => {
     this.setState({checked, indeterminate}, () => {
-      this.foundation_.handleChange();
-      if (this.inputElement_.current) {
-        this.inputElement_.current.indeterminate = indeterminate;
+      this.foundation.handleChange();
+      if (this.inputElement.current) {
+        this.inputElement.current.indeterminate = indeterminate;
       }
     });
   };
@@ -154,7 +154,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const {onChange} = this.props;
     const {checked, indeterminate} = evt.target;
     this.handleChange(checked, indeterminate);
-    onChange(evt);
+    onChange!(evt);
   }
 
   render() {
@@ -175,7 +175,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     return (
       <div
         className={this.classes}
-        onAnimationEnd={() => this.foundation_.handleAnimationEnd()}
+        onAnimationEnd={() => this.foundation.handleAnimationEnd()}
         ref={this.init}
         {...otherProps}
       >
@@ -185,7 +185,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           disabled={disabled}
           aria-checked={this.state['aria-checked']}
           onChange={this.onChange}
-          rippleActivatorRef={this.inputElement_}
+          rippleActivatorRef={this.inputElement}
         />
         <div className='mdc-checkbox__background'>
           <svg
@@ -206,4 +206,4 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 }
 
-export default withRipple(Checkbox);
+export default Ripple.withRipple<CheckboxProps, HTMLDivElement, HTMLInputElement>(Checkbox);
