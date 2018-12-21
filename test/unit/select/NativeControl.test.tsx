@@ -3,7 +3,7 @@ import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
 import NativeControl from '../../../packages/select/NativeControl';
-import { coerceForTesting } from '../helpers/types';
+import {coerceForTesting} from '../helpers/types';
 
 suite('Select Native Input');
 
@@ -78,7 +78,7 @@ test('#event.mousedown calls #props.onMouseDown', () => {
 test('#event.mousedown calls #props.setRippleCenter if target is nativeControl', () => {
   const setRippleCenter = coerceForTesting<(rippleCenter: number) => void>(td.func());
   const wrapper = mount<NativeControl>(<NativeControl setRippleCenter={setRippleCenter} />);
-  wrapper.instance().nativeControl_ 
+  wrapper.instance().nativeControl_
     = coerceForTesting<React.RefObject<HTMLSelectElement>>({current: testEvt.target});
   wrapper.simulate('mousedown', testEvt);
   const left = testEvt.target.getBoundingClientRect().left;

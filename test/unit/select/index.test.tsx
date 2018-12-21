@@ -4,7 +4,7 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import Select from '../../../packages/select/index';
 import NativeControl from '../../../packages/select/NativeControl';
-import { coerceForTesting } from '../helpers/types';
+import {coerceForTesting} from '../helpers/types';
 
 suite('Select');
 
