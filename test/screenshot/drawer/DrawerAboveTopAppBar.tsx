@@ -1,7 +1,6 @@
 import * as React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
-// @ts-ignore
 import TopAppBar from '../../../packages/top-app-bar/index';
 import Drawer, {
   DrawerAppContent,
@@ -12,7 +11,7 @@ import Drawer, {
 } from '../../../packages/drawer/index';
 // @ts-ignore
 import List from './List.js';
-import MaterialIcon from '../../../packages/material-icon/index';
+import {MaterialIconProps} from '../../../packages/material-icon/index'; // eslint-disable-line no-unused-vars
 
 interface DrawerScreenshotTestProps {
   onClose: () => void;
@@ -21,7 +20,7 @@ interface DrawerScreenshotTestProps {
   modal: boolean;
   dismissible: boolean;
   renderLoremIpsum: (section: number) => JSX.Element;
-  renderNavigationIcon: () => MaterialIcon | void;
+  renderNavigationIcon: () => React.ReactElement<MaterialIconProps> | undefined;
 };
 
 const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({
