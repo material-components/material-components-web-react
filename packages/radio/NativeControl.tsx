@@ -20,17 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-const NativeControl = (props) => {
-  const {
-    rippleActivatorRef,
-    className,
-    ...otherProps
-  } = props;
+export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
+  className?: string,
+  rippleActivatorRef?: React.RefObject<HTMLInputElement>
+};
 
+const NativeControl: React.FunctionComponent<NativeControlProps> = ({
+  rippleActivatorRef, className = '', ...otherProps // eslint-disable-line react/prop-types
+}) => {
   return (
     <input
       type='radio'
@@ -39,16 +39,6 @@ const NativeControl = (props) => {
       {...otherProps}
     />
   );
-};
-
-NativeControl.propTypes = {
-  className: PropTypes.string,
-  rippleActivatorRef: PropTypes.object,
-};
-
-NativeControl.defaultProps = {
-  className: '',
-  rippleActivatorRef: null,
 };
 
 export default NativeControl;
