@@ -20,40 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-const ListItemGraphic = (props) => {
-  const {
-    tabIndex, // eslint-disable-line no-unused-vars
-    graphic,
-    tabbableOnListItemFocus,
-    className,
-    ...otherProps
-  } = props;
-
-  const graphicProps = {
-    className: classnames('mdc-list-item__graphic', className),
-    tabIndex: tabbableOnListItemFocus ? props.tabIndex : -1,
-    ...otherProps,
-  };
-
-  return React.cloneElement(graphic, graphicProps);
+export interface ListDividerProps extends React.HTMLProps<HTMLElement>{
+  className?: string,
+  tag?: string,
+  role?: string
 };
 
-ListItemGraphic.propTypes = {
-  tabbableOnListItemFocus: PropTypes.bool,
-  className: PropTypes.string,
-  tabIndex: PropTypes.number,
-  graphic: PropTypes.element,
+const ListDivider: React.FunctionComponent<ListDividerProps> = ({
+  tag: Tag = 'li', className = '', role = 'separator', ...otherProps // eslint-disable-line react/prop-types
+}) => {
+  return (
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
+    <Tag
+      className={classnames('mdc-list-divider', className)}
+      role={role}
+      {...otherProps}
+    />
+  );
 };
 
-ListItemGraphic.defaultProps = {
-  tabbableOnListItemFocus: false,
-  className: '',
-  tabIndex: -1,
-  graphic: {},
-};
-
-export default ListItemGraphic;
+export default ListDivider;

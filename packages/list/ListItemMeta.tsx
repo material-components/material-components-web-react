@@ -20,38 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-const ListGroupSubheader = (props) => {
-  const {
-    tag: Tag,
-    className,
-    children,
-    ...otherProps
-  } = props;
-
-  return (
-    <Tag className={classnames('mdc-list-group__subheader', className)} {...otherProps}>
-      {children}
-    </Tag>
-  );
+export interface ListItemMetaProps {
+  tabbableOnListItemFocus?: boolean;
+  className?: string;
+  tabIndex?: number;
+  meta: string | React.ReactElement<any>;
+  childrenTabIndex?: number;
 };
 
-ListGroupSubheader.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
-  tag: PropTypes.string,
+const ListItemMeta:React.FunctionComponent<ListItemMetaProps> = ({
+  tabIndex = -1, // eslint-disable-line no-unused-vars
+  meta,
+  className = '',
+  tabbableOnListItemFocus = false,
+  ...otherProps
+}) => {
+  let metaElement: React.ReactElement<any>;
+  if (typeof meta === 'string') {
+    metaElement = <span>{meta}</span>;
+  } else {
+    metaElement = meta;
+  }
+  const metaProps = {
+    className: classnames('mdc-list-item__meta', className, metaElement.props.className),
+    tabIndex: tabbableOnListItemFocus ? tabIndex : -1,
+    ...otherProps,
+  };
+  return React.cloneElement(metaElement, metaProps);
 };
 
-ListGroupSubheader.defaultProps = {
-  className: '',
-  children: '',
-  tag: 'h3',
-};
-
-export default ListGroupSubheader;
+export default ListItemMeta;

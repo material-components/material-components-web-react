@@ -20,35 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-const ListGroup = (props) => {
-  const {
-    tag: Tag,
-    className,
-    children,
-    ...otherProps
-  } = props;
+export interface ListGroupProps extends React.HTMLProps<HTMLElement>{
+  className?: string,
+  tag?: string
+};
 
+const ListGroup:React.FunctionComponent<ListGroupProps> = ({
+  tag: Tag = 'div', className = '', children, ...otherProps // eslint-disable-line react/prop-types
+}) => {
   return (
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
     <Tag className={classnames('mdc-list-group', className)} {...otherProps}>
       {children}
     </Tag>
   );
-};
-
-ListGroup.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  tag: PropTypes.string,
-};
-
-ListGroup.defaultProps = {
-  className: '',
-  children: null,
-  tag: 'div',
 };
 
 export default ListGroup;
