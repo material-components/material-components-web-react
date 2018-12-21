@@ -2,8 +2,7 @@ const {basename} = require('path');
 
 const dashedToCamel = (name) => name.replace(/-(\w)/g, (_, v) => v.toUpperCase());
 
-const convertToImportPaths = (packageNames) => {
-  const importPaths = [];
+convertToImportMDCWebPaths = (packageNames) => {
   return packageNames.map((packageName) => {
     const name = basename(packageName);
     // this can be reverted when we change back to @material/foo-package-filename
@@ -12,4 +11,4 @@ const convertToImportPaths = (packageNames) => {
   });
 }
 
-module.exports = {convertToImportPaths};
+module.exports = {convertToImportMDCWebPaths};

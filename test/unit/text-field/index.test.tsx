@@ -6,6 +6,7 @@ import TextField, {
   HelperText,
   Input,
 } from '../../../packages/text-field';
+import {coerceForTesting} from '../helpers/types';
 import {InputProps} from '../../../packages/text-field/Input'; // eslint-disable-line no-unused-vars
 /* eslint-disable */
 import FloatingLabel from '../../../packages/floating-label';
@@ -272,11 +273,11 @@ test('#adapter.label.shakeLabel does not call floatingLabelElement shake if fals
       <Input />
     </TextField>
   );
-  wrapper.instance().floatingLabelElement = td.object({
+  wrapper.instance().floatingLabelElement = coerceForTesting<React.RefObject<FloatingLabel>>(td.object({
     current: td.object({
       shake: td.func(),
     }),
-  }) as React.RefObject<FloatingLabel>;
+  }));
   wrapper.state().foundation.adapter_.shakeLabel(false);
   td.verify(wrapper.instance().floatingLabelElement.current!.shake(), {
     times: 0,
@@ -589,7 +590,7 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
+    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
     .handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
 });
@@ -602,8 +603,8 @@ test('#inputProps.handleValueChange updates state.value', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
-    .handleValueChange('meow', td.func() as () => void);
+    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
+    .handleValueChange('meow', coerceForTesting<() => void>(td.func()));
   assert.equal(wrapper.state().value, 'meow');
 });
 
@@ -616,8 +617,8 @@ test('#inputProps.handleValueChange calls cb after state is set', () => {
   const callback = td.func();
   wrapper
     .instance()
-    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
-    .handleValueChange('meow', callback as () => void);
+    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
+    .handleValueChange('meow', coerceForTesting<() => void>(callback));
   td.verify(callback(), {times: 1});
 });
 
@@ -629,7 +630,7 @@ test('#inputProps.setDisabled updates state.disabled', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
+    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
     .setDisabled(true);
   assert.isTrue(wrapper.state().disabled);
 });
@@ -642,7 +643,7 @@ test('#inputProps.setInputId updates state.disabled', () => {
   );
   wrapper
     .instance()
-    .inputProps({} as React.ReactElement<InputProps<HTMLInputElement>>)
+    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
     .setInputId('my-id');
   assert.equal(wrapper.state().inputId, 'my-id');
 });
