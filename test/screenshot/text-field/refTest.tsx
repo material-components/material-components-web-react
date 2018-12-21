@@ -1,7 +1,6 @@
 import * as React from 'react';
 import TextField, {Input} from '../../../packages/text-field';
-// @ts-ignore
-import Button from '../../../packages/button/index.js';
+import Button from '../../../packages/button/index';
 
 class OutlinedTextField extends React.Component<{}, {value: string}> {
   inputEl: Input<HTMLInputElement> | null = null;
