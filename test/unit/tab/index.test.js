@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import Tab from '../../../packages/tab/index';
-import TabIndicator from '../../../packages/tab-indicator/index';
+import TabIndicator from '../../../packages/tab-indicator/index.tsx';
 
 suite('Tab');
 
