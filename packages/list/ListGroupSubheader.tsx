@@ -20,35 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
+export interface ListGroupSubheaderProps extends React.HTMLProps<HTMLElement> {
+  className?: string,
+  tag?: string
+};
 
-const ListDivider = (props) => {
-  const {
-    tag: Tag,
-    className,
-    ...otherProps
-  } = props;
-
+const ListGroupSubheader:React.FunctionComponent<ListGroupSubheaderProps> = ({
+  tag: Tag = 'h3', className = '', children, ...otherProps // eslint-disable-line react/prop-types
+}) => {
   return (
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
     <Tag
-      className={classnames('mdc-list-divider', className)}
+      className={classnames('mdc-list-group__subheader', className)}
       {...otherProps}
-    />
+    >
+      {children}
+    </Tag>
   );
 };
 
-ListDivider.propTypes = {
-  className: PropTypes.string,
-  tag: PropTypes.string,
-  role: PropTypes.string,
-};
-
-ListDivider.defaultProps = {
-  className: '',
-  tag: 'li',
-  role: 'separator',
-};
-
-export default ListDivider;
+export default ListGroupSubheader;
