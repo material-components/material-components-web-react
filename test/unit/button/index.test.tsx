@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
-import td from 'testdouble';
+import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import {Button} from '../../../packages/button/index';
 
@@ -49,12 +49,14 @@ test('renders a button tag', () => {
 });
 
 test('renders a button with an anchor tag', () => {
-  const wrapper = shallow(<Button href="https://www.google.com" />);
+  const wrapper = shallow(<Button href='https://www.google.com' />);
   assert.equal(wrapper.type(), 'a');
 });
 
 test('default initRipple function', () => {
-  Button.defaultProps.initRipple = td.func();
-  mount(<Button />);
-  td.verify(Button.defaultProps.initRipple(td.matchers.isA(Object)), {times: 1});
+  const initRipple = td.func() as (surface: HTMLButtonElement) => {};
+  mount(<Button initRipple={initRipple} />);
+  td.verify(initRipple(td.matchers.isA(Object)), {
+    times: 1,
+  });
 });
