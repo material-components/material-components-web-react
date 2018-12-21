@@ -39,7 +39,7 @@ export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
 
 export default class TabIndicator extends React.Component<TabIndicatorProps, {}> {
   private tabIndicatorElement: React.RefObject<HTMLSpanElement> = React.createRef();
-  foundation_?: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
+  foundation?: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
 
   static defaultProps: Partial<TabIndicatorProps> = {
     active: false,
@@ -50,26 +50,26 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
 
   componentDidMount() {
     if (this.props.fade) {
-      this.foundation_ = new MDCFadingTabIndicatorFoundation(this.adapter);
+      this.foundation = new MDCFadingTabIndicatorFoundation(this.adapter);
     } else {
-      this.foundation_ = new MDCSlidingTabIndicatorFoundation(this.adapter);
+      this.foundation = new MDCSlidingTabIndicatorFoundation(this.adapter);
     }
-    this.foundation_.init();
+    this.foundation.init();
     if (this.props.active) {
-      this.foundation_.activate();
+      this.foundation.activate();
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   componentDidUpdate(prevProps: TabIndicatorProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
-        this.foundation_.activate(this.props.previousIndicatorClientRect);
+        this.foundation.activate(this.props.previousIndicatorClientRect);
       } else {
-        this.foundation_.deactivate();
+        this.foundation.deactivate();
       }
     }
   }
