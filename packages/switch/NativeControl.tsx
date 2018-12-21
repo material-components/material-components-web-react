@@ -20,16 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
+  rippleActivatorRef?: React.RefObject<HTMLInputElement>;
+}
 
-
-const NativeControl = (props) => {
-  const {
-    rippleActivatorRef,
-    ...otherProps
-  } = props;
-
+const NativeControl: React.FunctionComponent<NativeControlProps> = ({
+  rippleActivatorRef, ...otherProps // eslint-disable-line react/prop-types
+}) => {
   return (
     <input
       type='checkbox'
@@ -41,18 +39,9 @@ const NativeControl = (props) => {
   );
 };
 
-NativeControl.propTypes = {
-  checked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  id: PropTypes.string,
-  rippleActivatorRef: PropTypes.object,
-};
-
 NativeControl.defaultProps = {
   checked: false,
   disabled: false,
-  id: null,
-  rippleActivatorRef: null,
 };
 
 export default NativeControl;
