@@ -20,22 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
-const ListItemText = (props) => {
-  const {
-    primaryText,
-    secondaryText,
-    tabbableOnListItemFocus,
-    tabIndex,
-    className,
-    ...otherProps
-  } = props;
+export interface ListItemTextProps {
+  tabbableOnListItemFocus?: boolean;
+  tabIndex?: number;
+  className?: string;
+  primaryText?: React.ReactNode;
+  secondaryText?: React.ReactNode;
+  childrenTabIndex?: number;
+};
 
-  const renderText = (text, className) => {
-    if (typeof text === 'string') {
+// https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14064
+function isReactElement(element: any): element is React.ReactElement<any> {
+  return element !== null && element.props !== undefined;
+}
+
+const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
+  /* eslint-disable react/prop-types */
+  primaryText = '',
+  secondaryText = '',
+  tabbableOnListItemFocus = false,
+  tabIndex = -1,
+  className = '',
+  /* eslint-enable react/prop-types */
+  ...otherProps
+}) => {
+  const renderText = (text: React.ReactNode, className: string) => {
+    if (text === undefined) return null;
+    if (typeof text === 'string' || typeof text === 'number') {
       return (
         <span
           className={className}
@@ -45,15 +59,20 @@ const ListItemText = (props) => {
         </span>
       );
     }
+    if (!isReactElement(text)) return null;
+
     const {className: textClassName, ...otherProps} = text.props;
-    const props = Object.assign({
-      className: classnames(className, textClassName),
-    }, ...otherProps);
+    className = classnames(className, textClassName);
+    const props = {...otherProps, className};
+
     return React.cloneElement(text, props);
   };
 
   if (!secondaryText) {
-    return renderText(primaryText, classnames('mdc-list-item__text', className));
+    return renderText(
+      primaryText,
+      classnames('mdc-list-item__text', className)
+    );
   }
 
   return (
@@ -66,28 +85,6 @@ const ListItemText = (props) => {
       {renderText(secondaryText, 'mdc-list-item__secondary-text')}
     </span>
   );
-};
-
-ListItemText.propTypes = {
-  tabbableOnListItemFocus: PropTypes.bool,
-  tabIndex: PropTypes.number,
-  className: PropTypes.string,
-  primaryText: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
-  secondaryText: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
-};
-
-ListItemText.defaultProps = {
-  tabbableOnListItemFocus: false,
-  tabIndex: -1,
-  className: '',
-  primaryText: '',
-  secondaryText: '',
 };
 
 export default ListItemText;
