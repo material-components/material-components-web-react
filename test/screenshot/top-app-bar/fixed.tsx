@@ -1,22 +1,25 @@
-import React from 'react';
+import * as React from 'react';
 import TopAppBar from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
 import MainTopAppBarContent from './mainContent';
 
-const TopAppBarStandardScreenshotTest = () => {
+const TopAppBarFixedScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>
       <TopAppBar
+        fixed
         title='Miami, FL'
-        navigationIcon={<MaterialIcon
-          icon='menu'
-          onClick={() => console.log('standard click')}
-        />}
+        navigationIcon={
+          <MaterialIcon
+            icon='menu'
+            onClick={() => console.log('fixed click')}
+          />
+        }
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <MainTopAppBarContent/>
+      <MainTopAppBarContent />
     </div>
   );
 };
 
-export default TopAppBarStandardScreenshotTest;
+export default TopAppBarFixedScreenshotTest;
