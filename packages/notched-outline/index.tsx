@@ -21,8 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-// no mdc .d.ts
-// @ts-ignore
+// @ts-ignore no .d.ts file
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
 
 export interface NotchedOutlineProps {
