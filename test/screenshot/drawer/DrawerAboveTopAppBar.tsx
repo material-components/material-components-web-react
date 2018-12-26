@@ -9,6 +9,8 @@ import Drawer, {
   DrawerTitle,
   DrawerContent,
 } from '../../../packages/drawer/index';
+// https://github.com/material-components/material-components-web-react/pull/432
+// not converted because of issue #432
 // @ts-ignore
 import List from './List.js';
 import {MaterialIconProps} from '../../../packages/material-icon/index'; // eslint-disable-line no-unused-vars

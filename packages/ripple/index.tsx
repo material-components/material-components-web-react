@@ -22,8 +22,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
-// no mdc .d.ts file
-// @ts-ignore
+
+// @ts-ignore no mdc .d.ts file
 import {MDCRippleFoundation, MDCRippleAdapter, util} from '@material/ripple/dist/mdc.ripple';
 
 const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
@@ -61,18 +61,43 @@ function isElement(element: any): element is Element {
 type ActivateEventTypes<S>
   = React.MouseEvent<S> | React.TouchEvent<S> | React.KeyboardEvent<S> | React.FocusEvent<S>;
 
+export interface RippledComponentInterface<Surface, Activator = Element> {
+  foundation?: MDCRippleFoundation;
+  isComponentMounted: boolean;
+  initializeFoundation: (surface: Surface, activator?: Activator) => void;
+  handleFocus: React.FocusEventHandler<Surface>;
+  handleBlur: React.FocusEventHandler<Surface>;
+  handleMouseDown: React.MouseEventHandler<Surface>;
+  handleMouseUp: React.MouseEventHandler<Surface>;
+  handleTouchStart: React.TouchEventHandler<Surface>;
+  handleTouchEnd: React.TouchEventHandler<Surface>;
+  handleKeyDown: React.KeyboardEventHandler<Surface>;
+  handleKeyUp: React.KeyboardEventHandler<Surface>;
+  activateRipple: (e: ActivateEventTypes<Surface>) => void;
+  deactivateRipple: (e: ActivateEventTypes<Surface>) => void;
+  classes: string;
+  style: React.CSSProperties;
+  displayName: string;
+  createAdapter: (surface: Surface, activator?: Activator) => MDCRippleAdapter;
+  updateCssVariable: (varName: keyof React.CSSProperties, value: string | number) => void;
+  componentDidMount: () => void;
+  componentWillUnmount: () => void;
+  render: () => JSX.Element;
+}
+
 // This is an HOC that adds Ripple to the component passed as an argument
-export const withRipple = <
+export function withRipple <
   P extends InjectedProps<Surface, Activator>,
   Surface extends Element = Element,
   Activator extends Element = Element
->(WrappedComponent: React.ComponentType<P>) => class RippledComponent extends React.Component<
+>(WrappedComponent: React.ComponentType<P>) {
+  return class RippledComponent extends React.Component<
   // Subtract removes any props "InjectedProps" if they are on "P"
   // This allows the developer to override any props
   // https://medium.com/@jrwebdev/react-higher-order-component-patterns-in-typescript-42278f7590fb
     Subtract<P, InjectedProps<Surface, Activator>> & RippledComponentProps<Surface>,
     RippledComponentState
-    > {
+    > implements RippledComponentInterface<Surface, Activator> {
   foundation?: MDCRippleFoundation;
   isComponentMounted: boolean = true;
 
@@ -119,12 +144,12 @@ export const withRipple = <
   // activator: This element is used to detect whether to activate the ripple. If this is not
   // provided, the ripple surface will be used to detect activation.
   initializeFoundation = (surface: Surface, activator?: Activator) => {
-    const adapter = this.createAdapter_(surface, activator);
+    const adapter = this.createAdapter(surface, activator);
     this.foundation = new MDCRippleFoundation(adapter);
     this.foundation.init();
   };
 
-  createAdapter_: MDCRippleAdapter = (surface: Surface, activator?: Activator) => {
+  createAdapter: MDCRippleAdapter = (surface: Surface, activator?: Activator) => {
     return {
       browserSupportsCssVars: () => util.supportsCssVariables(window),
       isUnbounded: () => this.props.unbounded,
@@ -309,7 +334,7 @@ export const withRipple = <
     );
   }
   };
-
+}
 
 function getDisplayName<P extends {}>(WrappedComponent: React.ComponentType<P>): string {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';

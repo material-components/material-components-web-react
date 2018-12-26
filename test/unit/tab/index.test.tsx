@@ -3,7 +3,8 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import Tab from '../../../packages/tab/index';
-import TabIndicator from '../../../packages/tab-indicator/index';
+import TabIndicatorRef from '../../../packages/tab-indicator/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('Tab');
 
@@ -92,33 +93,33 @@ test('#adapter.setAttr sets aria-selected on state', () => {
   assert.isTrue(wrapper.state()['aria-selected']);
 });
 
-test('#adapter.getOffsetLeft returns tabElement.offsetLeft', () => {
+test('#adapter.getOffsetLeft returns tabRef.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab />);
-  assert.equal(wrapper.instance().adapter.getOffsetLeft(), wrapper.instance().tabElement.current!.offsetLeft);
+  assert.equal(wrapper.instance().adapter.getOffsetLeft(), wrapper.instance().tabRef.current!.offsetLeft);
 });
 
-test('#adapter.getOffsetWidth returns tabElement.offsetWidth', () => {
+test('#adapter.getOffsetWidth returns tabRef.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getOffsetWidth(), wrapper.instance().tabElement.current!.offsetWidth);
+  assert.equal(wrapper.instance().adapter.getOffsetWidth(), wrapper.instance().tabRef.current!.offsetWidth);
 });
 
-test('#adapter.getContentOffsetLeft returns tabContentElement.offsetLeft', () => {
+test('#adapter.getContentOffsetLeft returns tabContentRef.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
   assert.equal(wrapper.instance().adapter.getContentOffsetLeft(),
-    wrapper.instance().tabContentElement.current!.offsetLeft);
+    wrapper.instance().tabContentRef.current!.offsetLeft);
 });
 
-test('#adapter.getContentOffsetWidth returns tabContentElement.offsetWidth', () => {
+test('#adapter.getContentOffsetWidth returns tabContentRef.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
   assert.equal(wrapper.instance().adapter.getContentOffsetWidth(),
-    wrapper.instance().tabContentElement.current!.offsetWidth);
+    wrapper.instance().tabContentRef.current!.offsetWidth);
 });
 
-test('#adapter.focus focuses the tabElement', () => {
+test('#adapter.focus focuses the tabRef', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  wrapper.instance().tabElement.current!.focus = td.func() as () => void;
+  wrapper.instance().tabRef.current!.focus = td.func() as () => void;
   wrapper.instance().adapter.focus();
-  td.verify(wrapper.instance().tabElement.current!.focus(), {times: 1});
+  td.verify(wrapper.instance().tabRef.current!.focus(), {times: 1});
 });
 
 test('#adapter.activateIndicator sets state.activateIndicator and state.previousIndicatorClientRect', () => {
@@ -150,11 +151,11 @@ test('#deactivate calls foundation.deactivate', () => {
   td.verify(wrapper.instance().foundation.deactivate(), {times: 1});
 });
 
-test('#computeIndicatorClientRect returns the tabIndicator clientRect', () => {
+test('#computeIndicatorClientRect returns the tabIndicatorRef clientRect', () => {
   const wrapper = mount<Tab>(<Tab />);
-  wrapper.instance().tabIndicator.current.computeContentClientRect = td.func();
+  wrapper.instance().tabIndicatorRef.current!.computeContentClientRect = coerceForTesting<() => ClientRect>(td.func());
   wrapper.instance().computeIndicatorClientRect();
-  td.verify(wrapper.instance().tabIndicator.current.computeContentClientRect(), {times: 1});
+  td.verify(wrapper.instance().tabIndicatorRef.current!.computeContentClientRect(), {times: 1});
 });
 
 test('#computeDimensions calls foundation.computeDimensions', () => {
@@ -164,11 +165,11 @@ test('#computeDimensions calls foundation.computeDimensions', () => {
   td.verify(wrapper.instance().foundation.computeDimensions(), {times: 1});
 });
 
-test('#focus focuses the tabElement', () => {
+test('#focus focuses the tabRef', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  wrapper.instance().tabElement.current!.focus = td.func() as () => void;
+  wrapper.instance().tabRef.current!.focus = td.func() as () => void;
   wrapper.instance().focus();
-  td.verify(wrapper.instance().tabElement.current!.focus(), {times: 1});
+  td.verify(wrapper.instance().tabRef.current!.focus(), {times: 1});
 });
 
 test('tab should have the role=tab', () => {
@@ -216,10 +217,10 @@ test('should render mdc tab ripple', () => {
   assert.exists(wrapper.find('.mdc-tab__ripple'));
 });
 
-test('should render default TabIndicator', () => {
+test('should render default TabIndicatorRef', () => {
   const wrapper = shallow(<Tab />);
   const indicator = wrapper.childAt(1);
-  assert.equal(indicator.type(), TabIndicator);
+  assert.equal(indicator.type(), TabIndicatorRef);
 });
 
 test('state.activateIndicator should render indicator with props.active true', () => {
@@ -288,14 +289,14 @@ test('props.indicatorContent should render with a ref attached', () => {
   const wrapper = mount<Tab>(
     <Tab indicatorContent={<i className='icon'>icon</i>} />
   );
-  assert.instanceOf(wrapper.instance().tabIndicator.current, TabIndicator);
+  assert.instanceOf(wrapper.instance().tabIndicatorRef.current, TabIndicatorRef);
 });
 
 test('props.isMinWidthIndicator renders indicator within the content element', () => {
   const wrapper = shallow<Tab>(<Tab isMinWidthIndicator />);
   const content = wrapper.children().first();
-  const tabIndicator = content.find(TabIndicator);
-  assert.equal(tabIndicator.length, 1);
+  const tabIndicatorRef = content.find(TabIndicatorRef);
+  assert.equal(tabIndicatorRef.length, 1);
 });
 
 test('#componentWillUnmount destroys foundation', () => {
@@ -306,30 +307,18 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy(), {times: 1});
 });
 
-test('on focus event calls handleFocus on TabRipple', () => {
+test('on focus event calls handleFocus on TabRippleRef', () => {
   const wrapper = mount<Tab>(<Tab />);
-  const ripple = wrapper.instance().tabRipple.current;
-  // https://github.com/material-components/material-components-web-react/issues/528
-  // TODO: switch when ripple is converted to TSX
-  // @ts-ignore
-  ripple.handleFocus = td.func();
+  const ripple = wrapper.instance().tabRippleRef.current;
+  ripple!.handleFocus = coerceForTesting<(e: React.FocusEvent<HTMLButtonElement>) => void>(td.func());
   wrapper.simulate('focus');
-  // https://github.com/material-components/material-components-web-react/issues/528
-  // TODO: switch when ripple is converted to TSX
-  // @ts-ignore
-  td.verify(ripple.handleFocus(td.matchers.isA(Object)), {times: 1});
+  td.verify(ripple!.handleFocus(td.matchers.isA(Object)), {times: 1});
 });
 
-test('on blur event calls handleBlur on TabRipple', () => {
+test('on blur event calls handleBlur on TabRippleRef', () => {
   const wrapper = mount<Tab>(<Tab />);
-  const ripple = wrapper.instance().tabRipple.current;
-  // https://github.com/material-components/material-components-web-react/issues/528
-  // TODO: switch when ripple is converted to TSX
-  // @ts-ignore
-  ripple.handleBlur = td.func();
+  const ripple = wrapper.instance().tabRippleRef.current;
+  ripple!.handleBlur = coerceForTesting<(e: React.FocusEvent<HTMLButtonElement>) => void>(td.func());
   wrapper.simulate('blur');
-  // https://github.com/material-components/material-components-web-react/issues/528
-  // TODO: switch when ripple is converted to TSX
-  // @ts-ignore
-  td.verify(ripple.handleBlur(td.matchers.isA(Object)), {times: 1});
+  td.verify(ripple!.handleBlur(td.matchers.isA(Object)), {times: 1});
 });

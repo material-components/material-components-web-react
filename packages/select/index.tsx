@@ -22,8 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// no mdc .d.ts file
-// @ts-ignore
+// @ts-ignore no .d.ts file
 import {MDCSelectFoundation, MDCSelectAdapter} from '@material/select/dist/mdc.select';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';

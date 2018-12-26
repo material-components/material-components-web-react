@@ -25,8 +25,7 @@ import classnames from 'classnames';
 import {
   MDCTabScrollerFoundation,
   util,
-// No mdc .d.ts files
-// @ts-ignore
+// @ts-ignore no .d.ts file
 } from '@material/tab-scroller/dist/mdc.tabScroller';
 
 const convertDashToCamelCase = (propName: string) =>

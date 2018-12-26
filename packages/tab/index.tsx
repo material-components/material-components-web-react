@@ -22,21 +22,15 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-import TabIndicator from '@material/react-tab-indicator';
-// No mdc .d.ts files
-// @ts-ignore
-import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
-import TabRipple, {TabRippleProps} from './TabRipple';
 
-export {
-  TabRipple,
-  Tab,
-  TabRippleProps,
-};
+import TabIndicator from '@material/react-tab-indicator';
+// @ts-ignore No mdc .d.ts files
+import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
+
+import TabRipple, {TabRippleProps} from './TabRipple';
 
 export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   active?: boolean;
-  className?: string;
   isFadingIndicator?: boolean;
   indicatorContent?: React.ReactNode;
   minWidth?: boolean;
@@ -45,12 +39,12 @@ export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   previousIndicatorClientRect?: ClientRect;
 }
 
-interface TabAttributes {
+interface MDCTabElementAttributes {
   'aria-selected': boolean;
   tabIndex?: number;
 }
 
-interface TabState extends TabAttributes {
+interface TabState extends MDCTabElementAttributes {
   classList: Set<string>;
   activateIndicator: boolean;
   previousIndicatorClientRect?: ClientRect;
@@ -58,10 +52,10 @@ interface TabState extends TabAttributes {
 
 export default class Tab extends React.Component<TabProps, TabState> {
   foundation?: MDCTabFoundation;
-  tabElement: React.RefObject<HTMLButtonElement> = React.createRef();
-  tabContentElement: React.RefObject<HTMLSpanElement> = React.createRef();
-  tabIndicator: React.RefObject<TabIndicator> = React.createRef();
-  tabRipple: React.RefObject<TabRipple> = React.createRef();
+  tabRef: React.RefObject<HTMLButtonElement> = React.createRef();
+  tabContentRef: React.RefObject<HTMLSpanElement> = React.createRef();
+  tabIndicatorRef: React.RefObject<TabIndicator> = React.createRef();
+  tabRippleRef: React.RefObject<TabRipple> = React.createRef();
 
   static defaultProps: Partial<TabProps> = {
     active: false,
@@ -125,20 +119,20 @@ export default class Tab extends React.Component<TabProps, TabState> {
         this.setState({classList});
       },
       hasClass: (className: string) => this.classes.split(' ').includes(className),
-      setAttr: (attr: keyof TabAttributes, value?: string | boolean) => (
+      setAttr: (attr: keyof MDCTabElementAttributes, value?: string | boolean) => (
         this.setState((prevState) => ({...prevState, [attr]: value}))
       ),
       getOffsetLeft: () =>
-        Number(this.tabElement.current && this.tabElement.current.offsetLeft),
+        Number(this.tabRef.current && this.tabRef.current.offsetLeft),
       getOffsetWidth: () =>
-        Number(this.tabElement.current && this.tabElement.current.offsetWidth),
+        Number(this.tabRef.current && this.tabRef.current.offsetWidth),
       getContentOffsetLeft: () =>
-        this.tabContentElement.current &&
-        this.tabContentElement.current.offsetLeft,
+        this.tabContentRef.current &&
+        this.tabContentRef.current.offsetLeft,
       getContentOffsetWidth: () =>
-        this.tabContentElement.current &&
-        this.tabContentElement.current.offsetWidth,
-      focus: () => this.tabElement.current && this.tabElement.current.focus(),
+        this.tabContentRef.current &&
+        this.tabContentRef.current.offsetWidth,
+      focus: () => this.tabRef.current && this.tabRef.current.focus(),
       activateIndicator: (previousIndicatorClientRect: ClientRect) =>
         this.setState({
           activateIndicator: true,
@@ -157,8 +151,8 @@ export default class Tab extends React.Component<TabProps, TabState> {
   }
 
   computeIndicatorClientRect = () => {
-    if (!this.tabIndicator.current) return;
-    return this.tabIndicator.current.computeContentClientRect();
+    if (!this.tabIndicatorRef.current) return;
+    return this.tabIndicatorRef.current.computeContentClientRect();
   };
 
   computeDimensions = () => {
@@ -166,20 +160,15 @@ export default class Tab extends React.Component<TabProps, TabState> {
   };
 
   focus = () => {
-    this.tabElement.current && this.tabElement.current.focus();
+    this.tabRef.current && this.tabRef.current.focus();
   };
 
-  onFocus = (e: React.FocusEvent) => {
-    if (this.tabRipple.current) {
-      // https://github.com/material-components/material-components-web-react/issues/528
-      // TODO: switch when ripple is converted to TSX
-      // @ts-ignore
-      this.tabRipple.current.handleFocus(e);
-    }
+  onFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+    this.tabRippleRef.current && this.tabRippleRef.current.handleFocus(e);
   }
 
-  onBlur = (e: React.FocusEvent) => {
-    this.tabRipple.current && this.tabRipple.current.handleBlur(e);
+  onBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+    this.tabRippleRef.current && this.tabRippleRef.current.handleBlur(e);
   }
 
   render() {
@@ -210,15 +199,15 @@ export default class Tab extends React.Component<TabProps, TabState> {
         tabIndex={tabIndex}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
-        ref={this.tabElement}
+        ref={this.tabRef}
         {...otherProps}
       >
-        <span className='mdc-tab__content' ref={this.tabContentElement}>
+        <span className='mdc-tab__content' ref={this.tabContentRef}>
           {children}
           {isMinWidthIndicator ? this.renderIndicator() : null}
         </span>
         {isMinWidthIndicator ? null : this.renderIndicator()}
-        <TabRipple ref={this.tabRipple} />
+        <TabRipple ref={this.tabRippleRef} />
       </button>
     );
   }
@@ -232,10 +221,16 @@ export default class Tab extends React.Component<TabProps, TabState> {
         fade={isFadingIndicator}
         active={activateIndicator}
         previousIndicatorClientRect={previousIndicatorClientRect}
-        ref={this.tabIndicator}
+        ref={this.tabIndicatorRef}
       >
         {indicatorContent}
       </TabIndicator>
     );
   }
 }
+
+export {
+  TabRipple,
+  Tab,
+  TabRippleProps,
+};

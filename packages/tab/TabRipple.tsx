@@ -22,25 +22,25 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-import * as Ripple from '@material/react-ripple';
 
-export interface TabRippleProps extends React.HTMLProps<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement> {
+import * as Ripple from '@material/react-ripple';
+import {
+  RippledComponentInterface, RippledComponentState, // eslint-disable-line no-unused-vars
+} from '@material/react-ripple';
+
+export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement> {
   className: string;
 }
 
-export class TabRippleBase extends React.Component<TabRippleProps, {}> {
-  static defaultProps: Partial<TabRippleProps> = {
-    className: '',
-    unbounded: false,
-  };
-
+class TabRippleBase extends React.Component<TabRippleProps, {}> {
   get classes() {
     return classnames('mdc-tab__ripple', this.props.className);
   }
 
   render() {
     const {
-      /* eslint-disable no-unused-vars keeping out of ...otherProps */
+      // keeping out of ...otherProps
+      /* eslint-disable no-unused-vars */
       className,
       unbounded,
       /* eslint-enable no-unused-vars */
@@ -57,4 +57,6 @@ export class TabRippleBase extends React.Component<TabRippleProps, {}> {
   }
 }
 
-export default Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
+const TabRipple = Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
+type TabRipple = React.Component<TabRippleProps, RippledComponentState> & RippledComponentInterface<any>;
+export default TabRipple;

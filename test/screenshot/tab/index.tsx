@@ -1,7 +1,5 @@
 import * as React from 'react';
 import Tab, {TabProps} from '../../../packages/tab';
-// https://github.com/material-components/material-components-web-react/issues/513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon/index';
 import '../../../packages/tab-indicator/index.scss';
 import '../../../packages/tab/index.scss';
@@ -27,7 +25,7 @@ interface TabsProps {
 }
 
 function isElementTab(element: any): element is Tab {
-  return element !== null;
+  return element && typeof element.computeIndicatorClientRect === 'function';
 }
 
 function Tabs({
@@ -46,11 +44,11 @@ interface TabsControllerState {
 }
 
 class TabsController extends React.Component<TabsControllerProps, TabsControllerState> {
-  tabBoundingRects: {[n: number]: ClientRect} = {};
+  tabBoundingRects: {[n: number]: ClientRect | undefined} = {};
 
   state = {activeIndex: 0, previousActiveIndex: 0};
 
-  tabInit = (tabEl: React.Ref<Tab>, index: number) => {
+  tabInit = (tabEl: Tab | null, index: number) => {
     if (isElementTab(tabEl)) {
       this.tabBoundingRects[index] = tabEl.computeIndicatorClientRect();
     }

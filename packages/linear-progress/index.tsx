@@ -22,8 +22,7 @@
 
 import * as classnames from 'classnames';
 import * as React from 'react';
-// no .d.ts file
-// @ts-ignore
+// @ts-ignore no .d.ts file
 import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';
 
 export interface LinearProgressProps<T> extends React.HTMLProps<T> {
