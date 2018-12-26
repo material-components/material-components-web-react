@@ -10,6 +10,20 @@ npm install @material/react-icon-button
 
 ## Usage
 
+
+### Styles
+
+with Sass:
+```js
+import '@material/react-icon-button/index.scss';
+```
+
+with CSS:
+```js
+import '@material/react-icon-button/dist/icon-button.css';
+```
+
+
 ```js
 import React from 'react';
 import IconButton from '@material/react-icon-button';
