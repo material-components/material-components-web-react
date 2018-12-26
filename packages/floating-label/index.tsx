@@ -22,8 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// no mdc .d.ts
-// @ts-ignore
+// @ts-ignore no mdc .d.ts
 import {MDCFloatingLabelFoundation} from '@material/floating-label/dist/mdc.floatingLabel';
 
 export interface FloatingLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
