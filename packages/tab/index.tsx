@@ -20,44 +20,73 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import * as React from 'react';
+import * as classnames from 'classnames';
 
 import TabIndicator from '@material/react-tab-indicator';
+// @ts-ignore No mdc .d.ts files
 import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
 
-import TabRipple from './TabRipple';
+import TabRipple, {TabRippleProps} from './TabRipple';
 
-export default class Tab extends Component {
-  foundation_ = null;
-  tabElement_ = React.createRef();
-  tabContentElement_ = React.createRef();
-  tabIndicator_ = React.createRef();
-  tabRipple_ = React.createRef();
+export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
+  active?: boolean;
+  isFadingIndicator?: boolean;
+  indicatorContent?: React.ReactNode;
+  minWidth?: boolean;
+  isMinWidthIndicator?: boolean;
+  stacked?: boolean;
+  previousIndicatorClientRect?: ClientRect;
+}
 
-  state = {
+interface MDCTabElementAttributes {
+  'aria-selected': boolean;
+  tabIndex?: number;
+}
+
+interface TabState extends MDCTabElementAttributes {
+  classList: Set<string>;
+  activateIndicator: boolean;
+  previousIndicatorClientRect?: ClientRect;
+}
+
+export default class Tab extends React.Component<TabProps, TabState> {
+  foundation?: MDCTabFoundation;
+  tabRef: React.RefObject<HTMLButtonElement> = React.createRef();
+  tabContentRef: React.RefObject<HTMLSpanElement> = React.createRef();
+  tabIndicatorRef: React.RefObject<TabIndicator> = React.createRef();
+  tabRippleRef: React.RefObject<TabRipple> = React.createRef();
+
+  static defaultProps: Partial<TabProps> = {
+    active: false,
+    className: '',
+    isFadingIndicator: false,
+    indicatorContent: null,
+    minWidth: false,
+    isMinWidthIndicator: false,
+    stacked: false,
+  };
+
+  state: TabState = {
     'classList': new Set(),
-    'aria-selected': undefined,
-    'tabIndex': undefined,
+    'aria-selected': false,
     'activateIndicator': false,
     'previousIndicatorClientRect': this.props.previousIndicatorClientRect,
   };
 
   componentDidMount() {
-    this.foundation_ = new MDCTabFoundation(this.adapter);
-    this.foundation_.init();
-
+    this.foundation = new MDCTabFoundation(this.adapter);
+    this.foundation.init();
     if (this.props.active) {
-      this.foundation_.activate();
+      this.foundation.activate();
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: TabProps) {
     if (this.props.active !== prevProps.active) {
       if (this.props.active) {
         // If active state is updated through props, previousIndicatorClientRect must also be passed through props
@@ -79,52 +108,67 @@ export default class Tab extends Component {
 
   get adapter() {
     return {
-      addClass: (className) => {
+      addClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.add(className);
         this.setState({classList});
       },
-      removeClass: (className) => {
+      removeClass: (className: string) => {
         const classList = new Set(this.state.classList);
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className) => this.classes.split(' ').includes(className),
-      setAttr: (attr, value) => this.setState({[attr]: value}),
-      getOffsetLeft: () => this.tabElement_.current && this.tabElement_.current.offsetLeft,
-      getOffsetWidth: () => this.tabElement_.current && this.tabElement_.current.offsetWidth,
-      getContentOffsetLeft: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetLeft,
-      getContentOffsetWidth: () => this.tabContentElement_.current && this.tabContentElement_.current.offsetWidth,
-      focus: () => this.tabElement_.current && this.tabElement_.current.focus(),
-      activateIndicator: (previousIndicatorClientRect) => this.setState({
-        activateIndicator: true,
-        previousIndicatorClientRect,
-      }),
+      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      setAttr: (attr: keyof MDCTabElementAttributes, value?: string | boolean) => (
+        this.setState((prevState) => ({...prevState, [attr]: value}))
+      ),
+      getOffsetLeft: () =>
+        Number(this.tabRef.current && this.tabRef.current.offsetLeft),
+      getOffsetWidth: () =>
+        Number(this.tabRef.current && this.tabRef.current.offsetWidth),
+      getContentOffsetLeft: () =>
+        this.tabContentRef.current &&
+        this.tabContentRef.current.offsetLeft,
+      getContentOffsetWidth: () =>
+        this.tabContentRef.current &&
+        this.tabContentRef.current.offsetWidth,
+      focus: () => this.tabRef.current && this.tabRef.current.focus(),
+      activateIndicator: (previousIndicatorClientRect: ClientRect) =>
+        this.setState({
+          activateIndicator: true,
+          previousIndicatorClientRect,
+        }),
       deactivateIndicator: () => this.setState({activateIndicator: false}),
-      // computeIndicatorClientRect is redundant in mdc-tab and is going to be
-      // removed in another release
     };
   }
 
-  activate(computeIndicatorClientRect) {
-    this.foundation_.activate(computeIndicatorClientRect);
+  activate(computeIndicatorClientRect?: ClientRect) {
+    this.foundation.activate(computeIndicatorClientRect);
   }
 
   deactivate() {
-    this.foundation_.deactivate();
+    this.foundation.deactivate();
   }
 
   computeIndicatorClientRect = () => {
-    if (!this.tabIndicator_.current) return;
-    return this.tabIndicator_.current.computeContentClientRect();
-  }
+    if (!this.tabIndicatorRef.current) return;
+    return this.tabIndicatorRef.current.computeContentClientRect();
+  };
 
   computeDimensions = () => {
-    return this.foundation_.computeDimensions();
-  }
+    return this.foundation.computeDimensions();
+  };
 
   focus = () => {
-    this.tabElement_.current && this.tabElement_.current.focus();
+    this.tabRef.current && this.tabRef.current.focus();
+  };
+
+  onFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+    this.tabRippleRef.current && this.tabRippleRef.current.handleFocus(e);
+  }
+
+  onBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+    this.tabRippleRef.current && this.tabRippleRef.current.handleBlur(e);
   }
 
   render() {
@@ -142,7 +186,6 @@ export default class Tab extends Component {
       isMinWidthIndicator,
       ...otherProps
     } = this.props;
-
     const {
       tabIndex,
       ['aria-selected']: ariaSelected,
@@ -154,42 +197,31 @@ export default class Tab extends Component {
         role='tab'
         aria-selected={ariaSelected}
         tabIndex={tabIndex}
-        onFocus={(e) => this.tabRipple_.current.handleFocus(e)}
-        onBlur={(e) => this.tabRipple_.current.handleBlur(e)}
-        ref={this.tabElement_}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
+        ref={this.tabRef}
         {...otherProps}
       >
-        <span
-          className='mdc-tab__content'
-          ref={this.tabContentElement_}
-        >
+        <span className='mdc-tab__content' ref={this.tabContentRef}>
           {children}
           {isMinWidthIndicator ? this.renderIndicator() : null}
         </span>
         {isMinWidthIndicator ? null : this.renderIndicator()}
-        <TabRipple ref={this.tabRipple_} />
+        <TabRipple ref={this.tabRippleRef} />
       </button>
     );
   }
 
   renderIndicator() {
-    const {
-      isFadingIndicator,
-      indicatorContent,
-    } = this.props;
-
-    const {
-      activateIndicator,
-      previousIndicatorClientRect,
-    } = this.state;
-
+    const {isFadingIndicator, indicatorContent} = this.props;
+    const {activateIndicator, previousIndicatorClientRect} = this.state;
     return (
       <TabIndicator
         icon={!!indicatorContent}
         fade={isFadingIndicator}
         active={activateIndicator}
         previousIndicatorClientRect={previousIndicatorClientRect}
-        ref={this.tabIndicator_}
+        ref={this.tabIndicatorRef}
       >
         {indicatorContent}
       </TabIndicator>
@@ -197,25 +229,8 @@ export default class Tab extends Component {
   }
 }
 
-Tab.propTypes = {
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  isFadingIndicator: PropTypes.bool,
-  indicatorContent: PropTypes.element,
-  minWidth: PropTypes.bool,
-  isMinWidthIndicator: PropTypes.bool,
-  stacked: PropTypes.bool,
-  previousIndicatorClientRect: PropTypes.object,
-};
-
-Tab.defaultProps = {
-  active: false,
-  className: '',
-  isFadingIndicator: false,
-  indicatorContent: null,
-  minWidth: false,
-  isMinWidthIndicator: false,
-  stacked: false,
-  previousIndicatorClientRect: {},
+export {
+  TabRipple,
+  Tab,
+  TabRippleProps,
 };

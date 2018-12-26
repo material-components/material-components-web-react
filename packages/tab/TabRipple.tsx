@@ -20,47 +20,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classnames from 'classnames';
-import {withRipple} from '@material/react-ripple';
 
-export class TabRipple extends React.Component {
+import * as Ripple from '@material/react-ripple';
+import {
+  RippledComponentInterface, RippledComponentState, // eslint-disable-line no-unused-vars
+} from '@material/react-ripple';
+
+export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement> {
+  className: string;
+}
+
+class TabRippleBase extends React.Component<TabRippleProps, {}> {
   get classes() {
     return classnames('mdc-tab__ripple', this.props.className);
   }
 
   render() {
     const {
-      /* eslint-disable */
+      // keeping out of ...otherProps
+      /* eslint-disable no-unused-vars */
       className,
       unbounded,
-      /* eslint-enable */
+      /* eslint-enable no-unused-vars */
       initRipple,
       ...otherProps
     } = this.props;
-
     return (
       <div
         className={this.classes}
-        ref={initRipple}
         {...otherProps}
-      >
-      </div>
+        ref={initRipple}
+      />
     );
   }
 }
 
-TabRipple.propTypes = {
-  className: PropTypes.string,
-  initRipple: PropTypes.func,
-  unbounded: PropTypes.bool,
-};
-
-TabRipple.defaultProps = {
-  className: '',
-  initRipple: () => {},
-  unbounded: false,
-};
-
-export default withRipple(TabRipple);
+const TabRipple = Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
+type TabRipple = React.Component<TabRippleProps, RippledComponentState> & RippledComponentInterface<any>;
+export default TabRipple;
