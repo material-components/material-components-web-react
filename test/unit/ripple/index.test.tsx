@@ -1,9 +1,8 @@
 import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
-// no mdc .d.ts file
-// @ts-ignore
-import {MDCRippleFoundation} from '@material/ripple';
+// @ts-ignore no mdc .d.ts file
+import {MDCRippleFoundation} from '@material/ripple/dist/mdc.ripple';
 import {mount} from 'enzyme';
 import {withRipple, InjectedProps} from '../../../packages/ripple/index';
 import {createMockRaf} from '../helpers/raf';

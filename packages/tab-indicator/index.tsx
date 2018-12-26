@@ -25,11 +25,10 @@ import classnames from 'classnames';
 import {
   MDCFadingTabIndicatorFoundation,
   MDCSlidingTabIndicatorFoundation,
-// No mdc .d.ts files
-// @ts-ignore
+// @ts-ignore no .d.ts file
 } from '@material/tab-indicator/dist/mdc.tabIndicator';
 
-export interface TabIndicatorProps extends React.HTMLProps<HTMLSpanElement> {
+export interface TabIndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
   active?: boolean;
   className?: string;
   fade?: boolean;

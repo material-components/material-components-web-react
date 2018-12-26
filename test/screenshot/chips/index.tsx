@@ -1,8 +1,6 @@
 import * as React from 'react';
 import './index.scss';
 import '../../../packages/chips/index.scss';
-// TODO: fix in #513
-// @ts-ignore
 import MaterialIcon from '../../../packages/material-icon';
 import {ChipProps, Chip, ChipSet} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
 // no .d.ts file
