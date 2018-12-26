@@ -22,8 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// No mdc .d.ts files
-// @ts-ignore
+// @ts-ignore no .d.ts file
 import {MDCSwitchFoundation} from '@material/switch/dist/mdc.switch';
 import ThumbUnderlay from './ThumbUnderlay';
 import NativeControl from './NativeControl';

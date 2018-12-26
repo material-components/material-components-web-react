@@ -27,8 +27,7 @@ import {
   MDCFixedTopAppBarFoundation,
   MDCTopAppBarFoundation,
   MDCShortTopAppBarFoundation,
-// no mdc .d.ts file
-// @ts-ignore
+// @ts-ignore no .d.ts file
 } from '@material/top-app-bar/dist/mdc.topAppBar';
 
 export type MDCTopAppBarFoundationTypes

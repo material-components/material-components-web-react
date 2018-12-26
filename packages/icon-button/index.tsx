@@ -23,8 +23,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import * as Ripple from '@material/react-ripple';
-// no mdc .d.ts file
-// @ts-ignore
+// @ts-ignore no mdc .d.ts file
 import {MDCIconButtonToggleFoundation} from '@material/icon-button/dist/mdc.iconButton';
 import IconToggle from './IconToggle';
 const ARIA_PRESSED = 'aria-pressed';
