@@ -3,6 +3,7 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow, ReactWrapper} from 'enzyme';
 import {Radio, NativeRadioControl, RadioProps} from '../../../packages/radio/index';
+import {coerceForTesting} from '../helpers/types';
 
 const NativeControlUpdate: React.FunctionComponent<React.HTMLProps<HTMLInputElement>> = ({
   disabled, id, // eslint-disable-line react/prop-types
@@ -103,21 +104,21 @@ test('sets state.nativeControlId if child has props.id', () => {
 });
 
 test('calls props.initRipple', () => {
-  const initRipple = td.func() as (surface: HTMLDivElement, activator?: HTMLInputElement) => void;
+  const initRipple = coerceForTesting<(surface: HTMLDivElement, activator?: HTMLInputElement) => void>(td.func());
   const wrapper = mount(
     <Radio initRipple={initRipple}>
       <NativeRadioControl />
     </Radio>
   );
-  const input = wrapper
+  const input = coerceForTesting<HTMLInputElement>(wrapper
     .childAt(0)
     .childAt(0)
     .childAt(0)
-    .getDOMNode() as HTMLInputElement;
-  const radio = wrapper
+    .getDOMNode());
+  const radio = coerceForTesting<HTMLDivElement>(wrapper
     .childAt(0)
     .childAt(0)
-    .getDOMNode() as HTMLDivElement;
+    .getDOMNode());
   td.verify(initRipple(radio, input), {times: 1});
 });
 
@@ -132,10 +133,11 @@ test('renders label with for attribute tied to native control id', () => {
 
 test('calls foundation.setDisabled if children.props.disabled updates', () => {
   const wrapper = mount(<NativeControlUpdate />);
-  (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>).instance().foundation.setDisabled = td.func();
+  coerceForTesting<ReactWrapper<RadioProps, {}, Radio>>(
+    wrapper.children()).instance().foundation.setDisabled = td.func();
   wrapper.setProps({disabled: true});
   td.verify(
-    (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>)
+    coerceForTesting<ReactWrapper<RadioProps, {}, Radio>>(wrapper.children())
       .instance()
       .foundation.setDisabled(true),
     {times: 1}
@@ -144,10 +146,11 @@ test('calls foundation.setDisabled if children.props.disabled updates', () => {
 
 test('calls foundation.setDisabled if children.props.disabled updates to false', () => {
   const wrapper = mount(<NativeControlUpdate disabled />);
-  (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>).instance().foundation.setDisabled = td.func();
+  coerceForTesting<ReactWrapper<RadioProps, {}, Radio>>(
+    wrapper.children()).instance().foundation.setDisabled = td.func();
   wrapper.setProps({disabled: false});
   td.verify(
-    (wrapper.children() as ReactWrapper<RadioProps, {}, Radio>)
+    coerceForTesting<ReactWrapper<RadioProps, {}, Radio>>(wrapper.children())
       .instance()
       .foundation.setDisabled(false),
     {times: 1}

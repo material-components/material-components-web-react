@@ -3,6 +3,7 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import {Button} from '../../../packages/button/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('Button');
 
@@ -54,7 +55,7 @@ test('renders a button with an anchor tag', () => {
 });
 
 test('default initRipple function', () => {
-  const initRipple = td.func() as (surface: HTMLButtonElement) => {};
+  const initRipple = coerceForTesting<(surface: HTMLButtonElement) => {}>(td.func());
   mount(<Button initRipple={initRipple} />);
   td.verify(initRipple(td.matchers.isA(Object)), {
     times: 1,
