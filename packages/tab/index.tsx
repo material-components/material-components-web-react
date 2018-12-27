@@ -142,7 +142,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     };
   }
 
-  activate(computeIndicatorClientRect?: ClientRect) {
+  activate(computeIndicatorClientRect?: ClientRect | {}) {
     this.foundation.activate(computeIndicatorClientRect);
   }
 

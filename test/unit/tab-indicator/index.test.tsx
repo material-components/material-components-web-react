@@ -4,6 +4,7 @@ import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import TabIndicator from '../../../packages/tab-indicator/index';
 import MaterialIcon from '../../../packages/material-icon/index';
+import {coerceForTesting} from '../helpers/types';
 
 suite('TabIndicator');
 
@@ -45,7 +46,7 @@ test('if props.active changes from true to false, it calls deactivate', () => {
 });
 
 test('if props.active changes from false to true, it calls activate', () => {
-  const previousIndicatorClientRect = {width: 20} as ClientRect;
+  const previousIndicatorClientRect = coerceForTesting<ClientRect>({width: 20});
   const wrapper = shallow<TabIndicator>(<TabIndicator previousIndicatorClientRect={previousIndicatorClientRect} />);
   wrapper.instance().foundation.activate = td.func();
   wrapper.setProps({active: true});
@@ -69,7 +70,7 @@ test('#adapter.setContentStyleProperty sets the style property on the contentEle
   const wrapper = mount<TabIndicator>(<TabIndicator />);
   const transform = 'translateX(10px)';
   wrapper.instance().adapter.setContentStyleProperty('transform', transform);
-  const contentElement = wrapper.find('.mdc-tab-indicator__content').getDOMNode() as HTMLElement;
+  const contentElement = coerceForTesting<HTMLElement>(wrapper.find('.mdc-tab-indicator__content').getDOMNode());
   assert.equal(contentElement.style.transform, transform);
 });
 
@@ -78,7 +79,7 @@ test('#adapter.computeContentClientRect calls getBoundingClientRect on the conte
   const contentElement = wrapper
     .find('.mdc-tab-indicator__content')
     .getDOMNode();
-  contentElement.getBoundingClientRect = td.func() as () => ClientRect;
+  contentElement.getBoundingClientRect = coerceForTesting<() => ClientRect>(td.func());
   wrapper.instance().adapter.computeContentClientRect();
   td.verify(contentElement.getBoundingClientRect(), {times: 1});
 });
@@ -86,7 +87,7 @@ test('#adapter.computeContentClientRect calls getBoundingClientRect on the conte
 test('#computeContentClientRect calls getBoundingClientRect on the contentElement', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator />);
   const contentElement = wrapper.find('.mdc-tab-indicator__content').getDOMNode();
-  contentElement.getBoundingClientRect = td.func() as () => ClientRect;
+  contentElement.getBoundingClientRect = coerceForTesting<() => ClientRect>(td.func());
   wrapper.instance().computeContentClientRect();
   td.verify(contentElement.getBoundingClientRect(), {times: 1});
 });
