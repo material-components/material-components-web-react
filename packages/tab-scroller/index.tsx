@@ -31,7 +31,7 @@ import {
 const convertDashToCamelCase = (propName: string) =>
   propName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
 
-interface TabScrollerProps extends React.HTMLProps<HTMLDivElement> {
+export interface TabScrollerProps extends React.HTMLAttributes<HTMLDivElement> {
   alignStart?: boolean;
   alignEnd?: boolean;
   alignCenter?: boolean;

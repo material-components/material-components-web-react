@@ -1,7 +1,5 @@
 import * as React from 'react';
-// https://github.com/material-components/material-components-web-react/issues/534
-// @ts-ignore
-import Tab from '../../../packages/tab/index';
+import Tab, {TabProps} from '../../../packages/tab/index'; // eslint-disable-line no-unused-vars
 import TabBar from '../../../packages/tab-bar/index';
 import './index.scss';
 
@@ -37,7 +35,7 @@ class TabBarTest extends React.Component<TabBarTestProps, TabBarTestState> {
       hasUpdateActiveIndexButton,
     } = this.props;
 
-    const renderTab: (num: number, index: number) => Tab = (num, index) => {
+    const renderTab: (num: number, index: number) => React.ReactElement<TabProps> = (num, index) => {
       return (
         <Tab
           key={index}
