@@ -44,30 +44,34 @@ const getAbsolutePath = (url) => path.resolve(__dirname, url);
 const filename = '[name]';
 
 function getWebpackConfigs() {
-  const webpackConfigs = [];
+  const webpackEntries = {};
+  const cssWebpackEntries = {};
+  const cssWebpackEntriesMin = {};
+  const webpackConfig = getJavaScriptWebpackConfig();
+  const webpackConfigCss = getCssWebpackConfig();
+  const webpackConfigCssMin = getCssWebpackConfig(true);
 
   chunks.forEach((chunk) => {
     const tsxPath = getAbsolutePath(`${chunk}/index.tsx`);
     const cssPath = getAbsolutePath(`${chunk}/index.scss`);
-
-    webpackConfigs.push(getJavaScriptWebpackConfig(tsxPath, chunk, 'commonjs'));
-    webpackConfigs.push(getJavaScriptWebpackConfig(tsxPath, chunk, false));
-    webpackConfigs.push(getJavaScriptWebpackConfig(tsxPath, `${chunk}.min`, 'commonjs'));
-
-    webpackConfigs.push(getCssWebpackConfig(cssPath, chunk));
-    webpackConfigs.push(getCssWebpackConfig(cssPath, `${chunk}.min`));
+    webpackEntries[chunk] = tsxPath;
+    webpackEntries[`${chunk}.min`] = tsxPath;
+    cssWebpackEntries[chunk] = cssPath;
+    cssWebpackEntriesMin[`${chunk}.min`] = cssPath;
   });
 
-  return webpackConfigs;
+  webpackConfig.entry = webpackEntries;
+  webpackConfigCss.entry = cssWebpackEntries;
+  webpackConfigCssMin.entry = cssWebpackEntriesMin;
+
+  return [webpackConfig, webpackConfigCss, webpackConfigCssMin];
 }
 
-function getCommonWebpackParams(entryPath, chunk, {isCss, modules}) {
-  const entry = {[chunk]: entryPath};
+function getCommonWebpackParams({isCss} = {}) {
   return {
-    entry,
     output: {
       path: getAbsolutePath('../build'),
-      filename: `${filename}${isCss ? '.css' : ''}${modules === false ? '.es' : ''}.js`,
+      filename: `${filename}${isCss ? '.css' : ''}.js`,
       libraryTarget: 'umd',
     },
     resolve: {
@@ -97,21 +101,36 @@ function getMaterialExternals() {
   return externals;
 }
 
-function getJavaScriptWebpackConfig(entryPath, chunk, modules) {
+const materialExternals = getMaterialExternals();
+
+function getJavaScriptWebpackConfig() {
   return Object.assign(
-    getCommonWebpackParams(entryPath, chunk, {modules}), {
+    getCommonWebpackParams(), {
       externals: Object.assign(
         {
           'react': 'react',
           'classnames': 'classnames',
           'prop-types': 'prop-types',
+          '@material/textfield/constants': `@material/textfield/constants.js`,
         },
-        getMaterialExternals(),
+        materialExternals,
       ),
       module: {
         rules: [{
           test: /\.ts(x)?$/,
           loader: 'ts-loader',
+        }, {
+          test: /\.js$/,
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            compact: true,
+            presets: [['es2015', {modules: false}], 'react'],
+            plugins: [
+              'transform-class-properties',
+              'transform-object-rest-spread',
+            ],
+          },
         }],
       },
       plugins: [
@@ -122,10 +141,9 @@ function getJavaScriptWebpackConfig(entryPath, chunk, modules) {
     });
 }
 
-function getCssWebpackConfig(entryPath, chunk) {
-  const shouldMinify = chunk.includes('.min');
+function getCssWebpackConfig(shouldMinify) {
   return Object.assign(
-    getCommonWebpackParams(entryPath, chunk, {isCss: true}), {
+    getCommonWebpackParams({isCss: true}), {
       module: {
         rules: [{
           test: /\.scss$/,
@@ -154,6 +172,5 @@ function getCssWebpackConfig(entryPath, chunk) {
       ],
     });
 }
-
 
 module.exports = getWebpackConfigs();
