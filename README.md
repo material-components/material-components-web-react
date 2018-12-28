@@ -60,6 +60,8 @@ If you're using an older version (v1) of `create-react-app`, please refer to our
 
 #### Step 1: Install create-react-app
 
+> _NOTE:_ all npm commands can be replaced with yarn
+
 Install `create-react-app`:
 
 ```
@@ -68,7 +70,14 @@ cd my-app
 npm start
 ```
 
-> _NOTE:_ all npm commands can be replaced with yarn
+##### Use with Typescript
+
+It is recommended to use Typescript with our components. You will need to add a few more modules for this to work"
+
+```
+npm i @types/react @types/react-dom @types/classnames @types/node typescript
+npm start
+```
 
 #### Step 2: Install Components
 

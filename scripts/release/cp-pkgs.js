@@ -80,6 +80,22 @@ function cpAsset(asset) {
     .then(() => console.log(`cp ${asset} -> ${destDir}`));
 }
 
+// this takes a file path to an index.d.ts file and adds an //@ts-ignore comment
+// above the MDC Web imports (any line that includes `/dist/`). We need to ignore
+// these lines since MDC Web does not have typing files
+// TODO: https://github.com/material-components/material-components-web-react/issues/574
+function addTsIgnore(filePath) {
+  const data = fs.readFileSync(filePath).toString().split('\n');
+  const lineNumber = data.findIndex((lineText) => lineText.includes('/dist/'));
+  if (lineNumber <= -1) return;
+
+  data.splice(lineNumber, 0, '// @ts-ignore');
+  const text = data.join('\n');
+  fs.writeFile(filePath, text, function(err) {
+    if (err) return console.log(err);
+  });
+}
+
 // takes assetPath, computes the destination file directory path
 // and copies file into destination directory
 function cpTypes(typeAsset) {
@@ -88,6 +104,7 @@ function cpTypes(typeAsset) {
   destDir = destDir.split('/');
   destDir.splice(2, 0, 'dist');
   destDir = `${destDir.join('/')}/${base}`;
+  addTsIgnore(typeAsset);
   return cpFile(typeAsset, destDir)
     .then(() => console.log(`cp ${typeAsset} -> ${destDir}`));
 }
