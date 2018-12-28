@@ -80,6 +80,10 @@ function cpAsset(asset) {
     .then(() => console.log(`cp ${asset} -> ${destDir}`));
 }
 
+// this takes a file path to an index.d.ts file and adds an //@ts-ignore comment
+// above the MDC Web imports (any line that includes `/dist/`). We need to ignore
+// these lines since MDC Web does not have typing files
+// TODO: https://github.com/material-components/material-components-web-react/issues/574
 function addTsIgnore(filePath) {
   const data = fs.readFileSync(filePath).toString().split('\n');
   const lineNumber = data.findIndex((lineText) => lineText.includes('/dist/'));
