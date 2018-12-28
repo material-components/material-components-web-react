@@ -23,6 +23,7 @@ with CSS:
 import '@material/react-icon-button/dist/icon-button.css';
 ```
 
+### JSX Structure
 
 ```js
 import React from 'react';
