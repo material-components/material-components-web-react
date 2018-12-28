@@ -4,6 +4,7 @@
   "description": "Material Components React Icon Button",
   "license": "Apache-2.0",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "mdc web react",
     "material components react",
