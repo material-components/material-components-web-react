@@ -8,8 +8,6 @@ sudo: required
 branches:
   only:
     - master
-    - feat/two-typescript
-    - rc0.8.0
 
 matrix:
   include:
