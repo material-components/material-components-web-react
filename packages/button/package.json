@@ -19,8 +19,6 @@
   "dependencies": {
     "@material/button": "^0.41.0",
     "@material/react-ripple": "^0.7.1",
-    "@types/classnames": "^2.2.6",
-    "@types/react": "^16.4.4",
     "classnames": "^2.2.5",
     "react": "^16.4.2"
   },
