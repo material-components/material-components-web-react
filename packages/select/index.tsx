@@ -22,7 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// @ts-ignore no .d.ts file
+// @ts-ignore no mdc .d.ts file
 import {MDCSelectFoundation, MDCSelectAdapter} from '@material/select/dist/mdc.select';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
@@ -108,7 +108,9 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   componentWillUnmount() {
-    this.foundation.destroy();
+    if (this.foundation) {
+      this.foundation.destroy();
+    }
   }
   onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     this.props.onChange && this.props.onChange(evt);

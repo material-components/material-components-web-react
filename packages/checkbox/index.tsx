@@ -95,7 +95,9 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   componentWillUnmount() {
-    this.foundation.destroy();
+    if (this.foundation) {
+      this.foundation.destroy();
+    }
   }
 
   init = (el: HTMLDivElement) => {

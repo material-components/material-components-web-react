@@ -128,7 +128,9 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
   }
 
   componentWillUnmount() {
-    this.state.foundation.destroy();
+    if (this.state.foundation) {
+      this.state.foundation.destroy();
+    }
   }
   /**
    * getters

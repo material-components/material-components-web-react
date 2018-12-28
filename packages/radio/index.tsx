@@ -22,8 +22,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// no .d.ts file
-// @ts-ignore
+// @ts-ignore no .d.ts file
 import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
 import * as Ripple from '@material/react-ripple';
 import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
@@ -84,7 +83,9 @@ class Radio extends React.Component<RadioProps, RadioState> {
   }
 
   componentWillUnmount() {
-    this.foundation.destroy();
+    if (this.foundation) {
+      this.foundation.destroy();
+    }
   }
 
   componentDidUpdate(prevProps: RadioProps) {
