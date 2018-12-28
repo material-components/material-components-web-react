@@ -20,8 +20,9 @@
     "@material/react-line-ripple": "^0.7.1",
     "@material/react-notched-outline": "^0.7.1",
     "@material/select": "^0.40.1",
+    "@types/classnames": "^2.2.6",
+    "@types/react": "^16.4.4",
     "classnames": "^2.2.5",
-    "prop-types": "^15.6.1",
     "react": "^16.4.2"
   },
   "publishConfig": {
