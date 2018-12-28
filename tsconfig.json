@@ -2,7 +2,6 @@
   "extends": "gts/tsconfig-google.json",
   "compilerOptions": {
     "outDir": "./types/",
-    "declaration": true,
     "sourceMap": true,
     "strictNullChecks": true,
     "module": "commonjs",
@@ -17,10 +16,5 @@
   "exclude": [
     "node_modules",
     "build"
-  ],
-  "baseUrl": ".",
-  "paths": {
-    "@material/react-ripple": ["packages/ripple/"],
-    "@material/react-material-icon": ["packages/material-icon/"],
-  }
+  ]
 }
