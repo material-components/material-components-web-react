@@ -4,6 +4,7 @@
   "description": "Material Components React Ripple",
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "mdc web react",
     "material components react",
