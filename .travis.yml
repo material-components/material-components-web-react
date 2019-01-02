@@ -8,6 +8,7 @@ sudo: required
 branches:
   only:
     - master
+    - ^rc[\d\.]*$
 
 matrix:
   include:
