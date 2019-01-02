@@ -9,6 +9,7 @@ branches:
   only:
     - master
     - ^rc[\d\.]*$
+    - rc0.9.0
 
 matrix:
   include:
