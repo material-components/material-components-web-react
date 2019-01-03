@@ -27,6 +27,7 @@ import {MDCTextFieldIconFoundation} from '@material/textfield/dist/mdc.textfield
 export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
   disabled: boolean;
   children: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+  onSelect?: () => void;
 };
 
 interface IconState {
@@ -42,6 +43,7 @@ export default class Icon extends React.Component<
 
   static defaultProps: Partial<IconProps> = {
     disabled: false,
+    onSelect: () => {},
   };
 
   constructor(props: IconProps) {
@@ -94,8 +96,15 @@ export default class Icon extends React.Component<
       removeAttr: (attr: keyof IconState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
+      notifyIconAction: () => this.props.onSelect!(),
     };
   }
+
+  handleClick = (e: React.MouseEvent<HTMLElement>) =>
+    this.foundation_.handleInteraction(e);
+
+  handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) =>
+    this.foundation_.handleInteraction(e)
 
   addIconAttrsToChildren = () => {
     const {tabindex: tabIndex, role} = this.state;
@@ -103,6 +112,8 @@ export default class Icon extends React.Component<
     const className = classnames('mdc-text-field__icon', child.props.className);
     const props = Object.assign({}, child.props, {
       className,
+      onClick: this.handleClick,
+      onKeyDown: this.handleKeyDown,
       tabIndex,
       role,
     });

@@ -15,6 +15,10 @@ const TextFieldIconScreenshotTest = () => {
       <Icon>
         <MaterialIcon tabIndex={0} role='button' icon='favorite' />
       </Icon>
+
+      <Icon onSelect={() => console.log('❤️')}>
+        <MaterialIcon tabIndex={0} role='button' icon='favorite' />
+      </Icon>
     </div>
   );
 };
