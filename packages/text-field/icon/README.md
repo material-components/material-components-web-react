@@ -22,6 +22,8 @@ Prop Name | Type | Description
 --- | --- | ---
 disabled | Boolean | Toggles the disabled state of the icon.
 children | Element | Required. Expects a single child icon element.
+onSelect | Function() => void | Optional callback for user interaction with icon
+> Note: `onSelect`  fired only for clicked event or when keydown event is enter key.
 
 ## Icon
 
