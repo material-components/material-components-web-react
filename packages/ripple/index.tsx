@@ -26,7 +26,7 @@ import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 // @ts-ignore no mdc .d.ts file
 import {MDCRippleFoundation, MDCRippleAdapter, util} from '@material/ripple/dist/mdc.ripple';
 
-const HTMLElementShim: any = typeof HTMLElement === 'undefined' ? () => {} : HTMLElement;
+const HTMLElementShim: any = typeof HTMLElement === 'undefined' ? {} : HTMLElement;
 const MATCHES = util.getMatchesProperty(HTMLElementShim.prototype);
 
 export interface RippledComponentProps<T> {
