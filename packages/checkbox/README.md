@@ -25,24 +25,26 @@ import "@material/react-checkbox/dist/checkbox.css";
 ### Javascript Instantiation
 
 ```js
-import React, {Component} from 'react';
+import React from 'react';
 import Checkbox from '@material/react-checkbox';
 
-class MyApp extends Component {
+class MyApp extends React.Component {
   state = {checked: false, indeterminate: false};
 
   render() {
     return (
-      <Checkbox
-        nativeControlId='my-checkbox'
-        checked={this.state.checked}
-        indeterminate={this.state.indeterminate}
-        onChange={(e) => this.setState({
-          checked: e.target.checked,
-          indeterminate: e.target.indeterminate})
-        }
-      />
-      <label htmlFor='my-checkbox'>My Checkbox</label>
+      <React.Fragment>
+        <Checkbox
+          nativeControlId='my-checkbox'
+          checked={this.state.checked}
+          indeterminate={this.state.indeterminate}
+          onChange={(e) => this.setState({
+            checked: e.target.checked,
+            indeterminate: e.target.indeterminate})
+          }
+        />
+        <label htmlFor='my-checkbox'>My Checkbox</label>
+      </React.Fragment>
     );
   }
 }
