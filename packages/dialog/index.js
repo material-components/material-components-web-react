@@ -87,14 +87,9 @@ class Dialog extends Component {
   }
 
   get content_() {
-    const content = this.dialogElement_.current
-      .getElementsByClassName(cssClasses.CONTENT);
+    return this.dialogElement_.current
+      .getElementsByClassName(cssClasses.CONTENT)[0];
 
-    if (content) {
-      return content[0];
-    }
-
-    return false;
   }
 
   get defaultButton_() {
@@ -157,20 +152,22 @@ class Dialog extends Component {
 
   handleOpening = () => {
     this.props.onOpening();
-    if (!this.foundation_) return;
     LAYOUT_EVENTS.forEach((evt) =>
       window.addEventListener(evt, this.handleLayout)
     );
-    document.addEventListener('keydown', this.handleDocumentKeyDown);
+    document.addEventListener(
+      'keydown', this.handleDocumentKeyDown
+    );
   }
 
   handleClosing = (action) => {
     this.props.onClosing();
-    if (!this.foundation_) return;
     LAYOUT_EVENTS.forEach((evt) =>
       window.removeEventListener(evt, this.handleLayout)
     );
-    document.addEventListener('keydown', this.handleDocumentKeyDown);
+    document.removeEventListener(
+      'keydown', this.handleDocumentKeyDown
+    );
   }
 
   handleOpen = () => this.props.onOpen();

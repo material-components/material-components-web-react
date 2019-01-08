@@ -313,6 +313,22 @@ test('#adapter.notifyClosed calls props.onClose', () => {
 });
 
 
+test('#handleOpening adds keydown handler on document that triggers ' +
+  '#foundation.handleDocumentKeyDown', () => {
+    const wrapper = shallow(<Dialog open={false}/>);
+    wrapper.instance().foundation_.handleDocumentKeydown = td.func();
+
+    const e = new Event('keydown');
+
+    document.dispatchEvent(e);
+    td.verify(wrapper.instance().foundation_.handleDocumentKeydown(e),{times: 0});
+    
+    wrapper.instance().handleOpening();
+    document.dispatchEvent(e);
+    td.verify(wrapper.instance().foundation_.handleDocumentKeydown(e),{times: 1});
+  }
+);
+
 test('#handleOpening adds handler for LAYOUT_EVENTS to window', () => {
   const wrapper = shallow(<Dialog open={false}/>);
   wrapper.instance().handleLayout = td.func();
@@ -325,6 +341,22 @@ test('#handleOpening adds handler for LAYOUT_EVENTS to window', () => {
   });
 });
 
+test('#handleClosing removes keydown handler on document that triggers ' +
+  '#foundation.handleDocumentKeyDown', () => {
+    const wrapper = shallow(<Dialog open={false}/>);
+    wrapper.instance().foundation_.handleDocumentKeydown = td.func();
+    wrapper.instance().handleOpening();
+
+    const e = new Event('keydown');
+    document.dispatchEvent(e);
+    td.verify(wrapper.instance().foundation_.handleDocumentKeydown(e),{times: 1});
+  
+    wrapper.instance().foundation_.handleDocumentKeydown = td.func();
+    wrapper.instance().handleClosing();
+    document.dispatchEvent(e);
+    td.verify(wrapper.instance().foundation_.handleDocumentKeydown(e),{times: 0});
+  }
+);
 test('#handleClosing removes handler for LAYOUT_EVENTS to window', () => {
   const wrapper = shallow(<Dialog open={false}/>);
   wrapper.instance().handleLayout = td.func();
@@ -443,5 +475,4 @@ test('#events.onClick triggers #foundaiton.handleInteraction', () => {
   wrapper.simulate('click', e)
   td.verify(wrapper.instance().foundation_.handleInteraction(e), {times: 1});
 });
-
 
