@@ -84,11 +84,11 @@ export default class Icon extends React.Component<
   get tabindex() {
     // if tabIndex is not set onSelect will never fire.
     // note that foundation.js alters tabindex not tabIndex
-    if (this.props.children.props.hasOwnProperty('tabIndex')) {
+    if (typeof this.props.children.props.tabIndex === 'number') {
       return this.props.children.props.tabIndex;
     }
 
-    return this.props.hasOwnProperty('onSelect') ? 0 : -1;
+    return this.props.onSelect ? 0 : -1;
   }
 
   get adapter() {
