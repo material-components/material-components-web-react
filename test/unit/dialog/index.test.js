@@ -425,3 +425,23 @@ test('#setId will set labelledby and from a custom DialogTitle', () => {
   assert.equal(labelledby,title.id)
 });
 
+test('#events.onKeyDown triggers #foundaiton.handleInteraction', () => {
+  const wrapper = shallow(<Dialog><DialogContent><p>meow</p></DialogContent></Dialog>);
+
+  wrapper.instance().foundation_.handleInteraction = td.func();
+  const e = {};
+  wrapper.simulate('keydown', e)
+  td.verify(wrapper.instance().foundation_.handleInteraction(e), {times: 1});
+
+});
+
+test('#events.onClick triggers #foundaiton.handleInteraction', () => {
+  const wrapper = shallow(<Dialog><DialogContent><p>meow</p></DialogContent></Dialog>);
+
+  wrapper.instance().foundation_.handleInteraction = td.func();
+  const e = {};
+  wrapper.simulate('click', e)
+  td.verify(wrapper.instance().foundation_.handleInteraction(e), {times: 1});
+});
+
+
