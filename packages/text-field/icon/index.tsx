@@ -43,18 +43,16 @@ export default class Icon extends React.Component<
 
   static defaultProps: Partial<IconProps> = {
     disabled: false,
-    onSelect: () => {},
   };
 
   constructor(props: IconProps) {
     super(props);
     const {
-      tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
       role,
     } = props.children.props;
 
     this.state = {
-      tabindex,
+      tabindex: this.tabindex,
       role,
     };
   }
@@ -71,12 +69,26 @@ export default class Icon extends React.Component<
     if (this.props.disabled !== prevProps.disabled) {
       this.foundation_.setDisabled(this.props.disabled);
     }
+
+    if (this.props.onSelect !== prevProps.onSelect) {
+      this.setState({tabindex: this.tabindex});
+    }
   }
 
   componentWillUnmount() {
     if (this.foundation_) {
       this.foundation_.destroy();
     }
+  }
+
+  get tabindex() {
+    // if tabIndex is not set onSelect will never fire.
+    // note that foundation.js alters tabindex not tabIndex
+    if (this.props.children.props.hasOwnProperty('tabIndex')) {
+      return this.props.children.props.tabIndex;
+    }
+
+    return this.props.hasOwnProperty('onSelect') ? 0 : -1;
   }
 
   get adapter() {
@@ -96,7 +108,10 @@ export default class Icon extends React.Component<
       removeAttr: (attr: keyof IconState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
-      notifyIconAction: () => this.props.onSelect!(),
+      notifyIconAction: () => ( this.props.hasOwnProperty('onSelect')
+        ? this.props.onSelect!()
+        : null
+      ),
     };
   }
 

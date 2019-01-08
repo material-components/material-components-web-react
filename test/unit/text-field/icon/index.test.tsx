@@ -60,7 +60,7 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true'
       <i />
     </Icon>
   );
-  assert.equal(wrapper.state().tabindex, undefined);
+  assert.equal(wrapper.state().tabindex, -1); // foundation setDisabled sets tabIndex -1
   assert.equal(wrapper.state().role, undefined);
 });
 
@@ -73,6 +73,26 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true 
   assert.equal(wrapper.state().tabindex, -1);
   assert.equal(wrapper.state().role, undefined);
 });
+
+test('#componentDidMount sets tabindex if prop not present but onSelect exists', () => {
+  // w/out tabindex onSelect will never fire && cursor: pointer is not applied
+  const wrapper = shallow<Icon>(
+    <Icon onSelect={() => {}}><MaterialIcon icon='favorite' /></Icon>);
+
+  assert.equal(wrapper.state().tabindex, 0);
+});
+
+test(
+  '#componentDidUpdate will set tabindex if prop not present but updates ' +
+    'with onSelect',
+  () => {
+    const wrapper = shallow<Icon>(<Icon><MaterialIcon icon='favorite' /></Icon>);
+
+    assert.equal(wrapper.state().tabindex, -1);
+    wrapper.setProps({onSelect: () => {}});
+    assert.equal(wrapper.state().tabindex, 0);
+  }
+);
 
 test(
   '#componentDidUpdate calls #foundation.setDisabled if ' +
