@@ -19,7 +19,7 @@
     "@material/react-floating-label": "^0.8.0",
     "@material/react-line-ripple": "^0.8.0",
     "@material/react-notched-outline": "^0.8.0",
-    "@material/select": "^0.40.1",
+    "@material/select": "^0.43.0",
     "classnames": "^2.2.5",
     "react": "^16.4.2"
   },

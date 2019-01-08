@@ -17,7 +17,7 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/button": "^0.41.0",
+    "@material/button": "^0.43.0",
     "@material/react-ripple": "^0.8.0",
     "classnames": "^2.2.5",
     "react": "^16.4.2"
