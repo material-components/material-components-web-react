@@ -25,8 +25,9 @@ import * as classnames from 'classnames';
 import {MDCTextFieldIconFoundation} from '@material/textfield/dist/mdc.textfield';
 
 export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
-  disabled: boolean;
+  disabled?: boolean;
   children: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+  onSelect?: () => void;
 };
 
 interface IconState {
@@ -47,12 +48,11 @@ export default class Icon extends React.Component<
   constructor(props: IconProps) {
     super(props);
     const {
-      tabIndex: tabindex, // note that foundation.js alters tabindex not tabIndex
       role,
     } = props.children.props;
 
     this.state = {
-      tabindex,
+      tabindex: this.tabindex,
       role,
     };
   }
@@ -69,12 +69,26 @@ export default class Icon extends React.Component<
     if (this.props.disabled !== prevProps.disabled) {
       this.foundation_.setDisabled(this.props.disabled);
     }
+
+    if (this.props.onSelect !== prevProps.onSelect) {
+      this.setState({tabindex: this.tabindex});
+    }
   }
 
   componentWillUnmount() {
     if (this.foundation_) {
       this.foundation_.destroy();
     }
+  }
+
+  get tabindex() {
+    // if tabIndex is not set onSelect will never fire.
+    // note that foundation.js alters tabindex not tabIndex
+    if (typeof this.props.children.props.tabIndex === 'number') {
+      return this.props.children.props.tabIndex;
+    }
+
+    return this.props.onSelect ? 0 : -1;
   }
 
   get adapter() {
@@ -94,8 +108,18 @@ export default class Icon extends React.Component<
       removeAttr: (attr: keyof IconState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
+      notifyIconAction: () => ( this.props.onSelect
+        ? this.props.onSelect()
+        : null
+      ),
     };
   }
+
+  handleClick = (e: React.MouseEvent<HTMLElement>) =>
+    this.foundation_.handleInteraction(e);
+
+  handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) =>
+    this.foundation_.handleInteraction(e)
 
   addIconAttrsToChildren = () => {
     const {tabindex: tabIndex, role} = this.state;
@@ -103,6 +127,8 @@ export default class Icon extends React.Component<
     const className = classnames('mdc-text-field__icon', child.props.className);
     const props = Object.assign({}, child.props, {
       className,
+      onClick: this.handleClick,
+      onKeyDown: this.handleKeyDown,
       tabIndex,
       role,
     });
