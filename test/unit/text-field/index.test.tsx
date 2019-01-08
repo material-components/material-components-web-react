@@ -517,7 +517,7 @@ test('does not render trailingIcon if no trailingIcon prop is passed', () => {
   assert.equal(wrapper.find('.test-class-name-icon').length, 0);
 });
 
-test('onTrailingIconSelect is passed to trailingIcion if passed as prop', () => {
+test('onTrailingIconSelect is passed to trailingIcon if passed as prop', () => {
   const onSelect = () => 'select';
   const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField
@@ -532,7 +532,7 @@ test('onTrailingIconSelect is passed to trailingIcion if passed as prop', () => 
   assert.strictEqual(trailingIcon.onSelect, onSelect);
 });
 
-test('onTrailingIconSelect is not passed to trailingIcion if not passed as prop', () => {
+test('onTrailingIconSelect is not passed to trailingIcon if not passed as prop', () => {
   const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField
       label='my label'
