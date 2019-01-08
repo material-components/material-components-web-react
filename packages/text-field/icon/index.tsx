@@ -108,8 +108,8 @@ export default class Icon extends React.Component<
       removeAttr: (attr: keyof IconState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
-      notifyIconAction: () => ( this.props.hasOwnProperty('onSelect')
-        ? this.props.onSelect!()
+      notifyIconAction: () => ( this.props.onSelect
+        ? this.props.onSelect()
         : null
       ),
     };
