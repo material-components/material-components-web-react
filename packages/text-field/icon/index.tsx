@@ -25,7 +25,7 @@ import * as classnames from 'classnames';
 import {MDCTextFieldIconFoundation} from '@material/textfield/dist/mdc.textfield';
 
 export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
-  disabled: boolean;
+  disabled?: boolean;
   children: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   onSelect?: () => void;
 };
