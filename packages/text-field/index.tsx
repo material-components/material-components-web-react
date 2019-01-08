@@ -45,6 +45,8 @@ export interface Props<T> {
   lineRippleClassName: string;
   notchedOutlineClassName: string;
   outlined: boolean;
+  onLeadingIconSelect?: () => void;
+  onTrailingIconSelect?: () => void;
   textarea: boolean;
   trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
 };
@@ -172,6 +174,8 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
       leadingIcon,
       lineRippleClassName,
       notchedOutlineClassName,
+      onLeadingIconSelect,
+      onTrailingIconSelect,
       outlined,
       textarea,
       trailingIcon,
@@ -309,6 +313,8 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
       fullWidth,
       helperText,
       outlined,
+      onLeadingIconSelect,
+      onTrailingIconSelect,
       leadingIcon,
       trailingIcon,
       textarea,
@@ -322,12 +328,12 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
         onKeyDown={() => foundation && foundation.handleTextFieldInteraction()}
         key='text-field-container'
       >
-        {leadingIcon ? this.renderIcon(leadingIcon) : null}
+        {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
         {foundation ? this.renderInput() : null}
         {label && !fullWidth ? this.renderLabel() : null}
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
-        {trailingIcon ? this.renderIcon(trailingIcon) : null}
+        {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
       </div>
     );
 
@@ -409,10 +415,11 @@ class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFie
     return React.cloneElement(helperText, props);
   }
 
-  renderIcon(icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) {
+  renderIcon(icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>,
+    onSelect?: () => void) {
     const {disabled} = this.state;
     // Toggling disabled will trigger icon.foundation.setDisabled()
-    return <Icon disabled={disabled}>{icon}</Icon>;
+    return <Icon disabled={disabled} onSelect={onSelect}>{icon}</Icon>;
   }
 }
 
