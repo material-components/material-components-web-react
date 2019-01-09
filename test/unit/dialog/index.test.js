@@ -68,7 +68,7 @@ test('when props.autoStackButtons updates to false, ' +
 test('classNames adds classes', () => {
   const wrapper = shallow(<Dialog className='test-class-name'/>);
   assert.isTrue(wrapper.hasClass('test-class-name'));
-  assert.isTrue(wrapper.hasClass('mdc-dialog'));
+  assert.isTrue(wrapper.hasClass(cssClasses.BASE));
 });
 
 test('component has default @id', () => {
@@ -291,7 +291,7 @@ test('#adapter.notifyOpening calls props.onOpening', () => {
   td.verify(onOpening(), {times: 1});
 });
 
-test('#adapter.notifyOpened calls props.onOpened', () => {
+test('#adapter.notifyOpened calls props.onOpen', () => {
   const onOpen = td.func();
   const wrapper = shallow(<Dialog onOpen={onOpen} />);
   wrapper.instance().adapter.notifyOpened();

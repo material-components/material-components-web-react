@@ -17,7 +17,6 @@ DialogButton.propTypes = {
   action: PropTypes.string.isRequired,
   className: PropTypes.string,
   isDefault: PropTypes.bool,
-  tag: PropTypes.string,
 };
 
 DialogButton.defaultProps = {
