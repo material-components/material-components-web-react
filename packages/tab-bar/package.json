@@ -1,9 +1,10 @@
 {
   "name": "@material/react-tab-bar",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Material Components React Tab Bar",
   "license": "Apache-2.0",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "mdc web react",
     "material components react",
@@ -17,10 +18,10 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/react-tab-scroller": "^0.7.1",
+    "@material/react-tab": "^0.8.0",
+    "@material/react-tab-scroller": "^0.8.0",
     "@material/tab-bar": "^0.41.0",
     "classnames": "^2.2.5",
-    "prop-types": "^15.6.1",
     "react": "^16.3.2"
   },
   "publishConfig": {

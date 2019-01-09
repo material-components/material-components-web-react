@@ -1,0 +1,39 @@
+{
+  "extends": [
+    "google",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "strict": 0,
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
+    "switch-colon-spacing": 0,
+    "max-len": ["error", 120],
+    "indent":  ["error", 2, {"SwitchCase":1}],
+    "no-invalid-this": "off",
+    "object-curly-spacing": ["error", "never"]
+  },
+  "overrides": [
+    {
+      "parser": "typescript-eslint-parser",
+      "parserOptions": {
+        "jsx": true
+      },
+      "plugins": [
+        "typescript"
+      ],
+      "rules": {
+        "typescript/no-unused-vars": "warn",
+        "quotes": ["error", "single"],
+        "jsx-quotes": ["error", "prefer-single"]
+      },
+      "files": ["**/*.+(tsx|ts)"]
+    }, {
+      "parser": "babel-eslint",
+      "files": ["**/*.jsx", "**/*.js"]
+    }
+  ]
+}

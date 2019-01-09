@@ -29,6 +29,7 @@ React Text Field accepts one child element which is the input element. For ease 
 ```js
 import React from 'react';
 import TextField, {HelperText, Input} from '@material/react-text-field';
+import MaterialIcon from from '@material/react-material-icon';
 
 class MyApp extends React.Component {
   state = {value: 'Woof'};
@@ -39,10 +40,11 @@ class MyApp extends React.Component {
         <TextField
           label='Dog'
           helperText={<HelperText>Help Me!</HelperText>}
-        >
-          <Input
-            value={this.state.value}
-            onChange={(e) => this.setState({value: e.target.value})}/>
+          onTrailingIconSelect={() => this.setState({value: ''})}
+          trailingIcon={<MaterialIcon role="button" icon="delete"/>}
+        ><Input
+           value={this.state.value}
+           onChange={(e) => this.setState({value: e.target.value})} />
         </TextField>
       </div>
     );
@@ -66,6 +68,8 @@ label | String | Mandatory. Label text that appears as the floating label or pla
 leadingIcon | Element | An icon element that appears as the leading icon.
 lineRippleClassName | String | An optional class added to the line ripple element.
 notchedOutlineClassName | String | An optional class added to the notched outline element.
+onLeadingIconSelect | Function | Optional callback fired on interaction with `leadingIcon`.
+onTrailingIconSelect | Function | Optional callback fired on interaction with `trailingIcon`.
 outlined | Boolean | Enables outlined variant.
 textarea | Boolean | Enables textarea variant.
 trailingIcon | Element | An icon element that appears as the trailing icon.

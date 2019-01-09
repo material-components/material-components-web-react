@@ -1,13 +1,57 @@
-## [0.7.1](https://github.com/material-components/material-components-web-react/compare/v0.7.0...v) (2018-11-30)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.7.1...v) (2018-12-28)
 
 
 ### Bug Fixes
 
-* **drawer:** update modal screenshot golden ([#482](https://github.com/material-components/material-components-web-react/issues/482)) ([ce0c314](https://github.com/material-components/material-components-web-react/commit/ce0c314))
-* **select:** added check for nativeControl element before calling props.setRippleCenter in NativeControl ([#478](https://github.com/material-components/material-components-web-react/issues/478)) ([5baad76](https://github.com/material-components/material-components-web-react/commit/5baad76))
+* **infrastructure:** add declaration package.json ([#572](https://github.com/material-components/material-components-web-react/issues/572)) ([8cb4b1b](https://github.com/material-components/material-components-web-react/commit/8cb4b1b))
+* **infrastructure:** condense webpack configuration build step into one json file  ([#571](https://github.com/material-components/material-components-web-react/issues/571)) ([512f3aa](https://github.com/material-components/material-components-web-react/commit/512f3aa))
+* **infrastructure:** unit test code coverage for typescript ([#487](https://github.com/material-components/material-components-web-react/issues/487)) ([1170a1f](https://github.com/material-components/material-components-web-react/commit/1170a1f))
+* **list:** minification-safe element type comparison ([#509](https://github.com/material-components/material-components-web-react/issues/509)) ([89f5fd2](https://github.com/material-components/material-components-web-react/commit/89f5fd2))
+* **select:** defensive foundation check before unmounting - also includes radio, checkbox, text-field ([#512](https://github.com/material-components/material-components-web-react/issues/512)) ([2ee4c80](https://github.com/material-components/material-components-web-react/commit/2ee4c80))
+* **top-app-bar:** foundation should be destroyed and reinitialized on variant change ([#519](https://github.com/material-components/material-components-web-react/issues/519)) ([58cfc6f](https://github.com/material-components/material-components-web-react/commit/58cfc6f))
+* lint for typings files ([#577](https://github.com/material-components/material-components-web-react/issues/577)) ([8f971a8](https://github.com/material-components/material-components-web-react/commit/8f971a8))
+* remove prop-types from package.json ([#576](https://github.com/material-components/material-components-web-react/issues/576)) ([7f38952](https://github.com/material-components/material-components-web-react/commit/7f38952))
 
 
-# [0.7.0](https://github.com/material-components/material-components-web-react/compare/v0.6.2...v0.7.0) (2018-11-20)
+### Features
+
+* **button:** typescript ([#508](https://github.com/material-components/material-components-web-react/issues/508)) ([fee5968](https://github.com/material-components/material-components-web-react/commit/fee5968))
+* **card:** typescript ([#497](https://github.com/material-components/material-components-web-react/issues/497)) ([c9665bc](https://github.com/material-components/material-components-web-react/commit/c9665bc))
+* **checkbox:** typescript support  ([#490](https://github.com/material-components/material-components-web-react/issues/490)) ([02775ac](https://github.com/material-components/material-components-web-react/commit/02775ac))
+* **chips:** typescript support ([#493](https://github.com/material-components/material-components-web-react/issues/493)) ([764ed40](https://github.com/material-components/material-components-web-react/commit/764ed40))
+* **drawer:** typescript support  ([#494](https://github.com/material-components/material-components-web-react/issues/494)) ([2a91edd](https://github.com/material-components/material-components-web-react/commit/2a91edd))
+* **fab:** typescript support ([#495](https://github.com/material-components/material-components-web-react/issues/495)) ([b62c36f](https://github.com/material-components/material-components-web-react/commit/b62c36f))
+* **icon-button:** typescript support ([#496](https://github.com/material-components/material-components-web-react/issues/496)) ([e9e29a3](https://github.com/material-components/material-components-web-react/commit/e9e29a3))
+* **infrastructure:** add typescript eslint ([#549](https://github.com/material-components/material-components-web-react/issues/549)) ([abee1a8](https://github.com/material-components/material-components-web-react/commit/abee1a8))
+* **infrastructure:** build JS from TS ([#547](https://github.com/material-components/material-components-web-react/issues/547)) ([862c110](https://github.com/material-components/material-components-web-react/commit/862c110))
+* **layout-grid:** typescript ([#498](https://github.com/material-components/material-components-web-react/issues/498)) ([a25039e](https://github.com/material-components/material-components-web-react/commit/a25039e))
+* **linear-progress:** typescript ([#526](https://github.com/material-components/material-components-web-react/issues/526)) ([cffefa0](https://github.com/material-components/material-components-web-react/commit/cffefa0))
+* **list:** typescript ([#501](https://github.com/material-components/material-components-web-react/issues/501)) ([3b6c501](https://github.com/material-components/material-components-web-react/commit/3b6c501))
+* **material-icon:** typescript ([#525](https://github.com/material-components/material-components-web-react/issues/525)) ([e3373bb](https://github.com/material-components/material-components-web-react/commit/e3373bb))
+* **menu-surface:** typescript ([#502](https://github.com/material-components/material-components-web-react/issues/502)) ([94d006d](https://github.com/material-components/material-components-web-react/commit/94d006d))
+* **radio:** typescript ([#506](https://github.com/material-components/material-components-web-react/issues/506)) ([af94a3a](https://github.com/material-components/material-components-web-react/commit/af94a3a))
+* **ripple:** typescript ([#527](https://github.com/material-components/material-components-web-react/issues/527)) ([4dcf389](https://github.com/material-components/material-components-web-react/commit/4dcf389))
+* **select:** typescript  ([#540](https://github.com/material-components/material-components-web-react/issues/540)) ([a3d014a](https://github.com/material-components/material-components-web-react/commit/a3d014a))
+* **switch:** typescript ([#530](https://github.com/material-components/material-components-web-react/issues/530)) ([ba058d4](https://github.com/material-components/material-components-web-react/commit/ba058d4))
+* **tab:** typescript ([#532](https://github.com/material-components/material-components-web-react/issues/532)) ([206540f](https://github.com/material-components/material-components-web-react/commit/206540f))
+* **tab-bar:** typescript ([#535](https://github.com/material-components/material-components-web-react/issues/535)) ([a0709d7](https://github.com/material-components/material-components-web-react/commit/a0709d7))
+* **tab-indicator:** typescript ([#545](https://github.com/material-components/material-components-web-react/issues/545)) ([056adb5](https://github.com/material-components/material-components-web-react/commit/056adb5))
+* **tab-scroller:** typescript ([#536](https://github.com/material-components/material-components-web-react/issues/536)) ([4582a7d](https://github.com/material-components/material-components-web-react/commit/4582a7d))
+* **text-field:** add typescript support ([#550](https://github.com/material-components/material-components-web-react/issues/550)) ([e003fea](https://github.com/material-components/material-components-web-react/commit/e003fea))
+* **top app bar:** dense variant ([#520](https://github.com/material-components/material-components-web-react/issues/520)) ([461cce9](https://github.com/material-components/material-components-web-react/commit/461cce9))
+* **top-app-bar:** TopAppBarFixedAdjust variants added ([#524](https://github.com/material-components/material-components-web-react/issues/524)) ([e3bb701](https://github.com/material-components/material-components-web-react/commit/e3bb701))
+* **top-app-bar:** typescript ([#548](https://github.com/material-components/material-components-web-react/issues/548)) ([8680796](https://github.com/material-components/material-components-web-react/commit/8680796))
+* **typography:** typescript ([#521](https://github.com/material-components/material-components-web-react/issues/521)) ([090aa7e](https://github.com/material-components/material-components-web-react/commit/090aa7e))
+
+
+### BREAKING CHANGES
+
+* **infrastructure:** Remove <package-name>.es.js files. The alternate is now to use the index.tsx files.
+* **ripple:** withRipple is no longer the default export.
+
+
+
+## [0.7.1](https://github.com/material-components/material-components-web-react/compare/v0.6.2...v0.7.1) (2018-11-30)
 
 
 ### Bug Fixes
@@ -16,7 +60,9 @@
 * **chips:** update to v0.41.0 ([#424](https://github.com/material-components/material-components-web-react/issues/424)) ([e40fec6](https://github.com/material-components/material-components-web-react/commit/e40fec6))
 * **drawer:** initialize foundation if props.open updates ([#427](https://github.com/material-components/material-components-web-react/issues/427)) ([36e6316](https://github.com/material-components/material-components-web-react/commit/36e6316))
 * **drawer:** replace focus trap with vanilla version ([#437](https://github.com/material-components/material-components-web-react/issues/437)) ([bd7433b](https://github.com/material-components/material-components-web-react/commit/bd7433b))
+* **drawer:** update modal screenshot golden ([#482](https://github.com/material-components/material-components-web-react/issues/482)) ([ce0c314](https://github.com/material-components/material-components-web-react/commit/ce0c314))
 * **linear-progress:** Add linear progress ([#450](https://github.com/material-components/material-components-web-react/issues/450)) ([f38d575](https://github.com/material-components/material-components-web-react/commit/f38d575))
+* **select:** added check for nativeControl element before calling props.setRippleCenter in NativeControl ([#478](https://github.com/material-components/material-components-web-react/issues/478)) ([5baad76](https://github.com/material-components/material-components-web-react/commit/5baad76))
 * **tab-bar:** set previousActiveIndex to props.activeIndex initially to avoid tab of undefined error ([#428](https://github.com/material-components/material-components-web-react/issues/428)) ([8e28944](https://github.com/material-components/material-components-web-react/commit/8e28944))
 * **text-field:** custom validation ([#430](https://github.com/material-components/material-components-web-react/issues/430)) ([f5c9c35](https://github.com/material-components/material-components-web-react/commit/f5c9c35))
 * **text-field:** uncomment test fixed from 0.35.0 ([#404](https://github.com/material-components/material-components-web-react/issues/404)) ([3a908ff](https://github.com/material-components/material-components-web-react/commit/3a908ff))
@@ -28,6 +74,7 @@
 * **list:** allow semantic tags (mainly, nav on List and a on ListItem) ([#405](https://github.com/material-components/material-components-web-react/issues/405)) ([9672cdb](https://github.com/material-components/material-components-web-react/commit/9672cdb))
 * **radio:** add component ([#448](https://github.com/material-components/material-components-web-react/issues/448)) ([fd8747c](https://github.com/material-components/material-components-web-react/commit/fd8747c))
 * **typography:** add component ([#378](https://github.com/material-components/material-components-web-react/issues/378)) ([e46acf5](https://github.com/material-components/material-components-web-react/commit/e46acf5))
+
 
 
 ## [0.6.2](https://github.com/material-components/material-components-web-react/compare/v0.6.0...v0.6.2) (2018-11-07)

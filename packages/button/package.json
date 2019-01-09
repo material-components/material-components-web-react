@@ -1,9 +1,10 @@
 {
   "name": "@material/react-button",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Material Components React Button",
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "mdc web react",
     "material components react",
@@ -17,9 +18,8 @@
   },
   "dependencies": {
     "@material/button": "^0.41.0",
-    "@material/react-ripple": "^0.7.1",
+    "@material/react-ripple": "^0.8.0",
     "classnames": "^2.2.5",
-    "prop-types": "^15.6.1",
     "react": "^16.4.2"
   },
   "publishConfig": {

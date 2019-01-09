@@ -1,9 +1,10 @@
 {
   "name": "@material/react-typography",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Material Components React Typography",
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "mdc web react",
     "material components react",
@@ -18,7 +19,6 @@
   "dependencies": {
     "@material/typography": "^0.41.0",
     "classnames": "^2.2.5",
-    "prop-types": "^15.6.1",
     "react": "^16.4.2"
   },
   "publishConfig": {

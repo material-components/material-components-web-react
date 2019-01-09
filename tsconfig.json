@@ -1,0 +1,20 @@
+{
+  "extends": "gts/tsconfig-google.json",
+  "compilerOptions": {
+    "outDir": "./types/",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "module": "commonjs",
+    "lib": ["es2015", "es2017", "dom"],
+    "jsx": "react",
+    "target": "es5",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "compileOnSave": true,
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
+}

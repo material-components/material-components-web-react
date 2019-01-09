@@ -1,20 +1,26 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const {read: readComponents} = require('../../scripts/screenshot-directory-reader');
+const {read: readComponents} = require('../../scripts/directory-reader');
 const {importer} = require('../../packages/webpack.util');
 
 module.exports = {
-  entry: ['babel-polyfill', `./test/screenshot/index.js`],
+  entry: ['babel-polyfill', `./test/screenshot/index.tsx`],
   output: {
     filename: 'bundle.js',
     path: __dirname,
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
   module: {
     rules: [{
       test: /\.js$/,
       loader: 'babel-loader',
       query: {compact: true},
+    }, {
+      test: /\.tsx?$/,
+      loader: 'ts-loader',
     }, {
       test: /\.scss$/,
       use: ExtractTextPlugin.extract({
