@@ -462,20 +462,87 @@ test('renders leadingIcon if passed as prop', () => {
   assert.equal(wrapper.find('.test-class-name-icon').length, 1);
 });
 
-test('renders trailingIcon if passed as prop', () => {
-  const wrapper = shallow(<TextField label='my label'
-    trailingIcon={<i className='test-class-name-icon' />}
-  ><Input /></TextField>);
-  assert.equal(wrapper.find('.test-class-name-icon').length, 1);
-});
-
-test('does not render trailingIcon or trailingIcon if no prop is passed', () => {
+test('does not render leadingIcon if no leadingIcon prop is passed', () => {
   const wrapper = shallow(
     <TextField label='my label'>
       <Input />
     </TextField>
   );
   assert.equal(wrapper.find('.test-class-name-icon').length, 0);
+});
+
+test('onLeadingIconSelect is passed to leadingIcon if passed as prop', () => {
+  const onSelect = () => 'select';
+  const wrapper = shallow<TextField<HTMLInputElement>>(
+    <TextField
+      label='my label'
+      onLeadingIconSelect={onSelect}
+      leadingIcon={<i className='test-class-name-icon' />}
+    ><Input /></TextField>
+  );
+
+  const leadingIcon = wrapper.find('.test-class-name-icon').parent().props();
+  assert.isFunction(leadingIcon.onSelect);
+  assert.strictEqual(leadingIcon.onSelect, onSelect);
+});
+
+test('onLeadingIconSelect is not passed to leadingIcon if not passed as prop', () => {
+  const wrapper = shallow<TextField<HTMLInputElement>>(
+    <TextField
+      label='my label'
+      leadingIcon={<i className='test-class-name-icon' />}
+    ><Input /></TextField>
+  );
+
+  const leadingIcon = wrapper.find('.test-class-name-icon').parent().props();
+  assert.isNotFunction(leadingIcon.onSelect);
+  assert.isUndefined(leadingIcon.onSelect);
+});
+
+test('renders trailingIcon if passed as prop', () => {
+  const wrapper = shallow(<TextField label='my label'
+    trailingIcon={<i className='test-class-name-icon' />}
+  ><Input /></TextField>);
+
+  assert.equal(wrapper.find('.test-class-name-icon').length, 1);
+});
+
+
+test('does not render trailingIcon if no trailingIcon prop is passed', () => {
+  const wrapper = shallow(
+    <TextField label='my label'>
+      <Input />
+    </TextField>
+  );
+  assert.equal(wrapper.find('.test-class-name-icon').length, 0);
+});
+
+test('onTrailingIconSelect is passed to trailingIcon if passed as prop', () => {
+  const onSelect = () => 'select';
+  const wrapper = shallow<TextField<HTMLInputElement>>(
+    <TextField
+      label='my label'
+      onTrailingIconSelect={onSelect}
+      trailingIcon={<i className='test-class-name-icon' />}
+    ><Input /></TextField>
+  );
+
+  const trailingIcon = wrapper.find('.test-class-name-icon').parent().props();
+  assert.isFunction(trailingIcon.onSelect);
+  assert.strictEqual(trailingIcon.onSelect, onSelect);
+});
+
+test('onTrailingIconSelect is not passed to trailingIcon if not passed as prop', () => {
+  const wrapper = shallow<TextField<HTMLInputElement>>(
+    <TextField
+      label='my label'
+      trailingIcon={<i className='test-class-name-icon' />}
+    ><Input /></TextField>
+  );
+
+  const trailingIcon = wrapper.find('.test-class-name-icon').parent().props();
+  assert.isNotFunction(trailingIcon.onSelect);
+  assert.isUndefined(trailingIcon.onSelect);
 });
 
 test('renders label if label is passed as prop', () => {

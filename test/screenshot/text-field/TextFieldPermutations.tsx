@@ -13,7 +13,11 @@ import {
 import TestField from './TestTextField';
 
 const textFields = (variantProps: {variant?: string}) => {
-  return iconsMap.map((icon: {leadingIcon?: React.ReactNode, trailingIcon?: React.ReactNode}) => {
+  return iconsMap.map((icon: {
+    leadingIcon?: React.ReactNode,
+    onLeadingIconSelect?: () => void,
+    trailingIcon?: React.ReactNode,
+    onTrailingIconSelect?: () => void, }) => {
     return denseMap.map((dense: {dense?: boolean}) => {
       return rtlMap.map((isRtl: {isRtl?: boolean}) => {
         return requiredMap.map((isRequired: {required?: boolean}) => {

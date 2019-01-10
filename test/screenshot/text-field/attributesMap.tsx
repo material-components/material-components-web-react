@@ -10,8 +10,8 @@ const iconAlt = <MaterialIcon icon='work' />;
 
 const iconsMap = [
   {},
-  {leadingIcon: icon},
-  {trailingIcon: icon},
+  {leadingIcon: icon, onLeadingIconSelect: () => console.log('bark')},
+  {trailingIcon: icon, onTrailingIconSelect: () => console.log('shhh')},
   {leadingIcon: icon, trailingIcon: iconAlt},
 ];
 const denseMap = [{}, {dense: true}];
