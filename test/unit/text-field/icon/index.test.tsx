@@ -4,6 +4,7 @@ import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import Icon from '../../../../packages/text-field/icon/index';
 import MaterialIcon from '../../../../packages/material-icon/index';
+import {coerceForTesting} from '../../helpers/types';
 
 suite('Text Field Icon');
 
@@ -59,7 +60,7 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true'
       <i />
     </Icon>
   );
-  assert.equal(wrapper.state().tabindex, undefined);
+  assert.equal(wrapper.state().tabindex, -1); // foundation setDisabled sets tabIndex -1
   assert.equal(wrapper.state().role, undefined);
 });
 
@@ -72,6 +73,26 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true 
   assert.equal(wrapper.state().tabindex, -1);
   assert.equal(wrapper.state().role, undefined);
 });
+
+test('#componentDidMount sets tabindex if prop not present but onSelect exists', () => {
+  // w/out tabindex onSelect will never fire && cursor: pointer is not applied
+  const wrapper = shallow<Icon>(
+    <Icon onSelect={() => {}}><MaterialIcon icon='favorite' /></Icon>);
+
+  assert.equal(wrapper.state().tabindex, 0);
+});
+
+test(
+  '#componentDidUpdate will set tabindex if prop not present but updates ' +
+    'with onSelect',
+  () => {
+    const wrapper = shallow<Icon>(<Icon><MaterialIcon icon='favorite' /></Icon>);
+
+    assert.equal(wrapper.state().tabindex, -1);
+    wrapper.setProps({onSelect: () => {}});
+    assert.equal(wrapper.state().tabindex, 0);
+  }
+);
 
 test(
   '#componentDidUpdate calls #foundation.setDisabled if ' +
@@ -199,6 +220,47 @@ test('#adapter.removeAttr for role works with Custom Component', () => {
   );
   wrapper.instance().foundation_.adapter_.removeAttr('role');
   assert.equal(wrapper.state().role, undefined);
+});
+
+test('#adapter.notifyIconAction calls props.onSelect', () => {
+  const onSelect = coerceForTesting<() => void>(td.func());
+  const wrapper = shallow<Icon>(
+    <Icon onSelect={onSelect}>
+      <MaterialIcon icon='favorite' role='button' />
+    </Icon>
+  );
+  wrapper.instance().foundation_.adapter_.notifyIconAction();
+  td.verify(onSelect(), {times: 1});
+});
+
+test('onClick calls foundation.handleInteraction', () => {
+  const onSelect = coerceForTesting<() => void>(td.func());
+  const wrapper = shallow<Icon>(
+    <Icon onSelect={onSelect}>
+      <MaterialIcon icon='favorite' role='button' />
+    </Icon>
+  );
+  const evt = coerceForTesting<React.MouseEvent>({});
+  wrapper.instance().foundation_.handleInteraction = td.func();
+  wrapper.simulate('click', evt);
+  td.verify(wrapper.instance().foundation_.handleInteraction(evt), {
+    times: 1,
+  });
+});
+
+test('onKeyDown call foundation.handleInteraction', () => {
+  const onSelect = coerceForTesting<() => void>(td.func());
+  const wrapper = shallow<Icon>(
+    <Icon onSelect={onSelect}>
+      <MaterialIcon icon='favorite' role='button' />
+    </Icon>
+  );
+  const evt = coerceForTesting<React.KeyboardEvent>({});
+  wrapper.instance().foundation_.handleInteraction = td.func();
+  wrapper.simulate('keydown', evt);
+  td.verify(wrapper.instance().foundation_.handleInteraction(evt), {
+    times: 1,
+  });
 });
 
 test('updating the role reflects on DOM node', () => {
