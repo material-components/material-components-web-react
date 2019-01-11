@@ -5,6 +5,7 @@ import App from './App';
 import topAppBarVariants from './top-app-bar/variants';
 import drawerVariants from './drawer/variants';
 import textFieldVariants from './text-field/variants';
+import dialogVariants from './dialog/variants';
 import {COMPONENTS} from './constants';
 import './index.scss';
 
@@ -21,6 +22,13 @@ ReactDOM.render(
             path={`/${componentPath}`}
             component={Component}
           />
+        );
+      })}
+      {dialogVariants.map((variant: string) => {
+        const path = `dialog/${variant}`;
+        const Component = require(`./dialog/${variant}`).default;
+        return (
+          <Route exact key={path} path={`/${path}`} component={Component} />
         );
       })}
       {drawerVariants.map((variant: string) => {

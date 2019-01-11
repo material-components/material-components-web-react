@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import {DialogTitle} from '../../../packages/dialog';
@@ -22,13 +22,13 @@ test('redners a DialogTitle with the default className', () => {
 });
 
 test('props.className adds classes', () => {
-  const wrapper = shallow(<DialogTitle className="test-class"/>);
+  const wrapper = shallow(<DialogTitle className='test-class'/>);
   assert.isTrue(wrapper.hasClass('test-class'));
   assert.isTrue(wrapper.hasClass(cssClasses.TITLE));
 });
 
 test('prop.id adds id', () => {
-  const wrapper = shallow(<DialogTitle id="custom-title"/>);
+  const wrapper = shallow(<DialogTitle id='custom-title'/>);
   assert.equal(wrapper.find('#custom-title').length, 1);
 });
 

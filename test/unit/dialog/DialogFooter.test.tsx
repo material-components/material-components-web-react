@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import {DialogFooter, DialogButton} from '../../../packages/dialog';
@@ -22,7 +22,7 @@ test('redners a DialogFooter with the default className', () => {
 });
 
 test('props.className adds classes', () => {
-  const wrapper = shallow(<DialogFooter className="test-class"/>);
+  const wrapper = shallow(<DialogFooter className='test-class'/>);
   assert.isTrue(wrapper.hasClass('test-class'));
   assert.isTrue(wrapper.hasClass(cssClasses.ACTIONS));
 });
@@ -31,8 +31,8 @@ test('props.className adds classes', () => {
 test('children are added correctly', () => {
   const wrapper = shallow(
     <DialogFooter>
-      <DialogButton action="dismiss"/>
-      <DialogButton action="accept" />
+      <DialogButton action='dismiss'/>
+      <DialogButton action='accept' />
     </DialogFooter>
   );
 
