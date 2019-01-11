@@ -18,7 +18,8 @@
   "dependencies": {
     "@material/ripple": "^0.41.0",
     "classnames": "^2.2.5",
-    "react": "^16.4.2"
+    "react": "^16.4.2",
+    "utility-types": "^3.2.1"
   },
   "publishConfig": {
     "access": "public"
