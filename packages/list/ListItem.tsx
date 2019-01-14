@@ -137,7 +137,7 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
   }
 
   renderChild = (child: React.ReactChild) => {
-    if (typeof child === 'string' || typeof child === 'number') {
+    if (typeof child === 'string' || typeof child === 'number' || child === null) {
       return child;
     }
 
