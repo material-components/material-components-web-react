@@ -7,10 +7,9 @@ import Dialog, {
   DialogButton,
 } from '../../../packages/dialog/index';
 import Button from '../../../packages/button/index';
-import List, {ListItem, ListItemGraphic, ListItemText} from '../../../packages/list/index';
+import List, {ListItem, ListItemGraphic} from '../../../packages/list/index';
 import Radio, {NativeRadioControl} from '../../../packages/radio/index';
 import './index.scss';
-
 
 const choices: string[] = ['never gonna give yo up', 'host cross buns', 'none'];
 
@@ -42,13 +41,13 @@ class Confirmation extends React.Component<{}, {isOpen: boolean; action: string;
                     <ListItemGraphic graphic={
                       <Radio label={choice} key={c}>
                         <NativeRadioControl
+                          className='mdc-list-item__text'
                           name='ringtone'
                           value={choice}
                           id={c}
                         />
                       </Radio>}
                     />
-                    <ListItemText primaryText={choice}/>
                   </ListItem>
                 );
               })}

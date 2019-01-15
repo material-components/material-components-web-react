@@ -27,19 +27,21 @@ import classnames from 'classnames';
 import {MDCDialogFoundation, MDCDialogAdapter, util} from '@material/dialog/dist/mdc.dialog';
 // @ts-ignore no .d.ts file
 import {ponyfill} from '@material/dom/dist/mdc.dom';
+/* eslint-disable no-unused-vars */
+import DialogContent, {DialogContentProps} from './DialogContent';
+import DialogFooter, {DialogFooterProps} from './DialogFooter';
+import DialogTitle, {DialogTitleProps} from './DialogTitle';
+/* eslint-enable no-unused-vars */
+import DialogButton from './DialogButton';
 import {cssClasses, LAYOUT_EVENTS} from './constants';
 import {FocusTrap} from 'focus-trap';
 
-import DialogContent from './DialogContent';
-import DialogFooter from './DialogFooter';
-import DialogButton from './DialogButton';
-import DialogTitle from './DialogTitle';
+export type ChildTypes<ChildProps> = DialogTitle<ChildProps> | DialogContent<ChildProps>| DialogFooter<ChildProps>;
+export type ChildProps<T> = DialogTitleProps<T> | DialogContentProps<T> | DialogFooterProps<T>;
 
-export type ChildTypes<T> = DialogTitle<T> | DialogContent<T>| DialogFooter<T>;
-
-export interface DialogProps extends React.HTMLProps<HTMLElement> {
+export interface DialogProps<T> extends React.HTMLProps<T> {
   autoStackButtons?: boolean;
-  children?: ChildTypes<HTMLElement>;
+  children?: ChildTypes<ChildProps<T>>[] | ChildTypes<ChildProps<T>>;
   className?: string;
   id?: string;
   onClose?: (action: string) => void;
@@ -54,14 +56,25 @@ interface DialogState {
   classList: Set<string>;
 }
 
-class Dialog extends React.Component<DialogProps, DialogState> {
+function isDialogTitle(element: any): element is DialogTitle<any> {
+  return element.type === DialogTitle;
+}
+
+function isDialogContent(element: any): element is DialogContent<any> {
+  return element.type === DialogContent;
+}
+
+class Dialog<T extends {} = HTMLElement> extends React.Component<
+  DialogProps<T>,
+  DialogState
+  > {
   focusTrap?: FocusTrap;
   foundation: MDCDialogFoundation;
   dialogElement: React.RefObject<HTMLElement> = React.createRef();
-  labelledBy?: undefined | string;
-  describedBy?: undefined | string;
+  labelledBy?: string;
+  describedBy?: string;
 
-  static defaultProps: Partial<DialogProps> = {
+  static defaultProps: Partial<DialogProps<HTMLElement>> = {
     autoStackButtons: true,
     className: '',
     onOpening: () => {},
@@ -91,7 +104,7 @@ class Dialog extends React.Component<DialogProps, DialogState> {
     this.foundation.destroy();
   }
 
-  componentDidUpdate(prevProps: DialogProps) {
+  componentDidUpdate(prevProps: DialogProps<T>) {
     const {open, autoStackButtons} = this.props;
 
     if (prevProps.autoStackButtons !== autoStackButtons) {
@@ -110,17 +123,17 @@ class Dialog extends React.Component<DialogProps, DialogState> {
     return classnames(cssClasses.BASE, Array.from(classList), className);
   }
 
-  get buttons_(): DialogButton[] | null {
+  get buttons_(): HTMLButtonElement[] | null {
     return this.dialogElement.current &&
        [].slice.call(this.dialogElement.current.getElementsByClassName(cssClasses.BUTTON));
   }
 
-  get content_(): DialogContent {
+  get content_(): HTMLElement | null {
     return this.dialogElement.current &&
         this.dialogElement.current.querySelector(`.${cssClasses.CONTENT}`);
   }
 
-  get defaultButton_(): DialogButton {
+  get defaultButton_(): HTMLButtonElement | null {
     return this.dialogElement.current &&
         this.dialogElement.current.querySelector(`.${cssClasses.DEFAULT_BUTTON}`);
   }
@@ -168,7 +181,7 @@ class Dialog extends React.Component<DialogProps, DialogState> {
       reverseButtons: () => {
         const buttons = this.buttons_;
         return buttons &&
-          buttons.reverse().forEach((button: HTMLElement) =>
+          buttons.reverse().forEach((button: HTMLButtonElement) =>
             button.parentElement && button.parentElement.appendChild(button)
           );
       },
@@ -203,8 +216,7 @@ class Dialog extends React.Component<DialogProps, DialogState> {
     this.foundation.handleInteraction(e);
   handleDocumentKeyDown = (e: Event): void =>
     this.foundation.handleDocumentKeydown(e);
-  // @ts-ignore parameter never used
-  handleLayout = (evt: Event): void => this.foundation.layout();
+  handleLayout = (): void => this.foundation.layout();
 
 
   render() {
@@ -224,7 +236,8 @@ class Dialog extends React.Component<DialogProps, DialogState> {
       /* eslint-enable no-unused-vars */
     } = this.props;
 
-    const container = this.renderContainer(children);
+    const container: React.ReactElement<HTMLDivElement> | undefined =
+      this.renderContainer(children);
     return (
       // @ts-ignore
       <Tag
@@ -245,41 +258,46 @@ class Dialog extends React.Component<DialogProps, DialogState> {
   }
 
 
-  renderContainer = (children: ChildTypes<HTMLElement>) => !children ? undefined : (
+  renderContainer = (children?: ChildTypes<ChildProps<T>> | ChildTypes<ChildProps<T>>[]):
+      React.ReactElement<HTMLDivElement> | undefined => !children ? undefined : (
     <div className={cssClasses.CONTAINER}>
       <div className={cssClasses.SURFACE}>
-        {React.Children.map(children, this.renderChild)}
+        {React.Children.map(
+          (children as ChildTypes<ChildProps<T>>[]),
+          this.renderChild
+        )}
       </div>
     </div>
   );
 
-  // @ts-ignore parameter 'i' declared but never read
-  renderChild = (child: ChildTypes<HTMLElement>, i?: number ): ChildTypes<HTMLElement> =>
-    ['DialogTitle', 'DialogContent'].indexOf(child.type.displayName) >= 0
+  renderChild = (child: ChildTypes<ChildProps<T>>, i: number ):
+    ChildTypes<ChildProps<T>> =>
+    (isDialogTitle(child) || isDialogContent(child))
       ? React.cloneElement(child, {
-        key: child.type.displayName,
+        key: `child-${i}`,
         ...child.props,
-        id: this.setId(child.type.displayName, child.props.id)})
-      : React.cloneElement(
-        child, {key: child.type.name || child.type.displayName, ...child.props}
-      )
+        id: this.setId(child, child.props.id)})
+      : child;
 
 
-  setId = (name: string, componentId?: string | undefined): string => {
-    const {id} = this.props;
-    if (name === 'DialogTitle') {
-      const labelledBy = componentId || id + '-title';
-      this.labelledBy = labelledBy;
-      return labelledBy;
+    setId = (child: ChildTypes<ChildProps<T>>, componentId?: string): string => {
+      const {id} = this.props;
+      if (isDialogTitle(child)) {
+        const labelledBy = componentId || id + '-title';
+        this.labelledBy = labelledBy;
+        return labelledBy;
+      }
+
+      const describedBy = componentId || id + '-content';
+      this.describedBy = describedBy;
+      return describedBy;
     }
-
-    const describedBy = componentId || id + '-content';
-    this.describedBy = describedBy;
-    return describedBy;
-  }
 }
 
 export default Dialog;
 export {
-  DialogTitle, DialogContent, DialogFooter, DialogButton,
+  DialogTitle,
+  DialogContent,
+  DialogFooter,
+  DialogButton,
 };

@@ -13,12 +13,10 @@
   "dependencies": {
     "@material/dialog": "0.43.0",
     "@material/react-button": "0.8.0",
+    "@material/dom": "^0.41.0",
     "classnames": "^2.2.5",
     "focus-trap": "^4.0.2",
     "react": "^16.4.2"
-  },
-  "devDependencies": {
-    "@material/dom": "^0.41.0"
   },
   "publishConfig": {
     "access": "public"

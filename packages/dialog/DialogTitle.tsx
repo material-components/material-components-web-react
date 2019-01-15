@@ -24,20 +24,26 @@ import * as classnames from 'classnames';
 import {cssClasses} from './constants';
 
 
-export interface DialogTitleProps extends React.HTMLProps<HTMLElement>{
+export interface DialogTitleProps<T> extends React.HTMLProps<T> {
   className?: string,
   tag?: string,
   id?: string,
 };
 
-export const DialogTitle: React.FunctionComponent<DialogTitleProps> = ({
-  className = '', children, tag: Tag = 'h2', ...otherProps
-}) => (
-  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-  <Tag className={classnames(className, cssClasses.TITLE)} {...otherProps}>
-    {children}
-  </Tag>
-);
+const DialogTitle: <T extends {} = HTMLHeadingElement>(props: DialogTitleProps<T>) =>
+    React.ReactElement<T> = ({
+      /* eslint-disable react/prop-types */
+      className = '',
+      children,
+      tag: Tag = 'h2',
+      ...otherProps
+      /* eslint-enable react/prop-types */
+    }) => (
+      // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+      <Tag className={classnames(className, cssClasses.TITLE)} {...otherProps}>
+        {children}
+      </Tag>
+    );
 
-DialogTitle.displayName = 'DialogTitle';
+type DialogTitle<T> = React.ReactElement<T>;
 export default DialogTitle;

@@ -4,7 +4,9 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 // @ts-ignore
-import Dialog, {ChildTypes, DialogTitle, DialogContent, DialogFooter, DialogButton} from '../../../packages/dialog';
+import Dialog, {
+  ChildTypes, ChildProps, DialogProps, DialogTitle, DialogContent, DialogFooter, DialogButton,
+} from '../../../packages/dialog';
 // @ts-ignore no mdc .d.ts file
 import {util} from '@material/dialog/dist/mdc.dialog';
 import {cssClasses, LAYOUT_EVENTS} from '../../../packages/dialog/constants';
@@ -175,7 +177,7 @@ test('#adapter.isContentScrollable returns false when there is no content', () =
 });
 
 test('#adapter.isContentScrollable returns the value of util.isScrollable', () => {
-  const wrapper = mount<Dialog>(
+  const wrapper = mount<Dialog<DialogProps<HTMLDivElement>>, {classList: Set<string>}>(
     <Dialog open><DialogContent><p>meowkay</p></DialogContent></Dialog>
   );
   const content = wrapper.instance().content_;
@@ -216,6 +218,7 @@ test('#adapter.getActionFromEvent returns attribute value on parent of event tar
     </Dialog>
   );
 
+  // @ts-ignore object is possibly null
   const spanEl = wrapper.instance().content_.getElementsByTagName('span')[0];
   const action = wrapper.instance().adapter.getActionFromEvent({target: spanEl});
   assert.equal(action, 'pet');
@@ -236,6 +239,7 @@ test('#adapter.getActionFromEvent returns null when attribute is not present', (
     </Dialog>
   );
 
+  // @ts-ignore object is possibly null
   const spanEl = wrapper.instance().content_.getElementsByTagName('span')[0];
   const action = wrapper.instance().adapter.getActionFromEvent({target: spanEl});
   assert.isNull(action);
@@ -253,8 +257,10 @@ test(`#adapter.clickDefaultButton invokes click() on button matching ${cssClasse
   );
   const defaultButton = wrapper.instance().defaultButton_;
 
+  // @ts-ignore object is possibly null
   defaultButton.click = td.func('click');
   wrapper.instance().adapter.clickDefaultButton();
+  // @ts-ignore object is possibly null
   td.verify(defaultButton.click(), {times: 1});
 });
 
@@ -334,12 +340,13 @@ test('#handleOpening adds keydown handler on document that triggers ' +
 
 test('#handleOpening adds handler for LAYOUT_EVENTS to window', () => {
   const wrapper = shallow<Dialog>(<Dialog open={false}/>);
-  wrapper.instance().handleLayout = coerceForTesting<(evt: Event) => void>(td.func());
+  wrapper.instance().handleLayout = coerceForTesting<() => void>(td.func());
   wrapper.instance().handleOpening();
 
   LAYOUT_EVENTS.forEach((eventType: string) => {
     let evt = new Event(eventType);
     window.dispatchEvent(evt);
+    // @ts-ignore expected 0 arguments but got 1 -- evt will always be passed
     td.verify(wrapper.instance().handleLayout(evt), {times: 1});
   });
 });
@@ -364,12 +371,13 @@ test('#handleClosing removes keydown handler on document that triggers ' +
 
 test('#handleClosing removes handler for LAYOUT_EVENTS to window', () => {
   const wrapper = shallow<Dialog>(<Dialog open={false}/>);
-  wrapper.instance().handleLayout = coerceForTesting<(evt: Event) => void>(td.func());
+  wrapper.instance().handleLayout = coerceForTesting<(evt?: Event) => void>(td.func());
   wrapper.instance().handleOpening();
 
   LAYOUT_EVENTS.forEach((eventType) => {
     let evt = new Event(eventType);
     window.dispatchEvent(evt);
+    // @ts-ignore expected 0 arguments but got 1
     td.verify(wrapper.instance().handleLayout(evt), {times: 1});
   });
 
@@ -378,14 +386,15 @@ test('#handleClosing removes handler for LAYOUT_EVENTS to window', () => {
   LAYOUT_EVENTS.forEach((eventType) => {
     let evt = new Event(eventType);
     window.dispatchEvent(evt);
+    // @ts-ignore expected 0 arguments but got 1
     td.verify(wrapper.instance().handleLayout(evt), {times: 0});
   });
 });
 
 test('#renderContainer returns undefined if no children', () => {
   const wrapper = shallow<Dialog>(<Dialog/>);
-  const children = wrapper.instance().props.children;
-  const container = wrapper.instance().renderContainer(children);
+
+  const container = wrapper.instance().renderContainer(undefined);
 
   assert.isUndefined(container);
 });
@@ -398,14 +407,16 @@ test('#renderContainer renders container if children present', () => {
     </Dialog>
   );
   wrapper.instance().renderChild =
-    coerceForTesting<(child: ChildTypes<HTMLElement>, i?: number) => ChildTypes<HTMLElement>>(td.func());
-  const children = wrapper.instance().props.children;
+    coerceForTesting<(child: ChildTypes<ChildProps<HTMLElement>>, i?: number) =>
+        ChildTypes<ChildProps<HTMLElement>>>(td.func());
+  const children: ChildTypes<ChildProps<HTMLElement>>[] =
+    wrapper.instance().props.children as ChildTypes<ChildProps<HTMLElement>>[];
   const container = wrapper.instance().renderContainer(children);
 
   assert.isDefined(container);
   // @ts-ignore container possibly undefined
   assert.equal(container.props.className, cssClasses.CONTAINER);
-  children.forEach( (child: ChildTypes<HTMLElement>, i?: number) =>
+  children.forEach( (child: ChildTypes<ChildProps<HTMLElement>>, i: number) =>
     td.verify(wrapper.instance().renderChild(child, i), {times: 1})
   );
 });
@@ -415,9 +426,9 @@ test('#renderChild will call setId if DialogTitle', () => {
   const wrapper = shallow<Dialog>(<Dialog>{title}</Dialog>);
 
   wrapper.instance().setId =
-    coerceForTesting<(name: string, componentId?: string | undefined) => string>(td.func());
-  wrapper.instance().renderChild(title);
-  td.verify(wrapper.instance().setId('DialogTitle', undefined), {times: 1});
+    coerceForTesting<(name: ChildTypes<ChildProps<HTMLElement>>, componentId?: string ) => string>(td.func());
+  wrapper.instance().renderChild(title, 0);
+  td.verify(wrapper.instance().setId(title, undefined), {times: 1});
 });
 
 test('#renderChild will call setId if DialogContent', () => {
@@ -425,9 +436,9 @@ test('#renderChild will call setId if DialogContent', () => {
   const wrapper = shallow<Dialog>(<Dialog>{content}</Dialog>);
 
   wrapper.instance().setId =
-    coerceForTesting<(name: string, componentId?: string ) => string>(td.func());
-  wrapper.instance().renderChild(content);
-  td.verify(wrapper.instance().setId('DialogContent', 'your-pet-cat'), {times: 1});
+    coerceForTesting<(name: ChildTypes<ChildProps<HTMLElement>>, componentId?: string ) => string>(td.func());
+  wrapper.instance().renderChild(content, 1);
+  td.verify(wrapper.instance().setId(content, 'your-pet-cat'), {times: 1});
 });
 
 test('#renderChild will not call setId if !DialogTitle || !DialogContent', () => {
@@ -435,9 +446,9 @@ test('#renderChild will not call setId if !DialogTitle || !DialogContent', () =>
   const wrapper = shallow<Dialog>(<Dialog>{footer}</Dialog>);
 
   wrapper.instance().setId =
-    coerceForTesting<(name: string, componentId?: string ) => string>(td.func());
-  wrapper.instance().renderChild(footer);
-  td.verify(wrapper.instance().setId('DialogFooter'), {times: 0});
+    coerceForTesting<(name: ChildTypes<ChildProps<HTMLElement>>, componentId?: string ) => string>(td.func());
+  wrapper.instance().renderChild(footer, 2);
+  td.verify(wrapper.instance().setId(footer), {times: 0});
 });
 
 test('#setId will set labelledby and a id on DialogTitle if not present', () => {

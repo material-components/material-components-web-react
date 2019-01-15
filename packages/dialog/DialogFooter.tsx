@@ -24,20 +24,26 @@ import * as classnames from 'classnames';
 import {cssClasses} from './constants';
 
 
-export interface DialogFooterProps extends React.HTMLProps<HTMLElement>{
+export interface DialogFooterProps<T> extends React.HTMLProps<T> {
   className?: string,
   tag?: string,
 };
 
 
-export const DialogFooter: React.FunctionComponent<DialogFooterProps> = ({
-  className = '', children, tag: Tag = 'footer', ...otherProps
-}) => (
-  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-  <Tag className={classnames(className, cssClasses.ACTIONS)} {...otherProps}>
-    {children}
-  </Tag>
-);
+const DialogFooter: <T extends {} = HTMLElement>(props: DialogFooterProps<T>) =>
+  React.ReactElement<T> = ({
+    /* eslint-disable react/prop-types */
+    className = '',
+    children,
+    tag: Tag = 'footer',
+    ...otherProps
+    /* eslint-enable react/prop-types */
+  }) => (
+    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+    <Tag className={classnames(className, cssClasses.ACTIONS)} {...otherProps}>
+      {children}
+    </Tag>
+  );
 
-DialogFooter.displayName = 'DialogFooter';
+type DialogFooter<T> = React.ReactElement<T>;
 export default DialogFooter;

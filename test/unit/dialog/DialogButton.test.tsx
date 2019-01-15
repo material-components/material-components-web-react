@@ -6,7 +6,7 @@ import {cssClasses} from '../../../packages/dialog/constants';
 
 suite('DialogButton');
 
-test('redners a DialogButton with the default className', () => {
+test('renders a DialogButton with the default className', () => {
   const wrapper = shallow(<DialogButton action='accept'/>);
   assert.isTrue(wrapper.hasClass(cssClasses.BUTTON));
 });

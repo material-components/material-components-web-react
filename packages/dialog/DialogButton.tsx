@@ -25,24 +25,31 @@ import {cssClasses} from './constants';
 import Button from '@material/react-button';
 
 
-export interface DialogButtonProps extends React.HTMLProps<HTMLElement>{
+export interface DialogButtonProps<ButtonProps> extends React.HTMLProps<ButtonProps> {
   action: string,
   className?: string,
   isDefault?: boolean,
 };
 
 
-export const DialogButton: React.FunctionComponent<DialogButtonProps> = ({
-  action, className = '', children, isDefault = false, ...otherProps
-}) => (
-  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-  <Button
-    className={classnames(className, cssClasses.BUTTON, {
-      [cssClasses.DEFAULT_BUTTON]: isDefault})}
-    data-mdc-dialog-action={action}
-    {...otherProps}
-  >{children}</Button>
-);
+const DialogButton: (props: DialogButtonProps<HTMLButtonElement>) =>
+  React.ReactElement<any> = ({
+    /* eslint-disable react/prop-types */
+    action,
+    className = '',
+    children,
+    isDefault = false,
+    ...otherProps
+    /* eslint-enable react/prop-types */
+  }) => (
+    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+    <Button
+      className={classnames(className, cssClasses.BUTTON, {
+        [cssClasses.DEFAULT_BUTTON]: isDefault})}
+      data-mdc-dialog-action={action}
+      {...otherProps}
+    >{children}</Button>
+  );
 
-DialogButton.displayName = 'DialogButton';
+type DialogButton<ButtonProps> = React.ReactElement<DialogButtonProps<ButtonProps>>;
 export default DialogButton;
