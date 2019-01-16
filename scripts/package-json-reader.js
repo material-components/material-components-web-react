@@ -10,6 +10,9 @@ const readMaterialPackages = () => {
   ];
 
   for (let dep in packageJson.devDependencies) {
+    if (dep.startsWith('@shortcm/')) {
+      dependencies.push(dep);
+    }
     if (dep.startsWith('@material/')) {
       dependencies.push(dep);
     }

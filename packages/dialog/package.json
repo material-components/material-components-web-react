@@ -1,6 +1,6 @@
 {
-  "name": "@material/react-button",
-  "version": "0.8.0",
+  "name": "@shortcm/react-dialog",
+  "version": "0.8.92",
   "description": "Material Components React Button",
   "license": "MIT",
   "main": "dist/index.js",
@@ -24,8 +24,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "@types/material__dialog": "^0.35.0"
   }
 }

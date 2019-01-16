@@ -21,8 +21,8 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import createFocusTrap from 'focus-trap';
-import * as classnames from 'classnames';
+import createFocusTrap = require('focus-trap');
+import classnames from 'classnames';
 import { MDCDialogFoundation, MDCDialogAdapter } from '@material/dialog';
 import { IMDCDialogAdapter } from './types';
 
@@ -31,7 +31,10 @@ type Props = {
   children: React.ReactChild,
   title?: string | null,
   actions?: React.ReactChild,
-  onRequestClose?: () => void,
+  onClose?: () => void,
+  onBeforeClose?: () => void,
+  onOpen?: () => void,
+  onBeforeOpen?: () => void,
 };
 
 type State = {
@@ -67,15 +70,14 @@ export class Dialog extends React.Component<Props, State> {
           }),
       });
   }
-  onDialogClosed = () => {
-      this.props.onRequestClose && this.props.onRequestClose();
-  }
   componentDidMount() {
       this.dialog = new MDCDialogFoundation(this.adapter as unknown as MDCDialogAdapter);
       this.dialog.init();
       this.dialog.open();
       const keydownListener: EventListener = (e: Event) => this.dialog.handleDocumentKeydown(e);
       const resizeListener: EventListener = (e: Event) => this.dialog.layout(e);
+      document.addEventListener('keydown', keydownListener);
+      window.addEventListener('resize', resizeListener);
       this.setState({
           keydownListener,
           resizeListener,
@@ -124,20 +126,32 @@ export class Dialog extends React.Component<Props, State> {
             // TODO
           },
           notifyOpening() {
-            // TODO
+            const { onBeforeOpen } = this.props;
+            if (onBeforeOpen) {
+              onBeforeOpen();
+            }
           },
           notifyOpened() {
-            // TODO
+            const { onOpen } = this.props;
+            if (onOpen) {
+              onOpen();
+            }
           },
           notifyClosing() {
-            // TODO
+            const { onBeforeClose } = this.props;
+            if (onBeforeClose) {
+              onBeforeClose();
+            }
           },
           getActionFromEvent() {
             // TODO
             return 'unknown';
           },
           notifyClosed: () => {
-              this.onDialogClosed();
+            const { onClose } = this.props;
+            if (onClose) {
+              onClose();
+            }
           },
           addBodyClass: (className: string) => {
               document.body && document.body.classList.add(className);
