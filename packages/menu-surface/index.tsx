@@ -74,6 +74,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
   deregisterWindowClickListener?: () => void;
   firstFocusableElement: HTMLElement | null = null;
   lastFocusableElement: HTMLElement | null = null;
+  hoistedElement: HTMLElement | null = null;
 
   state: MenuSurfaceState = {
     transformOrigin: '',
@@ -157,6 +158,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     }
     if (this.foundation) {
       this.foundation.destroy();
+      this.removeHoistedElement();
     }
   }
 
@@ -167,10 +169,16 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     const menuSurfaceElement = this.menuSurfaceElement.current;
     if (!menuSurfaceElement) return;
     if (!menuSurfaceElement.parentElement) return;
-    document.body.appendChild(
+    this.hoistedElement = document.body.appendChild(
       menuSurfaceElement.parentElement.removeChild(menuSurfaceElement)
     );
     this.foundation.setIsHoisted(true);
+  }
+
+  private removeHoistedElement(): void {
+    if (this.hoistedElement) {
+      document.body.removeChild(this.hoistedElement);
+    }
   }
 
   private setCoordinates(): void {
