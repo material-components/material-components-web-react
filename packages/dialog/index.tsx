@@ -140,17 +140,17 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     return classnames(cssClasses.BASE, Array.from(classList), className);
   }
 
-  get buttons_(): HTMLButtonElement[] | null {
+  get buttons(): HTMLButtonElement[] | null {
     return this.dialogElement.current &&
        [].slice.call(this.dialogElement.current.getElementsByClassName(cssClasses.BUTTON));
   }
 
-  get content_(): HTMLElement | null {
+  get content(): HTMLElement | null {
     return this.dialogElement.current &&
         this.dialogElement.current.querySelector(`.${cssClasses.CONTENT}`);
   }
 
-  get defaultButton_(): HTMLButtonElement | null {
+  get defaultButton(): HTMLButtonElement | null {
     return this.dialogElement.current &&
         this.dialogElement.current.querySelector(`.${cssClasses.DEFAULT_BUTTON}`);
   }
@@ -181,22 +181,22 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
       trapFocus: () => this.focusTrap && this.focusTrap.activate(),
       releaseFocus: () => this.focusTrap && this.focusTrap.deactivate(),
       isContentScrollable: () => {
-        const content = this.content_;
+        const content = this.content;
         return (!!content) ? isScrollable(content) : false;
       },
-      areButtonsStacked: () => areTopsMisaligned(this.buttons_),
+      areButtonsStacked: () => areTopsMisaligned(this.buttons),
       getActionFromEvent: (evt: any) => {
         const elem = closest(evt.target, `[${strings.ACTION_ATTRIBUTE}]`);
         return elem && elem.getAttribute(strings.ACTION_ATTRIBUTE);
       },
       clickDefaultButton: () => {
-        const defaultButton = this.defaultButton_;
+        const defaultButton = this.defaultButton;
         if (defaultButton) {
           defaultButton.click();
         }
       },
       reverseButtons: () => {
-        const buttons = this.buttons_;
+        const buttons = this.buttons;
         return buttons &&
           buttons.reverse().forEach((button: HTMLButtonElement) =>
             button.parentElement && button.parentElement.appendChild(button)
@@ -217,7 +217,7 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     document.addEventListener(
       'keydown', this.handleDocumentKeyDown
     );
-  }
+  };
 
   handleClosing = (action: string): void => {
     this.props.onClosing!(action);
@@ -227,7 +227,7 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     document.removeEventListener(
       'keydown', this.handleDocumentKeyDown
     );
-  }
+  };
 
   handleInteraction = (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void =>
     this.foundation.handleInteraction(e);
@@ -246,8 +246,10 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
       id,
       onOpening,
       onOpen,
+      onClick,
       onClosing,
       onClose,
+      onKeyDown,
       open,
       scrimClickAction,
       tag: Tag,
@@ -258,7 +260,7 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     const container: React.ReactElement<HTMLDivElement> | undefined =
       this.renderContainer(children);
     return (
-      // @ts-ignore
+      // @ts-ignore Tag does not have any construct
       <Tag
         {...otherProps}
         aria-labelledby={this.labelledBy}
@@ -270,7 +272,8 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
         onKeyDown={this.handleInteraction}
         onClick={this.handleInteraction}
         ref={this.dialogElement}
-      >{container}
+      >
+        {container}
         <div className={cssClasses.SCRIM}/>
       </Tag>
     );

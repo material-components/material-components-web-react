@@ -52,7 +52,7 @@ test('#componentWillUnmount destroys foundation', () => {
 test('renders a dialog with foundation.autoStackButtons set to true', () => {
   const wrapper = shallow<Dialog>(<Dialog/>);
   assert.isTrue(wrapper.instance().foundation.getAutoStackButtons());
-})
+});
 
 test('#componentDidMount sets #foundaiton.autoStackButtons to false if prop false', () => {
   const wrapper = shallow<Dialog>(<Dialog autoStackButtons={false}/>);
@@ -64,7 +64,8 @@ test('renders a dialog with foundation.setEscapeKeyAction set to foundation defa
   assert.strictEqual(
     wrapper.instance().foundation.getEscapeKeyAction(),
     MDCDialogFoundation.strings.CLOSE_ACTION);
-})
+});
+
 test('#componentDidMount calls #foundaiton.setEscapeKeyAction if prop present', () => {
   const escapeKeyAction: string = 'meow';
   const wrapper = shallow<Dialog>(<Dialog escapeKeyAction={escapeKeyAction}/>);
@@ -76,7 +77,8 @@ test('renders a dialog with foundation.setScrimClickAction set to foundation def
   assert.strictEqual(
     wrapper.instance().foundation.getScrimClickAction(),
     MDCDialogFoundation.strings.CLOSE_ACTION);
-})
+});
+
 test('#componentDidMount calls #foundaiton.setScrimClickAction if prop present', () => {
   const scrimClickAction: string = 'meow';
   const wrapper = shallow<Dialog>(<Dialog scrimClickAction={scrimClickAction}/>);
@@ -232,7 +234,7 @@ test('#adapter.isContentScrollable returns the value of util.isScrollable', () =
   const wrapper = mount<Dialog<DialogProps<HTMLDivElement>>, {classList: Set<string>}>(
     <Dialog open><DialogContent><p>meowkay</p></DialogContent></Dialog>
   );
-  const content = wrapper.instance().content_;
+  const content = wrapper.instance().content;
   assert.strictEqual(
     wrapper.instance().adapter.isContentScrollable(), util.isScrollable(content)
   );
@@ -240,7 +242,7 @@ test('#adapter.isContentScrollable returns the value of util.isScrollable', () =
 
 test('#adapter.areButtonsStacked returns result of util.areTopsMisaligned', () => {
   const wrapper = mount<Dialog>(DialogStub);
-  const buttons = wrapper.instance().buttons_;
+  const buttons = wrapper.instance().buttons;
   assert.strictEqual(
     wrapper.instance().adapter.areButtonsStacked(),
     util.areTopsMisaligned(buttons)
@@ -250,7 +252,7 @@ test('#adapter.areButtonsStacked returns result of util.areTopsMisaligned', () =
 test('#adapter.getActionFromEvent returns attribute value on event target', () => {
   const wrapper = mount<Dialog>(DialogStub);
 
-  const buttons = wrapper.instance().buttons_;
+  const buttons = wrapper.instance().buttons;
   // @ts-ignore Object is possibly 'null'
   const action = wrapper.instance().adapter.getActionFromEvent({target: buttons[1]});
   assert.equal(action, 'accept');
@@ -262,7 +264,7 @@ test('#adapter.getActionFromEvent returns attribute value on parent of event tar
       <DialogContent>
         <ul className='mdc-list mdc-list--avatar-list'>
           <li className='mdc-list-item' data-mdc-dialog-action='pet'>
-            <i className='mdc-list-item__graphc material-icons'>pets</i>
+            <i className='mdc-list-item__graphic material-icons'>pets</i>
             <span>Cat</span>
           </li>
         </ul>
@@ -271,7 +273,7 @@ test('#adapter.getActionFromEvent returns attribute value on parent of event tar
   );
 
   // @ts-ignore object is possibly null
-  const spanEl = wrapper.instance().content_.getElementsByTagName('span')[0];
+  const spanEl = wrapper.instance().content.getElementsByTagName('span')[0];
   const action = wrapper.instance().adapter.getActionFromEvent({target: spanEl});
   assert.equal(action, 'pet');
 });
@@ -283,7 +285,7 @@ test('#adapter.getActionFromEvent returns null when attribute is not present', (
       <DialogContent>
         <ul className='mdc-list mdc-list--avatar-list'>
           <li className='mdc-list-item'>
-            <i className='mdc-list-item__graphc material-icons'>pets</i>
+            <i className='mdc-list-item__graphic material-icons'>pets</i>
             <span>Cat</span>
           </li>
         </ul>
@@ -292,7 +294,7 @@ test('#adapter.getActionFromEvent returns null when attribute is not present', (
   );
 
   // @ts-ignore object is possibly null
-  const spanEl = wrapper.instance().content_.getElementsByTagName('span')[0];
+  const spanEl = wrapper.instance().content.getElementsByTagName('span')[0];
   const action = wrapper.instance().adapter.getActionFromEvent({target: spanEl});
   assert.isNull(action);
 });
@@ -307,7 +309,7 @@ test(`#adapter.clickDefaultButton invokes click() on button matching ${cssClasse
       </DialogFooter>
     </Dialog>
   );
-  const defaultButton = wrapper.instance().defaultButton_;
+  const defaultButton = wrapper.instance().defaultButton;
 
   // @ts-ignore object is possibly null
   defaultButton.click = td.func('click');
@@ -319,7 +321,7 @@ test(`#adapter.clickDefaultButton invokes click() on button matching ${cssClasse
 
 test(`#adapter.clickDefaultButton does nothing if no button matches ${cssClasses.DEFAULT_BUTTON}`, () => {
   const wrapper = mount<Dialog>(DialogStub);
-  const buttons = wrapper.instance().buttons_;
+  const buttons = wrapper.instance().buttons;
   // @ts-ignore Object is possibly 'null'
   buttons.map((button) => button.click = td.func('click'));
   wrapper.instance().adapter.clickDefaultButton();
@@ -340,10 +342,10 @@ test('#adapter.reverseButtons reverses the order of children under the actions e
     </Dialog>
   );
 
-  const buttons = wrapper.instance().buttons_;
+  const buttons = wrapper.instance().buttons;
   wrapper.instance().adapter.reverseButtons();
   // @ts-ignore Object is possibly 'null'
-  assert.sameOrderedMembers(buttons.reverse(), wrapper.instance().buttons_);
+  assert.sameOrderedMembers(buttons.reverse(), wrapper.instance().buttons);
 });
 
 test('#adapter.notifyOpening calls props.onOpening', () => {

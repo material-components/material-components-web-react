@@ -22,7 +22,9 @@ class Simple extends React.Component<{}, {isOpen: boolean; action: string;}> {
           <Button
             raised
             onClick={() => this.setState({isOpen: !this.state.isOpen})}
-          >{this.state.isOpen ? 'close dialog' : 'open dialog' }</Button>
+          >
+            {this.state.isOpen ? 'close dialog' : 'open dialog' }
+          </Button>
           <p className='mdc-typography--body1'>Dialog Action:
             <samp>&emsp;{this.state.action}</samp>
           </p>
