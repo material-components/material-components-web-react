@@ -43,12 +43,14 @@ export interface DialogProps<T> extends React.HTMLProps<T> {
   autoStackButtons?: boolean;
   children?: ChildTypes<ChildProps<T>>[] | ChildTypes<ChildProps<T>>;
   className?: string;
+  escapeKeyAction?: string;
   id?: string;
   onClose?: (action: string) => void;
   onClosing?: (action: string) => void;
   onOpen?: () => void;
   onOpening?: () => void;
   open?: boolean;
+  scrimClickAction?: string;
   tag?: string;
 };
 
@@ -87,7 +89,7 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
   state: DialogState = {classList: new Set()};
 
   componentDidMount() {
-    const {open, autoStackButtons} = this.props;
+    const {open, autoStackButtons, escapeKeyAction, scrimClickAction} = this.props;
     this.foundation = new MDCDialogFoundation(this.adapter);
     this.foundation.init();
     this.initializeFocusTrap();
@@ -98,6 +100,14 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     if (!autoStackButtons) {
       this.foundation.setAutoStackButtons(autoStackButtons);
     }
+
+    if (escapeKeyAction) {
+      this.foundation.setEscapeKeyAction(escapeKeyAction);
+    }
+
+    if (scrimClickAction) {
+      this.foundation.setScrimClickAction(scrimClickAction);
+    }
   }
 
   componentWillUnmount() {
@@ -105,12 +115,19 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
   }
 
   componentDidUpdate(prevProps: DialogProps<T>) {
-    const {open, autoStackButtons} = this.props;
+    const {open, autoStackButtons, escapeKeyAction, scrimClickAction} = this.props;
 
     if (prevProps.autoStackButtons !== autoStackButtons) {
       this.foundation.setAutoStackButtons(autoStackButtons);
     }
 
+    if (prevProps.escapeKeyAction !== escapeKeyAction) {
+      this.foundation.setEscapeKeyAction(escapeKeyAction);
+    }
+
+    if (prevProps.scrimClickAction !== scrimClickAction) {
+      this.foundation.setScrimClickAction(scrimClickAction);
+    }
 
     if (prevProps.open !== open) {
       return open ? this.foundation.open() : this.foundation.close();

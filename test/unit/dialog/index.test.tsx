@@ -8,7 +8,7 @@ import Dialog, {
   ChildTypes, ChildProps, DialogProps, DialogTitle, DialogContent, DialogFooter, DialogButton,
 } from '../../../packages/dialog';
 // @ts-ignore no mdc .d.ts file
-import {util} from '@material/dialog/dist/mdc.dialog';
+import {util, MDCDialogFoundation} from '@material/dialog/dist/mdc.dialog';
 import {cssClasses, LAYOUT_EVENTS} from '../../../packages/dialog/constants';
 import {coerceForTesting} from '../helpers/types';
 import {FocusTrap} from 'focus-trap';
@@ -26,6 +26,16 @@ const DialogStub = (
 
 suite('Dialog');
 
+test('renders a dialog with default tag', () => {
+  const wrapper = shallow<Dialog>(<Dialog />);
+  assert.equal(wrapper.type(), 'div');
+});
+
+test('renders a dialog with custom tag', () => {
+  const wrapper = shallow<Dialog>(<Dialog tag='dialog' />);
+  assert.equal(wrapper.type(), 'dialog');
+});
+
 test('creates foundation', () => {
   const wrapper = shallow<Dialog>(<Dialog />);
   assert.exists(wrapper.instance().foundation);
@@ -39,14 +49,38 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy());
 });
 
-test('renders a dialog with default tag', () => {
-  const wrapper = shallow<Dialog>(<Dialog />);
-  assert.equal(wrapper.type(), 'div');
+test('renders a dialog with foundation.autoStackButtons set to true', () => {
+  const wrapper = shallow<Dialog>(<Dialog/>);
+  assert.isTrue(wrapper.instance().foundation.getAutoStackButtons());
+})
+
+test('#componentDidMount sets #foundaiton.autoStackButtons to false if prop false', () => {
+  const wrapper = shallow<Dialog>(<Dialog autoStackButtons={false}/>);
+  assert.isFalse(wrapper.instance().foundation.getAutoStackButtons());
 });
 
-test('renders a dialog with custom tag', () => {
-  const wrapper = shallow<Dialog>(<Dialog tag='dialog' />);
-  assert.equal(wrapper.type(), 'dialog');
+test('renders a dialog with foundation.setEscapeKeyAction set to foundation default', () => {
+  const wrapper = shallow<Dialog>(<Dialog/>);
+  assert.strictEqual(
+    wrapper.instance().foundation.getEscapeKeyAction(),
+    MDCDialogFoundation.strings.CLOSE_ACTION);
+})
+test('#componentDidMount calls #foundaiton.setEscapeKeyAction if prop present', () => {
+  const escapeKeyAction: string = 'meow';
+  const wrapper = shallow<Dialog>(<Dialog escapeKeyAction={escapeKeyAction}/>);
+  assert.strictEqual(wrapper.instance().foundation.getEscapeKeyAction(), escapeKeyAction);
+});
+
+test('renders a dialog with foundation.setScrimClickAction set to foundation default', () => {
+  const wrapper = shallow<Dialog>(<Dialog/>);
+  assert.strictEqual(
+    wrapper.instance().foundation.getScrimClickAction(),
+    MDCDialogFoundation.strings.CLOSE_ACTION);
+})
+test('#componentDidMount calls #foundaiton.setScrimClickAction if prop present', () => {
+  const scrimClickAction: string = 'meow';
+  const wrapper = shallow<Dialog>(<Dialog scrimClickAction={scrimClickAction}/>);
+  assert.strictEqual(wrapper.instance().foundation.getScrimClickAction(), scrimClickAction);
 });
 
 test('when props.open updates to true, #foundation.open is called ', () => {
@@ -79,6 +113,24 @@ test('when props.autoStackButtons updates to false, ' +
   wrapper.instance().foundation.setAutoStackButtons = td.func();
   wrapper.setProps({autoStackButtons: false});
   td.verify(wrapper.instance().foundation.setAutoStackButtons(false), {times: 1});
+});
+
+test('when props.escapeKeyAction updates #foundation.setEscapeKeyAction is called', () => {
+  const wrapper = shallow<Dialog>(<Dialog />);
+  const escapeKeyAction: string = 'meow';
+
+  wrapper.instance().foundation.setEscapeKeyAction = td.func();
+  wrapper.setProps({escapeKeyAction});
+  td.verify(wrapper.instance().foundation.setEscapeKeyAction(escapeKeyAction), {times: 1});
+});
+
+test('when props.scrimClickAction updates #foundation.setScrimClickAction is called', () => {
+  const wrapper = shallow<Dialog>(<Dialog />);
+  const scrimClickAction: string = 'meow';
+
+  wrapper.instance().foundation.setScrimClickAction = td.func();
+  wrapper.setProps({scrimClickAction});
+  td.verify(wrapper.instance().foundation.setScrimClickAction(scrimClickAction), {times: 1});
 });
 
 test('component has default @id', () => {
