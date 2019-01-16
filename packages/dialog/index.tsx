@@ -101,11 +101,11 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
       this.foundation.setAutoStackButtons(autoStackButtons);
     }
 
-    if (escapeKeyAction) {
+    if (typeof escapeKeyAction === 'string') {
       this.foundation.setEscapeKeyAction(escapeKeyAction);
     }
 
-    if (scrimClickAction) {
+    if (typeof scrimClickAction === 'string') {
       this.foundation.setScrimClickAction(scrimClickAction);
     }
   }
