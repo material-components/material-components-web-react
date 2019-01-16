@@ -242,12 +242,14 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
       autoStackButtons,
       className,
       children,
+      escapeKeyAction,
       id,
       onOpening,
       onOpen,
       onClosing,
       onClose,
       open,
+      scrimClickAction,
       tag: Tag,
       ...otherProps
       /* eslint-enable no-unused-vars */
