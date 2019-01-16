@@ -1,0 +1,8 @@
+.snackbar-container {
+  margin-bottom: 16px;
+  // by default snackbar is displayed in the screen bottom.
+  // for screenshots we need to display snackbar inside its parent
+  .mdc-snackbar.mdc-snackbar {
+    position: static;
+  }
+}
