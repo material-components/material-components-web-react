@@ -37,6 +37,7 @@ export interface ButtonProps<T extends ButtonTypes> extends Ripple.InjectedProps
   className?: string;
   icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   href?: string;
+  trailingIcon?: boolean,
 }
 
 export const Button = <T extends ButtonTypes>(
@@ -51,6 +52,7 @@ export const Button = <T extends ButtonTypes>(
     href,
     children,
     initRipple,
+    trailingIcon = false,
     // eslint disabled since we do not want to include
     // this in ...otherProps.
     // if unbounded is passed to the <button> element, it will throw
@@ -74,16 +76,22 @@ export const Button = <T extends ButtonTypes>(
   if (href) {
     return (
       <a {...props as React.HTMLProps<HTMLAnchorElement>} href={href}>
-        {renderIcon(icon)}
-        {children}
+        {!trailingIcon ? renderIcon(icon) : null}
+        <span className="mdc-button__label">
+          {children}
+        </span>
+        {trailingIcon ? renderIcon(icon) : null}
       </a>
     );
   }
 
   return (
     <button {...props as React.HTMLProps<HTMLButtonElement>}>
-      {renderIcon(icon)}
-      {children}
+      {!trailingIcon ? renderIcon(icon) : null}
+      <span className="mdc-button__label">
+        {children}
+      </span>
+      {trailingIcon ? renderIcon(icon) : null}
     </button>
   );
 };
