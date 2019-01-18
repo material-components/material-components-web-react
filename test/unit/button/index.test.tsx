@@ -24,6 +24,12 @@ test('renders an icon', () => {
   assert.isTrue(wrapper.find('.test-icon').hasClass('mdc-button__icon'));
 });
 
+test('renders a trailing icon', () => {
+  const icon = <i className='test-icon' />;
+  const wrapper = shallow(<Button trailingIcon={icon} />);
+  assert.isTrue(wrapper.find('.test-icon').hasClass('mdc-button__icon'));
+});
+
 test('renders a raised button', () => {
   const wrapper = shallow(<Button raised />);
   assert.isTrue(wrapper.hasClass('mdc-button--raised'));
