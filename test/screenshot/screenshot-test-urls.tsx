@@ -1,12 +1,12 @@
 import topAppBarVariants from './top-app-bar/variants';
 import drawerVariants from './drawer/variants';
+import dialogVariants from './dialog/variants';
 import textFieldVariants from './text-field/variants';
 const urls = [
   'button',
   'card',
   'checkbox',
   'chips',
-  'dialog',
   'line-ripple',
   'linear-progress',
   'list',
@@ -34,6 +34,10 @@ topAppBarVariants.forEach((variant: string) => {
 
 drawerVariants.forEach((variant: string) => {
   urls.push(`drawer/${variant}`);
+});
+
+dialogVariants.forEach((variant: string) => {
+  urls.push(`dialog/${variant}`);
 });
 
 textFieldVariants.forEach((variant: string) => {
