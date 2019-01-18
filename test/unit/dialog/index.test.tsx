@@ -5,7 +5,7 @@ import * as td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 // @ts-ignore
 import Dialog, {
-  ChildTypes, ChildProps, DialogProps, DialogTitle, DialogContent, DialogFooter, DialogButton,
+  ChildTypes, DialogProps, DialogTitle, DialogContent, DialogFooter, DialogButton,
 } from '../../../packages/dialog';
 // @ts-ignore no mdc .d.ts file
 import {util, MDCDialogFoundation} from '@material/dialog/dist/mdc.dialog';
@@ -461,16 +461,15 @@ test('#renderContainer renders container if children present', () => {
     </Dialog>
   );
   wrapper.instance().renderChild =
-    coerceForTesting<(child: ChildTypes<ChildProps<HTMLElement>>, i?: number) =>
-        ChildTypes<ChildProps<HTMLElement>>>(td.func());
-  const children: ChildTypes<ChildProps<HTMLElement>>[] =
-    wrapper.instance().props.children as ChildTypes<ChildProps<HTMLElement>>[];
+    coerceForTesting<(child: ChildTypes, i?: number) => ChildTypes>(td.func());
+  const children: ChildTypes[] =
+    wrapper.instance().props.children as ChildTypes[];
   const container = wrapper.instance().renderContainer(children);
 
   assert.isDefined(container);
   // @ts-ignore container possibly undefined
   assert.equal(container.props.className, cssClasses.CONTAINER);
-  children.forEach( (child: ChildTypes<ChildProps<HTMLElement>>, i: number) =>
+  children.forEach( (child: ChildTypes, i: number) =>
     td.verify(wrapper.instance().renderChild(child, i), {times: 1})
   );
 });
@@ -480,7 +479,7 @@ test('#renderChild will call setId if DialogTitle', () => {
   const wrapper = shallow<Dialog>(<Dialog>{title}</Dialog>);
 
   wrapper.instance().setId =
-    coerceForTesting<(name: ChildTypes<ChildProps<HTMLElement>>, componentId?: string ) => string>(td.func());
+    coerceForTesting<(name: ChildTypes, componentId?: string ) => string>(td.func());
   wrapper.instance().renderChild(title, 0);
   td.verify(wrapper.instance().setId(title, undefined), {times: 1});
 });
@@ -490,7 +489,7 @@ test('#renderChild will call setId if DialogContent', () => {
   const wrapper = shallow<Dialog>(<Dialog>{content}</Dialog>);
 
   wrapper.instance().setId =
-    coerceForTesting<(name: ChildTypes<ChildProps<HTMLElement>>, componentId?: string ) => string>(td.func());
+    coerceForTesting<(name: ChildTypes, componentId?: string ) => string>(td.func());
   wrapper.instance().renderChild(content, 1);
   td.verify(wrapper.instance().setId(content, 'your-pet-cat'), {times: 1});
 });
@@ -500,7 +499,7 @@ test('#renderChild will not call setId if !DialogTitle || !DialogContent', () =>
   const wrapper = shallow<Dialog>(<Dialog>{footer}</Dialog>);
 
   wrapper.instance().setId =
-    coerceForTesting<(name: ChildTypes<ChildProps<HTMLElement>>, componentId?: string ) => string>(td.func());
+    coerceForTesting<(name: ChildTypes, componentId?: string ) => string>(td.func());
   wrapper.instance().renderChild(footer, 2);
   td.verify(wrapper.instance().setId(footer), {times: 0});
 });
@@ -550,4 +549,40 @@ test('#events.onClick triggers #foundaiton.handleInteraction', () => {
   const e = {};
   wrapper.simulate('click', e);
   td.verify(wrapper.instance().foundation.handleInteraction(e), {times: 1});
+});
+
+test('Dialog closes when esc key is pressed', () => {
+  const wrapper = mount<Dialog>(<Dialog open/>);
+  assert.isTrue(wrapper.instance().foundation.isOpen());
+
+  const e = new KeyboardEvent('keydown', {key: 'Escape'});
+  document.dispatchEvent(e);
+  assert.isFalse(wrapper.instance().foundation.isOpen());
+});
+
+test('Dialog does not close when esc key is pressed if escapeKeyAction set to empty string', () => {
+  const wrapper = mount<Dialog>(<Dialog open escapeKeyAction=''/>);
+  assert.isTrue(wrapper.instance().foundation.isOpen());
+
+  const e = new KeyboardEvent('keydown', {key: 'Escape'});
+  document.dispatchEvent(e);
+  assert.isTrue(wrapper.instance().foundation.isOpen());
+});
+
+test('Dialog closes when scrim is clicked', () => {
+  const wrapper = mount<Dialog>(<Dialog open/>);
+  assert.isTrue(wrapper.instance().foundation.isOpen());
+
+  // @ts-ignore Object is possibly 'null'
+  wrapper.find(`.${cssClasses.SCRIM}`).simulate('click');
+  assert.isFalse(wrapper.instance().foundation.isOpen());
+});
+
+test('Dialog does not close when scrim is clicked if scrimClickAction set to empty string', () => {
+  const wrapper = mount<Dialog>(<Dialog open scrimClickAction={''}/>);
+  assert.isTrue(wrapper.instance().foundation.isOpen());
+
+  // @ts-ignore Object is possibly 'null'
+  wrapper.find(`.${cssClasses.SCRIM}`).simulate('click');
+  assert.isTrue(wrapper.instance().foundation.isOpen());
 });

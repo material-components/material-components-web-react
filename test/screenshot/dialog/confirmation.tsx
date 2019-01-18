@@ -33,8 +33,8 @@ class Confirmation extends React.Component<{}, {isOpen: boolean; action: string;
           </p>
         </aside>
         <Dialog
-          escapeKeyAction={''}
-          scrimClickAction={''}
+          escapeKeyAction={'esc'}
+          scrimClickAction={'scrimClick'}
           onClose={(action: string) => this.setState({isOpen: false, action})}
           open={this.state.isOpen}>
           <DialogTitle>Phone Ringtone</DialogTitle>

@@ -36,12 +36,28 @@ import DialogButton from './DialogButton';
 import {cssClasses, LAYOUT_EVENTS} from './constants';
 import {FocusTrap} from 'focus-trap';
 
-export type ChildTypes<ChildProps> = DialogTitle<ChildProps> | DialogContent<ChildProps>| DialogFooter<ChildProps>;
-export type ChildProps<T> = DialogTitleProps<T> | DialogContentProps<T> | DialogFooterProps<T>;
+export type ChildTypes = (
+    DialogTitle<DialogTitleProps<{}>>
+    | DialogContent<DialogContentProps<{}>>
+    | DialogFooter<DialogFooterProps<{}>>
+    );
 
-export interface DialogProps<T> extends React.HTMLProps<T> {
+export interface DialogProps<T,
+      TitleProps extends {} = DialogTitleProps<HTMLHeadingElement>,
+      ContentProps extends {} = DialogContentProps<HTMLDivElement>,
+      FooterProps extends {} = DialogFooterProps<HTMLElement>
+      > extends React.HTMLProps<T> {
   autoStackButtons?: boolean;
-  children?: ChildTypes<ChildProps<T>>[] | ChildTypes<ChildProps<T>>;
+  children?:(
+    (
+      React.ReactElement<TitleProps>
+      | React.ReactElement<ContentProps>
+      | React.ReactElement<FooterProps>
+    )[]
+    | React.ReactElement<FooterProps>
+    | React.ReactElement<ContentProps>
+    | React.ReactElement<TitleProps>
+  );
   className?: string;
   escapeKeyAction?: string;
   id?: string;
@@ -101,11 +117,11 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
       this.foundation.setAutoStackButtons(autoStackButtons);
     }
 
-    if (typeof escapeKeyAction === 'string') {
+    if (typeof escapeKeyAction === 'string') { // set even if empty string
       this.foundation.setEscapeKeyAction(escapeKeyAction);
     }
 
-    if (typeof scrimClickAction === 'string') {
+    if (typeof scrimClickAction === 'string') { // set even if empty string
       this.foundation.setScrimClickAction(scrimClickAction);
     }
   }
@@ -258,9 +274,9 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     } = this.props;
 
     const container: React.ReactElement<HTMLDivElement> | undefined =
-      this.renderContainer(children);
+      this.renderContainer(children as ChildTypes[]);
     return (
-      // @ts-ignore Tag does not have any construct
+      // @ts-ignore Tag does not have any construct https://github.com/Microsoft/TypeScript/issues/28892
       <Tag
         {...otherProps}
         aria-labelledby={this.labelledBy}
@@ -280,20 +296,20 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
   }
 
 
-  renderContainer = (children?: ChildTypes<ChildProps<T>> | ChildTypes<ChildProps<T>>[]):
+  renderContainer = (children?: ChildTypes[]):
       React.ReactElement<HTMLDivElement> | undefined => !children ? undefined : (
     <div className={cssClasses.CONTAINER}>
       <div className={cssClasses.SURFACE}>
         {React.Children.map(
-          (children as ChildTypes<ChildProps<T>>[]),
+          (children as ChildTypes[]),
           this.renderChild
         )}
       </div>
     </div>
   );
 
-  renderChild = (child: ChildTypes<ChildProps<T>>, i: number ):
-    ChildTypes<ChildProps<T>> =>
+  renderChild = (child: ChildTypes, i: number ):
+    ChildTypes =>
     (isDialogTitle(child) || isDialogContent(child))
       ? React.cloneElement(child, {
         key: `child-${i}`,
@@ -302,7 +318,7 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
       : child;
 
 
-    setId = (child: ChildTypes<ChildProps<T>>, componentId?: string): string => {
+    setId = (child: ChildTypes, componentId?: string): string => {
       const {id} = this.props;
       if (isDialogTitle(child)) {
         const labelledBy = componentId || id + '-title';

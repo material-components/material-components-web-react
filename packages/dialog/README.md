@@ -183,7 +183,7 @@ class Confirmation extends Component
             singleSelection 
             handleSelect={ (selectedIndex) => this.setState({selectedIndex})}
           >{choices.map((choice, i) => {
-              let c = choice.replace(/\s/g, '-');
+              let choice = choice.replace(/\s/g, '-');
               return (
                 <ListItem key={i}>
                   <!-- Note: <ListItemGraphic/> will not work here -->
