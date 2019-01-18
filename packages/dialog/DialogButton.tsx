@@ -22,17 +22,18 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {cssClasses} from './constants';
-import Button from '@material/react-button';
+import Button, {ButtonProps} from '@material/react-button';
 
-
-export interface DialogButtonProps<ButtonProps> extends React.HTMLProps<ButtonProps> {
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
+export interface DialogButtonProps<T extends ButtonTypes> extends Omit<ButtonProps<T>, 'initRipple'> {
   action: string,
   className?: string,
   isDefault?: boolean,
 };
 
 
-const DialogButton: (props: DialogButtonProps<HTMLButtonElement>) =>
+const DialogButton: <T extends ButtonTypes>(props: DialogButtonProps<T>) =>
   React.ReactElement<any> = ({
     /* eslint-disable react/prop-types */
     action,
@@ -51,5 +52,5 @@ const DialogButton: (props: DialogButtonProps<HTMLButtonElement>) =>
     >{children}</Button>
   );
 
-type DialogButton<ButtonProps> = React.ReactElement<DialogButtonProps<ButtonProps>>;
+type DialogButton<T extends ButtonTypes> = React.ReactElement<DialogButtonProps<T>>;
 export default DialogButton;
