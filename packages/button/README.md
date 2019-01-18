@@ -48,7 +48,7 @@ unelevated | Boolean | Enables unelevated variant.
 outlined | Boolean | Enables outlined variant.
 dense | Boolean | Enables dense variant.
 icon | Element | Icon to render within root element.
-trailingIcon | Boolean | Renders icon on the right if true.
+trailingIcon | Element | Icon to render on the right side of the element
 children | String | Text to be displayed within root element.
 disabled | Boolean | Disables button if true.
 href | String | Sets a hyperlink & uses anchor tag instead of a button.
