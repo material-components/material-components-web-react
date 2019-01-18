@@ -17,7 +17,7 @@ const TopAppBarFixedScreenshotTest: React.FunctionComponent = () => {
         }
         actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
       />
-      <MainTopAppBarContent/>
+      <MainTopAppBarContent />
     </div>
   );
 };

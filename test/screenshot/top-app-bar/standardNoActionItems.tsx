@@ -12,7 +12,7 @@ const TopAppBarStandardNoActionItemsScreenshotTest: React.FunctionComponent = ()
           <MaterialIcon icon='menu' onClick={() => console.log('click')} />
         }
       />
-      <MainTopAppBarContent/>
+      <MainTopAppBarContent />
     </div>
   );
 };
