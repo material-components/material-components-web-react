@@ -59,7 +59,7 @@ class MyChoiceChips extends React.Component {
       <ChipSet
         choice
         selectedChipIds={this.state.selectedChipIds}
-        handleSelect={(selectedChipIds) => this.setState(selectedChipIds)}
+        handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
       >
         <Chip id={'chip1'} label='Small' />
         <Chip id={'chip2'} label='Medium' />
@@ -85,7 +85,7 @@ class MyFilterChips extends React.Component {
       <ChipSet
         filter
         selectedChipIds={this.state.selectedChipIds}
-        handleSelect={(selectedChipIds) => this.setState(selectedChipIds)}
+        handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
       >
         <Chip id={'chip1'} label='Tops' />
         <Chip id={'chip2'} label='Bottoms' />

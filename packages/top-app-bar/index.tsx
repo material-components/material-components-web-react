@@ -35,15 +35,15 @@ export type MDCTopAppBarFoundationTypes
 
 export interface TopAppBarProps {
   actionItems?: React.ReactElement<any>[];
-  className: string;
-  dense: boolean;
-  fixed: boolean;
+  className?: string;
+  dense?: boolean;
+  fixed?: boolean;
   navigationIcon?: React.ReactElement<any>;
-  prominent: boolean;
-  short: boolean;
-  shortCollapsed: boolean;
-  style: React.CSSProperties;
-  title: React.ReactNode;
+  prominent?: boolean;
+  short?: boolean;
+  shortCollapsed?: boolean;
+  style?: React.CSSProperties;
+  title?: React.ReactNode;
 }
 
 interface TopAppBarState {
@@ -53,11 +53,7 @@ interface TopAppBarState {
 
 type Props = TopAppBarProps & React.HTMLProps<HTMLElement>;
 export type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
-// function isElement(element: any): element is React.ReactElement<any> {
-//   return typeof element !== 'string' ||
-//   typeof element !== 'number' ||
-//   typeof element !== 'boolean';
-// }
+
 export default class TopAppBar extends React.Component<
   Props,
   TopAppBarState

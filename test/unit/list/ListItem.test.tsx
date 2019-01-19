@@ -74,6 +74,16 @@ test('renders a list item with default tag', () => {
   assert.equal(wrapper.type(), 'li');
 });
 
+test('renders a list item with text content', () => {
+  const wrapper = shallow(<ListItem>Test</ListItem>);
+  assert.equal(wrapper.type(), 'li');
+});
+
+test('renders a list item with null as a child', () => {
+  const wrapper = shallow(<ListItem><div>Test</div>{null}</ListItem>);
+  assert.equal(wrapper.type(), 'li');
+});
+
 test('renders a list item with an anchor tag', () => {
   const wrapper = shallow(<ListItem tag='a'><div>Test</div></ListItem>);
   assert.equal(wrapper.type(), 'a');
