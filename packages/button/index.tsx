@@ -80,7 +80,7 @@ export const Button = <T extends ButtonTypes>(
         <span className='mdc-button__label'>
           {children}
         </span>
-        {trailingIcon ? renderIcon(icon) : null}
+        {trailingIcon ? renderIcon(trailingIcon) : null}
       </a>
     );
   }
