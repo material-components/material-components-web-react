@@ -121,4 +121,4 @@ Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-
 
 ## Usage with Drawer
 
-Please see the docs in drawer to [integrate with Top app bar](../packages/drawer/README.md#usage-with-top-app-bar)
+Please see the docs in drawer to [integrate with Top app bar](../drawer#usage-with-top-app-bar)
