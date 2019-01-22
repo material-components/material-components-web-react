@@ -13,7 +13,7 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('mdc-button'));
 });
 
-test('does not render icon if props.icon is null', () => {
+test('does not render icon if props.icon is null and props.trailingIcon is null', () => {
   const wrapper = shallow(<Button />);
   assert.equal(wrapper.find('.mdc-button__icon').length, 0);
 });
@@ -21,6 +21,18 @@ test('does not render icon if props.icon is null', () => {
 test('renders an icon', () => {
   const icon = <i className='test-icon' />;
   const wrapper = shallow(<Button icon={icon} />);
+  assert.isTrue(wrapper.find('.test-icon').hasClass('mdc-button__icon'));
+});
+
+test('renders a trailing icon', () => {
+  const icon = <i className='test-icon' />;
+  const wrapper = shallow(<Button trailingIcon={icon} />);
+  assert.isTrue(wrapper.find('.test-icon').hasClass('mdc-button__icon'));
+});
+
+test('renders a link with trailing icon', () => {
+  const icon = <i className='test-icon' />;
+  const wrapper = shallow(<Button href='/' trailingIcon={icon} />);
   assert.isTrue(wrapper.find('.test-icon').hasClass('mdc-button__icon'));
 });
 
