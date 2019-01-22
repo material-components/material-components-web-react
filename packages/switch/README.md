@@ -25,19 +25,21 @@ import "@material/react-switch/dist/switch.css";
 ### Javascript Instantiation
 
 ```js
-import React, {Component} from 'react';
+import React from 'react';
 import Switch from '@material/react-switch';
 
-class MyApp extends Component {
+class MyApp extends React.Component {
   state = {checked: false};
 
   render() {
     return (
-      <Switch
-        nativeControlId='my-switch'
-        checked={this.state.checked}
-        onChange={(e) => this.setState({checked: e.target.checked})} />
-      <label htmlFor='my-switch'>My Switch</label>
+      <React.Fragment>
+        <Switch
+          nativeControlId='my-switch'
+          checked={this.state.checked}
+          onChange={(e) => this.setState({checked: e.target.checked})} />
+        <label htmlFor='my-switch'>My Switch</label>
+      </React.Fragment>
     );
   }
 }
