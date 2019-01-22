@@ -65,6 +65,7 @@
     "@material/checkbox": "^0.41.0",
     "@material/chips": "^0.41.0",
     "@material/dialog": "^0.43.0",
+    "@material/dom": "^0.41.0",
     "@material/drawer": "^0.41.0",
     "@material/fab": "^0.41.0",
     "@material/floating-label": "^0.41.0",
@@ -152,8 +153,5 @@
     "validate-commit-msg": "^2.14.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.2"
-  },
-  "dependencies": {
-    "@material/dom": "^0.41.0"
   }
 }

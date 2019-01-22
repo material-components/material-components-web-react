@@ -1,4 +1,5 @@
 import topAppBarVariants from './top-app-bar/variants';
+import dialogVariants from './dialog/variants';
 import drawerVariants from './drawer/variants';
 import textFieldVariants from './text-field/variants';
 const urls = [
@@ -30,6 +31,10 @@ const urls = [
 
 topAppBarVariants.forEach((variant: string) => {
   urls.push(`top-app-bar/${variant}`);
+});
+
+dialogVariants.forEach((variant: string) => {
+  urls.push(`dialog/${variant}`);
 });
 
 drawerVariants.forEach((variant: string) => {

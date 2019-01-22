@@ -42,6 +42,7 @@ export type ChildTypes = (
     | DialogFooter<DialogFooterProps<{}>>
     );
 
+
 export interface DialogProps<T,
       TitleProps extends {} = DialogTitleProps<HTMLHeadingElement>,
       ContentProps extends {} = DialogContentProps<HTMLDivElement>,
@@ -66,6 +67,7 @@ export interface DialogProps<T,
   onOpen?: () => void;
   onOpening?: () => void;
   open?: boolean;
+  role?: 'alertdialog' | 'dialog';
   scrimClickAction?: string;
   tag?: string;
 };
@@ -100,6 +102,7 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     tag: 'div',
     id: 'mdc-dialog',
     open: false,
+    role: 'alertdialog',
   };
 
   state: DialogState = {classList: new Set()};
@@ -108,10 +111,9 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     const {open, autoStackButtons, escapeKeyAction, scrimClickAction} = this.props;
     this.foundation = new MDCDialogFoundation(this.adapter);
     this.foundation.init();
-    this.initializeFocusTrap();
 
     if (open) {
-      this.foundation.open();
+      this.open();
     }
     if (!autoStackButtons) {
       this.foundation.setAutoStackButtons(autoStackButtons);
@@ -146,7 +148,7 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     }
 
     if (prevProps.open !== open) {
-      return open ? this.foundation.open() : this.foundation.close();
+      return open ? this.open() : this.foundation.close();
     }
   }
 
@@ -156,9 +158,10 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
     return classnames(cssClasses.BASE, Array.from(classList), className);
   }
 
-  get buttons(): HTMLButtonElement[] | null {
-    return this.dialogElement.current &&
-       [].slice.call(this.dialogElement.current.getElementsByClassName(cssClasses.BUTTON));
+  get buttons(): HTMLButtonElement[] {
+    const buttons = this.dialogElement.current &&
+        [].slice.call(this.dialogElement.current.getElementsByClassName(cssClasses.BUTTON));
+    return buttons ? buttons : [];
   }
 
   get content(): HTMLElement | null {
@@ -171,9 +174,15 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
         this.dialogElement.current.querySelector(`.${cssClasses.DEFAULT_BUTTON}`);
   }
 
-  private initializeFocusTrap = () => {
-    this.focusTrap = util.createFocusTrapInstance(this.dialogElement.current);
-  }
+  private open = (): void => {
+    // focusTrap will not initialize if no children present.
+    this.initializeFocusTrap();
+    this.foundation.open();
+  };
+
+  private initializeFocusTrap = (): void => {
+    this.focusTrap = this.props.children && util.createFocusTrapInstance(this.dialogElement.current);
+  };
 
   get adapter(): Partial<MDCDialogAdapter> {
     const strings = MDCDialogFoundation.strings;
@@ -200,7 +209,10 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
         const content = this.content;
         return (!!content) ? isScrollable(content) : false;
       },
-      areButtonsStacked: () => areTopsMisaligned(this.buttons),
+      areButtonsStacked: () => {
+        const buttons = this.buttons;
+        return (!!buttons) ? areTopsMisaligned(this.buttons) : false;
+      },
       getActionFromEvent: (evt: any) => {
         const elem = closest(evt.target, `[${strings.ACTION_ATTRIBUTE}]`);
         return elem && elem.getAttribute(strings.ACTION_ATTRIBUTE);
@@ -284,7 +296,6 @@ class Dialog<T extends {} = HTMLElement> extends React.Component<
         aria-modal
         className={this.classes}
         id={id}
-        role='alertdialog'
         onKeyDown={this.handleInteraction}
         onClick={this.handleInteraction}
         ref={this.dialogElement}

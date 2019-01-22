@@ -8,7 +8,7 @@ import Dialog, {
   ChildTypes, DialogProps, DialogTitle, DialogContent, DialogFooter, DialogButton,
 } from '../../../packages/dialog';
 // @ts-ignore no mdc .d.ts file
-import {util, MDCDialogFoundation} from '@material/dialog/dist/mdc.dialog';
+import {util} from '@material/dialog/dist/mdc.dialog';
 import {cssClasses, LAYOUT_EVENTS} from '../../../packages/dialog/constants';
 import {coerceForTesting} from '../helpers/types';
 import {FocusTrap} from 'focus-trap';
@@ -63,7 +63,7 @@ test('renders a dialog with foundation.setEscapeKeyAction set to foundation defa
   const wrapper = shallow<Dialog>(<Dialog/>);
   assert.strictEqual(
     wrapper.instance().foundation.getEscapeKeyAction(),
-    MDCDialogFoundation.strings.CLOSE_ACTION);
+    'close');
 });
 
 test('#componentDidMount calls #foundaiton.setEscapeKeyAction if prop present', () => {
@@ -76,7 +76,7 @@ test('renders a dialog with foundation.setScrimClickAction set to foundation def
   const wrapper = shallow<Dialog>(<Dialog/>);
   assert.strictEqual(
     wrapper.instance().foundation.getScrimClickAction(),
-    MDCDialogFoundation.strings.CLOSE_ACTION);
+    'close');
 });
 
 test('#componentDidMount calls #foundaiton.setScrimClickAction if prop present', () => {
@@ -179,21 +179,17 @@ test('#adapter.hasClass returns true if class is contained in classes', () => {
 test('#adapter.addBodyClass adds a class to the body', () => {
   const wrapper = shallow<Dialog>(<Dialog />);
   wrapper.instance().foundation.adapter_.addBodyClass('test-class');
-  const body = document.querySelector('body');
-  // @ts-ignore Object is possibly 'null'
+  const body = document.querySelector('body')!;
   assert.isTrue(body.classList.contains('test-class'));
 });
 
 test('#adapter.removeBodyClass adds a class to the body', () => {
   const wrapper = shallow<Dialog>(<Dialog />);
-  const body = document.querySelector('body');
+  const body = document.querySelector('body')!;
 
-  // @ts-ignore Object is possibly 'null'
   body.classList.add('test-class');
-  // @ts-ignore Object is possibly 'null'
   assert.isTrue(body.classList.contains('test-class'));
   wrapper.instance().adapter.removeBodyClass('test-class');
-  // @ts-ignore Object is possibly 'null'
   assert.isFalse(body.classList.contains('test-class'));
 });
 
@@ -252,8 +248,7 @@ test('#adapter.areButtonsStacked returns result of util.areTopsMisaligned', () =
 test('#adapter.getActionFromEvent returns attribute value on event target', () => {
   const wrapper = mount<Dialog>(DialogStub);
 
-  const buttons = wrapper.instance().buttons;
-  // @ts-ignore Object is possibly 'null'
+  const buttons = wrapper.instance().buttons!;
   const action = wrapper.instance().adapter.getActionFromEvent({target: buttons[1]});
   assert.equal(action, 'accept');
 });
@@ -272,8 +267,7 @@ test('#adapter.getActionFromEvent returns attribute value on parent of event tar
     </Dialog>
   );
 
-  // @ts-ignore object is possibly null
-  const spanEl = wrapper.instance().content.getElementsByTagName('span')[0];
+  const spanEl = wrapper.instance().content!.getElementsByTagName('span')[0];
   const action = wrapper.instance().adapter.getActionFromEvent({target: spanEl});
   assert.equal(action, 'pet');
 });
@@ -293,8 +287,7 @@ test('#adapter.getActionFromEvent returns null when attribute is not present', (
     </Dialog>
   );
 
-  // @ts-ignore object is possibly null
-  const spanEl = wrapper.instance().content.getElementsByTagName('span')[0];
+  const spanEl = wrapper.instance().content!.getElementsByTagName('span')[0];
   const action = wrapper.instance().adapter.getActionFromEvent({target: spanEl});
   assert.isNull(action);
 });
@@ -309,23 +302,21 @@ test(`#adapter.clickDefaultButton invokes click() on button matching ${cssClasse
       </DialogFooter>
     </Dialog>
   );
-  const defaultButton = wrapper.instance().defaultButton;
+  const defaultButton = wrapper.instance().defaultButton!;
 
-  // @ts-ignore object is possibly null
-  defaultButton.click = td.func('click');
+  defaultButton.click = coerceForTesting<() => void>(td.func('click'));
   wrapper.instance().adapter.clickDefaultButton();
-  // @ts-ignore object is possibly null
   td.verify(defaultButton.click(), {times: 1});
 });
 
 
 test(`#adapter.clickDefaultButton does nothing if no button matches ${cssClasses.DEFAULT_BUTTON}`, () => {
   const wrapper = mount<Dialog>(DialogStub);
-  const buttons = wrapper.instance().buttons;
-  // @ts-ignore Object is possibly 'null'
-  buttons.map((button) => button.click = td.func('click'));
+  const buttons = wrapper.instance().buttons!;
+  buttons.map((button) =>
+    button.click = coerceForTesting<() => void>(td.func('click'))
+  );
   wrapper.instance().adapter.clickDefaultButton();
-  // @ts-ignore Object is possibly 'null'
   buttons.map((button) => td.verify(button.click(), {times: 0}));
 });
 
@@ -344,7 +335,6 @@ test('#adapter.reverseButtons reverses the order of children under the actions e
 
   const buttons = wrapper.instance().buttons;
   wrapper.instance().adapter.reverseButtons();
-  // @ts-ignore Object is possibly 'null'
   assert.sameOrderedMembers(buttons.reverse(), wrapper.instance().buttons);
 });
 
@@ -467,8 +457,7 @@ test('#renderContainer renders container if children present', () => {
   const container = wrapper.instance().renderContainer(children);
 
   assert.isDefined(container);
-  // @ts-ignore container possibly undefined
-  assert.equal(container.props.className, cssClasses.CONTAINER);
+  assert.equal(container!.props.className, cssClasses.CONTAINER);
   children.forEach( (child: ChildTypes, i: number) =>
     td.verify(wrapper.instance().renderChild(child, i), {times: 1})
   );
@@ -508,10 +497,8 @@ test('#setId will set labelledby and a id on DialogTitle if not present', () => 
   const wrapper = mount<Dialog>(<Dialog><DialogTitle>Test</DialogTitle></Dialog>);
   const dialog = wrapper.instance().dialogElement.current;
 
-  // @ts-ignore Object is possibly 'null'
-  const labelledby = dialog.getAttribute('aria-labelledby');
-  // @ts-ignore Object is possibly 'null'
-  const title = dialog.getElementsByClassName(cssClasses.TITLE)[0];
+  const labelledby = dialog!.getAttribute('aria-labelledby');
+  const title = dialog!.getElementsByClassName(cssClasses.TITLE)[0];
 
   assert.equal(labelledby, title.id);
 });
@@ -524,10 +511,8 @@ test('#setId will set labelledby and from a custom DialogTitle', () => {
     </Dialog>
   );
   const dialog = wrapper.instance().dialogElement.current;
-  // @ts-ignore Object is possibly 'null'
-  const labelledby = dialog.getAttribute('aria-labelledby');
-  // @ts-ignore Object is possibly 'null'
-  const title = dialog.getElementsByClassName(cssClasses.TITLE)[0];
+  const labelledby = dialog!.getAttribute('aria-labelledby');
+  const title = dialog!.getElementsByClassName(cssClasses.TITLE)[0];
 
   assert.equal(labelledby, customId);
   assert.equal(labelledby, title.id);
@@ -552,7 +537,7 @@ test('#events.onClick triggers #foundaiton.handleInteraction', () => {
 });
 
 test('Dialog closes when esc key is pressed', () => {
-  const wrapper = mount<Dialog>(<Dialog open/>);
+  const wrapper = mount<Dialog>(<Dialog open={true}/>);
   assert.isTrue(wrapper.instance().foundation.isOpen());
 
   const e = new KeyboardEvent('keydown', {key: 'Escape'});
@@ -561,7 +546,7 @@ test('Dialog closes when esc key is pressed', () => {
 });
 
 test('Dialog does not close when esc key is pressed if escapeKeyAction set to empty string', () => {
-  const wrapper = mount<Dialog>(<Dialog open escapeKeyAction=''/>);
+  const wrapper = mount<Dialog>(<Dialog open={true} escapeKeyAction=''/>);
   assert.isTrue(wrapper.instance().foundation.isOpen());
 
   const e = new KeyboardEvent('keydown', {key: 'Escape'});
@@ -570,10 +555,9 @@ test('Dialog does not close when esc key is pressed if escapeKeyAction set to em
 });
 
 test('Dialog closes when scrim is clicked', () => {
-  const wrapper = mount<Dialog>(<Dialog open/>);
+  const wrapper = mount<Dialog>(<Dialog open={true}/>);
   assert.isTrue(wrapper.instance().foundation.isOpen());
 
-  // @ts-ignore Object is possibly 'null'
   wrapper.find(`.${cssClasses.SCRIM}`).simulate('click');
   assert.isFalse(wrapper.instance().foundation.isOpen());
 });
@@ -582,7 +566,6 @@ test('Dialog does not close when scrim is clicked if scrimClickAction set to emp
   const wrapper = mount<Dialog>(<Dialog open scrimClickAction={''}/>);
   assert.isTrue(wrapper.instance().foundation.isOpen());
 
-  // @ts-ignore Object is possibly 'null'
   wrapper.find(`.${cssClasses.SCRIM}`).simulate('click');
   assert.isTrue(wrapper.instance().foundation.isOpen());
 });

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../../packages/top-app-bar/index.scss';
 import Dialog, {
   DialogTitle,
   DialogContent,

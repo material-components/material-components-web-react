@@ -232,9 +232,9 @@ onClosing | Function (action) => void | Callback for when the dialog begins to c
 onOpen | Function () => void | Callback after the dialog has opened | n/a
 onOpening | Function () => void | Callback for when the dialog begins to open. | `() => {}`
 open | Boolean | If true opens the dialog. If false closes the dialog | `false`
+role | String | [ARIA attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/dialog_role) that specifies the role of dialog. Must be `alertdialog` or `dialog` | `alertdialog`
 scrimClickAction | String | the action reflected when the scrim is clicked. Setting to `''` disables closing via scrim click| `close` 
 tag | String | Customizes the `Dialog` tag type. | `div`
-
 ### DialogTitle
 
 Prop Name | Type | Description 
