@@ -67,6 +67,18 @@ const ButtonScreenshotTest = () => {
           Svg Icon
         </Button>
       </div>
+
+      <div className='button-container'>
+        <Button raised trailingIcon={<MaterialIcon icon='menu' />}>
+          Raised
+        </Button>
+      </div>
+
+      <div className='button-container'>
+        <Button raised trailingIcon={svgIcon}>
+          Svg Icon
+        </Button>
+      </div>
     </div>
   );
 };
