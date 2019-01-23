@@ -37,6 +37,10 @@
   "top-app-bar/prominentToShortCollapsed": "ce23a6060af19f93ee0255e45ebe51c7243ff12c14b2c09d070501ea7806e316",
   "top-app-bar/dense": "e273e6c777f168248f5757c1f00a74206f4cce51c484d91cc7d36dc16de7d0de",
   "top-app-bar/prominentDense": "cc8af934f9187ffd8f250834ef7c73e5c53c5ace10126bb855f74878ba125149",
+  "dialog/alert": "e0c9b5fd4468c5fff9902b4e8e79c488b0fe8300b08a9620f32ed380b5c2af79",
+  "dialog/simple": "2b72930b7711c258d4fead83055ec02b10edebda722901e7ed3ecb7365827dd1",
+  "dialog/confirmation": "0d548366130de2aeb85d993a0e9d2030840db0ba10bc49b2721ae05cbd42b058",
+  "dialog/scrollable": "91bf3789cc22928df667c96a8a7f1cfdcaad4868c55ab5d830d132249a620f1c",
   "drawer/permanentBelowTopAppBar": "587ee2605c4b3e3f0408c6130b824b58587e05cedf9b964e14fc481b9de1e4c2",
   "drawer/dismissibleBelowTopAppBar": "a9bf24c0edd3dcc9167516ce3bdd146fd1a352c4f5b9ea76a1f9dad1ba61e0f8",
   "drawer/permanent": "6355905c2241b5e6fdddc2e25119a1cc3b062577375a88b59e6750c4b76e4561",
@@ -44,4 +48,5 @@
   "drawer/modal": "da83487c9349b253f7d4de01f92d442de55aab92a8028b77ff1a48cfaa265b72",
   "drawer/permanentToModal": "6355905c2241b5e6fdddc2e25119a1cc3b062577375a88b59e6750c4b76e4561",
   "typography": "c5e87d672d8c05ca3b61c0df4971eabe3c6a6a1f24a9b98f71f55a23360c498a"
+
 }
