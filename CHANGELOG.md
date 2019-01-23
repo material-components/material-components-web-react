@@ -1,4 +1,23 @@
-# [](https://github.com/material-components/material-components-web-react/compare/v0.7.1...v) (2018-12-28)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.8.0...v) (2019-01-23)
+
+
+### Bug Fixes
+
+* **list:** Support null as a child element for ListItem ([#584](https://github.com/material-components/material-components-web-react/issues/584)) ([bf487d7](https://github.com/material-components/material-components-web-react/commit/bf487d7))
+* **ripple:** add missing dependency to package.json ([#612](https://github.com/material-components/material-components-web-react/issues/612)) ([f6e4725](https://github.com/material-components/material-components-web-react/commit/f6e4725))
+* **ripple:** Adds HTMLElement shim to fix regression for SSR projects ([#592](https://github.com/material-components/material-components-web-react/issues/592)) ([3aaf871](https://github.com/material-components/material-components-web-react/commit/3aaf871))
+* **text field:** adds missing adapter method `notifyIconAction` on Icon  ([#600](https://github.com/material-components/material-components-web-react/issues/600)) ([632896a](https://github.com/material-components/material-components-web-react/commit/632896a))
+* **top-app-bar:** make top app bar props optional ([#587](https://github.com/material-components/material-components-web-react/issues/587)) ([1585c95](https://github.com/material-components/material-components-web-react/commit/1585c95))
+
+
+### Features
+
+* **button:** trailing icon support ([#622](https://github.com/material-components/material-components-web-react/issues/622)) ([796850b](https://github.com/material-components/material-components-web-react/commit/796850b))
+* **dialog:** new component ([#611](https://github.com/material-components/material-components-web-react/issues/611)) ([555e61f](https://github.com/material-components/material-components-web-react/commit/555e61f))
+
+
+
+# [0.8.0](https://github.com/material-components/material-components-web-react/compare/v0.7.1...v0.8.0) (2018-12-28)
 
 
 ### Bug Fixes
