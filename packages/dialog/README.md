@@ -194,7 +194,7 @@ class Confirmation extends Component
                         value={choice}
                         id={cleanChoice}
                         checked={this.isChecked(i)}
-                        onChange={() => {} }
+                        onChange={() => {}}
                       />
                     </Radio>
                   </span>
