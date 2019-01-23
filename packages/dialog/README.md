@@ -183,7 +183,7 @@ class Confirmation extends Component
             singleSelection 
             handleSelect={ (selectedIndex) => this.setState({selectedIndex})}
           >{choices.map((choice, i) => {
-              let choice = choice.replace(/\s/g, '-');
+              let cleanChoice = choice.replace(/\s/g, '-');
               return (
                 <ListItem key={i}>
                   <!-- Note: <ListItemGraphic/> will not work here -->
@@ -192,13 +192,13 @@ class Confirmation extends Component
                       <NativeRadioControl
                         name='ringtone'
                         value={choice}
-                        id={c}
+                        id={cleanChoice}
                         checked={this.isChecked(i)}
-                        onChange={() => {} }
+                        onChange={() => {}}
                       />
                     </Radio>
                   </span>
-                  <label htmlFor={c}>
+                  <label htmlFor={cleanChoice}>
                     <ListItemText primaryText={choice}/>
                 </label>
                 </ListItem>
