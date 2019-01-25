@@ -141,7 +141,7 @@
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.3.1",
     "remap-istanbul": "^0.12.0",
-    "resemblejs": "^2.10.3",
+    "resemblejs": "^3.0.1",
     "sass-loader": "^6.0.7",
     "testdouble": "^3.6.0",
     "ts-loader": "^3.5.0",
