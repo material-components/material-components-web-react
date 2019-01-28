@@ -25,6 +25,8 @@ const defaultMetadata = {
   branch: branchName,
 };
 
+const NO_MATCH_DIRECTORY = 'no_match';
+
 let storage: Storage|null = null;
 let bucket: Storage.Bucket|null = null;
 if (serviceAccountKey) {
@@ -105,8 +107,8 @@ export default class Screenshot {
         ]);
       }
       if (Number(data.misMatchPercentage) > 0) {
-        mkdirp.sync(path.dirname('no_match/' + diffPath));
-        await writeFilePromise('no_match/' + diffPath, diff);
+        mkdirp.sync(path.dirname(`${NO_MATCH_DIRECTORY}/${diffPath}`));
+        await writeFilePromise(`${NO_MATCH_DIRECTORY}/${diffPath}`, diff);
       }
       return assert.equal(Number(data.misMatchPercentage), 0);
     });
