@@ -160,7 +160,6 @@ export default class Screenshot {
       url,
       responseType: 'arraybuffer',
     });
-    console.log(gcsFilePath);
     return response.data;
   }
   /**
