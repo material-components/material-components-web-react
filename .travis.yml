@@ -5,11 +5,6 @@ git:
 dist: trusty
 sudo: required
 
-branches:
-  only:
-    - master
-    - rc0.10.0
-
 matrix:
   include:
     - node_js: 10
