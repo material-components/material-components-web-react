@@ -24,10 +24,6 @@ import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
 
-const VALIDATION_ATTR_WHITELIST = [
-  'pattern', 'min', 'max', 'required', 'step', 'minlength', 'maxlength'
-]
-
 export interface InputProps<T> {
   className: string;
   inputType: 'input' | 'textarea';
@@ -59,6 +55,11 @@ declare type ValidationAttrWhiteList =
   'pattern' | 'min' | 'max' | 'required' | 'step' | 'minlength' | 'maxlength';
 declare type ValidationAttrWhiteListReact =
   Exclude<ValidationAttrWhiteList, 'minlength' | 'maxlength'> | 'minLength' | 'maxLength';
+
+const VALIDATION_ATTR_WHITELIST: ValidationAttrWhiteList[] = [
+  'pattern', 'min', 'max', 'required', 'step', 'minlength', 'maxlength',
+];
+
 
 export default class Input<T extends {}> extends React.Component<
   Props<T>, InputState
