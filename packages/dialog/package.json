@@ -1,23 +1,21 @@
 {
-  "name": "@material/react-list",
+  "name": "@material/react-dialog",
   "version": "0.9.0",
-  "description": "Material Components React List",
+  "description": "Material Components React Dialog",
   "license": "MIT",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "keywords": [
     "mdc web react",
     "material components react",
     "material design",
-    "list"
+    "dialog"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/material-components/material-components-web-react.git"
-  },
   "dependencies": {
-    "@material/list": "^0.41.0",
+    "@material/dialog": "0.43.0",
+    "@material/dom": "^0.41.0",
+    "@material/react-button": "^0.9.0",
     "classnames": "^2.2.5",
+    "focus-trap": "^4.0.2",
     "react": "^16.4.2"
   },
   "publishConfig": {

@@ -1,6 +1,6 @@
 {
   "name": "@material/react-button",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Material Components React Button",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,8 +17,8 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/button": "^0.41.0",
-    "@material/react-ripple": "^0.8.0",
+    "@material/button": "^0.43.0",
+    "@material/react-ripple": "^0.9.0",
     "classnames": "^2.2.5",
     "react": "^16.4.2"
   },
