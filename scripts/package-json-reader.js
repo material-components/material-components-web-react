@@ -15,7 +15,7 @@ const readMaterialPackages = () => {
     }
   }
   return dependencies;
-}
+};
 
 
 module.exports = {readMaterialPackages};
