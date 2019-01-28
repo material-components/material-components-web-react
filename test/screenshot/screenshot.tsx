@@ -10,6 +10,9 @@ import {assert} from 'chai';
 import * as Storage from '@google-cloud/storage';
 import comparisonOptions from './screenshot-comparison-options';
 import axios from 'axios';
+import * as path from 'path';
+import * as mkdirp from 'mkdirp';
+
 const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
 const serviceAccountKey: string = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY || '';
@@ -100,6 +103,10 @@ export default class Screenshot {
           this.saveImage_(snapshotPath, snapshot, metadata),
           this.saveImage_(diffPath, diff, metadata),
         ]);
+      }
+      if (Number(data.misMatchPercentage) > 0) {
+        mkdirp.sync(path.dirname('no_match/' + diffPath))
+        await writeFilePromise('no_match/' + diffPath, diff);
       }
       return assert.equal(Number(data.misMatchPercentage), 0);
     });
