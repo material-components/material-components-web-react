@@ -28,11 +28,11 @@ const defaultMetadata = {
 let storage: Storage|null = null;
 let bucket: Storage.Bucket|null = null;
 if (serviceAccountKey) {
-    storage = new Storage({
-      credentials: JSON.parse(serviceAccountKey),
-    });
+  storage = new Storage({
+    credentials: JSON.parse(serviceAccountKey),
+  });
 
-    bucket = storage.bucket(bucketName);
+  bucket = storage.bucket(bucketName);
 }
 
 export default class Screenshot {
@@ -98,14 +98,14 @@ export default class Screenshot {
         return;
       }
       // Save the snapshot and the diff
-      if (storage)  {
+      if (storage) {
         await Promise.all([
           this.saveImage_(snapshotPath, snapshot, metadata),
           this.saveImage_(diffPath, diff, metadata),
         ]);
       }
       if (Number(data.misMatchPercentage) > 0) {
-        mkdirp.sync(path.dirname('no_match/' + diffPath))
+        mkdirp.sync(path.dirname('no_match/' + diffPath));
         await writeFilePromise('no_match/' + diffPath, diff);
       }
       return assert.equal(Number(data.misMatchPercentage), 0);
@@ -161,7 +161,7 @@ export default class Screenshot {
       responseType: 'arraybuffer',
     });
     console.log(gcsFilePath);
-    return response.data
+    return response.data;
   }
   /**
    * Saves the golden hash
@@ -184,8 +184,9 @@ export default class Screenshot {
    */
   async saveImage_(imagePath: string, imageBuffer: Buffer, customMetadata: Storage.CustomFileMetadata = {}) {
     const metadata: Storage.CustomFileMetadata = Object.assign({}, defaultMetadata, customMetadata);
-    if (!bucket)
+    if (!bucket) {
       throw new Error('GCS is not configured');
+    }
     const file = bucket.file(imagePath);
     // Check if file exists and exit if it does
     const [exists] = await file.exists();
