@@ -23,8 +23,10 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
-// @ts-ignore no .d.ts file
-import {VALIDATION_ATTR_WHITELIST} from '@material/textfield/constants';
+
+const VALIDATION_ATTR_WHITELIST = [
+  'pattern', 'min', 'max', 'required', 'step', 'minlength', 'maxlength'
+]
 
 export interface InputProps<T> {
   className: string;
