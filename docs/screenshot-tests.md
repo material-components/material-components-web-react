@@ -94,14 +94,6 @@ Then commit and push this change to your PR!
 
 > _NOTE_: If you have two-factor authentication turned on for your GitHub account, you'll need to use a [Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to push.
 
-## Running tests without docker
-
-If you have google-chrome-unstable package available, you can just run
-
-```
-npm run test:local-screenshots
-```
-
 ## Troubleshooting
 
 ### Building New Docker Image
