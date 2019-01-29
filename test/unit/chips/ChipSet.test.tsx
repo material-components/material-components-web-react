@@ -163,7 +163,7 @@ test('#handleSelect calls updates parent component with selectedChipIds correctl
     render() {
       const Chip1 = <Chip id='chip1'/>;
       const Chip2 = <Chip id='chip2'/>;
-      return(
+      return (
         <ChipSet
           filter
           selectedChipIds={this.state.selectedChipIds}
