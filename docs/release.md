@@ -126,12 +126,3 @@ If it hasn't already been done, you will need to create a new RC branch. If the 
     * `Include administrators`
     * `Restrict who can push to matching branches`
     * Should look like this:  ![protectionrule](https://user-images.githubusercontent.com/579873/48811016-b4814400-ece0-11e8-9a7e-1a9838ecf764.png)
-
-* [ ] Update the `.travis.yml` config
-  * Add the RC branch to the `branches` property in the config.
-  * ```
-    branches:
-      only:
-        - master
-        - rc0.8.0 # add this
-  ```
