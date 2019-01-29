@@ -54,32 +54,36 @@ test('renders stacked actions', () => {
 
 test('opening notification works', () => {
   const openingHandler = td.func<() => void>();
-  const wrapper = shallow<Snackbar>(<Snackbar open={false} onOpening={openingHandler} message='example' actionText='action' />);
-  wrapper.instance().foundation.adapter_.notifyOpening()
+  const wrapper = shallow<Snackbar>(
+    <Snackbar open={false} onOpening={openingHandler} message='example' actionText='action' />);
+  wrapper.instance().foundation.adapter_.notifyOpening();
   td.verify(openingHandler(), {times: 1});
   wrapper.unmount();
 });
 
 test('open notification works', () => {
   const openHandler = td.func<() => void>();
-  const wrapper = shallow<Snackbar>(<Snackbar open={false} onOpen={openHandler} message='example' actionText='action' />);
-  wrapper.instance().foundation.adapter_.notifyOpened()
+  const wrapper = shallow<Snackbar>(
+    <Snackbar open={false} onOpen={openHandler} message='example' actionText='action' />);
+  wrapper.instance().foundation.adapter_.notifyOpened();
   td.verify(openHandler(), {times: 1});
   wrapper.unmount();
 });
 
 test('closing notification works', () => {
   const closingHandler = td.func<(reason: string) => void>();
-  const wrapper = shallow<Snackbar>(<Snackbar open={false} onClosing={closingHandler} message='example' actionText='action' />);
-  wrapper.instance().foundation.adapter_.notifyClosing('unit_test')
+  const wrapper = shallow<Snackbar>(
+    <Snackbar open={false} onClosing={closingHandler} message='example' actionText='action' />);
+  wrapper.instance().foundation.adapter_.notifyClosing('unit_test');
   td.verify(closingHandler('unit_test'), {times: 1});
   wrapper.unmount();
 });
 
 test('close notification works', () => {
   const closeHandler = td.func<(reason: string) => void>();
-  const wrapper = shallow<Snackbar>(<Snackbar open={false} onClose={closeHandler} message='example' actionText='action' />);
-  wrapper.instance().foundation.adapter_.notifyClosed('unit_test')
+  const wrapper = shallow<Snackbar>(
+    <Snackbar open={false} onClose={closeHandler} message='example' actionText='action' />);
+  wrapper.instance().foundation.adapter_.notifyClosed('unit_test');
   td.verify(closeHandler('unit_test'), {times: 1});
   wrapper.unmount();
 });

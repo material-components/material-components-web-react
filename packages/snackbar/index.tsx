@@ -149,8 +149,9 @@ export class Snackbar extends React.Component<Props, State> {
   }
   componentDidMount() {
     this.foundation.init();
-    if (this.props.open)
+    if (this.props.open) {
       this.foundation.open();
+    }
   }
   componentWillUnmount() {
     this.foundation.destroy();
