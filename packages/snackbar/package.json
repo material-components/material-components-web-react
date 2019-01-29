@@ -1,0 +1,26 @@
+{
+  "name": "@material/react-snackbar",
+  "version": "0.0.0",
+  "description": "Material Components React Snackbar",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "material snackbar",
+    "materialsnackbar"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-react.git"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "react": "^16.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
