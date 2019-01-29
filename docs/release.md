@@ -70,27 +70,6 @@ conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
 The `CHANGELOG.md` will also be updated with the new version's changes. You will need to edit the header of the file at the very least. If you need to **edit** any other parts of the `CHANGELOG.md`, now is the time.
 
-#### Update .travis.yml config
-
-The `.travis.yml` file will need to be updated before merging into master. Remove the RC branch from the `branches` property in the config.
-
-Original:
-
-```
-branches:
-  only:
-    - master
-    - rc0.7.x # remove this
-```
-
-Updated:
-
-```
-branches:
-  only:
-    - master
-```
-
 #### Commit Changes
 
 ```
@@ -147,12 +126,3 @@ If it hasn't already been done, you will need to create a new RC branch. If the 
     * `Include administrators`
     * `Restrict who can push to matching branches`
     * Should look like this:  ![protectionrule](https://user-images.githubusercontent.com/579873/48811016-b4814400-ece0-11e8-9a7e-1a9838ecf764.png)
-
-* [ ] Update the `.travis.yml` config
-  * Add the RC branch to the `branches` property in the config.
-  * ```
-    branches:
-      only:
-        - master
-        - rc0.8.0 # add this
-  ```
