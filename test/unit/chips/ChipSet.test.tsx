@@ -143,6 +143,51 @@ test('#handleSelect calls foundation.handleChipSelection with selectedChipId and
   td.verify(handleChipSelection('1', false), {times: 1});
 });
 
+test('#handleSelect calls updates parent component with selectedChipIds correctly for filter chips', () => {
+  type HandleSelectMethod = (prevSelectedChipIds: string[], selectedChipId: string[]) => void;
+  type Props = {
+    handleSelect: HandleSelectMethod
+  };
+  type State = {selectedChipIds: string[]};
+
+  class TestChipParentComponent extends React.Component<Props, State> {
+    state = {selectedChipIds: []};
+    componentDidUpdate(_: Props, pState: State) {
+      if (pState.selectedChipIds !== this.state.selectedChipIds) {
+        this.props.handleSelect(pState.selectedChipIds, this.state.selectedChipIds);
+      }
+    }
+    handleSelect = (selectedChipIds: string[]) => {
+      this.setState({selectedChipIds});
+    }
+    render() {
+      const Chip1 = <Chip id='chip1'/>;
+      const Chip2 = <Chip id='chip2'/>;
+      return(
+        <ChipSet
+          filter
+          selectedChipIds={this.state.selectedChipIds}
+          handleSelect={this.handleSelect}
+        >
+          {Chip1}
+          {Chip2}
+        </ChipSet>
+      );
+    }
+  }
+
+  const handleChipSelection = coerceForTesting<HandleSelectMethod>(td.func());
+  const wrapper = mount<TestChipParentComponent>(
+    <TestChipParentComponent handleSelect={handleChipSelection}/>
+  );
+  const chipSet = wrapper.childAt(0);
+  chipSet.children().children().first().children().simulate('click');
+  td.verify(handleChipSelection([], ['chip1']), {times: 1});
+  chipSet.children().children().last().children().simulate('click');
+  td.verify(handleChipSelection(['chip1'], ['chip1', 'chip2']), {times: 1});
+});
+
+
 test('#handleInteraction calls #foundation.handleChipInteraction', () => {
   const handleChipInteraction = td.func();
   const foundation = {handleChipInteraction};
