@@ -109,3 +109,4 @@ Button.defaultProps = {
 };
 
 export default Ripple.withRipple<ButtonProps<ButtonTypes>, ButtonTypes>(Button);
+
