@@ -99,7 +99,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
     return {
       hasClass: (className: string) => this.classes.split(' ').includes(className),
       setSelected: () => {
-        const selectedChipIds = this.state.foundation.getSelectedChipIds();
+        const selectedChipIds = this.state.foundation.getSelectedChipIds().slice();
         this.setState({selectedChipIds}, () => {
           this.props.handleSelect(selectedChipIds);
         });
