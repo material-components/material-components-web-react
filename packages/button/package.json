@@ -1,6 +1,6 @@
 {
   "name": "@material/react-button",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Material Components React Button",
   "license": "MIT",
   "main": "dist/index.js",
