@@ -242,6 +242,7 @@ export function withRipple <
   };
 
   handleTouchEnd = (e: React.TouchEvent<Surface>) => {
+    e.preventDefault();
     this.props.onTouchEnd && this.props.onTouchEnd(e);
     this.deactivateRipple(e);
   };
@@ -259,9 +260,9 @@ export function withRipple <
   activateRipple = (e: ActivateEventTypes<Surface>) => {
     // https://reactjs.org/docs/events.html#event-pooling
     e.persist();
-    requestAnimationFrame(() => {
-      this.foundation.activate(e);
-    });
+    /* requestAnimationFrame(() => { */
+    this.foundation.activate(e)
+    /* }); */
   };
 
   deactivateRipple = (e: ActivateEventTypes<Surface>) => {
@@ -273,7 +274,7 @@ export function withRipple <
       return;
     }
     this.setState((prevState) => {
-      const updatedStyle = Object.assign({}, this.state.style) as React.CSSProperties;
+      const updatedStyle = Object.assign({}, this.state.style, prevState.style) as React.CSSProperties;
       updatedStyle[varName] = value;
       return Object.assign(prevState, {
         style: updatedStyle,
