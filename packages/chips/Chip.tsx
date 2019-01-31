@@ -237,10 +237,10 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         ref={this.init}
         {...otherProps}
       >
-        {leadingIcon ? this.renderLeadingIcon(leadingIcon) : null}
+        {leadingIcon && this.renderLeadingIcon(leadingIcon)}
         {chipCheckmark}
         <div className='mdc-chip__text'>{label}</div>
-        {trailingIcon ? this.renderTrailingIcon(trailingIcon) : null}
+        {trailingIcon && this.renderTrailingIcon(trailingIcon)}
       </div>
     );
   }
