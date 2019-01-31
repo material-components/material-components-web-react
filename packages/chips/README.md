@@ -170,10 +170,15 @@ className | String | Classes to be applied to the chip element
 id | Number | Required. Unique identifier for the chip
 label | String | Text to be shown on the chip
 leadingIcon | Element | An icon element that appears as the leading icon.
-removeIcon | Element | An icon element that appears as the remove icon. Clicking on it should remove the chip.
+trailingIcon | Element | An icon element that appears as the remove icon. Clicking on it should remove the chip.
 selected | Boolean | Indicates whether the chip is selected
 handleSelect | Function(id: string) => void | Callback for selecting the chip with the given id
 handleRemove | Function(id: string) => void | Callback for removing the chip with the given id
+handleTrailingIconInteraction | Function(id: string) => void | Callback for interaction with trailing icon
+shouldRemoveOnTrailingIconClick | Boolean | indicates if interaction with trailing icon should remove chip. defaults to `true`
+> Note: `handleTrailingIconInteraction` will execute before `handleRemove`.
+> Without explicitly setting shouldRemoveOnTrailingIconClick to false both
+> callbacks will fire on trailingIcon interaction 
 
 ## Sass Mixins
 

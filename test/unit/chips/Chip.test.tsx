@@ -13,6 +13,14 @@ test('creates foundation', () => {
   assert.exists(wrapper.instance().foundation);
 });
 
+test('#componentWillUnmount destroys foundation', () => {
+  const wrapper = shallow<Chip>(<Chip id='2' />);
+  const foundation = wrapper.instance().foundation;
+  foundation.destroy = td.func();
+  wrapper.unmount();
+  td.verify(foundation.destroy(), {times: 1});
+});
+
 test('calls setSelected if props.selected is true (#foundation.setSelected)', () => {
   const wrapper = mount<Chip>(
     <Chip id='1' selected>
@@ -20,6 +28,36 @@ test('calls setSelected if props.selected is true (#foundation.setSelected)', ()
     </Chip>
   );
   assert.isTrue(wrapper.state().classList.has('mdc-chip--selected'));
+});
+
+
+test('renders a Chip with foundation.shouldRemoveOnTrailingIconClick set to true', () => {
+  const wrapper = shallow<Chip>(<Chip id='3' />);
+  assert.isTrue(wrapper.instance().foundation.getShouldRemoveOnTrailingIconClick());
+});
+
+test('#componentDidMount sets #foundaiton.shouldRemoveOnTrailingIconClick to false if prop false', () => {
+  const wrapper = shallow<Chip>(<Chip id='4' shouldRemoveOnTrailingIconClick={false} />);
+  assert.isFalse(wrapper.instance().foundation.getShouldRemoveOnTrailingIconClick());
+});
+
+test('when props.shouldRemoveOnTrailingIconClick updates to false, ' +
+  ' #foundation.setShouldRemoveOnTrailingIconClick is called ', () => {
+  const wrapper = shallow<Chip>(<Chip id='5' shouldRemoveOnTrailingIconClick />);
+  assert.isTrue(wrapper.instance().foundation.getShouldRemoveOnTrailingIconClick());
+  wrapper.instance().foundation.setShouldRemoveOnTrailingIconClick = td.func();
+  wrapper.setProps({shouldRemoveOnTrailingIconClick: false});
+  td.verify(wrapper.instance().foundation.setShouldRemoveOnTrailingIconClick(false), {times: 1});
+});
+
+
+test('when props.shouldRemoveOnTrailingIconClick updates to true, ' +
+  ' #foundation.setShouldRemoveOnTrailingIconClick is called ', () => {
+  const wrapper = shallow<Chip>(<Chip id='6' shouldRemoveOnTrailingIconClick={false} />);
+  assert.isFalse(wrapper.instance().foundation.getShouldRemoveOnTrailingIconClick());
+  wrapper.instance().foundation.setShouldRemoveOnTrailingIconClick = td.func();
+  wrapper.setProps({shouldRemoveOnTrailingIconClick: true});
+  td.verify(wrapper.instance().foundation.setShouldRemoveOnTrailingIconClick(true), {times: 1});
 });
 
 test('classNames adds classes', () => {
@@ -139,6 +177,13 @@ test('#adapter.notifySelection calls #props.handleSelect w/ chipId and selected 
   td.verify(handleSelect('123', true), {times: 1});
 });
 
+test('#adapter.notifyTrailingIconInteraction calls #props.handleTrailingIconInteraction w/ chipId', () => {
+  const handleTrailingIconInteraction = coerceForTesting<(id: string) => void>(td.func());
+  const wrapper = shallow<Chip>(<Chip id='123' handleTrailingIconInteraction={handleTrailingIconInteraction} />);
+  wrapper.instance().foundation.adapter_.notifyTrailingIconInteraction();
+  td.verify(handleTrailingIconInteraction('123'), {times: 1});
+});
+
 test('on click calls #props.onClick', () => {
   const onClick = coerceForTesting<(event: React.MouseEvent) => void>(td.func());
   const wrapper = shallow<Chip>(<Chip id='1' onClick={onClick} />);
@@ -229,9 +274,9 @@ test('renders leadingIcon with state.leadingIconClassList', () => {
   );
 });
 
-test('renders remove icon', () => {
-  const removeIcon = <i className='remove-icon' />;
-  const wrapper = shallow(<Chip id='1' removeIcon={removeIcon} />);
+test('renders trailing icon', () => {
+  const trailingIcon = <i className='remove-icon' />;
+  const wrapper = shallow(<Chip id='1' trailingIcon={trailingIcon} />);
   assert.equal(
     wrapper
       .children()
@@ -241,9 +286,9 @@ test('renders remove icon', () => {
   );
 });
 
-test('renders remove icon with class name', () => {
-  const removeIcon = <i className='remove-icon' />;
-  const wrapper = shallow(<Chip id='1' removeIcon={removeIcon} />);
+test('renders trailing icon with class name', () => {
+  const trailingIcon = <i className='remove-icon' />;
+  const wrapper = shallow(<Chip id='1' trailingIcon={trailingIcon} />);
   assert.isTrue(
     wrapper
       .children()
@@ -252,9 +297,9 @@ test('renders remove icon with class name', () => {
   );
 });
 
-test('renders remove icon with base class names', () => {
-  const removeIcon = <i className='remove-icon' />;
-  const wrapper = shallow(<Chip id='1' removeIcon={removeIcon} />);
+test('renders trailing icon with base class names', () => {
+  const trailingIcon = <i className='remove-icon' />;
+  const wrapper = shallow(<Chip id='1' trailingIcon={trailingIcon} />);
   assert.isTrue(
     wrapper
       .children()
@@ -269,9 +314,9 @@ test('renders remove icon with base class names', () => {
   );
 });
 
-test('remove icon click calls #foundation.handleTrailingIconInteraction', () => {
-  const removeIcon = <i className='remove-icon' />;
-  const wrapper = shallow<Chip>(<Chip id='1' removeIcon={removeIcon} />);
+test('trailing icon click calls #foundation.handleTrailingIconInteraction', () => {
+  const trailingIcon = <i className='remove-icon' />;
+  const wrapper = shallow<Chip>(<Chip id='1' trailingIcon={trailingIcon} />);
   wrapper.instance().foundation.handleTrailingIconInteraction = td.func();
   const evt = {};
   wrapper
@@ -283,9 +328,9 @@ test('remove icon click calls #foundation.handleTrailingIconInteraction', () => 
   });
 });
 
-test('remove icon keydown calls #foundation.handleTrailingIconInteraction', () => {
-  const removeIcon = <i className='remove-icon' />;
-  const wrapper = shallow<Chip>(<Chip id='1' removeIcon={removeIcon} />);
+test('trailing icon keydown calls #foundation.handleTrailingIconInteraction', () => {
+  const trailingIcon = <i className='remove-icon' />;
+  const wrapper = shallow<Chip>(<Chip id='1' trailingIcon={trailingIcon} />);
   wrapper.instance().foundation.handleTrailingIconInteraction = td.func();
   const evt = {};
   wrapper
@@ -296,6 +341,7 @@ test('remove icon keydown calls #foundation.handleTrailingIconInteraction', () =
     times: 1,
   });
 });
+
 
 test('calls #foundation.handleTransitionEnd on transitionend event', () => {
   const wrapper = shallow<Chip>(<Chip id='1' />);

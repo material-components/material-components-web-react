@@ -26,19 +26,21 @@ import * as Ripple from '@material/react-ripple';
 import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
 
 export interface ChipProps extends Ripple.InjectedProps<HTMLDivElement> {
-  id?: string;
+  id: string;
   label?: string;
   className?: string;
   selected?: boolean;
   handleSelect?: (id: string, selected: boolean) => void;
   handleRemove?: (id: string) => void;
   handleInteraction?: (id: string) => void;
+  handleTrailingIconInteraction?: (id: string) => void;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   onTransitionEnd?: React.TransitionEventHandler<HTMLDivElement>;
   chipCheckmark?: React.ReactElement<HTMLElement>;
   leadingIcon?: React.ReactElement<HTMLElement>;
-  removeIcon?: React.ReactElement<HTMLElement>;
+  shouldRemoveOnTrailingIconClick?: boolean;
+  trailingIcon?: React.ReactElement<HTMLElement>;
   initRipple: (surface: HTMLElement | null) => void;
 };
 
@@ -63,6 +65,8 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     handleSelect: () => {},
     handleRemove: () => {},
     handleInteraction: () => {},
+    handleTrailingIconInteraction: () => {},
+    shouldRemoveOnTrailingIconClick: true,
   };
 
   state = {
@@ -71,14 +75,24 @@ export class Chip extends React.Component<ChipProps, ChipState> {
   };
 
   componentDidMount() {
+    const {selected, shouldRemoveOnTrailingIconClick} = this.props;
     this.foundation = new MDCChipFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setSelected(this.props.selected);
+    this.foundation.setSelected(selected);
+    if (shouldRemoveOnTrailingIconClick !== this.foundation.getShouldRemoveOnTrailingIconClick()) {
+      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick);
+    }
   }
 
   componentDidUpdate(prevProps: ChipProps) {
-    if (this.props.selected !== prevProps.selected) {
-      this.foundation.setSelected(this.props.selected);
+    const {selected, shouldRemoveOnTrailingIconClick} = this.props;
+
+    if (selected !== prevProps.selected) {
+      this.foundation.setSelected(selected);
+    }
+
+    if (shouldRemoveOnTrailingIconClick !== prevProps.shouldRemoveOnTrailingIconClick) {
+      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick);
     }
   }
 
@@ -122,10 +136,11 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         if (!this.chipElement) return;
         this.chipElement.style.setProperty(propertyName, value);
       },
-      notifyRemoval: () => this.props.handleRemove!(this.props.id!),
-      notifyInteraction: () => this.props.handleInteraction!(this.props.id!),
+      notifyRemoval: () => this.props.handleRemove!(this.props.id),
+      notifyInteraction: () => this.props.handleInteraction!(this.props.id),
       notifySelection: (selected: boolean) =>
-        this.props.handleSelect!(this.props.id!, selected),
+        this.props.handleSelect!(this.props.id, selected),
+      notifyTrailingIconInteraction: () => this.props.handleTrailingIconInteraction!(this.props.id),
       addClassToLeadingIcon: (className: string) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.add(className);
@@ -149,7 +164,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     this.foundation.handleInteraction(e);
   };
 
-  handleRemoveIconClick = (e: React.MouseEvent) => this.foundation.handleTrailingIconInteraction(e);
+  handleTrailingIconClick = (e: React.MouseEvent) => this.foundation.handleTrailingIconInteraction(e);
 
   handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
     this.props.onTransitionEnd!(e);
@@ -171,21 +186,21 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     return React.cloneElement(leadingIcon, props);
   };
 
-  renderRemoveIcon = (removeIcon: React.ReactElement<HTMLElement>) => {
-    const {className, ...otherProps} = removeIcon.props;
+  renderTrailingIcon = (trailingIcon: React.ReactElement<HTMLElement>) => {
+    const {className, ...otherProps} = trailingIcon.props;
     const props = {
       className: classnames(
         className,
         'mdc-chip__icon',
         'mdc-chip__icon--trailing'
       ),
-      onClick: this.handleRemoveIconClick,
-      onKeyDown: this.handleRemoveIconClick,
+      onClick: this.handleTrailingIconClick,
+      onKeyDown: this.handleTrailingIconClick,
       tabIndex: 0,
       role: 'button',
       ...otherProps,
     };
-    return React.cloneElement(removeIcon, props);
+    return React.cloneElement(trailingIcon, props);
   };
 
   render() {
@@ -197,16 +212,18 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       handleSelect,
       handleInteraction,
       handleRemove,
+      handleTrailingIconInteraction,
       onClick,
       onKeyDown,
       onTransitionEnd,
       computeBoundingRect,
       initRipple,
       unbounded,
+      shouldRemoveOnTrailingIconClick,
       /* eslint-enable no-unused-vars */
       chipCheckmark,
       leadingIcon,
-      removeIcon,
+      trailingIcon,
       label,
       ...otherProps
     } = this.props;
@@ -223,7 +240,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         {leadingIcon ? this.renderLeadingIcon(leadingIcon) : null}
         {chipCheckmark}
         <div className='mdc-chip__text'>{label}</div>
-        {removeIcon ? this.renderRemoveIcon(removeIcon) : null}
+        {trailingIcon ? this.renderTrailingIcon(trailingIcon) : null}
       </div>
     );
   }
