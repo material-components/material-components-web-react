@@ -122,10 +122,10 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         if (!this.chipElement) return;
         this.chipElement.style.setProperty(propertyName, value);
       },
-      notifyRemoval: () => this.props.handleRemove!(this.props.id!),
-      notifyInteraction: () => this.props.handleInteraction!(this.props.id!),
+      notifyRemoval: () => this.props.handleRemove!(this.props.id),
+      notifyInteraction: () => this.props.handleInteraction!(this.props.id),
       notifySelection: (selected: boolean) =>
-        this.props.handleSelect!(this.props.id!, selected),
+        this.props.handleSelect!(this.props.id, selected),
       addClassToLeadingIcon: (className: string) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.add(className);
