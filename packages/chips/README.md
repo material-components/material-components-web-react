@@ -137,7 +137,7 @@ class MyInputChips extends React.Component {
             <Chip
               key={chip.id} // The chip's key cannot be its index, because its index may change.
               label={chip.label}
-              removeIcon={<MaterialIcon icon='cancel' />}
+              trailingIcon={<MaterialIcon icon='cancel' />}
             />
           )}
         </ChipSet>
