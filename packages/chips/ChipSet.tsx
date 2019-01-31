@@ -163,14 +163,24 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
     const {filter} = this.props;
     const {selectedChipIds} = this.state;
     const selected = selectedChipIds.indexOf(chip.props.id) > -1;
+    const {handleInteraction, handleSelect, handleRemove, ...chipProps} = chip.props;
     const props = Object.assign(
       {},
-      ...chip.props,
+      ...chipProps,
       {
         selected,
-        handleSelect: this.handleSelect,
-        handleInteraction: this.handleInteraction,
-        handleRemove: this.handleRemove,
+        handleSelect: (id: string, selected: boolean): void => {
+          handleSelect!(id, selected);
+          this.handleSelect(id, selected);
+        },
+        handleInteraction: (id: string): void => {
+          handleInteraction!(id);
+          this.handleInteraction(id);
+        },
+        handleRemove: (id: string): void => {
+          handleRemove!(id);
+          this.handleRemove(id);
+        },
         chipCheckmark: filter ? (
           <ChipCheckmark ref={this.setCheckmarkWidth} />
         ) : null,
