@@ -26,7 +26,7 @@ import * as Ripple from '@material/react-ripple';
 import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
 
 export interface ChipProps extends Ripple.InjectedProps<HTMLDivElement> {
-  id?: string;
+  id: string;
   label?: string;
   className?: string;
   selected?: boolean;
