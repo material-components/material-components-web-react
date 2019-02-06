@@ -155,7 +155,7 @@ Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the chip set element
 selectedChipIds | Array | Array of ids of chips that are selected
-handleSelect | Function(id: string) => void | Callback for selecting the chip with the given id
+handleSelect | Function(selectedChipIds: string[]) => void | Callback when Chips are Selected
 updateChips | Function(chips: Array{chipProps}) => void | Callback when the ChipSet updates its chips
 choice | Boolean | Indicates that the chips in the set are choice chips, which allow single selection from a set of options
 filter | Boolean | Indicates that the chips in the set are filter chips, which allow multiple selection from a set of options
@@ -172,8 +172,10 @@ label | String | Text to be shown on the chip
 leadingIcon | Element | An icon element that appears as the leading icon.
 removeIcon | Element | An icon element that appears as the remove icon. Clicking on it should remove the chip.
 selected | Boolean | Indicates whether the chip is selected
-handleSelect | Function(id: string) => void | Callback for selecting the chip with the given id
+handleSelect | Function(id: string, selected: boolean) => void | Callback for selecting the chip with the given id
 handleRemove | Function(id: string) => void | Callback for removing the chip with the given id
+handleInteraction | Function(id: string) => void | Callback for interaction of chip (`onClick` | `onKeyDown`)
+
 
 ## Sass Mixins
 
