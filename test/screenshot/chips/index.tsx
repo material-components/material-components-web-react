@@ -62,9 +62,9 @@ type InputChipsTestState = {
 
 class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTestState> {
   state = {
-    chips: this.props.labels.map((label) => {
-      return {label: label, id: uuidv1()};
-    }),
+    chips: this.props.labels.reduce((a, label) => (
+      [...a, {label, id: uuidv1()}]
+    ), [{label: 'Name Chips (dont remove)', id: uuidv1()}] ),
   };
 
   addChip(label: string) {
@@ -90,13 +90,14 @@ class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTest
       <div>
         <input type='text' onKeyDown={this.handleKeyDown} />
         <ChipSet input updateChips={this.updateChips}>
-          {this.state.chips.map((chip) => (
+          {this.state.chips.map((chip, i: number ) => (
             <Chip
               id={chip.id}
               key={chip.id} // The chip s key cannot be its index, because its index may change
               label={chip.label}
-              leadingIcon={<MaterialIcon icon='face' />}
-              removeIcon={<MaterialIcon icon='cancel' />}
+              leadingIcon={i === 0 ? undefined : <MaterialIcon icon='face' />}
+              trailingIcon={<MaterialIcon icon={i === 0 ? 'announcement' : 'cancel'} />}
+              shouldRemoveOnTrailingIconClick={i !== 0}
             />
           ))}
         </ChipSet>
