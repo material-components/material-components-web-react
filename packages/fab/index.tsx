@@ -24,13 +24,15 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import * as Ripple from '@material/react-ripple';
 
-export interface FabProps extends Ripple.InjectedProps<HTMLButtonElement> {
-  mini?: boolean;
-  icon?: React.ReactElement<HTMLElement>;
-  textLabel?: string;
-  className?: string;
-  initRipple: React.Ref<HTMLButtonElement>;
-  unbounded: boolean;
+export interface FabProps extends Ripple.InjectedProps<HTMLButtonElement>,
+  React.ButtonHTMLAttributes<HTMLButtonElement> {
+    exited?: boolean;
+    mini?: boolean;
+    icon?: React.ReactElement<HTMLElement>;
+    textLabel?: string;
+    className?: string;
+    initRipple: React.Ref<HTMLButtonElement>;
+    unbounded: boolean;
 }
 
 const Icon: React.FunctionComponent<{icon?: React.ReactElement<HTMLElement>}> = ({icon}) => {
@@ -54,6 +56,7 @@ const TextLabel: React.FunctionComponent<{textLabel: string}> = ({
 
 export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonElement>> = ({
   /* eslint-disable react/prop-types */
+  exited = false,
   mini = false,
   icon,
   textLabel = '',
@@ -67,6 +70,7 @@ export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonE
   const classes = classnames('mdc-fab', className, {
     'mdc-fab--mini': mini,
     'mdc-fab--extended': extended,
+    'mdc-fab--exited': exited,
   });
 
   return (
