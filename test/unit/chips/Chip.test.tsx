@@ -36,7 +36,7 @@ test('renders a Chip with foundation.shouldRemoveOnTrailingIconClick set to true
   assert.isTrue(wrapper.instance().foundation.getShouldRemoveOnTrailingIconClick());
 });
 
-test('#componentDidMount sets #foundaiton.shouldRemoveOnTrailingIconClick to false if prop false', () => {
+test('#componentDidMount sets #foundation.shouldRemoveOnTrailingIconClick to false if prop false', () => {
   const wrapper = shallow<Chip>(<Chip id='4' shouldRemoveOnTrailingIconClick={false} />);
   assert.isFalse(wrapper.instance().foundation.getShouldRemoveOnTrailingIconClick());
 });
