@@ -26,7 +26,7 @@ import * as Ripple from '@material/react-ripple';
 import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
 
 export interface ChipProps extends Ripple.InjectedProps<HTMLDivElement> {
-  id: string;
+  id?: string;
   label?: string;
   className?: string;
   selected?: boolean;
@@ -136,11 +136,11 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         if (!this.chipElement) return;
         this.chipElement.style.setProperty(propertyName, value);
       },
-      notifyRemoval: () => this.props.handleRemove!(this.props.id),
-      notifyInteraction: () => this.props.handleInteraction!(this.props.id),
+      notifyRemoval: () => this.props.handleRemove!(this.props.id!),
+      notifyInteraction: () => this.props.handleInteraction!(this.props.id!),
       notifySelection: (selected: boolean) =>
-        this.props.handleSelect!(this.props.id, selected),
-      notifyTrailingIconInteraction: () => this.props.handleTrailingIconInteraction!(this.props.id),
+        this.props.handleSelect!(this.props.id!, selected),
+      notifyTrailingIconInteraction: () => this.props.handleTrailingIconInteraction!(this.props.id!),
       addClassToLeadingIcon: (className: string) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.add(className);
