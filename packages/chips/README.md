@@ -137,7 +137,7 @@ class MyInputChips extends React.Component {
             <Chip
               key={chip.id} // The chip's key cannot be its index, because its index may change.
               label={chip.label}
-              removeIcon={<MaterialIcon icon='cancel' />}
+              trailingIcon={<MaterialIcon icon='cancel' />}
             />
           )}
         </ChipSet>
@@ -170,12 +170,15 @@ className | String | Classes to be applied to the chip element
 id | Number | Required. Unique identifier for the chip
 label | String | Text to be shown on the chip
 leadingIcon | Element | An icon element that appears as the leading icon.
-removeIcon | Element | An icon element that appears as the remove icon. Clicking on it should remove the chip.
+trailingIcon | Element | An icon element that appears as the remove icon. Clicking on it should remove the chip.
 selected | Boolean | Indicates whether the chip is selected
 handleSelect | Function(id: string, selected: boolean) => void | Callback for selecting the chip with the given id
-handleRemove | Function(id: string) => void | Callback for removing the chip with the given id
 handleInteraction | Function(id: string) => void | Callback for interaction of chip (`onClick` | `onKeyDown`)
-
+handleTrailingIconInteraction | Function(id: string) => void | Callback for interaction with trailing icon
+shouldRemoveOnTrailingIconClick | Boolean | indicates if interaction with trailing icon should remove chip. defaults to `true`
+> Note: `handleTrailingIconInteraction` will execute before `handleRemove`.
+> Without explicitly setting shouldRemoveOnTrailingIconClick to false both
+> callbacks will fire on trailingIcon interaction 
 
 ## Sass Mixins
 

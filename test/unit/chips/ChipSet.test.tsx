@@ -11,7 +11,7 @@ suite('ChipSet');
 
 
 test('creates foundation', () => {
-  const wrapper = mount<ChipSet>(<ChipSet><Chip /></ChipSet>);
+  const wrapper = mount<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   assert.exists(wrapper.state().foundation);
 });
 
@@ -277,13 +277,13 @@ test('#removeChip calls #props.updateChips with array of remaining chips', () =>
 });
 
 test('#setCheckmarkWidth sets checkmark width', () => {
-  const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
+  const wrapper = shallow<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   wrapper.instance().setCheckmarkWidth(coerceForTesting<ChipCheckmark>({width: 20}));
   assert.equal(wrapper.instance().checkmarkWidth, 20);
 });
 
 test('#setCheckmarkWidth does not set checkmark width if checkmark width is already set', () => {
-  const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
+  const wrapper = shallow<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   wrapper.instance().checkmarkWidth = 20;
   wrapper.instance().setCheckmarkWidth(coerceForTesting<ChipCheckmark>({width: 40}));
   assert.equal(wrapper.instance().checkmarkWidth, 20);
@@ -296,7 +296,7 @@ test('#setCheckmarkWidth does not set checkmark width if checkmark is null', () 
 });
 
 test('#computeBoundingRect returns width and height', () => {
-  const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
+  const wrapper = shallow<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   const chipWidth = 20;
   const chipHeight = 50;
   const chipElement = coerceForTesting<HTMLDivElement>({
@@ -308,7 +308,7 @@ test('#computeBoundingRect returns width and height', () => {
 });
 
 test('#computeBoundingRect returns width and height', () => {
-  const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
+  const wrapper = shallow<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   const chipWidth = 20;
   const chipHeight = 50;
   wrapper.instance().checkmarkWidth = 20;
@@ -355,7 +355,7 @@ test('#chip.props.handleSelect calls #foundation.handleChipSelection', () => {
 });
 
 test('chip is rendered with handleRemove method', () => {
-  const wrapper = mount<ChipSet>(<ChipSet><Chip /></ChipSet>);
+  const wrapper = mount<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   wrapper.instance().handleRemove = coerceForTesting<(chipId: string) => void>(td.func());
   wrapper.setProps({children: <Chip id='1' />});
   const chip = wrapper.children().props().children[0];
@@ -421,7 +421,7 @@ test('chip is rendered with computeBoundingRect method prop if is not filter var
 });
 
 test('#componentWillUnmount destroys foundation', () => {
-  const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
+  const wrapper = shallow<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   const foundation = wrapper.state().foundation;
   foundation.destroy = td.func();
   wrapper.unmount();
