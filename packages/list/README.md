@@ -134,7 +134,7 @@ class MyApp extends Component {
           </ListItem>
           ...
         </List>
-        <ListDivider />
+        <ListDivider tag="div" />
         <ListGroupSubheader tag='h2'>Recent Files</ListGroupSubheader>
         <List>
           <ListItem>
