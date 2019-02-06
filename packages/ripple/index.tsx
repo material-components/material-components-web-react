@@ -264,7 +264,7 @@ export function withRipple <
   activateRipple = (e: ActivateEventTypes<Surface>) => {
     // https://reactjs.org/docs/events.html#event-pooling
     e.persist();
-    this.foundation.activate(e)
+    this.foundation.activate(e);
   };
 
   deactivateRipple = (e: ActivateEventTypes<Surface>) => {
