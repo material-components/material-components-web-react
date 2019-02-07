@@ -417,7 +417,7 @@ test('chip is rendered with computeBoundingRect method prop if is not filter var
 test('basic variant ChipSet will not throw error if chip missing id', () => {
   const stub = <ChipSet><Chip /></ChipSet>;
   const render = () => shallow<ChipSet>(stub);
-  assert.doesNotThrow(render);
+  assert.isOk(render);
 });
 
 
