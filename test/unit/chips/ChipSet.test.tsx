@@ -415,28 +415,28 @@ test('chip is rendered with computeBoundingRect method prop if is not filter var
 });
 
 test('basic variant ChipSet will not throw error if chip missing id', () => {
-  const stub = <ChipSet><Chip /></ChipSet>;
-  const render = () => shallow<ChipSet>(stub);
-  assert.doesNotThrow(render);
+  const stub = (<Chip/>);
+  const wrapper = shallow<ChipSet>(<ChipSet/>);
+  assert.doesNotThrow(() => wrapper.instance().renderChip(stub));
 });
 
 
 test('filter variant ChipSet will throw error if chip missing id', () => {
-  const stub = <ChipSet filter><Chip /></ChipSet>;
-  const render = () => shallow<ChipSet>(stub);
-  assert.throws(render);
+  const stub = (<Chip/>);
+  const wrapper = shallow<ChipSet>(<ChipSet filter />);
+  assert.throws(() => wrapper.instance().renderChip(stub));
 });
 
 test('choice variant ChipSet will throw error if chip missing id', () => {
-  const stub = <ChipSet choice><Chip /></ChipSet>;
-  const render = () => shallow<ChipSet>(stub);
-  assert.throws(render);
+  const stub = (<Chip/>);
+  const wrapper = shallow<ChipSet>(<ChipSet choice />);
+  assert.throws(() => wrapper.instance().renderChip(stub));
 });
 
 test('input variant of ChipSet will throw error if chip missing id', () => {
-  const stub = <ChipSet input><Chip /></ChipSet>;
-  const render = () => shallow<ChipSet>(stub);
-  assert.throws(render);
+  const stub = (<Chip/>);
+  const wrapper = shallow<ChipSet>(<ChipSet input />);
+  assert.throws(() => wrapper.instance().renderChip(stub));
 });
 
 test('#componentWillUnmount destroys foundation', () => {
