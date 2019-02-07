@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 import List, {
-  ListItem, ListItemProps, ListDivider // eslint-disable-line no-unused-vars
+  ListItem, ListItemProps, // eslint-disable-line no-unused-vars
 } from '../../../packages/list/index';
 import {coerceForTesting} from '../helpers/types';
 
@@ -401,26 +401,4 @@ test('renders a list with default tag', () => {
 test('renders a list with a nav tag', () => {
   const wrapper = shallow(<List tag='nav'>{children()}</List>);
   assert.equal(wrapper.type(), 'nav');
-});
-
-test('renders a list with a falsey conditional child tag', () => {
-	const showDivider = false;
-  const wrapper = mount<List>(
-    <List>
-      {threeChildren()}
-      {showDivider && <ListDivider/>}
-    </List>
-  );
-  assert.equal(wrapper.instance().adapter.getListItemCount(), 3);
-});
-
-test('renders a list with a truthy conditional child tag', () => {
-	const showDivider = true;
-  const wrapper = mount<List>(
-    <List>
-      {threeChildren()}
-      {showDivider && <ListDivider/>}
-    </List>
-  );
-  assert.equal(wrapper.instance().adapter.getListItemCount(), 3);
 });
