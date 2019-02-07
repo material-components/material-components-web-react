@@ -414,6 +414,31 @@ test('chip is rendered with computeBoundingRect method prop if is not filter var
   assert.equal(chip.props.computeBoundingRect, null);
 });
 
+test('basic variant ChipSet will not throw error if chip missing id', () => {
+  const stub = <ChipSet><Chip /></ChipSet>;
+  const render = () => shallow<ChipSet>(stub);
+  assert.isOk(render);
+});
+
+
+test('filter variant ChipSet will throw error if chip missing id', () => {
+  const stub = <ChipSet filter><Chip /></ChipSet>;
+  const render = () => shallow<ChipSet>(stub);
+  assert.throws(render);
+});
+
+test('choice variant ChipSet will throw error if chip missing id', () => {
+  const stub = <ChipSet choice><Chip /></ChipSet>;
+  const render = () => shallow<ChipSet>(stub);
+  assert.throws(render);
+});
+
+test('input variant of ChipSet will throw error if chip missing id', () => {
+  const stub = <ChipSet input><Chip /></ChipSet>;
+  const render = () => shallow<ChipSet>(stub);
+  assert.throws(render);
+});
+
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   const foundation = wrapper.state().foundation;

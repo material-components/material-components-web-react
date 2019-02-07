@@ -160,7 +160,11 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   };
 
   renderChip = (chip: any) => {
-    const {filter} = this.props;
+    const {choice, filter, input} = this.props;
+    if ((choice || filter || input) && !chip.props.id) {
+      throw new Error('Chip variant missing required property: id.');
+    }
+
     const {selectedChipIds} = this.state;
     const selected = selectedChipIds.indexOf(chip.props.id) > -1;
     const {handleInteraction, handleSelect, handleRemove, ...chipProps} = chip.props;
