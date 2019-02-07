@@ -11,7 +11,7 @@ suite('ChipSet');
 
 
 test('creates foundation', () => {
-  const wrapper = mount<ChipSet>(<ChipSet><Chip id='1'/></ChipSet>);
+  const wrapper = mount<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
   assert.exists(wrapper.state().foundation);
 });
 
