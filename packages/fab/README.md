@@ -47,7 +47,8 @@ The Fab can be used with the `span`, `i`, `img` or `svg` elements. It can also b
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
-mini | n/a | Enables the mini variant.
+exited | Boolean | When true animates the FAB out of view. When this false, the FAB will return to view.
+mini | Boolean |  Enables the mini variant. 
 icon | Element | The icon.
 textLabel | String | The label, which makes the FAB extended.
 
