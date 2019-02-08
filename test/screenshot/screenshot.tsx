@@ -9,6 +9,10 @@ import {test} from 'mocha';
 import {assert} from 'chai';
 import * as Storage from '@google-cloud/storage';
 import comparisonOptions from './screenshot-comparison-options';
+import axios from 'axios';
+import * as path from 'path';
+import * as mkdirp from 'mkdirp';
+
 const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
 const serviceAccountKey: string = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY || '';
@@ -21,11 +25,17 @@ const defaultMetadata = {
   branch: branchName,
 };
 
-const storage = new Storage({
-  credentials: JSON.parse(serviceAccountKey),
-});
+const NO_MATCH_DIRECTORY = 'no_match';
 
-const bucket = storage.bucket(bucketName);
+let storage: Storage|null = null;
+let bucket: Storage.Bucket|null = null;
+if (serviceAccountKey) {
+  storage = new Storage({
+    credentials: JSON.parse(serviceAccountKey),
+  });
+
+  bucket = storage.bucket(bucketName);
+}
 
 export default class Screenshot {
   urlPath_: string;
@@ -90,10 +100,16 @@ export default class Screenshot {
         return;
       }
       // Save the snapshot and the diff
-      await Promise.all([
-        this.saveImage_(snapshotPath, snapshot, metadata),
-        this.saveImage_(diffPath, diff, metadata),
-      ]);
+      if (storage) {
+        await Promise.all([
+          this.saveImage_(snapshotPath, snapshot, metadata),
+          this.saveImage_(diffPath, diff, metadata),
+        ]);
+      }
+      if (Number(data.misMatchPercentage) > 0) {
+        mkdirp.sync(path.dirname(`${NO_MATCH_DIRECTORY}/${diffPath}`));
+        await writeFilePromise(`${NO_MATCH_DIRECTORY}/${diffPath}`, diff);
+      }
       return assert.equal(Number(data.misMatchPercentage), 0);
     });
   }
@@ -141,8 +157,12 @@ export default class Screenshot {
    * @private
    */
   async readImage_(gcsFilePath: string) {
-    const data = await bucket.file(gcsFilePath).download();
-    return data[0];
+    const url = `https://storage.googleapis.com/screenshot-uploads/${gcsFilePath}`;
+    const response = await axios.request({
+      url,
+      responseType: 'arraybuffer',
+    });
+    return response.data;
   }
   /**
    * Saves the golden hash
@@ -165,6 +185,9 @@ export default class Screenshot {
    */
   async saveImage_(imagePath: string, imageBuffer: Buffer, customMetadata: Storage.CustomFileMetadata = {}) {
     const metadata: Storage.CustomFileMetadata = Object.assign({}, defaultMetadata, customMetadata);
+    if (!bucket) {
+      throw new Error('GCS is not configured');
+    }
     const file = bucket.file(imagePath);
     // Check if file exists and exit if it does
     const [exists] = await file.exists();

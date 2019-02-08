@@ -5,11 +5,6 @@ git:
 dist: trusty
 sudo: required
 
-branches:
-  only:
-    - master
-    - rc0.10.0
-
 matrix:
   include:
     - node_js: 10
@@ -34,8 +29,9 @@ matrix:
       env:
         - TEST_SUITE=screenshots
         - CURRENT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+        - CURRENT_SLUG=$(if [ "x$TRAVIS_PULL_REQUEST_SLUG" == "x" ]; then echo $TRAVIS_REPO_SLUG; else echo $TRAVIS_PULL_REQUEST_SLUG; fi) 
       before_install:
         - docker pull mdcreact/screenshots
         - docker image ls
       script:
-        - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" mdcreact/screenshots /bin/sh -c "git checkout .; git fetch; git checkout \"${CURRENT_BRANCH}\"; git pull; npm i; /home/pptruser/material-components-web-react/test/screenshot/start.sh; sleep 35s; npm run test:image-diff"
+        - docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY="${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}" -e CURRENT_SLUG="${CURRENT_SLUG}" mdcreact/screenshots /bin/sh -c "git remote rm origin; git remote add origin https://github.com/${CURRENT_SLUG}; git checkout .; git fetch; git checkout \"${CURRENT_BRANCH}\"; git pull; npm i; /home/pptruser/material-components-web-react/test/screenshot/start.sh; sleep 40s; npm run test:image-diff"
