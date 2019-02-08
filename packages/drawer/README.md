@@ -212,7 +212,7 @@ export default class App extends Component {
       <div className='drawer-container'>
         <TopAppBar title='Inbox'/>
 
-        <TopAppBarFixedAdjust>
+        <TopAppBarFixedAdjust className='top-app-bar-fix-adjust'>
           <Drawer>
             <DrawerHeader>
               <DrawerTitle tag='h2'>
@@ -254,6 +254,11 @@ You will also need these styles:
 .drawer-app-content {
   flex: auto;
   overflow: auto;
+}
+
+.top-app-bar-fix-adjust {
+    display: flex;
+    width: 100%;
 }
 ```
 
