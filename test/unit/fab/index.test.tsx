@@ -32,6 +32,16 @@ test('has correct mini class', () => {
   assert.isTrue(wrapper.find('button').hasClass('mdc-fab--mini'));
 });
 
+test('has correct exited class', () => {
+  const wrapper = mount(
+    <Fab exited>
+      <i />
+    </Fab>
+  );
+  assert.isTrue(wrapper.find('button').hasClass('mdc-fab--exited'));
+});
+
+
 test('has correct extended class', () => {
   const icon = <i className='test-action-icon-1' />;
   const wrapper = mount(<Fab icon={icon} textLabel='Text Label' />);
