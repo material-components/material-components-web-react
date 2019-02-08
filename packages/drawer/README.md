@@ -257,8 +257,8 @@ You will also need these styles:
 }
 
 .top-app-bar-fix-adjust {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 ```
 
