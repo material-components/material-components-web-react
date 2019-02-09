@@ -24,8 +24,6 @@ const webpack = require('webpack');
 const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const {readMaterialPackages} = require('../scripts/package-json-reader');
-const {convertToImportMDCWebPaths} = require('../scripts/package-name-converter');
 const {getDirectories} = require('../scripts/directory-reader');
 const {importer} = require('./webpack.util');
 
@@ -89,10 +87,6 @@ function getReactMaterialExternals() {
 
 function getMaterialExternals(withReact) {
   const externals = {};
-  /*const importPaths = convertToImportMDCWebPaths(readMaterialPackages());
-  importPaths.forEach((importPath) => {
-    externals[importPath] = `${importPath}.js`;
-  });*/
 
   if (withReact) {
     getReactMaterialExternals().forEach((path) => {
