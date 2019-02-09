@@ -25,7 +25,7 @@ import * as classnames from 'classnames';
 
 import TabIndicator from '@material/react-tab-indicator';
 // @ts-ignore No mdc .d.ts files
-import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
+import MDCTabFoundation from '@material/tab/foundation';
 
 import TabRipple, {TabRippleProps} from './TabRipple';
 

@@ -87,16 +87,18 @@ function getReactMaterialExternals() {
   ));
 }
 
-function getMaterialExternals() {
+function getMaterialExternals(withReact) {
   const externals = {};
-  const importPaths = convertToImportMDCWebPaths(readMaterialPackages());
+  /*const importPaths = convertToImportMDCWebPaths(readMaterialPackages());
   importPaths.forEach((importPath) => {
     externals[importPath] = `${importPath}.js`;
-  });
+  });*/
 
-  getReactMaterialExternals().forEach((path) => {
-    externals[`@material/${path}`] = `@material/${path}/dist/index.js`;
-  });
+  if (withReact) {
+    getReactMaterialExternals().forEach((path) => {
+      externals[`@material/${path}`] = `@material/${path}/dist/index.js`;
+    });
+  }
 
   return externals;
 }
@@ -113,7 +115,7 @@ function getJavaScriptWebpackConfig() {
           'prop-types': 'prop-types',
           '@material/textfield/constants': `@material/textfield/constants.js`,
         },
-        //materialExternals,
+        materialExternals,
       ),
       module: {
         rules: [{

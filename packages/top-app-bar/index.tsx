@@ -28,12 +28,12 @@ import TopAppBarRow from './Row';
 import TopAppBarTitle from './Title';
 import TopAppBarIcon from './Icon';
 import {cssClasses} from './constants';
-import {
-  MDCFixedTopAppBarFoundation,
-  MDCTopAppBarFoundation,
-  MDCShortTopAppBarFoundation,
 // @ts-ignore no .d.ts file
-} from '@material/top-app-bar/dist/mdc.topAppBar';
+import MDCTopAppBarFoundation from '@material/top-app-bar/foundation';
+// @ts-ignore no .d.ts file
+import MDCFixedTopAppBarFoundation from '@material/top-app-bar/fixed/foundation';
+// @ts-ignore no .d.ts file
+import MDCShortTopAppBarFoundation from '@material/top-app-bar/short/foundation';
 
 export type MDCTopAppBarFoundationTypes
   = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;

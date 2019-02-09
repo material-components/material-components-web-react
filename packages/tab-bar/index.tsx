@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import TabScroller from '@material/react-tab-scroller';
 import Tab, {TabProps} from '@material/react-tab'; // eslint-disable-line no-unused-vars
 // @ts-ignore No mdc .d.ts files
-import {MDCTabBarFoundation} from '@material/tab-bar/dist/mdc.tabBar';
+import MDCTabBarFoundation from '@material/tab-bar/foundation';
 
 export interface TabBarProps extends React.HTMLAttributes<HTMLDivElement> {
   indexInView?: number;

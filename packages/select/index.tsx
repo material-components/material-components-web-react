@@ -23,7 +23,9 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no mdc .d.ts file
-import {MDCSelectFoundation, MDCSelectAdapter} from '@material/select/dist/mdc.select';
+import {MDCSelectFoundation} from '@material/select/foundation';
+// @ts-ignore no mdc .d.ts file
+import MDCSelectAdapter from '@material/select/adapter';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';

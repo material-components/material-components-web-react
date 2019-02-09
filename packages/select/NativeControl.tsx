@@ -23,7 +23,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
-import {MDCSelectFoundation} from '@material/select/dist/mdc.select';
+import {MDCSelectFoundation} from '@material/select/foundation';
 
 export interface NativeControlProps extends React.HTMLProps<HTMLSelectElement> {
   className: string;

@@ -23,7 +23,11 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
-import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material/menu-surface/dist/mdc.menuSurface';
+import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
+// @ts-ignore no .d.ts file
+import  MDCMenuSurfaceAdapter from '@material/menu-surface/corner';
+// @ts-ignore no .d.ts file
+import {Corner} from '@material/menu-surface/constants';
 
 export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
   className: string;

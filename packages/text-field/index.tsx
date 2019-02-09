@@ -22,7 +22,9 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
-import {MDCTextFieldFoundation, MDCTextFieldAdapter} from '@material/textfield/dist/mdc.textfield';
+import MDCTextFieldFoundation from '@material/textfield/foundation';
+// @ts-ignore no .d.ts file
+import MDCTextFieldAdapter from '@material/textfield/adapter';
 import Input, {InputProps} from './Input';
 import Icon, {IconProps} from './icon/index';
 import HelperText, {HelperTextProps} from './helper-text/index';

@@ -22,14 +22,14 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-import {
-  MDCDismissibleDrawerFoundation,
-  MDCModalDrawerFoundation,
-  util,
 // @ts-ignore no .d.ts file
-} from '@material/drawer/dist/mdc.drawer';
+import MDCDismissibleDrawerFoundation from '@material/drawer/dismissible/foundation';
 // @ts-ignore no .d.ts file
-import {MDCListFoundation} from '@material/list/dist/mdc.list';
+import MDCModalDrawerFoundation from '@material/drawer/modal/foundation';
+// @ts-ignore no .d.ts file
+import util from '@material/drawer/util';
+// @ts-ignore no .d.ts file
+import {MDCListFoundation} from '@material/list/foundation';
 import DrawerHeader from './Header';
 import DrawerContent from './Content';
 import DrawerSubtitle from './Subtitle';

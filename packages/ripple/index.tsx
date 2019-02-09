@@ -24,7 +24,11 @@ import * as classnames from 'classnames';
 import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 
 // @ts-ignore no mdc .d.ts file
-import {MDCRippleFoundation, MDCRippleAdapter, util} from '@material/ripple/dist/mdc.ripple';
+import {MDCRippleFoundation} from '@material/ripple/foundation';
+// @ts-ignore no mdc .d.ts file
+import MDCRippleAdapter from '@material/ripple/adapter';
+// @ts-ignore no mdc .d.ts file
+import util from '@material/ripple/util';
 
 const HTMLElementShim: any = typeof HTMLElement === 'undefined' ? {} : HTMLElement;
 const MATCHES = util.getMatchesProperty(HTMLElementShim.prototype);

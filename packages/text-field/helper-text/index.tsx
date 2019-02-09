@@ -22,7 +22,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
-import {MDCTextFieldHelperTextFoundation} from '@material/textfield/dist/mdc.textfield';
+import MDCTextFieldHelperTextFoundation from '@material/textfield/helper-text/foundation';
 
 export interface HelperTextProps {
   'aria-hidden': boolean;

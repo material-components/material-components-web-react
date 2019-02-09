@@ -22,11 +22,10 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-import {
-  MDCTabScrollerFoundation,
-  util,
 // @ts-ignore no .d.ts file
-} from '@material/tab-scroller/dist/mdc.tabScroller';
+import MDCTabScrollerFoundation from '@material/tab-scroller/foundation';
+// @ts-ignore no .d.ts file
+import util from '@material/tab-scroller/util';
 
 const convertDashToCamelCase = (propName: string) =>
   propName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
