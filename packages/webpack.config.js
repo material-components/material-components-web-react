@@ -113,7 +113,7 @@ function getJavaScriptWebpackConfig() {
           'prop-types': 'prop-types',
           '@material/textfield/constants': `@material/textfield/constants.js`,
         },
-        materialExternals,
+        //materialExternals,
       ),
       module: {
         rules: [{
