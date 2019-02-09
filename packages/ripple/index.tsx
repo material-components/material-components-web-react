@@ -28,7 +28,7 @@ import {MDCRippleFoundation} from '@material/ripple/foundation';
 // @ts-ignore no mdc .d.ts file
 import MDCRippleAdapter from '@material/ripple/adapter';
 // @ts-ignore no mdc .d.ts file
-import util from '@material/ripple/util';
+import * as util from '@material/ripple/util';
 
 const HTMLElementShim: any = typeof HTMLElement === 'undefined' ? {} : HTMLElement;
 const MATCHES = util.getMatchesProperty(HTMLElementShim.prototype);
