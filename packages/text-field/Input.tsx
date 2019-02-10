@@ -22,7 +22,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
-import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
+import MDCTextFieldFoundation from '@material/textfield/foundation';
 
 export interface InputProps<T> {
   className: string;

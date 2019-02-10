@@ -23,7 +23,9 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no mdc .d.ts file
-import {MDCCheckboxFoundation, MDCCheckboxAdapter} from '@material/checkbox/dist/mdc.checkbox';
+import MDCCheckboxFoundation from '@material/checkbox/foundation';
+// @ts-ignore no mdc .d.ts file
+import MDCCheckboxAdapter from '@material/checkbox/adapter';
 import * as Ripple from '@material/react-ripple';
 
 import NativeControl from './NativeControl';
