@@ -23,7 +23,7 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import * as Ripple from '@material/react-ripple';
 // @ts-ignore no mdc .d.ts file
-import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
+import {MDCChipFoundation} from '@material/chips/chip/foundation';
 
 export interface ChipProps extends Ripple.InjectedProps<HTMLDivElement> {
   id?: string;

@@ -23,9 +23,9 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
-import MDCMenuSurfaceFoundation from '@material/menu-surface/foundation';
+import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 // @ts-ignore no .d.ts file
-import MDCMenuSurfaceAdapter from '@material/menu-surface/corner';
+import MDCMenuSurfaceAdapter from '@material/menu-surface/adapter';
 // @ts-ignore no .d.ts file
 import {Corner} from '@material/menu-surface/constants';
 

@@ -24,11 +24,11 @@ import * as React from 'react';
 import classnames from 'classnames';
 
 // @ts-ignore no .d.ts file
-import {MDCDialogFoundation} from '@material/dialog/foundation';
+import MDCDialogFoundation from '@material/dialog/foundation';
 // @ts-ignore no .d.ts file
 import MDCDialogAdapter from '@material/dialog/adapter';
 // @ts-ignore no .d.ts file
-import util from '@material/dialog/util';
+import * as util from '@material/dialog/util';
 // @ts-ignore no .d.ts file
 import {ponyfill} from '@material/dom/dist/mdc.dom';
 /* eslint-disable no-unused-vars */

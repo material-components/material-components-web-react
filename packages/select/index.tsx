@@ -23,7 +23,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no mdc .d.ts file
-import {MDCSelectFoundation} from '@material/select/foundation';
+import MDCSelectFoundation from '@material/select/foundation';
 // @ts-ignore no mdc .d.ts file
 import MDCSelectAdapter from '@material/select/adapter';
 import FloatingLabel from '@material/react-floating-label';

@@ -25,7 +25,7 @@ import classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import MDCTabScrollerFoundation from '@material/tab-scroller/foundation';
 // @ts-ignore no .d.ts file
-import util from '@material/tab-scroller/util';
+import * as util from '@material/tab-scroller/util';
 
 const convertDashToCamelCase = (propName: string) =>
   propName.replace(/-(\w)/g, (_, v) => v.toUpperCase());

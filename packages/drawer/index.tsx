@@ -27,9 +27,9 @@ import MDCDismissibleDrawerFoundation from '@material/drawer/dismissible/foundat
 // @ts-ignore no .d.ts file
 import MDCModalDrawerFoundation from '@material/drawer/modal/foundation';
 // @ts-ignore no .d.ts file
-import util from '@material/drawer/util';
+import * as util from '@material/drawer/util';
 // @ts-ignore no .d.ts file
-import {MDCListFoundation} from '@material/list/foundation';
+import MDCListFoundation from '@material/list/foundation';
 import DrawerHeader from './Header';
 import DrawerContent from './Content';
 import DrawerSubtitle from './Subtitle';

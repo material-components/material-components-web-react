@@ -23,7 +23,7 @@
 import * as classnames from 'classnames';
 import * as React from 'react';
 // @ts-ignore no .d.ts file
-import {MDCLinearProgressFoundation} from '@material/linear-progress/foundation';
+import MDCLinearProgressFoundation from '@material/linear-progress/foundation';
 
 export interface LinearProgressProps<T> extends React.HTMLProps<T> {
   buffer: number;

@@ -23,7 +23,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
-import {MDCRadioFoundation} from '@material/radio/foundation';
+import MDCRadioFoundation from '@material/radio/foundation';
 import * as Ripple from '@material/react-ripple';
 import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
 

@@ -22,7 +22,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
-import {MDCNotchedOutlineFoundation} from '@material/notched-outline/foundation';
+import MDCNotchedOutlineFoundation from '@material/notched-outline/foundation';
 
 export interface NotchedOutlineProps {
   className: string,

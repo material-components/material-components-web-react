@@ -27,7 +27,7 @@ import classnames from 'classnames';
 import {IMDCSnackbarAdapter, IMDCSnackbarFoundation} from './types';
 
 // @ts-ignore no .d.ts file
-import {MDCSnackbarFoundation} from '@material/snackbar/foundation';
+import MDCSnackbarFoundation from '@material/snackbar/foundation';
 
 export interface Props {
   message: string;
