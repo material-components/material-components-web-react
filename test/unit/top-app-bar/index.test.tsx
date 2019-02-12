@@ -212,10 +212,8 @@ test('#adapter.getTopAppBarHeight should return clientHeight', () => {
   const options = {attachTo: div};
   const wrapper = mount<TopAppBar>(<TopAppBar title='Hi' />, options);
   const topAppBarHeight = wrapper.instance().adapter.getTopAppBarHeight();
-  // 18 is the rendered height in pixels. It won't have the actual
-  // top app bar height since the css is not applied. 18 is the height
-  // of the title element.
-  assert.equal(topAppBarHeight, 18);
+  const realDOMHeight = wrapper.getDOMNode().clientHeight;
+  assert.equal(topAppBarHeight, realDOMHeight);
   div.remove();
 });
 
