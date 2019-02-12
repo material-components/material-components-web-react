@@ -65,6 +65,7 @@ type ActivateEventTypes<S>
 export interface RippledComponentInterface<Surface, Activator = Element> {
   foundation?: MDCRippleFoundation;
   isComponentMounted: boolean;
+  isTouched: boolean;
   initializeFoundation: (surface: Surface, activator?: Activator) => void;
   handleFocus: React.FocusEventHandler<Surface>;
   handleBlur: React.FocusEventHandler<Surface>;
@@ -101,6 +102,7 @@ export function withRipple <
     > implements RippledComponentInterface<Surface, Activator> {
   foundation?: MDCRippleFoundation;
   isComponentMounted: boolean = true;
+  isTouched: boolean = false;
 
   displayName = `WithRipple(${getDisplayName<P>(WrappedComponent)})`;
 
@@ -228,7 +230,9 @@ export function withRipple <
 
   handleMouseDown = (e: React.MouseEvent<Surface>) => {
     this.props.onMouseDown && this.props.onMouseDown(e);
-    this.activateRipple(e);
+    if (!this.isTouched) {
+      this.activateRipple(e);
+    }
   };
 
   handleMouseUp = (e: React.MouseEvent<Surface>) => {
@@ -237,6 +241,7 @@ export function withRipple <
   };
 
   handleTouchStart = (e: React.TouchEvent<Surface>) => {
+    this.isTouched = true;
     this.props.onTouchStart && this.props.onTouchStart(e);
     this.activateRipple(e);
   };
@@ -259,9 +264,7 @@ export function withRipple <
   activateRipple = (e: ActivateEventTypes<Surface>) => {
     // https://reactjs.org/docs/events.html#event-pooling
     e.persist();
-    requestAnimationFrame(() => {
-      this.foundation.activate(e);
-    });
+    this.foundation.activate(e);
   };
 
   deactivateRipple = (e: ActivateEventTypes<Surface>) => {
@@ -273,7 +276,7 @@ export function withRipple <
       return;
     }
     this.setState((prevState) => {
-      const updatedStyle = Object.assign({}, this.state.style) as React.CSSProperties;
+      const updatedStyle = Object.assign({}, this.state.style, prevState.style) as React.CSSProperties;
       updatedStyle[varName] = value;
       return Object.assign(prevState, {
         style: updatedStyle,
