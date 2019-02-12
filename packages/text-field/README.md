@@ -44,7 +44,7 @@ class MyApp extends React.Component {
           trailingIcon={<MaterialIcon role="button" icon="delete"/>}
         ><Input
            value={this.state.value}
-           onChange={(e) => this.setState({value: e.target.value})} />
+           onChange={(e) => this.setState({value: e.currentTarget.value})} />
         </TextField>
       </div>
     );
@@ -131,7 +131,7 @@ class MyApp extends React.Component {
           <Input
             value={this.state.value}
             ref={input => this.input = input}
-            onChange={(e) => this.setState({value: e.target.value})}/>
+            onChange={(e) => this.setState({value: e.currentTarget.value})}/>
         </TextField>
       </div>
     );
