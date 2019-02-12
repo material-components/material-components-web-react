@@ -85,7 +85,7 @@ class TabBar extends React.Component<
       },
       getScrollContentWidth: () => {
         if (!this.tabScrollerRef.current) return;
-        this.tabScrollerRef.current.getScrollContentWidth();
+        return this.tabScrollerRef.current.getScrollContentWidth();
       },
       getOffsetWidth: () => {
         if (this.tabBarRef.current === null) return;
