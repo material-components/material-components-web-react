@@ -24,7 +24,6 @@ const webpack = require('webpack');
 const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const {getDirectories} = require('../scripts/directory-reader');
 const {importer} = require('./webpack.util');
 
 const isDirectory = (source) => lstatSync(source).isDirectory();
