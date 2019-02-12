@@ -1,6 +1,6 @@
 {
   "name": "material-web-react",
-  "version": "0.9.4",
+  "version": "0.0.0",
   "description": "Material Components React Button",
   "license": "MIT",
   "main": "dist/index.js",
@@ -50,6 +50,5 @@
     "access": "public"
   },
   "devDependencies": {
-    "material-components-web": "^0.44.0"
   }
 }

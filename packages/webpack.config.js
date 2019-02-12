@@ -79,26 +79,6 @@ function getCommonWebpackParams({isCss} = {}) {
   };
 }
 
-function getReactMaterialExternals() {
-  return getDirectories('./packages').map((directory) => (
-    `react-${path.parse(directory).name}`
-  ));
-}
-
-function getMaterialExternals(withReact) {
-  const externals = {};
-
-  if (withReact) {
-    getReactMaterialExternals().forEach((path) => {
-      externals[`@material/${path}`] = `@material/${path}/dist/index.js`;
-    });
-  }
-
-  return externals;
-}
-
-const materialExternals = getMaterialExternals();
-
 function getJavaScriptWebpackConfig() {
   return Object.assign(
     getCommonWebpackParams(), {
@@ -109,7 +89,6 @@ function getJavaScriptWebpackConfig() {
           'prop-types': 'prop-types',
           '@material/textfield/constants': `@material/textfield/constants.js`,
         },
-        materialExternals,
       ),
       module: {
         rules: [{
