@@ -402,3 +402,14 @@ test('renders a list with a nav tag', () => {
   const wrapper = shallow(<List tag='nav'>{children()}</List>);
   assert.equal(wrapper.type(), 'nav');
 });
+
+test('renders a list with children which is not DOM', () => {
+  const wrapper = shallow(<List>
+    {}
+    {false}
+    {'text'}
+    {null}
+    {undefined}
+  </List>);
+  assert.isNotEmpty(wrapper);
+});
