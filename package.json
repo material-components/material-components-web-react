@@ -76,6 +76,7 @@
     "@material/list": "^0.41.0",
     "@material/menu-surface": "^0.41.0",
     "@material/notched-outline": "^0.41.0",
+    "@material/radio": "^0.41.0",
     "@material/ripple": "^0.41.0",
     "@material/select": "^0.40.1",
     "@material/snackbar": "^0.43.0",
