@@ -411,5 +411,5 @@ test('renders a list with children which is not DOM', () => {
     {null}
     {undefined}
   </List>);
-  assert.isNotEmpty(wrapper);
+  assert.isTrue(wrapper.children().length === 1);
 });
