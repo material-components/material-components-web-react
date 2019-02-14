@@ -67,7 +67,7 @@ function isReactText(element: any): element is React.ReactText {
 }
 
 function isListItem(element: any): element is ListItem {
-  return element.type === ListItem;
+  return element && element.type === ListItem;
 }
 
 export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, ListState> {
