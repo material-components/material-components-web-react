@@ -146,8 +146,8 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
     updateChips(chipsArray);
   };
 
-  setCheckmarkWidth = (checkmark: ChipCheckmark) => {
-    if (!!this.checkmarkWidth) {
+  setCheckmarkWidth = (checkmark: ChipCheckmark | null) => {
+    if (!!this.checkmarkWidth || !checkmark) {
       return;
     }
     this.checkmarkWidth = checkmark.width;

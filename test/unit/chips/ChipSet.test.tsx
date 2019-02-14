@@ -223,6 +223,12 @@ test('#setCheckmarkWidth does not set checkmark width if checkmark width is alre
   assert.equal(wrapper.instance().checkmarkWidth, 20);
 });
 
+test('#setCheckmarkWidth does not set checkmark width if checkmark is null', () => {
+  const wrapper = shallow<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
+  wrapper.instance().setCheckmarkWidth(null);
+  assert.equal(wrapper.instance().checkmarkWidth, 0);
+});
+
 test('#computeBoundingRect returns width and height', () => {
   const wrapper = shallow<ChipSet>(<ChipSet><Chip /></ChipSet>);
   const chipWidth = 20;
