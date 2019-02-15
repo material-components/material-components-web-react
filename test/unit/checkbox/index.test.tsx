@@ -134,6 +134,11 @@ test('passes nativeControlId to NativeControl through props', () => {
   assert.equal(wrapper.childAt(0).props().id, 'test-id');
 });
 
+test('passes name to NativeControl through props', () => {
+  const wrapper = shallow(<Checkbox name='test-name' />);
+  assert.equal(wrapper.childAt(0).props().name, 'test-name');
+});
+
 test('calls foundation.handleChange in native control props.onChange', () => {
   const wrapper = shallow<Checkbox>(<Checkbox />);
   const nativeControl = wrapper.childAt(0);
