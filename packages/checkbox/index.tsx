@@ -33,6 +33,7 @@ export interface CheckboxProps extends Ripple.InjectedProps<HTMLDivElement, HTML
   className?: string;
   disabled?: boolean;
   indeterminate?: boolean;
+  name?: string;
   nativeControlId?: string;
   onChange?: (evt: React.ChangeEvent<HTMLInputElement>) => void;
   initRipple: (surface: HTMLDivElement, activator?: HTMLInputElement) => void;
@@ -171,6 +172,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       /* eslint-enable no-unused-vars */
       disabled,
       nativeControlId,
+      name,
       ...otherProps
     } = this.props;
 
@@ -186,6 +188,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           checked={this.state.checked}
           disabled={disabled}
           aria-checked={this.state['aria-checked']}
+          name={name}
           onChange={this.onChange}
           rippleActivatorRef={this.inputElement}
         />
