@@ -66,6 +66,16 @@ test('renders a button with an anchor tag', () => {
   assert.equal(wrapper.type(), 'a');
 });
 
+test('renders a button with a button attribute', () => {
+  const wrapper = shallow(<Button type='submit' />);
+  assert.equal(wrapper.prop('type'), 'submit');
+});
+
+test('renders a button with an anchor attribute', () => {
+  const wrapper = shallow(<Button download />);
+  assert.equal(wrapper.prop('download'), true);
+});
+
 test('default initRipple function', () => {
   const initRipple = coerceForTesting<(surface: HTMLButtonElement) => {}>(td.func());
   mount(<Button initRipple={initRipple} />);
