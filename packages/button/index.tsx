@@ -28,16 +28,17 @@ const BUTTON_CLASS_NAME = 'mdc-button__icon';
 
 type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
 
-export interface ButtonProps<T extends ButtonTypes> extends Ripple.InjectedProps<T>, React.HTMLAttributes<T> {
-  raised?: boolean;
-  unelevated?: boolean;
-  outlined?: boolean;
-  dense?: boolean;
-  disabled?: boolean;
-  className?: string;
-  icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
-  href?: string;
-  trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+export interface ButtonProps<T extends ButtonTypes>
+  extends Ripple.InjectedProps<T>, React.AnchorHTMLAttributes<T>, React.ButtonHTMLAttributes<T> {
+    raised?: boolean;
+    unelevated?: boolean;
+    outlined?: boolean;
+    dense?: boolean;
+    disabled?: boolean;
+    className?: string;
+    icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+    href?: string;
+    trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
 }
 
 export const Button = <T extends ButtonTypes>(
