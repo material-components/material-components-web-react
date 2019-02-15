@@ -59,19 +59,14 @@ function cpAsset(asset) {
 
   let basename = path.basename(asset);
   const extname = path.extname(asset);
-  const isMap = extname === '.map';
   const isJs = extname === '.js';
   const isEs = basename.includes('.es');
   const isCss = basename.includes('.css');
-  if (!isEs && !isCss && (isJs || isMap )) {
-    if (isMap) {
-      basename = 'index.js.map';
+  if (!isEs && !isCss && isJs) {
+    if (basename.includes('.min')) {
+      basename = 'index.min.js';
     } else {
-      if (basename.includes('.min')) {
-        basename = 'index.min.js';
-      } else {
-        basename = 'index.js';
-      }
+      basename = 'index.js';
     }
   }
 
