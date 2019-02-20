@@ -1,6 +1,6 @@
 {
   "name": "@material/react-text-field",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Material Components React Text Field",
   "license": "MIT",
   "main": "dist/index.js",

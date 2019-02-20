@@ -1,7 +1,52 @@
-# [0.9.2](https://github.com/material-components/material-components-web-react/compare/v0.9.1...v) (2019-01-30)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.9.3...v) (2019-02-19)
+
 
 ### Bug Fixes
-* **button:** react-button contains old CSS (v0.9.0) ([#643](https://github.com/material-components/material-components-web-react/issues/643))
+
+* **button:** Support anchor and button HTML attributes ([#679](https://github.com/material-components/material-components-web-react/issues/679)) ([#680](https://github.com/material-components/material-components-web-react/issues/680)) ([be8790e](https://github.com/material-components/material-components-web-react/commit/be8790e))
+* **checkbox:** enable name attribute ([#678](https://github.com/material-components/material-components-web-react/issues/678)) ([2c77ab5](https://github.com/material-components/material-components-web-react/commit/2c77ab5))
+* **chips:** ChipSet no longer overwrites handle[Interaction|Select|Re… ([#651](https://github.com/material-components/material-components-web-react/issues/651)) ([e0b0946](https://github.com/material-components/material-components-web-react/commit/e0b0946))
+* **chips:** copy selectedChipIds before calling setState ([#645](https://github.com/material-components/material-components-web-react/issues/645)) ([37905d3](https://github.com/material-components/material-components-web-react/commit/37905d3))
+* **chips:** id shuold be required prop ([#649](https://github.com/material-components/material-components-web-react/issues/649)) ([afc16c8](https://github.com/material-components/material-components-web-react/commit/afc16c8))
+* **infrastructure:** fix source mappings under dist directory ([#682](https://github.com/material-components/material-components-web-react/issues/682)) ([9f93ef3](https://github.com/material-components/material-components-web-react/commit/9f93ef3))
+* **infrastructure:** Upgrade resemblejs to v3 ([#634](https://github.com/material-components/material-components-web-react/issues/634)) ([53abeac](https://github.com/material-components/material-components-web-react/commit/53abeac))
+* **infrastructure:** Windows development ([#662](https://github.com/material-components/material-components-web-react/issues/662)) ([fbc4b26](https://github.com/material-components/material-components-web-react/commit/fbc4b26))
+* **list:** renders a list with children which is not DOM ([#674](https://github.com/material-components/material-components-web-react/issues/674)) ([e66a267](https://github.com/material-components/material-components-web-react/commit/e66a267))
+* **ripple:** Ripple triggers twice on mobile ([#646](https://github.com/material-components/material-components-web-react/issues/646)) ([6876e62](https://github.com/material-components/material-components-web-react/commit/6876e62))
+* **tab:** return ScrollContentWidth ([#633](https://github.com/material-components/material-components-web-react/issues/633)) ([c4a2a01](https://github.com/material-components/material-components-web-react/commit/c4a2a01))
+* **text-field:** Do not import constants from [@material](https://github.com/material)/textfield internals ([#639](https://github.com/material-components/material-components-web-react/issues/639)) ([3b3a0ab](https://github.com/material-components/material-components-web-react/commit/3b3a0ab))
+* **top-app-bar:** clientHeight unit test ([#668](https://github.com/material-components/material-components-web-react/issues/668)) ([9c7330b](https://github.com/material-components/material-components-web-react/commit/9c7330b))
+
+
+### Features
+
+* **chips:** implements missing adapter method notifyTrailingIconInteraction ([#653](https://github.com/material-components/material-components-web-react/issues/653)) ([c5e87a6](https://github.com/material-components/material-components-web-react/commit/c5e87a6))
+* **fab:** exited ([#661](https://github.com/material-components/material-components-web-react/issues/661)) ([a646a33](https://github.com/material-components/material-components-web-react/commit/a646a33))
+* **infrastructure:** Fix screenshot tests for external contributors and pull requests ([#638](https://github.com/material-components/material-components-web-react/issues/638)) ([3d421b1](https://github.com/material-components/material-components-web-react/commit/3d421b1))
+* **snackbar:** new component ([#620](https://github.com/material-components/material-components-web-react/issues/620)) ([63e1fce](https://github.com/material-components/material-components-web-react/commit/63e1fce))
+
+
+### BREAKING CHANGES
+
+* **chips:** renamed chip.props.removeIcon --> chips.props.trailingIcon
+
+
+
+## [0.9.3](https://github.com/material-components/material-components-web-react/compare/v0.9.2...v0.9.3) (2019-02-14)
+
+
+### Bug Fixes
+
+* **chips:** null check for checkmark ref ([#677](https://github.com/material-components/material-components-web-react/issues/677)) ([2d22f85](https://github.com/material-components/material-components-web-react/commit/2d22f85))
+
+
+
+## [0.9.2](https://github.com/material-components/material-components-web-react/compare/v0.9.1...v0.9.2) (2019-01-30)
+
+
+
+## [0.9.1](https://github.com/material-components/material-components-web-react/compare/v0.9.0...v0.9.1) (2019-01-30)
+
 
 
 # [0.9.0](https://github.com/material-components/material-components-web-react/compare/v0.8.0...v0.9.0) (2019-01-23)
