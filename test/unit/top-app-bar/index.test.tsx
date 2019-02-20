@@ -2,7 +2,12 @@ import * as React from 'react';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import * as td from 'testdouble';
-import TopAppBar from '../../../packages/top-app-bar/index';
+import TopAppBar, {
+  TopAppBarIcon,
+  ToAppBarRow,
+  TopAppBarSection,
+  TopAppBarTitle,
+} from '../../../packages/top-app-bar/index';
 import {withRipple, InjectedProps} from '../../../packages/ripple/index';
 import {coerceForTesting} from '../helpers/types';
 
@@ -111,7 +116,13 @@ test('navigationIcon is rendered with navigation icon class', () => {
 
 test('navigationIcon is rendered as custom component that accepts a className prop', () => {
   const wrapper = mount(
-    <TopAppBar navigationIcon={<RippledNavigationIcon />} />
+    <TopAppBar>
+      <TopAppBarRow>
+        <TopAppBarSection>
+          <TopAppBarIcon navIcon><RippledNavigationIcon /></TopAppBarIcon>
+        </TopAppBarSection>
+      </TopAppBarRow>
+    </TopAppBar>
   );
   const navigationIcon = wrapper.find(RippledNavigationIcon);
   assert.isTrue(navigationIcon.hasClass('mdc-top-app-bar__navigation-icon'));
@@ -119,7 +130,13 @@ test('navigationIcon is rendered as custom component that accepts a className pr
 
 test('actionItems are rendered with action item class', () => {
   const wrapper = mount(
-    <TopAppBar actionItems={[<RippledActionItem key='1' />]} />
+    <TopAppBar>
+      <TopAppBarRow>
+        <TopAppBarSection>
+          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+        </TopAppBarSection>
+      </TopAppBarRow>
+    </TopAppBar>
   );
   assert.isTrue(
     wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item')
@@ -128,7 +145,13 @@ test('actionItems are rendered with action item class', () => {
 
 test('actionItems are rendered as a custom component that accepts a className prop', () => {
   const wrapper = mount(
-    <TopAppBar actionItems={[<RippledActionItem key='1' />]} />
+    <TopAppBar>
+      <TopAppBarRow>
+        <TopAppBarSection>
+          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+        </TopAppBarSection>
+      </TopAppBarRow>
+    </TopAppBar>
   );
   const actionItem = wrapper.find(RippledActionItem);
   assert.isTrue(actionItem.hasClass('mdc-top-app-bar__action-item'));
@@ -168,6 +191,7 @@ test('#adapter.registerScrollHandler triggers handler on window scroll', () => {
   window.dispatchEvent(event);
   td.verify(testHandler(event), {times: 1});
 });
+
 test(
   '#adapter.deregisterScrollHandler does not trigger handler ' +
     'after registering scroll handler',
@@ -210,7 +234,12 @@ test('#adapter.getTopAppBarHeight should return clientHeight', () => {
   // https://github.com/airbnb/enzyme/issues/1525
   document.body.append(div);
   const options = {attachTo: div};
-  const wrapper = mount<TopAppBar>(<TopAppBar title='Hi' />, options);
+  const wrapper = mount<TopAppBar>(
+    <TopAppBar>
+      <TopAppBarRow>
+        <TopAppBarSection><TopAppBarTitle>Test</TopAppBarTitle></TopAppBarSection>
+      </TopAppBarRow>
+    </TopAppBar>, options);
   const topAppBarHeight = wrapper.instance().adapter.getTopAppBarHeight();
   const realDOMHeight = wrapper.getDOMNode().clientHeight;
   assert.equal(topAppBarHeight, realDOMHeight);

@@ -1,3 +1,17 @@
 .top-app-bar-container {
   height: 200vh;
 }
+
+.mdc-top-app-bar {
+  .mdc-tab {
+    .mdc-tab-indicator > .mdc-tab-indicator__content--underline {
+      background-color: var(--mdc-theme-on-primary, #fff);
+    }
+    span.mdc-tab__text-label { color: var(--mdc-theme-on-primary, #fff); }
+    div.mdc-tab__ripple { 
+      &:before,&:after {
+        background-color: var(--mdc-theme-on-primary, #fff);
+      }
+    }
+  }
+}

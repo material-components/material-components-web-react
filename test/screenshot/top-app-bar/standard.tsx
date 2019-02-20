@@ -1,21 +1,32 @@
 import * as React from 'react';
-import TopAppBar from '../../../packages/top-app-bar';
+import TopAppBar, {
+  TopAppBarIcon,
+  TopAppBarRow,
+  TopAppBarSection,
+  TopAppBarTitle,
+} from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
 import MainTopAppBarContent from './mainContent';
+import {actionItems} from './actionItems';
+import {mapActionItem} from './index';
 
+const title: string = 'Standard';
 const TopAppBarStandardScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>
-      <TopAppBar
-        title='Miami, FL'
-        navigationIcon={
-          <MaterialIcon
-            icon='menu'
-            onClick={() => console.log('standard click')}
-          />
-        }
-        actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
-      />
+      <TopAppBar>
+        <TopAppBarRow>
+          <TopAppBarSection align='start'>
+            <TopAppBarIcon navIcon tabIndex={0}>
+              <MaterialIcon hasRipple icon='menu'/>
+            </TopAppBarIcon>
+            <TopAppBarTitle>{title}</TopAppBarTitle>
+          </TopAppBarSection>
+          <TopAppBarSection align='end'>
+            {actionItems.map(mapActionItem)}
+          </TopAppBarSection>
+        </TopAppBarRow>
+      </TopAppBar>
       <MainTopAppBarContent />
     </div>
   );

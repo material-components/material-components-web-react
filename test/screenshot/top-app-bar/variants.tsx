@@ -9,4 +9,6 @@ export default [
   'standardNoActionItems',
   'standardWithNavigationIconElement',
   'prominentToShortCollapsed',
+  'twoRows',
 ];
+

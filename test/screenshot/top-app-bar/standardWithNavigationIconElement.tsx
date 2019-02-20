@@ -1,8 +1,14 @@
 import * as React from 'react';
-import TopAppBar from '../../../packages/top-app-bar';
-import MaterialIcon from '../../../packages/material-icon';
-import {withRipple, InjectedProps} from '../../../packages/ripple';
+import TopAppBar, {
+  TopAppBarIcon,
+  TopAppBarRow,
+  TopAppBarSection,
+  TopAppBarTitle,
+} from '../../../packages/top-app-bar';
 import MainTopAppBarContent from './mainContent';
+import {mapActionItem} from './index';
+import {actionItems} from './actionItems';
+import {withRipple, InjectedProps} from '../../../packages/ripple';
 
 interface RippleProps extends InjectedProps<HTMLAnchorElement> {
   hasRipple?: boolean;
@@ -43,16 +49,23 @@ const NavigationIcon: React.FunctionComponent<RippleProps> = ({
 );
 
 const NavigationIconWithRipple = withRipple<RippleProps, HTMLAnchorElement>(NavigationIcon);
-
+const title: string = ' Standard With custom SVG NavIcon';
 const TopAppBarStandardWithNavigationIconElementScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>
-      <TopAppBar
-        title='Miami, FL'
-        dense={false}
-        navigationIcon={<NavigationIconWithRipple unbounded />}
-        actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
-      />
+      <TopAppBar>
+        <TopAppBarRow>
+          <TopAppBarSection align='start'>
+            <TopAppBarIcon navIcon tabIndex={0} >
+                <NavigationIconWithRipple unbounded />
+            </TopAppBarIcon>
+            <TopAppBarTitle>{title}</TopAppBarTitle>
+          </TopAppBarSection>
+          <TopAppBarSection align='end'>
+            {actionItems.map(mapActionItem)}
+          </TopAppBarSection>
+        </TopAppBarRow>
+      </TopAppBar>
       <MainTopAppBarContent />
     </div>
   );

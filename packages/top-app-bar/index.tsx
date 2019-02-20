@@ -23,6 +23,11 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import TopAppBarFixedAdjust, {TopAppbarFixedAdjustProps} from './FixedAdjust';
+import TopAppBarSection from './Section';
+import TopAppBarRow from './Row';
+import TopAppBarTitle from './Title';
+import TopAppBarIcon from './Icon';
+import {cssClasses} from './constants';
 import {
   MDCFixedTopAppBarFoundation,
   MDCTopAppBarFoundation,
@@ -33,29 +38,28 @@ import {
 export type MDCTopAppBarFoundationTypes
   = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
 
-export interface TopAppBarProps {
-  actionItems?: React.ReactElement<any>[];
+export interface TopAppBarProps<T> extends React.HTMLProps<T> {
   className?: string;
   dense?: boolean;
   fixed?: boolean;
-  navigationIcon?: React.ReactElement<any>;
   prominent?: boolean;
   short?: boolean;
   shortCollapsed?: boolean;
   style?: React.CSSProperties;
-  title?: React.ReactNode;
+  scrollTarget?: React.RefObject<HTMLElement>;
+  tag?: string;
 }
 
 interface TopAppBarState {
   classList: Set<string>;
   style: React.CSSProperties;
+  scrollTarget: React.RefObject<HTMLElement> | undefined;
 }
 
-type Props = TopAppBarProps & React.HTMLProps<HTMLElement>;
 export type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
 
-export default class TopAppBar extends React.Component<
-  Props,
+class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
+  TopAppBarProps<T>,
   TopAppBarState
   > {
   topAppBarElement: React.RefObject<HTMLElement> = React.createRef();
@@ -64,9 +68,10 @@ export default class TopAppBar extends React.Component<
   state: TopAppBarState = {
     classList: new Set(),
     style: {},
+    scrollTarget: undefined,
   };
 
-  static defaultProps: Partial<Props> = {
+  static defaultProps: Partial<TopAppBarProps<HTMLHeadingElement>> = {
     className: '',
     dense: false,
     fixed: false,
@@ -74,7 +79,7 @@ export default class TopAppBar extends React.Component<
     short: false,
     shortCollapsed: false,
     style: {},
-    title: '',
+    tag: 'header',
   };
 
   get classes() {
@@ -87,30 +92,43 @@ export default class TopAppBar extends React.Component<
       short,
       shortCollapsed,
     } = this.props;
-    return classnames('mdc-top-app-bar', Array.from(classList), className, {
-      'mdc-top-app-bar--fixed': fixed,
-      'mdc-top-app-bar--short': shortCollapsed || short,
-      'mdc-top-app-bar--short-collapsed': shortCollapsed,
-      'mdc-top-app-bar--prominent': prominent,
-      'mdc-top-app-bar--dense': dense,
+    return classnames(cssClasses.BASE, Array.from(classList), className, {
+      [cssClasses.FIXED]: fixed,
+      [cssClasses.SHORT]: shortCollapsed || short,
+      [cssClasses.SHORT_COLLAPSED]: shortCollapsed,
+      [cssClasses.PROMINENT]: prominent,
+      [cssClasses.DENSE]: dense,
     });
   }
 
 
   componentDidMount() {
     this.initializeFoundation();
+    if (this.props.scrollTarget) {
+      this.setState({scrollTarget: this.props.scrollTarget});
+    }
   }
 
   componentWillUnmount() {
     this.foundation.destroy();
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: TopAppBarProps<T>, prevState: TopAppBarState) {
     const foundationChanged = ['short', 'shortCollapsed', 'fixed'].some(
       (variant: string) => this.props[variant as VariantType] !== prevProps[variant as VariantType]
     );
     if (foundationChanged) {
-      this.initializeFoundation();
+      // foundation.destory() does not remove old variant className(s)
+      this.setState({classList: new Set<string>() }, this.initializeFoundation);
+    }
+
+    if (prevProps.scrollTarget !== this.props.scrollTarget) {
+      this.foundation.destroyScrollHandler();
+      this.setState({scrollTarget: this.props.scrollTarget});
+    }
+
+    if (prevState.scrollTarget !== this.state.scrollTarget) {
+      this.foundation.initScrollHandler();
     }
   }
 
@@ -126,7 +144,8 @@ export default class TopAppBar extends React.Component<
     } else {
       this.foundation = new MDCTopAppBarFoundation(this.adapter);
     }
-    this.foundation.init();
+      
+    this.foundation.init(); 
   };
 
   addClassesToElement(classes: string, element: React.ReactElement<any>) {
@@ -142,7 +161,6 @@ export default class TopAppBar extends React.Component<
   };
 
   get adapter() {
-    const {actionItems} = this.props;
     return {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
@@ -163,89 +181,69 @@ export default class TopAppBar extends React.Component<
         }
         return 0;
       },
-      registerScrollHandler: (handler: EventListener) =>
-        window.addEventListener('scroll', handler),
-      deregisterScrollHandler: (handler: EventListener) =>
-        window.removeEventListener('scroll', handler),
-      getViewportScrollY: () => window.pageYOffset,
-      getTotalActionItems: () => !!(actionItems && actionItems.length),
+      registerScrollHandler: (handler: EventListener) => {
+        if (this.state.scrollTarget && this.state.scrollTarget.current) {
+          this.state.scrollTarget.current.addEventListener('scroll',handler);
+        } else {
+          window.addEventListener('scroll', handler)
+        }
+      },
+      deregisterScrollHandler: (handler: EventListener) => {
+        if (this.state.scrollTarget && this.state.scrollTarget.current) {
+          this.state.scrollTarget.current.removeEventListener('scroll',handler);
+        } else {
+          window.removeEventListener('scroll', handler)
+        }
+      },
+      getViewportScrollY: () => {
+        return (this.state.scrollTarget && this.state.scrollTarget.current) 
+          ? this.state.scrollTarget.current.offsetTop
+          : window.pageYOffset
+      },
+      getTotalActionItems: () => {
+        const rootEl = this.topAppBarElement.current;
+        const actionItems = rootEl && rootEl.querySelectorAll(`.${cssClasses.ACTION_ITEM}`) ;
+        return actionItems ? actionItems.length : 0;
+      },
     };
   }
 
   render() {
     const {
       /* eslint-disable no-unused-vars */
-      actionItems,
+      children,
       className,
       dense,
       fixed,
       title,
-      navigationIcon,
       short,
       shortCollapsed,
       prominent,
-      /* eslint-enable no-unused-vars */
+      scrollTarget,
+      tag: Tag,
       ...otherProps
+      /* eslint-enable no-unused-vars */
     } = this.props;
 
     return (
-      <header
+      // @ts-ignore Tag does not have any construct https://github.com/Microsoft/TypeScript/issues/28892
+      <Tag
         {...otherProps}
         className={this.classes}
         style={this.getMergedStyles()}
         ref={this.topAppBarElement}
-      >
-        <div className='mdc-top-app-bar__row'>
-          {this.renderTitleAndNavigationSection()}
-          {this.renderActionItems()}
-        </div>
-      </header>
-    );
-  }
-
-  renderTitleAndNavigationSection() {
-    const {title} = this.props;
-    const classes =
-      'mdc-top-app-bar__section mdc-top-app-bar__section--align-start';
-    return (
-      <section className={classes}>
-        {this.renderNavigationIcon()}
-        <span className='mdc-top-app-bar__title'>{title}</span>
-      </section>
-    );
-  }
-
-  renderNavigationIcon() {
-    const {navigationIcon} = this.props;
-    if (!navigationIcon) {
-      return;
-    }
-    return this.addClassesToElement(
-      'mdc-top-app-bar__navigation-icon',
-      navigationIcon
-    );
-  }
-
-  renderActionItems() {
-    const {actionItems} = this.props;
-    if (!actionItems) {
-      return;
-    }
-    return (
-      <section
-        className='mdc-top-app-bar__section mdc-top-app-bar__section--align-end'
-        role='toolbar'
-      >
-        {actionItems.map((item, key) => {
-          const elementWithClasses = this.addClassesToElement(
-            'mdc-top-app-bar__action-item',
-            item
-          );
-          return React.cloneElement(elementWithClasses, {key});
-        })}
-      </section>
+      >{children}</Tag>
     );
   }
 }
 
-export {TopAppBarFixedAdjust, TopAppbarFixedAdjustProps};
+export default TopAppBar;
+
+export {
+  TopAppBarFixedAdjust, 
+  TopAppbarFixedAdjustProps, 
+  TopAppBarIcon,
+  TopAppBarRow,
+  TopAppBarSection,
+  TopAppBarTitle,
+};
