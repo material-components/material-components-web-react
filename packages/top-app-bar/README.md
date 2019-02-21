@@ -48,7 +48,12 @@ const MyComponent = () => {
           </TopAppBarSection>
           <TopAppBarSection align='end' role='toolbar'>
             <TopAppBarIcon actionItem tabIndex={0}>
-              <MaterialIcon hasRipple icon='print' onClick={() => console.log('print')}/>
+              <MaterialIcon 
+                aria-label="print page" 
+                hasRipple 
+                icon='print' 
+                onClick={() => console.log('print')}
+              />
             </TopAppBarIcon>
           </TopAppBarSection>
         </TopAppBarRow>
@@ -107,7 +112,7 @@ className | String | Classes to be applied to the root element.
 actionItem | Boolean | applies action-item class to icon
 navIcon | Boolean | applies nav-icon class to icon
 children | React.ReactElement<any> | can be any icon. Material Icons are reccomended
-> Notes: you may need to manually add ripple or tabindex to icon. Short top-app-bars shold be used with no more than 1 action item.
+> Notes: (1) consider adding `aria-label` to actionItem's. (2) you may need to manually add ripple or tabindex to icon. (3) Short top-app-bars shold be used with no more than 1 action item.
 
 ### TopAppBarFixedAdjust
 
