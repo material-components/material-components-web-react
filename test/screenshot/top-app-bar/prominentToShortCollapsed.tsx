@@ -19,7 +19,6 @@ class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component<
   {},
   TopAppBarProminentToShortCollapsedScreenshotTestState
   > {
-
   state = {
     isPhone: window.innerWidth < 599,
   };
@@ -45,10 +44,7 @@ class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component<
     const {isPhone} = this.state;
     return (
       <div>
-        <TopAppBar 
-          prominent={!isPhone} 
-          short={isPhone} 
-        >
+        <TopAppBar prominent={!isPhone} short={isPhone} >
           <TopAppBarRow>
             <TopAppBarSection align='start'>
               <TopAppBarIcon navIcon tabIndex={0} >
@@ -56,11 +52,11 @@ class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component<
               </TopAppBarIcon>
               <TopAppBarTitle>{title}</TopAppBarTitle>
             </TopAppBarSection>
-            <TopAppBarSection align='end'>
+            <TopAppBarSection align='end' role='toolbar'>
               {isPhone
                 ? (<TopAppBarIcon actionItem tabIndex={0}>
-                      <MaterialIcon hasRipple icon='more_vert'/>
-                  </TopAppBarIcon>)
+                  <MaterialIcon hasRipple icon='more_vert'/>
+                </TopAppBarIcon>)
                 : actionItems.map(mapActionItem)}
             </TopAppBarSection>
           </TopAppBarRow>

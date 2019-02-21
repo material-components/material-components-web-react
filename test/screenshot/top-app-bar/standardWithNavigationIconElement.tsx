@@ -57,11 +57,11 @@ const TopAppBarStandardWithNavigationIconElementScreenshotTest: React.FunctionCo
         <TopAppBarRow>
           <TopAppBarSection align='start'>
             <TopAppBarIcon navIcon tabIndex={0} >
-                <NavigationIconWithRipple unbounded />
+              <NavigationIconWithRipple unbounded />
             </TopAppBarIcon>
             <TopAppBarTitle>{title}</TopAppBarTitle>
           </TopAppBarSection>
-          <TopAppBarSection align='end'>
+          <TopAppBarSection align='end' role='toolbar'>
             {actionItems.map(mapActionItem)}
           </TopAppBarSection>
         </TopAppBarRow>

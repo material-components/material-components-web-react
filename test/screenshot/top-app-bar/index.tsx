@@ -10,7 +10,7 @@ import {actionItem} from './actionItems';
 
 const mapActionItem = ({label, icon}: actionItem) => (
   <TopAppBarIcon actionItem aria-label={label} key={icon} tabIndex={0}>
-      <MaterialIcon title={label} icon={icon} hasRipple />
+    <MaterialIcon title={label} icon={icon} hasRipple />
   </TopAppBarIcon>
 );
 const TopAppBarHomePage: React.FunctionComponent = () => {

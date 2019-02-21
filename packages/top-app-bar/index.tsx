@@ -119,7 +119,7 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
     );
     if (foundationChanged) {
       // foundation.destory() does not remove old variant className(s)
-      this.setState({classList: new Set<string>() }, this.initializeFoundation);
+      this.setState({classList: new Set<string>()}, this.initializeFoundation);
     }
 
     if (prevProps.scrollTarget !== this.props.scrollTarget) {
@@ -144,16 +144,9 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
     } else {
       this.foundation = new MDCTopAppBarFoundation(this.adapter);
     }
-      
-    this.foundation.init(); 
-  };
 
-  addClassesToElement(classes: string, element: React.ReactElement<any>) {
-    const updatedProps = {
-      className: classnames(classes, element.props.className),
-    };
-    return React.cloneElement(element, updatedProps);
-  }
+    this.foundation.init();
+  };
 
   getMergedStyles = () => {
     const {style} = this.state;
@@ -183,27 +176,30 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
       },
       registerScrollHandler: (handler: EventListener) => {
         if (this.state.scrollTarget && this.state.scrollTarget.current) {
-          this.state.scrollTarget.current.addEventListener('scroll',handler);
+          this.state.scrollTarget.current.addEventListener('scroll', handler);
         } else {
-          window.addEventListener('scroll', handler)
+          window.addEventListener('scroll', handler);
         }
       },
       deregisterScrollHandler: (handler: EventListener) => {
         if (this.state.scrollTarget && this.state.scrollTarget.current) {
-          this.state.scrollTarget.current.removeEventListener('scroll',handler);
+          this.state.scrollTarget.current.removeEventListener('scroll', handler);
         } else {
-          window.removeEventListener('scroll', handler)
+          window.removeEventListener('scroll', handler);
         }
       },
       getViewportScrollY: () => {
-        return (this.state.scrollTarget && this.state.scrollTarget.current) 
+        return (this.state.scrollTarget && this.state.scrollTarget.current)
           ? this.state.scrollTarget.current.offsetTop
-          : window.pageYOffset
+          : window.pageYOffset;
       },
       getTotalActionItems: () => {
-        const rootEl = this.topAppBarElement.current;
-        const actionItems = rootEl && rootEl.querySelectorAll(`.${cssClasses.ACTION_ITEM}`) ;
-        return actionItems ? actionItems.length : 0;
+        if (this.topAppBarElement && this.topAppBarElement.current) {
+          const actionItems = this.topAppBarElement.current.querySelectorAll(
+            `.${cssClasses.ACTION_ITEM}`);
+          return actionItems.length;
+        }
+        return 0;
       },
     };
   }
@@ -240,8 +236,8 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
 export default TopAppBar;
 
 export {
-  TopAppBarFixedAdjust, 
-  TopAppbarFixedAdjustProps, 
+  TopAppBarFixedAdjust,
+  TopAppbarFixedAdjustProps,
   TopAppBarIcon,
   TopAppBarRow,
   TopAppBarSection,

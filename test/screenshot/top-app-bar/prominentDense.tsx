@@ -22,7 +22,7 @@ const TopAppBarProminentDenseScreenshotTest: React.FunctionComponent = () => {
             </TopAppBarIcon>
             <TopAppBarTitle>{title}</TopAppBarTitle>
           </TopAppBarSection>
-          <TopAppBarSection align='end'>
+          <TopAppBarSection align='end' role='toolbar'>
             {actionItems.map(mapActionItem)}
           </TopAppBarSection>
         </TopAppBarRow>

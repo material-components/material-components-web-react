@@ -20,7 +20,7 @@ const TopAppBarShortScreenshotTest: React.FunctionComponent = () => {
             </TopAppBarIcon>
             <TopAppBarTitle>{title}</TopAppBarTitle>
           </TopAppBarSection>
-          <TopAppBarSection align='end'>
+          <TopAppBarSection align='end' role='toolbar'>
             <TopAppBarIcon actionItem tabIndex={0}>
               <MaterialIcon hasRipple icon='more_vert'/>
             </TopAppBarIcon>

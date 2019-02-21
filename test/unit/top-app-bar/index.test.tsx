@@ -4,7 +4,7 @@ import {mount, shallow} from 'enzyme';
 import * as td from 'testdouble';
 import TopAppBar, {
   TopAppBarIcon,
-  ToAppBarRow,
+  TopAppBarRow,
   TopAppBarSection,
   TopAppBarTitle,
 } from '../../../packages/top-app-bar/index';
@@ -13,31 +13,48 @@ import {coerceForTesting} from '../helpers/types';
 
 suite('TopAppBar');
 
+interface ScrollState {
+  scrollRef: React.RefObject<HTMLDivElement>;
+  withRef: boolean;
+}
+interface ScrollProps {
+  withRef: boolean;
+}
+
+class TopAppBarWithScroll extends React.Component<ScrollProps, ScrollState> {
+  state: ScrollState = {
+    scrollRef: React.createRef(),
+    withRef: this.props.withRef,
+  };
+
+  static defaultProps: ScrollProps = {
+    withRef: false,
+  };
+
+
+  withRef = () => this.setState({withRef: !this.state.withRef})
+
+  render() {
+    const {withRef, scrollRef} = this.state;
+    return (
+      <div>
+        <TopAppBar scrollTarget={(withRef) ? scrollRef : undefined} >
+          <TopAppBarRow>
+            <TopAppBarSection><TopAppBarTitle>Scroll</TopAppBarTitle></TopAppBarSection>
+          </TopAppBarRow>
+        </TopAppBar>
+        <div ref={this.state.scrollRef}>Scroll Target</div>
+      </div>
+    );
+  }
+}
+
 interface RippleProps<T> extends InjectedProps<T> {
   hasRipple?: boolean;
   className: string;
 }
 
-type DivRippleProps = RippleProps<HTMLDivElement> & React.HTMLProps<HTMLDivElement>;
 type ActionItemRippleProps = RippleProps<HTMLAnchorElement> & React.HTMLProps<HTMLAnchorElement>;
-
-const NavigationIcon: React.FunctionComponent<DivRippleProps> = ({
-  /* eslint-disable react/prop-types */
-  initRipple,
-  hasRipple,
-  unbounded,
-  className,
-  /* eslint-enable react/prop-types */
-  ...otherProps
-}) => (
-  <div
-    ref={initRipple}
-    className={`${className} test-top-app-bar-nav-icon`}
-    {...otherProps}
-  />
-);
-
-const RippledNavigationIcon = withRipple<RippleProps<HTMLDivElement>, HTMLDivElement>(NavigationIcon);
 
 const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
   /* eslint-disable react/prop-types */
@@ -58,6 +75,16 @@ const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
 );
 
 const RippledActionItem = withRipple<RippleProps<HTMLAnchorElement>, HTMLAnchorElement>(ActionItem);
+
+test('renders a TopAppBar with default tag', () => {
+  const wrapper = shallow<TopAppBar>(<TopAppBar />);
+  assert.equal(wrapper.type(), 'header');
+});
+
+test('renders a TopAppBar with custom tag', () => {
+  const wrapper = shallow<TopAppBar>(<TopAppBar tag='div' />);
+  assert.equal(wrapper.type(), 'div');
+});
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<TopAppBar className='test-class-name' />);
@@ -103,66 +130,49 @@ test('has correct prominent dense class', () => {
   assert.isTrue(wrapper.hasClass('mdc-top-app-bar--prominent'));
 });
 
-test('navigationIcon is rendered with navigation icon class', () => {
-  const wrapper = mount(
-    <TopAppBar navigationIcon={<RippledNavigationIcon />} />
-  );
-  assert.isTrue(
-    wrapper
-      .find('.test-top-app-bar-nav-icon')
-      .hasClass('mdc-top-app-bar__navigation-icon')
-  );
-});
-
-test('navigationIcon is rendered as custom component that accepts a className prop', () => {
-  const wrapper = mount(
-    <TopAppBar>
-      <TopAppBarRow>
-        <TopAppBarSection>
-          <TopAppBarIcon navIcon><RippledNavigationIcon /></TopAppBarIcon>
-        </TopAppBarSection>
-      </TopAppBarRow>
-    </TopAppBar>
-  );
-  const navigationIcon = wrapper.find(RippledNavigationIcon);
-  assert.isTrue(navigationIcon.hasClass('mdc-top-app-bar__navigation-icon'));
-});
-
-test('actionItems are rendered with action item class', () => {
-  const wrapper = mount(
-    <TopAppBar>
-      <TopAppBarRow>
-        <TopAppBarSection>
-          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
-        </TopAppBarSection>
-      </TopAppBarRow>
-    </TopAppBar>
-  );
-  assert.isTrue(
-    wrapper.find('.test-action-icon-1').hasClass('mdc-top-app-bar__action-item')
-  );
-});
-
-test('actionItems are rendered as a custom component that accepts a className prop', () => {
-  const wrapper = mount(
-    <TopAppBar>
-      <TopAppBarRow>
-        <TopAppBarSection>
-          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
-        </TopAppBarSection>
-      </TopAppBarRow>
-    </TopAppBar>
-  );
-  const actionItem = wrapper.find(RippledActionItem);
-  assert.isTrue(actionItem.hasClass('mdc-top-app-bar__action-item'));
-});
-
 test('top app bar style should be set by state', () => {
   const wrapper = mount(<TopAppBar />);
   wrapper.setState({style: {color: 'blue'}});
   assert.equal(coerceForTesting<HTMLElement>(wrapper.getDOMNode()).style.color, 'blue');
 });
 
+test('#componetDIdMount will set state scrollTarget if prop.scrollTarget exists', () => {
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
+  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+
+  assert.isDefined(topAppBar.state.scrollTarget);
+  assert.strictEqual(topAppBar.state.scrollTarget, wrapper.state().scrollRef);
+});
+
+test('Updating props.scrollTarget will set state scrollTarget', () => {
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
+  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  assert.isUndefined(topAppBar.state.scrollTarget);
+  wrapper.instance().withRef();
+
+  assert.strictEqual(topAppBar.state.scrollTarget, wrapper.state().scrollRef);
+});
+
+
+test('Updating scrollTarget prop will call foundation method destroyScrollHandler', () => {
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
+  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  const foundation = topAppBar.foundation;
+  foundation.destroyScrollHandler = td.func();
+  wrapper.instance().withRef();
+
+  td.verify(foundation.destroyScrollHandler(), {times: 1});
+});
+
+test('Updating scrollTarget prop will call foundation method initScrollHandler', () => {
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
+  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  const foundation = topAppBar.foundation;
+  foundation.initScrollHandler = td.func();
+  wrapper.instance().withRef();
+
+  td.verify(foundation.initScrollHandler(), {times: 1});
+});
 test('#adapter.addClass adds a class to state', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
   wrapper.instance().adapter.addClass('test-class-1');
@@ -192,9 +202,21 @@ test('#adapter.registerScrollHandler triggers handler on window scroll', () => {
   td.verify(testHandler(event), {times: 1});
 });
 
+test('#adapter.registerScrollHandler triggers handler on scrollTarget scroll', () => {
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
+  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  const testHandler = coerceForTesting<EventListener>(td.func());
+  topAppBar.adapter.registerScrollHandler(testHandler);
+  const event = new Event('scroll');
+  const scrollRef = wrapper.instance().state.scrollRef.current;
+  scrollRef!.dispatchEvent(event);
+
+  td.verify(testHandler(event), {times: 1});
+});
+
 test(
   '#adapter.deregisterScrollHandler does not trigger handler ' +
-    'after registering scroll handler',
+    'after deregistering scroll handler on window',
   () => {
     const wrapper = shallow<TopAppBar>(<TopAppBar />);
     const testHandler = coerceForTesting<EventListener>(td.func());
@@ -205,22 +227,57 @@ test(
     td.verify(testHandler(event), {times: 0});
   }
 );
+
 test(
-  '#adapter.getTotalActionItems returns true with one actionItem ' + 'passed',
+  '#adapter.deregisterScrollHandler does not trigger handler ' +
+    'after deregistering scroll handler on scrollTarget',
   () => {
-    const wrapper = shallow<TopAppBar>(
-      <TopAppBar actionItems={[<RippledActionItem key='1' />]} />
-    );
-    assert.isTrue(wrapper.instance().adapter.getTotalActionItems());
+    const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
+    const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+    const testHandler = coerceForTesting<EventListener>(td.func());
+    topAppBar.adapter.registerScrollHandler(testHandler);
+    const event = new Event('scroll');
+    topAppBar.adapter.deregisterScrollHandler(testHandler);
+    const scrollRef = wrapper.instance().state.scrollRef.current;
+    scrollRef!.dispatchEvent(event);
+
+    td.verify(testHandler(event), {times: 0});
   }
 );
-test(
-  '#adapter.getTotalActionItems returns false with no actionItem ' + 'passed',
-  () => {
-    const wrapper = shallow<TopAppBar>(<TopAppBar />);
-    assert.isFalse(wrapper.instance().adapter.getTotalActionItems());
-  }
-);
+
+
+test('#adapter.getTotalActionItems returns one with one actionItem passed', () => {
+  const wrapper = mount<TopAppBar>(
+    <TopAppBar>
+      <TopAppBarRow>
+        <TopAppBarSection>
+          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+        </TopAppBarSection>
+      </TopAppBarRow>
+    </TopAppBar>
+  );
+  assert.strictEqual(wrapper.instance().adapter.getTotalActionItems(), 1);
+});
+
+test('#adapter.getTotalActionItems returns three with three actionItems passed', () => {
+  const wrapper = mount<TopAppBar>(
+    <TopAppBar>
+      <TopAppBarRow>
+        <TopAppBarSection>
+          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+        </TopAppBarSection>
+      </TopAppBarRow>
+    </TopAppBar>
+  );
+  assert.strictEqual(wrapper.instance().adapter.getTotalActionItems(), 3);
+});
+
+test('#adapter.getTotalActionItems returns zero with no actionItem passed', () => {
+  const wrapper = shallow<TopAppBar>(<TopAppBar />);
+  assert.strictEqual(wrapper.instance().adapter.getTotalActionItems(), 0);
+});
 
 test('#adapter.setStyle should update state', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
