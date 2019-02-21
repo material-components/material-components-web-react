@@ -75,9 +75,10 @@ shortCollapsed | Boolean | Enables short collapsed variant.
 prominent | Boolean | Enables prominent variant.
 fixed | Boolean | Enables fixed variant.
 dense | Boolean | Enables dense variant. 
+scrollTarget | React.RefObject | Sets scroll target to different DOM node (default is `window`)
 tag | String | Customizes the `TopAppBar` HTML tag.  (default: `<header>`)
 
-> NOTES: As per design guidelines, prominent and dense variants should not be used with short or short collapsed. Additionally, dense variants should only be used on desktop.
+> NOTES: As per design guidelines, prominent and dense variants should not be used with short or short collapsed. Additionally, dense variants should only be used on desktop. Additionally short top-app-bars should be used with no more than 1 action item.
 
 ### TopAppBarRow
 Prop Name | Type | Description
@@ -106,7 +107,7 @@ className | String | Classes to be applied to the root element.
 actionItem | Boolean | applies action-item class to icon
 navIcon | Boolean | applies nav-icon class to icon
 children | React.ReactElement<any> | can be any icon. Material Icons are reccomended
-> Notes: you may need to manually add ripple or tabindex to icon.
+> Notes: you may need to manually add ripple or tabindex to icon. Short top-app-bars shold be used with no more than 1 action item.
 
 ### TopAppBarFixedAdjust
 
