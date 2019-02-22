@@ -29,6 +29,16 @@ test('adds the active class if props.active is true on mount', () => {
   assert.isTrue(wrapper.hasClass('mdc-tab--active'));
 });
 
+test('sets the tabIndex to 0 if props.active is true on mount', () => {
+  const wrapper = shallow(<Tab active />);
+  assert.equal(wrapper.prop('tabIndex'), 0);
+});
+
+test('sets the tabIndex to -1 if props.active is false on mount', () => {
+  const wrapper = shallow(<Tab active={false} />);
+  assert.equal(wrapper.prop('tabIndex'), -1);
+});
+
 test('adds a class from state.classList', () => {
   const wrapper = shallow(<Tab />);
   wrapper.setState({classList: new Set(['test-class'])});
