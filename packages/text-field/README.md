@@ -29,7 +29,7 @@ React Text Field accepts one child element which is the input element. For ease 
 ```js
 import React from 'react';
 import TextField, {HelperText, Input} from '@material/react-text-field';
-import MaterialIcon from from '@material/react-material-icon';
+import MaterialIcon from '@material/react-material-icon';
 
 class MyApp extends React.Component {
   state = {value: 'Woof'};
