@@ -29,24 +29,34 @@ export interface MaterialIconDefaultProps extends React.HTMLAttributes<HTMLEleme
   className?: string;
   hasRipple?: boolean;
   unbounded?: boolean;
+  tag?: string;
 };
 
 export interface MaterialIconProps extends MaterialIconDefaultProps, Ripple.InjectedProps<HTMLElement> {};
 
 const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
-  className, icon, initRipple, hasRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
+  /* eslint-disable react/prop-types */
+  className,
+  icon,
+  initRipple,
+  hasRipple,
+  unbounded,
+  tag: Tag,
+  ...otherProps
+  /* eslint-enable react/prop-types */
 }) => {
   const classes = classnames('material-icons', className, {
     'material-icons--ripple-surface': hasRipple,
   });
   return (
-    <i
+    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+    <Tag
       className={classes}
       ref={initRipple}
       {...otherProps}
     >
       {icon}
-    </i>
+    </Tag>
   );
 };
 
@@ -60,16 +70,18 @@ export default class MaterialIcon extends React.Component<
     className: '',
     hasRipple: false,
     unbounded: false,
+    tag: 'i',
   };
 
   render() {
-    const {icon, hasRipple, unbounded, ...otherProps} = this.props; // eslint-disable-line no-unused-vars
+    const {icon, hasRipple, unbounded, tag, ...otherProps} = this.props; // eslint-disable-line no-unused-vars
     if (hasRipple) {
       return (
         <RippleMaterialIcon
           unbounded
           hasRipple
           icon={icon}
+          tag={tag}
           {...otherProps}
         />
       );
@@ -77,6 +89,7 @@ export default class MaterialIcon extends React.Component<
     return (
       <MaterialIconDefault
         icon={icon}
+        tag={tag}
         {...otherProps}
       />
     );
