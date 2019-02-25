@@ -8,7 +8,7 @@ import TopAppBar, {
 import MaterialIcon from '../../../packages/material-icon';
 import MainTopAppBarContent from './mainContent';
 
-const title: string = 'Short';
+const title: string = 'Miami, FL';
 const TopAppBarShortScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>

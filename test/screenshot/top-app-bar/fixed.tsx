@@ -10,7 +10,7 @@ import MainTopAppBarContent from './mainContent';
 import {actionItems} from './actionItems';
 import {mapActionItem} from './index';
 
-const title: string = 'Fixed';
+const title: string = 'Miami, FL';
 const TopAppBarFixedScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>

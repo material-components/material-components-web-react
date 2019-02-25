@@ -12,7 +12,7 @@ import MainTopAppBarContent from './mainContent';
 import {actionItems} from './actionItems';
 import {mapActionItem} from './index';
 
-const title: string = 'Two Rows';
+const title: string = 'Miami, FL';
 class TopAppBarTwoRows extends React.Component<{}, {activeIndex: number}> {
   state = {activeIndex: 0};
 
@@ -21,7 +21,7 @@ class TopAppBarTwoRows extends React.Component<{}, {activeIndex: number}> {
   render() {
     return (
       <div className='top-app-bar-container'>
-        <TopAppBar>
+        <TopAppBar className='top-app-bar--tabs'>
           <TopAppBarRow>
             <TopAppBarSection align='start'>
               <TopAppBarIcon navIcon tabIndex={0}>

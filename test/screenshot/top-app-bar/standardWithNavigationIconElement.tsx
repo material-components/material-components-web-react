@@ -49,7 +49,7 @@ const NavigationIcon: React.FunctionComponent<RippleProps> = ({
 );
 
 const NavigationIconWithRipple = withRipple<RippleProps, HTMLAnchorElement>(NavigationIcon);
-const title: string = ' Standard With custom SVG NavIcon';
+const title: string = 'Miami, FL';
 const TopAppBarStandardWithNavigationIconElementScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>

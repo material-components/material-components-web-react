@@ -138,7 +138,7 @@ test('top app bar style should be set by state', () => {
 
 test('#componetDIdMount will set state scrollTarget if prop.scrollTarget exists', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
-  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
 
   assert.isDefined(topAppBar.state.scrollTarget);
   assert.strictEqual(topAppBar.state.scrollTarget, wrapper.state().scrollRef);
@@ -146,7 +146,7 @@ test('#componetDIdMount will set state scrollTarget if prop.scrollTarget exists'
 
 test('Updating props.scrollTarget will set state scrollTarget', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
-  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   assert.isUndefined(topAppBar.state.scrollTarget);
   wrapper.instance().withRef();
 
@@ -156,7 +156,7 @@ test('Updating props.scrollTarget will set state scrollTarget', () => {
 
 test('Updating scrollTarget prop will call foundation method destroyScrollHandler', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
-  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const foundation = topAppBar.foundation;
   foundation.destroyScrollHandler = td.func();
   wrapper.instance().withRef();
@@ -166,7 +166,7 @@ test('Updating scrollTarget prop will call foundation method destroyScrollHandle
 
 test('Updating scrollTarget prop will call foundation method initScrollHandler', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
-  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const foundation = topAppBar.foundation;
   foundation.initScrollHandler = td.func();
   wrapper.instance().withRef();
@@ -204,7 +204,7 @@ test('#adapter.registerScrollHandler triggers handler on window scroll', () => {
 
 test('#adapter.registerScrollHandler triggers handler on scrollTarget scroll', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
-  const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const testHandler = coerceForTesting<EventListener>(td.func());
   topAppBar.adapter.registerScrollHandler(testHandler);
   const event = new Event('scroll');
@@ -233,7 +233,7 @@ test(
     'after deregistering scroll handler on scrollTarget',
   () => {
     const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
-    const topAppBar: TopAppBar = wrapper.find('TopAppBar').instance() as TopAppBar;
+    const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
     const testHandler = coerceForTesting<EventListener>(td.func());
     topAppBar.adapter.registerScrollHandler(testHandler);
     const event = new Event('scroll');

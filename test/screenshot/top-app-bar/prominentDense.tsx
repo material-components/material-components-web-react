@@ -10,7 +10,7 @@ import MainTopAppBarContent from './mainContent';
 import {mapActionItem} from './index';
 import {actionItems} from './actionItems';
 
-const title: string = 'Prominent Dense';
+const title: string = 'Miami, FL';
 const TopAppBarProminentDenseScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>

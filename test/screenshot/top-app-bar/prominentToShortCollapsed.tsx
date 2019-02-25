@@ -14,7 +14,7 @@ interface TopAppBarProminentToShortCollapsedScreenshotTestState {
   isPhone: boolean;
 }
 
-const title: string = 'Prominent to ShortCollapsed';
+const title: string = 'Miami, FL';
 class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component<
   {},
   TopAppBarProminentToShortCollapsedScreenshotTestState
@@ -44,7 +44,7 @@ class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component<
     const {isPhone} = this.state;
     return (
       <div>
-        <TopAppBar prominent={!isPhone} short={isPhone} >
+        <TopAppBar prominent={!isPhone} shortCollapsed={isPhone} >
           <TopAppBarRow>
             <TopAppBarSection align='start'>
               <TopAppBarIcon navIcon tabIndex={0} >

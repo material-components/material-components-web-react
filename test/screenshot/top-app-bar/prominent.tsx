@@ -11,7 +11,7 @@ import {mapActionItem} from './index';
 import {actionItems} from './actionItems';
 
 
-const title: string = 'Prominent';
+const title: string = 'Miami, FL';
 const TopAppBarProminentScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>

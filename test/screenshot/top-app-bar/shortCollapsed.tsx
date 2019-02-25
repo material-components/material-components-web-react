@@ -8,7 +8,7 @@ import TopAppBar, {
 import MaterialIcon from '../../../packages/material-icon';
 import MainTopAppBarContent from './mainContent';
 
-const title: string = 'Short Collapsed';
+const title: string = 'Miami, FL';
 const TopAppBarShortCollapsedScreenshotTest: React.FunctionComponent = () => {
   return (
     <div>

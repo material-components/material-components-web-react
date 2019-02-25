@@ -17,7 +17,7 @@ test('renders a TopAppBarRow with custom tag', () => {
   assert.equal(wrapper.type(), 'section');
 });
 
-test('redners a TopAppBarRow with the default className', () => {
+test('renders a TopAppBarRow with the default className', () => {
   const wrapper = shallow(<TopAppBarRow/>);
   assert.isTrue(wrapper.hasClass(cssClasses.ROW));
 });

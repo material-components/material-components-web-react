@@ -38,7 +38,16 @@ import {
 export type MDCTopAppBarFoundationTypes
   = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
 
-export interface TopAppBarProps<T> extends React.HTMLProps<T> {
+/**
+ * @deprecated since 0.11.0. Will be deleted in 0.13.0
+ */
+interface DeprecatedProps {
+  actionItems?: React.ReactElement<any>[];
+  navigationIcon?: React.ReactElement<any>;
+  title?: string;
+}
+
+export interface TopAppBarProps<T> extends React.HTMLProps<T>, DeprecatedProps {
   className?: string;
   dense?: boolean;
   fixed?: boolean;
@@ -118,7 +127,7 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
       (variant: string) => this.props[variant as VariantType] !== prevProps[variant as VariantType]
     );
     if (foundationChanged) {
-      // foundation.destory() does not remove old variant className(s)
+      // foundation.destroy() does not remove old variant className(s)
       this.setState({classList: new Set<string>()}, this.initializeFoundation);
     }
 
@@ -147,6 +156,16 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
 
     this.foundation.init();
   };
+
+  /**
+   * @deprecated since 0.11.0. Will be deleted in 0.13.0
+   */
+  addClassesToElement/* istanbul ignore next */(classes: string, element: React.ReactElement<any>) {
+    const updatedProps = {
+      className: classnames(classes, element.props.className),
+    };
+    return React.cloneElement(element, updatedProps);
+  }
 
   getMergedStyles = () => {
     const {style} = this.state;
@@ -211,15 +230,43 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
       className,
       dense,
       fixed,
-      title,
       short,
       shortCollapsed,
       prominent,
       scrollTarget,
       tag: Tag,
+      actionItems,
+      navigationIcon,
+      title,
       ...otherProps
       /* eslint-enable no-unused-vars */
     } = this.props;
+
+    /**
+     * @deprecated since 0.11.0. Will be deleted in 0.13.0
+     */
+    /* istanbul ignore if */
+    if (actionItems || navigationIcon || title) {
+      const warning = 'actionItems, navigationIcon, and title  are deprecated  ' +
+      'since v0.11.0 and will be removed in v0.13.0. Please refer to ' +
+      'https://github.com/material-components/material-components-web-react' +
+      '/blob/master/packages/top-app-bar/README.md';
+      console.warn(warning);
+      return (
+      // @ts-ignore Tag does not have any construct https://github.com/Microsoft/TypeScript/issues/28892
+        <Tag
+          {...otherProps}
+          className={this.classes}
+          style={this.getMergedStyles()}
+          ref={this.topAppBarElement}
+        >
+          <div className='mdc-top-app-bar__row'>
+            {this.renderTitleAndNavigationSection()}
+            {this.renderActionItems()}
+          </div>
+        </Tag>
+      );
+    }
 
     return (
       // @ts-ignore Tag does not have any construct https://github.com/Microsoft/TypeScript/issues/28892
@@ -229,6 +276,59 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
         style={this.getMergedStyles()}
         ref={this.topAppBarElement}
       >{children}</Tag>
+    );
+  }
+
+  /**
+   * @deprecated since 0.11.0. Will be deleted in 0.13.0
+   */
+  renderTitleAndNavigationSection/* istanbul ignore next */() {
+    const {title} = this.props;
+    const classes =
+      'mdc-top-app-bar__section mdc-top-app-bar__section--align-start';
+    return (
+      <section className={classes}>
+        {this.renderNavigationIcon()}
+        <span className='mdc-top-app-bar__title'>{title}</span>
+      </section>
+    );
+  }
+
+  /**
+   * @deprecated since 0.11.0. Will be deleted in 0.13.0
+   */
+  renderNavigationIcon/* istanbul ignore next */() {
+    const {navigationIcon} = this.props;
+    if (!navigationIcon) {
+      return;
+    }
+    return this.addClassesToElement(
+      'mdc-top-app-bar__navigation-icon',
+      navigationIcon
+    );
+  }
+
+  /**
+   * @deprecated since 0.11.0. Will be deleted in 0.13.0
+   */
+  renderActionItems/* istanbul ignore next */() {
+    const {actionItems} = this.props;
+    if (!actionItems) {
+      return;
+    }
+    return (
+      <section
+        className='mdc-top-app-bar__section mdc-top-app-bar__section--align-end'
+        role='toolbar'
+      >
+        {actionItems.map((item, key) => {
+          const elementWithClasses = this.addClassesToElement(
+            'mdc-top-app-bar__action-item',
+            item
+          );
+          return React.cloneElement(elementWithClasses, {key});
+        })}
+      </section>
     );
   }
 }

@@ -23,7 +23,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {cssClasses} from './constants';
-// @ts-ignore no mdc .d.ts file
 
 
 interface IconProps<T> extends React.HTMLProps<T> {
@@ -34,7 +33,7 @@ interface IconProps<T> extends React.HTMLProps<T> {
 }
 
 
-const Icon: <T extends {} = HTMLElement>(props: IconProps<T> ) =>
+const Icon: <T extends {} = Element>(props: IconProps<T> ) =>
   React.ReactElement<HTMLElement> = ({
     /* eslint-disable react/prop-types */
     actionItem = false,
