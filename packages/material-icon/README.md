@@ -52,10 +52,41 @@ const MyComponent = () => {
 
 Prop Name | Type | Description
 --- | --- | ---
-icon | string | Type of icon to be displayed.
-className | string | Classes to pass on to the root `<i>` element.
-hasRipple | n/a | If present on element, it will enable the ripple on the icon.
+icon | String | Type of icon to be displayed.
+className | String | Classes to pass on to the root element.
+hasRipple | Boolean | If present on element, it will enable the ripple on the icon.
+tag | String | Customizes the MaterialIcon HTML tag. (default: `<i>`) 
+
 
 ## Usage with Icons
 
 Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) for further reading.
+
+## Usage with `<button>` Tag
+
+if you customize the MaterialIcon tag to a button element you may find it desirable
+to also adjust its appearance to make it appear less like a default HTMLButton. One 
+way to accomplish this would be something like the following:
+
+```js
+import MaterialIcon from '@material/react-material-icon';
+
+const MyComponent = () => {
+  return (
+    <MaterialIcon icon='menu' tag='button' className='button-icon' />
+  );
+}
+```
+
+```css
+ /* index.css */
+ .button-icon {
+   background: transparents;
+   border: none;
+ }
+```
+
+> Note: a logical place to use the `tag='button'` property would be in the as a
+> navigation icon or action item in the  [top-app-bar]('../top-app-bar/README.md').
+> Both  `.mdc-top-app-bar__action-item` and `.mdc-top-app-bar__navigation-icon` already
+> apply `background: transparent; border: none;`
