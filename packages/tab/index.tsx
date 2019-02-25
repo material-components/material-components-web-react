@@ -72,6 +72,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     'aria-selected': false,
     'activateIndicator': false,
     'previousIndicatorClientRect': this.props.previousIndicatorClientRect,
+    'tabIndex': -1,
   };
 
   componentDidMount() {
