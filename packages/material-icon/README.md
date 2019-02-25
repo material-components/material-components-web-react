@@ -62,14 +62,15 @@ tag | String | Customizes the MaterialIcon HTML tag. (default: `<i>`)
 
 Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-icons) for further reading.
 
-## Usage with `<button>` Tag
+## Usage with `tag='button'` 
 
-if you customize the MaterialIcon tag to a button element you may find it desirable
+if you set the `MaterialIcon` property tag to button you may find it desirable
 to also adjust its appearance to make it appear less like a default HTMLButton. One 
 way to accomplish this would be something like the following:
 
 ```js
 import MaterialIcon from '@material/react-material-icon';
+import './index.sccs';
 
 const MyComponent = () => {
   return (
@@ -79,14 +80,14 @@ const MyComponent = () => {
 ```
 
 ```css
- /* index.css */
+ /* index.scss */
  .button-icon {
    background: transparents;
    border: none;
  }
 ```
 
-> Note: a logical place to use the `tag='button'` property would be in the as a
-> navigation icon or action item in the  [top-app-bar]('../top-app-bar/README.md').
+> Note: a logical place to use the `tag='button'` property would be as a
+> navigation icon or action item in the  [top-app-bar](../top-app-bar/README.md).
 > Both  `.mdc-top-app-bar__action-item` and `.mdc-top-app-bar__navigation-icon` already
 > apply `background: transparent; border: none;`
