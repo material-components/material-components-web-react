@@ -4,8 +4,6 @@ export interface actionItem {
 }
 
 const actionItems: actionItem[] = [
-  {icon: 'file_download', label: 'Download'},
-  {icon: 'print', label: 'Print this page'},
   {icon: 'bookmark', label: 'Add to bookmarks'},
 ];
 
