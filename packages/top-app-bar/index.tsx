@@ -62,7 +62,7 @@ export interface TopAppBarProps<T> extends React.HTMLProps<T>, DeprecatedProps {
 interface TopAppBarState {
   classList: Set<string>;
   style: React.CSSProperties;
-  scrollTarget: React.RefObject<HTMLElement> | undefined;
+  scrollTarget?: React.RefObject<HTMLElement>;
 }
 
 export type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
@@ -77,7 +77,6 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
   state: TopAppBarState = {
     classList: new Set(),
     style: {},
-    scrollTarget: undefined,
   };
 
   static defaultProps: Partial<TopAppBarProps<HTMLHeadingElement>> = {
