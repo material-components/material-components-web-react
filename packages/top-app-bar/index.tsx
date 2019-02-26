@@ -247,6 +247,7 @@ class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
      */
     /* istanbul ignore if */
     if (actionItems || navigationIcon || title) {
+    //TODO(mgr34): remove all deprecated statements and istanbul ignore's for v0.13.0
       const warning = 'actionItems, navigationIcon, and title  are deprecated  ' +
       'since v0.11.0 and will be removed in v0.13.0. Please refer to ' +
       'https://github.com/material-components/material-components-web-react' +
