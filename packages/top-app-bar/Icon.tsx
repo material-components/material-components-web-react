@@ -25,7 +25,7 @@ import * as classnames from 'classnames';
 import {cssClasses} from './constants';
 
 
-interface IconProps<T> extends React.HTMLProps<T> {
+export interface IconProps<T> extends React.HTMLProps<T> {
   actionItem?: boolean;
   className?: string;
   children: React.ReactElement<any>;
