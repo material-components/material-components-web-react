@@ -29,7 +29,7 @@ export interface RowProps<T> extends React.HTMLProps<T> {
   tag?: string;
 };
 
-const Row: <T extends {} = HTMLDivElement>(props: RowProps<T>) =>
+const Row: <T extends HTMLElement = HTMLDivElement>(props: RowProps<T>) =>
   React.ReactElement<T> = ({
     /* eslint-disable react/prop-types */
     children,

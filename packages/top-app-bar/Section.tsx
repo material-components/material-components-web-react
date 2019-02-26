@@ -30,7 +30,7 @@ export interface SectionProps<T> extends React.HTMLProps<T> {
   tag?: string;
 };
 
-const Section: <T extends {} = HTMLElement>(props: SectionProps<T>) =>
+const Section: <T extends HTMLElement = HTMLElement>(props: SectionProps<T>) =>
   React.ReactElement<T> = ({
     /* eslint-disable react/prop-types */
     align,

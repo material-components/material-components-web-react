@@ -29,7 +29,7 @@ export interface TitleProps<T> extends React.HTMLProps<T> {
   tag?: string;
 };
 
-const Title: <T extends {} = HTMLSpanElement>(props: TitleProps<T>) =>
+const Title: <T extends HTMLElement = HTMLSpanElement>(props: TitleProps<T>) =>
   React.ReactElement<T> = ({
     /* eslint-disable react/prop-types */
     children,
