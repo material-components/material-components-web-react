@@ -67,7 +67,7 @@ interface TopAppBarState {
 
 export type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
 
-class TopAppBar<T extends {} = HTMLHeadingElement> extends React.Component<
+class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Component<
   TopAppBarProps<T>,
   TopAppBarState
   > {
