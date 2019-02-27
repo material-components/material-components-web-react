@@ -26,20 +26,38 @@ import '@material/react-material-icon/dist/material-icon.css';
 
 ### Javascript Instantiation
 ```js
-import TopAppBar, {TopAppBarFixedAdjust} from '@material/react-top-app-bar';
+import TopAppBar, {
+  TopAppBarFixedAdjust, 
+  TopAppBarIcon,
+  TopAppBarRow,
+  TopAppBarSection,
+  TopAppBarTitle,
+} from '@material/react-top-app-bar';
 import MaterialIcon from '@material/react-material-icon';
 
 const MyComponent = () => {
   return (
     <div>
-      <TopAppBar
-        title='Miami, FL'
-        navigationIcon={<MaterialIcon
-          icon='menu'
-          onClick={() => console.log('click')}
-        />}
-        actionItems={[<MaterialIcon key='item' icon='bookmark' />]}
-      />
+      <TopAppBar>
+        <TopAppBarRow>
+          <TopAppBarSection align='start'>
+            <TopAppBarIcon navIcon tabIndex={0}>
+              <MaterialIcon hasRipple icon='menu' onClick={() => console.log('click')}/>
+            </TopAppBarIcon>
+            <TopAppBarTitle>Miami, FL</TopAppBarTitle>
+          </TopAppBarSection>
+          <TopAppBarSection align='end' role='toolbar'>
+            <TopAppBarIcon actionItem tabIndex={0}>
+              <MaterialIcon 
+                aria-label="print page" 
+                hasRipple 
+                icon='print' 
+                onClick={() => console.log('print')}
+              />
+            </TopAppBarIcon>
+          </TopAppBarSection>
+        </TopAppBarRow>
+      </TopAppBar>
       <TopAppBarFixedAdjust>
         My exciting content!
       </TopAppBarFixedAdjust>
@@ -56,17 +74,55 @@ Use the `<TopAppBarFixedAdjust />` component to give your content top-padding, s
 
 Prop Name | Type | Description
 --- | --- | ---
-actionItems | Array | Accepts an array of elements that should be rendered to the opposite side of the title. Note that a single action item should also be passed as an array.
 className | String | Classes to be applied to the root element.
-title | String | The title of the Top App Bar.
-navigationIcon | Element | Appears adjacent to the title. This acts as the main action of the Top App Bar.
 short | Boolean | Enables short variant.
 shortCollapsed | Boolean | Enables short collapsed variant.
 prominent | Boolean | Enables prominent variant.
 fixed | Boolean | Enables fixed variant.
 dense | Boolean | Enables dense variant. 
+scrollTarget | React.RefObject | Sets scroll target to different DOM node (default is `window`)
+tag | String | Customizes the `TopAppBar` HTML tag.  (default: `<header>`)
+> NOTES: As per design guidelines, prominent and dense variants should not be used with short or short collapsed. Additionally, dense variants should only be used on desktop. Additionally short top-app-bars should be used with no more than 1 action item.
 
-> NOTES: As per design guidelines, prominent and dense variants should not be used with short or short collapsed. Additionally, dense variants should only be used on desktop.
+#### Deprecated TopAppBar Props
+
+The following props are deprecated since v0.11.0 and are scheduled for removal in v0.13.0.
+They will still render as expected until v0.13.0, but will output a warning to the console.
+
+Prop Name | Type | Description
+--- | --- | ---
+actionItems | Array | Accepts an array of elements that should be rendered to the opposite side of the title. Note that a single action item should also be passed as an array.
+navigationIcon | Element | Appears adjacent to the title. This acts as the main action of the Top App Bar.
+title | String | The Title of the Top App Bar.
+
+### TopAppBarRow
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the root element.
+tag | String | Customizes the `TopAppBarRow` tag. (default: `<div>`)
+
+### TopAppBarSection
+Prop Name | Type | Description
+--- | --- | ---
+align | Sring ('start' or 'end') | optional property tha aligns section content to either start or end of section
+className | String | Classes to be applied to the root element.
+tag | String | Customizes the `TopAppBarSection` tag. (default: `<section>`)
+> Note: if section contains action items it is reccomended to add property role='toolbar' for a11y purposes
+
+### TopAppBarTitle
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the root element.
+tag | String | Customizes the `TopAppBarTitle` tag. (default: `<span>`)
+
+### TopAppBarIcon
+Prop Name | Type | Description
+--- | --- | ---
+className | String | Classes to be applied to the root element.
+actionItem | Boolean | applies action-item class to icon
+navIcon | Boolean | applies nav-icon class to icon
+children | React.ReactElement<any> | can be any icon. Material Icons are reccomended
+> Notes: (1) consider adding `aria-label` to actionItem's. (2) you may need to manually add ripple or tabindex to icon. (3) Short top-app-bars shold be used with no more than 1 action item.
 
 ### TopAppBarFixedAdjust
 
@@ -89,8 +145,9 @@ Use of [Material Icon's](../material-icon/README.md) for Action Items and Naviga
 The navigation icon can be a `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc., but again must be wrapped with the `withRipple HOC`.
 
 ```js
-  <TopAppBar
-    navigationIcon={<i className='material-icons'>menu</i>} />
+  <TopAppBarIcon navIcon>
+    <i className='material-icons'>menu</i>
+  </TopAppBarIcon>
 ```
 
 If you decide to use a React Component please see [Integrating with Components](./../../docs/guidelines.md#integrating-with-components).
@@ -100,13 +157,13 @@ If you decide to use a React Component please see [Integrating with Components](
 Similar to the [navigation icon](#navigation-icon), it can be `<a>`, `<i>`, `<svg>`, `<image>`, `<span>`, etc., and must be wrapped with the `withRipple HOC`.
 
 ```js
-  <TopAppBar
-    actionItems={[<i className='material-icons'>bookmark</i>]} />
+  <TopAppBarIcon actionItem>
+    <i className='material-icons'>bookmark</i
+  </TopAppBarIcon>
 ```
 
 If you decide to use a React Component please see [Integrating with Components](./../../docs/guidelines.md#integrating-with-components).
 
-> NOTE: `actionItems` prop is expecting an array of elements.
 
 ## Sass Mixins
 

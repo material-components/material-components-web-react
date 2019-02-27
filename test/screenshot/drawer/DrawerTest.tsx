@@ -55,10 +55,12 @@ class DrawerScreenshotTest extends React.Component<
     if (this.props.hideNavigationIcon) return; // eslint-disable-line react/prop-types
     return (
       <MaterialIcon
+        className='mdc-top-app-bar__navigation-icon'
         tabIndex={0}
         onClick={() => this.setState({open: !this.state.open})}
         onKeyDown={() => this.setState({open: !this.state.open})}
         icon='menu'
+        hasRipple
       />
     );
   };
