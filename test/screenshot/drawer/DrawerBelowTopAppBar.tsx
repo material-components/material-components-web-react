@@ -2,6 +2,9 @@ import * as React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
 import TopAppBar, {
+  TopAppBarRow,
+  TopAppBarSection,
+  TopAppBarTitle,
   TopAppBarFixedAdjust,
 } from '../../../packages/top-app-bar/index';
 import Drawer, {
@@ -37,8 +40,14 @@ const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> =
 }) => {
   return (
     <React.Fragment>
-      <TopAppBar title={title} navigationIcon={renderNavigationIcon()} />
-
+      <TopAppBar>
+        <TopAppBarRow>
+          <TopAppBarSection align='start'>
+            {renderNavigationIcon()}
+            <TopAppBarTitle>{title}</TopAppBarTitle>
+          </TopAppBarSection>
+        </TopAppBarRow>
+      </TopAppBar>
       <TopAppBarFixedAdjust className='drawer-screenshot-test drawer-screenshot-test--is-below'>
         <Drawer open={open} onClose={onClose} dismissible={dismissible} modal={modal}>
           <DrawerHeader>

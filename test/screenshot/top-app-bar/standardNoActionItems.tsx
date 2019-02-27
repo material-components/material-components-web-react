@@ -1,17 +1,27 @@
 import * as React from 'react';
-import TopAppBar from '../../../packages/top-app-bar';
+import TopAppBar, {
+  TopAppBarIcon,
+  TopAppBarRow,
+  TopAppBarSection,
+  TopAppBarTitle,
+} from '../../../packages/top-app-bar';
 import MaterialIcon from '../../../packages/material-icon';
 import MainTopAppBarContent from './mainContent';
 
+const title: string = 'Miami, FL';
 const TopAppBarStandardNoActionItemsScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>
-      <TopAppBar
-        title='Miami, FL'
-        navigationIcon={
-          <MaterialIcon icon='menu' onClick={() => console.log('click')} />
-        }
-      />
+      <TopAppBar>
+        <TopAppBarRow>
+          <TopAppBarSection align='start'>
+            <TopAppBarIcon navIcon tabIndex={0}>
+              <MaterialIcon hasRipple icon='menu'/>
+            </TopAppBarIcon>
+            <TopAppBarTitle>{title}</TopAppBarTitle>
+          </TopAppBarSection>
+        </TopAppBarRow>
+      </TopAppBar>
       <MainTopAppBarContent />
     </div>
   );
