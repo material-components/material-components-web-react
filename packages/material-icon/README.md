@@ -64,7 +64,7 @@ Please see our [Best Practices doc](../../docs/best-practices.md#importing-font-
 
 ## Usage with `tag='button'` 
 
-if you set the `MaterialIcon` property tag to button you may find it desirable
+If you set the `MaterialIcon` property tag to button you may find it desirable
 to also adjust its appearance to make it appear less like a default HTMLButton. One 
 way to accomplish this would be something like the following:
 
