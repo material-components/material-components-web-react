@@ -17,7 +17,7 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/typography": "^0.41.0",
+    "@material/typography":"1.0.0-0",
     "classnames": "^2.2.5",
     "react": "^16.4.2"
   },

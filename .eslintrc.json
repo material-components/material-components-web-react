@@ -31,9 +31,11 @@
         "jsx-quotes": ["error", "prefer-single"]
       },
       "files": ["**/*.+(tsx|ts)"]
+
     }, {
       "parser": "babel-eslint",
-      "files": ["**/*.jsx", "**/*.js"]
+      "files": ["**/*.jsx", "**/*.js"],
+      "excludedFiles": "**/dist/*"
     }
   ]
 }

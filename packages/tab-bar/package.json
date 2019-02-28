@@ -20,7 +20,7 @@
   "dependencies": {
     "@material/react-tab": "^0.10.0",
     "@material/react-tab-scroller": "^0.8.0",
-    "@material/tab-bar": "^0.41.0",
+    "@material/tab-bar":"1.0.0-0",
     "classnames": "^2.2.5",
     "react": "^16.3.2"
   },

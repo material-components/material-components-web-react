@@ -18,7 +18,7 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/tab-indicator": "^0.41.0",
+    "@material/tab-indicator":"1.0.0-0",
     "classnames": "^2.2.5",
     "react": "^16.4.2"
   },
