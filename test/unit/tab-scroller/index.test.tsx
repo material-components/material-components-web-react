@@ -187,7 +187,8 @@ test('#adapter.getScrollContentStyleValue adds to state.scrollAreaStyleProperty'
   const content = document.querySelector('.mdc-tab-scroller__scroll-content');
   const contentStyleValue = wrapper
     .instance()
-    .foundation.adapter_.getScrollContentStyleValue('color');
+    // @ts-ignore TODO integrate types with mdc-web
+    .foundation!.adapter_.getScrollContentStyleValue('color');
   assert.equal(
     contentStyleValue,
     window.getComputedStyle(content!).getPropertyValue('color')
@@ -217,7 +218,8 @@ const setupScrolling = () => {
 
 test('#adapter.setScrollAreaScrollLeft adds to state.scrollAreaStyleProperty', () => {
   const {div, wrapper} = setupScrolling();
-  wrapper.instance().foundation.adapter_.setScrollAreaScrollLeft(101);
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.instance().foundation!.adapter_.setScrollAreaScrollLeft(101);
   assert.equal(wrapper.instance().areaElement.current!.scrollLeft, 101);
   div.remove();
 });
@@ -227,7 +229,8 @@ test('#adapter.getScrollAreaScrollLeft returns the areaElement scrollLeft proper
   const areaElement = div.querySelector(AREA_SELECTOR);
   areaElement!.scrollLeft = 20;
   assert.equal(
-    wrapper.instance().foundation.adapter_.getScrollAreaScrollLeft(),
+    // @ts-ignore TODO integrate types with mdc-web
+    wrapper.instance().foundation!.adapter_.getScrollAreaScrollLeft(),
     20
   );
   div.remove();
@@ -236,7 +239,8 @@ test('#adapter.getScrollAreaScrollLeft returns the areaElement scrollLeft proper
 test('#adapter.getScrollContentOffsetWidth returns the contentElement offsetWidth property', () => {
   const {div, wrapper} = setupScrolling();
   assert.isAbove(
-    wrapper.instance().foundation.adapter_.getScrollContentOffsetWidth(),
+    // @ts-ignore TODO integrate types with mdc-web
+    wrapper.instance().foundation!.adapter_.getScrollContentOffsetWidth(),
     0
   );
   div.remove();
@@ -245,7 +249,8 @@ test('#adapter.getScrollContentOffsetWidth returns the contentElement offsetWidt
 test('#adapter.getScrollAreaOffsetWidth returns the areaElement offsetWidth property', () => {
   const {div, wrapper} = setupScrolling();
   assert.isAbove(
-    wrapper.instance().foundation.adapter_.getScrollAreaOffsetWidth(),
+    // @ts-ignore TODO integrate types with mdc-web
+    wrapper.instance().foundation!.adapter_.getScrollAreaOffsetWidth(),
     0
   );
   div.remove();
@@ -255,7 +260,8 @@ test('#adapter.computeScrollAreaClientRect returns the areaElement clientRect', 
   const wrapper = mount<TabScroller>(<TabScroller />);
   const clientRect = wrapper
     .instance()
-    .foundation.adapter_.computeScrollAreaClientRect();
+    // @ts-ignore TODO integrate types with mdc-web
+    .foundation!.adapter_.computeScrollAreaClientRect();
   const jsonClientRect = JSON.parse(JSON.stringify(clientRect));
   assert.containsAllKeys(jsonClientRect, clientRectShape);
 });
@@ -264,16 +270,18 @@ test('#adapter.computeScrollContentClientRect returns the contentElement clientR
   const wrapper = mount<TabScroller>(<TabScroller />);
   const clientRect = wrapper
     .instance()
-    .foundation.adapter_.computeScrollContentClientRect();
+    // @ts-ignore TODO integrate types with mdc-web
+    .foundation!.adapter_.computeScrollContentClientRect();
   const jsonClientRect = JSON.parse(JSON.stringify(clientRect));
   assert.containsAllKeys(jsonClientRect, clientRectShape);
 });
 
 test('#getScrollPosition calls foundation.getScrollPosition', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.getScrollPosition = td.func();
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.instance().foundation!.getScrollPosition = td.func();
   wrapper.instance().getScrollPosition();
-  td.verify(wrapper.instance().foundation.getScrollPosition(), {times: 1});
+  td.verify(wrapper.instance().foundation!.getScrollPosition(), {times: 1});
 });
 
 test('#getScrollContentWidth returns the contentElement offsetWidth', () => {
@@ -285,16 +293,18 @@ test('#getScrollContentWidth returns the contentElement offsetWidth', () => {
 
 test('#incrementScroll calls foundation.incrementScroll', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.incrementScroll = td.func();
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.instance().foundation!.incrementScroll = td.func();
   wrapper.instance().incrementScroll(50);
-  td.verify(wrapper.instance().foundation.incrementScroll(50), {times: 1});
+  td.verify(wrapper.instance().foundation!.incrementScroll(50), {times: 1});
 });
 
 test('#scrollTo calls foundation.scrollTo', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.scrollTo = td.func();
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.instance().foundation!.scrollTo = td.func();
   wrapper.instance().scrollTo(50);
-  td.verify(wrapper.instance().foundation.scrollTo(50), {times: 1});
+  td.verify(wrapper.instance().foundation!.scrollTo(50), {times: 1});
 });
 
 test('areaElement gets areaClassList', () => {
@@ -306,10 +316,12 @@ test('areaElement gets areaClassList', () => {
 
 test('wheel event triggers foundation.handleInteraction', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.handleInteraction = td.func();
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.instance().foundation!.handleInteraction = td.func();
   const evt = {};
   wrapper.simulate('wheel', evt);
-  td.verify(wrapper.instance().foundation.handleInteraction(evt), {
+  // @ts-ignore TODO integrate types with mdc-web
+  td.verify(wrapper.instance().foundation!.handleInteraction(evt), {
     times: 1,
   });
 });
@@ -324,10 +336,12 @@ test('wheel event triggers props.onWheel', () => {
 
 test('touchstart event triggers foundation.handleInteraction', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.handleInteraction = td.func();
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.instance().foundation!.handleInteraction = td.func();
   const evt = {};
   wrapper.simulate('touchstart', evt);
-  td.verify(wrapper.instance().foundation.handleInteraction(evt), {
+  // @ts-ignore TODO integrate types with mdc-web
+  td.verify(wrapper.instance().foundation!.handleInteraction(evt), {
     times: 1,
   });
 });
@@ -342,9 +356,11 @@ test('touchstart event triggers props.onTouchStart', () => {
 
 test('pointerdown event triggers foundation.handleInteraction', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.handleInteraction = td.func();
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.instance().foundation!.handleInteraction = td.func();
   const evt = coerceForTesting<React.TouchEvent<HTMLDivElement>>({});
   wrapper.simulate('pointerDown', evt);
+  // @ts-ignore TODO integrate types with mdc-web
   td.verify(wrapper.instance().foundation.handleInteraction(evt), {
     times: 1,
   });
@@ -360,9 +376,11 @@ test('pointerdown event triggers props.onPointerDown', () => {
 
 test('mousedown event triggers foundation.handleInteraction', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.handleInteraction = td.func();
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.instance().foundation!.handleInteraction = td.func();
   const evt = {};
   wrapper.simulate('mousedown', evt);
+  // @ts-ignore TODO integrate types with mdc-web
   td.verify(wrapper.instance().foundation.handleInteraction(evt), {
     times: 1,
   });
@@ -378,9 +396,11 @@ test('mousedown event triggers props.onMouseDown', () => {
 
 test('keydown event triggers foundation.handleInteraction', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation.handleInteraction = td.func();
   const evt = {};
   wrapper.simulate('keydown', evt);
+  // @ts-ignore TODO integrate types with mdc-web
   td.verify(wrapper.instance().foundation.handleInteraction(evt), {
     times: 1,
   });
@@ -396,9 +416,11 @@ test('keydown event triggers props.onKeyDown', () => {
 
 test('transitionend event triggers foundation.handleTransitionEnd', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation.handleTransitionEnd = td.func();
   const evt = {};
   wrapper.simulate('transitionend', evt);
+  // @ts-ignore TODO integrate types with mdc-web
   td.verify(wrapper.instance().foundation.handleTransitionEnd(evt), {
     times: 1,
   });
@@ -426,7 +448,9 @@ test('renders child components', () => {
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
   const foundation = wrapper.instance().foundation;
+  // @ts-ignore TODO integrate types with mdc-web
   foundation.destroy = td.func();
   wrapper.unmount();
+  // @ts-ignore TODO integrate types with mdc-web
   td.verify(foundation.destroy(), {times: 1});
 });

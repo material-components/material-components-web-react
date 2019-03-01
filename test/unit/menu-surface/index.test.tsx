@@ -38,6 +38,7 @@ test('foundation is created', () => {
 
 test('update to props.open will call foundation.open', () => {
   const wrapper = mount<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.open = td.func();
   wrapper.setProps({open: true});
   td.verify(wrapper.instance().foundation.open(), {times: 1});
@@ -74,6 +75,7 @@ test('update to props.open sets lastFocusableElement', () => {
 
 test('update to props.open from true to false will call foundation.close', () => {
   const wrapper = mount<MenuSurface>(<MenuSurface open />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.close = td.func();
   wrapper.setProps({open: false});
   td.verify(wrapper.instance().foundation.close(), {times: 1});
@@ -82,6 +84,7 @@ test('update to props.open from true to false will call foundation.close', () =>
 
 test('foundation.setAbsolutePosition is called when props.coordinates updates', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setAbsolutePosition = td.func();
   wrapper.setProps({coordinates: {x: 1, y: 11}});
   td.verify(wrapper.instance().foundation.setAbsolutePosition(1, 11), {
@@ -91,6 +94,7 @@ test('foundation.setAbsolutePosition is called when props.coordinates updates', 
 
 test('foundation.setAnchorCorner is called when props.anchorCorner updates', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setAnchorCorner = td.func();
   wrapper.setProps({anchorCorner: Corner.TOP_RIGHT});
   td.verify(wrapper.instance().foundation.setAnchorCorner(Corner.TOP_RIGHT), {
@@ -100,6 +104,7 @@ test('foundation.setAnchorCorner is called when props.anchorCorner updates', () 
 
 test('foundation.setAnchorMargin is called when props.anchorMargin updates', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setAnchorMargin = td.func();
   wrapper.setProps({anchorMargin: {top: 20}});
   td.verify(wrapper.instance().foundation.setAnchorMargin({top: 20}), {
@@ -109,6 +114,7 @@ test('foundation.setAnchorMargin is called when props.anchorMargin updates', () 
 
 test('foundation.setQuickOpen is called when props.quickOpen updates to true', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setQuickOpen = td.func();
   wrapper.setProps({quickOpen: true});
   td.verify(wrapper.instance().foundation.setQuickOpen(true), {times: 1});
@@ -116,6 +122,7 @@ test('foundation.setQuickOpen is called when props.quickOpen updates to true', (
 
 test('foundation.setQuickOpen is called when props.quickOpen updates to false', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface quickOpen />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setQuickOpen = td.func();
   wrapper.setProps({quickOpen: false});
   td.verify(wrapper.instance().foundation.setQuickOpen(false), {times: 1});
@@ -123,10 +130,12 @@ test('foundation.setQuickOpen is called when props.quickOpen updates to false', 
 
 test('#registerWindowClickListener adds click event handler to window', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.handleBodyClick = td.func();
   wrapper.instance().registerWindowClickListener!();
   const clickEvent = new Event('click');
   window.dispatchEvent(clickEvent);
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(wrapper.instance().foundation.handleBodyClick(clickEvent), {
     times: 1,
   });
@@ -134,11 +143,13 @@ test('#registerWindowClickListener adds click event handler to window', () => {
 
 test('#deregisterWindowClickListener removes click event handler to window', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.handleBodyClick = td.func();
   wrapper.instance().registerWindowClickListener!();
   wrapper.instance().deregisterWindowClickListener!();
   const clickEvent = new Event('click');
   window.dispatchEvent(clickEvent);
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(wrapper.instance().foundation.handleBodyClick(clickEvent), {
     times: 0,
   });
@@ -147,6 +158,7 @@ test('#deregisterWindowClickListener removes click event handler to window', () 
 test('#adapter.notifyOpen calls #registerWindowClickListener', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.instance().registerWindowClickListener = td.func() as () => void;
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.notifyOpen();
   td.verify(wrapper.instance().registerWindowClickListener!(), {times: 1});
 });
@@ -154,6 +166,7 @@ test('#adapter.notifyOpen calls #registerWindowClickListener', () => {
 test('#adapter.notifyOpen calls onOpen', () => {
   const onOpen = td.func() as () => void;
   const wrapper = shallow<MenuSurface>(<MenuSurface onOpen={onOpen} />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.notifyOpen();
   td.verify(onOpen(), {times: 1});
 });
@@ -171,6 +184,7 @@ test('#adapter.isFocused returns true if menuSurfaceElement_ is the activeElemen
     options
   );
   (wrapper.getDOMNode() as HTMLDivElement).focus();
+  // @ts-ignore TODO don't check mdc-web types
   assert.isTrue(wrapper.instance().foundation.adapter_.isFocused());
   removeMenuFromBody(wrapper);
   div.remove();
@@ -182,6 +196,7 @@ test('#adapter.isFocused returns false if menuSurfaceElement_ is not the activeE
       <span>hello</span>
     </MenuSurface>
   );
+  // @ts-ignore TODO don't check mdc-web types
   assert.isFalse(wrapper.instance().foundation.adapter_.isFocused());
   removeMenuFromBody(wrapper);
 });
@@ -200,6 +215,7 @@ test('#adapter.saveFocus saves the currently focused element', () => {
     .find('button')
     .getDOMNode() as HTMLButtonElement)
     .focus();
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.saveFocus();
   assert.equal(
     wrapper.instance().previousFocus,
@@ -225,6 +241,7 @@ test('#adapter.restoreFocus restores focus to an element within the menuSurfaceE
     .find('button')
     .getDOMNode() as HTMLButtonElement)
     .focus();
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.restoreFocus();
   assert.equal(document.activeElement, wrapper.find('a').getDOMNode());
   removeMenuFromBody(wrapper);
@@ -245,6 +262,7 @@ test('#adapter.isFirstElementFocused returns true if firstFocusableElement is th
     .getDOMNode() as HTMLButtonElement)
     .focus();
   assert.isTrue(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation.adapter_.isFirstElementFocused()
   );
   removeMenuFromBody(wrapper);
@@ -263,6 +281,7 @@ test('#adapter.isLastElementFocused returns true if lastFocusableElement is the 
     .find('button')
     .getDOMNode() as HTMLButtonElement)
     .focus();
+  // @ts-ignore TODO don't check mdc-web types
   assert.isTrue(wrapper.instance().foundation.adapter_.isLastElementFocused());
   removeMenuFromBody(wrapper);
 });
@@ -276,6 +295,7 @@ test('#adapter.focusFirstElement focuses on firstFocusableElement', () => {
   wrapper.instance().firstFocusableElement = wrapper
     .find('button')
     .getDOMNode() as HTMLButtonElement;
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.focusFirstElement();
   assert.equal(document.activeElement, wrapper.find('button').getDOMNode());
   removeMenuFromBody(wrapper);
@@ -290,6 +310,7 @@ test('#adapter.focusLastElement focuses on lastFocusableElement', () => {
   wrapper.instance().lastFocusableElement = wrapper
     .find('button')
     .getDOMNode() as HTMLButtonElement;
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.focusLastElement();
   assert.equal(document.activeElement, wrapper.find('button').getDOMNode());
   removeMenuFromBody(wrapper);
@@ -301,6 +322,7 @@ test('#adapter.getInnerDimensions returns width/height of menuSurfaceElement_', 
       <button>hello</button>
     </MenuSurface>
   );
+  // @ts-ignore TODO don't check mdc-web types
   const dim = wrapper.instance().foundation.adapter_.getInnerDimensions();
   assert.isAbove(dim.width, 0);
   assert.isAbove(dim.height, 0);
@@ -318,6 +340,7 @@ test('#adapter.getAnchorDimensions returns width/height of menuSurfaceElement_',
     options
   );
   assert.deepInclude(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation.adapter_.getAnchorDimensions(),
     div.getBoundingClientRect()
   );
@@ -330,6 +353,7 @@ test('#adapter.getWindowDimensions returns width/height of menuSurfaceElement_',
   const dim = wrapper
     .update()
     .instance()
+    // @ts-ignore TODO don't check mdc-web types
     .foundation.adapter_.getWindowDimensions();
   assert.isAbove(dim.width, 0);
   assert.isAbove(dim.height, 0);
@@ -348,6 +372,7 @@ test('#adapter.getBodyDimensions returns width/height of body', () => {
   const dim = wrapper
     .update()
     .instance()
+    // @ts-ignore TODO don't check mdc-web types
     .foundation.adapter_.getBodyDimensions();
   assert.isAtLeast(dim.width, 0);
   assert.isAtLeast(dim.height, 0);
@@ -358,6 +383,7 @@ test('#adapter.getWindowScroll returns scroll of window', () => {
   const scroll = wrapper
     .update()
     .instance()
+    // @ts-ignore TODO don't check mdc-web types
     .foundation.adapter_.getWindowScroll();
   assert.isAtLeast(scroll.x, 0);
   assert.isAtLeast(scroll.y, 0);
@@ -365,6 +391,7 @@ test('#adapter.getWindowScroll returns scroll of window', () => {
 
 test('#adapter.setPosition sets left, right, top, bottom state variables', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.setPosition({
     left: 20,
     bottom: 30,
@@ -378,12 +405,14 @@ test('#adapter.setPosition sets left, right, top, bottom state variables', () =>
 
 test('#adapter.setMaxHeight sets maxHeight state variables', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.setMaxHeight(500);
   assert.equal(wrapper.state().maxHeight, 500);
 });
 
 test('#adapter.addClass adds to classList', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
@@ -391,6 +420,7 @@ test('#adapter.addClass adds to classList', () => {
 test('#adapter.removeClass removes from classList', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.setState({classList: new Set(['test-class-name'])});
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
@@ -399,6 +429,7 @@ test('#adapter.hasClass returns true if classList has class', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.setState({classList: new Set(['test-class-name'])});
   assert.isTrue(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation.adapter_.hasClass('test-class-name')
   );
 });
@@ -406,6 +437,7 @@ test('#adapter.hasClass returns true if classList has class', () => {
 test('#adapter.notifyClose calls onClose', () => {
   const onClose = td.func() as () => void;
   const wrapper = shallow<MenuSurface>(<MenuSurface onClose={onClose} />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.notifyClose();
   td.verify(onClose(), {times: 1});
 });
@@ -413,18 +445,21 @@ test('#adapter.notifyClose calls onClose', () => {
 test('#adapter.notifyClose calls deregisterWindowClickListener', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.instance().deregisterWindowClickListener = td.func() as () => void;
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.notifyClose();
   td.verify(wrapper.instance().deregisterWindowClickListener!(), {times: 1});
 });
 
 test('#adapter.hasAnchor calls returns false if there is no props.anchorElement', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   assert.isFalse(wrapper.instance().foundation.adapter_.hasAnchor());
 });
 
 test('#adapter.hasAnchor calls returns true if there is props.anchorElement', () => {
   const anchorElement = <div /> as unknown as HTMLDivElement;
   const wrapper = shallow<MenuSurface>(<MenuSurface anchorElement={anchorElement} />);
+  // @ts-ignore TODO don't check mdc-web types
   assert.isTrue(wrapper.instance().foundation.adapter_.hasAnchor());
 });
 
@@ -432,6 +467,7 @@ test('#adapter.isElementInContainer returns true if the element is the menuSurfa
   const wrapper = mount<MenuSurface>(<MenuSurface />);
   const element = wrapper.getDOMNode();
   assert.isTrue(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation.adapter_.isElementInContainer(element)
   );
   removeMenuFromBody(wrapper);
@@ -445,6 +481,7 @@ test('#adapter.isElementInContainer returns true if the element is within the co
   );
   const element = wrapper.find('button').getDOMNode();
   assert.isTrue(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation.adapter_.isElementInContainer(element)
   );
   removeMenuFromBody(wrapper);
@@ -461,6 +498,7 @@ test('#adapter.isRtl returns true is rtl', () => {
     options
   );
   wrapper.getDOMNode().setAttribute('dir', 'rtl');
+  // @ts-ignore TODO don't check mdc-web types
   assert.isTrue(wrapper.instance().foundation.adapter_.isRtl());
   removeMenuFromBody(wrapper);
   div.remove();
@@ -468,6 +506,7 @@ test('#adapter.isRtl returns true is rtl', () => {
 
 test('#adapter.setTransformOrigin sets maxHeight state variables', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.setTransformOrigin('translate()');
   assert.equal(wrapper.state().transformOrigin, 'translate()');
 });
@@ -482,9 +521,11 @@ test('onKeyDown calls props.onKeyDown', () => {
 
 test('onKeyDown calls foundation.handleKeydown', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface>hello</MenuSurface>);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.handleKeydown = td.func() as (event: React.KeyboardEvent) => {};
   const evt = {} as React.KeyboardEvent;
   wrapper.instance().handleKeydown(evt);
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(wrapper.instance().foundation.handleKeydown(evt), {times: 1});
 });
 
@@ -509,6 +550,7 @@ test('#componentWillUnmount calls #deregisterWindowClickListener', () => {
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   const foundation = wrapper.instance().foundation;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());

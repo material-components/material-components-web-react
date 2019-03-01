@@ -5,7 +5,8 @@ import {mount, shallow} from 'enzyme';
 import {Input} from '../../../packages/text-field/index';
 
 const noop = () => {};
-const buildFoundation = (overrides = {}) => ({
+// @ts-ignore TODO integrate types with mdc-web
+const buildFoundation: any = (overrides = {}) => ({
   activateFocus: noop,
   autoCompleteFocus: noop,
   deactivateFocus: noop,

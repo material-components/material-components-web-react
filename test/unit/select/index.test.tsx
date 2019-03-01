@@ -27,10 +27,11 @@ test('creates foundation', () => {
 
 test('#foundation.handleChange gets called when state.value updates', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.handleChange = td.func();
   const value = 'value';
   wrapper.setState({value});
-  td.verify(wrapper.instance().foundation.handleChange(), {times: 1});
+  td.verify(wrapper.instance().foundation!.handleChange(), {times: 1});
 });
 
 test('state.value updates when props.value changes', () => {
@@ -43,9 +44,10 @@ test('state.value updates when props.value changes', () => {
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
   const foundation = wrapper.instance().foundation;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.destroy = td.func();
   wrapper.unmount();
-  td.verify(foundation.destroy(), {times: 1});
+  td.verify(foundation!.destroy(), {times: 1});
 });
 
 test('props.outlined will add mdc-select--outlined', () => {
@@ -95,11 +97,13 @@ test('#adapter.hasClass returns false if the string is not in state.classList', 
 
 test('#adapter.isRtl returns true if props.isRtl is true', () => {
   const wrapper = mount<Select>(<Select label='my label' isRtl />);
+  // @ts-ignore TODO don't check mdc-web types
   assert.isTrue(wrapper.instance().foundation.adapter_.isRtl());
 });
 
 test('#adapter.isRtl returns false if parent is not dir="rtl"', () => {
   const wrapper = mount<Select>(<Select label='my label' />);
+  // @ts-ignore TODO don't check mdc-web types
   assert.isFalse(wrapper.instance().foundation.adapter_.isRtl());
 });
 

@@ -37,14 +37,21 @@ test(
   '#componentDidUpdate #foundation activate & deactivate ' +
     'are called when active updates',
   () => {
+    // @ts-ignore TODO don't check mdc-web types
     const wrapper = shallow<LineRipple>(<LineRipple />);
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.activate = td.func();
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.deactivate = td.func();
     wrapper.setProps({active: true});
+    // @ts-ignore TODO don't check mdc-web types
     td.verify(wrapper.instance().foundation_.activate(), {times: 1});
+    // @ts-ignore TODO don't check mdc-web types
     td.verify(wrapper.instance().foundation_.deactivate(), {times: 0});
     wrapper.setProps({active: false});
+    // @ts-ignore TODO don't check mdc-web types
     td.verify(wrapper.instance().foundation_.activate(), {times: 1});
+    // @ts-ignore TODO don't check mdc-web types
     td.verify(wrapper.instance().foundation_.deactivate(), {times: 1});
   }
 );
@@ -54,17 +61,21 @@ test(
     '#foundation.setRippleCenter',
   () => {
     const wrapper = shallow<LineRipple>(<LineRipple />);
+      // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.setRippleCenter = td.func();
     wrapper.setProps({rippleCenter: 10});
+    // @ts-ignore TODO don't check mdc-web types
     td.verify(wrapper.instance().foundation_.setRippleCenter(10), {times: 1});
   }
 );
 
 test('does not call #foundation.setRippleCenter when props.rippleCenter is NaN', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.setRippleCenter = td.func();
   wrapper.setProps({rippleCenter: NaN});
   td.verify(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.setRippleCenter(td.matchers.anything()),
     {times: 0}
   );
@@ -72,6 +83,7 @@ test('does not call #foundation.setRippleCenter when props.rippleCenter is NaN',
 
 test('#adapter.addClass updates state.classList', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.adapter_.addClass('test-color-class');
   assert.isTrue(wrapper.state().classList.has('test-color-class'));
 });
@@ -81,6 +93,7 @@ test('#adapter.removeClass updates state.classList', () => {
   const classList = new Set();
   classList.add('test-color-class');
   wrapper.setState({classList});
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.adapter_.removeClass('test-color-class');
   assert.isFalse(wrapper.state().classList.has('test-color-class'));
 });
@@ -90,14 +103,17 @@ test('#adapter.hasClass returns true if exists in classList', () => {
   const classList = new Set();
   classList.add('test-color-class');
   wrapper.setState({classList});
+  // @ts-ignore TODO don't check mdc-web types
   const hasClass = wrapper
     .instance()
+    // @ts-ignore TODO don't check mdc-web types
     .foundation_.adapter_.hasClass('test-color-class');
   assert.isTrue(hasClass);
 });
 
 test('#adapter.setStyle updates style', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.adapter_.setStyle('color', 'blue');
   const style = coerceForTesting<React.CSSProperties>(wrapper.state().style);
   assert.equal(style.color, 'blue');
@@ -105,9 +121,11 @@ test('#adapter.setStyle updates style', () => {
 
 test('onTransitionEnd calls the #foundation.handleTransitionEnd', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.handleTransitionEnd = td.func();
   const event = {test: '123'};
   wrapper.simulate('transitionEnd', event);
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(wrapper.instance().foundation_.handleTransitionEnd(event), {
     times: 1,
   });
@@ -116,13 +134,16 @@ test('onTransitionEnd calls the #foundation.handleTransitionEnd', () => {
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
   const foundation = wrapper.instance().foundation_;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.destroy = td.func();
   wrapper.unmount();
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(foundation.destroy());
 });
 
 test('#adapter.setStyle updates style names to camel case', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.adapter_.setStyle('transform-origin', 25);
   const style = coerceForTesting<React.CSSProperties>(wrapper.state().style);
   assert.equal(style.transformOrigin, 25);

@@ -103,6 +103,7 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
+    // @ts-ignore TODO integrate types with mdc-web
     wrapper.instance().foundation_.setDisabled = td.func();
     wrapper.setProps({disabled: true});
     td.verify(wrapper.instance().foundation_.setDisabled(true), {times: 1});
@@ -118,6 +119,7 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
+    // @ts-ignore TODO integrate types with mdc-web
     wrapper.instance().foundation_.setDisabled = td.func();
     wrapper.setProps({disabled: false});
     td.verify(wrapper.instance().foundation_.setDisabled(false), {times: 1});
@@ -133,6 +135,7 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
+    // @ts-ignore TODO integrate types with mdc-web
     wrapper.instance().foundation_.setDisabled = td.func();
     wrapper.setProps({children: <i />});
     td.verify(
@@ -148,6 +151,7 @@ test('#adapter.getAttr for tabIndex', () => {
       <i tabIndex={0} />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const tabIndex = wrapper.instance().foundation_.adapter_.getAttr('tabindex');
   assert.equal(tabIndex, '0');
 });
@@ -158,6 +162,7 @@ test('#adapter.getAttr for role', () => {
       <i role='button' />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const role = wrapper.instance().foundation_.adapter_.getAttr('role');
   assert.equal(role, 'button');
 });
@@ -168,6 +173,7 @@ test('#adapter.setAttr for tabIndex', () => {
       <i tabIndex={0} />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation_.adapter_.setAttr('tabindex', -1);
   assert.equal(wrapper.state().tabindex, -1);
 });
@@ -178,6 +184,7 @@ test('#adapter.removeAttr for role', () => {
       <i role='button' />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation_.adapter_.removeAttr('role');
   assert.equal(wrapper.state().role, undefined);
 });
@@ -188,6 +195,7 @@ test('#adapter.getAttr for tabIndex works with Custom Component', () => {
       <MaterialIcon icon='favorite' tabIndex={0} />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const tabIndex = wrapper.instance().foundation_.adapter_.getAttr('tabindex');
   assert.equal(tabIndex, '0');
 });
@@ -198,6 +206,7 @@ test('#adapter.getAttr for role works with Custom Component', () => {
       <MaterialIcon icon='favorite' role='button' />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const role = wrapper.instance().foundation_.adapter_.getAttr('role');
   assert.equal(role, 'button');
 });
@@ -208,6 +217,7 @@ test('#adapter.setAttr for tabIndex works with Custom Component', () => {
       <MaterialIcon icon='favorite' tabIndex={0} />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation_.adapter_.setAttr('tabindex', -1);
   assert.equal(wrapper.state().tabindex, -1);
 });
@@ -218,6 +228,7 @@ test('#adapter.removeAttr for role works with Custom Component', () => {
       <MaterialIcon icon='favorite' role='button' />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation_.adapter_.removeAttr('role');
   assert.equal(wrapper.state().role, undefined);
 });
@@ -229,6 +240,7 @@ test('#adapter.notifyIconAction calls props.onSelect', () => {
       <MaterialIcon icon='favorite' role='button' />
     </Icon>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation_.adapter_.notifyIconAction();
   td.verify(onSelect(), {times: 1});
 });
@@ -241,8 +253,10 @@ test('onClick calls foundation.handleInteraction', () => {
     </Icon>
   );
   const evt = coerceForTesting<React.MouseEvent>({});
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation_.handleInteraction = td.func();
   wrapper.simulate('click', evt);
+  // @ts-ignore TODO integrate types with mdc-web
   td.verify(wrapper.instance().foundation_.handleInteraction(evt), {
     times: 1,
   });
@@ -256,8 +270,10 @@ test('onKeyDown call foundation.handleInteraction', () => {
     </Icon>
   );
   const evt = coerceForTesting<React.KeyboardEvent>({});
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation_.handleInteraction = td.func();
   wrapper.simulate('keydown', evt);
+  // @ts-ignore TODO integrate types with mdc-web
   td.verify(wrapper.instance().foundation_.handleInteraction(evt), {
     times: 1,
   });
@@ -290,6 +306,7 @@ test('#componentWillUnmount destroys foundation', () => {
     </Icon>
   );
   const foundation = wrapper.instance().foundation_;
+  // @ts-ignore TODO integrate types with mdc-web
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());

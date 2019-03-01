@@ -42,8 +42,10 @@ test('calls #foundation.notch if notch adds the notched class', () => {
 
 test('#componentDidUpdate updating notch to true calls #foundation.notch', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.notch = td.func();
   wrapper.setProps({notch: true});
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(wrapper.instance().foundation_.notch(0, false), {times: 1});
 });
 
@@ -52,8 +54,10 @@ test(
     '#foundation.closeNotch',
   () => {
     const wrapper = mount<NotchedOutline>(<NotchedOutline notch />);
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.closeNotch = td.func();
     td.when(
+      // @ts-ignore TODO don't check mdc-web types
       wrapper.instance().foundation_.adapter_.getIdleOutlineStyleValue
     ).thenReturn('0px');
     wrapper.setProps({notch: false});
@@ -66,22 +70,28 @@ test(
     '#foundation.notch with correct arguments',
   () => {
     const wrapper = mount<NotchedOutline>(<NotchedOutline notch />);
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.notch = td.func();
     td.when(
+      // @ts-ignore TODO don't check mdc-web types
       wrapper.instance().foundation_.adapter_.getIdleOutlineStyleValue
     ).thenReturn('0px');
     wrapper.setProps({notchWidth: 100});
+    // @ts-ignore TODO don't check mdc-web types
     td.verify(wrapper.instance().foundation_.notch(100, false), {times: 1});
   }
 );
 
 test('#componentDidUpdate updating isRtl calls #foundation.notch', () => {
   const wrapper = mount<NotchedOutline>(<NotchedOutline notch />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.notch = td.func();
   td.when(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.adapter_.getIdleOutlineStyleValue
   ).thenReturn('0px');
   wrapper.setProps({isRtl: true});
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(wrapper.instance().foundation_.notch(0, true), {times: 1});
 });
 test(
@@ -89,8 +99,10 @@ test(
     'notchWidth calls #foundation.notch with correct arguments',
   () => {
     const wrapper = mount<NotchedOutline>(<NotchedOutline notchWidth={100} />);
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.notch = td.func();
     wrapper.setProps({notch: true});
+    // @ts-ignore TODO don't check mdc-web types
     td.verify(wrapper.instance().foundation_.notch(100, false), {times: 1});
   }
 );
@@ -100,9 +112,12 @@ test(
   () => {
     const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
     wrapper.setProps({className: 'test-class-name'});
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.notch = td.func();
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.closeNotch = td.func();
     td.verify(
+      // @ts-ignore TODO don't check mdc-web types
       wrapper
         .instance()
         .foundation_.notch(td.matchers.isA(Number), td.matchers.isA(Boolean)),
@@ -125,6 +140,7 @@ test('#adapter.getWidth returns width of outlineElement_', () => {
   const notchedOutlineElement = wrapper.find('.mdc-notched-outline').instance() as any;
   const outlineWidth = notchedOutlineElement.offsetWidth;
   assert.equal(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.adapter_.getWidth(),
     outlineWidth
   );
@@ -142,6 +158,7 @@ test('#adapter.getHeight returns height of outlineElement_', () => {
   const notchedOutlineElement = wrapper.find('.mdc-notched-outline').instance() as any;
   const outlineHeight = notchedOutlineElement.offsetHeight;
   assert.equal(
+    // @ts-ignore TODO don't check mdc-web types
     wrapper.instance().foundation_.adapter_.getHeight(),
     outlineHeight
   );
@@ -150,6 +167,7 @@ test('#adapter.getHeight returns height of outlineElement_', () => {
 
 test('#adapter.addClass adds class to classList', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.adapter_.addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
@@ -159,12 +177,14 @@ test('#adapter.removeClass adds class to classList', () => {
   const classList = new Set();
   classList.add('test-class-name');
   wrapper.setState({classList});
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.adapter_.removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
 test('#adapter.setOutlinePathAttr add attr to pathElement_', () => {
   const wrapper = mount<NotchedOutline>(<NotchedOutline />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation_.adapter_.setOutlinePathAttr('M10 10');
   const path = wrapper.instance().pathElement_.current;
   assert.equal(path!.getAttribute('d'), 'M10 10');
@@ -176,13 +196,16 @@ test('#adapter.getIdleOutlineStyleValue add attr to pathElement_', () => {
   const options = {attachTo: div};
   const wrapper = mount<NotchedOutline>(<NotchedOutline />, options);
   wrapper.instance().idleElement_.current!.style.borderRadius = '5px';
+  // @ts-ignore TODO don't check mdc-web types
   const {adapter_} = wrapper.instance().foundation_;
+  // @ts-ignore TODO don't check mdc-web types
   assert.equal(adapter_.getIdleOutlineStyleValue('border-radius'), '5px');
 });
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
   const foundation = wrapper.instance().foundation_;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});

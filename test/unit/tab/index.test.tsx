@@ -149,16 +149,18 @@ test('#adapter.deactivateIndicator sets state.activateIndicator', () => {
 test('#activate calls foundation.activate', () => {
   const clientRect = {test: 1} as unknown as ClientRect; ;
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation.activate = td.func();
+  // @ts-ignore TODO don't check mdc-web types
+  wrapper.instance().foundation!.activate = td.func();
   wrapper.instance().activate(clientRect);
-  td.verify(wrapper.instance().foundation.activate(clientRect), {times: 1});
+  td.verify(wrapper.instance().foundation!.activate(clientRect), {times: 1});
 });
 
 test('#deactivate calls foundation.deactivate', () => {
   const wrapper = shallow<Tab>(<Tab />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.deactivate = td.func();
   wrapper.instance().deactivate();
-  td.verify(wrapper.instance().foundation.deactivate(), {times: 1});
+  td.verify(wrapper.instance().foundation!.deactivate(), {times: 1});
 });
 
 test('#computeIndicatorClientRect returns the tabIndicatorRef clientRect', () => {
@@ -170,9 +172,10 @@ test('#computeIndicatorClientRect returns the tabIndicatorRef clientRect', () =>
 
 test('#computeDimensions calls foundation.computeDimensions', () => {
   const wrapper = shallow<Tab>(<Tab />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.computeDimensions = td.func();
   wrapper.instance().computeDimensions();
-  td.verify(wrapper.instance().foundation.computeDimensions(), {times: 1});
+  td.verify(wrapper.instance().foundation!.computeDimensions(), {times: 1});
 });
 
 test('#focus focuses the tabRef', () => {
@@ -311,7 +314,8 @@ test('props.isMinWidthIndicator renders indicator within the content element', (
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Tab>(<Tab />);
-  const foundation = wrapper.instance().foundation;
+  const foundation = wrapper.instance().foundation!;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});

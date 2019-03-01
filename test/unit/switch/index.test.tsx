@@ -47,21 +47,24 @@ test('has checked class when props.checked is true', () => {
 
 test('#foundation.setChecked gets called when prop.checked updates', () => {
   const wrapper = shallow<Switch>(<Switch />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setChecked = td.func();
   wrapper.setProps({checked: true});
-  td.verify(wrapper.instance().foundation.setChecked(true), {times: 1});
+  td.verify(wrapper.instance().foundation!.setChecked(true), {times: 1});
 });
 
 test('#foundation.setDisabled gets called when prop.disabled updates', () => {
   const wrapper = shallow<Switch>(<Switch />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setDisabled = td.func();
   wrapper.setProps({disabled: true});
-  td.verify(wrapper.instance().foundation.setDisabled(true), {times: 1});
+  td.verify(wrapper.instance().foundation!.setDisabled(true), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  const foundation = wrapper.instance().foundation;
+  const foundation = wrapper.instance().foundation!;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
@@ -69,6 +72,7 @@ test('#componentWillUnmount destroys foundation', () => {
 
 test('#adapter.addClass adds class to state.classList', () => {
   const wrapper = shallow<Switch>(<Switch />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
@@ -76,12 +80,14 @@ test('#adapter.addClass adds class to state.classList', () => {
 test('#adapter.removeClass removes class from state.classList', () => {
   const wrapper = shallow<Switch>(<Switch />);
   wrapper.setState({classList: new Set(['test-class-name'])});
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
 test('#adapter.setNativeControlChecked updates state.nativeControlChecked', () => {
   const wrapper = shallow<Switch>(<Switch />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.setNativeControlChecked(true);
   assert.isTrue(wrapper.state().nativeControlChecked);
 });
@@ -94,6 +100,7 @@ test('#state.nativeControlChecked updates NativeControl', () => {
 
 test('#adapter.setNativeControlDisabled updates state.nativeControlDisabled', () => {
   const wrapper = shallow<Switch>(<Switch />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.adapter_.setNativeControlDisabled(true);
   assert.isTrue(wrapper.state().nativeControlDisabled);
 });
@@ -121,7 +128,9 @@ test('calls foundation.handleChange in NativeControl props.onChange', () => {
       checked: true,
     },
   } as React.ChangeEvent<HTMLInputElement>;
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.handleChange = td.func();
   nativeControl.props().onChange!(mockEvt);
-  td.verify(wrapper.instance().foundation.handleChange(mockEvt), {times: 1});
+  // @ts-ignore TODO don't check mdc-web types
+  td.verify(wrapper.instance().foundation!.handleChange(mockEvt), {times: 1});
 });

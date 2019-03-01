@@ -120,9 +120,10 @@ test('#componentDidUpdate does not call setValue if another property updates', (
       <Input />
     </TextField>
   );
-  wrapper.state().foundation.setValue = td.func();
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.state().foundation!.setValue = td.func();
   wrapper.setState({dir: 'rtl'});
-  td.verify(wrapper.state().foundation.setValue(td.matchers.isA(String)), {
+  td.verify(wrapper.state().foundation!.setValue(td.matchers.isA(String)), {
     times: 0,
   });
 });
@@ -133,7 +134,8 @@ test('#adapter.addClass adds class to state.classList', () => {
       <Input />
     </TextField>
   );
-  wrapper.state().foundation.adapter_.addClass('test-class-name');
+  // @ts-ignore TODO integrate types with mdc-web
+  wrapper.state().foundation!.adapter_.addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
 
@@ -146,6 +148,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
   const classList = new Set();
   classList.add('test-class-name');
   wrapper.setState({classList});
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
@@ -160,6 +163,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
   classList.add('test-class-name');
   wrapper.setState({classList});
   assert.isTrue(
+    // @ts-ignore TODO integrate types with mdc-web
     wrapper.state().foundation.adapter_.hasClass('test-class-name')
   );
 });
@@ -171,6 +175,7 @@ test('#adapter.isFocused returns true if state.isFocused updates to true', () =>
     </TextField>
   );
   wrapper.setState({isFocused: true});
+  // @ts-ignore TODO integrate types with mdc-web
   assert.isTrue(wrapper.state().foundation.adapter_.isFocused());
 });
 
@@ -180,6 +185,7 @@ test('#adapter.isRtl returns true props.isRtl if is true', () => {
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   assert.isTrue(wrapper.state().foundation.adapter_.isRtl());
 });
 
@@ -189,6 +195,7 @@ test('#adapter.isRtl returns false props.isRtl if is false', () => {
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   assert.isFalse(wrapper.state().foundation.adapter_.isRtl());
 });
 
@@ -198,6 +205,7 @@ test('#adapter.input.getNativeInput.validity.valid returns false for invalid inp
       <Input value='123' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const valid = wrapper.state().foundation.adapter_.getNativeInput().validity
     .valid;
   assert.isFalse(valid);
@@ -209,6 +217,7 @@ test('#adapter.input.getNativeInput.validity.valid returns false for required fi
       <Input value='' required />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const valid = wrapper.state().foundation.adapter_.getNativeInput().validity
     .valid;
   assert.isFalse(valid);
@@ -220,6 +229,7 @@ test('#adapter.input.getNativeInput.validity.valid returns true for required fie
       <Input value='value' required />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const valid = wrapper.state().foundation.adapter_.getNativeInput().validity
     .valid;
   assert.isTrue(valid);
@@ -234,6 +244,7 @@ test('#adapter.input.getNativeInput.validity.valid returns true for valid email'
       />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const valid = wrapper.state().foundation.adapter_.getNativeInput().validity
     .valid;
   assert.isTrue(valid);
@@ -246,6 +257,7 @@ test('#get adapter.input.value returns state.value', () => {
     </TextField>
   );
   wrapper.setState({value: '123'});
+  // @ts-ignore TODO integrate types with mdc-web
   const value = wrapper.state().foundation.adapter_.getNativeInput().value;
   assert.equal(value, '123');
 });
@@ -261,6 +273,7 @@ test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
       shake: td.func(),
     }),
   }) as React.RefObject<FloatingLabel>;
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.shakeLabel(true);
   td.verify(wrapper.instance().floatingLabelElement.current!.shake(), {
     times: 1,
@@ -278,6 +291,7 @@ test('#adapter.label.shakeLabel does not call floatingLabelElement shake if fals
       shake: td.func(),
     }),
   }));
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.shakeLabel(false);
   td.verify(wrapper.instance().floatingLabelElement.current!.shake(), {
     times: 0,
@@ -290,6 +304,7 @@ test('#adapter.label.floatLabel updates state.labelIsFloated to true', () => {
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.floatLabel(true);
   assert.isTrue(wrapper.state().labelIsFloated);
 });
@@ -301,6 +316,7 @@ test('#adapter.label.floatLabel updates state.labelIsFloated to false', () => {
     </TextField>
   );
   wrapper.setState({labelIsFloated: true});
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.floatLabel(false);
   assert.isFalse(wrapper.state().labelIsFloated);
 });
@@ -311,6 +327,7 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   assert.isTrue(wrapper.state().foundation.adapter_.hasLabel());
 });
 
@@ -324,6 +341,7 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
     </TextField>,
     options
   );
+  // @ts-ignore TODO integrate types with mdc-web
   assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), 56);
   div.remove();
 });
@@ -335,6 +353,7 @@ test('#adapter.label.getLabelWidth returns state.initialLabelWidth', () => {
     </TextField>
   );
   wrapper.setState({initialLabelWidth: 88});
+  // @ts-ignore TODO integrate types with mdc-web
   assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), 88);
 });
 
@@ -344,6 +363,7 @@ test('#adapter.lineRipple.activeLineRipple sets state.activeLineRipple to true',
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.activateLineRipple();
   assert.isTrue(wrapper.state().activeLineRipple);
 });
@@ -355,6 +375,7 @@ test('#adapter.lineRipple.deactivateLineRipple sets state.activeLineRipple to fa
     </TextField>
   );
   wrapper.setState({activeLineRipple: true});
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.deactivateLineRipple();
   assert.isFalse(wrapper.state().activeLineRipple);
 });
@@ -365,6 +386,7 @@ test('#adapter.lineRipple.setLineRippleTransformOrigin sets state.lineRippleCent
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.setLineRippleTransformOrigin(123);
   assert.equal(wrapper.state().lineRippleCenter, 123);
 });
@@ -375,6 +397,7 @@ test('#adapter.notchedOutline.notchOutline sets state.outlineIsNotched to true',
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.notchOutline();
   assert.isTrue(wrapper.state().outlineIsNotched);
 });
@@ -385,6 +408,7 @@ test('#adapter.notchedOutline.notchOutline sets state.notchedLabelWidth', () => 
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.notchOutline(90);
   assert.equal(wrapper.state().notchedLabelWidth, 90);
 });
@@ -395,6 +419,7 @@ test('#adapter.notchedOutline.closeOutline sets state.outlineIsNotched to false'
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.adapter_.closeOutline();
   assert.isFalse(wrapper.state().outlineIsNotched);
 });
@@ -405,6 +430,7 @@ test('#adapter.notchedOutline.hasOutline returns true if props.outlined is set',
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   const hasOutline = wrapper.state().foundation.adapter_.hasOutline();
   assert.isTrue(hasOutline);
 });
@@ -415,6 +441,7 @@ test('#adapter.helperText.showToScreenReader toggles state.showHelperTextToScree
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.helperText_.showToScreenReader();
   assert.isTrue(wrapper.state().showHelperTextToScreenReader);
 });
@@ -425,6 +452,7 @@ test('#adapter.helperText.setValidity sets isValid to true', () => {
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.helperText_.setValidity(true);
   assert.isTrue(wrapper.state().isValid);
 });
@@ -435,8 +463,10 @@ test('#events.onClick triggers #foundation.handleTextFieldInteraction', () => {
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.handleTextFieldInteraction = td.func();
   wrapper.simulate('click');
+  // @ts-ignore TODO integrate types with mdc-web
   td.verify(wrapper.state().foundation.handleTextFieldInteraction(), {
     times: 1,
   });
@@ -448,9 +478,10 @@ test('#events.onKeyDown triggers #foundation.handleTextFieldInteraction', () => 
       <Input />
     </TextField>
   );
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.state().foundation.handleTextFieldInteraction = td.func();
   wrapper.simulate('keyDown');
-  td.verify(wrapper.state().foundation.handleTextFieldInteraction(), {
+  td.verify(wrapper.state().foundation!.handleTextFieldInteraction(), {
     times: 1,
   });
 });
@@ -739,7 +770,8 @@ test('#componentWillUnmount destroys foundation', () => {
       <Input />
     </TextField>
   );
-  const foundation = wrapper.state().foundation;
+  const foundation = wrapper.state().foundation!;
+  // @ts-ignore TODO integrate types with mdc-web
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});

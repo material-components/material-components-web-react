@@ -21,7 +21,8 @@ test('has a foundation after mount', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TabBar>(<TabBar />);
-  const foundation = wrapper.instance().foundation;
+  const foundation = wrapper.instance().foundation!;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
@@ -35,12 +36,14 @@ test('initially sets state.previousActiveIndex to props.activeIndex', () => {
 
 test('key down event calls foundation.handleKeyDown', () => {
   const wrapper = shallow<TabBar>(<TabBar />);
-  const foundation = wrapper.instance().foundation;
+  const foundation = wrapper.instance().foundation!;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.handleKeyDown = td.func();
   const evt = {
     persist: () => {},
   };
   wrapper.simulate('keyDown', evt);
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(foundation.handleKeyDown(evt), {times: 1});
 });
 
@@ -93,6 +96,7 @@ test('#adapter.incrementScroll calls incrementScroll on tab scroller', () => {
 test('#adapter.getScrollPosition calls getScrollPosition on tab scroller', () => {
   const wrapper = mount<TabBar>(<TabBar />);
   const scroller = wrapper.instance().tabScrollerRef.current;
+  // @ts-ignore TODO don't check mdc-web types
   scroller!.getScrollPosition = coerceForTesting<() => void>(td.func());
   wrapper.instance().adapter.getScrollPosition();
   td.verify(scroller!.getScrollPosition());
@@ -116,11 +120,13 @@ test('#adapter.getOffsetWidth returns tab bar element offsetWidth', () => {
 
 test('#adapter.isRTL returns true if props.isRtl is true', () => {
   const wrapper = shallow<TabBar>(<TabBar isRtl />);
+  // @ts-ignore TODO don't check mdc-web types
   assert.isTrue(wrapper.instance().foundation.adapter_.isRTL());
 });
 
 test('#adapter.isRTL returns false is props.isRtl is false', () => {
   const wrapper = shallow<TabBar>(<TabBar />);
+  // @ts-ignore TODO don't check mdc-web types
   assert.isFalse(wrapper.instance().foundation.adapter_.isRTL());
 });
 
@@ -204,38 +210,42 @@ test('props.activeIndex updates to different value when not initially set calls 
   const tab0 = coerceForTesting<Tab>({});
   const tab1 = coerceForTesting<Tab>({deactivate: td.func()});
   const wrapper = shallow<TabBar>(<TabBar />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.activateTab = td.func();
   wrapper.instance().tabList = [tab0, tab1];
   wrapper.setProps({activeIndex: 1});
-  td.verify(wrapper.instance().foundation.activateTab(1), {times: 1});
+  td.verify(wrapper.instance().foundation!.activateTab(1), {times: 1});
 });
 
 test('props.indexInView updates to different value  when not initially set calls foundation.scrollIntoView', () => {
   const tab0 = coerceForTesting<Tab>({});
   const tab1 = coerceForTesting<Tab>({deactivate: td.func()});
   const wrapper = shallow<TabBar>(<TabBar />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.scrollIntoView = td.func();
   wrapper.instance().tabList = [tab0, tab1];
   wrapper.setProps({indexInView: 1});
-  td.verify(wrapper.instance().foundation.scrollIntoView(1), {times: 1});
+  td.verify(wrapper.instance().foundation!.scrollIntoView(1), {times: 1});
 });
 
 test('props.activeIndex updates to different value with a set value calls foundation.activateTab', () => {
   const tab0 = coerceForTesting<Tab>({});
   const tab1 = coerceForTesting<Tab>({deactivate: td.func()});
   const wrapper = shallow<TabBar>(<TabBar activeIndex={1} />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.activateTab = td.func();
   wrapper.instance().tabList = [tab0, tab1];
   wrapper.setProps({activeIndex: 0});
-  td.verify(wrapper.instance().foundation.activateTab(0), {times: 1});
+  td.verify(wrapper.instance().foundation!.activateTab(0), {times: 1});
 });
 
 test('props.indexInView updates to different value with a set value calls foundation.scrollIntoView', () => {
   const tab0 = coerceForTesting<Tab>({});
   const tab1 = coerceForTesting<Tab>({deactivate: td.func()});
   const wrapper = shallow<TabBar>(<TabBar indexInView={1} />);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.scrollIntoView = td.func();
   wrapper.instance().tabList = [tab0, tab1];
   wrapper.setProps({indexInView: 0});
-  td.verify(wrapper.instance().foundation.scrollIntoView(0), {times: 1});
+  td.verify(wrapper.instance().foundation!.scrollIntoView(0), {times: 1});
 });

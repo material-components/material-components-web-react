@@ -40,17 +40,19 @@ test('adds the underline class to the content element by default', () => {
 
 test('if props.active changes from true to false, it calls deactivate', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator active />);
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation.deactivate = td.func();
   wrapper.setProps({active: false});
-  td.verify(wrapper.instance().foundation.deactivate(), {times: 1});
+  td.verify(wrapper.instance().foundation!.deactivate(), {times: 1});
 });
 
 test('if props.active changes from false to true, it calls activate', () => {
   const previousIndicatorClientRect = coerceForTesting<ClientRect>({width: 20});
   const wrapper = shallow<TabIndicator>(<TabIndicator previousIndicatorClientRect={previousIndicatorClientRect} />);
+  // @ts-ignore TODO integrate types with mdc-web
   wrapper.instance().foundation.activate = td.func();
   wrapper.setProps({active: true});
-  td.verify(wrapper.instance().foundation.activate(previousIndicatorClientRect), {times: 1});
+  td.verify(wrapper.instance().foundation!.activate(previousIndicatorClientRect), {times: 1});
 });
 
 test('#adapter.addClass adds to dom element classList', () => {
@@ -134,7 +136,8 @@ test('child custom element should have content classes', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TabIndicator>(<TabIndicator />);
-  const foundation = wrapper.instance().foundation;
+  const foundation = wrapper.instance().foundation!;
+  // @ts-ignore TODO integrate types with mdc-web
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});

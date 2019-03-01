@@ -24,7 +24,8 @@ test('creates foundation', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  const foundation = wrapper.instance().foundation;
+  const foundation = wrapper.instance().foundation!;
+  // @ts-ignore TODO don't check mdc-web types
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());
@@ -32,17 +33,20 @@ test('#componentWillUnmount destroys foundation', () => {
 
 test('calls foundation.setSingleSelection when props.singleSelection changes from false to true', () => {
   const wrapper = mount<List>(<List>{children()}</List>);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setSingleSelection = td.func();
   wrapper.setProps({singleSelection: true});
-  td.verify(wrapper.instance().foundation.setSingleSelection(true), {
+  td.verify(wrapper.instance().foundation!.setSingleSelection(true), {
     times: 1,
   });
 });
 
 test('calls foundation.setSingleSelection when props.singleSelection changes from true to false', () => {
   const wrapper = mount<List>(<List singleSelection>{children()}</List>);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setSingleSelection = td.func();
   wrapper.setProps({singleSelection: false});
+  // @ts-ignore TODO don't check mdc-web types
   td.verify(wrapper.instance().foundation.setSingleSelection(false), {
     times: 1,
   });
@@ -50,6 +54,7 @@ test('calls foundation.setSingleSelection when props.singleSelection changes fro
 
 test('calls foundation.setWrapFocus when props.wrapFocus changes from false to true', () => {
   const wrapper = mount<List>(<List wrapFocus={false}>{children()}</List>);
+  // @ts-ignore TODO don't check mdc-web types
   wrapper.instance().foundation.setWrapFocus = td.func();
   wrapper.setProps({wrapFocus: true});
   td.verify(wrapper.instance().foundation.setWrapFocus(true), {times: 1});

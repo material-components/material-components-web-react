@@ -157,7 +157,8 @@ test('Updating props.scrollTarget will set state scrollTarget', () => {
 test('Updating scrollTarget prop will call foundation method destroyScrollHandler', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
-  const foundation = topAppBar.foundation;
+  const foundation = topAppBar.foundation!;
+  // @ts-ignore TODO integrate types with mdc-web
   foundation.destroyScrollHandler = td.func();
   wrapper.instance().withRef();
 
@@ -167,7 +168,8 @@ test('Updating scrollTarget prop will call foundation method destroyScrollHandle
 test('Updating scrollTarget prop will call foundation method initScrollHandler', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
-  const foundation = topAppBar.foundation;
+  const foundation = topAppBar.foundation!;
+  // @ts-ignore TODO integrate types with mdc-web
   foundation.initScrollHandler = td.func();
   wrapper.instance().withRef();
 
@@ -412,7 +414,8 @@ test(
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
-  const foundation = wrapper.instance().foundation;
+  const foundation = wrapper.instance().foundation!;
+  // @ts-ignore TODO integrate types with mdc-web
   foundation.destroy = td.func();
   wrapper.unmount();
   td.verify(foundation.destroy());
