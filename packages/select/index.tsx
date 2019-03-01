@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 // @ts-ignore no mdc .d.ts file
 import {MDCSelectFoundation, MDCSelectAdapter} from '@material/select/dist/mdc.select';
 import FloatingLabel from '@material/react-floating-label';

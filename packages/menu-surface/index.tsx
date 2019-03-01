@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material/menu-surface/dist/mdc.menuSurface';
 
