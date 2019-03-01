@@ -21,8 +21,8 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
+import {MDCNotchedOutlineFoundation} from '@material/notched-outline/foundation';
+import {MDCNotchedOutlineAdapter} from '@material/notched-outline/adapter';
 
 export interface NotchedOutlineProps {
   className?: string,
@@ -33,13 +33,14 @@ export interface NotchedOutlineProps {
 
 interface NotchedOutlineState {
   classList: Set<string>
+  actualWidth: number | null,
 };
 
 export default class NotchedOutline extends React.Component<
   NotchedOutlineProps,
   NotchedOutlineState
   > {
-  foundation_: MDCNotchedOutlineFoundation;
+  foundation_!: MDCNotchedOutlineFoundation;
   outlineElement_: React.RefObject<HTMLDivElement> = React.createRef();
   pathElement_: React.RefObject<SVGPathElement> = React.createRef();
   idleElement_: React.RefObject<HTMLDivElement> = React.createRef();
@@ -53,14 +54,15 @@ export default class NotchedOutline extends React.Component<
 
   state: NotchedOutlineState = {
     classList: new Set(),
+    actualWidth: null,
   };
 
   componentDidMount() {
     this.foundation_ = new MDCNotchedOutlineFoundation(this.adapter);
     this.foundation_.init();
-    const {notch, notchWidth, isRtl} = this.props;
+    const {notch, notchWidth} = this.props;
     if (notch) {
-      this.foundation_.notch(notchWidth, isRtl);
+      this.foundation_.notch(notchWidth);
     }
   }
 
@@ -78,8 +80,8 @@ export default class NotchedOutline extends React.Component<
       return;
     }
     if (this.props.notch) {
-      const {notchWidth, isRtl} = this.props;
-      this.foundation_.notch(notchWidth, isRtl);
+      const {notchWidth} = this.props;
+      this.foundation_.notch(notchWidth);
     } else {
       this.foundation_.closeNotch();
     }
@@ -91,10 +93,8 @@ export default class NotchedOutline extends React.Component<
     return classnames('mdc-notched-outline', Array.from(classList), className);
   }
 
-  get adapter() {
+  get adapter(): MDCNotchedOutlineAdapter {
     return {
-      getWidth: () => this.outlineElement_.current ? this.outlineElement_.current.offsetWidth : 0,
-      getHeight: () => this.outlineElement_.current ? this.outlineElement_.current.offsetHeight : 0,
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className: string) => {
@@ -102,16 +102,15 @@ export default class NotchedOutline extends React.Component<
         classList.delete(className);
         this.setState({classList});
       },
-      setOutlinePathAttr: (value: string) => {
-        if (this.pathElement_.current) {
-          this.pathElement_.current.setAttribute('d', value);
-        }
+      setNotchWidthProperty: (width: number) => {
+        this.setState({
+          actualWidth: width,
+        });
       },
-      getIdleOutlineStyleValue: (propertyName: string) => {
-        if (!this.idleElement_.current) return;
-        return window
-          .getComputedStyle(this.idleElement_.current)
-          .getPropertyValue(propertyName);
+      removeNotchWidthProperty: () => {
+        this.setState({
+          actualWidth: null,
+        });
       },
     };
   }
@@ -122,6 +121,7 @@ export default class NotchedOutline extends React.Component<
         <div
           className={this.classes}
           key='notched-outline'
+          style={ {width: this.state.actualWidth ? `${this.state.actualWidth}px`: undefined} }
           ref={this.outlineElement_}
         >
           <svg focusable='false'>
