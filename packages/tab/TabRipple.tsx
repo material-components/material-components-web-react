@@ -57,6 +57,6 @@ class TabRippleBase extends React.Component<TabRippleProps, {}> {
   }
 }
 
-const TabRipple = Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
+const TabRipple: React.ComponentType<TabRippleProps> = Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
 type TabRipple = React.Component<TabRippleProps, RippledComponentState> & RippledComponentInterface<any>;
 export default TabRipple;

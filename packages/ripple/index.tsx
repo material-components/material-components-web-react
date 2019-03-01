@@ -23,11 +23,11 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 
-// @ts-ignore no mdc .d.ts file
-import {MDCRippleFoundation, MDCRippleAdapter, util} from '@material/ripple/dist/mdc.ripple';
-
-const HTMLElementShim: any = typeof HTMLElement === 'undefined' ? {} : HTMLElement;
-const MATCHES = util.getMatchesProperty(HTMLElementShim.prototype);
+import {MDCRippleFoundation} from '@material/ripple/foundation';
+import {MDCRippleAdapter} from '@material/ripple/adapter';
+import * as util from '@material/ripple/util';
+import {SpecificEventListener} from '@material/base/types';
+import {matches} from '@material/dom/ponyfill';
 
 export interface RippledComponentProps<T> {
   unbounded?: boolean;
@@ -56,7 +56,7 @@ export interface InjectedProps<S, A = Element> extends RippledComponentProps<S> 
 }
 
 function isElement(element: any): element is Element {
-  return element[MATCHES as 'matches'] !== undefined;
+  return element instanceof HTMLElement;
 }
 
 type ActivateEventTypes<S>
@@ -76,12 +76,12 @@ export interface RippledComponentInterface<Surface, Activator = Element> {
   handleKeyDown: React.KeyboardEventHandler<Surface>;
   handleKeyUp: React.KeyboardEventHandler<Surface>;
   activateRipple: (e: ActivateEventTypes<Surface>) => void;
-  deactivateRipple: (e: ActivateEventTypes<Surface>) => void;
+  deactivateRipple: () => void;
   classes: string;
   style: React.CSSProperties;
   displayName: string;
   createAdapter: (surface: Surface, activator?: Activator) => MDCRippleAdapter;
-  updateCssVariable: (varName: keyof React.CSSProperties, value: string | number) => void;
+  updateCssVariable: (varName: string, value: string | null) => void;
   componentDidMount: () => void;
   componentWillUnmount: () => void;
   render: () => JSX.Element;
@@ -152,24 +152,24 @@ export function withRipple <
     this.foundation.init();
   };
 
-  createAdapter: MDCRippleAdapter = (surface: Surface, activator?: Activator) => {
+  createAdapter = (surface: Surface, activator?: Activator): MDCRippleAdapter => {
     return {
       browserSupportsCssVars: () => util.supportsCssVariables(window),
-      isUnbounded: () => this.props.unbounded,
+      isUnbounded: () => (this.props.unbounded || false) as boolean,
       isSurfaceActive: () => {
         if (activator) {
           if (isElement(activator)) {
-            return activator[MATCHES as 'matches'](':active');
+            return matches(activator, ':active');
           }
           return false;
         }
 
         if (isElement(surface)) {
-          return surface[MATCHES as 'matches'](':active');
+          return matches(surface, ':active');
         }
         return false;
       },
-      isSurfaceDisabled: () => this.props.disabled,
+      isSurfaceDisabled: () => (this.props.disabled || false) as boolean,
       addClass: (className: string) => {
         if (!this.isComponentMounted) {
           return;
@@ -196,21 +196,29 @@ export function withRipple <
           handler,
           util.applyPassive()
         ),
-      registerResizeHandler: (handler: EventListener) =>
+      registerResizeHandler: (handler: SpecificEventListener<'resize'>) =>
         window.addEventListener('resize', handler),
-      deregisterResizeHandler: (handler: EventListener) =>
+      deregisterResizeHandler: (handler: SpecificEventListener<'resize'>) =>
         window.removeEventListener('resize', handler),
       updateCssVariable: this.updateCssVariable,
       computeBoundingRect: () => {
         if (!this.isComponentMounted) {
           // need to return object since foundation expects it
-          return {};
+          return new ClientRect();
         }
         if (this.props.computeBoundingRect) {
           return this.props.computeBoundingRect(surface);
         }
         return surface.getBoundingClientRect();
       },
+      containsEventTarget: (target: EventTarget | null) => {
+        if (isElement(activator) && target !== null) {
+          return activator.contains(target as Node);
+        }
+        return false;
+      },
+      registerInteractionHandler: () => null,
+      deregisterInteractionHandler: () => null,
       getWindowPageOffset: () => ({
         x: window.pageXOffset,
         y: window.pageYOffset,
@@ -220,12 +228,12 @@ export function withRipple <
 
   handleFocus = (e: React.FocusEvent<Surface>) => {
     this.props.onFocus && this.props.onFocus(e);
-    this.foundation.handleFocus();
+    this.foundation!.handleFocus();
   };
 
   handleBlur = (e: React.FocusEvent<Surface>) => {
     this.props.onBlur && this.props.onBlur(e);
-    this.foundation.handleBlur();
+    this.foundation!.handleBlur();
   };
 
   handleMouseDown = (e: React.MouseEvent<Surface>) => {
@@ -237,7 +245,7 @@ export function withRipple <
 
   handleMouseUp = (e: React.MouseEvent<Surface>) => {
     this.props.onMouseUp && this.props.onMouseUp(e);
-    this.deactivateRipple(e);
+    this.deactivateRipple();
   };
 
   handleTouchStart = (e: React.TouchEvent<Surface>) => {
@@ -248,7 +256,7 @@ export function withRipple <
 
   handleTouchEnd = (e: React.TouchEvent<Surface>) => {
     this.props.onTouchEnd && this.props.onTouchEnd(e);
-    this.deactivateRipple(e);
+    this.deactivateRipple();
   };
 
   handleKeyDown = (e: React.KeyboardEvent<Surface>) => {
@@ -258,26 +266,31 @@ export function withRipple <
 
   handleKeyUp = (e: React.KeyboardEvent<Surface>) => {
     this.props.onKeyUp && this.props.onKeyUp(e);
-    this.deactivateRipple(e);
+    this.deactivateRipple();
   };
 
   activateRipple = (e: ActivateEventTypes<Surface>) => {
     // https://reactjs.org/docs/events.html#event-pooling
     e.persist();
-    this.foundation.activate(e);
+    this.foundation!.activate(e.nativeEvent);
   };
 
-  deactivateRipple = (e: ActivateEventTypes<Surface>) => {
-    this.foundation.deactivate(e);
+  deactivateRipple = () => {
+    this.foundation!.deactivate();
   };
 
-  updateCssVariable = (varName: keyof React.CSSProperties, value: string | number) => {
+  updateCssVariable = (varName: string, value: string | null) => {
     if (!this.isComponentMounted) {
       return;
     }
     this.setState((prevState) => {
       const updatedStyle = Object.assign({}, this.state.style, prevState.style) as React.CSSProperties;
-      updatedStyle[varName] = value;
+      if (value === null) {
+        delete updatedStyle[varName as keyof React.CSSProperties];
+      } else {
+        updatedStyle[varName as keyof React.CSSProperties] = value;
+      }
+
       return Object.assign(prevState, {
         style: updatedStyle,
       });

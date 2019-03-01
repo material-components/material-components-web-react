@@ -132,7 +132,8 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
   }
 }
 
-const IconButton = Ripple.withRipple<IconButtonProps<IconButtonTypes>, IconButtonTypes>(IconButtonBase);
+const IconButton: React.ComponentType =
+  Ripple.withRipple<IconButtonProps<IconButtonTypes>, IconButtonTypes>(IconButtonBase);
 
 export default IconButton;
 export {IconToggle, IconButtonBase};
