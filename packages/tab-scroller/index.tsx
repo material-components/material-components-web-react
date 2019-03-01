@@ -27,6 +27,8 @@ import {
   util,
 // @ts-ignore no .d.ts file
 } from '@material/tab-scroller/dist/mdc.tabScroller';
+// @ts-ignore no mdc .d.ts file
+import {matches} from '@material/dom/ponyfill';
 
 const convertDashToCamelCase = (propName: string) =>
   propName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
@@ -46,12 +48,6 @@ interface TabScrollerState {
 };
 
 type ScrollerElementNames = 'scrollAreaStyleProperty' | 'scrollContentStyleProperty';
-
-const MATCHES = util.getMatchesProperty(HTMLElement.prototype);
-
-function isElement(element: any): element is Element {
-  return element[MATCHES as 'matches'] !== undefined;
-}
 
 export default class TabScroller extends React.Component<
   TabScrollerProps,
@@ -120,8 +116,8 @@ export default class TabScroller extends React.Component<
   get adapter() {
     return {
       eventTargetMatchesSelector: (evtTarget: HTMLDivElement, selector: string) => {
-        if (selector && isElement(evtTarget)) {
-          return evtTarget[MATCHES as 'matches'](selector);
+        if (selector) {
+          return matches(evtTarget, selector);
         }
         return false;
       },

@@ -25,9 +25,8 @@ import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 
 // @ts-ignore no mdc .d.ts file
 import {MDCRippleFoundation, MDCRippleAdapter, util} from '@material/ripple/dist/mdc.ripple';
-
-const HTMLElementShim: any = typeof HTMLElement === 'undefined' ? {} : HTMLElement;
-const MATCHES = util.getMatchesProperty(HTMLElementShim.prototype);
+// @ts-ignore no mdc .d.ts file
+import {matches} from '@material/dom/ponyfill';
 
 export interface RippledComponentProps<T> {
   unbounded?: boolean;
@@ -53,10 +52,6 @@ export interface RippledComponentState {
 // props to be injected by this HOC.
 export interface InjectedProps<S, A = Element> extends RippledComponentProps<S> {
   initRipple: React.Ref<S> | ((surface: S | null, activator?: A | null) => void);
-}
-
-function isElement(element: any): element is Element {
-  return element[MATCHES as 'matches'] !== undefined;
 }
 
 type ActivateEventTypes<S>
@@ -158,16 +153,10 @@ export function withRipple <
       isUnbounded: () => this.props.unbounded,
       isSurfaceActive: () => {
         if (activator) {
-          if (isElement(activator)) {
-            return activator[MATCHES as 'matches'](':active');
-          }
-          return false;
+          return matches(activator, ':active');
         }
 
-        if (isElement(surface)) {
-          return surface[MATCHES as 'matches'](':active');
-        }
-        return false;
+        return matches(surface, ':active');
       },
       isSurfaceDisabled: () => this.props.disabled,
       addClass: (className: string) => {
