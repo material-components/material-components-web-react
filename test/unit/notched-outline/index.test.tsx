@@ -14,8 +14,8 @@ function getAdapter(foundation: any): MDCNotchedOutlineAdapter {
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<NotchedOutline className='test-class-name' />);
-  assert.isTrue(wrapper.children().first().hasClass('mdc-notched-outline'));
-  assert.isTrue(wrapper.children().first().hasClass('test-class-name'));
+  assert.isTrue(wrapper.hasClass('mdc-notched-outline'));
+  assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
 test('creates outlineElement_', () => {
@@ -23,15 +23,11 @@ test('creates outlineElement_', () => {
   assert.exists(wrapper.instance().outlineElement_.current);
 });
 
-test('creates pathElement_', () => {
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />);
-  assert.exists(wrapper.instance().pathElement_.current);
+test('renders chilren outlineElement_', () => {
+  const wrapper = mount<NotchedOutline>(<NotchedOutline><div className='test-label'></div></NotchedOutline>);
+  assert.equal(wrapper.find('.test-label').length, 1);
 });
 
-test('creates idleElement_', () => {
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />);
-  assert.exists(wrapper.instance().idleElement_.current);
-});
 
 test('initializes foundation', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
@@ -75,12 +71,6 @@ test(
   }
 );
 
-test('#componentDidUpdate updating isRtl calls #foundation.notch', () => {
-  const wrapper = mount<NotchedOutline>(<NotchedOutline notch />);
-  wrapper.instance().foundation_.notch = td.func<(notchWidth: number) => void>();
-  wrapper.setProps({isRtl: true});
-  td.verify(wrapper.instance().foundation_.notch(0), {times: 1});
-});
 test(
   '#componentDidUpdate updating notch to true with and initial ' +
     'notchWidth calls #foundation.notch with correct arguments',

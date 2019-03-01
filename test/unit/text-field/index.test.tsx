@@ -314,7 +314,7 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
   assert.isTrue(wrapper.state().foundation.adapter_.hasLabel());
 });
 
-test('#adapter.label.hasLabel returns true if label exists', () => {
+test('#adapter.label.hasLabel returns width if label exists', () => {
   const div = document.createElement('div');
   document.body.append(div);
   const options = {attachTo: div};
@@ -551,6 +551,7 @@ test('renders label if label is passed as prop', () => {
       <Input />
     </TextField>
   );
+  console.log(wrapper.html());
   assert.equal(wrapper.find('.mdc-floating-label').length, 1);
 });
 

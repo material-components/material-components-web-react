@@ -180,7 +180,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     return (
       <div className={this.classes}>
         {this.renderSelect()}
-        {this.renderLabel()}
+        {!this.props.outlined ? this.renderLabel() : null }
         {this.props.outlined
           ? this.renderNotchedOutline()
           : this.renderLineRipple()}
@@ -275,15 +275,16 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   renderNotchedOutline() {
-    const {isRtl, notchedOutlineClassName} = this.props;
+    const {notchedOutlineClassName} = this.props;
     const {outlineIsNotched, labelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={isRtl}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
-      />
+      >
+        {this.renderLabel()}
+      </NotchedOutline>
     );
   }
 }

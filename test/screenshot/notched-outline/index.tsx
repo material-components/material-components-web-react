@@ -15,7 +15,9 @@ const NotchedOutlineScreenshotTest = () => {
       </div>
 
       <div className='notched-outline-container'>
-        <NotchedOutline notchWidth={100} notch isRtl />
+        <NotchedOutline notchWidth={100} notch>
+          <label className='mdc-floating-label'>Label</label>
+        </NotchedOutline>
       </div>
     </div>
   );

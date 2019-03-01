@@ -177,7 +177,7 @@ test('#adapter.hasOutline returns false if props.outlined is false', () => {
 test('renders notchedOutline if props.outlined is true', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
   const NotchedOutlinePackage = require('../../../packages/notched-outline');
-  assert.equal(wrapper.childAt(2).type(), NotchedOutlinePackage.default);
+  assert.equal(wrapper.childAt(1).type(), NotchedOutlinePackage.default);
 });
 
 test('renders lineRipple if props.outlined is false', () => {
@@ -356,23 +356,17 @@ test('passes classNames to NotchedOutline through props.notchedOutlineClassName'
   const wrapper = shallow(
     <Select label='my label' outlined notchedOutlineClassName={className} />
   );
-  assert.isTrue(wrapper.childAt(2).hasClass(className));
+  assert.isTrue(wrapper.childAt(1).hasClass(className));
 });
 
 test('updates notch prop with state.outlineIsNotched', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
   wrapper.setState({outlineIsNotched: true});
-  assert.isTrue(wrapper.childAt(2).props().notch);
+  assert.isTrue(wrapper.childAt(1).props().notch);
 });
 
 test('updates notchWidth prop with state.labelWidth', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
   wrapper.setState({labelWidth: 55});
-  assert.equal(wrapper.childAt(2).props().notchWidth, 55);
-});
-
-test('notchedOutline props.isRtl updates with parent element dir attribute', () => {
-  const wrapper = mount(<Select label='my label' outlined isRtl />);
-  const NotchedOutline = wrapper.childAt(0).childAt(2);
-  assert.isTrue(NotchedOutline.props().isRtl);
+  assert.equal(wrapper.childAt(1).props().notchWidth, 55);
 });

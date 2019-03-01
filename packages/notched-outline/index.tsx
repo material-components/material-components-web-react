@@ -26,9 +26,9 @@ import {MDCNotchedOutlineAdapter} from '@material/notched-outline/adapter';
 
 export interface NotchedOutlineProps {
   className?: string,
-  isRtl?: boolean,
-  notch?: boolean,
-  notchWidth?: number
+  notch: boolean,
+  notchWidth: number,
+  children?: React.ReactNode,
 };
 
 interface NotchedOutlineState {
@@ -42,12 +42,9 @@ export default class NotchedOutline extends React.Component<
   > {
   foundation_!: MDCNotchedOutlineFoundation;
   outlineElement_: React.RefObject<HTMLDivElement> = React.createRef();
-  pathElement_: React.RefObject<SVGPathElement> = React.createRef();
-  idleElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
   static defaultProps: Partial<NotchedOutlineProps> = {
     className: '',
-    isRtl: false,
     notch: false,
     notchWidth: 0,
   };
@@ -72,10 +69,9 @@ export default class NotchedOutline extends React.Component<
 
   componentDidUpdate(prevProps: NotchedOutlineProps) {
     const hasToggledNotch = this.props.notch !== prevProps.notch;
-    const hasToggleRtl = this.props.isRtl !== prevProps.isRtl;
     const notchWidthUpdated = this.props.notchWidth !== prevProps.notchWidth;
     const shouldUpdateNotch =
-      notchWidthUpdated || hasToggleRtl || hasToggledNotch;
+      notchWidthUpdated || hasToggledNotch;
     if (!shouldUpdateNotch) {
       return;
     }
@@ -117,23 +113,20 @@ export default class NotchedOutline extends React.Component<
 
   render() {
     return (
-      <React.Fragment>
-        <div
-          className={this.classes}
-          key='notched-outline'
-          style={ {width: this.state.actualWidth ? `${this.state.actualWidth}px`: undefined} }
-          ref={this.outlineElement_}
-        >
-          <svg focusable='false'>
-            <path ref={this.pathElement_} className='mdc-notched-outline__path' />
-          </svg>
-        </div>
-        <div
-          ref={this.idleElement_}
-          className='mdc-notched-outline__idle'
-          key='notched-outline-idle'
-        />
-      </React.Fragment>
+      <div
+        className={this.classes}
+        key='notched-outline'
+        style={ {width: this.state.actualWidth ? `${this.state.actualWidth}px`: undefined} }
+        ref={this.outlineElement_}
+      >
+        <div className='mdc-notched-outline__leading'></div>
+        {this.props.children ?
+          <div className='mdc-notched-outline__notch'>
+            {this.props.children}
+          </div>
+          : null }
+        <div className='mdc-notched-outline__trailing'></div>
+      </div>
     );
   }
 }
