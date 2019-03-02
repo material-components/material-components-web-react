@@ -11,7 +11,9 @@ import List, {
   ListGroup,
   ListGroupSubheader,
 } from '../../../packages/list/index';
+import Checkbox from '../../../packages/checkbox/index';
 import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line no-unused-vars
+import {MDCListIndex} from '@material/list/types';
 
 // no .d.ts file
 // @ts-ignore
@@ -65,10 +67,43 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
   }
 }
 
+class CheckboxList extends React.Component<{}, {selectedIndex: MDCListIndex}> {
+  state = {
+    selectedIndex: [0],
+  };
+
+  handleSelect = (_selectedIndex: number, selected: MDCListIndex) => {
+    this.setState({selectedIndex: selected});
+  }
+
+  render() {
+    return (
+      <List
+        checkboxList
+        selectedIndex={this.state.selectedIndex}
+        handleSelect={this.handleSelect}
+      >
+        <ListItem>
+          <Checkbox checked />
+          <ListItemText primaryText='Milk'/>
+        </ListItem>
+        <ListItem>
+          <Checkbox />
+          <ListItemText primaryText='Eggs'/>
+        </ListItem>
+        <ListItem>
+          <Checkbox />
+          <ListItemText primaryText='Barley'/>
+        </ListItem>
+      </List>
+  );
+  }
+}
+
 const ListScreenshotTest = () => {
   return (
     <div>
-      <h2>One-line Selection List</h2>
+      {/* <h2>One-line Selection List</h2>
       <SelectionListTest />
 
       <h2>Two-line List</h2>
@@ -94,7 +129,9 @@ const ListScreenshotTest = () => {
           {renderListItem({primaryText: 'Vacation itinerary'})}
           {renderListItem({primaryText: 'Kitchen remodel'})}
         </List>
-      </ListGroup>
+      </ListGroup> */}
+
+      <CheckboxList />
     </div>
   );
 };

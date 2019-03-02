@@ -10,7 +10,10 @@
     "target": "es5",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": false,
+    "noErrorTruncation": true,
+    "pretty": true,
   },
   "compileOnSave": true,
   "exclude": [

@@ -22,47 +22,47 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
+import {MDCListFoundation} from '@material/list/foundation';
+import { Checkbox } from '@material/react-checkbox';
+import { Radio } from '@material/react-radio';
+
+const ARIA_CHECKED = 'aria-checked';
+const TRUE = 'true';
 
 export interface ListItemProps<T> extends React.HTMLProps<T> {
+  checkboxList: boolean;
+  radioList: boolean;
   className: string;
-  classNamesFromList: string[];
-  attributesFromList: object;
-  childrenTabIndex: number;
   tabIndex: number;
-  shouldFocus: boolean;
-  shouldFollowHref: boolean;
-  shouldToggleCheckbox: boolean;
   onKeyDown: React.KeyboardEventHandler<T>;
   onClick: React.MouseEventHandler<T>;
   onFocus: React.FocusEventHandler<T>;
   onBlur: React.FocusEventHandler<T>;
   tag: string;
   children: React.ReactNode;
+  activated: boolean;
+  selected: boolean;
 };
 
-function isAnchorElement(element: any): element is HTMLAnchorElement {
-  return !!element.href;
+function isCheckbox(element: any): element is Checkbox {
+  return element && element.type === Checkbox;
 }
 
-function isFocusableElement(element: any): element is HTMLElement {
-  return typeof <HTMLElement>element.focus === 'function';
+function isRadio(element: any): element is Radio {
+  return element && element.type === Radio;
 }
 
-export default class ListItem<T extends {} = HTMLElement> extends React.Component<
+export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<
   ListItemProps<T>,
   {}
   > {
-  listItemElement_: React.RefObject<T> = React.createRef();
+  private listItemElement = React.createRef<T>();
 
   static defaultProps: Partial<ListItemProps<HTMLElement>> = {
+    checkboxList: false,
+    radioList: false,
     className: '',
-    classNamesFromList: [],
-    attributesFromList: {},
-    childrenTabIndex: -1,
     tabIndex: -1,
-    shouldFocus: false,
-    shouldFollowHref: false,
-    shouldToggleCheckbox: false,
     onKeyDown: () => {},
     onClick: () => {},
     onFocus: () => {},
@@ -70,55 +70,50 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
     tag: 'li',
   };
 
-  componentDidUpdate(prevProps: ListItemProps<T>) {
-    const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
-    if (shouldFocus && !prevProps.shouldFocus) {
-      this.focus();
-    }
-    if (shouldFollowHref && !prevProps.shouldFollowHref) {
-      this.followHref();
-    }
-    if (shouldToggleCheckbox && !prevProps.shouldToggleCheckbox) {
-      this.toggleCheckbox();
-    }
-  }
-
   get classes() {
-    const {className, classNamesFromList} = this.props;
-    return classnames('mdc-list-item', className, classNamesFromList);
+    const {className, activated, selected} = this.props;
+    return classnames('mdc-list-item', className, {
+      [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
+      [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
+    });
   }
 
-  focus() {
-    const element = this.listItemElement_.current;
-    if (isFocusableElement(element)) {
-      element.focus();
+  get role() {
+    const {checkboxList, radioList, role} = this.props;
+    if (role) return role;
+    if (checkboxList) {
+      return 'checkbox';
+    } else if (radioList) {
+      return 'radio';
     }
+    return null;
   }
 
-  followHref() {
-    const element = this.listItemElement_.current;
-    if (isAnchorElement(element)) {
-      element.click();
-    }
-  }
+  // get ariaChecked() {
+  //   const ariaChecked = this.props['aria-checked'];
+  //   if (ariaChecked !== undefined && ariaChecked !== null) {
+  //     return ariaChecked;
+  //   }
 
-  toggleCheckbox() {
-    // TODO(bonniez): implement
-    // https://github.com/material-components/material-components-web-react/issues/352
-  }
+  //   const {children} = this.props;
+  //   let isChecked = false;
+  //   React.Children.forEach(children, (child) => {
+  //     const inputChild = child as unknown as Radio | Checkbox;
+  //     const ariaChecked = inputChild.props.checked;
+  //     if (ariaChecked) {
+  //       isChecked = ariaChecked;
+  //     }
+  //   });
+  //   return `${isChecked}`;
+  // }
 
   render() {
     const {
-      /* eslint-disable */
       className,
-      classNamesFromList,
-      childrenTabIndex,
-      shouldFocus,
-      shouldFollowHref,
-      shouldToggleCheckbox,
-      /* eslint-enable */
-      attributesFromList,
       children,
+      role,
+      checkboxList,
+      radioList,
       tag: Tag,
       ...otherProps
     } = this.props;
@@ -126,23 +121,13 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
       <Tag
+        role={this.role}
         className={this.classes}
+        ref={this.listItemElement}
         {...otherProps}
-        {...attributesFromList} // overrides attributes in otherProps
-        ref={this.listItemElement_}
       >
-        {React.Children.map(children, this.renderChild)}
+        {this.props.children}
       </Tag>
     );
   }
-
-  renderChild = (child: React.ReactChild) => {
-    if (typeof child === 'string' || typeof child === 'number' || child === null) {
-      return child;
-    }
-
-    const tabIndex = this.props.childrenTabIndex;
-    const props = {...child.props, tabIndex};
-    return React.cloneElement(child, props);
-  };
 }
