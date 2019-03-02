@@ -55,10 +55,6 @@ export interface InjectedProps<S, A = Element> extends RippledComponentProps<S> 
   initRipple: React.Ref<S> | ((surface: S | null, activator?: A | null) => void);
 }
 
-function isElement(element: any): element is Element {
-  return element instanceof HTMLElement;
-}
-
 type ActivateEventTypes<S>
   = React.MouseEvent<S> | React.TouchEvent<S> | React.KeyboardEvent<S> | React.FocusEvent<S>;
 
@@ -158,16 +154,10 @@ export function withRipple <
       isUnbounded: () => (this.props.unbounded || false) as boolean,
       isSurfaceActive: () => {
         if (activator) {
-          if (isElement(activator)) {
-            return matches(activator, ':active');
-          }
-          return false;
+          return matches(activator, ':active');
         }
 
-        if (isElement(surface)) {
-          return matches(surface, ':active');
-        }
-        return false;
+        return matches(surface, ':active');
       },
       isSurfaceDisabled: () => (this.props.disabled || false) as boolean,
       addClass: (className: string) => {
@@ -212,7 +202,7 @@ export function withRipple <
         return surface.getBoundingClientRect();
       },
       containsEventTarget: (target: EventTarget | null) => {
-        if (isElement(activator) && target !== null) {
+        if (activator && target !== null) {
           return activator.contains(target as Node);
         }
         return false;
