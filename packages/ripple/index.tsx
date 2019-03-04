@@ -88,7 +88,9 @@ export function withRipple <
   P extends InjectedProps<Surface, Activator>,
   Surface extends Element = Element,
   Activator extends Element = Element
->(WrappedComponent: React.ComponentType<P>) {
+>(WrappedComponent: React.ComponentType<P>):
+  React.ComponentType<Subtract<P, InjectedProps<Surface, Activator>>
+  & RippledComponentProps<Surface>> {
   return class RippledComponent extends React.Component<
   // Subtract removes any props "InjectedProps" if they are on "P"
   // This allows the developer to override any props
@@ -340,7 +342,7 @@ export function withRipple <
       />
     );
   }
-  };
+  } as any;
 }
 
 function getDisplayName<P extends {}>(WrappedComponent: React.ComponentType<P>): string {

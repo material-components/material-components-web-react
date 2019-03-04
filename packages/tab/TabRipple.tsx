@@ -30,6 +30,7 @@ import {
 
 export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement> {
   className: string;
+  ref?: React.RefObject<any>,
 }
 
 class TabRippleBase extends React.Component<TabRippleProps, {}> {
@@ -57,6 +58,6 @@ class TabRippleBase extends React.Component<TabRippleProps, {}> {
   }
 }
 
-const TabRipple: React.ComponentType<TabRippleProps> = Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
+const TabRipple = Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
 type TabRipple = React.Component<TabRippleProps, RippledComponentState> & RippledComponentInterface<any>;
 export default TabRipple;
