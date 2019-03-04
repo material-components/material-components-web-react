@@ -25,7 +25,7 @@ import '@material/react-snackbar/dist/snackbar.css';
 ### Javascript Instantiation
 ```js
 import React from 'react';
-import Snackbar from '@material/react-snackbar';
+import {Snackbar} from '@material/react-snackbar';
 
 class MyApp extends React.Component {
   render() {
