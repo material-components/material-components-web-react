@@ -106,7 +106,7 @@ The Simple Dialog contains a list of potential actions. It does not contain butt
 ```js
 import React, {Component} from 'react';
 import Dialog, {DialogTitle, DialogContent} from '@material/react-dialog';
-import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-dialog';
+import List, {ListItem, ListItemGraphic, ListItemText} from '@material/react-list';
 import MaterialIcon from '@material/react-material-icon';
 
 class Simple extends Component {
