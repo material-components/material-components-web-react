@@ -8,7 +8,7 @@ import {MDCNotchedOutlineAdapter} from '@material/notched-outline/adapter';
 suite('NotchedOutline');
 
 function getAdapter(foundation: any): MDCNotchedOutlineAdapter {
-  // @ts-ignore
+  // @ts-ignore adapter_ is protected property. We need to bypass this restriction for testing
   return foundation.adapter_;
 }
 
@@ -23,7 +23,7 @@ test('creates outlineElement_', () => {
   assert.exists(wrapper.instance().outlineElement_.current);
 });
 
-test('renders chilren outlineElement_', () => {
+test('renders children outlineElement_', () => {
   const wrapper = mount<NotchedOutline>(<NotchedOutline><div className='test-label'></div></NotchedOutline>);
   assert.equal(wrapper.find('.test-label').length, 1);
 });

@@ -29,6 +29,7 @@ export interface NotchedOutlineProps {
   notch: boolean,
   notchWidth: number,
   children?: React.ReactNode,
+  style?: React.StyleHTMLAttributes<HTMLDivElement>
 };
 
 interface NotchedOutlineState {
@@ -40,7 +41,6 @@ export default class NotchedOutline extends React.Component<
   NotchedOutlineProps,
   NotchedOutlineState
   > {
-  foundation_!: MDCNotchedOutlineFoundation;
   outlineElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
   static defaultProps: Partial<NotchedOutlineProps> = {
@@ -112,11 +112,11 @@ export default class NotchedOutline extends React.Component<
   }
 
   render() {
+    const style = {...this.props.style, width: this.state.actualWidth ? `${this.state.actualWidth}px`: undefined};
     return (
       <div
         className={this.classes}
-        key='notched-outline'
-        style={ {width: this.state.actualWidth ? `${this.state.actualWidth}px`: undefined} }
+        style={style}
         ref={this.outlineElement_}
       >
         <div className='mdc-notched-outline__leading'></div>
