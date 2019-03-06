@@ -41,6 +41,7 @@ export default class NotchedOutline extends React.Component<
   NotchedOutlineProps,
   NotchedOutlineState
   > {
+  foundation_!: MDCNotchedOutlineFoundation;
   outlineElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
   static defaultProps: Partial<NotchedOutlineProps> = {
@@ -112,17 +113,19 @@ export default class NotchedOutline extends React.Component<
   }
 
   render() {
-    const style = {...this.props.style, width: this.state.actualWidth ? `${this.state.actualWidth}px`: undefined};
+    const { style, children, className, notch, notchWidth, ...otherProps} = this.props;
+    const notchStyle = {...style, width: this.state.actualWidth ? `${this.state.actualWidth}px`: undefined};
     return (
       <div
         className={this.classes}
-        style={style}
+        style={notchStyle}
         ref={this.outlineElement_}
+        {...otherProps}
       >
         <div className='mdc-notched-outline__leading'></div>
-        {this.props.children ?
+        {children ?
           <div className='mdc-notched-outline__notch'>
-            {this.props.children}
+            {children}
           </div>
           : null }
         <div className='mdc-notched-outline__trailing'></div>

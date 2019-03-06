@@ -551,7 +551,6 @@ test('renders label if label is passed as prop', () => {
       <Input />
     </TextField>
   );
-  console.log(wrapper.html());
   assert.equal(wrapper.find('.mdc-floating-label').length, 1);
 });
 
