@@ -3,13 +3,12 @@ import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import LineRipple from '../../../packages/line-ripple/index';
-import {MDCLineRippleFoundation} from '@material/line-ripple/foundation';
 import {MDCLineRippleAdapter} from '@material/line-ripple/adapter';
 import {coerceForTesting} from '../helpers/types';
 
 suite('LineRipple');
 
-function getAdapter(foundation: MDCLineRippleFoundation): MDCLineRippleAdapter {
+function getAdapter(foundation: unknown): MDCLineRippleAdapter {
   // @ts-ignore adapter_ property is protected, we need to bypass this check for testing purposes
   return foundation.adapter_;
 }
