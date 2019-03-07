@@ -200,6 +200,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       outlined,
       onChange,
       ref,
+      value,
       /* eslint-enable */
       ...otherProps
     } = this.props;
@@ -211,6 +212,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
         handleDisabled={this.setDisabled}
         onChange={this.onChange}
         setRippleCenter={this.setRippleCenter}
+        value={this.state.value}
         {...otherProps}
       >
         {this.renderOptions()}
