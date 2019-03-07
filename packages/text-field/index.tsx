@@ -329,7 +329,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         key='text-field-container'
       >
         {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
-        {foundation ? this.renderInput() : null}
+        {this.renderInput()}
         {label && !fullWidth ? this.renderLabel() : null}
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}

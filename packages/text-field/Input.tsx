@@ -90,7 +90,6 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       setDisabled,
       handleValueChange,
       foundation,
-      isValid,
     } = this.props;
     if (setInputId && id) {
       setInputId(id!);
@@ -100,10 +99,6 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
     }
     if (handleValueChange && value) {
       handleValueChange(value, () => foundation.setValue(value));
-    }
-    if (isValid !== undefined) {
-      foundation.setUseNativeValidation(false);
-      foundation.setValid(isValid);
     }
   }
 
@@ -142,7 +137,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       });
     }
 
-    if (isValid !== prevProps.isValid) {
+    if (isValid !== prevProps.isValid || foundation !== prevProps.foundation) {
       if (isValid === undefined) {
         foundation.setUseNativeValidation(true);
       } else {
