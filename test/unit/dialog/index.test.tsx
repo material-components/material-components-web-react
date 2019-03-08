@@ -5,7 +5,7 @@ import * as td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 // @ts-ignore
 import Dialog, {
-  ChildTypes, DialogProps, DialogTitle, DialogContent, DialogFooter, DialogButton,
+  ChildTypes, DialogTitle, DialogContent, DialogFooter, DialogButton,
 } from '../../../packages/dialog';
 // @ts-ignore no mdc .d.ts file
 import {util} from '@material/dialog/dist/mdc.dialog';
@@ -227,7 +227,7 @@ test('#adapter.isContentScrollable returns false when there is no content', () =
 });
 
 test('#adapter.isContentScrollable returns the value of util.isScrollable', () => {
-  const wrapper = mount<Dialog<DialogProps<HTMLDivElement>>, {classList: Set<string>}>(
+  const wrapper = mount<Dialog>(
     <Dialog open><DialogContent><p>meowkay</p></DialogContent></Dialog>
   );
   const content = wrapper.instance().content;
