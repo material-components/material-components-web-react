@@ -31,6 +31,7 @@ export interface NativeControlProps extends React.HTMLProps<HTMLSelectElement> {
   foundation: MDCSelectFoundation;
   setRippleCenter: (lineRippleCenter: number) => void;
   handleDisabled: (disabled: boolean) => void;
+  value: string;
 }
 
 export default class NativeControl extends React.Component<
@@ -49,6 +50,7 @@ export default class NativeControl extends React.Component<
     },
     setRippleCenter: () => {},
     handleDisabled: () => {},
+    value: '',
   };
 
 

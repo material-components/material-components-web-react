@@ -43,10 +43,11 @@ export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
   notchedOutlineClassName: string;
   outlined: boolean;
   options: SelectOptionsType;
+  value?: string;
 }
 
 interface SelectState {
-  value?: string | string[] | number,
+  value?: string;
   classList: Set<string>;
   disabled: boolean;
   labelIsFloated: boolean;
