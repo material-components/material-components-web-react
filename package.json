@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@google-cloud/storage": "^1.6.0",
-    "@material/base": "^1.0.0-0",
+    "@material/base": "^1.0.0",
     "@material/button": "^0.43.0",
     "@material/card": "^0.41.0",
     "@material/checkbox": "^0.41.0",
@@ -78,7 +78,7 @@
     "@material/menu-surface": "^0.41.0",
     "@material/notched-outline": "^0.41.0",
     "@material/radio": "^0.41.0",
-    "@material/ripple": "^1.0.0-0",
+    "@material/ripple": "^1.0.0",
     "@material/select": "^0.40.1",
     "@material/snackbar": "^0.43.0",
     "@material/switch": "^0.41.0",
