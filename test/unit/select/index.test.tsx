@@ -205,6 +205,15 @@ test('passes classNames to NativeControl through props.nativeControlClassName', 
   assert.isTrue(wrapper.childAt(0).hasClass(className));
 });
 
+test('#NativeControl.value will update with Select.state.value', () => {
+  const wrapper = shallow<Select>(<Select label='my label' />);
+  const value = 'value';
+  wrapper.setState({value});
+
+  assert.equal(wrapper.state().value, value);
+  assert.equal(wrapper.childAt(0).props().value, value);
+});
+
 test('#NativeControl.onChange will update state.value', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
   const evt = {target: {value: 'orange'}};
