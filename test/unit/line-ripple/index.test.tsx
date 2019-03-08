@@ -8,9 +8,9 @@ import {coerceForTesting} from '../helpers/types';
 
 suite('LineRipple');
 
-function getAdapter(foundation: unknown): MDCLineRippleAdapter {
+function getAdapter(instance: LineRipple): MDCLineRippleAdapter {
   // @ts-ignore adapter_ property is protected, we need to bypass this check for testing purposes
-  return foundation.adapter_;
+  return instance.foundation_.adapter_;
 }
 
 test('classNames adds classes', () => {
@@ -78,7 +78,7 @@ test('does not call #foundation.setRippleCenter when props.rippleCenter is NaN',
 
 test('#adapter.addClass updates state.classList', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
-  getAdapter(wrapper.instance().foundation_).addClass('test-color-class');
+  getAdapter(wrapper.instance()).addClass('test-color-class');
   assert.isTrue(wrapper.state().classList.has('test-color-class'));
 });
 
@@ -87,7 +87,7 @@ test('#adapter.removeClass updates state.classList', () => {
   const classList = new Set();
   classList.add('test-color-class');
   wrapper.setState({classList});
-  getAdapter(wrapper.instance().foundation_).removeClass('test-color-class');
+  getAdapter(wrapper.instance()).removeClass('test-color-class');
   assert.isFalse(wrapper.state().classList.has('test-color-class'));
 });
 
@@ -96,13 +96,13 @@ test('#adapter.hasClass returns true if exists in classList', () => {
   const classList = new Set();
   classList.add('test-color-class');
   wrapper.setState({classList});
-  const hasClass = getAdapter(wrapper.instance().foundation_).hasClass('test-color-class');
+  const hasClass = getAdapter(wrapper.instance()).hasClass('test-color-class');
   assert.isTrue(hasClass);
 });
 
 test('#adapter.setStyle updates style', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
-  getAdapter(wrapper.instance().foundation_).setStyle('color', 'blue');
+  getAdapter(wrapper.instance()).setStyle('color', 'blue');
   const style = coerceForTesting<React.CSSProperties>(wrapper.state().style);
   assert.equal(style.color, 'blue');
 });
@@ -131,7 +131,7 @@ test('#componentWillUnmount destroys foundation', () => {
 
 test('#adapter.setStyle updates style names to camel case', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
-  getAdapter(wrapper.instance().foundation_).setStyle('transform-origin', '25');
+  getAdapter(wrapper.instance()).setStyle('transform-origin', '25');
   const style = coerceForTesting<React.CSSProperties>(wrapper.state().style);
   assert.equal(style.transformOrigin, 25);
   // @ts-ignore
