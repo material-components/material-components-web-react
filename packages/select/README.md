@@ -76,6 +76,7 @@ class MyApp extends React.Component {
       <Select
         label='Choose Dog'
         onChange={(evt) => this.setState({value: evt.target.value})}
+        value={this.state.value}
         options={options}
       />
     );
@@ -103,6 +104,7 @@ nativeControlClassName | String | An optional class added to the native `<select
 notchedOutlineClassName | String | An optional class added to the notched outline element. Only applied if `props.outlined` is enabled.
 outlined | Boolean | Enables outlined variant.
 options | Array{String/Object} | Array of strings or objects to be used as options. To be used instead of `<option>` elements passed as `this.props.children`. If its an array of strings, then the string value will be used as the `label` and `value` of the `<option>` tag.
+value | String | Optional property used to control the selected value outside of `<Select>` component.
 
 ### Sass Mixins
 
