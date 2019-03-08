@@ -744,3 +744,14 @@ test('#componentWillUnmount destroys foundation', () => {
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
 });
+
+test('input component is rendered before did mount', () => {
+  const wrapper = shallow<TextField<HTMLInputElement>>(
+    <TextField label='hello'>
+      <Input />
+    </TextField>,
+    {disableLifecycleMethods: true}
+  );
+
+  assert.equal(wrapper.find(Input).length, 1);
+});
