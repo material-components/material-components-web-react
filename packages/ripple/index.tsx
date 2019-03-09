@@ -34,6 +34,7 @@ export interface RippledComponentProps<T> {
   disabled?: boolean;
   style?: React.CSSProperties;
   className?: string;
+  ref?: React.RefObject<T>
   onMouseDown?: React.MouseEventHandler<T>;
   onMouseUp?: React.MouseEventHandler<T>;
   onTouchStart?: React.TouchEventHandler<T>;
