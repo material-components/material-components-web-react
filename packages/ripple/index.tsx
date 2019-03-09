@@ -220,12 +220,12 @@ export function withRipple <
 
   handleFocus = (e: React.FocusEvent<Surface>) => {
     this.props.onFocus && this.props.onFocus(e);
-    this.foundation.handleFocus();
+    this.foundation!.handleFocus();
   };
 
   handleBlur = (e: React.FocusEvent<Surface>) => {
     this.props.onBlur && this.props.onBlur(e);
-    this.foundation.handleBlur();
+    this.foundation!.handleBlur();
   };
 
   handleMouseDown = (e: React.MouseEvent<Surface>) => {
@@ -264,11 +264,11 @@ export function withRipple <
   activateRipple = (e: ActivateEventTypes<Surface>) => {
     // https://reactjs.org/docs/events.html#event-pooling
     e.persist();
-    this.foundation.activate(e.nativeEvent);
+    this.foundation!.activate(e.nativeEvent);
   };
 
   deactivateRipple = () => {
-    this.foundation.deactivate();
+    this.foundation!.deactivate();
   };
 
   updateCssVariable = (varName: string, value: string | null) => {
@@ -342,6 +342,9 @@ export function withRipple <
       />
     );
   }
+  // there is explicit type provided for the return value of withRipple function
+  // without type "any" typescript raises an error
+  // The inferred type of ... cannot be named without a reference ...
   } as any;
 }
 

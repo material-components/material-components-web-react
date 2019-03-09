@@ -41,8 +41,8 @@ interface RippledComponent extends React.Component<InjectedProps<HTMLDivElement>
 }
 
 function getAdapter(foundation: MDCRippleFoundation): MDCRippleAdapter {
-  // @ts-ignore
-  return foundation.adapter_ as MDCRippleAdapter;
+  // @ts-ignore adapter_ property is marked as protected in mdc-web. We need to override this behaviour for testing
+  return foundation.adapter_;
 }
 
 suite('Ripple');
