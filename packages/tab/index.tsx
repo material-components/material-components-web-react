@@ -60,7 +60,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
 
   static defaultProps: Partial<TabProps> = {
     active: false,
-    focusOnActivate: false,
+    focusOnActivate: true,
     className: '',
     isFadingIndicator: false,
     indicatorContent: null,
