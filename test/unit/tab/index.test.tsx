@@ -84,8 +84,22 @@ test('when props.focusOnActivate is true, an active tab should be focused on mou
   assert.equal(document.activeElement, wrapper.getDOMNode());
 });
 
+test('when props.focusOnActivate is true and active is changed to true, the tab should be focused', () => {
+  const wrapper = mount<Tab>(<Tab focusOnActivate />, {attachTo: document.body});
+  assert.notEqual(document.activeElement, wrapper.getDOMNode());
+  wrapper.setProps({active: true});
+  assert.equal(document.activeElement, wrapper.getDOMNode());
+});
+
 test('when props.focusOnActivate is false, an active tab should not be focused on mount', () => {
   const wrapper = mount<Tab>(<Tab active focusOnActivate={false} />, {attachTo: document.body});
+  assert.notEqual(document.activeElement, wrapper.getDOMNode());
+});
+
+test('when props.focusOnActivate is false and active is changed to true, the tab should not be focused', () => {
+  const wrapper = mount<Tab>(<Tab focusOnActivate={false} />, {attachTo: document.body});
+  assert.notEqual(document.activeElement, wrapper.getDOMNode());
+  wrapper.setProps({active: true});
   assert.notEqual(document.activeElement, wrapper.getDOMNode());
 });
 
