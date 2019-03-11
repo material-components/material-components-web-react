@@ -158,6 +158,8 @@ export class Snackbar extends React.Component<Props, State> {
     if (prevProps.open !== open) {
       if (open) {
         this.foundation.open();
+      } else {
+        this.foundation.close('')
       }
     }
   }

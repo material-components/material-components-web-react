@@ -59,6 +59,13 @@ test('#componentDidUpdate calls foundation.open if props.open is true', () => {
   td.verify(wrapper.instance().foundation.open(), {times: 1});
 })
 
+test('#componentDidUpdate calls foundation.close if props.open is false', () => {
+  const wrapper = shallow<Snackbar>(<Snackbar open={true} message='example' actionText='action' />);
+  wrapper.instance().foundation.close = td.func<(reason: string) => void>();
+  wrapper.setProps({open: false});
+  td.verify(wrapper.instance().foundation.close(''), {times: 1});
+})
+
 test('opening notification works', () => {
   const openingHandler = td.func<() => void>();
   const wrapper = shallow<Snackbar>(
