@@ -23,11 +23,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
-import { Checkbox } from '@material/react-checkbox';
-import { Radio } from '@material/react-radio';
-
-const ARIA_CHECKED = 'aria-checked';
-const TRUE = 'true';
 
 export interface ListItemProps<T> extends React.HTMLProps<T> {
   checkboxList: boolean;
@@ -43,14 +38,6 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   activated: boolean;
   selected: boolean;
 };
-
-function isCheckbox(element: any): element is Checkbox {
-  return element && element.type === Checkbox;
-}
-
-function isRadio(element: any): element is Radio {
-  return element && element.type === Radio;
-}
 
 export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<
   ListItemProps<T>,
@@ -88,24 +75,6 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
     }
     return null;
   }
-
-  // get ariaChecked() {
-  //   const ariaChecked = this.props['aria-checked'];
-  //   if (ariaChecked !== undefined && ariaChecked !== null) {
-  //     return ariaChecked;
-  //   }
-
-  //   const {children} = this.props;
-  //   let isChecked = false;
-  //   React.Children.forEach(children, (child) => {
-  //     const inputChild = child as unknown as Radio | Checkbox;
-  //     const ariaChecked = inputChild.props.checked;
-  //     if (ariaChecked) {
-  //       isChecked = ariaChecked;
-  //     }
-  //   });
-  //   return `${isChecked}`;
-  // }
 
   render() {
     const {

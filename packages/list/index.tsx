@@ -34,7 +34,6 @@ import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
-const CHECKBOX_TYPE = 'checkbox';
 
 export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLElement> {
   className: string;
@@ -51,10 +50,6 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
   tag: string;
   children: ListItem<T> | ListItem<T>[] | React.ReactNode;
 };
-
-function isCheckbox(element: any): element is HTMLInputElement {
-  return element.type === CHECKBOX_TYPE;
-}
 
 function isReactText(element: any): element is React.ReactText {
   return typeof element === 'string' || typeof element === 'number';
@@ -138,10 +133,8 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
     if (checkboxListItems.length) {
       const preselectedItems = this.listElement.current.querySelectorAll(strings.ARIA_CHECKED_CHECKBOX_SELECTOR);
-      console.log(preselectedItems)
       const selectedIndex =
           [].map.call(preselectedItems, (listItem: Element) => this.listElements.indexOf(listItem)) as number[];
-          console.log(selectedIndex)
       this.foundation.setSelectedIndex(selectedIndex);
     } else if (singleSelection) {
       const isActivated = this.listElement.current.querySelector(cssClasses.LIST_ITEM_ACTIVATED_CLASS);
@@ -215,11 +208,11 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
           element.focus();
         }
       },
-      setCheckedCheckboxOrRadioAtIndex: (index, isChecked) => {
-        const listItem = this.listElements[index];
-        const selector = MDCListFoundation.strings.CHECKBOX_RADIO_SELECTOR;
-        const toggleEl = listItem.querySelector<HTMLInputElement>(selector);
-        toggleEl!.checked = isChecked;
+      setCheckedCheckboxOrRadioAtIndex: () => {
+        // TODO: implement when this issue is fixed:
+        // https://github.com/material-components/material-components-web-react/issues/438
+        // not implemented since MDC React Radio/Checkbox has events to
+        // handle toggling checkbox to correct state
       },
       hasCheckboxAtIndex: (index) => {
         const listItem = this.listElements[index];
@@ -242,10 +235,18 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       notifyAction: (index) => {
         this.props.handleSelect(index, this.foundation.getSelectedIndex());
       },
-      // TODO: remove this when mdc web pr merged:
-      // https://github.com/material-components/material-components-web/pull/4473
-      removeAttributeForElementIndex: () => {},
     };
+  }
+
+  get role() {
+    const {checkboxList, radioList, role} = this.props;
+    if (role) return role;
+    if (checkboxList) {
+      return 'group';
+    } else if (radioList) {
+      return 'radiogroup';
+    }
+    return null;
   }
 
   handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
@@ -257,11 +258,14 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     );
   };
 
-  handleClick = (e: React.MouseEvent<any>, index: number) => {
+  handleClick = (_e: React.MouseEvent<any>, index: number) => {
     // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
-    const toggleCheckbox = isCheckbox(e.target);
-    debugger
-    this.foundation.handleClick(index, toggleCheckbox);
+    // const toggleCheckbox = isCheckbox(!e.target);
+    // TODO: fix https://github.com/material-components/material-components-web-react/issues/728
+    // hardcoding toggleCheckbox to false for now since we want the checkbox to handle checkbox logic.
+    // The List Foundation tries to toggle the checkbox and radio, but its difficult to turn that off for checkbox
+    // or radio.
+    this.foundation.handleClick(index, false);
   };
 
   // Use onFocus as workaround because onFocusIn is not yet supported in React
@@ -287,6 +291,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       avatarList,
       twoLine,
       singleSelection,
+      role,
       selectedIndex,
       handleSelect,
       wrapFocus,
@@ -299,7 +304,12 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
-      <Tag className={this.classes} {...otherProps} ref={this.listElement}>
+      <Tag
+        className={this.classes}
+        ref={this.listElement}
+        role={role}
+        {...otherProps}
+      >
         {React.Children.map(children, this.renderChild)}
       </Tag>
     );
