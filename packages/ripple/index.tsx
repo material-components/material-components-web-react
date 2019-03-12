@@ -106,7 +106,7 @@ export function withRipple <
     style: {},
   };
 
-  static defaultProps = {
+  static defaultProps: Partial<RippledComponentProps<HTMLElement>> = {
     unbounded: false,
     disabled: false,
     style: {},

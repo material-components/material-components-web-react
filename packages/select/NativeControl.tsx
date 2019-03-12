@@ -40,7 +40,7 @@ export default class NativeControl extends React.Component<
   > {
   nativeControl_: React.RefObject<HTMLSelectElement> = React.createRef();
 
-  static defaultProps = {
+  static defaultProps: NativeControlProps = {
     className: '',
     children: null,
     disabled: false,

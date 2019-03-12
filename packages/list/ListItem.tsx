@@ -50,7 +50,7 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
   > {
   listItemElement_: React.RefObject<T> = React.createRef();
 
-  static defaultProps = {
+  static defaultProps: Partial<ListItemProps<HTMLElement>>  = {
     className: '',
     classNamesFromList: [],
     attributesFromList: {},

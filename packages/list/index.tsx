@@ -90,7 +90,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     listItemChildrenTabIndex: {},
   };
 
-  static defaultProps = {
+  static defaultProps: Partial<ListProps<HTMLElement>> = {
     'className': '',
     'nonInteractive': false,
     'dense': false,

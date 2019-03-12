@@ -62,7 +62,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     };
   }
 
-  static defaultProps = {
+  static defaultProps: Partial<NativeControlProps> = {
     checked: false,
     className: '',
     disabled: false,

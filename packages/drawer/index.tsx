@@ -61,7 +61,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   state: DrawerState = {classList: new Set()};
 
-  static defaultProps = {
+  static defaultProps: Partial<DrawerProps> = {
     className: '',
     children: null,
     open: false,

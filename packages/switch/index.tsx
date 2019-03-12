@@ -57,7 +57,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
     };
   }
 
-  static defaultProps = {
+  static defaultProps: Partial<SwitchProps> = {
     checked: false,
     className: '',
     disabled: false,

@@ -53,7 +53,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
   chipElement: HTMLDivElement | null = null;
   foundation?: MDCChipFoundation;
 
-  static defaultProps = {
+  static defaultProps: Partial<ChipProps> = {
     id: '',
     label: '',
     className: '',

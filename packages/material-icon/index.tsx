@@ -55,7 +55,7 @@ export const RippleMaterialIcon = Ripple.withRipple<MaterialIconProps, HTMLEleme
 export default class MaterialIcon extends React.Component<
   MaterialIconProps, {}
   > {
-  static defaultProps = {
+  static defaultProps: Partial<MaterialIconProps>  = {
     icon: '',
     className: '',
     hasRipple: false,

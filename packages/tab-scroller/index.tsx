@@ -64,7 +64,7 @@ export default class TabScroller extends React.Component<
     scrollContentStyleProperty: {},
   };
 
-  static defaultProps = {
+  static defaultProps: Partial<TabScrollerProps> = {
     alignStart: false,
     alignEnd: false,
     alignCenter: false,

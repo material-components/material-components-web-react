@@ -40,7 +40,7 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
   private tabIndicatorElement: React.RefObject<HTMLSpanElement> = React.createRef();
   foundation?: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
 
-  static defaultProps = {
+  static defaultProps: Partial<TabIndicatorProps> = {
     active: false,
     className: '',
     fade: false,

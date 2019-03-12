@@ -57,7 +57,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
     };
   }
 
-  static defaultProps = {
+  static defaultProps: LinearProgressProps<HTMLDivElement> = {
     buffer: 0,
     bufferingDots: true,
     className: '',

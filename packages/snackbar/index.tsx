@@ -52,7 +52,7 @@ type State = {
 export class Snackbar extends React.Component<Props, State> {
   foundation: IMDCSnackbarFoundation
 
-  static defaultProps = {
+  static defaultProps: Partial<Props>  = {
     open: true,
     stacked: false,
     leading: false,

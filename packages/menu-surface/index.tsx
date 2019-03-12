@@ -85,7 +85,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     classList: new Set(),
   };
 
-  static defaultProps = {
+  static defaultProps: Partial<MenuSurfaceProps> = {
     className: '',
     styles: {},
     anchorCorner: 0,

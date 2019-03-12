@@ -44,7 +44,7 @@ export default class NotchedOutline extends React.Component<
   pathElement_: React.RefObject<SVGPathElement> = React.createRef();
   idleElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
-  static defaultProps = {
+  static defaultProps: Partial<NotchedOutlineProps> = {
     className: '',
     isRtl: false,
     notch: false,

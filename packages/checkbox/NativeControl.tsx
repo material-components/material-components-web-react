@@ -30,7 +30,7 @@ export interface NativeControlProps extends React.HTMLProps<HTMLInputElement>{
 };
 
 export class NativeControl extends React.Component<NativeControlProps, {}> {
-  static defaultProps = {
+  static defaultProps: Partial<CheckboxProps> = {
     checked: false,
     disabled: false,
     onChange: () => {},

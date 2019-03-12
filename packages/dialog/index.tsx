@@ -94,7 +94,7 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   labelledBy?: string;
   describedBy?: string;
 
-  static defaultProps = {
+  static defaultProps: Partial<DialogProps<HTMLElement>> = {
     autoStackButtons: true,
     className: '',
     onOpening: () => {},
