@@ -24,7 +24,7 @@ import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
 
-export interface InputProps<T> {
+export interface InputProps<T extends HTMLElement = HTMLInputElement> {
   className?: string;
   inputType?: 'input' | 'textarea';
   isValid?: boolean;
@@ -43,7 +43,8 @@ export interface InputProps<T> {
 
 type InputElementProps = Exclude<React.HTMLProps<HTMLInputElement>, 'ref'>;
 type TextareaElementProps = Exclude<React.HTMLProps<HTMLTextAreaElement>, 'ref'>;
-type Props<T> = InputProps<T> & (T extends HTMLInputElement ? InputElementProps : TextareaElementProps);
+type Props<T extends HTMLElement = HTMLInputElement>
+  = InputProps<T> & (T extends HTMLInputElement ? InputElementProps : TextareaElementProps);
 
 interface InputState {
   wasUserTriggeredChange: boolean;
@@ -59,7 +60,7 @@ const VALIDATION_ATTR_WHITELIST: ValidationAttrWhiteList[] = [
 ];
 
 
-export default class Input<T extends {}> extends React.Component<
+export default class Input<T extends HTMLElement = HTMLInputElement> extends React.Component<
   Props<T>, InputState
   > {
   inputElement_: React.RefObject<
