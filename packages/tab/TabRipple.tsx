@@ -28,9 +28,10 @@ import {
   RippledComponentInterface, RippledComponentState, // eslint-disable-line no-unused-vars
 } from '@material/react-ripple';
 
-export interface TabRippleProps extends React.PropsWithRef<React.HTMLAttributes<HTMLDivElement>>,
+export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>,
   Ripple.InjectedProps<HTMLDivElement> {
   className: string;
+  ref?: React.RefObject<TabRipple>;
 }
 
 class TabRippleBase extends React.Component<TabRippleProps, {}> {
