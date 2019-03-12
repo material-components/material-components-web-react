@@ -34,20 +34,20 @@ export interface Props<T> {
   // InputProps<T> includes the prop `id`, which we use below in the constructor
   'children.props'?: InputProps<T>;
   children: React.ReactElement<Input<T>>;
-  className: string;
-  dense: boolean;
-  floatingLabelClassName: string;
-  fullWidth: boolean;
+  className?: string;
+  dense?: boolean;
+  floatingLabelClassName?: string;
+  fullWidth?: boolean;
   helperText?: React.ReactElement<any>;
-  isRtl: boolean;
-  label: React.ReactNode;
+  isRtl?: boolean;
+  label?: React.ReactNode;
   leadingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
-  lineRippleClassName: string;
-  notchedOutlineClassName: string;
-  outlined: boolean;
+  lineRippleClassName?: string;
+  notchedOutlineClassName?: string;
+  outlined?: boolean;
   onLeadingIconSelect?: () => void;
   onTrailingIconSelect?: () => void;
-  textarea: boolean;
+  textarea?: boolean;
   trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
 };
 
