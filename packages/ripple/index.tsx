@@ -154,7 +154,7 @@ export function withRipple <
   createAdapter = (surface: Surface, activator?: Activator): MDCRippleAdapter => {
     return {
       browserSupportsCssVars: () => util.supportsCssVariables(window),
-      isUnbounded: () => (this.props.unbounded || false) as boolean,
+      isUnbounded: () => this.props.unbounded! as boolean,
       isSurfaceActive: () => {
         if (activator) {
           return matches(activator, ':active');
