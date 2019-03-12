@@ -79,7 +79,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
     style: {},
   };
 
-  static defaultProps: Partial<TopAppBarProps<HTMLHeadingElement>> = {
+  static defaultProps = {
     className: '',
     dense: false,
     fixed: false,

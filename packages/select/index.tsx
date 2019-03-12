@@ -32,17 +32,17 @@ import NativeControl from './NativeControl';
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
 
 export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
-  box: boolean;
-  className: string;
-  disabled: boolean;
+  box?: boolean;
+  className?: string;
+  disabled?: boolean;
   floatingLabelClassName?: string;
-  isRtl: boolean;
-  label: string;
-  lineRippleClassName: string;
-  nativeControlClassName: string;
-  notchedOutlineClassName: string;
-  outlined: boolean;
-  options: SelectOptionsType;
+  isRtl?: boolean;
+  label?: string;
+  lineRippleClassName?: string;
+  nativeControlClassName?: string;
+  notchedOutlineClassName?: string;
+  outlined?: boolean;
+  options?: SelectOptionsType;
   value?: string;
 }
 
@@ -64,7 +64,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     super(props);
     this.state = {
       classList: new Set(),
-      disabled: props.disabled,
+      disabled: props.disabled!,
       value: props.value,
       // floating label state
       labelIsFloated: false,
@@ -77,7 +77,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     };
   }
 
-  static defaultProps: Partial<SelectProps> = {
+  static defaultProps = {
     box: false,
     className: '',
     disabled: false,

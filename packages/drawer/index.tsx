@@ -40,15 +40,13 @@ import {FocusTrap} from 'focus-trap';
 const {cssClasses: listCssClasses} = MDCListFoundation;
 
 export interface DrawerProps extends React.HTMLProps<HTMLElement>{
-  className: string;
-  open: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-  onTransitionEnd: React.TransitionEventHandler<HTMLElement>;
-  onKeyDown: React.KeyboardEventHandler<HTMLElement>;
-  tag: string;
-  dismissible: boolean;
-  modal: boolean;
+  className?: string;
+  open?: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
+  tag?: string;
+  dismissible?: boolean;
+  modal?: boolean;
 };
 
 interface DrawerState {
@@ -63,7 +61,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   state: DrawerState = {classList: new Set()};
 
-  static defaultProps: Partial<DrawerProps> = {
+  static defaultProps = {
     className: '',
     children: null,
     open: false,
@@ -184,13 +182,13 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
   }
 
   handleKeyDown = (evt: React.KeyboardEvent<HTMLElement>) => {
-    this.props.onKeyDown(evt);
+    this.props.onKeyDown!(evt);
     if (!this.foundation) return;
     this.foundation.handleKeydown(evt);
   };
 
   handleTransitionEnd = (evt: React.TransitionEvent<HTMLElement>) => {
-    this.props.onTransitionEnd(evt);
+    this.props.onTransitionEnd!(evt);
     if (!this.foundation) return;
     this.foundation.handleTransitionEnd(evt);
   };

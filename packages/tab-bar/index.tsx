@@ -33,7 +33,7 @@ class TabBar extends React.Component<
     };
   }
 
-  static defaultProps: Partial<TabBarProps> = {
+  static defaultProps = {
     indexInView: 0,
     activeIndex: 0,
     handleActiveIndexUpdate: () => {},

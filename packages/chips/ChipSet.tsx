@@ -29,13 +29,13 @@ import {ChipProps} from './Chip'; // eslint-disable-line no-unused-vars
 type ChipType = React.ReactElement<ChipProps>;
 
 export interface ChipSetProps {
-  className: string;
-  selectedChipIds: string[];
-  handleSelect: (selectedChipIds: string[]) => void;
-  updateChips: (chips: Partial<ChipProps>[]) => void;
-  choice: boolean;
-  filter: boolean;
-  input: boolean;
+  className?: string;
+  selectedChipIds?: string[];
+  handleSelect?: (selectedChipIds: string[]) => void;
+  updateChips?: (chips: Partial<ChipProps>[]) => void;
+  choice?: boolean;
+  filter?: boolean;
+  input?: boolean;
   children: ChipType | ChipType[];
 };
 
@@ -50,13 +50,13 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   constructor(props: ChipSetProps) {
     super(props);
     this.state = {
-      selectedChipIds: props.selectedChipIds,
+      selectedChipIds: props.selectedChipIds!,
       foundation: null,
       hasInitialized: false,
     };
   }
 
-  static defaultProps: Partial<ChipSetProps> = {
+  static defaultProps = {
     className: '',
     selectedChipIds: [],
     handleSelect: () => {},
@@ -78,7 +78,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
       this.initChipSelection();
     }
     if (selectedChipIds !== prevProps.selectedChipIds) {
-      this.setState({selectedChipIds});
+      this.setState({selectedChipIds: selectedChipIds!});
     }
   }
 
@@ -101,7 +101,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
       setSelected: () => {
         const selectedChipIds = this.state.foundation.getSelectedChipIds().slice();
         this.setState({selectedChipIds}, () => {
-          this.props.handleSelect(selectedChipIds);
+          this.props.handleSelect!(selectedChipIds);
         });
       },
       removeChip: this.removeChip,
@@ -143,7 +143,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
       }
     }
     const chipsArray = chips.length ? chips.map((chip) => chip.props) : [];
-    updateChips(chipsArray);
+    updateChips!(chipsArray);
   };
 
   setCheckmarkWidth = (checkmark: ChipCheckmark | null) => {

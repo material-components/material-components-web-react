@@ -58,7 +58,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
   tabIndicatorRef: React.RefObject<TabIndicator> = React.createRef();
   tabRippleRef: React.RefObject<TabRipple> = React.createRef();
 
-  static defaultProps: Partial<TabProps> = {
+  static defaultProps = {
     active: false,
     focusOnActivate: true,
     className: '',

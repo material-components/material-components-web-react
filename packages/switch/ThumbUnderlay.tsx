@@ -31,7 +31,7 @@ export interface ThumbUnderlayProps
 }
 
 export class ThumbUnderlay extends React.Component<ThumbUnderlayProps, {}> {
-  static defaultProps: Partial<ThumbUnderlayProps> = {
+  static defaultProps = {
     className: '',
     initRipple: () => {},
     unbounded: true,

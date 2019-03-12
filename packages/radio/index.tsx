@@ -57,7 +57,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
     this.foundation = new MDCRadioFoundation(this.adapter);
   }
 
-  static defaultProps: Partial<RadioProps> = {
+  static defaultProps = {
     label: '',
     initRipple: () => {},
     className: '',

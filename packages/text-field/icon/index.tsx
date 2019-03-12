@@ -41,7 +41,7 @@ export default class Icon extends React.Component<
   > {
   foundation_: MDCTextFieldIconFoundation;
 
-  static defaultProps: Partial<IconProps> = {
+  static defaultProps = {
     disabled: false,
   };
 

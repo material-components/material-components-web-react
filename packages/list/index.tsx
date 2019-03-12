@@ -36,16 +36,16 @@ const VERTICAL = 'vertical';
 const CHECKBOX_TYPE = 'checkbox';
 
 export interface ListProps<T> extends React.HTMLProps<HTMLElement> {
-  className: string;
-  nonInteractive: boolean;
-  dense: boolean;
-  avatarList: boolean;
-  twoLine: boolean;
-  singleSelection: boolean;
-  selectedIndex: number;
-  handleSelect: (selectedIndex: number) => void;
-  wrapFocus: boolean;
-  tag: string;
+  className?: string;
+  nonInteractive?: boolean;
+  dense?: boolean;
+  avatarList?: boolean;
+  twoLine?: boolean;
+  singleSelection?: boolean;
+  selectedIndex?: number;
+  handleSelect?: (selectedIndex: number) => void;
+  wrapFocus?: boolean;
+  tag?: string;
   children: ListItem<T> | ListItem<T>[] | React.ReactNode;
 };
 
@@ -90,7 +90,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     listItemChildrenTabIndex: {},
   };
 
-  static defaultProps: Partial<ListProps<HTMLElement>> = {
+  static defaultProps = {
     'className': '',
     'nonInteractive': false,
     'dense': false,
@@ -240,7 +240,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         e.key === 'Space' ||
         e.keyCode === 32)
     ) {
-      this.props.handleSelect(index);
+      this.props.handleSelect!(index);
     }
   };
 
@@ -251,7 +251,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     // Work around until MDC Web issue is resolved:
     // https://github.com/material-components/material-components-web/issues/4053
     if (index >= 0) {
-      this.props.handleSelect(index);
+      this.props.handleSelect!(index);
     }
   };
 
@@ -320,19 +320,19 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     const props = {
       ...otherProps,
       onKeyDown: (e: React.KeyboardEvent<T>) => {
-        onKeyDown(e);
+        onKeyDown!(e);
         this.handleKeyDown(e, index);
       },
       onClick: (e: React.MouseEvent<T>) => {
-        onClick(e);
+        onClick!(e);
         this.handleClick(e, index);
       },
       onFocus: (e: React.FocusEvent<T>) => {
-        onFocus(e);
+        onFocus!(e);
         this.handleFocus(e, index);
       },
       onBlur: (e: React.FocusEvent<T>) => {
-        onBlur(e);
+        onBlur!(e);
         this.handleBlur(e, index);
       },
       shouldFocus: focusListItemAtIndex === index,

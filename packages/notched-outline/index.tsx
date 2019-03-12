@@ -25,10 +25,10 @@ import * as classnames from 'classnames';
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
 
 export interface NotchedOutlineProps {
-  className: string,
-  isRtl: boolean,
-  notch: boolean,
-  notchWidth: number
+  className?: string,
+  isRtl?: boolean,
+  notch?: boolean,
+  notchWidth?: number
 };
 
 interface NotchedOutlineState {
@@ -44,7 +44,7 @@ export default class NotchedOutline extends React.Component<
   pathElement_: React.RefObject<SVGPathElement> = React.createRef();
   idleElement_: React.RefObject<HTMLDivElement> = React.createRef();
 
-  static defaultProps: Partial<NotchedOutlineProps> = {
+  static defaultProps = {
     className: '',
     isRtl: false,
     notch: false,

@@ -32,10 +32,6 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   shouldFocus: boolean;
   shouldFollowHref: boolean;
   shouldToggleCheckbox: boolean;
-  onKeyDown: React.KeyboardEventHandler<T>;
-  onClick: React.MouseEventHandler<T>;
-  onFocus: React.FocusEventHandler<T>;
-  onBlur: React.FocusEventHandler<T>;
   tag: string;
   children: React.ReactNode;
 };
@@ -54,7 +50,7 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
   > {
   listItemElement_: React.RefObject<T> = React.createRef();
 
-  static defaultProps: Partial<ListItemProps<HTMLElement>> = {
+  static defaultProps = {
     className: '',
     classNamesFromList: [],
     attributesFromList: {},
