@@ -30,28 +30,28 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
-export interface Props<T> {
+export interface Props<T extends HTMLElement = HTMLInputElement> {
   // InputProps<T> includes the prop `id`, which we use below in the constructor
   'children.props'?: InputProps<T>;
   children: React.ReactElement<Input<T>>;
-  className: string;
-  dense: boolean;
-  floatingLabelClassName: string;
-  fullWidth: boolean;
+  className?: string;
+  dense?: boolean;
+  floatingLabelClassName?: string;
+  fullWidth?: boolean;
   helperText?: React.ReactElement<any>;
-  isRtl: boolean;
-  label: React.ReactNode;
+  isRtl?: boolean;
+  label?: React.ReactNode;
   leadingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
-  lineRippleClassName: string;
-  notchedOutlineClassName: string;
-  outlined: boolean;
+  lineRippleClassName?: string;
+  notchedOutlineClassName?: string;
+  outlined?: boolean;
   onLeadingIconSelect?: () => void;
   onTrailingIconSelect?: () => void;
-  textarea: boolean;
+  textarea?: boolean;
   trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
 };
 
-type TextFieldProps<T> = Props<T> & React.HTMLProps<HTMLDivElement>;
+type TextFieldProps<T extends HTMLElement = HTMLInputElement> = Props<T> & React.HTMLProps<HTMLDivElement>;
 
 interface TextFieldState {
   foundation?: MDCTextFieldFoundation;
@@ -71,7 +71,7 @@ interface TextFieldState {
   isValid: boolean;
 };
 
-class TextField<T extends {}> extends React.Component<TextFieldProps<T>, TextFieldState> {
+class TextField<T extends HTMLElement = HTMLInputElement> extends React.Component<TextFieldProps<T>, TextFieldState> {
   floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
   inputComponent_: null | Input<T> = null;
 
