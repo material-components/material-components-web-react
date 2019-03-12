@@ -65,6 +65,56 @@ test('if props.active updates to false, foundation.deactivate is called', () => 
   td.verify(wrapper.instance().deactivate(), {times: 1});
 });
 
+test('calls foundation.setFocusOnActivate when props.focusOnActivate changes from false to true', () => {
+  const wrapper = shallow<Tab>(<Tab focusOnActivate={false} />);
+  wrapper.instance().foundation.setFocusOnActivate = td.func();
+  wrapper.setProps({focusOnActivate: true});
+  td.verify(wrapper.instance().foundation.setFocusOnActivate(true), {times: 1});
+});
+
+test('calls foundation.setFocusOnActivate when props.focusOnActivate changes from true to false', () => {
+  const wrapper = shallow<Tab>(<Tab focusOnActivate />);
+  wrapper.instance().foundation.setFocusOnActivate = td.func();
+  wrapper.setProps({focusOnActivate: false});
+  td.verify(wrapper.instance().foundation.setFocusOnActivate(false), {times: 1});
+});
+
+test('when props.focusOnActivate is true, an active tab should be focused on mount', () => {
+  const div = document.createElement('div');
+  document.body.append(div);
+  const wrapper = mount<Tab>(<Tab active focusOnActivate />, {attachTo: div});
+  assert.equal(document.activeElement, wrapper.getDOMNode());
+  div.remove();
+});
+
+test('when props.focusOnActivate is true and active is changed to true, the tab should be focused', () => {
+  const div = document.createElement('div');
+  document.body.append(div);
+  const wrapper = mount<Tab>(<Tab focusOnActivate />, {attachTo: div});
+  assert.notEqual(document.activeElement, wrapper.getDOMNode());
+  wrapper.setProps({active: true});
+  assert.equal(document.activeElement, wrapper.getDOMNode());
+  div.remove();
+});
+
+test('when props.focusOnActivate is false, an active tab should not be focused on mount', () => {
+  const div = document.createElement('div');
+  document.body.append(div);
+  const wrapper = mount<Tab>(<Tab active focusOnActivate={false} />, {attachTo: div});
+  assert.notEqual(document.activeElement, wrapper.getDOMNode());
+  div.remove();
+});
+
+test('when props.focusOnActivate is false and active is changed to true, the tab should not be focused', () => {
+  const div = document.createElement('div');
+  document.body.append(div);
+  const wrapper = mount<Tab>(<Tab focusOnActivate={false} />, {attachTo: div});
+  assert.notEqual(document.activeElement, wrapper.getDOMNode());
+  wrapper.setProps({active: true});
+  assert.notEqual(document.activeElement, wrapper.getDOMNode());
+  div.remove();
+});
+
 test('#adapter.addClass adds class to state.classList', () => {
   const wrapper = shallow<Tab>(<Tab />);
   wrapper.instance().adapter.addClass('test-class');
