@@ -30,7 +30,7 @@ export interface DialogTitleProps<T> extends React.HTMLProps<T> {
   id?: string,
 };
 
-const DialogTitle: <T extends {} = HTMLHeadingElement>(props: DialogTitleProps<T>) =>
+const DialogTitle: <T extends HTMLElement = HTMLHeadingElement>(props: DialogTitleProps<T>) =>
     React.ReactElement<T> = ({
       /* eslint-disable react/prop-types */
       className = '',

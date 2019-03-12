@@ -84,7 +84,7 @@ function isDialogContent(element: any): element is DialogContent<any> {
   return element.type === DialogContent;
 }
 
-class Dialog<T extends {} = HTMLElement> extends React.Component<
+class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   DialogProps<T>,
   DialogState
   > {

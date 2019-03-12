@@ -43,10 +43,11 @@ export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
   notchedOutlineClassName: string;
   outlined: boolean;
   options: SelectOptionsType;
+  value?: string;
 }
 
 interface SelectState {
-  value?: string | string[] | number,
+  value?: string;
   classList: Set<string>;
   disabled: boolean;
   labelIsFloated: boolean;
@@ -200,6 +201,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       outlined,
       onChange,
       ref,
+      value,
       /* eslint-enable */
       ...otherProps
     } = this.props;
@@ -211,6 +213,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
         handleDisabled={this.setDisabled}
         onChange={this.onChange}
         setRippleCenter={this.setRippleCenter}
+        value={this.state.value}
         {...otherProps}
       >
         {this.renderOptions()}

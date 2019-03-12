@@ -30,7 +30,7 @@ export interface DialogFooterProps<T> extends React.HTMLProps<T> {
 };
 
 
-const DialogFooter: <T extends {} = HTMLElement>(props: DialogFooterProps<T>) =>
+const DialogFooter: <T extends HTMLElement = HTMLElement>(props: DialogFooterProps<T>) =>
   React.ReactElement<T> = ({
     /* eslint-disable react/prop-types */
     className = '',

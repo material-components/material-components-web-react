@@ -25,15 +25,15 @@ import classnames from 'classnames';
 import {MDCTextFieldHelperTextFoundation} from '@material/textfield/dist/mdc.textfield';
 
 export interface HelperTextProps {
-  'aria-hidden': boolean;
+  'aria-hidden'?: boolean;
   children: React.ReactNode;
-  className: string;
-  isValid: boolean;
-  isValidationMessage: boolean;
-  persistent: boolean;
+  className?: string;
+  isValid?: boolean;
+  isValidationMessage?: boolean;
+  persistent?: boolean;
   role?: string;
-  showToScreenReader: boolean;
-  validation: boolean;
+  showToScreenReader?: boolean;
+  validation?: boolean;
 };
 
 interface HelperTextState {
@@ -61,7 +61,7 @@ export default class HelperText extends React.Component<
   constructor(props: HelperTextProps) {
     super(props);
     this.state = {
-      'aria-hidden': props['aria-hidden'],
+      'aria-hidden': props['aria-hidden']!,
       'role': props.role,
       'classList': new Set(),
     };
