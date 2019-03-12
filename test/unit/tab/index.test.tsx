@@ -80,27 +80,39 @@ test('calls foundation.setFocusOnActivate when props.focusOnActivate changes fro
 });
 
 test('when props.focusOnActivate is true, an active tab should be focused on mount', () => {
-  const wrapper = mount<Tab>(<Tab active focusOnActivate />, {attachTo: document.body});
+  const div = document.createElement('div');
+  document.body.append(div);
+  const wrapper = mount<Tab>(<Tab active focusOnActivate />, {attachTo: div});
   assert.equal(document.activeElement, wrapper.getDOMNode());
+  div.remove();
 });
 
 test('when props.focusOnActivate is true and active is changed to true, the tab should be focused', () => {
-  const wrapper = mount<Tab>(<Tab focusOnActivate />, {attachTo: document.body});
+  const div = document.createElement('div');
+  document.body.append(div);
+  const wrapper = mount<Tab>(<Tab focusOnActivate />, {attachTo: div});
   assert.notEqual(document.activeElement, wrapper.getDOMNode());
   wrapper.setProps({active: true});
   assert.equal(document.activeElement, wrapper.getDOMNode());
+  div.remove();
 });
 
 test('when props.focusOnActivate is false, an active tab should not be focused on mount', () => {
-  const wrapper = mount<Tab>(<Tab active focusOnActivate={false} />, {attachTo: document.body});
+  const div = document.createElement('div');
+  document.body.append(div);
+  const wrapper = mount<Tab>(<Tab active focusOnActivate={false} />, {attachTo: div});
   assert.notEqual(document.activeElement, wrapper.getDOMNode());
+  div.remove();
 });
 
 test('when props.focusOnActivate is false and active is changed to true, the tab should not be focused', () => {
-  const wrapper = mount<Tab>(<Tab focusOnActivate={false} />, {attachTo: document.body});
+  const div = document.createElement('div');
+  document.body.append(div);
+  const wrapper = mount<Tab>(<Tab focusOnActivate={false} />, {attachTo: div});
   assert.notEqual(document.activeElement, wrapper.getDOMNode());
   wrapper.setProps({active: true});
   assert.notEqual(document.activeElement, wrapper.getDOMNode());
+  div.remove();
 });
 
 test('#adapter.addClass adds class to state.classList', () => {
