@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": false,
     "noErrorTruncation": true,
-    "pretty": true,
+    "pretty": true
   },
   "compileOnSave": true,
   "exclude": [

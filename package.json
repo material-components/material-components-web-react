@@ -73,7 +73,7 @@
     "@material/layout-grid": "^0.41.0",
     "@material/line-ripple": "^0.41.0",
     "@material/linear-progress": "^0.41.0",
-    "@material/list": "^1.0.0-0",
+    "@material/list": "^1.0.0",
     "@material/menu-surface": "^0.41.0",
     "@material/notched-outline": "^0.41.0",
     "@material/radio": "^0.41.0",
