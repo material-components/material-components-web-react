@@ -124,7 +124,7 @@ class RadioList extends React.Component<{}, {selectedItem: string}> {
             <ListItem key={index}>
               <Radio key={index}>
                 <NativeRadioControl
-                  name={name}
+                  name={item}
                   checked={this.state.selectedItem === item}
                   value={item}
                   id={`${index}-${item}`}

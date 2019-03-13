@@ -45,7 +45,7 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
   twoLine: boolean;
   singleSelection: boolean;
   selectedIndex: MDCListIndex;
-  handleSelect: (selectedIndex: number, selected: MDCListIndex) => void;
+  handleSelect: (activatedItemIndex: number, selected: MDCListIndex) => void;
   wrapFocus: boolean;
   tag: string;
   children: ListItem<T> | ListItem<T>[] | React.ReactNode;
