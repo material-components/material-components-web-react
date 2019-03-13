@@ -22,7 +22,7 @@ suite('TabScroller');
 function getAdapter(instance: TabScroller) {
   // @ts-ignore adapter_ property is protected and we need to override this
   return instance.foundation.adapter_;
-} 
+}
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<TabScroller className='test-class-name' />);
@@ -396,9 +396,11 @@ test('keydown event triggers props.onKeyDown', () => {
 test('transitionend event triggers foundation.handleTransitionEnd', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
   wrapper.instance().foundation.handleTransitionEnd = td.func<(evt: Event) => null>();
-  const evt = coerceForTesting<Event>({});
+  const evt = coerceForTesting<React.TransitionEvent>({
+    nativeEvent: {},
+  });
   wrapper.simulate('transitionend', evt);
-  td.verify(wrapper.instance().foundation.handleTransitionEnd(evt), {
+  td.verify(wrapper.instance().foundation.handleTransitionEnd(evt.nativeEvent), {
     times: 1,
   });
 });
@@ -406,7 +408,9 @@ test('transitionend event triggers foundation.handleTransitionEnd', () => {
 test('transitionend event triggers props.onTransitionEnd', () => {
   const onTransitionEnd = coerceForTesting<React.TransitionEventHandler<HTMLDivElement>>(td.func());
   const wrapper = shallow(<TabScroller onTransitionEnd={onTransitionEnd} />);
-  const evt = coerceForTesting<React.TransitionEvent<HTMLDivElement>>({});
+  const evt = coerceForTesting<React.TransitionEvent<HTMLDivElement>>({
+    nativeEvent: {},
+  });
   wrapper.simulate('transitionend', evt);
   td.verify(onTransitionEnd(evt), {times: 1});
 });

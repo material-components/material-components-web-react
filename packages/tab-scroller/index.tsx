@@ -139,9 +139,9 @@ export default class TabScroller extends React.Component<
         this.setStyleToElement(prop, value, 'scrollContentStyleProperty'),
       getScrollContentStyleValue: (propName: string) =>
         this.contentElement.current ?
-        window
-          .getComputedStyle(this.contentElement.current)
-          .getPropertyValue(propName) : '',
+          window
+            .getComputedStyle(this.contentElement.current)
+            .getPropertyValue(propName) : '',
       setScrollAreaScrollLeft: (scrollX: number) => {
         if (!this.areaElement.current) return;
         this.areaElement.current.scrollLeft = scrollX;
@@ -153,12 +153,12 @@ export default class TabScroller extends React.Component<
         this.areaElement.current ? this.areaElement.current.offsetWidth : 0,
       computeScrollAreaClientRect: () =>
         this.areaElement.current ?
-        this.areaElement.current.getBoundingClientRect() :
-        new ClientRect(),
+          this.areaElement.current.getBoundingClientRect() :
+          new ClientRect(),
       computeScrollContentClientRect: () =>
         this.contentElement.current ?
-        this.contentElement.current.getBoundingClientRect() :
-        new ClientRect(),
+          this.contentElement.current.getBoundingClientRect() :
+          new ClientRect(),
       computeHorizontalScrollbarHeight: () =>
         util.computeHorizontalScrollbarHeight(document),
     };
