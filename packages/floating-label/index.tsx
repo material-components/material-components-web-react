@@ -22,8 +22,8 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
-// @ts-ignore no mdc .d.ts
-import {MDCFloatingLabelFoundation} from '@material/floating-label/dist/mdc.floatingLabel';
+import {MDCFloatingLabelFoundation} from '@material/floating-label/foundation';
+import {MDCFloatingLabelAdapter} from '@material/floating-label/adapter';
 
 export interface FloatingLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   className?: string;
@@ -39,8 +39,8 @@ export default class FloatingLabel extends React.Component<
   FloatingLabelProps,
   FloatingLabelState
   > {
-  foundation_?: MDCFloatingLabelFoundation;
-  labelElement_: React.RefObject<HTMLLabelElement> = React.createRef();
+  foundation!: MDCFloatingLabelFoundation;
+  labelElement: React.RefObject<HTMLLabelElement> = React.createRef();
 
   static defaultProps: Partial<FloatingLabelProps> = {
     className: '',
@@ -55,12 +55,12 @@ export default class FloatingLabel extends React.Component<
     this.initializeFoundation();
     this.handleWidthChange();
     if (this.props.float) {
-      this.foundation_.float(true);
+      this.foundation.float(true);
     }
   }
 
   componentWillUnmount() {
-    this.foundation_.destroy();
+    this.foundation.destroy();
   }
 
   componentDidUpdate(prevProps: FloatingLabelProps) {
@@ -68,13 +68,13 @@ export default class FloatingLabel extends React.Component<
       this.handleWidthChange();
     }
     if (this.props.float !== prevProps.float) {
-      this.foundation_.float(this.props.float);
+      this.foundation.float(this.props.float!);
     }
   }
 
   initializeFoundation = () => {
-    this.foundation_ = new MDCFloatingLabelFoundation(this.adapter);
-    this.foundation_.init();
+    this.foundation = new MDCFloatingLabelFoundation(this.adapter);
+    this.foundation.init();
   };
 
   get classes() {
@@ -83,17 +83,22 @@ export default class FloatingLabel extends React.Component<
     return classnames('mdc-floating-label', Array.from(classList), className);
   }
 
-  get adapter() {
+  get adapter(): MDCFloatingLabelAdapter {
     return {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
       removeClass: this.removeClassFromClassList,
+      // the adapter methods below are effectively useless since React
+      // handles events and width differently
+      registerInteractionHandler: () => undefined,
+      deregisterInteractionHandler: () => undefined,
+      getWidth: () => 0,
     };
   }
 
   // must be called via ref
   shake = () => {
-    this.foundation_.shake(true);
+    this.foundation.shake(true);
   };
 
   removeClassFromClassList = (className: string) => {
@@ -104,8 +109,8 @@ export default class FloatingLabel extends React.Component<
 
   handleWidthChange = () => {
     const {handleWidthChange} = this.props;
-    if (handleWidthChange && this.labelElement_.current) {
-      handleWidthChange(this.labelElement_.current.offsetWidth);
+    if (handleWidthChange && this.labelElement.current) {
+      handleWidthChange(this.labelElement.current.offsetWidth);
     }
   };
 
@@ -126,7 +131,7 @@ export default class FloatingLabel extends React.Component<
     return (
       <label
         className={this.classes}
-        ref={this.labelElement_}
+        ref={this.labelElement}
         onAnimationEnd={this.onShakeEnd}
         {...otherProps}
       >
