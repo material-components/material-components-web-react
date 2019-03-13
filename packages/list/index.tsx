@@ -36,18 +36,18 @@ const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
 export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLElement> {
-  className: string;
-  checkboxList: boolean;
-  radioList: boolean;
-  nonInteractive: boolean;
-  dense: boolean;
-  avatarList: boolean;
-  twoLine: boolean;
-  singleSelection: boolean;
-  selectedIndex: MDCListIndex;
-  handleSelect: (activatedItemIndex: number, selected: MDCListIndex) => void;
-  wrapFocus: boolean;
-  tag: string;
+  className?: string;
+  checkboxList?: boolean;
+  radioList?: boolean;
+  nonInteractive?: boolean;
+  dense?: boolean;
+  avatarList?: boolean;
+  twoLine?: boolean;
+  singleSelection?: boolean;
+  selectedIndex?: MDCListIndex;
+  handleSelect?: (activatedItemIndex: number, selected: MDCListIndex) => void;
+  wrapFocus?: boolean;
+  tag?: string;
   children: ListItem<T> | ListItem<T>[] | React.ReactNode;
 };
 
@@ -90,12 +90,12 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     this.foundation = new MDCListFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setSingleSelection(singleSelection);
+    this.foundation.setSingleSelection(singleSelection!);
     this.foundation.layout();
     if (isSelectedIndexType(selectedIndex)) {
       this.foundation.setSelectedIndex(selectedIndex);
     }
-    this.foundation.setWrapFocus(wrapFocus);
+    this.foundation.setWrapFocus(wrapFocus!);
     this.foundation.setVerticalOrientation(
       this.props[ARIA_ORIENTATION] === VERTICAL
     );
@@ -106,13 +106,13 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     const hasSelectedIndexUpdated = selectedIndex !== prevProps.selectedIndex;
     if (singleSelection !== prevProps.singleSelection) {
-      this.foundation.setSingleSelection(singleSelection);
+      this.foundation.setSingleSelection(singleSelection!);
     }
     if (hasSelectedIndexUpdated && isSelectedIndexType(selectedIndex)) {
       this.foundation.setSelectedIndex(selectedIndex);
     }
     if (wrapFocus !== prevProps.wrapFocus) {
-      this.foundation.setWrapFocus(wrapFocus);
+      this.foundation.setWrapFocus(wrapFocus!);
     }
     if (this.props[ARIA_ORIENTATION] !== prevProps[ARIA_ORIENTATION]) {
       this.foundation.setVerticalOrientation(
@@ -235,7 +235,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         return this.listElement.current.contains(document.activeElement);
       },
       notifyAction: (index) => {
-        this.props.handleSelect(index, this.foundation.getSelectedIndex());
+        this.props.handleSelect!(index, this.foundation.getSelectedIndex());
       },
     };
   }
@@ -336,7 +336,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     if (!this.hasInitializedListItem) {
       const isSelectedIndexArray = Array.isArray(selectedIndex) && selectedIndex.length > 0;
       // if selectedIndex is populated then check if its a checkbox/radioList
-      if (isSelectedIndexArray || selectedIndex > -1) {
+      if (selectedIndex && (isSelectedIndexArray || selectedIndex > -1)) {
         const isCheckboxListSelected
           = checkboxList && Array.isArray(selectedIndex) && selectedIndex.indexOf(index) > -1;
         const isNonCheckboxListSelected = selectedIndex === index;
@@ -358,19 +358,19 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       checkboxList,
       radioList,
       onKeyDown: (e: React.KeyboardEvent<T>) => {
-        onKeyDown(e);
+        onKeyDown!(e);
         this.handleKeyDown(e, index);
       },
       onClick: (e: React.MouseEvent<T>) => {
-        onClick(e);
+        onClick!(e);
         this.handleClick(e, index);
       },
       onFocus: (e: React.FocusEvent<T>) => {
-        onFocus(e);
+        onFocus!(e);
         this.handleFocus(e, index);
       },
       onBlur: (e: React.FocusEvent<T>) => {
-        onBlur(e);
+        onBlur!(e);
         this.handleBlur(e, index);
       },
       ...tabIndex,

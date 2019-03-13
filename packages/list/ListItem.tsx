@@ -25,15 +25,15 @@ import * as classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
 
 export interface ListItemProps<T> extends React.HTMLProps<T> {
-  checkboxList: boolean;
-  radioList: boolean;
-  onKeyDown: React.KeyboardEventHandler<T>;
-  onClick: React.MouseEventHandler<T>;
-  onFocus: React.FocusEventHandler<T>;
-  onBlur: React.FocusEventHandler<T>;
-  tag: string;
-  activated: boolean;
-  selected: boolean;
+  checkboxList?: boolean;
+  radioList?: boolean;
+  onKeyDown?: React.KeyboardEventHandler<T>;
+  onClick?: React.MouseEventHandler<T>;
+  onFocus?: React.FocusEventHandler<T>;
+  onBlur?: React.FocusEventHandler<T>;
+  tag?: string;
+  activated?: boolean;
+  selected?: boolean;
 };
 
 // TODO: convert to functional component

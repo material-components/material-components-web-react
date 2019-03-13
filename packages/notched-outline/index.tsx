@@ -25,10 +25,10 @@ import * as classnames from 'classnames';
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
 
 export interface NotchedOutlineProps {
-  className: string,
-  isRtl: boolean,
-  notch: boolean,
-  notchWidth: number
+  className?: string,
+  isRtl?: boolean,
+  notch?: boolean,
+  notchWidth?: number
 };
 
 interface NotchedOutlineState {
