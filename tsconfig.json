@@ -8,7 +8,7 @@
     "jsx": "react",
     "target": "es5",
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
   },
   "compileOnSave": true,
   "exclude": [
