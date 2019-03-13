@@ -32,6 +32,7 @@ import ListItemMeta from './ListItemMeta';
 import ListDivider from './ListDivider';
 import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
+import { debug } from 'util';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
@@ -307,7 +308,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       <Tag
         className={this.classes}
         ref={this.listElement}
-        role={role}
+        role={this.role}
         {...otherProps}
       >
         {React.Children.map(children, this.renderChild)}

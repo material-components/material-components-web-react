@@ -7,6 +7,7 @@ import List, {
 } from '../../../packages/list/index';
 import {coerceForTesting} from '../helpers/types';
 import {MDCListIndex} from '@material/list/types';
+import { number } from 'prop-types';
 
 suite('List');
 
@@ -152,7 +153,7 @@ test('#adapter.addClassForElementIndex adds class to classList', () => {
   wrapper.instance().adapter.addClassForElementIndex(0, 'class4321');
   const listItem = wrapper.childAt(0).childAt(0);
   assert.isTrue(listItem.html().includes('class4321'));
-  assert.isTrue(listItem.hasClass('mdc-list-item'));
+  assert.isTrue(listItem.html().includes('mdc-list-item'));
 });
 
 test('#adapter.addClassForElementIndex adds class to classList and keeps props.className', () => {
@@ -181,54 +182,188 @@ test('#adapter.removeClassForElementIndex adds class to classList and keeps prop
   assert.isTrue(listItem.html().includes('mdc-list-item'));
 });
 
-test('#adapter.setTabIndexForListItemChildren updates state.listItemChildrenTabIndex', () => {
+test('#adapter.setTabIndexForListItemChildren updates the button and anchor tag to have tabindex=0', () => {
+  const wrapper = mount<List>(<List>
+    <ListItem>
+      <button>click</button>
+      <a>link</a>
+    </ListItem>
+  </List>);
+  wrapper.instance().adapter.setTabIndexForListItemChildren(0, '0');
+  const listItem = wrapper.childAt(0).childAt(0);
+  assert.isTrue(listItem.find('a').html().includes('tabindex="0"'))
+  assert.isTrue(listItem.find('button').html().includes('tabindex="0"'))
+});
+
+test('#adapter.focusItemAtIndex calls focus on the listitem', () => {
   const wrapper = mount<List>(<List>{children()}</List>);
-  // wrapper.state().listItemClassNames[1] = -1;
-  wrapper.instance().adapter.setTabIndexForListItemChildren(1, 0);
-  assert.equal(wrapper.state().listItemChildrenTabIndex[1], 0);
+  (wrapper.instance().listElements[0] as HTMLElement).focus
+    = coerceForTesting<(opts?: any) => void>(td.func());
+  wrapper.instance().adapter.focusItemAtIndex(0);
+  td.verify((wrapper.instance().listElements[0] as HTMLElement).focus(), {times: 1})
 });
 
-test('#adapter.focusItemAtIndex sets state.focusListItemAtIndex', () => {
-  const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().adapter.focusItemAtIndex(1);
-  assert.equal(wrapper.state().focusListItemAtIndex, 1);
+test('#adapter.focusItemAtIndex call nothing when no children exist', () => {
+  const wrapper = mount<List>(<List></List>);
+  assert.doesNotThrow(() => wrapper.instance().adapter.focusItemAtIndex(0));
 });
 
-test('#adapter.followHref sets state.followHrefAtIndex', () => {
+test('#adapter.setCheckedCheckboxOrRadioAtIndex does not throw', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().adapter.followHref(1);
-  assert.equal(wrapper.state().followHrefAtIndex, 1);
+  assert.doesNotThrow(() => wrapper.instance().adapter.setCheckedCheckboxOrRadioAtIndex(0, true));
 });
 
-test('#adapter.toggleCheckbox sets state.toggleCheckboxAtIndex', () => {
-  const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().adapter.toggleCheckbox(1);
-  assert.equal(wrapper.state().toggleCheckboxAtIndex, 1);
+test('#adapter.hasCheckboxAtIndex returns false with no checkbox', () => {
+  const wrapper = mount<List>(<List>{children()}</List>);
+  assert.isFalse(wrapper.instance().adapter.hasCheckboxAtIndex(0));
 });
+
+test('#adapter.hasCheckboxAtIndex returns true with checkbox', () => {
+  const wrapper = mount<List>(<List selectedIndex={[]}>
+    <ListItem>
+      <input type='checkbox' />
+    </ListItem>
+  </List>);
+  assert.isTrue(wrapper.instance().adapter.hasCheckboxAtIndex(0));
+});
+
+test('#adapter.hasRadioAtIndex returns false with no checkbox', () => {
+  const wrapper = mount<List>(<List>{children()}</List>);
+  assert.isFalse(wrapper.instance().adapter.hasRadioAtIndex(0));
+});
+
+test('#adapter.hasRadioAtIndex returns true with checkbox', () => {
+  const wrapper = mount<List>(<List>
+    <ListItem>
+      <input type='radio' />
+    </ListItem>
+  </List>);
+  assert.isTrue(wrapper.instance().adapter.hasRadioAtIndex(0));
+});
+
+test('#adapter.isCheckboxCheckedAtIndex returns false with a non-checked checkbox', () => {
+  const wrapper = mount<List>(<List selectedIndex={[]}>
+    <ListItem>
+      <input type='checkbox' />
+    </ListItem>
+  </List>);
+  assert.isFalse(wrapper.instance().adapter.isCheckboxCheckedAtIndex(0));
+});
+
+test('#adapter.isCheckboxCheckedAtIndex returns true with a checked checkbox', () => {
+  const wrapper = mount<List>(<List selectedIndex={[]}>
+    <ListItem>
+      <input type='checkbox' checked />
+    </ListItem>
+  </List>);
+  assert.isTrue(wrapper.instance().adapter.isCheckboxCheckedAtIndex(0));
+});
+
+test('#adapter.isFocusInsideList returns true if the list element has focus inside', () => {
+  const div = document.createElement('div');
+  // needs to be attached to real DOM to get width
+  // https://github.com/airbnb/enzyme/issues/1525
+  document.body.append(div);
+  const options = {attachTo: div};
+  const wrapper = mount<List>(<List>
+    <ListItem>
+      <button>click</button>
+    </ListItem>
+  </List>, options);
+  wrapper.instance().listElements[0].querySelector('button')!.focus();
+  assert.isTrue(wrapper.instance().adapter.isFocusInsideList());
+  div.remove();
+});
+
+test('#adapter.isFocusInsideList returns true if the list element has focus inside', () => {
+  const wrapper = mount<List>(<List>
+    <ListItem>
+      <button>click</button>
+    </ListItem>
+  </List>);
+  assert.isFalse(wrapper.instance().adapter.isFocusInsideList());
+});
+
+test('#adapter.notifyAction calls props.handleSelect with args', () => {
+  const handleSelect = coerceForTesting<(selectedIndex: number, selected: MDCListIndex) => void>(td.func());
+  const wrapper = mount<List>(<List handleSelect={handleSelect}>{children}</List>);
+  wrapper.instance().adapter.notifyAction(0);
+  td.verify(handleSelect(0, -1), {times: 1});
+});
+
+test('renders with mdc-list class', () => {
+  const wrapper = shallow<List>(<List>{children}</List>);
+  assert.isTrue(wrapper.hasClass('mdc-list'));
+});
+
+test('renders with className', () => {
+  const wrapper = shallow<List>(<List className='test-class'>{children}</List>);
+  assert.isTrue(wrapper.hasClass('test-class'));
+  assert.isTrue(wrapper.hasClass('mdc-list'));
+});
+
+test('renders with mdc-list--non-interactive when non-interactive', () => {
+  const wrapper = shallow<List>(<List nonInteractive>{children}</List>);
+  assert.isTrue(wrapper.hasClass('mdc-list--non-interactive'));
+  assert.isTrue(wrapper.hasClass('mdc-list'));
+});
+
+test('renders with mdc-list--dense when dense', () => {
+  const wrapper = shallow<List>(<List dense>{children}</List>);
+  assert.isTrue(wrapper.hasClass('mdc-list--dense'));
+  assert.isTrue(wrapper.hasClass('mdc-list'));
+});
+
+test('renders with mdc-list--avatar-list when avatar-list', () => {
+  const wrapper = shallow<List>(<List avatarList>{children}</List>);
+  assert.isTrue(wrapper.hasClass('mdc-list--avatar-list'));
+  assert.isTrue(wrapper.hasClass('mdc-list'));
+});
+
+test('renders with mdc-list--two-line when two-line', () => {
+  const wrapper = shallow<List>(<List twoLine>{children}</List>);
+  assert.isTrue(wrapper.hasClass('mdc-list--two-line'));
+  assert.isTrue(wrapper.hasClass('mdc-list'));
+});
+
+test('renders with role=group if props.checkboxList', () => {
+  const wrapper = shallow<List>(<List checkboxList>{children}</List>);
+  assert.equal(wrapper.props().role, 'group');
+});
+
+test('renders with role=radiogroup if props.radioList', () => {
+  const wrapper = shallow<List>(<List radioList>{children}</List>);
+  assert.equal(wrapper.props().role, 'radiogroup');
+});
+
+test('renders with role=menu if props.role=menu', () => {
+  const wrapper = shallow<List>(<List role='menu'>{children}</List>);
+  assert.equal(wrapper.props().role, 'menu');
+});
+
+test('renders with role=menu if props.role=menu and props.checkboxList', () => {
+  const wrapper = shallow<List>(<List role='menu' checkboxList>{children}</List>);
+  assert.equal(wrapper.props().role, 'menu');
+});
+
 
 test('#handleKeyDown calls #foudation.handleKeydown', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().foundation.handleKeydown = td.func();
+  wrapper.instance().foundation.handleKeydown
+    = coerceForTesting<(evt: KeyboardEvent, isItem: boolean, itemIndex: number) => void>(td.func());
   const evt = coerceForTesting<React.KeyboardEvent>({persist: () => {}});
   wrapper.instance().handleKeyDown(evt, 1);
-  td.verify(wrapper.instance().foundation.handleKeydown(evt, true, 1), {
+  td.verify(wrapper.instance().foundation.handleKeydown(evt.nativeEvent, true, 1), {
     times: 1,
   });
-});
-
-test('#handleKeyDown calls #props.handleSelect if key is enter', () => {
-  const handleSelect = coerceForTesting<(selectedIndex: number) => void>(td.func());
-  const wrapper = shallow<List>(<List handleSelect={handleSelect}>{children()}</List>);
-  const evt = coerceForTesting<React.KeyboardEvent>({persist: () => {}, key: 'Enter'});
-  wrapper.instance().handleKeyDown(evt, 1);
-  td.verify(handleSelect(1), {times: 1});
 });
 
 test('#handleClick calls #foudation.handleClick', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
   const target = {type: 'span'};
   const evt = coerceForTesting<React.MouseEvent<HTMLSpanElement>>({target});
-  wrapper.instance().foundation.handleClick = td.func();
+  wrapper.instance().foundation.handleClick
+    = coerceForTesting<(index: number, toggleCheckbox: boolean) => void>(td.func());
   wrapper.instance().handleClick(evt, 1);
   td.verify(wrapper.instance().foundation.handleClick(1, false), {times: 1});
 });
