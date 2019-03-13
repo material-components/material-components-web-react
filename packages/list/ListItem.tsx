@@ -69,8 +69,9 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
 
   get role() {
     const {checkboxList, radioList, role} = this.props;
-    if (role) return role;
-    if (checkboxList) {
+    if (role) {
+      return role;
+    } else if (checkboxList) {
       return 'checkbox';
     } else if (radioList) {
       return 'radio';
@@ -80,12 +81,15 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
 
   render() {
     const {
+      /* eslint-disable no-unused-vars */
       className,
       children,
       role,
       checkboxList,
       radioList,
+      /* eslint-enable no-unused-vars */
       tag: Tag,
+
       ...otherProps
     } = this.props;
     return (

@@ -71,7 +71,7 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
 
 class CheckboxList extends React.Component<{}, {selectedIndex: MDCListIndex}> {
   state = {
-    selectedIndex: [0],
+    selectedIndex: [1],
   };
 
   handleSelect = (_selectedIndex: number, selected: MDCListIndex) => {
@@ -91,7 +91,7 @@ class CheckboxList extends React.Component<{}, {selectedIndex: MDCListIndex}> {
         >
           {groceryItems.map((item, index) => (
             <ListItem key={index}>
-              <Checkbox checked={index === 0} />
+              <Checkbox checked={index === 1} />
               <ListItemText primaryText={item} />
             </ListItem>
           ))}
@@ -107,7 +107,7 @@ class RadioList extends React.Component<{}, {selectedItem: string}> {
   };
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({selectedItem: e.target.value})
+    this.setState({selectedItem: e.target.value});
   }
 
   render() {

@@ -7,15 +7,22 @@ import List, {
 } from '../../../packages/list/index';
 import {coerceForTesting} from '../helpers/types';
 import {MDCListIndex} from '@material/list/types';
-import { number } from 'prop-types';
 
 suite('List');
 
-const children: (key?: number) => React.ReactElement<ListItemProps<HTMLDivElement>>
-  = (key: number = 0) => (<ListItem key={key}><div>meow</div></ListItem>);
+const children = (opts?: {
+    key?: number,
+    hasCheckbox?: boolean
+  }): React.ReactElement<ListItemProps<HTMLDivElement>> => (
+  <ListItem key={opts && opts.key}>
+    <div>meow</div>
+    {opts && opts.hasCheckbox ? <input type='checkbox' /> : null}
+  </ListItem>
+);
 
-const threeChildren: () => React.ReactElement<ListItemProps<HTMLDivElement>>[]
-  = () => [0, 1, 2].map((key) => children(key));
+const threeChildren = (): React.ReactElement<ListItemProps<HTMLDivElement>>[] => (
+  [0, 1, 2].map((key) => children({key}))
+);
 
 test('creates foundation', () => {
   const wrapper = shallow<List>(<List>
@@ -191,8 +198,8 @@ test('#adapter.setTabIndexForListItemChildren updates the button and anchor tag 
   </List>);
   wrapper.instance().adapter.setTabIndexForListItemChildren(0, '0');
   const listItem = wrapper.childAt(0).childAt(0);
-  assert.isTrue(listItem.find('a').html().includes('tabindex="0"'))
-  assert.isTrue(listItem.find('button').html().includes('tabindex="0"'))
+  assert.isTrue(listItem.find('a').html().includes('tabindex="0"'));
+  assert.isTrue(listItem.find('button').html().includes('tabindex="0"'));
 });
 
 test('#adapter.focusItemAtIndex calls focus on the listitem', () => {
@@ -200,7 +207,7 @@ test('#adapter.focusItemAtIndex calls focus on the listitem', () => {
   (wrapper.instance().listElements[0] as HTMLElement).focus
     = coerceForTesting<(opts?: any) => void>(td.func());
   wrapper.instance().adapter.focusItemAtIndex(0);
-  td.verify((wrapper.instance().listElements[0] as HTMLElement).focus(), {times: 1})
+  td.verify((wrapper.instance().listElements[0] as HTMLElement).focus(), {times: 1});
 });
 
 test('#adapter.focusItemAtIndex call nothing when no children exist', () => {
@@ -253,7 +260,8 @@ test('#adapter.isCheckboxCheckedAtIndex returns false with a non-checked checkbo
 test('#adapter.isCheckboxCheckedAtIndex returns true with a checked checkbox', () => {
   const wrapper = mount<List>(<List selectedIndex={[]}>
     <ListItem>
-      <input type='checkbox' checked />
+      {/* empty onChange to avoid a warning */}
+      <input type='checkbox' checked onChange={() => {}} />
     </ListItem>
   </List>);
   assert.isTrue(wrapper.instance().adapter.isCheckboxCheckedAtIndex(0));
@@ -368,159 +376,73 @@ test('#handleClick calls #foudation.handleClick', () => {
   td.verify(wrapper.instance().foundation.handleClick(1, false), {times: 1});
 });
 
-test('#handleClick calls #props.handleSelect', () => {
-  const handleSelect = coerceForTesting<(selectedIndex: number) => void>(td.func());
-  const target = {type: 'span'};
-  const evt = coerceForTesting<React.MouseEvent<HTMLSpanElement>>({target});
-  const wrapper = shallow<List>(<List handleSelect={handleSelect}>{children()}</List>);
-  wrapper.instance().handleClick(evt, 1);
-  td.verify(handleSelect(1), {times: 1});
-});
-
 test('#handleFocus calls #foudation.handleFocusIn', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().foundation.handleFocusIn = td.func();
+  wrapper.instance().foundation.handleFocusIn
+    = coerceForTesting<(e: FocusEvent, itemIndex: number) => void>(td.func());
   const evt = coerceForTesting<React.FocusEvent>({});
   wrapper.instance().handleFocus(evt, 1);
-  td.verify(wrapper.instance().foundation.handleFocusIn(evt, 1), {times: 1});
+  td.verify(wrapper.instance().foundation.handleFocusIn(evt.nativeEvent, 1), {times: 1});
 });
 
 test('#handleBlur calls #foudation.handleFocusOut', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
-  wrapper.instance().foundation.handleFocusOut = td.func();
+  wrapper.instance().foundation.handleFocusOut
+    = coerceForTesting<(e: FocusEvent, itemIndex: number) => void>(td.func());
   const evt = coerceForTesting<React.FocusEvent>({});
   wrapper.instance().handleBlur(evt, 1);
-  td.verify(wrapper.instance().foundation.handleFocusOut(evt, 1), {
+  td.verify(wrapper.instance().foundation.handleFocusOut(evt.nativeEvent, 1), {
     times: 1,
   });
 });
 
-test('#renderListItem renders default list item at index 0', () => {
+test('renders 3 list items', () => {
   const wrapper = mount(
     <List>
       {threeChildren()}
     </List>
   );
-  const listItemProps = wrapper.children().props().children[0].props;
-  assert.isFalse(listItemProps.shouldFocus);
-  assert.isFalse(listItemProps.shouldFollowHref);
-  assert.isFalse(listItemProps.shouldToggleCheckbox);
-  assert.equal(listItemProps.attributesFromList['tabIndex'], 0);
-  assert.isEmpty(listItemProps.classNamesFromList);
-  assert.equal(listItemProps.childrenTabIndex, -1);
+  assert.equal(wrapper.childAt(0).children().length, 3);
 });
 
-test('#renderListItem renders default list item at index not 0', () => {
+test('renders list items with tabindex=-1 and first with tabindex=0', () => {
   const wrapper = mount(
     <List>
       {threeChildren()}
     </List>
   );
-  const listItemProps = wrapper.children().props().children[1].props;
-  assert.isFalse(listItemProps.shouldFocus);
-  assert.isFalse(listItemProps.shouldFollowHref);
-  assert.isFalse(listItemProps.shouldToggleCheckbox);
-  assert.isEmpty(listItemProps.attributesFromList);
-  assert.isEmpty(listItemProps.classNamesFromList);
-  assert.equal(listItemProps.childrenTabIndex, -1);
+  const list = wrapper.childAt(0);
+  assert.equal(list.childAt(0).props().tabIndex, 0);
+  assert.equal(list.childAt(1).props().tabIndex, -1);
+  assert.equal(list.childAt(2).props().tabIndex, -1);
 });
 
-test('#renderListItem renders list item with prop.shouldFocus true if its index is state.focusListItemAtIndex', () => {
+test('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0', () => {
   const wrapper = mount(
-    <List>
+    <List selectedIndex={1}>
       {threeChildren()}
     </List>
   );
-  wrapper.setState({focusListItemAtIndex: 1});
-  const children = wrapper.children().props().children;
-  assert.isFalse(children[0].props.shouldFocus);
-  assert.isTrue(children[1].props.shouldFocus);
-  assert.isFalse(children[2].props.shouldFocus);
+  const list = wrapper.childAt(0);
+  assert.equal(list.childAt(0).props().tabIndex, -1);
+  assert.equal(list.childAt(1).props().tabIndex, 0);
+  assert.equal(list.childAt(2).props().tabIndex, -1);
 });
 
-test(
-  '#renderListItem renders list item with prop.shouldFollowHref true ' +
-    'if its index is state.followHrefAtIndex',
+test('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0 as an array',
   () => {
     const wrapper = mount(
-      <List>
-        {threeChildren()}
+      <List checkboxList selectedIndex={[1]}>
+        {children({key: 0, hasCheckbox: true})}
+        {children({key: 1, hasCheckbox: true})}
+        {children({key: 2, hasCheckbox: true})}
       </List>
     );
-    wrapper.setState({followHrefAtIndex: 1});
-    const children = wrapper.children().props().children;
-    assert.isFalse(children[0].props.shouldFollowHref);
-    assert.isTrue(children[1].props.shouldFollowHref);
-    assert.isFalse(children[2].props.shouldFollowHref);
-  }
-);
-
-test(
-  '#renderListItem renders list item with prop.shouldToggleCheckbox true ' +
-    'if its index is state.toggleCheckboxAtIndex',
-  () => {
-    const wrapper = mount(
-      <List>
-        {threeChildren()}
-      </List>
-    );
-    wrapper.setState({toggleCheckboxAtIndex: 1});
-    const children = wrapper.children().props().children;
-    assert.isFalse(children[0].props.shouldToggleCheckbox);
-    assert.isTrue(children[1].props.shouldToggleCheckbox);
-    assert.isFalse(children[2].props.shouldToggleCheckbox);
-  }
-);
-
-test('#renderListItem renders list item with state.listItemAttributes at index as prop.attributesFromList', () => {
-  const wrapper = mount(
-    <List>
-      {threeChildren()}
-    </List>
-  );
-  const attributes = {tabIndex: 0};
-  wrapper.setState({listItemAttributes: {1: attributes}});
-  const children = wrapper.children().props().children;
-  assert.isEmpty(children[0].props.attributesFromList);
-  assert.equal(children[1].props.attributesFromList, attributes);
-  assert.isEmpty(children[2].props.attributesFromList);
-});
-
-test('#renderListItem renders list item with state.listItemClassNames at index as prop.classNamesFromList', () => {
-  const wrapper = mount(
-    <List>
-      {threeChildren()}
-    </List>
-  );
-  const classes = ['test-class'];
-  wrapper.setState({listItemClassNames: {1: classes}});
-  const children = wrapper.children().props().children;
-  assert.isEmpty(children[0].props.classNamesFromList);
-  assert.equal(children[1].props.classNamesFromList, classes);
-  assert.isEmpty(children[2].props.classNamesFromList);
-});
-
-test('#renderListItem renders list item with state.listItemChildrenTabIndex at index as prop.childrenTabIndex', () => {
-  const wrapper = mount(
-    <List>
-      {threeChildren()}
-    </List>
-  );
-  wrapper.setState({listItemChildrenTabIndex: {1: 0}});
-  const children = wrapper.children().props().children;
-  assert.equal(children[0].props.childrenTabIndex, -1);
-  assert.equal(children[1].props.childrenTabIndex, 0);
-  assert.equal(children[2].props.childrenTabIndex, -1);
-});
-
-test('first item is selected if props.selectedIndex is 0', () => {
-  const wrapper = mount<List>(
-    <List singleSelection selectedIndex={0}>
-      {threeChildren()}
-    </List>
-  );
-  assert.isTrue(wrapper.state().listItemAttributes[0]['aria-selected']);
-});
+    const list = wrapper.childAt(0);
+    assert.equal(list.childAt(0).props().tabIndex, -1);
+    assert.equal(list.childAt(1).props().tabIndex, 0);
+    assert.equal(list.childAt(2).props().tabIndex, -1);
+  });
 
 test('renders a list with default tag', () => {
   const wrapper = shallow(<List>{children()}</List>);

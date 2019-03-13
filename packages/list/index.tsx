@@ -32,7 +32,6 @@ import ListItemMeta from './ListItemMeta';
 import ListDivider from './ListDivider';
 import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
-import { debug } from 'util';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
@@ -67,6 +66,8 @@ function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIn
 export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, {}> {
   listItemCount = 0;
   foundation!: MDCListFoundation;
+  hasInitializedListItem = false;
+
   private listElement = React.createRef<HTMLElement>();
 
   static defaultProps: Partial<ListProps<HTMLElement>> = {
@@ -260,10 +261,8 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   };
 
   handleClick = (_e: React.MouseEvent<any>, index: number) => {
-    // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
-    // const toggleCheckbox = isCheckbox(!e.target);
     // TODO: fix https://github.com/material-components/material-components-web-react/issues/728
-    // hardcoding toggleCheckbox to false for now since we want the checkbox to handle checkbox logic.
+    // Hardcoding toggleCheckbox to false for now since we want the checkbox to handle checkbox logic.
     // The List Foundation tries to toggle the checkbox and radio, but its difficult to turn that off for checkbox
     // or radio.
     this.foundation.handleClick(index, false);
@@ -324,7 +323,8 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   };
 
   renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
-    const {checkboxList, radioList} = this.props;
+    const {checkboxList, radioList, selectedIndex} = this.props;
+    let tabIndex = {};
     const {
       onKeyDown,
       onClick,
@@ -332,6 +332,25 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       onBlur,
       ...otherProps
     } = listItem.props;
+
+    if (!this.hasInitializedListItem) {
+      const isSelectedIndexArray = Array.isArray(selectedIndex) && selectedIndex.length > 0;
+      // if selectedIndex is populated then check if its a checkbox/radioList
+      if (isSelectedIndexArray || selectedIndex > -1) {
+        const isCheckboxListSelected
+          = checkboxList && Array.isArray(selectedIndex) && selectedIndex.indexOf(index) > -1;
+        const isNonCheckboxListSelected = selectedIndex === index;
+        if (isCheckboxListSelected || isNonCheckboxListSelected) {
+          tabIndex = {tabIndex: 0};
+          this.hasInitializedListItem = true;
+        }
+      // set tabIndex=0 to first listItem if selectedIndex is not populated
+      } else {
+        tabIndex = {tabIndex: 0};
+        this.hasInitializedListItem = true;
+      }
+    }
+
 
     const props = {
       // otherProps must come first
@@ -354,6 +373,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         onBlur(e);
         this.handleBlur(e, index);
       },
+      ...tabIndex,
     };
     return React.cloneElement(listItem, props);
   };
