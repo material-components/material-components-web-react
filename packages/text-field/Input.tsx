@@ -24,28 +24,27 @@ import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
 
-export interface InputProps<T> {
-  className: string;
-  inputType: 'input' | 'textarea';
-  disabled: boolean;
+export interface InputProps<T extends HTMLElement = HTMLInputElement> {
+  className?: string;
+  inputType?: 'input' | 'textarea';
   isValid?: boolean;
   foundation?: MDCTextFieldFoundation;
-  handleValueChange: (value: string | number | string[] | undefined, cb: () => void) => void;
-  id: string;
+  handleValueChange?: (value: string | number | string[] | undefined, cb: () => void) => void;
   ref?: (inputInstance: Input<T>) => void,
   onBlur?: Pick<React.HTMLProps<T>, 'onBlur'>;
   onChange?: Pick<React.HTMLProps<T>, 'onChange'>;
   onFocus?: Pick<React.HTMLProps<T>, 'onFocus'>;
   onMouseDown?: Pick<React.HTMLProps<T>, 'onMouseDown'>;
   onTouchStart?: Pick<React.HTMLProps<T>, 'onTouchStart'>;
-  setDisabled: (disabled: boolean) => void;
-  setInputId: (id: string | number) => void;
-  handleFocusChange: (isFocused: boolean) => void;
+  setDisabled?: (disabled: boolean) => void;
+  setInputId?: (id: string | number) => void;
+  handleFocusChange?: (isFocused: boolean) => void;
 };
 
 type InputElementProps = Exclude<React.HTMLProps<HTMLInputElement>, 'ref'>;
 type TextareaElementProps = Exclude<React.HTMLProps<HTMLTextAreaElement>, 'ref'>;
-type Props<T> = InputProps<T> & (T extends HTMLInputElement ? InputElementProps : TextareaElementProps);
+type Props<T extends HTMLElement = HTMLInputElement>
+  = InputProps<T> & (T extends HTMLInputElement ? InputElementProps : TextareaElementProps);
 
 interface InputState {
   wasUserTriggeredChange: boolean;
@@ -61,7 +60,7 @@ const VALIDATION_ATTR_WHITELIST: ValidationAttrWhiteList[] = [
 ];
 
 
-export default class Input<T extends {}> extends React.Component<
+export default class Input<T extends HTMLElement = HTMLInputElement> extends React.Component<
   Props<T>, InputState
   > {
   inputElement_: React.RefObject<
@@ -94,7 +93,7 @@ export default class Input<T extends {}> extends React.Component<
       isValid,
     } = this.props;
     if (setInputId && id) {
-      setInputId(id);
+      setInputId(id!);
     }
     if (setDisabled && disabled) {
       setDisabled(true);
@@ -111,28 +110,28 @@ export default class Input<T extends {}> extends React.Component<
   componentDidUpdate(prevProps: Props<T>) {
     const {
       id,
-      handleValueChange,
-      setInputId,
-      setDisabled,
       foundation,
       value,
       disabled,
       isValid,
+      handleValueChange,
+      setInputId,
+      setDisabled,
     } = this.props;
 
     this.handleValidationAttributeUpdate(prevProps);
 
     if (disabled !== prevProps.disabled) {
-      setDisabled(disabled);
+      setDisabled && setDisabled(disabled!);
       foundation.setDisabled(disabled);
     }
 
     if (id !== prevProps.id) {
-      setInputId(id);
+      setInputId && setInputId(id!);
     }
 
     if (value !== prevProps.value) {
-      handleValueChange(value, () => {
+      handleValueChange && handleValueChange(value, () => {
         // only call #foundation.setValue on programatic changes;
         // not changes by the user.
         if (this.state.wasUserTriggeredChange) {
@@ -165,14 +164,14 @@ export default class Input<T extends {}> extends React.Component<
   handleFocus = (evt: React.FocusEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
     const {foundation, handleFocusChange, onFocus = () => {}} = this.props;
     foundation.activateFocus();
-    handleFocusChange(true);
+    handleFocusChange && handleFocusChange(true);
     onFocus(evt);
   };
 
   handleBlur = (evt: React.FocusEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
     const {foundation, handleFocusChange, onBlur = () => {}} = this.props;
     foundation.deactivateFocus();
-    handleFocusChange(false);
+    handleFocusChange && handleFocusChange(false);
     onBlur(evt);
   };
 

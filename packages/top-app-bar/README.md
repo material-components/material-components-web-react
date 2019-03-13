@@ -104,10 +104,10 @@ tag | String | Customizes the `TopAppBarRow` tag. (default: `<div>`)
 ### TopAppBarSection
 Prop Name | Type | Description
 --- | --- | ---
-align | Sring ('start' or 'end') | optional property tha aligns section content to either start or end of section
+align | Sring ('start' or 'end') | optional property that aligns section content to either start or end of section
 className | String | Classes to be applied to the root element.
 tag | String | Customizes the `TopAppBarSection` tag. (default: `<section>`)
-> Note: if section contains action items it is reccomended to add property role='toolbar' for a11y purposes
+> Note: if section contains action items it is recommended to add property role='toolbar' for a11y purposes
 
 ### TopAppBarTitle
 Prop Name | Type | Description
@@ -121,8 +121,8 @@ Prop Name | Type | Description
 className | String | Classes to be applied to the root element.
 actionItem | Boolean | applies action-item class to icon
 navIcon | Boolean | applies nav-icon class to icon
-children | React.ReactElement<any> | can be any icon. Material Icons are reccomended
-> Notes: (1) consider adding `aria-label` to actionItem's. (2) you may need to manually add ripple or tabindex to icon. (3) Short top-app-bars shold be used with no more than 1 action item.
+children | React.ReactElement<any> | can be any icon. Material Icons are recommended
+> Notes: (1) consider adding `aria-label` to actionItem's. (2) you may need to manually add ripple or tabindex to icon. (3) Short top-app-bars should be used with no more than 1 action item.
 
 ### TopAppBarFixedAdjust
 
@@ -158,7 +158,7 @@ Similar to the [navigation icon](#navigation-icon), it can be `<a>`, `<i>`, `<sv
 
 ```js
   <TopAppBarIcon actionItem>
-    <i className='material-icons'>bookmark</i
+    <i className='material-icons'>bookmark</i>
   </TopAppBarIcon>
 ```
 

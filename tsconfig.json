@@ -3,17 +3,12 @@
   "compilerOptions": {
     "outDir": "./types/",
     "sourceMap": true,
-    "strictNullChecks": true,
     "module": "commonjs",
     "lib": ["es2015", "es2017", "dom"],
     "jsx": "react",
     "target": "es5",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmitOnError": false,
-    "noErrorTruncation": true,
-    "pretty": true
   },
   "compileOnSave": true,
   "exclude": [
