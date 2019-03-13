@@ -161,7 +161,7 @@ export function withRipple <
 
         return matches(surface, ':active');
       },
-      isSurfaceDisabled: () => (this.props.disabled || false) as boolean,
+      isSurfaceDisabled: () => this.props.disabled as boolean,
       addClass: (className: string) => {
         if (!this.isComponentMounted) {
           return;
