@@ -21,8 +21,8 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import * as classnames from 'classnames';
-// @ts-ignore no mdc .d.ts
-import {MDCLineRippleFoundation} from '@material/line-ripple/dist/mdc.lineRipple';
+import {MDCLineRippleFoundation} from '@material/line-ripple/foundation';
+import {MDCLineRippleAdapter} from '@material/line-ripple/adapter';
 
 export interface LineRippleProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;
@@ -46,7 +46,7 @@ export default class LineRipple extends React.Component<
     rippleCenter: 0,
   };
 
-  foundation_?: MDCLineRippleFoundation;
+  foundation_!: MDCLineRippleFoundation;
 
   state: LineRippleState = {
     classList: new Set(),
@@ -85,7 +85,7 @@ export default class LineRipple extends React.Component<
     this.foundation_.destroy();
   }
 
-  get adapter() {
+  get adapter(): MDCLineRippleAdapter {
     return {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
@@ -96,6 +96,8 @@ export default class LineRipple extends React.Component<
       },
       hasClass: (className: string) => this.state.classList.has(className),
       setStyle: this.setStyle,
+      registerEventHandler: () => null,
+      deregisterEventHandler: () => null,
     };
   }
 
@@ -105,7 +107,7 @@ export default class LineRipple extends React.Component<
     return classnames('mdc-line-ripple', Array.from(classList), className);
   }
 
-  setStyle = (varName: string, value: React.CSSProperties) => {
+  setStyle = (varName: string, value: string) => {
     const styleName = varName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
     const updatedStyle: any = Object.assign({}, this.state.style);
     updatedStyle[styleName] = value;
@@ -119,7 +121,7 @@ export default class LineRipple extends React.Component<
     return Object.assign({}, style, wrappedStyle);
   };
 
-  onTransitionEnd = (evt: React.TransitionEvent) => this.foundation_.handleTransitionEnd(evt);
+  onTransitionEnd = (evt: React.TransitionEvent<Element>) => this.foundation_.handleTransitionEnd(evt.nativeEvent);
 
   render() {
     const {
