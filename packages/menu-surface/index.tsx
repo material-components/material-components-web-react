@@ -26,26 +26,26 @@ import * as classnames from 'classnames';
 import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material/menu-surface/dist/mdc.menuSurface';
 
 export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
-  className: string;
+  className?: string;
   anchorElement?: HTMLElement;
-  anchorCorner: number;
+  anchorCorner?: number;
   anchorMargin?: {
     top?: number;
     left?: number;
     bottom?: number;
     right?: number;
   };
-  styles: React.CSSProperties;
+  styles?: React.CSSProperties;
   coordinates?: {
     x: number;
     y: number;
   };
-  onClose: () => void;
-  onOpen: () => void;
-  onKeyDown: (event: React.KeyboardEvent) => void;
-  quickOpen: boolean;
-  open: boolean;
-  fixed: boolean;
+  onClose?: () => void;
+  onOpen?: () => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
+  quickOpen?: boolean;
+  open?: boolean;
+  fixed?: boolean;
 };
 
 export interface MenuSurfaceState {
@@ -289,13 +289,13 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
           if (this.registerWindowClickListener) {
             this.registerWindowClickListener();
           }
-          this.props.onOpen();
+          this.props.onOpen!();
         },
         notifyClose: () => {
           if (this.deregisterWindowClickListener) {
             this.deregisterWindowClickListener();
           }
-          this.props.onClose();
+          this.props.onClose!();
         },
         isElementInContainer: (el: HTMLElement) => {
           if (!this.menuSurfaceElement.current) return false;
@@ -337,7 +337,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
   };
 
   handleKeydown = (evt: React.KeyboardEvent) => {
-    this.props.onKeyDown(evt);
+    this.props.onKeyDown!(evt);
     this.foundation.handleKeydown(evt);
   };
 
