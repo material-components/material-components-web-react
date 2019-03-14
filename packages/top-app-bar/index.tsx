@@ -156,6 +156,12 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
     this.foundation.init();
   };
 
+  setScrollTarget(scrollTarget: React.RefObject<HTMLElement>) {
+    this.foundation.destroyScrollHandler();
+    this.setState({ scrollTarget: scrollTarget });
+    this.foundation.initScrollHandler();
+  }
+
   /**
    * @deprecated since 0.11.0. Will be deleted in 0.13.0
    */
