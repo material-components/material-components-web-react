@@ -22,8 +22,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import * as Ripple from '@material/react-ripple';
-// @ts-ignore no mdc .d.ts file
-import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
+import {MDCChipFoundation} from '@material/chips/chip/foundation';
+import {MDCChipAdapter} from '@material/chips/chip/adapter';
 
 export interface ChipProps extends Ripple.InjectedProps<HTMLDivElement> {
   id?: string;
@@ -51,7 +51,7 @@ type ChipState = {
 
 export class Chip extends React.Component<ChipProps, ChipState> {
   chipElement: HTMLDivElement | null = null;
-  foundation?: MDCChipFoundation;
+  foundation!: MDCChipFoundation;
 
   static defaultProps: Partial<ChipProps> = {
     id: '',
@@ -78,9 +78,9 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     const {selected, shouldRemoveOnTrailingIconClick} = this.props;
     this.foundation = new MDCChipFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setSelected(selected);
+    this.foundation.setSelected(selected as boolean);
     if (shouldRemoveOnTrailingIconClick !== this.foundation.getShouldRemoveOnTrailingIconClick()) {
-      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick);
+      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick as boolean);
     }
   }
 
@@ -88,11 +88,11 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     const {selected, shouldRemoveOnTrailingIconClick} = this.props;
 
     if (selected !== prevProps.selected) {
-      this.foundation.setSelected(selected);
+      this.foundation.setSelected(selected as boolean);
     }
 
     if (shouldRemoveOnTrailingIconClick !== prevProps.shouldRemoveOnTrailingIconClick) {
-      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick);
+      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick as boolean);
     }
   }
 
@@ -111,7 +111,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     return classnames('mdc-chip', Array.from(classList), className);
   }
 
-  get adapter() {
+  get adapter(): MDCChipAdapter {
     return {
       addClass: (className: string) => {
         const classList = new Set(this.state.classList);
@@ -124,13 +124,23 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         this.setState({classList});
       },
       hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasLeadingIcon: () => Boolean(this.props.leadingIcon),
       eventTargetHasClass: (target: HTMLElement, className: string) =>
         target.classList.contains(className),
       getComputedStyleValue: (propertyName: string) => {
-        if (!this.chipElement) return;
+        if (!this.chipElement) return '';
         return window
           .getComputedStyle(this.chipElement)
           .getPropertyValue(propertyName);
+      },
+      getRootBoundingClientRect: () => {
+        if (!this.chipElement) return new ClientRect();
+        return this.chipElement.getBoundingClientRect();
+      },
+      getCheckmarkBoundingClientRect: () => {
+        const {chipCheckmark} = this.props;
+        if (!chipCheckmark) return new ClientRect();
+        return chipCheckmark.props.getBoundingClientRect();
       },
       setStyleProperty: (propertyName: keyof React.CSSProperties, value: string | null) => {
         if (!this.chipElement) return;
@@ -156,19 +166,19 @@ export class Chip extends React.Component<ChipProps, ChipState> {
 
   onClick = (e: React.MouseEvent<HTMLDivElement>) => {
     this.props.onClick!(e);
-    this.foundation.handleInteraction(e);
+    this.foundation.handleInteraction(e.nativeEvent);
   };
 
   onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     this.props.onKeyDown!(e);
-    this.foundation.handleInteraction(e);
+    this.foundation.handleInteraction(e.nativeEvent);
   };
 
-  handleTrailingIconClick = (e: React.MouseEvent) => this.foundation.handleTrailingIconInteraction(e);
+  handleTrailingIconClick = (e: React.MouseEvent) => this.foundation.handleTrailingIconInteraction(e.nativeEvent);
 
   handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
     this.props.onTransitionEnd!(e);
-    this.foundation.handleTransitionEnd(e);
+    this.foundation.handleTransitionEnd(e.nativeEvent);
   };
 
   renderLeadingIcon = (leadingIcon: React.ReactElement<HTMLElement>) => {

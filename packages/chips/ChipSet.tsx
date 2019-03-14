@@ -21,8 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no mdc .d.ts file
-import {MDCChipSetFoundation} from '@material/chips/dist/mdc.chips';
+import {MDCChipSetFoundation} from '@material/chips/chip-set/foundation';
 import ChipCheckmark from './ChipCheckmark';
 import {ChipProps} from './Chip'; // eslint-disable-line no-unused-vars
 
@@ -40,7 +39,7 @@ export interface ChipSetProps {
 };
 
 interface ChipSetState {
-  foundation: MDCChipSetFoundation;
+  foundation: MDCChipSetFoundation | null;
   selectedChipIds: string[];
   hasInitialized: boolean;
 };
@@ -83,7 +82,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   }
 
   componentWillUnmount() {
-    this.state.foundation.destroy();
+    this.state.foundation!.destroy();
   }
 
   get classes() {
@@ -99,7 +98,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
     return {
       hasClass: (className: string) => this.classes.split(' ').includes(className),
       setSelected: () => {
-        const selectedChipIds = this.state.foundation.getSelectedChipIds().slice();
+        const selectedChipIds = this.state.foundation!.getSelectedChipIds().slice();
         this.setState({selectedChipIds}, () => {
           this.props.handleSelect!(selectedChipIds);
         });
@@ -113,22 +112,22 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
       const {id} = (child as ChipType).props;
       const selected = this.state.selectedChipIds.indexOf(id!) > -1;
       if (selected) {
-        this.state.foundation.select(id);
+        this.state.foundation!.select(id!);
       }
     });
     this.setState({hasInitialized: true});
   }
 
   handleInteraction = (chipId: string) => {
-    this.state.foundation.handleChipInteraction(chipId);
+    this.state.foundation!.handleChipInteraction(chipId);
   };
 
   handleSelect = (chipId: string, selected: boolean) => {
-    this.state.foundation.handleChipSelection(chipId, selected);
+    this.state.foundation!.handleChipSelection(chipId, selected);
   };
 
   handleRemove = (chipId: string) => {
-    this.state.foundation.handleChipRemoval(chipId);
+    this.state.foundation!.handleChipRemoval(chipId);
   };
 
   removeChip = (chipId: string) => {
