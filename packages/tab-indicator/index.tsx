@@ -22,11 +22,9 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-import {
-  MDCFadingTabIndicatorFoundation,
-  MDCSlidingTabIndicatorFoundation,
-// @ts-ignore no .d.ts file
-} from '@material/tab-indicator/dist/mdc.tabIndicator';
+import {MDCSlidingTabIndicatorFoundation} from '@material/tab-indicator/sliding-foundation';
+import {MDCFadingTabIndicatorFoundation} from '@material/tab-indicator/fading-foundation';
+import {MDCTabIndicatorAdapter} from '@material/tab-indicator/adapter';
 
 export interface TabIndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
   active?: boolean;
@@ -38,7 +36,7 @@ export interface TabIndicatorProps extends React.HTMLAttributes<HTMLSpanElement>
 
 export default class TabIndicator extends React.Component<TabIndicatorProps, {}> {
   private tabIndicatorElement: React.RefObject<HTMLSpanElement> = React.createRef();
-  foundation?: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
+  foundation!: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
 
   static defaultProps: Partial<TabIndicatorProps> = {
     active: false,
@@ -88,7 +86,7 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
     });
   }
 
-  get adapter() {
+  get adapter(): MDCTabIndicatorAdapter {
     return {
       addClass: (className: string) => {
         if (!this.tabIndicatorElement.current) return;
@@ -109,15 +107,17 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
       computeContentClientRect: this.computeContentClientRect,
       // setContentStyleProperty was using setState, but due to the method's
       // async nature, its not condusive to the FLIP technique
-      setContentStyleProperty: (prop: keyof CSSStyleDeclaration, value: string) => {
+      setContentStyleProperty: (prop: string, value: string) => {
         const contentElement = this.getNativeContentElement() as HTMLElement;
+        // we need to cast prop from string (interface requirement) to CSSStyleDeclaration;
+        const typedProp = prop as keyof CSSStyleDeclaration;
         // length and parentRule are readonly properties of CSSStyleDeclaration that
         // cannot be set
-        if (!contentElement || prop === 'length' || prop === 'parentRule') {
+        if (!contentElement || typedProp === 'length' || typedProp === 'parentRule') {
           return;
         }
         // https://github.com/Microsoft/TypeScript/issues/11914
-        contentElement.style[prop] = value;
+        contentElement.style[typedProp] = value;
       },
     };
   }
@@ -132,7 +132,7 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
 
   computeContentClientRect = () => {
     const contentElement = this.getNativeContentElement();
-    if (!(contentElement && contentElement.getBoundingClientRect)) return;
+    if (!(contentElement && contentElement.getBoundingClientRect)) return new ClientRect();
     return contentElement.getBoundingClientRect();
   };
 
