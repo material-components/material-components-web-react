@@ -85,7 +85,7 @@
     "@material/tab": "^0.41.0",
     "@material/tab-bar": "^0.41.0",
     "@material/tab-indicator": "^1.0.0",
-    "@material/tab-scroller": "^0.41.0",
+    "@material/tab-scroller": "^1.0.0",
     "@material/textfield": "^0.41.0",
     "@material/top-app-bar": "^0.41.0",
     "@material/typography": "^0.41.0",
@@ -162,3 +162,4 @@
     "webpack-dev-server": "^2.11.2"
   }
 }
+
