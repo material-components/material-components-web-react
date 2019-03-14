@@ -47,7 +47,7 @@ class TabBar extends React.Component<
     this.foundation.init();
     const {activeIndex, indexInView} = this.props;
     if (this.tabList[activeIndex]) {
-      this.tabList[activeIndex].activate({} /* previousIndicatorClientRect */);
+      this.tabList[activeIndex].activate(new ClientRect() /* previousIndicatorClientRect */);
     }
     this.foundation.scrollIntoView(indexInView);
   }
