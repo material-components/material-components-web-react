@@ -40,7 +40,7 @@ test('adds the underline class to the content element by default', () => {
 
 test('if props.active changes from true to false, it calls deactivate', () => {
   const wrapper = mount<TabIndicator>(<TabIndicator active />);
-  wrapper.instance().foundation.deactivate = td.func();
+  wrapper.instance().foundation.deactivate = td.func<() => null>();
   wrapper.setProps({active: false});
   td.verify(wrapper.instance().foundation.deactivate(), {times: 1});
 });
@@ -48,7 +48,7 @@ test('if props.active changes from true to false, it calls deactivate', () => {
 test('if props.active changes from false to true, it calls activate', () => {
   const previousIndicatorClientRect = coerceForTesting<ClientRect>({width: 20});
   const wrapper = shallow<TabIndicator>(<TabIndicator previousIndicatorClientRect={previousIndicatorClientRect} />);
-  wrapper.instance().foundation.activate = td.func();
+  wrapper.instance().foundation.activate = td.func<() => null>();
   wrapper.setProps({active: true});
   td.verify(wrapper.instance().foundation.activate(previousIndicatorClientRect), {times: 1});
 });
@@ -135,7 +135,7 @@ test('child custom element should have content classes', () => {
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TabIndicator>(<TabIndicator />);
   const foundation = wrapper.instance().foundation;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => null>();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
 });
