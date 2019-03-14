@@ -78,6 +78,7 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 active | boolean | If true will activate the tab and indicator.
+focusOnActivate | boolean | If true will focus itself when activated. Defaults to `true`.
 className | string | Classes to appear on className attribute of root element.
 isFadingIndicator | boolean | Enables a fading indicator, instead of sliding (default).
 indicatorContent | element | Element that will appear within the `<TabIndicator />` element.

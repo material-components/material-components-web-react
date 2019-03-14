@@ -18,32 +18,22 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-import * as React from 'react';
-import * as classnames from 'classnames';
-import {cssClasses} from './constants';
-
-
-export interface DialogFooterProps<T> extends React.HTMLProps<T> {
-  className?: string,
-  tag?: string,
+const BASE = 'mdc-top-app-bar';
+const SECTION = `${BASE}__section`;
+const cssClasses = {
+  BASE,
+  ROW: `${BASE}__row`,
+  SECTION,
+  SECTION_START: `${SECTION}--align-start`,
+  SECTION_END: `${SECTION}--align-end`,
+  FIXED: `${BASE}--fixed`,
+  SHORT: `${BASE}--short`,
+  SHORT_COLLAPSED: `${BASE}--short-collapsed`,
+  PROMINENT: `${BASE}--prominent`,
+  DENSE: `${BASE}--dense`,
+  TITLE: `${BASE}__title`,
+  ACTION_ITEM: `${BASE}__action-item`,
+  NAV_ICON: `${BASE}__navigation-icon`,
 };
 
-
-const DialogFooter: <T extends HTMLElement = HTMLElement>(props: DialogFooterProps<T>) =>
-  React.ReactElement<T> = ({
-    /* eslint-disable react/prop-types */
-    className = '',
-    children,
-    tag: Tag = 'footer',
-    ...otherProps
-    /* eslint-enable react/prop-types */
-  }) => (
-    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-    <Tag className={classnames(className, cssClasses.ACTIONS)} {...otherProps}>
-      {children}
-    </Tag>
-  );
-
-type DialogFooter<T> = React.ReactElement<T>;
-export default DialogFooter;
+export {cssClasses};

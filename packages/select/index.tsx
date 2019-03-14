@@ -32,21 +32,22 @@ import NativeControl from './NativeControl';
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
 
 export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
-  box: boolean;
-  className: string;
-  disabled: boolean;
+  box?: boolean;
+  className?: string;
+  disabled?: boolean;
   floatingLabelClassName?: string;
-  isRtl: boolean;
-  label: string;
-  lineRippleClassName: string;
-  nativeControlClassName: string;
-  notchedOutlineClassName: string;
-  outlined: boolean;
-  options: SelectOptionsType;
+  isRtl?: boolean;
+  label?: string;
+  lineRippleClassName?: string;
+  nativeControlClassName?: string;
+  notchedOutlineClassName?: string;
+  outlined?: boolean;
+  options?: SelectOptionsType;
+  value?: string;
 }
 
 interface SelectState {
-  value?: string | string[] | number,
+  value?: string;
   classList: Set<string>;
   disabled: boolean;
   labelIsFloated: boolean;
@@ -63,7 +64,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     super(props);
     this.state = {
       classList: new Set(),
-      disabled: props.disabled,
+      disabled: props.disabled!,
       value: props.value,
       // floating label state
       labelIsFloated: false,
@@ -200,6 +201,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       outlined,
       onChange,
       ref,
+      value,
       /* eslint-enable */
       ...otherProps
     } = this.props;
@@ -211,6 +213,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
         handleDisabled={this.setDisabled}
         onChange={this.onChange}
         setRippleCenter={this.setRippleCenter}
+        value={this.state.value}
         {...otherProps}
       >
         {this.renderOptions()}

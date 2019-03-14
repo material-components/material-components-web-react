@@ -31,6 +31,7 @@ import TabRipple, {TabRippleProps} from './TabRipple';
 
 export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   active?: boolean;
+  focusOnActivate?: boolean;
   isFadingIndicator?: boolean;
   indicatorContent?: React.ReactNode;
   minWidth?: boolean;
@@ -59,6 +60,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
 
   static defaultProps: Partial<TabProps> = {
     active: false,
+    focusOnActivate: true,
     className: '',
     isFadingIndicator: false,
     indicatorContent: null,
@@ -76,9 +78,11 @@ export default class Tab extends React.Component<TabProps, TabState> {
   };
 
   componentDidMount() {
+    const {active, focusOnActivate} = this.props;
     this.foundation = new MDCTabFoundation(this.adapter);
     this.foundation.init();
-    if (this.props.active) {
+    this.foundation.setFocusOnActivate(focusOnActivate);
+    if (active) {
       this.foundation.activate();
     }
   }
@@ -88,10 +92,14 @@ export default class Tab extends React.Component<TabProps, TabState> {
   }
 
   componentDidUpdate(prevProps: TabProps) {
-    if (this.props.active !== prevProps.active) {
-      if (this.props.active) {
+    const {active, focusOnActivate, previousIndicatorClientRect} = this.props;
+    if (focusOnActivate !== prevProps.focusOnActivate) {
+      this.foundation.setFocusOnActivate(focusOnActivate);
+    }
+    if (active !== prevProps.active) {
+      if (active) {
         // If active state is updated through props, previousIndicatorClientRect must also be passed through props
-        this.activate(this.props.previousIndicatorClientRect);
+        this.activate(previousIndicatorClientRect);
       } else {
         this.deactivate();
       }
@@ -176,6 +184,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     const {
       /* eslint-disable */
       active,
+      focusOnActivate,
       previousIndicatorClientRect,
       className,
       isFadingIndicator,

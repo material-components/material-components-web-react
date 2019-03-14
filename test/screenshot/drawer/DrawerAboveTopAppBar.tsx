@@ -1,7 +1,11 @@
 import * as React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
-import TopAppBar from '../../../packages/top-app-bar/index';
+import TopAppBar, {
+  TopAppBarRow,
+  TopAppBarSection,
+  TopAppBarTitle,
+} from '../../../packages/top-app-bar/index';
 import Drawer, {
   DrawerAppContent,
   DrawerHeader,
@@ -54,7 +58,14 @@ const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> =
       </Drawer>
 
       <DrawerAppContent className='drawer-app-content'>
-        <TopAppBar title={title} navigationIcon={renderNavigationIcon()} />
+        <TopAppBar>
+          <TopAppBarRow>
+            <TopAppBarSection align='start'>
+              {renderNavigationIcon()}
+              <TopAppBarTitle>{title}</TopAppBarTitle>
+            </TopAppBarSection>
+          </TopAppBarRow>
+        </TopAppBar>
         <div className='mdc-top-app-bar--fixed-adjust'>
           {[0, 1, 2, 3, 4, 5].map(renderLoremIpsum)}
         </div>

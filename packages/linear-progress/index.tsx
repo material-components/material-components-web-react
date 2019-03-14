@@ -26,14 +26,14 @@ import * as React from 'react';
 import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';
 
 export interface LinearProgressProps<T> extends React.HTMLProps<T> {
-  buffer: number;
-  bufferingDots: boolean;
-  className: string;
-  closed: boolean;
-  indeterminate: boolean;
-  progress: number;
-  reversed: boolean;
-  tag: string;
+  buffer?: number;
+  bufferingDots?: boolean;
+  className?: string;
+  closed?: boolean;
+  indeterminate?: boolean;
+  progress?: number;
+  reversed?: boolean;
+  tag?: string;
 };
 
 interface LinearProgressState {
