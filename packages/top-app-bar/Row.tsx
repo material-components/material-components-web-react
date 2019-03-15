@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import {cssClasses} from './constants';
 
 export interface RowProps<T> extends React.HTMLProps<T> {

@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import TopAppBarFixedAdjust, {TopAppbarFixedAdjustProps} from './FixedAdjust';
 import TopAppBarSection from './Section';
 import TopAppBarRow from './Row';
