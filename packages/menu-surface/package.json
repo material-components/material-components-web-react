@@ -19,7 +19,8 @@
   "dependencies": {
     "@material/menu-surface": "^0.41.0",
     "classnames": "^2.2.5",
-    "react": "^16.4.2"
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
   },
   "publishConfig": {
     "access": "public"
