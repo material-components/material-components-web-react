@@ -32,10 +32,6 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   shouldFocus: boolean;
   shouldFollowHref: boolean;
   shouldToggleCheckbox: boolean;
-  onKeyDown: React.KeyboardEventHandler<T>;
-  onClick: React.MouseEventHandler<T>;
-  onFocus: React.FocusEventHandler<T>;
-  onBlur: React.FocusEventHandler<T>;
   tag: string;
   children: React.ReactNode;
 };

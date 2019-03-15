@@ -28,9 +28,9 @@ import ThumbUnderlay from './ThumbUnderlay';
 import NativeControl from './NativeControl';
 
 export interface SwitchProps extends React.HTMLProps<HTMLInputElement> {
-  checked: boolean;
-  className: string;
-  disabled: boolean;
+  checked?: boolean;
+  className?: string;
+  disabled?: boolean;
   nativeControlId?: string;
 }
 
@@ -49,11 +49,11 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
   constructor(props: SwitchProps) {
     super(props);
     this.state = {
-      checked: props.checked,
+      checked: props.checked!,
       classList: new Set(),
-      disabled: props.disabled,
-      nativeControlChecked: props.checked,
-      nativeControlDisabled: props.disabled,
+      disabled: props.disabled!,
+      nativeControlChecked: props.checked!,
+      nativeControlDisabled: props.disabled!,
     };
   }
 

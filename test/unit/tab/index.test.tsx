@@ -382,3 +382,4 @@ test('on blur event calls handleBlur on TabRippleRef', () => {
   wrapper.simulate('blur');
   td.verify(ripple!.handleBlur(td.matchers.isA(Object)), {times: 1});
 });
+

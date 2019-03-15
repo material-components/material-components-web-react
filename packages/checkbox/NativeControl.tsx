@@ -24,7 +24,7 @@ import * as React from 'react';
 export interface NativeControlProps extends React.HTMLProps<HTMLInputElement>{
   checked: boolean;
   disabled: boolean;
-  id: string;
+  id?: string;
   rippleActivatorRef: React.RefObject<HTMLInputElement>;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 };
