@@ -295,5 +295,5 @@ test('it handles function refs correctly', () => {
   const refFn = coerceForTesting<(node: HTMLElement) => void>(td.func());
   const wrapper = mount<Drawer>(<Drawer innerRef={refFn} />);
   assert.isNotNull(wrapper.instance().drawerElement.current);
-  td.verify(refFn, {times: 1});
+  td.verify(refFn(wrapper.instance().drawerElement.current!), {times: 1});
 });
