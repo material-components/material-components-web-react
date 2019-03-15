@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,54 +21,20 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import {MDCMenuFoundation} from '@material/menu/foundation';
 import {MDCMenuAdapter} from '@material/menu/adapter';
 
-export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
-  className?: string;
-  anchorElement?: HTMLElement;
-  anchorCorner?: number;
-  anchorMargin?: {
-    top?: number;
-    left?: number;
-    bottom?: number;
-    right?: number;
-  };
-  styles?: React.CSSProperties;
-  coordinates?: {
-    x: number;
-    y: number;
-  };
-  onClose?: () => void;
-  onOpen?: () => void;
-  onKeyDown?: (event: React.KeyboardEvent) => void;
-  quickOpen?: boolean;
-  open?: boolean;
-  fixed?: boolean;
+export interface MenuProps extends React.HTMLProps<HTMLDivElement> {
+ 
 };
 
-export interface MenuSurfaceState {
-  transformOrigin: string;
-  maxHeight?: number;
-  styleLeft?: number;
-  styleRight?: number;
-  styleTop?: number;
-  styleBottom?: number;
-  classList: Set<string>;
+export interface MenuState {
+  
 };
 
-class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
-  menuSurfaceElement: React.RefObject<HTMLDivElement> = React.createRef();
-  previousFocus: HTMLElement | null = null;
-  foundation: MDCMenuSurfaceFoundation;
-  handleWindowClick?: EventListener;
-  registerWindowClickListener?: () => void;
-  deregisterWindowClickListener?: () => void;
-  firstFocusableElement: HTMLElement | null = null;
-  lastFocusableElement: HTMLElement | null = null;
-
-  state: MenuSurfaceState = {
+class MenuSurface extends React.Component<MenuProps, MenuState> {
+  state: MenuState = {
     transformOrigin: '',
     maxHeight: undefined,
     styleLeft: undefined,
@@ -78,7 +44,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     classList: new Set(),
   };
 
-  static defaultProps: Partial<MenuSurfaceProps> = {
+  static defaultProps: Partial<MenuProps> = {
     className: '',
     styles: {},
     anchorCorner: 0,
@@ -95,7 +61,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
 
   }
 
-  componentDidUpdate(prevProps: MenuSurfaceProps) {
+  componentDidUpdate(prevProps: MenuProps) {
     
   }
 
