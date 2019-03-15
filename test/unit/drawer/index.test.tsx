@@ -286,14 +286,14 @@ test('click on scrim calls #foundation.handleScrimClick', () => {
 
 test('handles object refs correctly', () => {
   const myRef = React.createRef<HTMLElement>();
-  const wrapper = shallow<Drawer>(<Drawer innerRef={myRef} />);
+  const wrapper = mount<Drawer>(<Drawer innerRef={myRef} />);
   assert.isNotNull(myRef.current);
   assert.isNotNull(wrapper.instance().drawerElement.current);
 });
 
 test('it handles function refs correctly', () => {
   const refFn = coerceForTesting<(node: HTMLElement) => void>(td.func());
-  const wrapper = shallow<Drawer>(<Drawer innerRef={refFn} />);
+  const wrapper = mount<Drawer>(<Drawer innerRef={refFn} />);
   assert.isNotNull(wrapper.instance().drawerElement.current);
   td.verify(refFn, {times: 1});
 });
