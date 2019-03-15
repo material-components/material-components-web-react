@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/dist/mdc.notchedOutline';
 

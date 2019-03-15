@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import * as Ripple from '@material/react-ripple';
 // @ts-ignore no mdc .d.ts file
 import {MDCChipFoundation} from '@material/chips/dist/mdc.chips';
