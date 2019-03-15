@@ -4,8 +4,15 @@ import * as td from 'testdouble';
 import {shallow, mount, ReactWrapper} from 'enzyme';
 import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
 import {MenuSurfaceProps, MenuSurfaceState} from '../../../packages/menu-surface';
+import {MDCMenuDistance} from '@material/menu-surface';
 
 suite('MenuSurface');
+
+function getAdapter(instance: MenuSurface) {
+  // @ts-ignore adapter_ property is protected and we need to override this
+  return instance.foundation.adapter_;
+}
+
 
 const removeMenuFromBody = (wrapper: ReactWrapper<MenuSurfaceProps, MenuSurfaceState, MenuSurface>) => {
   wrapper
@@ -38,7 +45,7 @@ test('foundation is created', () => {
 
 test('update to props.open will call foundation.open', () => {
   const wrapper = mount<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.open = td.func();
+  wrapper.instance().foundation.open = td.func<() => void>();
   wrapper.setProps({open: true});
   td.verify(wrapper.instance().foundation.open(), {times: 1});
   removeMenuFromBody(wrapper);
@@ -74,7 +81,7 @@ test('update to props.open sets lastFocusableElement', () => {
 
 test('update to props.open from true to false will call foundation.close', () => {
   const wrapper = mount<MenuSurface>(<MenuSurface open />);
-  wrapper.instance().foundation.close = td.func();
+  wrapper.instance().foundation.close = td.func<() => void>();
   wrapper.setProps({open: false});
   td.verify(wrapper.instance().foundation.close(), {times: 1});
   removeMenuFromBody(wrapper);
@@ -82,7 +89,7 @@ test('update to props.open from true to false will call foundation.close', () =>
 
 test('foundation.setAbsolutePosition is called when props.coordinates updates', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.setAbsolutePosition = td.func();
+  wrapper.instance().foundation.setAbsolutePosition = td.func<(x: number, y: number) => void>();
   wrapper.setProps({coordinates: {x: 1, y: 11}});
   td.verify(wrapper.instance().foundation.setAbsolutePosition(1, 11), {
     times: 1,
@@ -91,7 +98,7 @@ test('foundation.setAbsolutePosition is called when props.coordinates updates', 
 
 test('foundation.setAnchorCorner is called when props.anchorCorner updates', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.setAnchorCorner = td.func();
+  wrapper.instance().foundation.setAnchorCorner = td.func<(corner: Corner) => void>();
   wrapper.setProps({anchorCorner: Corner.TOP_RIGHT});
   td.verify(wrapper.instance().foundation.setAnchorCorner(Corner.TOP_RIGHT), {
     times: 1,
@@ -100,7 +107,7 @@ test('foundation.setAnchorCorner is called when props.anchorCorner updates', () 
 
 test('foundation.setAnchorMargin is called when props.anchorMargin updates', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.setAnchorMargin = td.func();
+  wrapper.instance().foundation.setAnchorMargin = td.func<(margin: Partial<MDCMenuDistance>) => void>();
   wrapper.setProps({anchorMargin: {top: 20}});
   td.verify(wrapper.instance().foundation.setAnchorMargin({top: 20}), {
     times: 1,
@@ -109,23 +116,23 @@ test('foundation.setAnchorMargin is called when props.anchorMargin updates', () 
 
 test('foundation.setQuickOpen is called when props.quickOpen updates to true', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.setQuickOpen = td.func();
+  wrapper.instance().foundation.setQuickOpen = td.func<(quickOpen: boolean) => void>();
   wrapper.setProps({quickOpen: true});
   td.verify(wrapper.instance().foundation.setQuickOpen(true), {times: 1});
 });
 
 test('foundation.setQuickOpen is called when props.quickOpen updates to false', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface quickOpen />);
-  wrapper.instance().foundation.setQuickOpen = td.func();
+  wrapper.instance().foundation.setQuickOpen = td.func<(quickOpen: boolean) => void>();
   wrapper.setProps({quickOpen: false});
   td.verify(wrapper.instance().foundation.setQuickOpen(false), {times: 1});
 });
 
 test('#registerWindowClickListener adds click event handler to window', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.handleBodyClick = td.func();
+  wrapper.instance().foundation.handleBodyClick = td.func<(evt: MouseEvent) => void>();
   wrapper.instance().registerWindowClickListener!();
-  const clickEvent = new Event('click');
+  const clickEvent = new MouseEvent('click');
   window.dispatchEvent(clickEvent);
   td.verify(wrapper.instance().foundation.handleBodyClick(clickEvent), {
     times: 1,
@@ -134,10 +141,10 @@ test('#registerWindowClickListener adds click event handler to window', () => {
 
 test('#deregisterWindowClickListener removes click event handler to window', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.handleBodyClick = td.func();
+  wrapper.instance().foundation.handleBodyClick = td.func<(evt: MouseEvent) => void>();
   wrapper.instance().registerWindowClickListener!();
   wrapper.instance().deregisterWindowClickListener!();
-  const clickEvent = new Event('click');
+  const clickEvent = new MouseEvent('click');
   window.dispatchEvent(clickEvent);
   td.verify(wrapper.instance().foundation.handleBodyClick(clickEvent), {
     times: 0,
@@ -146,15 +153,15 @@ test('#deregisterWindowClickListener removes click event handler to window', () 
 
 test('#adapter.notifyOpen calls #registerWindowClickListener', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().registerWindowClickListener = td.func() as () => void;
-  wrapper.instance().foundation.adapter_.notifyOpen();
+  wrapper.instance().registerWindowClickListener = td.func<() => void>();
+  getAdapter(wrapper.instance()).notifyOpen();
   td.verify(wrapper.instance().registerWindowClickListener!(), {times: 1});
 });
 
 test('#adapter.notifyOpen calls onOpen', () => {
   const onOpen = td.func() as () => void;
   const wrapper = shallow<MenuSurface>(<MenuSurface onOpen={onOpen} />);
-  wrapper.instance().foundation.adapter_.notifyOpen();
+  getAdapter(wrapper.instance()).notifyOpen();
   td.verify(onOpen(), {times: 1});
 });
 
@@ -171,7 +178,7 @@ test('#adapter.isFocused returns true if menuSurfaceElement_ is the activeElemen
     options
   );
   (wrapper.getDOMNode() as HTMLDivElement).focus();
-  assert.isTrue(wrapper.instance().foundation.adapter_.isFocused());
+  assert.isTrue(getAdapter(wrapper.instance()).isFocused());
   removeMenuFromBody(wrapper);
   div.remove();
 });
@@ -182,7 +189,7 @@ test('#adapter.isFocused returns false if menuSurfaceElement_ is not the activeE
       <span>hello</span>
     </MenuSurface>
   );
-  assert.isFalse(wrapper.instance().foundation.adapter_.isFocused());
+  assert.isFalse(getAdapter(wrapper.instance()).isFocused());
   removeMenuFromBody(wrapper);
 });
 
@@ -200,7 +207,7 @@ test('#adapter.saveFocus saves the currently focused element', () => {
     .find('button')
     .getDOMNode() as HTMLButtonElement)
     .focus();
-  wrapper.instance().foundation.adapter_.saveFocus();
+  getAdapter(wrapper.instance()).saveFocus();
   assert.equal(
     wrapper.instance().previousFocus,
     (wrapper.find('button').getDOMNode() as HTMLButtonElement)
@@ -225,7 +232,7 @@ test('#adapter.restoreFocus restores focus to an element within the menuSurfaceE
     .find('button')
     .getDOMNode() as HTMLButtonElement)
     .focus();
-  wrapper.instance().foundation.adapter_.restoreFocus();
+  getAdapter(wrapper.instance()).restoreFocus();
   assert.equal(document.activeElement, wrapper.find('a').getDOMNode());
   removeMenuFromBody(wrapper);
   div.remove();
@@ -245,7 +252,7 @@ test('#adapter.isFirstElementFocused returns true if firstFocusableElement is th
     .getDOMNode() as HTMLButtonElement)
     .focus();
   assert.isTrue(
-    wrapper.instance().foundation.adapter_.isFirstElementFocused()
+    getAdapter(wrapper.instance()).isFirstElementFocused()
   );
   removeMenuFromBody(wrapper);
 });
@@ -263,7 +270,7 @@ test('#adapter.isLastElementFocused returns true if lastFocusableElement is the 
     .find('button')
     .getDOMNode() as HTMLButtonElement)
     .focus();
-  assert.isTrue(wrapper.instance().foundation.adapter_.isLastElementFocused());
+  assert.isTrue(getAdapter(wrapper.instance()).isLastElementFocused());
   removeMenuFromBody(wrapper);
 });
 
@@ -276,7 +283,7 @@ test('#adapter.focusFirstElement focuses on firstFocusableElement', () => {
   wrapper.instance().firstFocusableElement = wrapper
     .find('button')
     .getDOMNode() as HTMLButtonElement;
-  wrapper.instance().foundation.adapter_.focusFirstElement();
+  getAdapter(wrapper.instance()).focusFirstElement();
   assert.equal(document.activeElement, wrapper.find('button').getDOMNode());
   removeMenuFromBody(wrapper);
 });
@@ -290,7 +297,7 @@ test('#adapter.focusLastElement focuses on lastFocusableElement', () => {
   wrapper.instance().lastFocusableElement = wrapper
     .find('button')
     .getDOMNode() as HTMLButtonElement;
-  wrapper.instance().foundation.adapter_.focusLastElement();
+  getAdapter(wrapper.instance()).focusLastElement();
   assert.equal(document.activeElement, wrapper.find('button').getDOMNode());
   removeMenuFromBody(wrapper);
 });
@@ -301,7 +308,7 @@ test('#adapter.getInnerDimensions returns width/height of menuSurfaceElement_', 
       <button>hello</button>
     </MenuSurface>
   );
-  const dim = wrapper.instance().foundation.adapter_.getInnerDimensions();
+  const dim = getAdapter(wrapper.instance()).getInnerDimensions();
   assert.isAbove(dim.width, 0);
   assert.isAbove(dim.height, 0);
   removeMenuFromBody(wrapper);
@@ -318,7 +325,7 @@ test('#adapter.getAnchorDimensions returns width/height of menuSurfaceElement_',
     options
   );
   assert.deepInclude(
-    wrapper.instance().foundation.adapter_.getAnchorDimensions(),
+    getAdapter(wrapper.instance()).getAnchorDimensions(),
     div.getBoundingClientRect()
   );
   removeMenuFromBody(wrapper);
@@ -327,10 +334,10 @@ test('#adapter.getAnchorDimensions returns width/height of menuSurfaceElement_',
 
 test('#adapter.getWindowDimensions returns width/height of menuSurfaceElement_', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  const dim = wrapper
+  const dim = getAdapter(wrapper
     .update()
-    .instance()
-    .foundation.adapter_.getWindowDimensions();
+    .instance())
+    .getWindowDimensions();
   assert.isAbove(dim.width, 0);
   assert.isAbove(dim.height, 0);
 });
@@ -345,27 +352,27 @@ test('#adapter.getBodyDimensions returns width/height of body', () => {
     </MenuSurface>,
     options
   );
-  const dim = wrapper
+  const dim = getAdapter(wrapper
     .update()
-    .instance()
-    .foundation.adapter_.getBodyDimensions();
+    .instance())
+    .getBodyDimensions();
   assert.isAtLeast(dim.width, 0);
   assert.isAtLeast(dim.height, 0);
 });
 
 test('#adapter.getWindowScroll returns scroll of window', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  const scroll = wrapper
+  const scroll = getAdapter(wrapper
     .update()
-    .instance()
-    .foundation.adapter_.getWindowScroll();
+    .instance())
+    .getWindowScroll();
   assert.isAtLeast(scroll.x, 0);
   assert.isAtLeast(scroll.y, 0);
 });
 
 test('#adapter.setPosition sets left, right, top, bottom state variables', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.adapter_.setPosition({
+  getAdapter(wrapper.instance()).setPosition({
     left: 20,
     bottom: 30,
     top: 40,
@@ -378,20 +385,20 @@ test('#adapter.setPosition sets left, right, top, bottom state variables', () =>
 
 test('#adapter.setMaxHeight sets maxHeight state variables', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.adapter_.setMaxHeight(500);
-  assert.equal(wrapper.state().maxHeight, 500);
+  getAdapter(wrapper.instance()).setMaxHeight('500');
+  assert.equal(wrapper.state().maxHeight, '500');
 });
 
 test('#adapter.addClass adds to classList', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.adapter_.addClass('test-class-name');
+  getAdapter(wrapper.instance()).addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
 
 test('#adapter.removeClass removes from classList', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.setState({classList: new Set(['test-class-name'])});
-  wrapper.instance().foundation.adapter_.removeClass('test-class-name');
+  getAdapter(wrapper.instance()).removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
@@ -399,40 +406,40 @@ test('#adapter.hasClass returns true if classList has class', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.setState({classList: new Set(['test-class-name'])});
   assert.isTrue(
-    wrapper.instance().foundation.adapter_.hasClass('test-class-name')
+    getAdapter(wrapper.instance()).hasClass('test-class-name')
   );
 });
 
 test('#adapter.notifyClose calls onClose', () => {
   const onClose = td.func() as () => void;
   const wrapper = shallow<MenuSurface>(<MenuSurface onClose={onClose} />);
-  wrapper.instance().foundation.adapter_.notifyClose();
+  getAdapter(wrapper.instance()).notifyClose();
   td.verify(onClose(), {times: 1});
 });
 
 test('#adapter.notifyClose calls deregisterWindowClickListener', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.instance().deregisterWindowClickListener = td.func() as () => void;
-  wrapper.instance().foundation.adapter_.notifyClose();
+  getAdapter(wrapper.instance()).notifyClose();
   td.verify(wrapper.instance().deregisterWindowClickListener!(), {times: 1});
 });
 
 test('#adapter.hasAnchor calls returns false if there is no props.anchorElement', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  assert.isFalse(wrapper.instance().foundation.adapter_.hasAnchor());
+  assert.isFalse(getAdapter(wrapper.instance()).hasAnchor());
 });
 
 test('#adapter.hasAnchor calls returns true if there is props.anchorElement', () => {
   const anchorElement = <div /> as unknown as HTMLDivElement;
   const wrapper = shallow<MenuSurface>(<MenuSurface anchorElement={anchorElement} />);
-  assert.isTrue(wrapper.instance().foundation.adapter_.hasAnchor());
+  assert.isTrue(getAdapter(wrapper.instance()).hasAnchor());
 });
 
 test('#adapter.isElementInContainer returns true if the element is the menuSurfaceElement_', () => {
   const wrapper = mount<MenuSurface>(<MenuSurface />);
   const element = wrapper.getDOMNode();
   assert.isTrue(
-    wrapper.instance().foundation.adapter_.isElementInContainer(element)
+    getAdapter(wrapper.instance()).isElementInContainer(element)
   );
   removeMenuFromBody(wrapper);
 });
@@ -445,7 +452,7 @@ test('#adapter.isElementInContainer returns true if the element is within the co
   );
   const element = wrapper.find('button').getDOMNode();
   assert.isTrue(
-    wrapper.instance().foundation.adapter_.isElementInContainer(element)
+    getAdapter(wrapper.instance()).isElementInContainer(element)
   );
   removeMenuFromBody(wrapper);
 });
@@ -461,37 +468,37 @@ test('#adapter.isRtl returns true is rtl', () => {
     options
   );
   wrapper.getDOMNode().setAttribute('dir', 'rtl');
-  assert.isTrue(wrapper.instance().foundation.adapter_.isRtl());
+  assert.isTrue(getAdapter(wrapper.instance()).isRtl());
   removeMenuFromBody(wrapper);
   div.remove();
 });
 
 test('#adapter.setTransformOrigin sets maxHeight state variables', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
-  wrapper.instance().foundation.adapter_.setTransformOrigin('translate()');
+  getAdapter(wrapper.instance()).setTransformOrigin('translate()');
   assert.equal(wrapper.state().transformOrigin, 'translate()');
 });
 
 test('onKeyDown calls props.onKeyDown', () => {
   const onKeyDown = td.func() as (event: React.KeyboardEvent) => {};
   const wrapper = shallow<MenuSurface>(<MenuSurface onKeyDown={onKeyDown} />);
-  const evt = {} as React.KeyboardEvent;
+  const evt = {nativeEvent: {}} as React.KeyboardEvent;
   wrapper.instance().handleKeydown(evt);
   td.verify(onKeyDown(evt), {times: 1});
 });
 
 test('onKeyDown calls foundation.handleKeydown', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface>hello</MenuSurface>);
-  wrapper.instance().foundation.handleKeydown = td.func() as (event: React.KeyboardEvent) => {};
-  const evt = {} as React.KeyboardEvent;
+  wrapper.instance().foundation.handleKeydown = td.func<(event: KeyboardEvent) => {}>();
+  const evt = {nativeEvent: ({} as KeyboardEvent)} as React.KeyboardEvent;
   wrapper.instance().handleKeydown(evt);
-  td.verify(wrapper.instance().foundation.handleKeydown(evt), {times: 1});
+  td.verify(wrapper.instance().foundation.handleKeydown(evt.nativeEvent), {times: 1});
 });
 
 test('component styles is applied from this.styles', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   wrapper.setState({
-    maxHeight: 200,
+    maxHeight: '200',
     styleLeft: 50,
   });
   assert.equal(wrapper.props().style!.maxHeight, 200);
@@ -509,7 +516,7 @@ test('#componentWillUnmount calls #deregisterWindowClickListener', () => {
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface />);
   const foundation = wrapper.instance().foundation;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
