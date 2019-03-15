@@ -227,6 +227,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       dismissible,
       children,
       className,
+      innerRef,
       /* eslint-enable no-unused-vars */
       tag: Tag,
       modal,
