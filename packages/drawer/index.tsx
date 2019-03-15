@@ -216,13 +216,6 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     }
   }
 
-  isModal = (
-    // @ts-ignore unused var
-    foundation: Drawer['foundation']
-  ): foundation is MDCModalDrawerFoundation => {
-    return !!this.props.modal;
-  }
-
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -253,24 +246,18 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
         >
           {children}
         </Tag>
-        {this.renderScrim()}
+        {modal ? this.renderScrim() : null}
       </React.Fragment>
     );
   }
 
   renderScrim() {
-    const foundation = this.foundation;
-
-    if (this.isModal(foundation)) {
-      return (
-        <div
-          className='mdc-drawer-scrim'
-          onClick={() => foundation.handleScrimClick()}
-        />
-      );
-    }
-
-    return null;
+    return (
+      <div
+        className='mdc-drawer-scrim'
+        onClick={() => (this.foundation as MDCModalDrawerFoundation).handleScrimClick()}
+      />
+    );
   }
 }
 
