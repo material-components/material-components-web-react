@@ -38,7 +38,7 @@ const MyApp = () => {
     <Card>
       <CardPrimaryContent>
         <h1>Header</h1>
-        <CardMedia imageUrl='./my/fancy/image.png' />
+        <CardMedia square imageUrl='./my/fancy/image.png' />
       </CardPrimaryContent>
 
       <CardActions>
