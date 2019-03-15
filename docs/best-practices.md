@@ -14,3 +14,22 @@ By not including the font icon inside your CSS file, it reduces the file size. B
 ### Use with MDC Ripple
 
 If you load your font icons with a [Ripple](../packages/ripple) with the above method, you will need to set the height and width of the icons. This is because MDC Ripple calculates the ripple size from the initial height/width.
+
+### Importing packages
+
+References:
+-  https://stackoverflow.com/questions/29596714/new-es6-syntax-for-importing-commonjs-amd-modules-i-e-import-foo-require
+- https://github.com/basarat/typescript-book/blob/master/docs/project/external-modules.md
+- https://github.com/Microsoft/TypeScript/issues/2242#issuecomment-92218146
+- https://github.com/Microsoft/TypeScript/issues/2242#issuecomment-83694181
+
+Since `classnames@2.2.6` is exporting `default`, we should be importing as such:
+```ts
+// referenced in https://github.com/basarat/typescript-book/blob/master/docs/project/external-modules.md#default-exportsimports
+import classnames from 'classnames';
+```
+
+In other cases where we import modules that do not use `default`, we should import like:
+```ts
+import * as classnames from 'classnames';
+```

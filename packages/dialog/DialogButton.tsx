@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import {cssClasses} from './constants';
 import Button, {ButtonProps} from '@material/react-button';
 

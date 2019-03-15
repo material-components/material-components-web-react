@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 
 import TabIndicator from '@material/react-tab-indicator';
 // @ts-ignore No mdc .d.ts files
