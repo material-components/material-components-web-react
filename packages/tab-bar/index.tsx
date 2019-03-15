@@ -47,7 +47,18 @@ class TabBar extends React.Component<
     this.foundation.init();
     const {activeIndex, indexInView} = this.props;
     if (this.tabList[activeIndex]) {
-      this.tabList[activeIndex].activate(new DOMRect() /* previousIndicatorClientRect */);
+      // new DOMRect is not IE11 compatible
+      const defaultDOMRect = {
+        bottom: 0,
+        height: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        width: 0,
+        x: 0,
+        y: 0,
+      };
+      this.tabList[activeIndex].activate(defaultDOMRect /* previousIndicatorClientRect */);
     }
     this.foundation.scrollIntoView(indexInView);
   }

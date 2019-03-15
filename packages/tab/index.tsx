@@ -38,11 +38,11 @@ export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   isMinWidthIndicator?: boolean;
   stacked?: boolean;
   previousIndicatorClientRect?: ClientRect;
-  onInteration?: () => void;
+  onInteraction?: () => void;
 }
 
 interface MDCTabElementAttributes {
-  'aria-selected': 'false' | 'true' | undefined;
+  'aria-selected'?: 'false' | 'true';
   tabIndex?: number;
 }
 
@@ -68,6 +68,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     minWidth: false,
     isMinWidthIndicator: false,
     stacked: false,
+    onInteraction: () => null,
   };
 
   state: TabState = {
@@ -82,7 +83,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     const {active, focusOnActivate} = this.props;
     this.foundation = new MDCTabFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setFocusOnActivate(focusOnActivate as boolean);
+    this.foundation.setFocusOnActivate(focusOnActivate!);
     if (active) {
       this.foundation.activate();
     }
@@ -95,7 +96,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
   componentDidUpdate(prevProps: TabProps) {
     const {active, focusOnActivate, previousIndicatorClientRect} = this.props;
     if (focusOnActivate !== prevProps.focusOnActivate) {
-      this.foundation.setFocusOnActivate(focusOnActivate as boolean);
+      this.foundation.setFocusOnActivate(focusOnActivate!);
     }
     if (active !== prevProps.active) {
       if (active) {
@@ -145,7 +146,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
           this.tabContentRef.current.offsetWidth :
           0,
       focus: () => this.tabRef.current && this.tabRef.current.focus(),
-      notifyInteracted: () => this.props.onInteration,
+      notifyInteracted: this.props.onInteraction!,
       activateIndicator: (previousIndicatorClientRect: ClientRect) =>
         this.setState({
           activateIndicator: true,
