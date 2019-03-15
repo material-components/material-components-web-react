@@ -78,9 +78,9 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     const {selected, shouldRemoveOnTrailingIconClick} = this.props;
     this.foundation = new MDCChipFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setSelected(selected as boolean);
+    this.foundation.setSelected(selected!);
     if (shouldRemoveOnTrailingIconClick !== this.foundation.getShouldRemoveOnTrailingIconClick()) {
-      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick as boolean);
+      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick!);
     }
   }
 
@@ -88,11 +88,11 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     const {selected, shouldRemoveOnTrailingIconClick} = this.props;
 
     if (selected !== prevProps.selected) {
-      this.foundation.setSelected(selected as boolean);
+      this.foundation.setSelected(selected!);
     }
 
     if (shouldRemoveOnTrailingIconClick !== prevProps.shouldRemoveOnTrailingIconClick) {
-      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick as boolean);
+      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick!);
     }
   }
 
