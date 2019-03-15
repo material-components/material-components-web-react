@@ -93,7 +93,7 @@ test('#adapter.incrementScroll calls incrementScroll on tab scroller', () => {
 test('#adapter.getScrollPosition calls getScrollPosition on tab scroller', () => {
   const wrapper = mount<TabBar>(<TabBar />);
   const scroller = wrapper.instance().tabScrollerRef.current;
-  scroller!.getScrollPosition = coerceForTesting<() => void>(td.func());
+  scroller!.getScrollPosition = coerceForTesting<() => number>(td.func());
   wrapper.instance().adapter.getScrollPosition();
   td.verify(scroller!.getScrollPosition());
 });
