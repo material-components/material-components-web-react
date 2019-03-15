@@ -233,6 +233,7 @@ export default class Screenshot {
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {
       waitUntil: ['networkidle2'],
+      timeout: 600000,
     });
     // await page.waitForSelector('#screenshot-test-app');
     const imageBuffer = await page.screenshot({fullPage: true});

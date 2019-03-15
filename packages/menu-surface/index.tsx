@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import * as classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material/menu-surface/dist/mdc.menuSurface';
@@ -56,6 +57,7 @@ export interface MenuSurfaceState {
   styleTop?: number;
   styleBottom?: number;
   classList: Set<string>;
+  mounted: boolean;
 };
 
 interface Position {
@@ -83,6 +85,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     styleTop: undefined,
     styleBottom: undefined,
     classList: new Set(),
+    mounted: false,
   };
 
   static defaultProps: Partial<MenuSurfaceProps> = {
@@ -104,7 +107,6 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       anchorMargin,
       coordinates,
       fixed,
-      open,
       quickOpen,
     } = this.props;
     this.handleWindowClick = (evt) => this.foundation.handleBodyClick(evt);
@@ -114,7 +116,10 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       window.removeEventListener('click', this.handleWindowClick!);
     this.foundation = new MDCMenuSurfaceFoundation(this.adapter);
     this.foundation.init();
-    this.hoistToBody();
+    // this deviates from the mdc web version.
+    // here we force the menu to hoist, and require either
+    // this.props.(x,y) or this.props.anchorElement.
+    this.foundation.setIsHoisted(true);
     this.foundation.setFixedPosition(fixed);
     if (coordinates) {
       this.setCoordinates();
@@ -128,13 +133,14 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     if (quickOpen) {
       this.foundation.setQuickOpen(quickOpen);
     }
-    if (open) {
-      this.open_();
-    }
+    this.setState({mounted: true});
   }
 
-  componentDidUpdate(prevProps: MenuSurfaceProps) {
-    if (this.props.open !== prevProps.open) {
+  componentDidUpdate(prevProps: MenuSurfaceProps, prevState: MenuSurfaceState) {
+    // if this.props.open was true for the initial render
+    // then it will not be changed but the mounted state will be,
+    // so this.open_() should also be called in that case.
+    if (this.props.open !== prevProps.open || (this.props.open && this.state.mounted !== prevState.mounted)) {
       this.open_();
     }
     if (this.props.coordinates !== prevProps.coordinates) {
@@ -158,19 +164,6 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     if (this.foundation) {
       this.foundation.destroy();
     }
-  }
-
-  private hoistToBody(): void {
-    // this deviates from the mdc web version.
-    // here we force the menu to hoist, and require either
-    // this.props.(x,y) or this.props.anchorElement.
-    const menuSurfaceElement = this.menuSurfaceElement.current;
-    if (!menuSurfaceElement) return;
-    if (!menuSurfaceElement.parentElement) return;
-    document.body.appendChild(
-      menuSurfaceElement.parentElement.removeChild(menuSurfaceElement)
-    );
-    this.foundation.setIsHoisted(true);
   }
 
   private setCoordinates(): void {
@@ -359,7 +352,8 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       children,
       ...otherProps
     } = this.props;
-    return (
+    if (!this.state.mounted) return null;
+    return ReactDOM.createPortal(
       <div
         className={this.classes}
         onKeyDown={this.handleKeydown}
@@ -368,7 +362,8 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
         {...otherProps}
       >
         {children}
-      </div>
+      </div>,
+      document.body
     );
   }
 }
