@@ -61,7 +61,7 @@ const isRefObject = function(ref: DrawerProps['innerRef']): ref is React.RefObje
 
 class Drawer extends React.Component<DrawerProps, DrawerState> {
   previousFocus: HTMLElement | null = null;
-  foundation!: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
+  foundation?: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
   focusTrap?: FocusTrap;
   drawerElement: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -112,7 +112,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     if (changedToModal || changedToDismissible) {
       this.initFoundation();
     }
-    if (open !== prevProps.open) {
+    if (open !== prevProps.open && this.foundation) {
       open ? this.foundation.open() : this.foundation.close();
     }
   }
