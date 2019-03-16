@@ -207,13 +207,15 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     // @ts-ignore this is acceptable according to the comment above
     this.drawerElement.current = node;
 
-    if (innerRef !== undefined) {
-      if (isRefObject(innerRef)) {
-        // @ts-ignore same as above
-        innerRef.current = node;
-      } else {
-        innerRef(node);
-      }
+    if (!innerRef) {
+      return;
+    }
+
+    if (isRefObject(innerRef)) {
+      // @ts-ignore same as above
+      innerRef.current = node;
+    } else {
+      innerRef(node);
     }
   }
 
