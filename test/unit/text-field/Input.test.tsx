@@ -137,7 +137,8 @@ test('#componentDidMount should not call any method if disabled and id do not ex
 test('#componentDidMount calls props.handleValueChange when the foundation initializes with a value', () => {
   const handleValueChange = td.func();
   const value = 'test value';
-  const props: any = {handleValueChange, value};
+  const foundation = {};
+  const props: any = {handleValueChange, value, foundation};
   shallow(<Input {...props} />);
   td.verify(handleValueChange(value, td.matchers.isA(Function)), {times: 1});
 });
@@ -277,7 +278,8 @@ test('#componentDidUpdate calls setValid when isValid changes', () => {
 
 test('props.handleValueChange() is called if this.props.value updates', () => {
   const handleValueChange = td.func();
-  const props: any = {handleValueChange};
+  const foundation = {};
+  const props: any = {handleValueChange, foundation};
   const wrapper = shallow(<Input {...props} />);
   wrapper.setProps({value: 'meow'});
   td.verify(handleValueChange('meow', td.matchers.isA(Function)), {times: 1});

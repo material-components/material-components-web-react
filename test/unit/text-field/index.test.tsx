@@ -628,16 +628,6 @@ test('renders textarea if textarea variant', () => {
   assert.equal(wrapper.find('textarea').length, 1);
 });
 
-test('does not render input if there is no foundation', () => {
-  const wrapper = shallow(
-    <TextField label='my label'>
-      <Input />
-    </TextField>,
-    {disableLifecycleMethods: true}
-  );
-  assert.equal(wrapper.find(Input).length, 0);
-});
-
 test('renders input after foundation is created', () => {
   const wrapper = shallow(
     <TextField label='my label'>
@@ -745,7 +735,7 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy(), {times: 1});
 });
 
-test('input component is rendered before did mount', () => {
+test('render input before component is mounted', () => {
   const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label='hello'>
       <Input />
