@@ -98,10 +98,10 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
     if (setDisabled && disabled) {
       setDisabled(true);
     }
-    if (handleValueChange && value) {
+    if (handleValueChange && value && foundation) {
       handleValueChange(value, () => foundation.setValue(value));
     }
-    if (isValid !== undefined && foundation !== null) {
+    if (isValid !== undefined && foundation) {
       foundation.setUseNativeValidation(false);
       foundation.setValid(isValid);
     }
@@ -121,7 +121,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
 
     this.handleValidationAttributeUpdate(prevProps);
 
-    if (disabled !== prevProps.disabled) {
+    if ((disabled !== prevProps.disabled || prevProps.foundation !== foundation) && foundation) {
       setDisabled && setDisabled(disabled!);
       foundation.setDisabled(disabled);
     }
@@ -130,11 +130,13 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       setInputId && setInputId(id!);
     }
 
-    if (value !== prevProps.value) {
+    if ((value !== prevProps.value || prevProps.foundation !== foundation) && foundation) {
       handleValueChange && handleValueChange(value, () => {
         // only call #foundation.setValue on programatic changes;
-        // not changes by the user.
-        if (this.state.wasUserTriggeredChange) {
+        // not changes by the user. or when we go from no foundation
+        // to having a foundation, since we don't have that guaranteeded
+        // anymore
+        if (this.state.wasUserTriggeredChange && prevProps.foundation === foundation) {
           this.setState({wasUserTriggeredChange: false});
         } else {
           foundation.setValue(value);
@@ -142,7 +144,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       });
     }
 
-    if (isValid !== prevProps.isValid || foundation !== prevProps.foundation) {
+    if ((isValid !== prevProps.isValid || foundation !== prevProps.foundation) && foundation) {
       if (isValid === undefined) {
         foundation.setUseNativeValidation(true);
       } else {
