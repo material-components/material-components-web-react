@@ -134,7 +134,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       handleValueChange && handleValueChange(value, () => {
         // only call #foundation.setValue on programatic changes;
         // not changes by the user. or when we go from no foundation
-        // to having a foundation, since we don't have that guaranteeded
+        // to having a foundation, since we don't have that guaranteed
         // anymore
         if (this.state.wasUserTriggeredChange && prevProps.foundation === foundation) {
           this.setState({wasUserTriggeredChange: false});
