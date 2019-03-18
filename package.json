@@ -82,7 +82,7 @@
     "@material/ripple": "^1.0.0",
     "@material/select": "^0.40.1",
     "@material/snackbar": "^1.0.0",
-    "@material/switch": "^0.41.0",
+    "@material/switch": "^1.0.0",
     "@material/tab": "^1.0.0",
     "@material/tab-bar": "^0.41.0",
     "@material/tab-indicator": "^1.0.0",

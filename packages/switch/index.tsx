@@ -22,8 +22,7 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCSwitchFoundation} from '@material/switch/dist/mdc.switch';
+import {MDCSwitchFoundation} from '@material/switch/foundation';
 import ThumbUnderlay from './ThumbUnderlay';
 import NativeControl from './NativeControl';
 
@@ -44,7 +43,7 @@ interface SwitchState {
 
 export default class Switch extends React.Component<SwitchProps, SwitchState> {
   rippleActivator: React.RefObject<HTMLInputElement> = React.createRef();
-  foundation?: MDCSwitchFoundation;
+  foundation!: MDCSwitchFoundation;
 
   constructor(props: SwitchProps) {
     super(props);
@@ -66,16 +65,16 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
   componentDidMount() {
     this.foundation = new MDCSwitchFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setChecked(this.props.checked);
-    this.foundation.setDisabled(this.props.disabled);
+    this.foundation.setChecked(this.props.checked!);
+    this.foundation.setDisabled(this.props.disabled!);
   }
 
   componentDidUpdate(prevProps: SwitchProps) {
     if (this.props.checked !== prevProps.checked) {
-      this.foundation.setChecked(this.props.checked);
+      this.foundation.setChecked(this.props.checked!);
     }
     if (this.props.disabled !== prevProps.disabled) {
-      this.foundation.setDisabled(this.props.disabled);
+      this.foundation.setDisabled(this.props.disabled!);
     }
   }
 
@@ -112,7 +111,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
 
   onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({nativeControlChecked: evt.target.checked});
-    this.foundation && this.foundation.handleChange(evt);
+    this.foundation && this.foundation.handleChange(evt.nativeEvent);
   };
 
   render() {
