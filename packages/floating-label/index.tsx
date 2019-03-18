@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 // @ts-ignore no mdc .d.ts
 import {MDCFloatingLabelFoundation} from '@material/floating-label/dist/mdc.floatingLabel';
 

@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 
 import TabIndicator from '@material/react-tab-indicator';
 import {MDCTabFoundation} from '@material/tab/foundation';

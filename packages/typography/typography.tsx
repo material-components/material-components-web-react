@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import * as React from 'react';
 
 export interface TypographyProps<T> extends React.HTMLProps<T> {

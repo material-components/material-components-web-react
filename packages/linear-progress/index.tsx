@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import * as React from 'react';
 // @ts-ignore no .d.ts file
 import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';

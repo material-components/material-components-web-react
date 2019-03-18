@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 
 import {MDCRippleFoundation} from '@material/ripple/foundation';
@@ -196,7 +196,18 @@ export function withRipple <
       computeBoundingRect: () => {
         if (!this.isComponentMounted) {
           // need to return object since foundation expects it
-          return new ClientRect();
+          // new DOMRect is not IE11 compatible
+          const defaultDOMRect = {
+            bottom: 0,
+            height: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+            width: 0,
+            x: 0,
+            y: 0,
+          };
+          return defaultDOMRect;
         }
         if (this.props.computeBoundingRect) {
           return this.props.computeBoundingRect(surface);

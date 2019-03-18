@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCListFoundation} from '@material/list/dist/mdc.list';
 import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line no-unused-vars
