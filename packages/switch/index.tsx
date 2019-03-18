@@ -22,6 +22,7 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
+import {MDCSwitchAdapter} from '@material/switch/adapter';
 import {MDCSwitchFoundation} from '@material/switch/foundation';
 import ThumbUnderlay from './ThumbUnderlay';
 import NativeControl from './NativeControl';
@@ -88,7 +89,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
     return classnames('mdc-switch', Array.from(classList), className);
   }
 
-  get adapter() {
+  get adapter(): MDCSwitchAdapter {
     return {
       addClass: (className: string) => {
         const {classList} = this.state;
