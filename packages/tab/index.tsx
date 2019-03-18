@@ -195,6 +195,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
       isFadingIndicator,
       indicatorContent,
       minWidth,
+      onInteraction,
       stacked,
       /* eslint-enable */
       children,
