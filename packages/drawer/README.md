@@ -419,6 +419,7 @@ modal | Boolean | Indicates that the drawer is of type modal.
 dismissible | Boolean | Indicates that the drawer is of type dismissible.
 tag | String | Customizes the drawer tag type (default to `<aside>`).
 open | boolean | If true, opens drawer. If false, closes drawer.
+innerRef | RefObject | Root drawer element ref.
 
 ## Sass Mixins
 
