@@ -26,8 +26,7 @@ import {
   MDCDismissibleDrawerFoundation,
   MDCModalDrawerFoundation,
   util,
-// @ts-ignore no .d.ts file
-} from '@material/drawer/dist/mdc.drawer';
+} from '@material/drawer';
 // @ts-ignore no .d.ts file
 import {MDCListFoundation} from '@material/list/dist/mdc.list';
 import DrawerHeader from './Header';
@@ -62,7 +61,7 @@ const isRefObject = function(ref: DrawerProps['innerRef']): ref is React.RefObje
 
 class Drawer extends React.Component<DrawerProps, DrawerState> {
   previousFocus: HTMLElement | null = null;
-  foundation: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
+  foundation?: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
   focusTrap?: FocusTrap;
   drawerElement: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -113,7 +112,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     if (changedToModal || changedToDismissible) {
       this.initFoundation();
     }
-    if (open !== prevProps.open) {
+    if (open !== prevProps.open && this.foundation) {
       open ? this.foundation.open() : this.foundation.close();
     }
   }
@@ -124,7 +123,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
   }
 
   private initializeFocusTrap = () => {
-    this.focusTrap = util.createFocusTrapInstance(this.drawerElement.current);
+    this.focusTrap = util.createFocusTrapInstance(this.drawerElement.current!);
   };
 
   get classes() {
@@ -191,13 +190,13 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
   handleKeyDown = (evt: React.KeyboardEvent<HTMLElement>) => {
     this.props.onKeyDown!(evt);
     if (!this.foundation) return;
-    this.foundation.handleKeydown(evt);
+    this.foundation.handleKeydown(evt.nativeEvent);
   };
 
   handleTransitionEnd = (evt: React.TransitionEvent<HTMLElement>) => {
     this.props.onTransitionEnd!(evt);
     if (!this.foundation) return;
-    this.foundation.handleTransitionEnd(evt);
+    this.foundation.handleTransitionEnd(evt.nativeEvent);
   };
 
   attachRef = (node: HTMLElement) => {
@@ -230,9 +229,9 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       children,
       className,
       innerRef,
+      modal,
       /* eslint-enable no-unused-vars */
       tag: Tag,
-      modal,
       ...otherProps
     } = this.props;
 
@@ -253,11 +252,12 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       </React.Fragment>
     );
   }
+
   renderScrim() {
     return (
       <div
         className='mdc-drawer-scrim'
-        onClick={() => this.foundation.handleScrimClick()}
+        onClick={() => (this.foundation as MDCModalDrawerFoundation).handleScrimClick()}
       />
     );
   }
