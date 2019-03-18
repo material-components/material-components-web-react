@@ -121,7 +121,9 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
 
     this.handleValidationAttributeUpdate(prevProps);
 
-    if ((disabled !== prevProps.disabled || prevProps.foundation !== foundation) && foundation) {
+    const foundationChanged = prevProps.foundation !== foundation;
+
+    if ((disabled !== prevProps.disabled || foundationChanged) && foundation) {
       setDisabled && setDisabled(disabled!);
       foundation.setDisabled(disabled);
     }
@@ -130,13 +132,13 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       setInputId && setInputId(id!);
     }
 
-    if ((value !== prevProps.value || prevProps.foundation !== foundation) && foundation) {
+    if ((value !== prevProps.value || foundationChanged) && foundation) {
       handleValueChange && handleValueChange(value, () => {
         // only call #foundation.setValue on programatic changes;
         // not changes by the user. or when we go from no foundation
         // to having a foundation, since we don't have that guaranteed
         // anymore
-        if (this.state.wasUserTriggeredChange && prevProps.foundation === foundation) {
+        if (this.state.wasUserTriggeredChange && !foundationChanged) {
           this.setState({wasUserTriggeredChange: false});
         } else {
           foundation.setValue(value);
@@ -144,7 +146,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       });
     }
 
-    if ((isValid !== prevProps.isValid || foundation !== prevProps.foundation) && foundation) {
+    if ((isValid !== prevProps.isValid || foundationChanged) && foundation) {
       if (isValid === undefined) {
         foundation.setUseNativeValidation(true);
       } else {
