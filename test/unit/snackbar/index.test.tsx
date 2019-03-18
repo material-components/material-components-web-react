@@ -3,6 +3,12 @@ import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import {Snackbar} from '../../../packages/snackbar/index';
+import {MDCSnackbarAdapter} from '@material/snackbar/adapter';
+
+function getAdapter(instance: Snackbar): MDCSnackbarAdapter {
+  // @ts-ignore adapter_ is a protected property, we need to override it
+  return instance.foundation.adapter_;
+}
 
 suite('Snackbar');
 
@@ -71,7 +77,7 @@ test('opening notification works', () => {
   const openingHandler = td.func<() => void>();
   const wrapper = shallow<Snackbar>(
     <Snackbar open={false} onOpening={openingHandler} message='example' actionText='action' />);
-  wrapper.instance().foundation.adapter_.notifyOpening();
+  getAdapter(wrapper.instance()).notifyOpening();
   td.verify(openingHandler(), {times: 1});
   wrapper.unmount();
 });
@@ -80,7 +86,7 @@ test('open notification works', () => {
   const openHandler = td.func<() => void>();
   const wrapper = shallow<Snackbar>(
     <Snackbar open={false} onOpen={openHandler} message='example' actionText='action' />);
-  wrapper.instance().foundation.adapter_.notifyOpened();
+  getAdapter(wrapper.instance()).notifyOpened();
   td.verify(openHandler(), {times: 1});
   wrapper.unmount();
 });
@@ -89,7 +95,7 @@ test('closing notification works', () => {
   const closingHandler = td.func<(reason: string) => void>();
   const wrapper = shallow<Snackbar>(
     <Snackbar open={false} onClosing={closingHandler} message='example' actionText='action' />);
-  wrapper.instance().foundation.adapter_.notifyClosing('unit_test');
+  getAdapter(wrapper.instance()).notifyClosing('unit_test');
   td.verify(closingHandler('unit_test'), {times: 1});
   wrapper.unmount();
 });
@@ -98,7 +104,7 @@ test('close notification works', () => {
   const closeHandler = td.func<(reason: string) => void>();
   const wrapper = shallow<Snackbar>(
     <Snackbar open={false} onClose={closeHandler} message='example' actionText='action' />);
-  wrapper.instance().foundation.adapter_.notifyClosed('unit_test');
+  getAdapter(wrapper.instance()).notifyClosed('unit_test');
   td.verify(closeHandler('unit_test'), {times: 1});
   wrapper.unmount();
 });
