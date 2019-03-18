@@ -23,11 +23,8 @@
 import * as React from 'react';
 import classnames from 'classnames';
 
-// TODO: replace with MDC Web types when available
-import {IMDCSnackbarAdapter, IMDCSnackbarFoundation} from './types';
-
-// @ts-ignore no .d.ts file
-import {MDCSnackbarFoundation} from '@material/snackbar';
+import {MDCSnackbarFoundation} from '@material/snackbar/foundation';
+import {MDCSnackbarAdapter} from '@material/snackbar/adapter';
 
 export interface Props {
   message: string;
@@ -51,7 +48,7 @@ type State = {
 };
 
 export class Snackbar extends React.Component<Props, State> {
-  foundation: IMDCSnackbarFoundation
+  foundation: MDCSnackbarFoundation
 
   static defaultProps: Partial<Props> = {
     open: true,
@@ -84,7 +81,7 @@ export class Snackbar extends React.Component<Props, State> {
       this.foundation.setCloseOnEscape(closeOnEscape);
     }
   }
-  get adapter(): IMDCSnackbarAdapter {
+  get adapter(): MDCSnackbarAdapter {
     return {
       addClass: (className: string) => {
         const {classes} = this.state;
