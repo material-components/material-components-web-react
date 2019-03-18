@@ -6,7 +6,7 @@ import {Snackbar} from '../../../packages/snackbar/index';
 import {MDCSnackbarAdapter} from '@material/snackbar/adapter';
 
 function getAdapter(instance: Snackbar): MDCSnackbarAdapter {
-  // @ts-ignore adapter_ in a protected property, we need to override it
+  // @ts-ignore adapter_ is a protected property, we need to override it
   return instance.foundation.adapter_;
 }
 
