@@ -405,3 +405,13 @@ test('#inputElement should return the native input', () => {
   assert.equal(inputElement!.tagName.toLowerCase(), 'input');
   assert.isTrue(inputElement instanceof HTMLInputElement);
 });
+
+test('should call foundation.setValue() when foundation is new', () => {
+  const wrapper = shallow<Input<HTMLInputElement>>(<Input />);
+  const setValue = td.func();
+  const foundation = {setValue, setDisabled: td.func(), setUseNativeValidation: td.func()};
+  const handleValueChange = (_: any, callback: () => void) => callback();
+  const value = 'meow';
+  wrapper.setProps({foundation, value, handleValueChange});
+  td.verify(foundation.setValue(value), {times: 1});
+});
