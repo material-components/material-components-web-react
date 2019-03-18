@@ -26,8 +26,7 @@ import {
   MDCDismissibleDrawerFoundation,
   MDCModalDrawerFoundation,
   util,
-// @ts-ignore no .d.ts file
-} from '@material/drawer/dist/mdc.drawer';
+} from '@material/drawer';
 // @ts-ignore no .d.ts file
 import {MDCListFoundation} from '@material/list/dist/mdc.list';
 import DrawerHeader from './Header';
@@ -39,6 +38,8 @@ import {FocusTrap} from 'focus-trap';
 
 const {cssClasses: listCssClasses} = MDCListFoundation;
 
+type RefCallback<T> = (node: T) => void;
+
 export interface DrawerProps extends React.HTMLProps<HTMLElement>{
   className?: string;
   open?: boolean;
@@ -47,15 +48,20 @@ export interface DrawerProps extends React.HTMLProps<HTMLElement>{
   tag?: string;
   dismissible?: boolean;
   modal?: boolean;
+  innerRef?: RefCallback<HTMLElement> | React.RefObject<HTMLElement>;
 };
 
 interface DrawerState {
   classList: Set<string>;
 };
 
+const isRefObject = function(ref: DrawerProps['innerRef']): ref is React.RefObject<HTMLElement> {
+  return typeof ref !== 'function';
+};
+
 class Drawer extends React.Component<DrawerProps, DrawerState> {
   previousFocus: HTMLElement | null = null;
-  foundation: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
+  foundation?: MDCDismissibleDrawerFoundation | MDCModalDrawerFoundation;
   focusTrap?: FocusTrap;
   drawerElement: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -106,7 +112,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     if (changedToModal || changedToDismissible) {
       this.initFoundation();
     }
-    if (open !== prevProps.open) {
+    if (open !== prevProps.open && this.foundation) {
       open ? this.foundation.open() : this.foundation.close();
     }
   }
@@ -117,7 +123,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
   }
 
   private initializeFocusTrap = () => {
-    this.focusTrap = util.createFocusTrapInstance(this.drawerElement.current);
+    this.focusTrap = util.createFocusTrapInstance(this.drawerElement.current!);
   };
 
   get classes() {
@@ -184,14 +190,33 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
   handleKeyDown = (evt: React.KeyboardEvent<HTMLElement>) => {
     this.props.onKeyDown!(evt);
     if (!this.foundation) return;
-    this.foundation.handleKeydown(evt);
+    this.foundation.handleKeydown(evt.nativeEvent);
   };
 
   handleTransitionEnd = (evt: React.TransitionEvent<HTMLElement>) => {
     this.props.onTransitionEnd!(evt);
     if (!this.foundation) return;
-    this.foundation.handleTransitionEnd(evt);
+    this.foundation.handleTransitionEnd(evt.nativeEvent);
   };
+
+  attachRef = (node: HTMLElement) => {
+    const {innerRef} = this.props;
+
+    // https://github.com/facebook/react/issues/13029#issuecomment-410002316
+    // @ts-ignore this is acceptable according to the comment above
+    this.drawerElement.current = node;
+
+    if (!innerRef) {
+      return;
+    }
+
+    if (isRefObject(innerRef)) {
+      // @ts-ignore same as above
+      innerRef.current = node;
+    } else {
+      innerRef(node);
+    }
+  }
 
   render() {
     const {
@@ -203,9 +228,10 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       dismissible,
       children,
       className,
+      innerRef,
+      modal,
       /* eslint-enable no-unused-vars */
       tag: Tag,
-      modal,
       ...otherProps
     } = this.props;
 
@@ -215,7 +241,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
           // @ts-ignore */}
         <Tag
           className={this.classes}
-          ref={this.drawerElement}
+          ref={this.attachRef}
           onKeyDown={this.handleKeyDown}
           onTransitionEnd={this.handleTransitionEnd}
           {...otherProps}
@@ -226,11 +252,12 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       </React.Fragment>
     );
   }
+
   renderScrim() {
     return (
       <div
         className='mdc-drawer-scrim'
-        onClick={() => this.foundation.handleScrimClick()}
+        onClick={() => (this.foundation as MDCModalDrawerFoundation).handleScrimClick()}
       />
     );
   }
