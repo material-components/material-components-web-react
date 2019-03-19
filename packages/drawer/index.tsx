@@ -39,6 +39,8 @@ import {FocusTrap} from 'focus-trap';
 
 const {cssClasses: listCssClasses} = MDCListFoundation;
 
+type RefCallback<T> = (node: T) => void;
+
 export interface DrawerProps extends React.HTMLProps<HTMLElement>{
   className?: string;
   open?: boolean;
@@ -47,10 +49,15 @@ export interface DrawerProps extends React.HTMLProps<HTMLElement>{
   tag?: string;
   dismissible?: boolean;
   modal?: boolean;
+  innerRef?: RefCallback<HTMLElement> | React.RefObject<HTMLElement>;
 };
 
 interface DrawerState {
   classList: Set<string>;
+};
+
+const isRefObject = function(ref: DrawerProps['innerRef']): ref is React.RefObject<HTMLElement> {
+  return typeof ref !== 'function';
 };
 
 class Drawer extends React.Component<DrawerProps, DrawerState> {
@@ -193,6 +200,25 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     this.foundation.handleTransitionEnd(evt);
   };
 
+  attachRef = (node: HTMLElement) => {
+    const {innerRef} = this.props;
+
+    // https://github.com/facebook/react/issues/13029#issuecomment-410002316
+    // @ts-ignore this is acceptable according to the comment above
+    this.drawerElement.current = node;
+
+    if (!innerRef) {
+      return;
+    }
+
+    if (isRefObject(innerRef)) {
+      // @ts-ignore same as above
+      innerRef.current = node;
+    } else {
+      innerRef(node);
+    }
+  }
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -203,6 +229,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       dismissible,
       children,
       className,
+      innerRef,
       /* eslint-enable no-unused-vars */
       tag: Tag,
       modal,
@@ -215,7 +242,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
           // @ts-ignore */}
         <Tag
           className={this.classes}
-          ref={this.drawerElement}
+          ref={this.attachRef}
           onKeyDown={this.handleKeyDown}
           onTransitionEnd={this.handleTransitionEnd}
           {...otherProps}
