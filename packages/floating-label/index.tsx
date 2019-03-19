@@ -92,6 +92,10 @@ export default class FloatingLabel extends React.Component<
       // handles events and width differently
       registerInteractionHandler: () => undefined,
       deregisterInteractionHandler: () => undefined,
+      // Always returns 0 beacuse MDC Web component does
+      // only proxies to foundation.getWidth.
+      // MDC React instead passes it from the text-field
+      // component to floating-label component.
       getWidth: () => 0,
     };
   }
@@ -108,9 +112,8 @@ export default class FloatingLabel extends React.Component<
   };
 
   handleWidthChange = () => {
-    const {handleWidthChange} = this.props;
-    if (handleWidthChange && this.labelElement.current) {
-      handleWidthChange(this.labelElement.current.offsetWidth);
+    if (this.props.handleWidthChange && this.labelElement.current) {
+      this.props.handleWidthChange(this.labelElement.current.offsetWidth);
     }
   };
 
