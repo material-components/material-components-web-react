@@ -119,7 +119,7 @@ Multiple related lists can be grouped together using the `ListGroup` component. 
 ```js
 import React, {Component} from 'react';
 import List, {
-  ListItem, ListItemText, ListGroup, 
+  ListItem, ListItemText, ListGroup,
   ListGroupSubheader,ListDivider
 } from '@material/react-list';
 
@@ -185,91 +185,177 @@ class MyApp extends Component {
 }
 ```
 
+### Checkbox Lists
+
+You can use the `checkboxList` Boolean prop for `List` to enable the checkbox list logic. You must also set `selectedIndex` of the list to an array. `selectedIndex` will be an empty array if there is no initial selection. Setting `selectedIndex` will initialize the list with the correct `tabIndex`. Changing this programatically will not affect the checkboxes -- you must programatically change the checkbox via it's `checked` prop and update `selectedIndex` to keep a11y up to date. See the [Checkbox Readme](../checkbox/README.md) for more details.
+
+```jsx
+import React, {Component} from 'react';
+import List, {ListItem, ListItemText} from '@material/react-list';
+import Checkbox from '@material/react-checkbox';
+
+class MyApp extends Component {
+  state = {
+    selectedIndex: [1],
+  };
+
+  render() {
+    return (
+      <List
+        checkboxList
+        selectedIndex={this.state.selectedIndex}
+        handleSelect={(activatedIndex, allSelected) => this.setState({selectedIndex: allSelected})}
+      >
+        <ListItem>
+          <Checkbox />
+          <ListItemText primaryText='Photos'/>
+        </ListItem>
+        <ListItem>
+          <Checkbox checked />
+          <ListItemText primaryText='Recipes'/>
+        </ListItem>
+        <ListItem>
+          <Checkbox />
+          <ListItemText primaryText='Work'/>
+        </ListItem>
+      </List>
+    );
+  }
+}
+```
+
+### Radio Lists
+
+You can use the `radioList` Boolean prop for `List` to enable the radio list logic. Set `selectedIndex` to the index of the listItem initially selected to accurately setup the component for a11y. Changing `selectedIndex` programatically will not affect the radio element -- you must instead programatically change the radio via it's `checked` prop. Interactions (click/arrow keys) will update the radios as expected. To get the selectedIndex, setup the radio's `onChange` method as shown below. See the [Radio Readme](../radio/README.md) for more details.
+
+> Note: We know this API is inconsistent with checkbox list. This is because the implementations of radio and checkbox differ. In the coming months, we will try to normalize the design. 
+
+```jsx
+import React, {Component} from 'react';
+import List, {ListItem, ListItemText} from '@material/react-list';
+import Radio, {NativeRadioControl} from '@material/react-radio';
+
+class MyApp extends Component {
+  state = {
+    selectedItem: 'Milk',
+  };
+
+  handleChange = (e) => {
+    this.setState({selectedItem: e.target.value});
+  }
+
+  render() {
+    const listItems = ['Photos', 'Recipes', 'Work'];
+
+    return (
+      <List
+        radioList
+        selectedIndex={0}
+      >
+        {
+          listItems.map((item, index) => {
+            return (
+              <ListItem key={index}>
+                <Radio>
+                  <NativeRadioControl
+                    name={item}
+                    checked={this.state.selectedItem === item}
+                    value={item}
+                    id={`${index}-${item}`}
+                    onChange={this.handleChange}
+                  />
+                </Radio>
+                <ListItemText primaryText='Photos'/>
+              </ListItem>
+            );
+          })
+        }
+      </List>
+    );
+  }
+}
+```
+
 ## Props
 
 ### List
 
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the list element
-nonInteractive | Boolean | Disables interactivity affordances
-dense | Boolean | Styles the density of the list, making it appear more compact
-avatarList | Boolean | Configures the leading tiles of each row to display images instead of icons. This will make the graphics of the list items larger
-twoLine | Boolean | Styles the list with two lines
-singleSelection | Boolean | Allows for single selection of list items
-wrapFocus | Boolean | Sets the list to allow the up arrow on the first element to focus the last element of the list and vice versa
-selectedIndex | Number | Toggles the selected state of the list item at the given index
-handleSelect | Function(selectedIndex: Number) => void | Callback for handling a list item selection event
-aria-orientation | String | Indicates the list orientation
-tag | String | Customizes the list tag type (defaults to `'ul'`)
+| Prop Name        | Type                                    | Description                                                                                                                       |
+| ---------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| className        | String                                  | Classes to be applied to the list element                                                                                         |
+| nonInteractive   | Boolean                                 | Disables interactivity affordances                                                                                                |
+| dense            | Boolean                                 | Styles the density of the list, making it appear more compact                                                                     |
+| avatarList       | Boolean                                 | Configures the leading tiles of each row to display images instead of icons. This will make the graphics of the list items larger |
+| twoLine          | Boolean                                 | Styles the list with two lines                                                                                                    |
+| singleSelection  | Boolean                                 | Allows for single selection of list items                                                                                         |
+| wrapFocus        | Boolean                                 | Sets the list to allow the up arrow on the first element to focus the last element of the list and vice versa                     |
+| checkboxList     | Boolean                                 | Set the list to act as a checkbox list |
+| radioList        | Boolean                                 | Set the list to act as a radio list |
+| selectedIndex    | Number | Array<Number>       | Toggles the selected state of the list item at the given index. Behaves differently for checkboxList and radioList (see sections above for more detail). |
+| handleSelect     | Function(activatedItemIndex: Number, selected: Number | Array<Number>) => void | Callback for handling a list item selection event. `selected` will be an Array,Number> for checkbox lists. |
+| aria-orientation | String                                  | Indicates the list orientation                                                                                                    |
+| tag              | String                                  | Customizes the list tag type (defaults to `'ul'`)                                                                                 |
 
 ### ListItem
 
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the list item element
-classNamesFromList | Array<String> | Additional classes to be applied to the list item element, passed down from list
-attributesFromList | Array | Additional attributes to be applied to the list item element, passed down from list
-childrenTabIndex | Number | Tab index to be applied to all children of the list item
-shouldFocus | Boolean | Whether to focus the list item
-shouldFollowHref | Boolean | Whether to follow the link indicated by the list item
-shouldToggleCheckbox | Boolean | Whether to toggle the checkbox on the list item
-onClick | Function(evt: Event) => void | Callback for handling a click event
-onKeyDown | Function(evt: Event) => void | Callback for handling a keydown event
-onFocus | Function(evt: Event) => void | Callback for handling a focus event
-onBlur | Function(evt: Event) => void | Callback for handling a blur event
-tag | String | Customizes the list tag type (defaults to `'li'`)
+| Prop Name            | Type                         | Description                                                                         |
+| -------------------- | ---------------------------- | ----------------------------------------------------------------------------------- |
+| tag                  | String                       | Customizes the list tag type (defaults to `'li'`)                                   |
+| checkboxList | Boolean | Set the list item to act as a checkbox list |
+| radioList | Boolean | Set the list item to act as a radio list |
+| activated | Boolean | Sets the list item to the activated state |
+| selected | Boolean | Sets the list item to the selected state |
 
 ### ListItemText
 
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the list item text element
-tabIndex | Number | Tab index of the list item text
-tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item text. If false, the tab index will always be -1
-primaryText | String | Primary text for the list item
-secondaryText | String | Secondary text for the list item
+| Prop Name               | Type    | Description                                                                                                       |
+| ----------------------- | ------- | ----------------------------------------------------------------------------------------------------------------- |
+| className               | String  | Classes to be applied to the list item text element                                                               |
+| tabIndex                | Number  | Tab index of the list item text                                                                                   |
+| tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item text. If false, the tab index will always be -1 |
+| primaryText             | String  | Primary text for the list item                                                                                    |
+| secondaryText           | String  | Secondary text for the list item                                                                                  |
 
 ### ListItemGraphic
 
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the list item graphic element
-tabIndex | Number | Tab index of the list item graphic
-tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item graphic. If false, the tab index will always be -1
-graphic | Element | The graphic element to be displayed in front of list item text
+| Prop Name               | Type    | Description                                                                                                          |
+| ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| className               | String  | Classes to be applied to the list item graphic element                                                               |
+| tabIndex                | Number  | Tab index of the list item graphic                                                                                   |
+| tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item graphic. If false, the tab index will always be -1 |
+| graphic                 | Element | The graphic element to be displayed in front of list item text                                                       |
 
 ### ListItemMeta
 
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the list item meta element
-tabIndex | Number | Tab index of the list item meta
-tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item meta. If false, the tab index will always be -1
-meta | Element or String | The meta element or string to be displayed behind list item text
+| Prop Name               | Type              | Description                                                                                                       |
+| ----------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
+| className               | String            | Classes to be applied to the list item meta element                                                               |
+| tabIndex                | Number            | Tab index of the list item meta                                                                                   |
+| tabbableOnListItemFocus | Boolean           | Whether focusing list item will toggle tab index of the list item meta. If false, the tab index will always be -1 |
+| meta                    | Element or String | The meta element or string to be displayed behind list item text                                                  |
 
 ### ListDivider
 
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the list divider
-tag | String | Element tag of the list divider, defaults to `li`
-role | String | ARIA role of the list divider, defaults to `separator`
+| Prop Name | Type   | Description                                            |
+| --------- | ------ | ------------------------------------------------------ |
+| className | String | Classes to be applied to the list divider              |
+| tag       | String | Element tag of the list divider, defaults to `li`      |
+| role      | String | ARIA role of the list divider, defaults to `separator` |
 
 ### ListGroup
 
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the list group
-tag | String | Element tag of the list group, defaults to `div`
+| Prop Name | Type   | Description                                      |
+| --------- | ------ | ------------------------------------------------ |
+| className | String | Classes to be applied to the list group          |
+| tag       | String | Element tag of the list group, defaults to `div` |
 
 
 ### ListGroupSubheader
 
-Prop Name | Type | Description
---- | --- | ---
-className | String | Classes to be applied to the list group subheader
-tag | String | Element tag of the list group subheader, defaults to `h3`
+| Prop Name | Type   | Description                                               |
+| --------- | ------ | --------------------------------------------------------- |
+| className | String | Classes to be applied to the list group subheader         |
+| tag       | String | Element tag of the list group subheader, defaults to `h3` |
 
 ## Sass Mixins
 

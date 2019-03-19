@@ -16,7 +16,9 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/list": "^0.41.0",
+    "@material/list": "^1.0.0",
+    "@material/react-checkbox": "^0.10.0",
+    "@material/react-radio": "^0.10.0",
     "classnames": "^2.2.6",
     "react": "^16.4.2"
   },
