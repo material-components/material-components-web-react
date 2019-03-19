@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import * as Ripple from '@material/react-ripple';
 
 export interface ThumbUnderlayProps

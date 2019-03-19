@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import ActionButtons from './ActionButtons';
 import ActionIcons from './ActionIcons';
 import Actions from './Actions';

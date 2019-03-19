@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 
 export interface ListGroupProps extends React.HTMLProps<HTMLElement>{
   className?: string,

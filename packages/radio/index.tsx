@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
 import * as Ripple from '@material/react-ripple';
