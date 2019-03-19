@@ -232,7 +232,7 @@ export default class Screenshot {
     });
     const page = await browser.newPage();
     await page.goto(`http://localhost:8080/#/${this.urlPath_}`, {
-      waitUntil: ['networkidle2'],
+      waitUntil: ['networkidle0'],
       timeout: 600000,
     });
     // await page.waitForSelector('#screenshot-test-app');
