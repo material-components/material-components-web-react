@@ -1,6 +1,6 @@
 {
   "name": "@material/react-dialog",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Material Components React Dialog",
   "license": "MIT",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
   "dependencies": {
     "@material/dialog": "0.43.0",
     "@material/dom": "^0.41.0",
-    "@material/react-button": "^0.10.0",
+    "@material/react-button": "^0.11.0",
     "classnames": "^2.2.6",
     "focus-trap": "^4.0.2",
     "react": "^16.4.2"

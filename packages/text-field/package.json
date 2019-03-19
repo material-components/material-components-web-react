@@ -1,6 +1,6 @@
 {
   "name": "@material/react-text-field",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Material Components React Text Field",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,9 +17,9 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/react-floating-label": "^0.8.0",
-    "@material/react-line-ripple": "^0.8.0",
-    "@material/react-notched-outline": "^0.8.0",
+    "@material/react-floating-label": "^0.11.0",
+    "@material/react-line-ripple": "^0.11.0",
+    "@material/react-notched-outline": "^0.11.0",
     "@material/textfield": "^0.41.0",
     "classnames": "^2.2.6",
     "react": "^16.4.2"
