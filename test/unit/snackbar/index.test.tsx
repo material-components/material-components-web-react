@@ -52,6 +52,21 @@ test('renders stacked actions', () => {
   wrapper.unmount();
 });
 
+test('#componentDidUpdate calls foundation.open if props.open is true', () => {
+  const wrapper = shallow<Snackbar>(<Snackbar open={false} message='example' actionText='action' />);
+  wrapper.instance().foundation.open = td.func<() => void>();
+  wrapper.setProps({open: true});
+  td.verify(wrapper.instance().foundation.open(), {times: 1});
+});
+
+test('#componentDidUpdate calls foundation.close if props.open is false', () => {
+  const wrapper = shallow<Snackbar>(<Snackbar open={true} message='example' actionText='action' />);
+  const reason = 'forced';
+  wrapper.instance().foundation.close = td.func<(reason: string) => void>();
+  wrapper.setProps({open: false, reason});
+  td.verify(wrapper.instance().foundation.close(reason), {times: 1});
+});
+
 test('opening notification works', () => {
   const openingHandler = td.func<() => void>();
   const wrapper = shallow<Snackbar>(
