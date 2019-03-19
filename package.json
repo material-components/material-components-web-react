@@ -70,7 +70,7 @@
     "@material/dom": "^0.41.0",
     "@material/drawer": "^1.0.1",
     "@material/fab": "^0.41.0",
-    "@material/floating-label": "^0.41.0",
+    "@material/floating-label": "^1.0.0",
     "@material/icon-button": "^0.41.0",
     "@material/layout-grid": "^0.41.0",
     "@material/line-ripple": "^1.0.0",
