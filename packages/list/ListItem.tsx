@@ -22,43 +22,33 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
+import {MDCListFoundation} from '@material/list/foundation';
 
 export interface ListItemProps<T> extends React.HTMLProps<T> {
-  className: string;
-  classNamesFromList: string[];
-  attributesFromList: object;
-  childrenTabIndex: number;
-  tabIndex: number;
-  shouldFocus: boolean;
-  shouldFollowHref: boolean;
-  shouldToggleCheckbox: boolean;
-  tag: string;
-  children: React.ReactNode;
+  checkboxList?: boolean;
+  radioList?: boolean;
+  onKeyDown?: React.KeyboardEventHandler<T>;
+  onClick?: React.MouseEventHandler<T>;
+  onFocus?: React.FocusEventHandler<T>;
+  onBlur?: React.FocusEventHandler<T>;
+  tag?: string;
+  activated?: boolean;
+  selected?: boolean;
 };
 
-function isAnchorElement(element: any): element is HTMLAnchorElement {
-  return !!element.href;
-}
-
-function isFocusableElement(element: any): element is HTMLElement {
-  return typeof <HTMLElement>element.focus === 'function';
-}
-
-export default class ListItem<T extends {} = HTMLElement> extends React.Component<
+// TODO: convert to functional component
+// https://github.com/material-components/material-components-web-react/issues/729
+export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<
   ListItemProps<T>,
   {}
   > {
-  listItemElement_: React.RefObject<T> = React.createRef();
+  private listItemElement = React.createRef<T>();
 
   static defaultProps: Partial<ListItemProps<HTMLElement>> = {
+    checkboxList: false,
+    radioList: false,
     className: '',
-    classNamesFromList: [],
-    attributesFromList: {},
-    childrenTabIndex: -1,
     tabIndex: -1,
-    shouldFocus: false,
-    shouldFollowHref: false,
-    shouldToggleCheckbox: false,
     onKeyDown: () => {},
     onClick: () => {},
     onFocus: () => {},
@@ -66,79 +56,50 @@ export default class ListItem<T extends {} = HTMLElement> extends React.Componen
     tag: 'li',
   };
 
-  componentDidUpdate(prevProps: ListItemProps<T>) {
-    const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
-    if (shouldFocus && !prevProps.shouldFocus) {
-      this.focus();
-    }
-    if (shouldFollowHref && !prevProps.shouldFollowHref) {
-      this.followHref();
-    }
-    if (shouldToggleCheckbox && !prevProps.shouldToggleCheckbox) {
-      this.toggleCheckbox();
-    }
-  }
-
   get classes() {
-    const {className, classNamesFromList} = this.props;
-    return classnames('mdc-list-item', className, classNamesFromList);
+    const {className, activated, selected} = this.props;
+    return classnames('mdc-list-item', className, {
+      [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
+      [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
+    });
   }
 
-  focus() {
-    const element = this.listItemElement_.current;
-    if (isFocusableElement(element)) {
-      element.focus();
+  get role() {
+    const {checkboxList, radioList, role} = this.props;
+    if (role) {
+      return role;
+    } else if (checkboxList) {
+      return 'checkbox';
+    } else if (radioList) {
+      return 'radio';
     }
-  }
-
-  followHref() {
-    const element = this.listItemElement_.current;
-    if (isAnchorElement(element)) {
-      element.click();
-    }
-  }
-
-  toggleCheckbox() {
-    // TODO(bonniez): implement
-    // https://github.com/material-components/material-components-web-react/issues/352
+    return null;
   }
 
   render() {
     const {
-      /* eslint-disable */
+      /* eslint-disable no-unused-vars */
       className,
-      classNamesFromList,
-      childrenTabIndex,
-      shouldFocus,
-      shouldFollowHref,
-      shouldToggleCheckbox,
-      /* eslint-enable */
-      attributesFromList,
       children,
+      role,
+      checkboxList,
+      radioList,
+      /* eslint-enable no-unused-vars */
       tag: Tag,
+
       ...otherProps
     } = this.props;
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
       <Tag
+        role={this.role}
         className={this.classes}
+        ref={this.listItemElement}
         {...otherProps}
-        {...attributesFromList} // overrides attributes in otherProps
-        ref={this.listItemElement_}
       >
-        {React.Children.map(children, this.renderChild)}
+        {this.props.children}
       </Tag>
     );
   }
-
-  renderChild = (child: React.ReactChild) => {
-    if (typeof child === 'string' || typeof child === 'number' || child === null) {
-      return child;
-    }
-
-    const tabIndex = this.props.childrenTabIndex;
-    const props = {...child.props, tabIndex};
-    return React.cloneElement(child, props);
-  };
 }
