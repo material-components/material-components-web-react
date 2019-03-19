@@ -1,4 +1,33 @@
-# [](https://github.com/material-components/material-components-web-react/compare/v0.9.3...v) (2019-02-19)
+# [](https://github.com/material-components/material-components-web-react/compare/v0.10.0...v) (2019-03-19)
+
+
+### Bug Fixes
+
+* **chips:** update classnames version to 2.2.6 ([#702](https://github.com/material-components/material-components-web-react/issues/702)) ([bfd2986](https://github.com/material-components/material-components-web-react/commit/bfd2986))
+* **dialog:** should extend HTMLElement ([#723](https://github.com/material-components/material-components-web-react/issues/723)) ([af449f4](https://github.com/material-components/material-components-web-react/commit/af449f4))
+* **infrastructure:** remove duplicate tsconfig properties ([#736](https://github.com/material-components/material-components-web-react/issues/736)) ([582cca3](https://github.com/material-components/material-components-web-react/commit/582cca3))
+* **menu-surface:** Hoist menu-surface via a portal ([#500](https://github.com/material-components/material-components-web-react/issues/500),[#628](https://github.com/material-components/material-components-web-react/issues/628)) ([#693](https://github.com/material-components/material-components-web-react/issues/693)) ([41d8750](https://github.com/material-components/material-components-web-react/commit/41d8750))
+* **ripple:** ClientRect => defaultrect object ([#754](https://github.com/material-components/material-components-web-react/issues/754)) ([b2f78e8](https://github.com/material-components/material-components-web-react/commit/b2f78e8))
+* **ripple:** Use mdc-dom.matches instead of `getMatchesProperty()` ([#706](https://github.com/material-components/material-components-web-react/issues/706)) ([74d07fd](https://github.com/material-components/material-components-web-react/commit/74d07fd))
+* **select:** pass state.value to NativeControl as prop.value ([#726](https://github.com/material-components/material-components-web-react/issues/726)) ([09ad132](https://github.com/material-components/material-components-web-react/commit/09ad132))
+* classnames@2.2.5 --> classnames@2.2.6 & update imports ([#709](https://github.com/material-components/material-components-web-react/issues/709)) ([230337e](https://github.com/material-components/material-components-web-react/commit/230337e))
+* make require props optional ([#737](https://github.com/material-components/material-components-web-react/issues/737)) ([f4e78e7](https://github.com/material-components/material-components-web-react/commit/f4e78e7))
+* **select:** prop value should be string only ([#725](https://github.com/material-components/material-components-web-react/issues/725)) ([619d12c](https://github.com/material-components/material-components-web-react/commit/619d12c))
+* **snackbar:** Add missing mdcw snackbar dependency ([#714](https://github.com/material-components/material-components-web-react/issues/714)) ([9e6fc92](https://github.com/material-components/material-components-web-react/commit/9e6fc92))
+* **tab:** Set initial tabIndex state to -1 ([#690](https://github.com/material-components/material-components-web-react/issues/690)) ([#691](https://github.com/material-components/material-components-web-react/issues/691)) ([9034c98](https://github.com/material-components/material-components-web-react/commit/9034c98))
+* **text-field:** make props optional ([#735](https://github.com/material-components/material-components-web-react/issues/735)) ([93e8c15](https://github.com/material-components/material-components-web-react/commit/93e8c15))
+
+
+### Features
+
+* **drawer:** add innerRef prop ([#758](https://github.com/material-components/material-components-web-react/issues/758)) ([364b0b2](https://github.com/material-components/material-components-web-react/commit/364b0b2))
+* **snackbar:** dynamic open ([#708](https://github.com/material-components/material-components-web-react/issues/708)) ([04fe2bf](https://github.com/material-components/material-components-web-react/commit/04fe2bf))
+* **tab:** implement setFocusOnActivate ([#722](https://github.com/material-components/material-components-web-react/issues/722)) ([fcd480d](https://github.com/material-components/material-components-web-react/commit/fcd480d))
+* **top-app-bar:** add children components for composition ([f3454b6](https://github.com/material-components/material-components-web-react/commit/f3454b6))
+
+
+
+# [0.10.0](https://github.com/material-components/material-components-web-react/compare/v0.9.3...v0.10.0) (2019-02-19)
 
 
 ### Bug Fixes
