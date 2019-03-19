@@ -4,6 +4,7 @@ import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import Tab from '../../../packages/tab/index';
 import TabIndicatorRef from '../../../packages/tab-indicator/index';
+import {MDCTabDimensions} from '@material/tab/types';
 import {coerceForTesting} from '../helpers/types';
 
 suite('Tab');
@@ -67,14 +68,14 @@ test('if props.active updates to false, foundation.deactivate is called', () => 
 
 test('calls foundation.setFocusOnActivate when props.focusOnActivate changes from false to true', () => {
   const wrapper = shallow<Tab>(<Tab focusOnActivate={false} />);
-  wrapper.instance().foundation.setFocusOnActivate = td.func();
+  wrapper.instance().foundation.setFocusOnActivate = td.func<(focusOnActivate: boolean) => null>();
   wrapper.setProps({focusOnActivate: true});
   td.verify(wrapper.instance().foundation.setFocusOnActivate(true), {times: 1});
 });
 
 test('calls foundation.setFocusOnActivate when props.focusOnActivate changes from true to false', () => {
   const wrapper = shallow<Tab>(<Tab focusOnActivate />);
-  wrapper.instance().foundation.setFocusOnActivate = td.func();
+  wrapper.instance().foundation.setFocusOnActivate = td.func<(focusOnActivate: boolean) => null>();
   wrapper.setProps({focusOnActivate: false});
   td.verify(wrapper.instance().foundation.setFocusOnActivate(false), {times: 1});
 });
@@ -149,8 +150,8 @@ test('#adapter.setAttr sets tabIndex on state', () => {
 
 test('#adapter.setAttr sets aria-selected on state', () => {
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().adapter.setAttr('aria-selected', true);
-  assert.isTrue(wrapper.state()['aria-selected']);
+  wrapper.instance().adapter.setAttr('aria-selected', 'true');
+  assert.equal(wrapper.state()['aria-selected'], 'true');
 });
 
 test('#adapter.getOffsetLeft returns tabRef.offsetLeft', () => {
@@ -199,14 +200,14 @@ test('#adapter.deactivateIndicator sets state.activateIndicator', () => {
 test('#activate calls foundation.activate', () => {
   const clientRect = {test: 1} as unknown as ClientRect; ;
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation.activate = td.func();
+  wrapper.instance().foundation.activate = td.func<(previousIndicatorClientRect?: ClientRect) => null>();
   wrapper.instance().activate(clientRect);
   td.verify(wrapper.instance().foundation.activate(clientRect), {times: 1});
 });
 
 test('#deactivate calls foundation.deactivate', () => {
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation.deactivate = td.func();
+  wrapper.instance().foundation.deactivate = td.func<() => null>();
   wrapper.instance().deactivate();
   td.verify(wrapper.instance().foundation.deactivate(), {times: 1});
 });
@@ -220,7 +221,7 @@ test('#computeIndicatorClientRect returns the tabIndicatorRef clientRect', () =>
 
 test('#computeDimensions calls foundation.computeDimensions', () => {
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation.computeDimensions = td.func();
+  wrapper.instance().foundation.computeDimensions = td.func<() => MDCTabDimensions>();
   wrapper.instance().computeDimensions();
   td.verify(wrapper.instance().foundation.computeDimensions(), {times: 1});
 });
@@ -362,7 +363,7 @@ test('props.isMinWidthIndicator renders indicator within the content element', (
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Tab>(<Tab />);
   const foundation = wrapper.instance().foundation;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => null>();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
 });

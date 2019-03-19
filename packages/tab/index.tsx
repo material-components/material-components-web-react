@@ -21,11 +21,11 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 
 import TabIndicator from '@material/react-tab-indicator';
-// @ts-ignore No mdc .d.ts files
-import {MDCTabFoundation} from '@material/tab/dist/mdc.tab';
+import {MDCTabFoundation} from '@material/tab/foundation';
+import {MDCTabAdapter} from '@material/tab/adapter';
 
 import TabRipple, {TabRippleProps} from './TabRipple';
 
@@ -38,10 +38,11 @@ export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   isMinWidthIndicator?: boolean;
   stacked?: boolean;
   previousIndicatorClientRect?: ClientRect;
+  onInteraction?: () => void;
 }
 
 interface MDCTabElementAttributes {
-  'aria-selected': boolean;
+  'aria-selected'?: 'false' | 'true';
   tabIndex?: number;
 }
 
@@ -52,7 +53,7 @@ interface TabState extends MDCTabElementAttributes {
 }
 
 export default class Tab extends React.Component<TabProps, TabState> {
-  foundation?: MDCTabFoundation;
+  foundation!: MDCTabFoundation;
   tabRef: React.RefObject<HTMLButtonElement> = React.createRef();
   tabContentRef: React.RefObject<HTMLSpanElement> = React.createRef();
   tabIndicatorRef: React.RefObject<TabIndicator> = React.createRef();
@@ -67,11 +68,12 @@ export default class Tab extends React.Component<TabProps, TabState> {
     minWidth: false,
     isMinWidthIndicator: false,
     stacked: false,
+    onInteraction: () => null,
   };
 
   state: TabState = {
     'classList': new Set(),
-    'aria-selected': false,
+    'aria-selected': 'false',
     'activateIndicator': false,
     'previousIndicatorClientRect': this.props.previousIndicatorClientRect,
     'tabIndex': -1,
@@ -81,7 +83,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     const {active, focusOnActivate} = this.props;
     this.foundation = new MDCTabFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setFocusOnActivate(focusOnActivate);
+    this.foundation.setFocusOnActivate(focusOnActivate!);
     if (active) {
       this.foundation.activate();
     }
@@ -94,7 +96,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
   componentDidUpdate(prevProps: TabProps) {
     const {active, focusOnActivate, previousIndicatorClientRect} = this.props;
     if (focusOnActivate !== prevProps.focusOnActivate) {
-      this.foundation.setFocusOnActivate(focusOnActivate);
+      this.foundation.setFocusOnActivate(focusOnActivate!);
     }
     if (active !== prevProps.active) {
       if (active) {
@@ -115,7 +117,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     });
   }
 
-  get adapter() {
+  get adapter(): MDCTabAdapter {
     return {
       addClass: (className: string) => {
         const classList = new Set(this.state.classList);
@@ -136,12 +138,15 @@ export default class Tab extends React.Component<TabProps, TabState> {
       getOffsetWidth: () =>
         Number(this.tabRef.current && this.tabRef.current.offsetWidth),
       getContentOffsetLeft: () =>
-        this.tabContentRef.current &&
-        this.tabContentRef.current.offsetLeft,
+        this.tabContentRef.current ?
+          this.tabContentRef.current.offsetLeft :
+          0,
       getContentOffsetWidth: () =>
-        this.tabContentRef.current &&
-        this.tabContentRef.current.offsetWidth,
+        this.tabContentRef.current ?
+          this.tabContentRef.current.offsetWidth :
+          0,
       focus: () => this.tabRef.current && this.tabRef.current.focus(),
+      notifyInteracted: this.props.onInteraction!,
       activateIndicator: (previousIndicatorClientRect: ClientRect) =>
         this.setState({
           activateIndicator: true,
@@ -151,7 +156,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     };
   }
 
-  activate(computeIndicatorClientRect?: ClientRect | {}) {
+  activate(computeIndicatorClientRect?: ClientRect) {
     this.foundation.activate(computeIndicatorClientRect);
   }
 
@@ -190,6 +195,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
       isFadingIndicator,
       indicatorContent,
       minWidth,
+      onInteraction,
       stacked,
       /* eslint-enable */
       children,

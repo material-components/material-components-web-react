@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
 import {MDCListIndex} from '@material/list/types';
 import {MDCListAdapter} from '@material/list/adapter';

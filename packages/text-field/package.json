@@ -21,7 +21,7 @@
     "@material/react-line-ripple": "^0.8.0",
     "@material/react-notched-outline": "^0.8.0",
     "@material/textfield": "^0.41.0",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "react": "^16.4.2"
   },
   "publishConfig": {

@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
 
 export interface ListItemProps<T> extends React.HTMLProps<T> {

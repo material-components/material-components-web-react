@@ -109,6 +109,7 @@ function getJavaScriptWebpackConfig() {
       externals: Object.assign(
         {
           'react': 'react',
+          'react-dom': 'react-dom',
           'classnames': 'classnames',
           'prop-types': 'prop-types',
           '@material/textfield/constants': `@material/textfield/constants.js`,
