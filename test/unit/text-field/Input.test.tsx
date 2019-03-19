@@ -415,3 +415,28 @@ test('should call foundation.setValue() when foundation is new', () => {
   wrapper.setProps({foundation, value, handleValueChange});
   td.verify(foundation.setValue(value), {times: 1});
 });
+
+test('shouldn\'t call foundation.setValue() when triggered by user', () => {
+  const setValue = td.func();
+  const foundation = {
+    setValue,
+    setDisabled: td.func(),
+    setUseNativeValidation: td.func(),
+    autoCompleteFocus: td.func(),
+  };
+  let value: any;
+  const handleValueChange = (v: any, callback: () => void) => {
+    value = v;
+    callback();
+  };
+  const wrapper = shallow<Input<HTMLInputElement>>(
+    <Input
+      handleValueChange={handleValueChange}
+      foundation={foundation}
+    />
+  );
+  const event = {target: {value: 'meow'}};
+  wrapper.simulate('change', event);
+  wrapper.setProps({value});
+  td.verify(foundation.setValue(), {times: 0});
+});
