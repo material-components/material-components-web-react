@@ -38,6 +38,7 @@ export interface Props {
   leading?: boolean;
   stacked?: boolean;
   open?: boolean;
+  reason?: string;
   onOpening?: () => void;
   onOpen?: () => void;
   onClosing?: (reason: string) => void;
@@ -151,6 +152,16 @@ export class Snackbar extends React.Component<Props, State> {
     this.foundation.init();
     if (this.props.open) {
       this.foundation.open();
+    }
+  }
+  componentDidUpdate(prevProps: Props) {
+    const {open, reason} = this.props;
+    if (prevProps.open !== open) {
+      if (open) {
+        this.foundation.open();
+      } else {
+        this.foundation.close(reason ? reason : '');
+      }
     }
   }
   componentWillUnmount() {
