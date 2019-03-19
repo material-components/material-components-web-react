@@ -41,6 +41,7 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 message | String | Message to show in the snackbar
+reason | String | Why the snackbar is closed
 className | String | Classes to be applied to the root element.
 timeoutMs | Number | Timeout in milliseconds when to close snackbar.
 closeOnEscape | Boolean | Closes popup on "Esc" button if true.
