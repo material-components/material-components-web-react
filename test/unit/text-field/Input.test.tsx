@@ -438,5 +438,5 @@ test('shouldn\'t call foundation.setValue() when triggered by user', () => {
   const event = {target: {value: 'meow'}};
   wrapper.simulate('change', event);
   wrapper.setProps({value});
-  td.verify(foundation.setValue(), {times: 0});
+  td.verify(foundation.setValue(value), {times: 0});
 });
