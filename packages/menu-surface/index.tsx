@@ -220,7 +220,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       focusFirstElement: () => {
         if (!this.firstFocusableElement) return false;
         return this.firstFocusableElement.focus &&
-        this.firstFocusableElement.focus()
+        this.firstFocusableElement.focus();
       },
       focusLastElement: () =>
         this.lastFocusableElement &&
@@ -236,7 +236,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       },
       getAnchorDimensions: () => {
         if (!this.props.anchorElement) return null;
-        return this.props.anchorElement.getBoundingClientRect()
+        return this.props.anchorElement.getBoundingClientRect();
       },
       getWindowDimensions: () => {
         return {width: window.innerWidth, height: window.innerHeight};
@@ -302,7 +302,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       },
       setTransformOrigin: (transformOrigin: string) => this.setState({transformOrigin}),
       ...focusAdapterMethods,
-      ...dimensionAdapterMethods
+      ...dimensionAdapterMethods,
     };
   }
 

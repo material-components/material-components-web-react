@@ -3,7 +3,6 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
-import {MenuSurfaceProps, MenuSurfaceState} from '../../../packages/menu-surface';
 import {MDCMenuDistance} from '@material/menu-surface';
 
 suite('MenuSurface');
@@ -12,14 +11,6 @@ function getAdapter(instance: MenuSurface) {
   // @ts-ignore adapter_ property is protected and we need to override this
   return instance.foundation.adapter_;
 }
-
-
-const removeMenuFromBody = (wrapper: ReactWrapper<MenuSurfaceProps, MenuSurfaceState, MenuSurface>) => {
-  wrapper
-    .find('.mdc-menu-surface')
-    .getDOMNode()
-    .remove();
-};
 
 test('classNames adds classes', () => {
   const wrapper = mount(<MenuSurface className='test-class-name' />);
