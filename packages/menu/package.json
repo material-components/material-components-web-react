@@ -17,7 +17,9 @@
   },
   "dependencies": {
     "@material/menu": "^1.0.1",
-    "classnames": "^2.2.5",
+    "@material/react-list": "^0.11.0",
+    "@material/react-menu-surface": "^0.11.0",
+    "classnames": "^2.2.6",
     "react": "^16.4.2"
   },
   "publishConfig": {

@@ -497,7 +497,7 @@ test('onKeyDown calls props.onKeyDown', () => {
 
 test('onKeyDown calls foundation.handleKeydown', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface>hello</MenuSurface>);
-  wrapper.instance().foundation.handleKeydown = td.func<(event: KeyboardEvent) => {}>();
+  wrapper.instance().foundation.handleKeydown = td.func() as (event: React.KeyboardEvent) => {};
   const evt = {nativeEvent: ({} as KeyboardEvent)} as React.KeyboardEvent<HTMLDivElement>;
   wrapper.instance().handleKeydown(evt);
   td.verify(wrapper.instance().foundation.handleKeydown(evt.nativeEvent), {times: 1});

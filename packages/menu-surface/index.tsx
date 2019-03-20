@@ -45,7 +45,6 @@ export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
   };
   onClose?: () => void;
   onOpen?: () => void;
-  onKeyDown?: (event: React.KeyboardEvent) => void;
   quickOpen?: boolean;
   open?: boolean;
   fixed?: boolean;

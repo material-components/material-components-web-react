@@ -24,45 +24,49 @@ import * as React from 'react';
 import classnames from 'classnames';
 import {MDCMenuFoundation} from '@material/menu/foundation';
 import {MDCMenuAdapter} from '@material/menu/adapter';
+import MenuSurface, {MenuSurfaceProps} from '@material/react-menu-surface';
+import MenuList from './MenuList';
+import MenuListItem from './MenuListItem';
 
-export interface MenuProps extends React.HTMLProps<HTMLDivElement> {
- 
+const {cssClasses} = MDCMenuFoundation;
+
+export interface MenuProps extends Exclude<MenuSurfaceProps, 'ref'> {
+  children: React.ReactElement<MenuList>;
+  handleSelected?: (index: number, item: Element) => void;
 };
 
 export interface MenuState {
-  
+  classList: Set<string>;
+  open: boolean;
 };
 
-class MenuSurface extends React.Component<MenuProps, MenuState> {
+class Menu extends React.Component<MenuProps, MenuState> {
+
+  foundation!: MDCMenuFoundation;
+
   state: MenuState = {
-    transformOrigin: '',
-    maxHeight: undefined,
-    styleLeft: undefined,
-    styleRight: undefined,
-    styleTop: undefined,
-    styleBottom: undefined,
     classList: new Set(),
+    open: false,
   };
 
   static defaultProps: Partial<MenuProps> = {
     className: '',
-    styles: {},
-    anchorCorner: 0,
-    anchorMargin: {},
-    onClose: () => {},
-    onOpen: () => {},
-    onKeyDown: () => {},
-    quickOpen: false,
     open: false,
-    fixed: false,
+    onKeyDown: () => {},
+    handleSelected: () => {},
   };
 
   componentDidMount() {
-
+    this.foundation = new MDCMenuFoundation(this.adapter);
+    // if (!isList(this.props.children)) {
+    //   throw new Error('child passed to menu must be of type List');
+    // }
   }
 
   componentDidUpdate(prevProps: MenuProps) {
-    
+    if (this.props.open !== prevProps.open) {
+      this.setState({open: this.props.open!});
+    }
   }
 
   componentWillUnmount() {
@@ -70,21 +74,103 @@ class MenuSurface extends React.Component<MenuProps, MenuState> {
       this.foundation.destroy();
     }
   }
+
+  get listElements(): Element[] {
+    // TODO: do a find of .mdc-list so that people using styled-components can style the list
+    return [];
+    // return this.props.children.listElements;
+  }
+
+  get classes() {
+    const {className} = this.props;
+    const {classList} = this.state;
+    return classnames('mdc-menu', Array.from(classList), className);
+  }
+
+  get adapter(): MDCMenuAdapter {
+    return {
+      addClassToElementAtIndex: (index, className) => {
+        const list = this.listElements;
+        list[index].classList.add(className);
+      },
+      removeClassFromElementAtIndex: (index, className) => {
+        const list = this.listElements;
+        list[index].classList.remove(className);
+      },
+      addAttributeToElementAtIndex: (index, attr, value) => {
+        const list = this.listElements;
+        list[index].setAttribute(attr, value);
+      },
+      removeAttributeFromElementAtIndex: (index, attr) => {
+        const list = this.listElements;
+        list[index].removeAttribute(attr);
+      },
+      elementContainsClass: (element, className) => element.classList.contains(className),
+      closeSurface: () => this.setState({open: false}),
+      getElementIndex: (element) => this.listElements.indexOf(element),
+      getParentElement: (element) => element.parentElement,
+      getSelectedElementIndex: (selectionGroup) => {
+        const selectedListItem = selectionGroup.querySelector(`.${cssClasses.MENU_SELECTED_LIST_ITEM}`);
+        return selectedListItem ? this.listElements.indexOf(selectedListItem) : -1;
+      },
+      notifySelected: (evtData) => this.props.handleSelected!(
+        evtData.index,
+        this.listElements[evtData.index],
+      ),
+    };
+  }
+
+  handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (evt) => {
+    const {onKeyDown} = this.props;
+    if (onKeyDown) {
+      onKeyDown(evt);
+    }
+    this.foundation.handleKeydown(evt.nativeEvent);
+  }
+
+  handleOpen: MenuSurfaceProps['onOpen'] = () => {
+    const {onOpen} = this.props;
+    if (onOpen) {
+      onOpen();
+    }
+    if (this.listElements.length > 0) {
+      (this.listElements[0] as HTMLElement).focus();
+    }
+  }
+
   render() {
+    const {
+      open,
+      onKeyDown,
+      onOpen,
+      children,
+      ref,
+      ...otherProps
+    } = this.props;
 
     return (
-      <div
+      <MenuSurface
+        open={this.state.open}
         className={this.classes}
-        onKeyDown={this.handleKeydown}
-        ref={this.menuSurfaceElement}
-        style={this.styles}
+        onKeyDown={this.handleKeyDown}
+        onOpen={this.handleOpen}
         {...otherProps}
       >
-        {children}
-      </div>
+        {this.renderChild()}
+      </MenuSurface>
     );
+  }
+
+  
+  renderChild() {
+    const {children} = this.props;
+    const updatedProps = {
+      handleItemAction: this.foundation.handleItemAction,
+      ...children.props,
+    }
+    return React.cloneElement(children, updatedProps);
   }
 }
 
-export default MenuSurface;
-export {Corner};
+export default Menu;
+export {MenuList, MenuListItem};

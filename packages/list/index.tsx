@@ -68,7 +68,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   foundation!: MDCListFoundation;
   hasInitializedListItem = false;
 
-  private listElement = React.createRef<HTMLElement>();
+  private listElement = React.createRef<T>();
 
   static defaultProps: Partial<ListProps<HTMLElement>> = {
     'className': '',
