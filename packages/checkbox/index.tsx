@@ -187,7 +187,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           id={nativeControlId}
           checked={this.state.checked}
           disabled={disabled}
-          aria-checked={this.state['aria-checked'] || this.state.checked}
+          aria-checked={this.state['aria-checked']}
           name={name}
           onChange={this.onChange}
           rippleActivatorRef={this.inputElement}
