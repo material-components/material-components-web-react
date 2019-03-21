@@ -1,4 +1,4 @@
-// The MIT License
+// The MMaterialIconTypes License
 //
 // Copyright (c) 2018 Google, Inc.
 //
@@ -12,19 +12,21 @@
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// THE SOFTWARE IS PROVIDED "AS IS", WMaterialIconTypesHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMMaterialIconTypesED TO THE WARRANTIES OF MERCHANTABILMaterialIconTypesY,
+// FMaterialIconTypesNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// LIABILMaterialIconTypesY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WMaterialIconTypesH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
 import * as React from 'react';
 import * as classnames from 'classnames';
 import * as Ripple from '@material/react-ripple';
 
-export interface MaterialIconDefaultProps extends React.HTMLAttributes<HTMLElement> {
+type MaterialIconTypes = HTMLAnchorElement | HTMLButtonElement | HTMLElement;
+export interface MaterialIconDefaultProps<T extends MaterialIconTypes = HTMLElement>
+  extends React.HTMLAttributes<T>, React.AnchorHTMLAttributes<T>, React.ButtonHTMLAttributes<T> {
   icon?: string;
   className?: string;
   hasRipple?: boolean;
@@ -32,7 +34,8 @@ export interface MaterialIconDefaultProps extends React.HTMLAttributes<HTMLEleme
   tag?: string;
 };
 
-export interface MaterialIconProps extends MaterialIconDefaultProps, Ripple.InjectedProps<HTMLElement> {};
+export interface MaterialIconProps
+  extends MaterialIconDefaultProps<MaterialIconTypes>, Ripple.InjectedProps<MaterialIconTypes> {};
 
 const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
   /* eslint-disable react/prop-types */
@@ -60,7 +63,7 @@ const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
   );
 };
 
-export const RippleMaterialIcon = Ripple.withRipple<MaterialIconProps, HTMLElement>(MaterialIconDefault);
+export const RippleMaterialIcon = Ripple.withRipple<MaterialIconProps, MaterialIconTypes>(MaterialIconDefault);
 
 export default class MaterialIcon extends React.Component<
   MaterialIconProps, {}
@@ -74,24 +77,14 @@ export default class MaterialIcon extends React.Component<
   };
 
   render() {
-    const {icon, hasRipple, unbounded, tag, ...otherProps} = this.props; // eslint-disable-line no-unused-vars
+    const {hasRipple, unbounded, ...otherProps} = this.props; // eslint-disable-line no-unused-vars
     if (hasRipple) {
       return (
-        <RippleMaterialIcon
-          unbounded
-          hasRipple
-          icon={icon}
-          tag={tag}
-          {...otherProps}
-        />
+        <RippleMaterialIcon unbounded hasRipple {...otherProps} />
       );
     }
     return (
-      <MaterialIconDefault
-        icon={icon}
-        tag={tag}
-        {...otherProps}
-      />
+      <MaterialIconDefault {...otherProps} />
     );
   }
 }
