@@ -490,7 +490,7 @@ test('#adapter.setTransformOrigin sets maxHeight state variables', () => {
 test('onKeyDown calls props.onKeyDown', () => {
   const onKeyDown = td.func() as (event: React.KeyboardEvent) => {};
   const wrapper = shallow<MenuSurface>(<MenuSurface onKeyDown={onKeyDown} />);
-  const evt = {nativeEvent: {}} as React.KeyboardEvent;
+  const evt = {nativeEvent: {}} as React.KeyboardEvent<HTMLDivElement>;
   wrapper.instance().handleKeydown(evt);
   td.verify(onKeyDown(evt), {times: 1});
 });
@@ -498,7 +498,7 @@ test('onKeyDown calls props.onKeyDown', () => {
 test('onKeyDown calls foundation.handleKeydown', () => {
   const wrapper = shallow<MenuSurface>(<MenuSurface>hello</MenuSurface>);
   wrapper.instance().foundation.handleKeydown = td.func<(event: KeyboardEvent) => {}>();
-  const evt = {nativeEvent: ({} as KeyboardEvent)} as React.KeyboardEvent;
+  const evt = {nativeEvent: ({} as KeyboardEvent)} as React.KeyboardEvent<HTMLDivElement>;
   wrapper.instance().handleKeydown(evt);
   td.verify(wrapper.instance().foundation.handleKeydown(evt.nativeEvent), {times: 1});
 });
