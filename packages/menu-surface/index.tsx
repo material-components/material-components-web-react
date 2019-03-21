@@ -115,7 +115,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     // here we force the menu to hoist, and require either
     // this.props.(x,y) or this.props.anchorElement.
     this.foundation.setIsHoisted(true);
-    this.foundation.setFixedPosition(fixed);
+    this.foundation.setFixedPosition(fixed!);
     if (coordinates) {
       this.setCoordinates();
     }
@@ -212,10 +212,8 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
         this.previousFocus.focus();
       },
       isFirstElementFocused: () =>
-        Boolean(this.firstFocusableElement) &&
         this.firstFocusableElement === document.activeElement,
       isLastElementFocused: () =>
-        Boolean(this.lastFocusableElement) &&
         this.lastFocusableElement === document.activeElement,
       focusFirstElement: () => {
         if (!this.firstFocusableElement) return false;
@@ -288,9 +286,6 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       },
       isElementInContainer: (el: HTMLElement) => {
         if (!this.menuSurfaceElement.current) return false;
-        if (this.menuSurfaceElement.current === el) {
-          return true;
-        }
         return this.menuSurfaceElement.current.contains(el);
       },
       isRtl: () => {
@@ -324,7 +319,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     }
   };
 
-  handleKeydown = (evt: React.KeyboardEvent) => {
+  handleKeydown = (evt: React.KeyboardEvent<HTMLDivElement>) => {
     this.props.onKeyDown!(evt);
     this.foundation.handleKeydown(evt.nativeEvent);
   };
