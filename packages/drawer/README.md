@@ -330,13 +330,13 @@ import Button from '@material/react-button';
 class Drawer extends Component {
   mainContentEl = React.createRef();
 
-  focusFistFocusableItem = () => {
+  focusFirstFocusableItem = () => {
     this.mainContentEl.current.querySelector('input, button').focus();
   }
 
   onDrawerClose = () => {
     this.setState({open: false});
-    this.focusFistFocusableItem();
+    this.focusFirstFocusableItem();
   }
 
   render() {
@@ -349,7 +349,7 @@ class Drawer extends Component {
           onClose={this.drawerOnClose}
         >
           <List>
-            <ListItem onClick={this.focusFistFocusableItem}>
+            <ListItem onClick={this.focusFirstFocusableItem}>
               <ListItemText primaryText='list item' />
             </ListItem>
           </List>
