@@ -25,7 +25,7 @@ import classnames from 'classnames';
 import {MDCMenuFoundation} from '@material/menu/foundation';
 import {MDCMenuAdapter} from '@material/menu/adapter';
 import MenuSurface, {MenuSurfaceProps} from '@material/react-menu-surface';
-import MenuList from './MenuList';
+import MenuList, { MenuListProps } from './MenuList';
 import MenuListItem from './MenuListItem';
 
 const {cssClasses} = MDCMenuFoundation;
@@ -41,12 +41,12 @@ export interface MenuState {
 };
 
 class Menu extends React.Component<MenuProps, MenuState> {
-
+  menuListElement = React.createRef<MenuList>();
   foundation!: MDCMenuFoundation;
 
   state: MenuState = {
     classList: new Set(),
-    open: false,
+    open: this.props.open || false,
   };
 
   static defaultProps: Partial<MenuProps> = {
@@ -77,8 +77,13 @@ class Menu extends React.Component<MenuProps, MenuState> {
 
   get listElements(): Element[] {
     // TODO: do a find of .mdc-list so that people using styled-components can style the list
-    return [];
-    // return this.props.children.listElements;
+    if (!(this.menuListElement
+      && this.menuListElement.current
+      && this.menuListElement.current.listElements.length < 0)) {
+        return [];
+    }
+    console.log('hi', this.menuListElement.current.listElements)
+    return this.menuListElement.current.listElements;
   }
 
   get classes() {
@@ -144,12 +149,15 @@ class Menu extends React.Component<MenuProps, MenuState> {
       onKeyDown,
       onOpen,
       children,
+      className,
+      handleSelected,
       ref,
       ...otherProps
     } = this.props;
 
     return (
       <MenuSurface
+        tabIndex={-1}
         open={this.state.open}
         className={this.classes}
         onKeyDown={this.handleKeyDown}
@@ -164,10 +172,17 @@ class Menu extends React.Component<MenuProps, MenuState> {
   
   renderChild() {
     const {children} = this.props;
-    const updatedProps = {
-      handleItemAction: this.foundation.handleItemAction,
-      ...children.props,
+    let handleItemAction: MDCMenuFoundation['handleItemAction'] = () => {};
+    if (this.foundation) {
+      handleItemAction = this.foundation.handleItemAction;
     }
+    const updatedProps: MenuListProps<HTMLElement> = {
+      handleItemAction,
+      ref: this.menuListElement,
+      wrapFocus: true,
+      ...children.props,
+    };
+
     return React.cloneElement(children, updatedProps);
   }
 }

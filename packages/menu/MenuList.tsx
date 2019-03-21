@@ -47,6 +47,7 @@ class MenuList<T extends HTMLElement = HTMLElement>
   }
 
   handleSelect: ListProps<HTMLElement>['handleSelect'] = (activatedItemIndex, selected) => {
+    debugger
     this.props.handleSelect!(activatedItemIndex, selected);
     this.props.handleItemAction!(this.listElements[activatedItemIndex]);
   }
@@ -75,8 +76,10 @@ class MenuList<T extends HTMLElement = HTMLElement>
     const {
       'aria-hidden': ariaHidden,
       handleSelect,
+      handleItemAction,
       role,
       children,
+      ref,
       ...otherProps
     } = this.props;
   
@@ -84,7 +87,6 @@ class MenuList<T extends HTMLElement = HTMLElement>
       return (
         <List
           aria-hidden={ariaHidden !== undefined ? ariaHidden : 'true'}
-          ref={this.attachRef}
           role={role || 'menu'}
           handleSelect={this.handleSelect}
           {...otherProps}

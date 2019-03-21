@@ -8,28 +8,63 @@ import {ListItemText} from '../../../packages/list/index';
  
 // };
 
-// type MenuButtonState = {
-// };
+interface MenuState {
+  coordinates?: {x: number, y: number};
+  open: boolean;
+};
 
-const MenuScreenshotTest = () => {
-  const menuOptions = [
-    'Save',
-    'Edit',
-    'Cut',
-    'Copy',
-    'Paste',
-  ];
+class MenuScreenshotTest extends React.Component<{}, MenuState> {
 
-  return (
-    <Menu>
-      <MenuList>
-        {menuOptions.map((option, index) => (
-          <MenuListItem key={index}>
-            <ListItemText>{option}</ListItemText>
-          </MenuListItem>
-        ))}
-      </MenuList>
-    </Menu>
-  );
+  state = {
+    open: true,
+    coordinates: undefined,
+  };
+
+  componentDidMount() {
+    // @ts-ignore
+    window.addEventListener('contextmenu', this.rightClickCallback);
+  }
+
+  componentWillUnmount() {
+    // @ts-ignore
+    window.removeEventListener('contextmenu', this.rightClickCallback);
+  }
+
+  private rightClickCallback: React.MouseEventHandler = (event: React.MouseEvent) => {
+    this.setState({
+      open: !this.state.open,
+      coordinates: {x: event.clientX, y: event.clientY},
+    });
+    event.preventDefault();
+  }
+  private onClose = () => {
+    this.setState({open: false});
+  }
+
+  render() {
+    const menuOptions = [
+      'Save',
+      'Edit',
+      'Cut',
+      'Copy',
+      'Paste',
+    ];
+
+    return (
+      <Menu
+        open={this.state.open}
+        onClose={this.onClose}
+        coordinates={this.state.coordinates}
+      >
+        <MenuList>
+          {menuOptions.map((option, index) => (
+            <MenuListItem key={index}>
+              <ListItemText primaryText={option} />
+            </MenuListItem>
+          ))}
+        </MenuList>
+      </Menu>
+    );
+  }
 }
 export default MenuScreenshotTest;

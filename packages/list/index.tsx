@@ -122,7 +122,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   }
 
   componentWillUnmount() {
-    this.foundation.destroy();
+    this.foundation.destroy();  
   }
 
   initializeListType = () => {
