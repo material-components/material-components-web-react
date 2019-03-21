@@ -14,9 +14,15 @@ test('renders a MaterialIcon with default tag', () => {
 });
 
 test('renders a MaterialIcon with custom tag', () => {
-  const wrapper = mount(<MaterialIcon tag='button' />);
+  const wrapper = mount(<MaterialIcon tag='button' type='submit' />);
   assert.strictEqual(wrapper.find('.material-icons').type(), 'button');
 });
+
+test('renders a MaterialIcon with href prop and custom tag', () => {
+  const wrapper = mount(<MaterialIcon tag='a' href='/' />);
+  assert.strictEqual(wrapper.find('.material-icons').type(), 'a');
+});
+
 
 test('classNames adds classes', () => {
   const wrapper = mount(<MaterialIcon className='test-class-name' />);
@@ -42,7 +48,7 @@ const rippledIconComponent = (
 );
 
 const rippledTaggedIconComponent = (
-  <RippleMaterialIcon hasRipple unbounded icon='menu' tag='a' />
+  <RippleMaterialIcon hasRipple unbounded icon='menu' tag='a' href='/' />
 );
 
 test('if hasRipple true, then it should contain RippleMaterialIcon', () => {
@@ -51,7 +57,8 @@ test('if hasRipple true, then it should contain RippleMaterialIcon', () => {
 });
 
 test('if hasRipple true prop.tag, then it should contain RippleMaterialIcon with custom tag', () => {
-  const wrapper = mount(<MaterialIcon icon='menu' tag='a' hasRipple />);
+  const wrapper = mount(<MaterialIcon icon='menu' tag='a' href='/' hasRipple />);
+  console.log({x: wrapper.find('.material-icons').type(), y: rippledTaggedIconComponent});
   assert.isTrue(wrapper.contains(rippledTaggedIconComponent));
   assert.strictEqual(wrapper.find('.material-icons').type(), 'a');
 });
