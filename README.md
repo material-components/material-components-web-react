@@ -44,6 +44,10 @@ Component | Spec | MDC Web
 
 ## Getting Started
 
+### With CodeSandbox
+
+If you're looking to see how it looks without having to install a bunch of npm modules in your environment, please have a look at this [Starter CodeSandbox](https://codesandbox.io/s/wn3rnr45x7?fontsize=14).
+
 ### With create-react-app
 
 `create-react-app` is a popular CLI tool to getting started with React. If you're new to React or Webpack, you might be starting out here. This section will walk you through configuring `create-react-app` to install and use our components.
