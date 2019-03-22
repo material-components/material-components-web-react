@@ -51,7 +51,7 @@ export interface RippledComponentState {
 
 // props to be injected by this HOC.
 export interface InjectedProps<S, A = Element> extends RippledComponentProps<S> {
-  initRipple: React.Ref<S> | ((surface: S | null, activator?: A | null) => void);
+  initRipple?: React.Ref<S> | ((surface: S | null, activator?: A | null) => void);
 }
 
 type ActivateEventTypes<S>
