@@ -24,16 +24,16 @@ import * as React from 'react';
 import classnames from 'classnames';
 
 export interface ListItemProps<T> extends React.HTMLProps<T> {
-  className: string;
-  classNamesFromList: string[];
-  attributesFromList: object;
-  childrenTabIndex: number;
-  tabIndex: number;
-  shouldFocus: boolean;
-  shouldFollowHref: boolean;
-  shouldToggleCheckbox: boolean;
-  tag: string;
-  children: React.ReactNode;
+  className?: string;
+  classNamesFromList?: string[];
+  attributesFromList?: object;
+  childrenTabIndex?: number;
+  tabIndex?: number;
+  shouldFocus?: boolean;
+  shouldFollowHref?: boolean;
+  shouldToggleCheckbox?: boolean;
+  tag?: string;
+  children?: React.ReactNode;
 };
 
 function isAnchorElement(element: any): element is HTMLAnchorElement {
