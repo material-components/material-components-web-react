@@ -64,7 +64,7 @@
     "@material/base": "^1.0.0",
     "@material/button": "^0.43.0",
     "@material/card": "^0.41.0",
-    "@material/checkbox": "^0.41.0",
+    "@material/checkbox": "^1.0.0",
     "@material/chips": "^1.0.0",
     "@material/dialog": "^0.43.0",
     "@material/dom": "^0.41.0",
