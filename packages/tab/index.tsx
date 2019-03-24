@@ -165,7 +165,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
   }
 
   computeIndicatorClientRect = () => {
-    if (!this.tabIndicatorRef.current) return;
+    if (!this.tabIndicatorRef.current) return {} as ClientRect;
     return this.tabIndicatorRef.current.computeContentClientRect();
   };
 
