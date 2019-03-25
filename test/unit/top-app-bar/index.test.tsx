@@ -247,6 +247,25 @@ test(
   }
 );
 
+test('#adapter.getViewportScrollY test for changing scrollTarget', () => {
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={false} />);
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  document.body.appendChild(wrapper.getDOMNode());
+
+  const windowY = 150;
+  window.scrollTo(0, windowY);
+  assert.equal(windowY, window.pageYOffset);
+  assert.equal(windowY, topAppBar.adapter.getViewportScrollY());
+  wrapper.setState({withRef: true});
+
+  const scrollY = 300;
+  const scrollTarget = topAppBar.state.scrollTarget!.current!;
+  scrollTarget.scrollTo(0, scrollY);
+  assert.equal(scrollY, scrollTarget.scrollTop);
+  assert.equal(scrollY, topAppBar.adapter.getViewportScrollY());
+  wrapper.getDOMNode().remove();
+});
+
 test('#adapter.getViewportScrollY returns same value with scrollTarget.scrollTop', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={true} />);
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
