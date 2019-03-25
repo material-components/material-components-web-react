@@ -43,7 +43,9 @@ class TopAppBarWithScroll extends React.Component<ScrollProps, ScrollState> {
             <TopAppBarSection><TopAppBarTitle>Scroll</TopAppBarTitle></TopAppBarSection>
           </TopAppBarRow>
         </TopAppBar>
-        <div ref={this.state.scrollRef}>Scroll Target</div>
+        <div ref={this.state.scrollRef} style={{height: '1000px', overflow: 'auto'}}>
+          <div style={{height: '3000px'}}>Scroll Target</div>
+        </div>
       </div>
     );
   }
@@ -245,6 +247,19 @@ test(
   }
 );
 
+test('#adapter.getViewportScrollY returns same value with scrollTarget.scrollTop', () => {
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={true} />);
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const scrollTarget = topAppBar.state.scrollTarget!.current!;
+  document.body.appendChild(wrapper.getDOMNode());
+  assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
+
+  const y = 200;
+  scrollTarget.scrollTo(0, y);
+  assert.equal(y, scrollTarget.scrollTop);
+  assert.equal(y, topAppBar.adapter.getViewportScrollY());
+  wrapper.getDOMNode().remove();
+});
 
 test('#adapter.getTotalActionItems returns one with one actionItem passed', () => {
   const wrapper = mount<TopAppBar>(
