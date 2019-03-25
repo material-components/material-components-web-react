@@ -273,15 +273,11 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       hasClass: (className: string) => this.classes.split(' ').includes(className),
       hasAnchor: () => !!this.props.anchorElement,
       notifyOpen: () => {
-        if (this.registerWindowClickListener) {
-          this.registerWindowClickListener();
-        }
+        this.handleOpen();
         this.props.onOpen!();
       },
       notifyClose: () => {
-        if (this.deregisterWindowClickListener) {
-          this.deregisterWindowClickListener();
-        }
+        this.handleClose();
         this.props.onClose!();
       },
       isElementInContainer: (el: HTMLElement) => {
@@ -323,6 +319,18 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     this.props.onKeyDown!(evt);
     this.foundation.handleKeydown(evt.nativeEvent);
   };
+
+  private handleOpen = () => {
+    if (this.registerWindowClickListener) {
+      this.registerWindowClickListener();
+    }
+  }
+
+  private handleClose = () => {
+    if (this.deregisterWindowClickListener) {
+      this.deregisterWindowClickListener();
+    }
+  }
 
   render() {
     const {
