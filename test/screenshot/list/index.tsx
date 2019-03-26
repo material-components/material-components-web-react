@@ -7,35 +7,42 @@ import List, {
   ListItemGraphic,
   ListItemText,
   ListItemMeta,
-  ListDivider,
-  ListGroup,
-  ListGroupSubheader,
+  // ListDivider,
+  // ListGroup,
+  // ListGroupSubheader,
 } from '../../../packages/list/index';
-import Checkbox from '../../../packages/checkbox/index';
-import Radio, {NativeRadioControl} from '../../../packages/radio/index';
+// import Checkbox from '../../../packages/checkbox/index';
+// import Radio, {NativeRadioControl} from '../../../packages/radio/index';
 import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line no-unused-vars
-import {MDCListIndex} from '@material/list/types';
+// import {MDCListIndex} from '@material/list/types';
 
 // @ts-ignore no .d.ts file
 import * as uuidv4 from 'uuid/v4';
 
-const groceryItems = ['Milk', 'Eggs', 'Barley'];
+// const groceryItems = ['Milk', 'Eggs', 'Barley'];
 
 interface SelectionListTestState {
   selectedIndex: number;
   listItems: string[];
 };
 
-function renderListItem(options: ListItemTextProps) {
-  const {primaryText, secondaryText} = options;
+interface ListItemOptions extends ListItemTextProps {
+  icon?: string;
+  onMetaClick?: (e: React.MouseEvent) => void;
+}
+
+function renderListItem(options: ListItemOptions) {
+  const {primaryText, secondaryText, icon = 'info', onMetaClick = () => {}} = options;
   const key = uuidv4();
   return (
     <ListItem key={key}>
       <ListItemGraphic graphic={<MaterialIcon icon='folder' />} />
       <ListItemText primaryText={primaryText} secondaryText={secondaryText} />
       <ListItemMeta
-        tabbableOnListItemFocus
-        meta={<MaterialIcon icon='info' />}
+        meta={<MaterialIcon 
+          onClick={onMetaClick}
+          icon={icon}
+        />}
       />
     </ListItem>
   );
@@ -53,6 +60,16 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
     this.setState({listItems, selectedIndex: selectedIndex + 1});
   };
 
+  removeListItem = (index: number, e: React.MouseEvent) => {
+    const {listItems, selectedIndex} = this.state;
+    listItems.splice(index, 1);
+    if (this.state.selectedIndex > index) {
+      this.setState({selectedIndex: selectedIndex - 1});
+    }
+    this.setState({listItems});
+    e.stopPropagation();
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -62,83 +79,87 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
           selectedIndex={this.state.selectedIndex}
           handleSelect={(selectedIndex) => this.setState({selectedIndex})}
         >
-          {this.state.listItems.map((text) => renderListItem({primaryText: text}))}
+          {this.state.listItems.map((text, index) => renderListItem({
+            primaryText: text,
+            icon: 'delete',
+            onMetaClick: (e) => this.removeListItem(index, e)
+          }))}
         </List>
       </React.Fragment>
     );
   }
 }
 
-class CheckboxList extends React.Component<{}, {selectedIndex: MDCListIndex}> {
-  state = {
-    selectedIndex: [1],
-  };
+// class CheckboxList extends React.Component<{}, {selectedIndex: MDCListIndex}> {
+//   state = {
+//     selectedIndex: [1],
+//   };
 
-  handleSelect = (_selectedIndex: number, selected: MDCListIndex) => {
-    this.setState({selectedIndex: selected});
-  }
+//   handleSelect = (_selectedIndex: number, selected: MDCListIndex) => {
+//     this.setState({selectedIndex: selected});
+//   }
 
-  render() {
-    return (
-      <React.Fragment>
-        <h5>
-          Selected index: {this.state.selectedIndex}
-        </h5>
-        <List
-          checkboxList
-          selectedIndex={this.state.selectedIndex}
-          handleSelect={this.handleSelect}
-        >
-          {groceryItems.map((item, index) => (
-            <ListItem key={index}>
-              <Checkbox checked={index === 1} />
-              <ListItemText primaryText={item} />
-            </ListItem>
-          ))}
-        </List>
-      </React.Fragment>
-    );
-  }
-}
+//   render() {
+//     return (
+//       <React.Fragment>
+//         <h5>
+//           Selected index: {this.state.selectedIndex}
+//         </h5>
+//         <List
+//           checkboxList
+//           selectedIndex={this.state.selectedIndex}
+//           handleSelect={this.handleSelect}
+//         >
+//           {groceryItems.map((item, index) => (
+//             <ListItem key={index}>
+//               <Checkbox checked={index === 1} />
+//               <ListItemText primaryText={item} />
+//             </ListItem>
+//           ))}
+//         </List>
+//       </React.Fragment>
+//     );
+//   }
+// }
 
-class RadioList extends React.Component<{}, {selectedItem: string}> {
-  state = {
-    selectedItem: 'Milk',
-  };
+// class RadioList extends React.Component<{}, {selectedItem: string}> {
+//   state = {
+//     selectedItem: 'Milk',
+//   };
 
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({selectedItem: e.target.value});
-  }
+//   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     this.setState({selectedItem: e.target.value});
+//   }
 
-  render() {
-    return (
-      <React.Fragment>
-        <h5>
-          Selected index: {this.state.selectedItem}
-        </h5>
-        <List
-          radioList
-          selectedIndex={0}
-        >
-          {groceryItems.map((item, index) => (
-            <ListItem key={index}>
-              <Radio key={index}>
-                <NativeRadioControl
-                  name={item}
-                  checked={this.state.selectedItem === item}
-                  value={item}
-                  id={`${index}-${item}`}
-                  onChange={this.handleChange}
-                />
-              </Radio>
-              <ListItemText primaryText={item} />
-            </ListItem>
-          ))}
-        </List>
-      </React.Fragment>
-    );
-  }
-}
+//   render() {
+//     return (
+//       <React.Fragment>
+//         <h5>
+//           Selected index: {this.state.selectedItem}
+//         </h5>
+//         <List
+//           radioList
+//           selectedIndex={0}
+//         >
+//           {groceryItems.map((item, index) => (
+//             <ListItem key={index}>
+//               <Radio key={index}>
+//                 <NativeRadioControl
+//                   name={item}
+//                   checked={this.state.selectedItem === item}
+//                   value={item}
+//                   id={`${index}-${item}`}
+//                   onChange={this.handleChange}
+//                 />
+//               </Radio>
+//               <ListItemText primaryText={item} />
+//             </ListItem>
+//           ))}
+//         </List>
+//       </React.Fragment>
+//     );
+//   }
+// }
 
 const ListScreenshotTest = () => {
   return (
@@ -146,7 +167,7 @@ const ListScreenshotTest = () => {
       <h2>One-line Selection List</h2>
       <SelectionListTest />
 
-      <h2>Two-line List</h2>
+      {/* <h2>Two-line List</h2>
       <List twoLine>
         {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'})}
         {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'})}
@@ -174,7 +195,7 @@ const ListScreenshotTest = () => {
       <h2>Checkbox List</h2>
       <CheckboxList />
       <h2>Radio List</h2>
-      <RadioList />
+      <RadioList /> */}
     </div>
   );
 };

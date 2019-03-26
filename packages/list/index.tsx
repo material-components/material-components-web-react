@@ -34,6 +34,7 @@ import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
+// const CLASS_SEPARATOR = ' ';
 
 export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLElement> {
   className?: string;
@@ -51,6 +52,12 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
   children: ListItem<T> | ListItem<T>[] | React.ReactNode;
 };
 
+
+interface ListState {
+  listItemClassNames: {[N: number]: string[]},
+  listItemAttributes: {[N: number]: string[]},
+}
+
 function isReactText(element: any): element is React.ReactText {
   return typeof element === 'string' || typeof element === 'number';
 }
@@ -63,12 +70,17 @@ function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIn
   return typeof selectedIndex === 'number' && !isNaN(selectedIndex) || Array.isArray(selectedIndex);
 }
 
-export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, {}> {
+export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, ListState> {
   listItemCount = 0;
   foundation!: MDCListFoundation;
   hasInitializedListItem = false;
 
   private listElement = React.createRef<HTMLElement>();
+
+  state: ListState = {
+    listItemClassNames: {},
+    listItemAttributes: {},
+  };
 
   static defaultProps: Partial<ListProps<HTMLElement>> = {
     'className': '',
@@ -186,15 +198,22 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         }
       },
       addClassForElementIndex: (index, className) => {
-        const listItem = this.listElements[index];
-        if (listItem) {
-          listItem.classList.add(className);
+        const {listItemClassNames} = this.state;
+        if (listItemClassNames[index] && listItemClassNames[index].indexOf(className) === -1) {
+          listItemClassNames[index].push(className);
+        } else {
+          listItemClassNames[index] = [className];
         }
+        this.setState({listItemClassNames});
       },
       removeClassForElementIndex: (index, className) => {
-        const listItem = this.listElements[index];
-        if (listItem) {
-          listItem.classList.remove(className);
+        const {listItemClassNames} = this.state;
+        if (listItemClassNames[index]) {
+          const removalIndex = listItemClassNames[index].indexOf(className);
+          if (removalIndex !== -1) {
+            listItemClassNames[index].splice(removalIndex, 1);
+            this.setState({listItemClassNames});
+          }
         }
       },
       setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
@@ -249,6 +268,46 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       return 'radiogroup';
     }
     return null;
+  }
+
+  getListItemInitialTabIndex = (index: number) => {
+    const {checkboxList, selectedIndex} = this.props;
+    let tabIndex = {};
+    if (!this.hasInitializedListItem) {
+      const isSelectedIndexArray = Array.isArray(selectedIndex) && selectedIndex.length > 0;
+      // if selectedIndex is populated then check if its a checkbox/radioList
+      if (selectedIndex && (isSelectedIndexArray || selectedIndex > -1)) {
+        const isCheckboxListSelected
+          = checkboxList && Array.isArray(selectedIndex) && selectedIndex.indexOf(index) > -1;
+        const isNonCheckboxListSelected = selectedIndex === index;
+        if (isCheckboxListSelected || isNonCheckboxListSelected) {
+          tabIndex = {tabIndex: 0};
+          this.hasInitializedListItem = true;
+        }
+      // set tabIndex=0 to first listItem if selectedIndex is not populated
+      } else {
+        tabIndex = {tabIndex: 0};
+        this.hasInitializedListItem = true;
+      }
+    }
+
+    return tabIndex;
+  }
+
+  getListItemClassNames = (index: number, listItem: React.ReactElement<ListItemProps<T>>) => {
+    let {className = ''} = listItem.props;
+    const {listItemClassNames} = this.state;
+    if (listItemClassNames[index]) {
+      listItemClassNames[index];
+      className = classnames(className, listItemClassNames[index]);
+    }
+
+    return className;
+  }
+
+  getListItemAttributes = (index: number, listItem: React.ReactElement<ListItemProps<T>>) => {
+    console.log(index, listItem)
+    return {};
   }
 
   handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
@@ -323,40 +382,27 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   };
 
   renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
-    const {checkboxList, radioList, selectedIndex} = this.props;
-    let tabIndex = {};
+    const {checkboxList, radioList} = this.props;
+    const tabIndex = this.getListItemInitialTabIndex(index);
+    const attributes = this.getListItemAttributes(index, listItem);
+    const className = this.getListItemClassNames(index, listItem);
+
     const {
       onKeyDown,
       onClick,
       onFocus,
       onBlur,
+      className: _classNames,
       ...otherProps
     } = listItem.props;
 
-    if (!this.hasInitializedListItem) {
-      const isSelectedIndexArray = Array.isArray(selectedIndex) && selectedIndex.length > 0;
-      // if selectedIndex is populated then check if its a checkbox/radioList
-      if (selectedIndex && (isSelectedIndexArray || selectedIndex > -1)) {
-        const isCheckboxListSelected
-          = checkboxList && Array.isArray(selectedIndex) && selectedIndex.indexOf(index) > -1;
-        const isNonCheckboxListSelected = selectedIndex === index;
-        if (isCheckboxListSelected || isNonCheckboxListSelected) {
-          tabIndex = {tabIndex: 0};
-          this.hasInitializedListItem = true;
-        }
-      // set tabIndex=0 to first listItem if selectedIndex is not populated
-      } else {
-        tabIndex = {tabIndex: 0};
-        this.hasInitializedListItem = true;
-      }
-    }
-
-
     const props = {
-      // otherProps must come first
+      // attributes and otherProps must appear in this order
+      ...attributes,
       ...otherProps,
       checkboxList,
       radioList,
+      className,
       onKeyDown: (e: React.KeyboardEvent<T>) => {
         onKeyDown!(e);
         this.handleKeyDown(e, index);
@@ -372,6 +418,14 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       onBlur: (e: React.FocusEvent<T>) => {
         onBlur!(e);
         this.handleBlur(e, index);
+      },
+      onDestroy: () => {
+        const {listItemAttributes, listItemClassNames} = this.state;
+        delete listItemAttributes[index];
+        delete listItemClassNames[index];
+        this.setState({
+          listItemAttributes, listItemClassNames,
+        });
       },
       ...tabIndex,
     };

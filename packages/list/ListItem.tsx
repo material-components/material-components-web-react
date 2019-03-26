@@ -34,6 +34,7 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   tag?: string;
   activated?: boolean;
   selected?: boolean;
+  onDestroy?: () => void;
 };
 
 // TODO: convert to functional component
@@ -53,8 +54,13 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
     onClick: () => {},
     onFocus: () => {},
     onBlur: () => {},
+    onDestroy: () => {},
     tag: 'li',
   };
+
+  componentWillUnmount() {
+    this.props.onDestroy!();
+  }
 
   get classes() {
     const {className, activated, selected} = this.props;
@@ -84,9 +90,9 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
       role,
       checkboxList,
       radioList,
+      onDestroy,
       /* eslint-enable no-unused-vars */
       tag: Tag,
-
       ...otherProps
     } = this.props;
     return (

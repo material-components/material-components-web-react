@@ -312,7 +312,6 @@ class MyApp extends Component {
 | ----------------------- | ------- | ----------------------------------------------------------------------------------------------------------------- |
 | className               | String  | Classes to be applied to the list item text element                                                               |
 | tabIndex                | Number  | Tab index of the list item text                                                                                   |
-| tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item text. If false, the tab index will always be -1 |
 | primaryText             | String  | Primary text for the list item                                                                                    |
 | secondaryText           | String  | Secondary text for the list item                                                                                  |
 
@@ -322,7 +321,6 @@ class MyApp extends Component {
 | ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
 | className               | String  | Classes to be applied to the list item graphic element                                                               |
 | tabIndex                | Number  | Tab index of the list item graphic                                                                                   |
-| tabbableOnListItemFocus | Boolean | Whether focusing list item will toggle tab index of the list item graphic. If false, the tab index will always be -1 |
 | graphic                 | Element | The graphic element to be displayed in front of list item text                                                       |
 
 ### ListItemMeta
@@ -331,7 +329,6 @@ class MyApp extends Component {
 | ----------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
 | className               | String            | Classes to be applied to the list item meta element                                                               |
 | tabIndex                | Number            | Tab index of the list item meta                                                                                   |
-| tabbableOnListItemFocus | Boolean           | Whether focusing list item will toggle tab index of the list item meta. If false, the tab index will always be -1 |
 | meta                    | Element or String | The meta element or string to be displayed behind list item text                                                  |
 
 ### ListDivider
