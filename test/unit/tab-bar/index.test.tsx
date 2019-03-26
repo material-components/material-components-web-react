@@ -4,9 +4,15 @@ import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import TabBar from '../../../packages/tab-bar/index';
 import Tab from '../../../packages/tab/index';
+import {MDCTabBarAdapter} from '@material/tab-bar/adapter';
 import {coerceForTesting} from '../helpers/types';
 
 suite('TabBar');
+
+const getAdapter = (instance: TabBar): MDCTabBarAdapter => {
+  // @ts-ignore adapter_ is a private property, we need to override this for testing
+  return instance.foundation.adapter_;
+};
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<TabBar className='test-class-name' />);
@@ -22,7 +28,7 @@ test('has a foundation after mount', () => {
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TabBar>(<TabBar />);
   const foundation = wrapper.instance().foundation;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
 });
@@ -36,12 +42,13 @@ test('initially sets state.previousActiveIndex to props.activeIndex', () => {
 test('key down event calls foundation.handleKeyDown', () => {
   const wrapper = shallow<TabBar>(<TabBar />);
   const foundation = wrapper.instance().foundation;
-  foundation.handleKeyDown = td.func();
-  const evt = {
+  foundation.handleKeyDown = td.func<(evt: KeyboardEvent) => void>();
+  const evt = coerceForTesting<React.KeyboardEvent>({
     persist: () => {},
-  };
+    nativeEvent: {},
+  });
   wrapper.simulate('keyDown', evt);
-  td.verify(foundation.handleKeyDown(evt), {times: 1});
+  td.verify(foundation.handleKeyDown(evt.nativeEvent), {times: 1});
 });
 
 test('key down event calls props.onKeyDown', () => {
@@ -49,6 +56,7 @@ test('key down event calls props.onKeyDown', () => {
   const wrapper = shallow<TabBar>(<TabBar onKeyDown={onKeyDown} />);
   const evt = coerceForTesting<React.KeyboardEvent<HTMLDivElement>>({
     persist: () => {},
+    nativeEvent: {},
   });
   wrapper.simulate('keyDown', evt);
   td.verify(onKeyDown(evt), {times: 1});
@@ -116,12 +124,12 @@ test('#adapter.getOffsetWidth returns tab bar element offsetWidth', () => {
 
 test('#adapter.isRTL returns true if props.isRtl is true', () => {
   const wrapper = shallow<TabBar>(<TabBar isRtl />);
-  assert.isTrue(wrapper.instance().foundation.adapter_.isRTL());
+  assert.isTrue(getAdapter(wrapper.instance()).isRTL());
 });
 
 test('#adapter.isRTL returns false is props.isRtl is false', () => {
   const wrapper = shallow<TabBar>(<TabBar />);
-  assert.isFalse(wrapper.instance().foundation.adapter_.isRTL());
+  assert.isFalse(getAdapter(wrapper.instance()).isRTL());
 });
 
 test('#adapter.setActiveTab calls props.handleActiveIndexUpdate', () => {
@@ -183,11 +191,19 @@ test('#adapter.getTabDimensionsAtIndex calls computeDimensions on tab at index',
 });
 
 test('#adapter.getIndexOfTab returns index of given tab', () => {
-  const tab0 = coerceForTesting<Tab>({});
-  const tab1 = coerceForTesting<Tab>({});
+  const tab0 = coerceForTesting<Tab>({
+    props: {
+      id: 'tab0',
+    },
+  });
+  const tab1 = coerceForTesting<Tab>({
+    props: {
+      id: 'tab1',
+    },
+  });
   const wrapper = shallow<TabBar>(<TabBar />);
   wrapper.instance().tabList = [tab0, tab1];
-  assert.equal(wrapper.instance().adapter.getIndexOfTab(tab1), 1);
+  assert.equal(wrapper.instance().adapter.getIndexOfTabById('tab1'), 1);
 });
 
 test('#adapter.getTabListLength returns length of tab list', () => {
@@ -204,7 +220,7 @@ test('props.activeIndex updates to different value when not initially set calls 
   const tab0 = coerceForTesting<Tab>({});
   const tab1 = coerceForTesting<Tab>({deactivate: td.func()});
   const wrapper = shallow<TabBar>(<TabBar />);
-  wrapper.instance().foundation.activateTab = td.func();
+  wrapper.instance().foundation.activateTab = td.func<(index: number) => void>();
   wrapper.instance().tabList = [tab0, tab1];
   wrapper.setProps({activeIndex: 1});
   td.verify(wrapper.instance().foundation.activateTab(1), {times: 1});
@@ -214,7 +230,7 @@ test('props.indexInView updates to different value  when not initially set calls
   const tab0 = coerceForTesting<Tab>({});
   const tab1 = coerceForTesting<Tab>({deactivate: td.func()});
   const wrapper = shallow<TabBar>(<TabBar />);
-  wrapper.instance().foundation.scrollIntoView = td.func();
+  wrapper.instance().foundation.scrollIntoView = td.func<(index: number) => void>();
   wrapper.instance().tabList = [tab0, tab1];
   wrapper.setProps({indexInView: 1});
   td.verify(wrapper.instance().foundation.scrollIntoView(1), {times: 1});
@@ -224,7 +240,7 @@ test('props.activeIndex updates to different value with a set value calls founda
   const tab0 = coerceForTesting<Tab>({});
   const tab1 = coerceForTesting<Tab>({deactivate: td.func()});
   const wrapper = shallow<TabBar>(<TabBar activeIndex={1} />);
-  wrapper.instance().foundation.activateTab = td.func();
+  wrapper.instance().foundation.activateTab = td.func<(index: number) => void>();
   wrapper.instance().tabList = [tab0, tab1];
   wrapper.setProps({activeIndex: 0});
   td.verify(wrapper.instance().foundation.activateTab(0), {times: 1});
@@ -234,7 +250,7 @@ test('props.indexInView updates to different value with a set value calls founda
   const tab0 = coerceForTesting<Tab>({});
   const tab1 = coerceForTesting<Tab>({deactivate: td.func()});
   const wrapper = shallow<TabBar>(<TabBar indexInView={1} />);
-  wrapper.instance().foundation.scrollIntoView = td.func();
+  wrapper.instance().foundation.scrollIntoView = td.func<(index: number) => void>();
   wrapper.instance().tabList = [tab0, tab1];
   wrapper.setProps({indexInView: 0});
   td.verify(wrapper.instance().foundation.scrollIntoView(0), {times: 1});
