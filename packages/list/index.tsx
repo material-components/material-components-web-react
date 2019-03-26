@@ -55,7 +55,6 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
 
 interface ListState {
   listItemClassNames: {[N: number]: string[]},
-  listItemAttributes: {[N: number]: string[]},
 }
 
 function isReactText(element: any): element is React.ReactText {
@@ -79,7 +78,6 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   state: ListState = {
     listItemClassNames: {},
-    listItemAttributes: {},
   };
 
   static defaultProps: Partial<ListProps<HTMLElement>> = {
@@ -305,11 +303,6 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     return className;
   }
 
-  getListItemAttributes = (index: number, listItem: React.ReactElement<ListItemProps<T>>) => {
-    console.log(index, listItem)
-    return {};
-  }
-
   handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
     e.persist(); // Persist the synthetic event to access its `key`
     this.foundation.handleKeydown(
@@ -384,7 +377,6 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
     const {checkboxList, radioList} = this.props;
     const tabIndex = this.getListItemInitialTabIndex(index);
-    const attributes = this.getListItemAttributes(index, listItem);
     const className = this.getListItemClassNames(index, listItem);
 
     const {
@@ -398,7 +390,6 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
     const props = {
       // attributes and otherProps must appear in this order
-      ...attributes,
       ...otherProps,
       checkboxList,
       radioList,
@@ -419,13 +410,11 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         onBlur!(e);
         this.handleBlur(e, index);
       },
+      // https://github.com/material-components/material-components-web-react/issues/775
       onDestroy: () => {
-        const {listItemAttributes, listItemClassNames} = this.state;
-        delete listItemAttributes[index];
+        const {listItemClassNames} = this.state;
         delete listItemClassNames[index];
-        this.setState({
-          listItemAttributes, listItemClassNames,
-        });
+        this.setState({listItemClassNames});
       },
       ...tabIndex,
     };

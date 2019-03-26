@@ -35,10 +35,8 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   activated?: boolean;
   selected?: boolean;
   onDestroy?: () => void;
-};
+}
 
-// TODO: convert to functional component
-// https://github.com/material-components/material-components-web-react/issues/729
 export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<
   ListItemProps<T>,
   {}
