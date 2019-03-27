@@ -34,7 +34,6 @@ import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
-// const CLASS_SEPARATOR = ' ';
 
 export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLElement> {
   className?: string;
@@ -54,7 +53,7 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
 
 
 interface ListState {
-  listItemClassNames: {[N: number]: string[]},
+  listItemClassNames: {[listItemIndex: number]: string[]},
 }
 
 function isReactText(element: any): element is React.ReactText {
@@ -195,6 +194,9 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
           listItem.setAttribute(attr, value);
         }
       },
+      /**
+       * Pushes class name to state.listItemClassNames[listItemIndex] if it doesn't yet exist. 
+       */
       addClassForElementIndex: (index, className) => {
         const {listItemClassNames} = this.state;
         if (listItemClassNames[index] && listItemClassNames[index].indexOf(className) === -1) {
@@ -204,6 +206,10 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         }
         this.setState({listItemClassNames});
       },
+      /**
+       * Finds the className within state.listItemClassNames[listItemIndex], and removes it
+       * from the array.
+       */
       removeClassForElementIndex: (index, className) => {
         const {listItemClassNames} = this.state;
         if (listItemClassNames[index]) {
@@ -268,7 +274,14 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     return null;
   }
 
-  getListItemInitialTabIndex = (index: number) => {
+  /**
+   * Initializes the tabIndex prop for the listItems. tabIndex is determined by:
+   * 1. If checkboxList and props.selectedIndex is set
+   * 2. If radioList and props.selectedIndex is set
+   * 3. If neither and props.selectedIndex is set, set tabIndex on selectedIndex
+   * 4. If neither type of list nor props.selectedIndex is set, then set tabIndex on first element
+   */
+  private getListItemInitialTabIndex = (index: number) => {
     const {checkboxList, selectedIndex} = this.props;
     let tabIndex = {};
     if (!this.hasInitializedListItem) {
@@ -292,7 +305,12 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     return tabIndex;
   }
 
-  getListItemClassNames = (index: number, listItem: React.ReactElement<ListItemProps<T>>) => {
+  /**
+   * Method checks if the list item at `index` contains classes. If true,
+   * method merges state.listItemClassNames[index] with listItem.props.className.
+   * The return value is used as the listItem's className.
+   */
+  private getListItemClassNames = (index: number, listItem: React.ReactElement<ListItemProps<T>>) => {
     let {className = ''} = listItem.props;
     const {listItemClassNames} = this.state;
     if (listItemClassNames[index]) {
@@ -376,14 +394,17 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
     const {checkboxList, radioList} = this.props;
-    const tabIndex = this.getListItemInitialTabIndex(index);
+    const tabIndex = this.hasInitializedListItem ? {tabIndex: listItem.props.tabIndex} : this.getListItemInitialTabIndex(index);
     const className = this.getListItemClassNames(index, listItem);
+
+    console.log(tabIndex)
 
     const {
       onKeyDown,
       onClick,
       onFocus,
       onBlur,
+      tabIndex: _tabIndex,
       className: _classNames,
       ...otherProps
     } = listItem.props;

@@ -153,7 +153,7 @@ test('#adapter.setAttributeForElementIndex call nothing when no children exist',
   assert.doesNotThrow(() => wrapper.instance().adapter.setAttributeForElementIndex(0, 'role', 'menu'));
 });
 
-test('#adapter.addClassForElementIndex adds class to classList', () => {
+test('#adapter.addClassForElementIndex adds classes to listitem', () => {
   const wrapper = mount<List>(<List>{children()}</List>);
   wrapper.instance().adapter.addClassForElementIndex =
     coerceForTesting<(index: number, className: string) => void>(td.func());
@@ -176,10 +176,13 @@ test('#adapter.addClassForElementIndex adds class to classList and keeps props.c
   assert.isTrue(listItem.html().includes('mdc-list-item'));
 });
 
-test('#adapter.removeClassForElementIndex adds class to classList and keeps props.className', () => {
+test('#adapter.removeClassForElementIndex removes classname from state.listItemClassNames', () => {
   const wrapper = mount<List>(<List>
-    <ListItem className='class987 class4321'><div>meow</div></ListItem>
+    <ListItem><div>meow</div></ListItem>
   </List>);
+  wrapper.setState({listItemClassNames: {
+    0: ['class987', 'class4321'],
+  }});
   wrapper.instance().adapter.removeClassForElementIndex =
     coerceForTesting<(index: number, className: string) => void>(td.func());
   wrapper.instance().adapter.removeClassForElementIndex(0, 'class4321');
@@ -417,13 +420,14 @@ test('renders list items with tabindex=-1 and first with tabindex=0', () => {
   assert.equal(list.childAt(2).props().tabIndex, -1);
 });
 
-test('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0', () => {
+test.only('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0', () => {
   const wrapper = mount(
     <List selectedIndex={1}>
       {threeChildren()}
     </List>
   );
   const list = wrapper.childAt(0);
+  debugger
   assert.equal(list.childAt(0).props().tabIndex, -1);
   assert.equal(list.childAt(1).props().tabIndex, 0);
   assert.equal(list.childAt(2).props().tabIndex, -1);
