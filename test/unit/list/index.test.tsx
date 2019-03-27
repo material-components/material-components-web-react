@@ -357,6 +357,14 @@ test('renders with role=menu if props.role=menu and props.checkboxList', () => {
   assert.equal(wrapper.props().role, 'menu');
 });
 
+test('#listItem.props.onDestroy removes class name from state.listItemClassNames', () => {
+  const wrapper = mount<List>(<List><ListItem>
+    <div>meow</div>
+  </ListItem></List>);
+  wrapper.setState({listItemClassNames: {0: ['test']}});
+  wrapper.childAt(0).childAt(0).props().onDestroy();
+  console.log(wrapper.state().listItemClassNames[0]);
+});
 
 test('#handleKeyDown calls #foudation.handleKeydown', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
@@ -420,14 +428,13 @@ test('renders list items with tabindex=-1 and first with tabindex=0', () => {
   assert.equal(list.childAt(2).props().tabIndex, -1);
 });
 
-test.only('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0', () => {
+test('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0', () => {
   const wrapper = mount(
     <List selectedIndex={1}>
       {threeChildren()}
     </List>
   );
   const list = wrapper.childAt(0);
-  debugger
   assert.equal(list.childAt(0).props().tabIndex, -1);
   assert.equal(list.childAt(1).props().tabIndex, 0);
   assert.equal(list.childAt(2).props().tabIndex, -1);

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {assert} from 'chai';
+import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import {ListItem} from '../../../packages/list/index';
 
@@ -68,4 +69,11 @@ test('renders a list item with null as a child', () => {
 test('renders a list item with an anchor tag', () => {
   const wrapper = shallow(<ListItem tag='a'><div>Test</div></ListItem>);
   assert.equal(wrapper.type(), 'a');
+});
+
+test('componentWillUnmount calls props.onDestroy()', () => {
+  const onDestroy = td.func<() => void>();
+  const wrapper = shallow(<ListItem onDestroy={onDestroy}><div>Test</div></ListItem>);
+  wrapper.unmount();
+  td.verify(onDestroy(), {times: 1});
 });

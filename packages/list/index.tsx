@@ -71,7 +71,8 @@ function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIn
 export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, ListState> {
   listItemCount = 0;
   foundation!: MDCListFoundation;
-  hasInitializedListItem = false;
+  hasInitializedListItemTabIndex = false;
+  hasInitializedList = false;
 
   private listElement = React.createRef<HTMLElement>();
 
@@ -109,6 +110,11 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       this.props[ARIA_ORIENTATION] === VERTICAL
     );
     this.initializeListType();
+
+    // tabIndex for the list items can only be initialized after
+    // the above logic has executed. Once this is true, we need to call forceUpdate.
+    this.hasInitializedList = true;
+    this.forceUpdate();
   }
 
   componentDidUpdate(prevProps: ListProps<T>) {
@@ -195,7 +201,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         }
       },
       /**
-       * Pushes class name to state.listItemClassNames[listItemIndex] if it doesn't yet exist. 
+       * Pushes class name to state.listItemClassNames[listItemIndex] if it doesn't yet exist.
        */
       addClassForElementIndex: (index, className) => {
         const {listItemClassNames} = this.state;
@@ -284,7 +290,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   private getListItemInitialTabIndex = (index: number) => {
     const {checkboxList, selectedIndex} = this.props;
     let tabIndex = {};
-    if (!this.hasInitializedListItem) {
+    if (this.hasInitializedList && !this.hasInitializedListItemTabIndex) {
       const isSelectedIndexArray = Array.isArray(selectedIndex) && selectedIndex.length > 0;
       // if selectedIndex is populated then check if its a checkbox/radioList
       if (selectedIndex && (isSelectedIndexArray || selectedIndex > -1)) {
@@ -293,12 +299,12 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         const isNonCheckboxListSelected = selectedIndex === index;
         if (isCheckboxListSelected || isNonCheckboxListSelected) {
           tabIndex = {tabIndex: 0};
-          this.hasInitializedListItem = true;
+          this.hasInitializedListItemTabIndex = true;
         }
       // set tabIndex=0 to first listItem if selectedIndex is not populated
       } else {
         tabIndex = {tabIndex: 0};
-        this.hasInitializedListItem = true;
+        this.hasInitializedListItemTabIndex = true;
       }
     }
 
@@ -394,23 +400,22 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
     const {checkboxList, radioList} = this.props;
-    const tabIndex = this.hasInitializedListItem ? {tabIndex: listItem.props.tabIndex} : this.getListItemInitialTabIndex(index);
+    const tabIndex = this.getListItemInitialTabIndex(index);
     const className = this.getListItemClassNames(index, listItem);
-
-    console.log(tabIndex)
 
     const {
       onKeyDown,
       onClick,
       onFocus,
       onBlur,
-      tabIndex: _tabIndex,
+      /* eslint-disable no-unused-vars */
       className: _classNames,
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = listItem.props;
 
     const props = {
-      // attributes and otherProps must appear in this order
+      // otherProps must be first
       ...otherProps,
       checkboxList,
       radioList,
@@ -431,7 +436,6 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         onBlur!(e);
         this.handleBlur(e, index);
       },
-      // https://github.com/material-components/material-components-web-react/issues/775
       onDestroy: () => {
         const {listItemClassNames} = this.state;
         delete listItemClassNames[index];

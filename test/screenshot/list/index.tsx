@@ -16,9 +16,6 @@ import Radio, {NativeRadioControl} from '../../../packages/radio/index';
 import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line no-unused-vars
 import {MDCListIndex} from '@material/list/types';
 
-// @ts-ignore no .d.ts file
-import * as uuidv4 from 'uuid/v4';
-
 const groceryItems = ['Milk', 'Eggs', 'Barley'];
 
 interface SelectionListTestState {
@@ -31,14 +28,14 @@ interface ListItemOptions extends ListItemTextProps {
   onMetaClick?: (e: React.MouseEvent) => void;
 }
 
-function renderListItem(options: ListItemOptions, key: number) {
+function renderListItem(options: ListItemOptions, key: string | number) {
   const {primaryText, secondaryText, icon = 'info', onMetaClick = () => {}} = options;
   return (
     <ListItem key={key}>
       <ListItemGraphic graphic={<MaterialIcon icon='folder' />} />
       <ListItemText primaryText={primaryText} secondaryText={secondaryText} />
       <ListItemMeta
-        meta={<MaterialIcon 
+        meta={<MaterialIcon
           onClick={onMetaClick}
           icon={icon}
         />}
@@ -55,7 +52,7 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
 
   insertListItem = () => {
     const {listItems, selectedIndex} = this.state;
-    listItems.splice(0, 0, 'New list item');
+    listItems.splice(0, 0, `New list item ${(new Date()).getTime()}`);
     this.setState({listItems, selectedIndex: selectedIndex + 1});
   };
 
@@ -87,11 +84,11 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
           selectedIndex={this.state.selectedIndex}
           handleSelect={(selectedIndex) => this.setState({selectedIndex})}
         >
-          {this.state.listItems.map((text, index) => renderListItem({
+          {this.state.listItems.map((text) => renderListItem({
             primaryText: text,
             icon: 'delete',
-            onMetaClick: this.removeListItem
-          }, index))}
+            onMetaClick: this.removeListItem,
+          }, text))}
         </List>
       </React.Fragment>
     );
