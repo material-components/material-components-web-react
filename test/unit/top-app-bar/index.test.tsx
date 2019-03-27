@@ -158,7 +158,7 @@ test('Updating scrollTarget prop will call foundation method destroyScrollHandle
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const foundation = topAppBar.foundation;
-  foundation.destroyScrollHandler = td.func();
+  foundation.destroyScrollHandler = td.func<() => void>();
   wrapper.instance().withRef();
 
   td.verify(foundation.destroyScrollHandler(), {times: 1});
@@ -168,7 +168,7 @@ test('Updating scrollTarget prop will call foundation method initScrollHandler',
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const foundation = topAppBar.foundation;
-  foundation.initScrollHandler = td.func();
+  foundation.initScrollHandler = td.func<() => void>();
   wrapper.instance().withRef();
 
   td.verify(foundation.initScrollHandler(), {times: 1});
@@ -413,7 +413,7 @@ test(
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
   const foundation = wrapper.instance().foundation;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
