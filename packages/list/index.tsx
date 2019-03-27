@@ -49,6 +49,7 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
   wrapFocus?: boolean;
   tag?: string;
   children: ListItem<T> | ListItem<T>[] | React.ReactNode;
+  ref?: React.Ref<any>;
 };
 
 function isReactText(element: any): element is React.ReactText {

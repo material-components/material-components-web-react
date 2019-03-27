@@ -34,6 +34,7 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   tag?: string;
   activated?: boolean;
   selected?: boolean;
+  ref?: React.Ref<any>;
 };
 
 // TODO: convert to functional component

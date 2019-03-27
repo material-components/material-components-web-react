@@ -79,10 +79,9 @@ class Menu extends React.Component<MenuProps, MenuState> {
     // TODO: do a find of .mdc-list so that people using styled-components can style the list
     if (!(this.menuListElement
       && this.menuListElement.current
-      && this.menuListElement.current.listElements.length < 0)) {
+      && this.menuListElement.current.listElements.length >= 0 )) {
         return [];
     }
-    console.log('hi', this.menuListElement.current.listElements)
     return this.menuListElement.current.listElements;
   }
 

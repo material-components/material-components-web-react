@@ -25,7 +25,6 @@ import {ListItem, ListItemProps} from '@material/react-list';
 
 export interface MenuListItemProps<T> extends ListItemProps<T> {
   children?: React.ReactNode;
-  ref?: React.Ref<any>;
 }
 
 const MenuListItem 

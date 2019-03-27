@@ -24,8 +24,10 @@ import * as React from 'react';
 import List, {ListProps} from '@material/react-list';
 import {MDCMenuFoundation} from '@material/menu/foundation';
 
+type RefCallback<T> = (node: T | null) => void;
+
 export interface MenuListProps<T extends HTMLElement> extends Exclude<ListProps<T>, 'ref'> {
-  innerRef?: React.Ref<React.ReactElement<List>>;
+  innerRef?: RefCallback<List> | React.RefObject<List>;
   handleItemAction?: MDCMenuFoundation['handleItemAction'];
 };
 
@@ -47,13 +49,12 @@ class MenuList<T extends HTMLElement = HTMLElement>
   }
 
   handleSelect: ListProps<HTMLElement>['handleSelect'] = (activatedItemIndex, selected) => {
-    debugger
     this.props.handleSelect!(activatedItemIndex, selected);
     this.props.handleItemAction!(this.listElements[activatedItemIndex]);
   }
 
 
-  attachRef: React.Ref<React.ReactElement<List>> = (node) => {
+  attachRef = (node: List | null) => {
     const {innerRef} = this.props;
 
     // https://github.com/facebook/react/issues/13029#issuecomment-410002316
@@ -89,6 +90,7 @@ class MenuList<T extends HTMLElement = HTMLElement>
           aria-hidden={ariaHidden !== undefined ? ariaHidden : 'true'}
           role={role || 'menu'}
           handleSelect={this.handleSelect}
+          ref={this.listInstance}
           {...otherProps}
         >
           {children}
