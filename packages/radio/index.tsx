@@ -22,8 +22,8 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCRadioFoundation} from '@material/radio/dist/mdc.radio';
+import {MDCRadioFoundation} from '@material/radio/foundation';
+import {MDCRadioAdapter} from '@material/radio/adapter';
 import * as Ripple from '@material/react-ripple';
 import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
 
@@ -109,7 +109,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
     return classnames('mdc-radio', Array.from(classList), className);
   }
 
-  get adapter() {
+  get adapter(): MDCRadioAdapter {
     return {
       addClass: (className: string) => {
         const classList = new Set(this.state.classList);
