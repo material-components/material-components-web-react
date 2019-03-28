@@ -89,7 +89,7 @@
     "@material/tab-scroller": "^1.0.0",
     "@material/textfield": "^0.41.0",
     "@material/top-app-bar": "^0.41.0",
-    "@material/typography": "^0.41.0",
+    "@material/typography": "^1.1.0",
     "@types/chai": "^4.1.7",
     "@types/classnames": "^2.2.6",
     "@types/enzyme": "^3.1.15",
