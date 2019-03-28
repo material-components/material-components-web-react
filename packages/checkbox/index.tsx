@@ -176,8 +176,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       initRipple,
       onChange,
       unbounded,
-      /* eslint-enable no-unused-vars */
       disabled,
+      /* eslint-enable no-unused-vars */
       nativeControlId,
       name,
       ...otherProps
@@ -193,7 +193,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
         <NativeControl
           id={nativeControlId}
           checked={this.state.checked}
-          disabled={disabled}
+          disabled={this.state.disabled}
           aria-checked={(this.state['aria-checked'] || this.state.checked!.toString()) as ('true' | 'false')}
           name={name}
           onChange={this.onChange}
