@@ -40,8 +40,25 @@ test('has disabled class when props.disabled is true', () => {
   );
 });
 
+test('has disabled class when foundation calls setDisabled is true', () => {
+  const wrapper = shallow<Checkbox>(<Checkbox />);
+  getAdapter(wrapper.instance()).setNativeControlDisabled(true);
+  wrapper.update();
+  assert.isTrue(
+    wrapper.find('.mdc-checkbox').hasClass('mdc-checkbox--disabled')
+  );
+});
+
 test('native control props.disabled is true when props.disabled is true', () => {
   const wrapper = shallow(<Checkbox disabled />);
+  const nativeControl = wrapper.childAt(0);
+  assert.isTrue(nativeControl.props().disabled);
+});
+
+test('native control props.disabled when foundation calls setDisabled is true', () => {
+  const wrapper = shallow<Checkbox>(<Checkbox />);
+  getAdapter(wrapper.instance()).setNativeControlDisabled(true);
+  wrapper.update();
   const nativeControl = wrapper.childAt(0);
   assert.isTrue(nativeControl.props().disabled);
 });

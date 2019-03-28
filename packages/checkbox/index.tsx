@@ -24,6 +24,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import {MDCCheckboxFoundation} from '@material/checkbox/foundation';
 import {MDCCheckboxAdapter} from '@material/checkbox/adapter';
+import {cssClasses} from '@material/checkbox/constants';
 import * as Ripple from '@material/react-ripple';
 
 import NativeControl from './NativeControl';
@@ -123,7 +124,9 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   get classes(): string {
     const {classList} = this.state;
     const {className} = this.props;
-    return classnames('mdc-checkbox', Array.from(classList), className);
+    return classnames(
+      'mdc-checkbox', Array.from(classList),
+      this.state.disabled ? cssClasses.DISABLED : null, className);
   }
 
   updateState = (key: keyof CheckboxState, value: string | boolean) => {
@@ -154,7 +157,9 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       isChecked: () => this.state.checked!,
       isIndeterminate: () => this.state.indeterminate!,
       setNativeControlAttr: this.updateState,
-      setNativeControlDisabled: (disabled) => this.updateState('disabled', disabled),
+      setNativeControlDisabled: (disabled) => {
+        this.updateState('disabled', disabled);
+      },
       removeNativeControlAttr: this.removeState,
       forceLayout: () => null,
     };
