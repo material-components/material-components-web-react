@@ -22,8 +22,9 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no mdc .d.ts file
-import {MDCCheckboxFoundation, MDCCheckboxAdapter} from '@material/checkbox/dist/mdc.checkbox';
+import {MDCCheckboxFoundation} from '@material/checkbox/foundation';
+import {MDCCheckboxAdapter} from '@material/checkbox/adapter';
+import {cssClasses} from '@material/checkbox/constants';
 import * as Ripple from '@material/react-ripple';
 
 import NativeControl from './NativeControl';
@@ -45,12 +46,13 @@ interface CheckboxState {
   checked?: boolean;
   indeterminate?: boolean;
   classList: Set<string>;
-  'aria-checked': boolean;
+  'aria-checked': string;
+  disabled: boolean;
 };
 
 export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   inputElement: React.RefObject<HTMLInputElement> = React.createRef();
-  foundation = MDCCheckboxFoundation;
+  foundation!: MDCCheckboxFoundation;
 
   constructor(props: CheckboxProps) {
     super(props);
@@ -58,7 +60,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       'checked': props.checked,
       'indeterminate': props.indeterminate,
       'classList': new Set(),
-      'aria-checked': false,
+      'aria-checked': 'false',
+      'disabled': props.disabled!,
     };
   }
 
@@ -74,7 +77,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   componentDidMount() {
     this.foundation = new MDCCheckboxFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setDisabled(this.props.disabled);
+    this.foundation.setDisabled(this.props.disabled!);
     // indeterminate property on checkboxes is not supported:
     // https://github.com/facebook/react/issues/1798#issuecomment-333414857
     if (this.inputElement.current) {
@@ -91,7 +94,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       this.handleChange(checked!, indeterminate!);
     }
     if (disabled !== prevProps.disabled) {
-      this.foundation.setDisabled(disabled);
+      this.foundation.setDisabled(disabled!);
     }
   }
 
@@ -118,7 +121,9 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   get classes(): string {
     const {classList} = this.state;
     const {className} = this.props;
-    return classnames('mdc-checkbox', Array.from(classList), className);
+    return classnames(
+      'mdc-checkbox', Array.from(classList),
+      this.state.disabled ? cssClasses.DISABLED : null, className);
   }
 
   updateState = (key: keyof CheckboxState, value: string | boolean) => {
@@ -146,10 +151,14 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       // isAttachedToDOM will likely be removed
       // https://github.com/material-components/material-components-web/issues/3691
       isAttachedToDOM: () => true,
-      isChecked: () => this.state.checked,
-      isIndeterminate: () => this.state.indeterminate,
+      isChecked: () => this.state.checked!,
+      isIndeterminate: () => this.state.indeterminate!,
       setNativeControlAttr: this.updateState,
+      setNativeControlDisabled: (disabled) => {
+        this.updateState('disabled', disabled);
+      },
       removeNativeControlAttr: this.removeState,
+      forceLayout: () => null,
     };
   }
 
@@ -169,8 +178,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       initRipple,
       onChange,
       unbounded,
-      /* eslint-enable no-unused-vars */
       disabled,
+      /* eslint-enable no-unused-vars */
       nativeControlId,
       name,
       ...otherProps
@@ -186,8 +195,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
         <NativeControl
           id={nativeControlId}
           checked={this.state.checked}
-          disabled={disabled}
-          aria-checked={this.state['aria-checked'] || this.state.checked}
+          disabled={this.state.disabled}
+          aria-checked={(this.state['aria-checked'] || this.state.checked!.toString()) as ('true' | 'false')}
           name={name}
           onChange={this.onChange}
           rippleActivatorRef={this.inputElement}
