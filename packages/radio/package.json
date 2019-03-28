@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@material/form-field": "^0.41.0",
-    "@material/radio": "^1.0.0",
+    "@material/radio": "^1.1.0",
     "@material/react-ripple": "^0.11.0",
     "classnames": "^2.2.6",
     "react": "^16.4.2"
