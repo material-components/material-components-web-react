@@ -40,6 +40,7 @@ const MenuListItem
   return (
     <ListItem
       role={role}
+      renderAsListItem
       {...otherProps}
     >
       {children}
