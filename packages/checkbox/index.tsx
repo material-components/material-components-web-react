@@ -94,9 +94,6 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       this.handleChange(checked!, indeterminate!);
     }
     if (disabled !== prevProps.disabled) {
-      this.setState({
-        disabled: disabled!,
-      });
       this.foundation.setDisabled(disabled!);
     }
   }
