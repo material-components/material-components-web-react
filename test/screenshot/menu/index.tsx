@@ -1,8 +1,7 @@
 import * as React from 'react';
 import '../../../packages/menu/index.scss';
 import './index.scss';
-import Menu, {MenuList, MenuListItem} from '../../../packages/menu/index';
-import {ListItemText} from '../../../packages/list/index';
+import Menu, {MenuList, MenuListItem, MenuListItemText} from '../../../packages/menu/index';
 
 interface MenuState {
   coordinates?: {x: number, y: number};
@@ -51,12 +50,12 @@ class MenuScreenshotTest extends React.Component<{}, MenuState> {
         open={this.state.open}
         onClose={this.onClose}
         coordinates={this.state.coordinates}
-        handleSelected={() => console.log('select')}
+        handleSelected={(index: number, item: Element) => console.log(index, item)}
       >
         <MenuList>
           {menuOptions.map((option, index) => (
             <MenuListItem key={index}>
-              <ListItemText primaryText={option} />
+              <MenuListItemText primaryText={option} />
             </MenuListItem>
           ))}
         </MenuList>
@@ -64,4 +63,5 @@ class MenuScreenshotTest extends React.Component<{}, MenuState> {
     );
   }
 }
+
 export default MenuScreenshotTest;

@@ -63,9 +63,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
     const foundation = new MDCMenuFoundation(this.adapter);
     foundation.init();
     this.setState({foundation});
-    // if (!isList(this.props.children)) {
-    //   throw new Error('child passed to menu must be of type List');
-    // }
   }
 
   componentDidUpdate(prevProps: MenuProps) {
