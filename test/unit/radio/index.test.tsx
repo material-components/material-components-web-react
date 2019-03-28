@@ -4,6 +4,7 @@ import * as td from 'testdouble';
 import {mount, shallow, ReactWrapper} from 'enzyme';
 import {Radio, NativeRadioControl, RadioProps} from '../../../packages/radio/index';
 import {coerceForTesting} from '../helpers/types';
+import {MDCRadioFoundation} from '@material/radio';
 
 const NativeControlUpdate: React.FunctionComponent<React.HTMLProps<HTMLInputElement>> = ({
   disabled, id, // eslint-disable-line react/prop-types
@@ -83,13 +84,13 @@ test('initializes foundation', () => {
 });
 
 test('calls foundation.setDisabled if child.props.disabled is true', () => {
-  const setDisabled = td.func();
+  const setDisabled = td.func<(disabled: boolean) => void>();
   const wrapper = mount<Radio>(
     <Radio>
       <NativeRadioControl disabled />
     </Radio>
   );
-  wrapper.instance().foundation = {init: () => {}, setDisabled};
+  wrapper.instance().foundation = {init: () => {}, setDisabled} as MDCRadioFoundation;
   wrapper.instance().componentDidMount();
   td.verify(setDisabled(true), {times: 1});
 });
@@ -134,7 +135,7 @@ test('renders label with for attribute tied to native control id', () => {
 test('calls foundation.setDisabled if children.props.disabled updates', () => {
   const wrapper = mount(<NativeControlUpdate />);
   coerceForTesting<ReactWrapper<RadioProps, {}, Radio>>(
-    wrapper.children()).instance().foundation.setDisabled = td.func();
+    wrapper.children()).instance().foundation.setDisabled = td.func<(disabled: boolean) => null>();
   wrapper.setProps({disabled: true});
   td.verify(
     coerceForTesting<ReactWrapper<RadioProps, {}, Radio>>(wrapper.children())
@@ -147,7 +148,7 @@ test('calls foundation.setDisabled if children.props.disabled updates', () => {
 test('calls foundation.setDisabled if children.props.disabled updates to false', () => {
   const wrapper = mount(<NativeControlUpdate disabled />);
   coerceForTesting<ReactWrapper<RadioProps, {}, Radio>>(
-    wrapper.children()).instance().foundation.setDisabled = td.func();
+    wrapper.children()).instance().foundation.setDisabled = td.func<(disabled: boolean) => null>();
   wrapper.setProps({disabled: false});
   td.verify(
     coerceForTesting<ReactWrapper<RadioProps, {}, Radio>>(wrapper.children())
@@ -234,7 +235,7 @@ test('#componentWillUnmount destroys foundation', () => {
     </Radio>
   );
   const foundation = wrapper.instance().foundation;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
 });
