@@ -4,10 +4,6 @@ import './index.scss';
 import Menu, {MenuList, MenuListItem} from '../../../packages/menu/index';
 import {ListItemText} from '../../../packages/list/index';
 
-// type MenuButtonProps = {
- 
-// };
-
 interface MenuState {
   coordinates?: {x: number, y: number};
   open: boolean;
@@ -55,6 +51,7 @@ class MenuScreenshotTest extends React.Component<{}, MenuState> {
         open={this.state.open}
         onClose={this.onClose}
         coordinates={this.state.coordinates}
+        handleSelected={() => console.log('select')}
       >
         <MenuList>
           {menuOptions.map((option, index) => (

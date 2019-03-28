@@ -31,8 +31,7 @@ export interface MenuListProps<T extends HTMLElement> extends Exclude<ListProps<
   handleItemAction?: MDCMenuFoundation['handleItemAction'];
 };
 
-class MenuList<T extends HTMLElement = HTMLElement>
-  extends React.Component<MenuListProps<T>, {}> {
+class MenuList<T extends HTMLElement = HTMLElement> extends React.Component<MenuListProps<T>, {}> {
   private listInstance = React.createRef<List>();
 
   static defaultProps: Partial<MenuListProps<HTMLElement>> = {
@@ -49,7 +48,6 @@ class MenuList<T extends HTMLElement = HTMLElement>
   }
 
   handleSelect: ListProps<HTMLElement>['handleSelect'] = (activatedItemIndex, selected) => {
-    console.log('SELECTION')
     this.props.handleSelect!(activatedItemIndex, selected);
     this.props.handleItemAction!(this.listElements[activatedItemIndex]);
   }

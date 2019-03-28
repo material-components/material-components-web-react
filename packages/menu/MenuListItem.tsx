@@ -27,25 +27,28 @@ export interface MenuListItemProps<T> extends ListItemProps<T> {
   children?: React.ReactNode;
 }
 
-const MenuListItem 
-  = <T extends HTMLElement = HTMLElement>(
-    props: MenuListItemProps<T>
-): React.ReactElement<MenuListItemProps<T>> => {
-  const {
-    role = 'menuitem',
-    children,
-    ...otherProps
-  } = props;
+class MenuListItem<T extends HTMLElement = HTMLElement> extends React.Component<MenuListItemProps<T>, {}> {
+  static defaultProps: Partial<MenuListItemProps<HTMLElement>> = {
+    ...ListItem.defaultProps,
+    renderAsListItem: true,
+  };
 
-  return (
-    <ListItem
-      role={role}
-      renderAsListItem
-      {...otherProps}
-    >
-      {children}
-    </ListItem>
-  );
+  render() {
+    const {
+      role = 'menuitem',
+      children,
+      ...otherProps
+    } = this.props;
+
+    return (
+      <ListItem
+        role={role}
+        {...otherProps}
+      >
+        {children}
+      </ListItem>
+    );
+  }
 }
 
 export default MenuListItem;

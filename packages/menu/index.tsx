@@ -38,13 +38,16 @@ export interface MenuProps extends Exclude<MenuSurfaceProps, 'ref'> {
 export interface MenuState {
   classList: Set<string>;
   open: boolean;
+  foundation?: MDCMenuFoundation;
 };
 
 class Menu extends React.Component<MenuProps, MenuState> {
   menuListElement = React.createRef<MenuList>();
-  foundation!: MDCMenuFoundation;
-
+  
+  // need foundation on state so that it initializes MenuList with
+  // foundation.handleItemAction
   state: MenuState = {
+    foundation: undefined,
     classList: new Set(),
     open: this.props.open || false,
   };
@@ -57,7 +60,9 @@ class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   componentDidMount() {
-    this.foundation = new MDCMenuFoundation(this.adapter);
+    const foundation = new MDCMenuFoundation(this.adapter);
+    foundation.init();
+    this.setState({foundation});
     // if (!isList(this.props.children)) {
     //   throw new Error('child passed to menu must be of type List');
     // }
@@ -70,8 +75,8 @@ class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   componentWillUnmount() {
-    if (this.foundation) {
-      this.foundation.destroy();
+    if (this.state.foundation) {
+      this.state.foundation.destroy();
     }
   }
 
@@ -129,7 +134,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
     if (onKeyDown) {
       onKeyDown(evt);
     }
-    this.foundation.handleKeydown(evt.nativeEvent);
+    this.state.foundation && this.state.foundation.handleKeydown(evt.nativeEvent);
   }
 
   handleOpen: MenuSurfaceProps['onOpen'] = () => {
@@ -171,20 +176,30 @@ class Menu extends React.Component<MenuProps, MenuState> {
   
   renderChild() {
     const {children} = this.props;
+    const {foundation} = this.state;
     let handleItemAction: MDCMenuFoundation['handleItemAction'] = () => {};
-    if (this.foundation) {
-      handleItemAction = this.foundation.handleItemAction;
+    if (foundation) {
+      // this is to avoid a `handleItemAction` of undefined error
+      handleItemAction = foundation.handleItemAction.bind(foundation);
     }
     const updatedProps: MenuListProps<HTMLElement> = {
+      // children.props must appear first
+      ...children.props,
       handleItemAction,
       ref: this.menuListElement,
       wrapFocus: true,
-      ...children.props,
     };
-
     return React.cloneElement(children, updatedProps);
   }
 }
 
 export default Menu;
 export {MenuList, MenuListItem};
+export {
+  ListDivider as MenuListDivider,
+  ListGroup as MenuListGroup,
+  ListGroupSubheader as MenuListGroupSubheader,
+  ListItemGraphic as MenuListGraphic,
+  ListItemMeta as MenuListMeta,
+  ListItemText as MenuListItemText,
+} from '@material/react-list';

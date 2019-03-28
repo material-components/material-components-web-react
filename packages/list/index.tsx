@@ -319,9 +319,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   renderChild = (child: React.ReactElement<ListItemProps<T>> | React.ReactChild) => {
     if (!isReactText(child)) {
       const {renderAsListItem} = child.props;
-      debugger
       if (renderAsListItem || isListItem(child)) {
-        console.log('MEOW')
         return this.renderListItem(child, this.listItemCount++);
       }
     }
@@ -364,7 +362,6 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       checkboxList,
       radioList,
       onKeyDown: (e: React.KeyboardEvent<T>) => {
-        console.log('meow')
         onKeyDown!(e);
         this.handleKeyDown(e, index);
       },
