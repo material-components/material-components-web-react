@@ -30,9 +30,9 @@ import TopAppBarIcon from './Icon';
 import {cssClasses} from './constants';
 import {MDCFixedTopAppBarFoundation} from '@material/top-app-bar/fixed/foundation';
 import {MDCTopAppBarAdapter} from '@material/top-app-bar/adapter';
-import MDCTopAppBarFoundation from '@material/top-app-bar/foundation';
+import {MDCTopAppBarFoundation} from '@material/top-app-bar/standard/foundation';
 import {MDCShortTopAppBarFoundation} from '@material/top-app-bar/short/foundation';
-import {EventType, SpecificEventListener} from '@material/base/types';
+import {SpecificEventListener} from '@material/base/types';
 
 export type MDCTopAppBarFoundationTypes
   = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
@@ -225,22 +225,10 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
       deregisterResizeHandler: (handler: SpecificEventListener<'resize'>) => {
         window.removeEventListener('resize', handler);
       },
-      registerNavigationIconInteractionHandler: <K extends EventType>(type: K, handler: SpecificEventListener<K>) => {
-        if (this.topAppBarElement && this.topAppBarElement.current) {
-          const navIcon = this.topAppBarElement.current.querySelector(`.${cssClasses.NAV_ICON}`);
-          if (navIcon) {
-            navIcon.addEventListener(type, handler);
-          }
-        }
-      },
-      deregisterNavigationIconInteractionHandler: <K extends EventType>(type: K, handler: SpecificEventListener<K>) => {
-        if (this.topAppBarElement && this.topAppBarElement.current) {
-          const navIcon = this.topAppBarElement.current.querySelector(`.${cssClasses.NAV_ICON}`);
-          if (navIcon) {
-            navIcon.removeEventListener(type, handler);
-          }
-        }
-      },
+      // onClick handler of navigation bar is used instead
+      // see https://github.com/material-components/material-components-web/issues/2813
+      registerNavigationIconInteractionHandler: () => null,
+      deregisterNavigationIconInteractionHandler: () => null,
       notifyNavigationIconClicked: () => {
         if (this.props.onNavIconClicked) {
           this.props.onNavIconClicked();
