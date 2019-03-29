@@ -22,8 +22,9 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCSelectFoundation} from '@material/select/dist/mdc.select';
+import {MDCSelectFoundation} from '@material/select/foundation';
+
+type RefCallback<T> = (node: T | null) => void;
 
 export interface NativeControlProps extends React.HTMLProps<HTMLSelectElement> {
   className: string;
@@ -32,27 +33,23 @@ export interface NativeControlProps extends React.HTMLProps<HTMLSelectElement> {
   setRippleCenter: (lineRippleCenter: number) => void;
   handleDisabled: (disabled: boolean) => void;
   value: string;
+  innerRef?: RefCallback<HTMLSelectElement> | React.RefObject<HTMLSelectElement>;
 }
 
 export default class NativeControl extends React.Component<
   NativeControlProps,
   {}
   > {
-  nativeControl_: React.RefObject<HTMLSelectElement> = React.createRef();
+  nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
 
-  static defaultProps: NativeControlProps = {
+  static defaultProps: Partial<NativeControlProps> = {
     className: '',
     children: null,
     disabled: false,
-    foundation: {
-      handleFocus: () => {},
-      handleBlur: () => {},
-    },
     setRippleCenter: () => {},
     handleDisabled: () => {},
     value: '',
   };
-
 
   componentDidUpdate(prevProps: NativeControlProps) {
     if (this.props.disabled !== prevProps.disabled) {
@@ -66,13 +63,17 @@ export default class NativeControl extends React.Component<
 
   handleFocus = (evt: React.FocusEvent<HTMLSelectElement>) => {
     const {foundation, onFocus} = this.props;
-    foundation.handleFocus(evt);
+    if (foundation.handleFocus) {
+      foundation.handleFocus();
+    }
     onFocus && onFocus(evt);
   };
 
   handleBlur = (evt: React.FocusEvent<HTMLSelectElement>) => {
     const {foundation, onBlur} = this.props;
-    foundation.handleBlur(evt);
+    if (foundation.handleFocus) {
+      foundation.handleBlur();
+    }
     onBlur && onBlur(evt);
   };
 
@@ -90,11 +91,30 @@ export default class NativeControl extends React.Component<
   };
 
   setRippleCenter = (xCoordinate: number, target: HTMLSelectElement) => {
-    if (target !== this.nativeControl_.current) return;
+    if (target !== this.nativeControl.current) return;
     const targetClientRect = target.getBoundingClientRect();
     const normalizedX = xCoordinate - targetClientRect.left;
     this.props.setRippleCenter(normalizedX);
   };
+
+  attachRef = (node: HTMLSelectElement | null) => {
+    const {innerRef} = this.props;
+
+    // https://github.com/facebook/react/issues/13029#issuecomment-410002316
+    // @ts-ignore this is acceptable according to the comment above
+    this.nativeControl.current = node;
+
+    if (!innerRef) {
+      return;
+    }
+
+    if (typeof innerRef !== 'function') {
+      // @ts-ignore same as above
+      innerRef.current = node;
+    } else {
+      innerRef(node);
+    }
+  }
 
   render() {
     const {
@@ -110,6 +130,7 @@ export default class NativeControl extends React.Component<
       onTouchStart,
       onMouseDown,
       setRippleCenter,
+      innerRef,
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
@@ -123,7 +144,7 @@ export default class NativeControl extends React.Component<
         disabled={disabled}
         value={value}
         className={this.classes}
-        ref={this.nativeControl_}
+        ref={this.attachRef}
         {...otherProps}
       >
         {children}

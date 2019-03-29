@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2019 Google, Inc.
+// Copyright (c) 2018 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,44 +21,56 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import List, {ListProps} from '@material/react-list';
-// eslint-disable-next-line no-unused-vars
-import {MDCMenuFoundation} from '@material/menu/foundation';
+import classnames from 'classnames';
+import {MDCSelectFoundation} from '@material/select/foundation';
+import Menu, {MenuList} from '@material/react-menu';
 
 type RefCallback<T> = (node: T | null) => void;
 
-export interface MenuListProps extends Exclude<ListProps, 'ref'> {
-  innerRef?: RefCallback<List> | React.RefObject<List>;
-  handleItemAction?: MDCMenuFoundation['handleItemAction'];
-};
+export interface NativeControlProps extends React.HTMLProps<HTMLSelectElement> {
+  className: string;
+  disabled: boolean;
+  foundation: MDCSelectFoundation;
+  setRippleCenter: (lineRippleCenter: number) => void;
+  handleDisabled: (disabled: boolean) => void;
+  value: string;
+  innerRef?: RefCallback<HTMLSelectElement> | React.RefObject<HTMLSelectElement>;
+}
 
-class MenuList extends React.Component<MenuListProps, {}> {
-  private listInstance = React.createRef<List>();
+export default class EnhancedSelect extends React.Component<
+  NativeControlProps,
+  {}
+  > {
+  nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
 
-  static defaultProps: Partial<MenuListProps> = {
+  static defaultProps: Partial<NativeControlProps> = {
     className: '',
-    handleSelect: () => {},
-    handleItemAction: () => {},
+    children: null,
+    disabled: false,
+    setRippleCenter: () => {},
+    handleDisabled: () => {},
+    value: '',
   };
 
-  get listElements(): Element[] {
-    if (!this.listInstance.current) {
-      return [];
+  componentDidUpdate(prevProps: NativeControlProps) {
+    if (this.props.disabled !== prevProps.disabled) {
+      this.props.handleDisabled(this.props.disabled);
     }
-    return this.listInstance.current.listElements;
+    if (this.props.value !== prevProps.value) {
+      
+    }
   }
 
-  handleSelect: ListProps['handleSelect'] = (activatedItemIndex, selected) => {
-    this.props.handleSelect!(activatedItemIndex, selected);
-    this.props.handleItemAction!(this.listElements[activatedItemIndex]);
+  get classes() {
+    return classnames('mdc-select__native-control', this.props.className);
   }
 
-  attachRef = (node: List | null) => {
+  attachRef = (node: HTMLSelectElement | null) => {
     const {innerRef} = this.props;
 
     // https://github.com/facebook/react/issues/13029#issuecomment-410002316
     // @ts-ignore this is acceptable according to the comment above
-    this.listInstance.current = node;
+    this.nativeControl.current = node;
 
     if (!innerRef) {
       return;
@@ -74,30 +86,33 @@ class MenuList extends React.Component<MenuListProps, {}> {
 
   render() {
     const {
-      'aria-hidden': ariaHidden,
+      disabled,
       /* eslint-disable no-unused-vars */
-      handleSelect,
-      handleItemAction,
-      role,
-      innerRef,
+      className,
       children,
-      ref,
+      foundation,
+      value,
+      handleDisabled,
+      onFocus,
+      onBlur,
+      onTouchStart,
+      onMouseDown,
+      setRippleCenter,
+      innerRef,
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
 
     return (
-      <List
-        aria-hidden={ariaHidden !== undefined ? ariaHidden : 'true'}
-        role={role || 'menu'}
-        handleSelect={this.handleSelect}
-        ref={this.attachRef}
-        {...otherProps}
-      >
-        {children}
-      </List>
+      <React.Fragment>
+        <input type='hidden' name='enhanced-select' />
+        <div className='mdc-select__selected-text'></div>
+        <Menu>
+          <MenuList>
+            {children}
+          </MenuList>
+        </Menu>
+      </React.Fragment>
     );
   }
 }
-
-export default MenuList;
