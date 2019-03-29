@@ -22,12 +22,14 @@
 
 import React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no mdc .d.ts file
-import {MDCSelectFoundation, MDCSelectAdapter} from '@material/select/dist/mdc.select';
+import {MDCSelectAdapter} from '@material/select/adapter';
+import {MDCSelectFoundation} from '@material/select/foundation';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
+
+const {cssClasses} = MDCSelectFoundation;
 
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
 
@@ -44,10 +46,12 @@ export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
   outlined?: boolean;
   options?: SelectOptionsType;
   value?: string;
+  afterChange?: (value: string) => void;
 }
 
 interface SelectState {
-  value?: string;
+  open?: boolean;
+  value: string;
   classList: Set<string>;
   disabled: boolean;
   labelIsFloated: boolean;
@@ -59,13 +63,14 @@ interface SelectState {
 
 export default class Select extends React.Component<SelectProps, SelectState> {
   foundation?: MDCSelectFoundation;
+  nativeControl = React.createRef<HTMLSelectElement>();
 
   constructor(props: SelectProps) {
     super(props);
     this.state = {
       classList: new Set(),
       disabled: props.disabled!,
-      value: props.value,
+      value: props.value!,
       // floating label state
       labelIsFloated: false,
       labelWidth: 0,
@@ -74,6 +79,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       lineRippleCenter: undefined,
       // notched outline state
       outlineIsNotched: false,
+      open: false,
     };
   }
 
@@ -90,21 +96,22 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     options: [],
     onChange: () => {},
     value: '',
+    afterChange: () => {},
   };
 
   componentDidMount() {
     this.foundation = new MDCSelectFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.handleChange();
+    this.foundation.handleChange(false);
   }
 
   componentDidUpdate(prevProps: SelectProps, prevState: SelectState) {
     // this is to fix onChange being called twice
     if (this.props.value !== prevProps.value) {
-      this.setState({value: this.props.value});
+      this.setState({value: this.props.value!});
     }
-    if (this.state.value !== prevState.value) {
-      this.foundation.handleChange();
+    if (this.foundation && this.state.value !== prevState.value) {
+      this.foundation.handleChange(true);
     }
   }
 
@@ -113,6 +120,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       this.foundation.destroy();
     }
   }
+
   onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     this.props.onChange && this.props.onChange(evt);
     const {value} = evt.target;
@@ -124,38 +132,60 @@ export default class Select extends React.Component<SelectProps, SelectState> {
    */
   get classes() {
     const {classList, disabled} = this.state;
-    const {className, box, outlined} = this.props;
+    const {className, required, outlined} = this.props;
     return classnames('mdc-select', Array.from(classList), className, {
       'mdc-select--outlined': outlined,
       'mdc-select--disabled': disabled,
-      'mdc-select--box': box,
+      'mdc-select--required': required,
     });
   }
 
   get adapter(): MDCSelectAdapter {
-    const rootAdapterMethods = {
-      addClass: (className: string) => {
-        const classList = new Set(this.state.classList);
-        classList.add(className);
-        this.setState({classList});
-      },
-      removeClass: (className: string) => {
-        const classList = new Set(this.state.classList);
-        classList.delete(className);
-        this.setState({classList});
-      },
+    const commonAdapter = {
+      addClass: this.addClass,
+      removeClass: this.removeClass,
       hasClass: (className: string) => this.classes.split(' ').includes(className),
-      isRtl: () => this.props.isRtl,
+      setRippleCenter: this.setRippleCenter,
       getValue: () => this.state.value,
+      setValue: (value: string) => this.setState({value}),
+      setDisabled: this.setDisabled,
+      // not implemented because react select element
+      // does not support this API
+      setSelectedIndex: () => {},
     };
-    const labelAdapter = {
+    const nativeAdapter = {
+      openMenu: () => this.setState({open: true}),
+      closeMenu: () => this.setState({open: false}),
+      isMenuOpen: () => this.state.open!,
+      setValid: this.setValidClasses,
+      checkValidity: () => {
+        if (this.nativeControl.current) {
+          return this.nativeControl.current.checkValidity();
+        }
+        return false;
+      },
+    };
+
+    // TODO
+    // const enhancedAdapter = {
+    //   setDisabled: (isDisabled: boolean) => {
+    //     console.log(isDisabled);
+    //   },
+    //   checkValidity: () => true,
+    //   setValid: (isValid: boolean) => {
+    //     // should set attr aria-invalid
+    //     this.setValidClasses(isValid);
+    //   }
+    // };
+
+    const labelAdapter = {  
       floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),
-      hasLabel: () => !!this.props.label,
       getLabelWidth: () => this.state.labelWidth,
     };
     const lineRippleAdapter = {
       activateBottomLine: () => this.setState({activeLineRipple: true}),
       deactivateBottomLine: () => this.setState({activeLineRipple: false}),
+      notifyChange: (value: string) => this.props.afterChange!(value),
     };
     const notchedOutlineAdapter = {
       notchOutline: () => this.setState({outlineIsNotched: true}),
@@ -163,7 +193,8 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       hasOutline: () => !!this.props.outlined,
     };
     return {
-      ...rootAdapterMethods,
+      ...nativeAdapter,
+      ...commonAdapter,
       ...labelAdapter,
       ...lineRippleAdapter,
       ...notchedOutlineAdapter,
@@ -172,6 +203,24 @@ export default class Select extends React.Component<SelectProps, SelectState> {
 
   setRippleCenter = (lineRippleCenter: number) => this.setState({lineRippleCenter});
   setDisabled = (disabled: boolean) => this.setState({disabled});
+  addClass = (className: string) => {
+    const classList = new Set(this.state.classList);
+    classList.add(className);
+    this.setState({classList});
+  };
+  removeClass = (className: string) => {
+    const classList = new Set(this.state.classList);
+    classList.delete(className);
+    this.setState({classList});
+  };
+
+  setValidClasses = (isValid: boolean) => {
+    if (isValid) {
+      this.removeClass(cssClasses.INVALID);
+    } else {
+      this.addClass(cssClasses.INVALID);
+    }
+  }
 
   /**
    * render methods
@@ -179,6 +228,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   render() {
     return (
       <div className={this.classes}>
+        <i className='mdc-select__dropdown-icon'></i>
         {this.renderSelect()}
         {this.renderLabel()}
         {this.props.outlined
@@ -202,6 +252,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       onChange,
       ref,
       value,
+      afterChange,
       /* eslint-enable */
       ...otherProps
     } = this.props;
@@ -214,6 +265,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
         onChange={this.onChange}
         setRippleCenter={this.setRippleCenter}
         value={this.state.value}
+        innerRef={this.nativeControl}
         {...otherProps}
       >
         {this.renderOptions()}
