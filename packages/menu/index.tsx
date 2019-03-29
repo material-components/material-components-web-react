@@ -42,7 +42,7 @@ export interface MenuState {
 
 class Menu extends React.Component<MenuProps, MenuState> {
   menuListElement = React.createRef<MenuList>();
-  
+
   // need foundation on state so that it initializes MenuList with
   // foundation.handleItemAction
   state: MenuState = {
@@ -78,8 +78,9 @@ class Menu extends React.Component<MenuProps, MenuState> {
   get listElements(): Element[] {
     if (!(this.menuListElement
       && this.menuListElement.current
+      && this.menuListElement.current.listElements
       && this.menuListElement.current.listElements.length >= 0 )) {
-        return [];
+      return [];
     }
     return this.menuListElement.current.listElements;
   }
@@ -139,13 +140,15 @@ class Menu extends React.Component<MenuProps, MenuState> {
 
   render() {
     const {
+      className,
+      /* eslint-disable no-unused-vars */
       open,
       onKeyDown,
       onOpen,
       children,
-      className,
       handleSelected,
       ref,
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
 
@@ -163,7 +166,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
     );
   }
 
-  
+
   renderChild() {
     const {children} = this.props;
     const {foundation} = this.state;
@@ -195,3 +198,5 @@ export {
   ListItemMeta as MenuListMeta,
   ListItemText as MenuListItemText,
 } from '@material/react-list';
+export {MenuListProps} from './MenuList';
+export {MenuListItemProps} from './MenuListItem';

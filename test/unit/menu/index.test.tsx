@@ -2,11 +2,10 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount, ShallowWrapper, ReactWrapper} from 'enzyme';
-import Menu, {MenuState, MenuList} from '../../../packages/menu/index';
-import { coerceForTesting } from '../helpers/types';
-// import {MDCMenuFoundation} from '@material/menu/foundation';
+import Menu, {MenuState, MenuList, MenuListItem, MenuListProps} from '../../../packages/menu/index';
+import {coerceForTesting} from '../helpers/types';
 
-suite.only('Menu');
+suite('Menu');
 
 function getFoundation(wrapper: ReactWrapper<any, any, any> | ShallowWrapper<Menu>) {
   return coerceForTesting<MenuState>(wrapper.state()).foundation!;
@@ -75,5 +74,178 @@ test('adapter.removeAttributeToElementAtIndex adds a class to a listItem', () =>
   getAdapter(wrapper).removeAttributeFromElementAtIndex(0, 'tabindex');
   const listItem = wrapper.find('.mdc-list-item').getDOMNode();
   assert.notEqual(coerceForTesting<HTMLElement>(listItem).tabIndex, 12);
+  wrapper.unmount();
+});
+
+test('adapter.elementContainsClass returns true if element contains class', () => {
+  class Div extends React.Component {
+    render() {
+      return ( <div className='test-class-name-1'>Meow</div> );
+    }
+  }
+  const wrapper = mount(<Menu><Div /></Menu>);
+  const contains = getAdapter(wrapper).elementContainsClass(
+    wrapper.find('div').last().getDOMNode(), 'test-class-name-1');
+  assert.isTrue(contains);
+  wrapper.unmount();
+});
+
+test('adapter.elementContainsClass returns FALSE if element does not contains class', () => {
+  class Div extends React.Component {
+    render() {
+      return ( <div>Meow</div> );
+    }
+  }
+  const wrapper = mount(<Menu><Div /></Menu>);
+  const contains = getAdapter(wrapper).elementContainsClass(
+    wrapper.find('div').first().getDOMNode(), 'test-class-name-1');
+  assert.isFalse(contains);
+  wrapper.unmount();
+});
+
+test('adapter.closeSurface sets state.open to false', () => {
+  const wrapper = shallow(<Menu open />);
+  assert.isTrue(coerceForTesting<MenuState>(wrapper.state()).open);
+  getAdapter(wrapper).closeSurface();
+  assert.isFalse(coerceForTesting<MenuState>(wrapper.state()).open);
+});
+
+test('adapter.getElementIndex returns index of list item', () => {
+  const wrapper = mount(<Menu>
+    <MenuList>
+      <button className='mdc-list-item'>Meow</button>
+      <button className='mdc-list-item'>Woof</button>
+    </MenuList>
+  </Menu>);
+  const lastListItem = wrapper.find('.mdc-list-item').last().getDOMNode();
+  const index = getAdapter(wrapper).getElementIndex(lastListItem);
+  assert.equal(index, 1);
+  wrapper.unmount();
+});
+
+test('adapter.getParentElement returns MenuList if called on list item', () => {
+  const wrapper = mount(<Menu>
+    <MenuList>
+      <button className='mdc-list-item'>Meow</button>
+      <button className='mdc-list-item'>Woof</button>
+    </MenuList>
+  </Menu>);
+  const lastListItem = wrapper.find('.mdc-list-item').last().getDOMNode();
+  const menuList = getAdapter(wrapper).getParentElement(lastListItem);
+  assert.equal(menuList, wrapper.find('.mdc-list').getDOMNode());
+  wrapper.unmount();
+});
+
+test('adapter.getSelectedElementIndex returns selected list item\'s index', () => {
+  const wrapper = mount(<Menu>
+    <MenuList>
+      <button className='mdc-menu-item mdc-list-item mdc-menu-item--selected'>Meow</button>
+      <button className='mdc-menu-item mdc-list-item'>Woof</button>
+    </MenuList>
+  </Menu>);
+  const menuList = wrapper.find('.mdc-list').getDOMNode();
+  const selectedListItem = getAdapter(wrapper).getSelectedElementIndex(menuList);
+  assert.equal(selectedListItem, 0);
+  wrapper.unmount();
+});
+
+test('adapter.getSelectedElementIndex returns -1 if no list item is selected', () => {
+  const wrapper = mount(<Menu>
+    <MenuList>
+      <button className='mdc-list-item'>Meow</button>
+      <button className='mdc-list-item'>Woof</button>
+    </MenuList>
+  </Menu>);
+  const menuList = wrapper.find('.mdc-list').getDOMNode();
+  const selectedListItem = getAdapter(wrapper).getSelectedElementIndex(menuList);
+  assert.equal(selectedListItem, -1);
+  wrapper.unmount();
+});
+
+test('adapter.notifySelected calls props.handleSelected with the selectedindex and listElement DOM node', () => {
+  const handleSelected = td.func<(index: number, element: Element) => void>();
+  const wrapper = mount(<Menu handleSelected={handleSelected}>
+    <MenuList>
+      <MenuListItem></MenuListItem>
+      <MenuListItem></MenuListItem>
+    </MenuList>
+  </Menu>);
+  const evtData = {index: 0};
+  getAdapter(wrapper).notifySelected(evtData);
+  td.verify(handleSelected(0, wrapper.find('.mdc-list-item').first().getDOMNode()), {times: 1});
+  wrapper.unmount();
+});
+
+test('onKeyDown calls foundation.handleKeydown', () => {
+  const wrapper = shallow(<Menu />);
+  getFoundation(wrapper).handleKeydown = td.func<(evt: Event) => void>();
+  const evt = coerceForTesting<React.KeyboardEvent>({
+    nativeEvent: {},
+  });
+  wrapper.simulate('keydown', evt);
+  td.verify(getFoundation(wrapper).handleKeydown(evt.nativeEvent), {times: 1});
+});
+
+test('onKeyDown calls props.onKeyDown', () => {
+  const onKeyDown = td.func<(evt: React.KeyboardEvent) => void>();
+  const wrapper = shallow(<Menu onKeyDown={onKeyDown} />);
+  const evt = coerceForTesting<React.KeyboardEvent>({
+    nativeEvent: {},
+  });
+  wrapper.simulate('keydown', evt);
+  td.verify(onKeyDown(evt), {times: 1});
+});
+
+test('handleOpen calls props.onOpen', () => {
+  const onOpen = td.func<() => void>();
+  const wrapper = mount(<Menu onOpen={onOpen} />);
+  coerceForTesting<Menu>(wrapper.instance()).handleOpen!();
+  td.verify(onOpen(), {times: 1});
+});
+
+test('handleOpen calls focuses on first list element', () => {
+  const div = document.createElement('div');
+  document.body.append(div);
+  const options = {attachTo: div};
+  const wrapper = mount(<Menu>
+    <MenuList>
+      <button className='mdc-list-item'>Meow</button>
+      <button className='mdc-list-item'>Woof</button>
+    </MenuList>
+  </Menu>, options);
+  coerceForTesting<Menu>(wrapper.instance()).handleOpen!();
+  assert.equal(document.activeElement, wrapper.find('.mdc-list-item').first().getDOMNode());
+  wrapper.unmount();
+  div.remove();
+});
+
+test('menu renders with tabindex=-1', () => {
+  const wrapper = shallow(<Menu />);
+  assert.equal(wrapper.props().tabIndex, -1);
+});
+
+test('menu renders child with handleItemAction', () => {
+  class Div extends React.Component {
+    render() {
+      return ( <div className='test-div'>Meow</div> );
+    }
+  }
+  const wrapper = mount(<Menu><Div /></Menu>);
+  const {handleItemAction} = coerceForTesting<MenuListProps<HTMLElement>>(
+    wrapper.childAt(0).childAt(0).childAt(0).props());
+  assert.isTrue(typeof handleItemAction === 'function');
+  wrapper.unmount();
+});
+
+test('menu renders child with wrapFocus', () => {
+  class Div extends React.Component {
+    render() {
+      return ( <div className='test-div'>Meow</div> );
+    }
+  }
+  const wrapper = mount(<Menu><Div /></Menu>);
+  const {wrapFocus} = coerceForTesting<MenuListProps<HTMLElement>>(
+    wrapper.childAt(0).childAt(0).childAt(0).props());
+  assert.isTrue(wrapFocus);
   wrapper.unmount();
 });

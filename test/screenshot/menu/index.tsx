@@ -9,7 +9,6 @@ interface MenuState {
 };
 
 class MenuScreenshotTest extends React.Component<{}, MenuState> {
-
   state = {
     open: true,
     coordinates: undefined,
