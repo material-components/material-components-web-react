@@ -195,7 +195,7 @@ See [List Group Props](../list/README.md#listgroup) for other props you can pass
 
 ### MenuListGroupSubheader
 
-See [List Group Props](../list/README.md#listgroupsubheader) for other props you can pass to MenuListGroupSubheader.
+See [List Group Subheader Props](../list/README.md#listgroupsubheader) for other props you can pass to MenuListGroupSubheader.
 
 
 ## Sass Mixins

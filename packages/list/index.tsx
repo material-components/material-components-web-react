@@ -53,7 +53,7 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
 };
 
 function isReactText(element: any): element is React.ReactText {
-  return typeof element === 'string' || typeof element === 'number';
+  return typeof element === 'string' || typeof element === 'number' || !element;
 }
 
 function isListItem(element: any): element is ListItem {
@@ -69,7 +69,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   foundation!: MDCListFoundation;
   hasInitializedListItem = false;
 
-  private listElement = React.createRef<T>();
+  private listElement = React.createRef<HTMLElement>();
 
   static defaultProps: Partial<ListProps<HTMLElement>> = {
     'className': '',
@@ -123,7 +123,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   }
 
   componentWillUnmount() {
-    this.foundation.destroy();  
+    this.foundation.destroy();
   }
 
   initializeListType = () => {
@@ -318,8 +318,8 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   renderChild = (child: React.ReactElement<ListItemProps<T>> | React.ReactChild) => {
     if (!isReactText(child)) {
-      const {renderAsListItem} = child.props;
-      if (renderAsListItem || isListItem(child)) {
+      const {renderWithListItemProps} = child.props;
+      if (renderWithListItemProps || isListItem(child)) {
         return this.renderListItem(child, this.listItemCount++);
       }
     }

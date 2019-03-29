@@ -35,7 +35,7 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   activated?: boolean;
   selected?: boolean;
   ref?: React.Ref<any>;
-  renderAsListItem?: boolean;
+  renderWithListItemProps?: boolean;
 };
 
 // TODO: convert to functional component
@@ -49,7 +49,7 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
   static defaultProps: Partial<ListItemProps<HTMLElement>> = {
     checkboxList: false,
     radioList: false,
-    renderAsListItem: false,
+    renderWithListItemProps: false,
     className: '',
     tabIndex: -1,
     onKeyDown: () => {},
@@ -87,7 +87,7 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
       role,
       checkboxList,
       radioList,
-      renderAsListItem,
+      renderWithListItemProps,
       /* eslint-enable no-unused-vars */
       tag: Tag,
       ...otherProps

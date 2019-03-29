@@ -454,7 +454,7 @@ test('renders a list with a nav tag', () => {
   assert.equal(wrapper.type(), 'nav');
 });
 
-test('renders a list with children which is not DOM', () => {
+test('renders a list with children of non-DOM elements', () => {
   const wrapper = shallow(<List>
     {}
     {false}
@@ -463,4 +463,16 @@ test('renders a list with children which is not DOM', () => {
     {undefined}
   </List>);
   assert.isTrue(wrapper.children().length === 1);
+});
+
+test('renderWithListItemProps renders passes props to element', () => {
+  const CustomComponent: React.FunctionComponent<ListItemProps<HTMLElement>>
+    = () => <button>hello</button>;
+  const wrapper = mount(<List radioList>
+    <CustomComponent renderWithListItemProps />
+  </List>);
+  const list = wrapper.childAt(0);
+  const listItem = list.childAt(0);
+  assert.isTrue(listItem.props().radioList);
+  assert.isFalse(listItem.props().checkboxList);
 });

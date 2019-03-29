@@ -30,7 +30,7 @@ export interface MenuListItemProps<T> extends ListItemProps<T> {
 class MenuListItem<T extends HTMLElement = HTMLElement> extends React.Component<MenuListItemProps<T>, {}> {
   static defaultProps: Partial<MenuListItemProps<HTMLElement>> = {
     ...ListItem.defaultProps,
-    renderAsListItem: true,
+    renderWithListItemProps: true,
   };
 
   render() {

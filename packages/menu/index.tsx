@@ -25,7 +25,7 @@ import classnames from 'classnames';
 import {MDCMenuFoundation} from '@material/menu/foundation';
 import {MDCMenuAdapter} from '@material/menu/adapter';
 import MenuSurface, {MenuSurfaceProps} from '@material/react-menu-surface';
-import MenuList, { MenuListProps } from './MenuList';
+import MenuList, {MenuListProps} from './MenuList';
 import MenuListItem from './MenuListItem';
 
 const {cssClasses} = MDCMenuFoundation;
@@ -36,7 +36,6 @@ export interface MenuProps extends Exclude<MenuSurfaceProps, 'ref'> {
 };
 
 export interface MenuState {
-  classList: Set<string>;
   open: boolean;
   foundation?: MDCMenuFoundation;
 };
@@ -48,7 +47,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
   // foundation.handleItemAction
   state: MenuState = {
     foundation: undefined,
-    classList: new Set(),
     open: this.props.open || false,
   };
 
@@ -78,7 +76,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   get listElements(): Element[] {
-    // TODO: do a find of .mdc-list so that people using styled-components can style the list
     if (!(this.menuListElement
       && this.menuListElement.current
       && this.menuListElement.current.listElements.length >= 0 )) {
@@ -87,14 +84,10 @@ class Menu extends React.Component<MenuProps, MenuState> {
     return this.menuListElement.current.listElements;
   }
 
-  get classes() {
-    const {className} = this.props;
-    const {classList} = this.state;
-    return classnames('mdc-menu', Array.from(classList), className);
-  }
-
   get adapter(): MDCMenuAdapter {
     return {
+      // TODO: update to new class management system from
+      // https://github.com/material-components/material-components-web-react/pull/776/files
       addClassToElementAtIndex: (index, className) => {
         const list = this.listElements;
         list[index].classList.add(className);
@@ -160,7 +153,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       <MenuSurface
         tabIndex={-1}
         open={this.state.open}
-        className={this.classes}
+        className={classnames('mdc-menu', className)}
         onKeyDown={this.handleKeyDown}
         onOpen={this.handleOpen}
         {...otherProps}
@@ -174,6 +167,8 @@ class Menu extends React.Component<MenuProps, MenuState> {
   renderChild() {
     const {children} = this.props;
     const {foundation} = this.state;
+    if (!children) return;
+
     let handleItemAction: MDCMenuFoundation['handleItemAction'] = () => {};
     if (foundation) {
       // this is to avoid a `handleItemAction` of undefined error
