@@ -11,7 +11,7 @@
     "dialog"
   ],
   "dependencies": {
-    "@material/dialog": "1.0.1",
+    "@material/dialog": "1.1.0",
     "@material/dom": "^1.0.0",
     "@material/react-button": "^0.11.0",
     "classnames": "^2.2.6",

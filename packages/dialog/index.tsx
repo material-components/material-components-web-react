@@ -26,6 +26,7 @@ import classnames from 'classnames';
 import {MDCDialogFoundation} from '@material/dialog/foundation';
 import {MDCDialogAdapter} from '@material/dialog/adapter';
 import {createFocusTrapInstance, isScrollable, areTopsMisaligned} from '@material/dialog/util';
+import {strings} from '@material/dialog/constants';
 import {ponyfill} from '@material/dom';
 /* eslint-disable no-unused-vars */
 import DialogContent, {DialogContentProps} from './DialogContent';
@@ -60,7 +61,7 @@ export interface DialogProps<T,
     | React.ReactElement<TitleProps>
   );
   className?: string;
-  escapeKeyAction?: string;
+  escapeKeyAction: string;
   id?: string;
   onClose?: (action: string) => void;
   onClosing?: (action: string) => void;
@@ -68,7 +69,7 @@ export interface DialogProps<T,
   onOpening?: () => void;
   open?: boolean;
   role?: 'alertdialog' | 'dialog';
-  scrimClickAction?: string;
+  scrimClickAction: string;
   tag?: string;
 };
 
@@ -103,6 +104,8 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
     id: 'mdc-dialog',
     open: false,
     role: 'alertdialog',
+    escapeKeyAction: strings.CLOSE_ACTION,
+    scrimClickAction: strings.CLOSE_ACTION,
   };
 
   state: DialogState = {classList: new Set()};
@@ -140,11 +143,11 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
     }
 
     if (prevProps.escapeKeyAction !== escapeKeyAction) {
-      this.foundation.setEscapeKeyAction(escapeKeyAction!);
+      this.foundation.setEscapeKeyAction(escapeKeyAction);
     }
 
     if (prevProps.scrimClickAction !== scrimClickAction) {
-      this.foundation.setScrimClickAction(scrimClickAction!);
+      this.foundation.setScrimClickAction(scrimClickAction);
     }
 
     if (prevProps.open !== open) {
