@@ -245,6 +245,28 @@ test(
   }
 );
 
+test('#adapter.registerResizeHandler triggers handler on window resize', () => {
+  const wrapper = shallow<TopAppBar>(<TopAppBar />);
+  const testHandler = coerceForTesting<EventListener>(td.func());
+  wrapper.instance().adapter.registerResizeHandler(testHandler);
+  const event = new Event('resize');
+  window.dispatchEvent(event);
+  td.verify(testHandler(event), {times: 1});
+});
+
+test(
+  '#adapter.registerResizeHandler does not trigger handler ' +
+    'after deregistering scroll handler on window',
+  () => {
+    const wrapper = shallow<TopAppBar>(<TopAppBar />);
+    const testHandler = coerceForTesting<EventListener>(td.func());
+    wrapper.instance().adapter.registerResizeHandler(testHandler);
+    const event = new Event('resize');
+    wrapper.instance().adapter.deregisterResizeHandler(testHandler);
+    window.dispatchEvent(event);
+    td.verify(testHandler(event), {times: 0});
+  }
+);
 
 test('#adapter.getTotalActionItems returns one with one actionItem passed', () => {
   const wrapper = mount<TopAppBar>(
