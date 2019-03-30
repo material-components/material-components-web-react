@@ -314,7 +314,7 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
   assert.isTrue(wrapper.state().foundation.adapter_.hasLabel());
 });
 
-test('#adapter.label.hasLabel returns true if label exists', () => {
+test('#adapter.label.getLabelWidth returns offsetWidth of labelElement', () => {
   const div = document.createElement('div');
   document.body.append(div);
   const options = {attachTo: div};
@@ -324,7 +324,8 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
     </TextField>,
     options
   );
-  assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), 56);
+  const labelElement = wrapper.instance().floatingLabelElement.current!.labelElement_;
+  assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), labelElement.current!.offsetWidth);
   div.remove();
 });
 
