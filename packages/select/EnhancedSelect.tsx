@@ -23,38 +23,38 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {MDCSelectFoundation} from '@material/select/foundation';
-import Menu, {MenuList} from '@material/react-menu';
+import Menu, {MenuList, MenuProps} from '@material/react-menu';
+import { EnhancedOptionProps } from './Option';
 
-type RefCallback<T> = (node: T | null) => void;
+// type RefCallback<T> = (node: T | null) => void;
+export type EnhancedChild<T extends HTMLElement> = React.ReactElement<EnhancedOptionProps<T>>;
 
-export interface NativeControlProps extends React.HTMLProps<HTMLSelectElement> {
-  className: string;
-  disabled: boolean;
-  foundation: MDCSelectFoundation;
-  setRippleCenter: (lineRippleCenter: number) => void;
-  handleDisabled: (disabled: boolean) => void;
-  value: string;
-  innerRef?: RefCallback<HTMLSelectElement> | React.RefObject<HTMLSelectElement>;
+export interface EnhancedSelectProps extends MenuProps {
+  foundation?: MDCSelectFoundation;
+  setRippleCenter?: (lineRippleCenter: number) => void;
+  handleDisabled?: (disabled: boolean) => void;
+  value?: string;
+  disabled?: boolean;
+  className?: string;
 }
 
 export default class EnhancedSelect extends React.Component<
-  NativeControlProps,
+  EnhancedSelectProps,
   {}
   > {
   nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
 
-  static defaultProps: Partial<NativeControlProps> = {
-    className: '',
-    children: null,
+  static defaultProps: Partial<EnhancedSelectProps> = {
+    // className: '',
     disabled: false,
-    setRippleCenter: () => {},
+    // setRippleCenter: () => {},
     handleDisabled: () => {},
-    value: '',
+    // value: '',
   };
 
-  componentDidUpdate(prevProps: NativeControlProps) {
+  componentDidUpdate(prevProps: EnhancedSelectProps) {
     if (this.props.disabled !== prevProps.disabled) {
-      this.props.handleDisabled(this.props.disabled);
+      this.props.handleDisabled!(this.props.disabled!);
     }
     if (this.props.value !== prevProps.value) {
       
@@ -65,49 +65,43 @@ export default class EnhancedSelect extends React.Component<
     return classnames('mdc-select__native-control', this.props.className);
   }
 
-  attachRef = (node: HTMLSelectElement | null) => {
-    const {innerRef} = this.props;
+  // attachRef = (node: HTMLSelectElement | null) => {
+  //   const {innerRef} = this.props;
 
-    // https://github.com/facebook/react/issues/13029#issuecomment-410002316
-    // @ts-ignore this is acceptable according to the comment above
-    this.nativeControl.current = node;
+  //   // https://github.com/facebook/react/issues/13029#issuecomment-410002316
+  //   // @ts-ignore this is acceptable according to the comment above
+  //   this.nativeControl.current = node;
 
-    if (!innerRef) {
-      return;
-    }
+  //   if (!innerRef) {
+  //     return;
+  //   }
 
-    if (typeof innerRef !== 'function') {
-      // @ts-ignore same as above
-      innerRef.current = node;
-    } else {
-      innerRef(node);
-    }
-  }
+  //   if (typeof innerRef !== 'function') {
+  //     // @ts-ignore same as above
+  //     innerRef.current = node;
+  //   } else {
+  //     innerRef(node);
+  //   }
+  // }
 
   render() {
     const {
-      disabled,
       /* eslint-disable no-unused-vars */
       className,
       children,
       foundation,
-      value,
+      // value,
       handleDisabled,
-      onFocus,
-      onBlur,
-      onTouchStart,
-      onMouseDown,
       setRippleCenter,
-      innerRef,
-      /* eslint-enable no-unused-vars */
       ...otherProps
+      /* eslint-enable no-unused-vars */
     } = this.props;
 
     return (
       <React.Fragment>
         <input type='hidden' name='enhanced-select' />
         <div className='mdc-select__selected-text'></div>
-        <Menu>
+        <Menu className='mdc-select__menu' {...otherProps}>
           <MenuList>
             {children}
           </MenuList>

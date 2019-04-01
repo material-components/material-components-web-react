@@ -43,7 +43,6 @@ export interface EnhancedOptionProps<T> extends MenuListItemProps<T> {}
 //   );
 // }
 
-
 class EnhancedOption<T extends HTMLElement = HTMLElement> extends React.Component<EnhancedOptionProps<T>, {}> {
   static defaultProps = {};
 
