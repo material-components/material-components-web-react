@@ -324,7 +324,7 @@ test('#adapter.label.getLabelWidth returns offsetWidth of labelElement', () => {
     </TextField>,
     {attachTo: div}
   );
-  const labelElement = wrapper.instance().floatingLabelElement.current!.labelElement_;
+  const labelElement = wrapper.instance().floatingLabelElement.current!.labelElement;
   assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), labelElement.current!.offsetWidth);
 
   document.body.removeChild(div);
