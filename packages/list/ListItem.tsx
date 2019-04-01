@@ -61,10 +61,11 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
   }
 
   get classes() {
-    const {className, activated, selected} = this.props;
+    const {className, activated, disabled, selected} = this.props;
     return classnames('mdc-list-item', className, {
       [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
       [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
+      'mdc-list-item--disabled': disabled,
     });
   }
 

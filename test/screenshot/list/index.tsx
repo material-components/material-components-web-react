@@ -26,12 +26,13 @@ interface SelectionListTestState {
 interface ListItemOptions extends ListItemTextProps {
   icon?: string;
   onMetaClick?: (e: React.MouseEvent) => void;
+  disabled?: boolean;
 }
 
 function renderListItem(options: ListItemOptions, key: string | number) {
-  const {primaryText, secondaryText, icon = 'info', onMetaClick = () => {}} = options;
+  const {primaryText, secondaryText, icon = 'info', onMetaClick = () => {}, disabled = false} = options;
   return (
-    <ListItem key={key}>
+    <ListItem key={key} disabled={disabled}>
       <ListItemGraphic graphic={<MaterialIcon icon='folder' />} />
       <ListItemText primaryText={primaryText} secondaryText={secondaryText} />
       <ListItemMeta
@@ -175,7 +176,7 @@ const ListScreenshotTest = () => {
       <h2>Two-line List</h2>
       <List twoLine>
         {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'}, 1)}
-        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'}, 2)}
+        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text', disabled: true}, 2)}
         {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'}, 3)}
         <ListDivider />
         {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'}, 4)}

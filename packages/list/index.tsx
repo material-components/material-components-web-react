@@ -393,7 +393,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   renderChild = (child: React.ReactElement<ListItemProps<T>> | React.ReactChild) => {
     if (!isReactText(child) && isListItem(child)) {
-      return this.renderListItem(child, this.listItemCount++);
+      return this.renderListItem(child, child.props.disabled ? -1 : this.listItemCount++);
     }
     return child;
   };
