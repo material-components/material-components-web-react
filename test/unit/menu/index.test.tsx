@@ -162,9 +162,9 @@ test('adapter.getSelectedElementIndex returns -1 if no list item is selected', (
   wrapper.unmount();
 });
 
-test('adapter.notifySelected calls props.handleSelected with the selectedindex and listElement DOM node', () => {
-  const handleSelected = td.func<(index: number, element: Element) => void>();
-  const wrapper = mount(<Menu handleSelected={handleSelected}>
+test('adapter.notifySelected calls props.onSelected with the selectedindex and listElement DOM node', () => {
+  const onSelected = td.func<(index: number, element: Element) => void>();
+  const wrapper = mount(<Menu onSelected={onSelected}>
     <MenuList>
       <MenuListItem></MenuListItem>
       <MenuListItem></MenuListItem>
@@ -172,7 +172,7 @@ test('adapter.notifySelected calls props.handleSelected with the selectedindex a
   </Menu>);
   const evtData = {index: 0};
   getAdapter(wrapper).notifySelected(evtData);
-  td.verify(handleSelected(0, wrapper.find('.mdc-list-item').first().getDOMNode()), {times: 1});
+  td.verify(onSelected(0, wrapper.find('.mdc-list-item').first().getDOMNode()), {times: 1});
   wrapper.unmount();
 });
 

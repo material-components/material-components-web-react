@@ -32,7 +32,7 @@ const {cssClasses} = MDCMenuFoundation;
 
 export interface MenuProps extends Exclude<MenuSurfaceProps, 'ref'> {
   children: React.ReactElement<MenuList>;
-  handleSelected?: (index: number, item: Element) => void;
+  onSelected?: (index: number, item: Element) => void;
 };
 
 export interface MenuState {
@@ -54,7 +54,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
     className: '',
     open: false,
     onKeyDown: () => {},
-    handleSelected: () => {},
+    onSelected: () => {},
   };
 
   componentDidMount() {
@@ -76,8 +76,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   get listElements(): Element[] {
-    if (!(this.menuListElement
-      && this.menuListElement.current
+    if (!(this.menuListElement.current
       && this.menuListElement.current.listElements
       && this.menuListElement.current.listElements.length >= 0 )) {
       return [];
@@ -113,7 +112,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
         const selectedListItem = selectionGroup.querySelector(`.${cssClasses.MENU_SELECTED_LIST_ITEM}`);
         return selectedListItem ? this.listElements.indexOf(selectedListItem) : -1;
       },
-      notifySelected: (evtData) => this.props.handleSelected!(
+      notifySelected: (evtData) => this.props.onSelected!(
         evtData.index,
         this.listElements[evtData.index],
       ),
@@ -146,7 +145,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       onKeyDown,
       onOpen,
       children,
-      handleSelected,
+      onSelected,
       ref,
       /* eslint-enable no-unused-vars */
       ...otherProps

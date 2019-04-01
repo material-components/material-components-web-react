@@ -75,7 +75,7 @@ class MyApp extends React.Component {
         open={this.state.open}
         onClose={this.onClose}
         coordinates={this.state.coordinates}
-        handleSelected={(index, item) => console.log(index, item)}
+        onSelected={(index, item) => console.log(index, item)}
       >
         <MenuList>
           {menuOptions.map((option, index) => (
@@ -130,7 +130,7 @@ class MenuScreenshotTest extends React.Component<{}, MenuState> {
       <Menu
         open={this.state.open}
         onClose={this.onClose}
-        handleSelected={() => console.log('select')}
+        onSelected={() => console.log('select')}
       >
         <MenuList>
           {menuOptions.map((option, index) => (
@@ -154,7 +154,7 @@ class MenuScreenshotTest extends React.Component<{}, MenuState> {
 
 Prop Name | Type | Description
 --- | --- | ---
-handleSelected | (index: number, item: Element) => void | Callback that is triggered when a menu list item is selected.
+onSelected | (index: number, item: Element) => void | Callback that is triggered when a menu list item is selected.
 onClose | () => void | Callback that is triggered when the menu closes.
 open | boolean | If true, will open the menu. If false, will hide menu.
 

@@ -49,7 +49,7 @@ class MenuScreenshotTest extends React.Component<{}, MenuState> {
         open={this.state.open}
         onClose={this.onClose}
         coordinates={this.state.coordinates}
-        handleSelected={(index: number, item: Element) => console.log(index, item)}
+        onSelected={(index: number, item: Element) => console.log(index, item)}
       >
         <MenuList>
           {menuOptions.map((option, index) => (
