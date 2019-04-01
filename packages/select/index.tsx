@@ -28,13 +28,19 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
+import EnhancedSelect, {EnhancedChild} from './EnhancedSelect';
+import {EnhancedOptionProps} from './Option';
 
 const {cssClasses} = MDCSelectFoundation;
 
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
+type NativeChild = React.ReactElement<EnhancedOptionProps<HTMLElement>>
+type SelectChildren<T extends HTMLElement> = EnhancedChild<T> | EnhancedChild<T>[] | NativeChild | NativeChild[];
 
-export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
+export interface SelectProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<HTMLSelectElement> {
   box?: boolean;
+  enhanced?: boolean;
+  children?: SelectChildren<T>;
   className?: string;
   disabled?: boolean;
   floatingLabelClassName?: string;
@@ -61,11 +67,11 @@ interface SelectState {
   outlineIsNotched: boolean;
 };
 
-export default class Select extends React.Component<SelectProps, SelectState> {
+export default class Select<T extends HTMLElement = HTMLElement> extends React.Component<SelectProps<T>, SelectState> {
   foundation?: MDCSelectFoundation;
   nativeControl = React.createRef<HTMLSelectElement>();
 
-  constructor(props: SelectProps) {
+  constructor(props: SelectProps<T>) {
     super(props);
     this.state = {
       classList: new Set(),
@@ -83,8 +89,9 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     };
   }
 
-  static defaultProps: Partial<SelectProps> = {
+  static defaultProps: Partial<SelectProps<HTMLElement>> = {
     box: false,
+    enhanced: false,
     className: '',
     disabled: false,
     floatingLabelClassName: '',
@@ -105,7 +112,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     this.foundation.handleChange(false);
   }
 
-  componentDidUpdate(prevProps: SelectProps, prevState: SelectState) {
+  componentDidUpdate(prevProps: SelectProps<T>, prevState: SelectState) {
     // this is to fix onChange being called twice
     if (this.props.value !== prevProps.value) {
       this.setState({value: this.props.value!});
@@ -141,6 +148,8 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   get adapter(): MDCSelectAdapter {
+    const {enhanced} = this.props;
+
     const commonAdapter = {
       addClass: this.addClass,
       removeClass: this.removeClass,
@@ -167,16 +176,18 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     };
 
     // TODO
-    // const enhancedAdapter = {
-    //   setDisabled: (isDisabled: boolean) => {
-    //     console.log(isDisabled);
-    //   },
-    //   checkValidity: () => true,
-    //   setValid: (isValid: boolean) => {
-    //     // should set attr aria-invalid
-    //     this.setValidClasses(isValid);
-    //   }
-    // };
+    const enhancedAdapter = {
+      openMenu: () => this.setState({open: true}),
+      closeMenu: () => this.setState({open: false}),
+      isMenuOpen: () => this.state.open!,
+      setValid: this.setValidClasses,
+      checkValidity: () => {
+        if (this.nativeControl.current) {
+          return this.nativeControl.current.checkValidity();
+        }
+        return false;
+      },
+    };
 
     const labelAdapter = {  
       floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),
@@ -193,7 +204,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       hasOutline: () => !!this.props.outlined,
     };
     return {
-      ...nativeAdapter,
+      ...(enhanced ? enhancedAdapter : nativeAdapter),
       ...commonAdapter,
       ...labelAdapter,
       ...lineRippleAdapter,
@@ -243,6 +254,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       nativeControlClassName,
       /* eslint-disable */
       box,
+      enhanced,
       className,
       floatingLabelClassName,
       isRtl,
@@ -256,6 +268,15 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       /* eslint-enable */
       ...otherProps
     } = this.props;
+    const {open} = this.state;
+
+    if (enhanced) {
+      return (
+        <EnhancedSelect open={open}>
+          {this.renderOptions()}
+        </EnhancedSelect>
+      );
+    }
 
     return (
       <NativeControl

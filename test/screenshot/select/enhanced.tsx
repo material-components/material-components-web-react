@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Select, {SelectProps} from '../../../packages/select/index';
-import Button from '../../../packages/button/index';
+import {MenuListItem, MenuListItemText} from '../../../packages/menu';
 
 interface SelectTestState {
   value: any
 }
 
-interface Props extends SelectProps {
+interface Props<T extends HTMLElement = HTMLElement> extends SelectProps<T> {
   staticContext: any;
 }
 
@@ -17,7 +17,7 @@ class SelectedIndexTest extends React.Component<Props, SelectTestState> {
     this.state = {value: props.value || ''}; // eslint-disable-line react/prop-types
   }
 
-  static defaultProps: Partial<SelectProps> = {
+  static defaultProps: Partial<SelectProps<HTMLElement>> = {
     box: false,
     className: '',
     disabled: false,
@@ -51,6 +51,7 @@ class SelectedIndexTest extends React.Component<Props, SelectTestState> {
         </Button> */}
         <Select
           {...otherProps}
+          enhanced
           className='test-select'
           label='Dog'
           id={id}
@@ -59,11 +60,9 @@ class SelectedIndexTest extends React.Component<Props, SelectTestState> {
           onChange={this.onChange}
           value={this.state.value}
         >
-          <option value='' disabled />
-          <option value='labradoodle'>Labradoodle</option>
-          <option value='pomsky'>Pomsky</option>
-          <option value='aussiepom'>Aussiepom</option>
-          <option value='bullmation'>Bullmation</option>
+          <MenuListItem>
+            <MenuListItemText primaryText={'save'} />
+          </MenuListItem>
         </Select>
       </div>
     );

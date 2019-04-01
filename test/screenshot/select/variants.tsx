@@ -1,4 +1,4 @@
 export default [
   'nativeSelect',
-  'nativeSelectSelectedIndex'
+  'enhanced'
 ];
