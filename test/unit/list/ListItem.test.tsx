@@ -21,6 +21,11 @@ test('has activated class if props.activated = true', () => {
   assert.isTrue(wrapper.hasClass('mdc-list-item--activated'));
 });
 
+test('has activated class if props.disabled = true', () => {
+  const wrapper = shallow(<ListItem disabled><div>meow</div></ListItem>);
+  assert.isTrue(wrapper.hasClass('mdc-list-item--disabled'));
+});
+
 test('has selected class if props.selected = true', () => {
   const wrapper = shallow(<ListItem selected><div>meow</div></ListItem>);
   assert.isTrue(wrapper.hasClass('mdc-list-item--selected'));

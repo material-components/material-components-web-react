@@ -475,3 +475,31 @@ test('renders a list with children which is not DOM', () => {
   </List>);
   assert.isTrue(wrapper.children().length === 1);
 });
+
+test('renders listItemCount of 2 when 1 disabled and 2 enabled list items', () => {
+  const wrapper = mount(
+    <List selectedIndex={1}>
+      <ListItem></ListItem>
+      <ListItem disabled></ListItem>
+      <ListItem></ListItem>
+    </List>
+  );
+  assert.equal(coerceForTesting<List>(wrapper.instance()).listItemCount, 2);
+});
+
+test('renders listItemCount of 3 when 1 of the list items changes from disabled to enabled', () => {
+  const TestComponent = (props: {disabled?: boolean}) => {
+    const {disabled = true} = props;
+    return (
+      <List selectedIndex={1}>
+        <ListItem></ListItem>
+        <ListItem disabled={disabled}></ListItem>
+        <ListItem></ListItem>
+      </List>
+    );
+  };
+  const wrapper = mount(<TestComponent />);
+  assert.equal(coerceForTesting<List>(wrapper.childAt(0).instance()).listItemCount, 2);
+  wrapper.setProps({disabled: false});
+  assert.equal(coerceForTesting<List>(wrapper.childAt(0).instance()).listItemCount, 3);
+});
