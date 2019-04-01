@@ -160,7 +160,7 @@ test('Updating scrollTarget prop will call foundation method destroyScrollHandle
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const foundation = topAppBar.foundation;
-  foundation.destroyScrollHandler = td.func();
+  foundation.destroyScrollHandler = td.func<() => void>();
   wrapper.instance().withRef();
 
   td.verify(foundation.destroyScrollHandler(), {times: 1});
@@ -170,7 +170,7 @@ test('Updating scrollTarget prop will call foundation method initScrollHandler',
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const foundation = topAppBar.foundation;
-  foundation.initScrollHandler = td.func();
+  foundation.initScrollHandler = td.func<() => void>();
   wrapper.instance().withRef();
 
   td.verify(foundation.initScrollHandler(), {times: 1});
@@ -278,6 +278,29 @@ test('#adapter.getViewportScrollY test for changing scrollTarget', () => {
   assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
   document.body.removeChild(div);
 });
+
+test('#adapter.registerResizeHandler triggers handler on window resize', () => {
+  const wrapper = shallow<TopAppBar>(<TopAppBar />);
+  const testHandler = coerceForTesting<EventListener>(td.func());
+  wrapper.instance().adapter.registerResizeHandler(testHandler);
+  const event = new Event('resize');
+  window.dispatchEvent(event);
+  td.verify(testHandler(event), {times: 1});
+});
+
+test(
+  '#adapter.registerResizeHandler does not trigger handler ' +
+    'after deregistering scroll handler on window',
+  () => {
+    const wrapper = shallow<TopAppBar>(<TopAppBar />);
+    const testHandler = coerceForTesting<EventListener>(td.func());
+    wrapper.instance().adapter.registerResizeHandler(testHandler);
+    const event = new Event('resize');
+    wrapper.instance().adapter.deregisterResizeHandler(testHandler);
+    window.dispatchEvent(event);
+    td.verify(testHandler(event), {times: 0});
+  }
+);
 
 test('#adapter.getTotalActionItems returns one with one actionItem passed', () => {
   const wrapper = mount<TopAppBar>(
@@ -446,7 +469,7 @@ test(
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
   const foundation = wrapper.instance().foundation;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
