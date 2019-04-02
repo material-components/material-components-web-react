@@ -153,15 +153,15 @@
 //   assert.doesNotThrow(() => wrapper.instance().adapter.setAttributeForElementIndex(0, 'role', 'menu'));
 // });
 
-// test('#adapter.addClassForElementIndex adds class to classList', () => {
-//   const wrapper = mount<List>(<List>{children()}</List>);
-//   wrapper.instance().adapter.addClassForElementIndex =
-//     coerceForTesting<(index: number, className: string) => void>(td.func());
-//   wrapper.instance().adapter.addClassForElementIndex(0, 'class4321');
-//   const listItem = wrapper.childAt(0).childAt(0);
-//   assert.isTrue(listItem.html().includes('class4321'));
-//   assert.isTrue(listItem.html().includes('mdc-list-item'));
-// });
+test('#adapter.addClassForElementIndex adds classes to listitem', () => {
+  const wrapper = mount<List>(<List>{children()}</List>);
+  wrapper.instance().adapter.addClassForElementIndex =
+    coerceForTesting<(index: number, className: string) => void>(td.func());
+  wrapper.instance().adapter.addClassForElementIndex(0, 'class4321');
+  const listItem = wrapper.childAt(0).childAt(0);
+  assert.isTrue(listItem.html().includes('class4321'));
+  assert.isTrue(listItem.html().includes('mdc-list-item'));
+});
 
 // test('#adapter.addClassForElementIndex adds class to classList and keeps props.className', () => {
 //   const wrapper = mount<List>(<List>
@@ -176,18 +176,21 @@
 //   assert.isTrue(listItem.html().includes('mdc-list-item'));
 // });
 
-// test('#adapter.removeClassForElementIndex adds class to classList and keeps props.className', () => {
-//   const wrapper = mount<List>(<List>
-//     <ListItem className='class987 class4321'><div>meow</div></ListItem>
-//   </List>);
-//   wrapper.instance().adapter.removeClassForElementIndex =
-//     coerceForTesting<(index: number, className: string) => void>(td.func());
-//   wrapper.instance().adapter.removeClassForElementIndex(0, 'class4321');
-//   const listItem = wrapper.childAt(0).childAt(0);
-//   assert.isFalse(listItem.html().includes('class4321'));
-//   assert.isTrue(listItem.html().includes('class987'));
-//   assert.isTrue(listItem.html().includes('mdc-list-item'));
-// });
+test('#adapter.removeClassForElementIndex removes classname from state.listItemClassNames', () => {
+  const wrapper = mount<List>(<List>
+    <ListItem><div>meow</div></ListItem>
+  </List>);
+  wrapper.setState({listItemClassNames: {
+    0: ['class987', 'class4321'],
+  }});
+  wrapper.instance().adapter.removeClassForElementIndex =
+    coerceForTesting<(index: number, className: string) => void>(td.func());
+  wrapper.instance().adapter.removeClassForElementIndex(0, 'class4321');
+  const listItem = wrapper.childAt(0).childAt(0);
+  assert.isFalse(listItem.html().includes('class4321'));
+  assert.isTrue(listItem.html().includes('class987'));
+  assert.isTrue(listItem.html().includes('mdc-list-item'));
+});
 
 // test('#adapter.setTabIndexForListItemChildren updates the button and anchor tag to have tabindex=0', () => {
 //   const wrapper = mount<List>(<List>
@@ -354,6 +357,14 @@
 //   assert.equal(wrapper.props().role, 'menu');
 // });
 
+test('#listItem.props.onDestroy removes class name from state.listItemClassNames', () => {
+  const wrapper = mount<List>(<List><ListItem>
+    <div>meow</div>
+  </ListItem></List>);
+  wrapper.setState({listItemClassNames: {0: ['test']}});
+  wrapper.childAt(0).childAt(0).props().onDestroy();
+  console.log(wrapper.state().listItemClassNames[0]);
+});
 
 // test('#handleKeyDown calls #foudation.handleKeydown', () => {
 //   const wrapper = shallow<List>(<List>{children()}</List>);
@@ -405,17 +416,17 @@
 //   assert.equal(wrapper.childAt(0).children().length, 3);
 // });
 
-// test('renders list items with tabindex=-1 and first with tabindex=0', () => {
-//   const wrapper = mount(
-//     <List>
-//       {threeChildren()}
-//     </List>
-//   );
-//   const list = wrapper.childAt(0);
-//   assert.equal(list.childAt(0).props().tabIndex, 0);
-//   assert.equal(list.childAt(1).props().tabIndex, -1);
-//   assert.equal(list.childAt(2).props().tabIndex, -1);
-// });
+test('renders list items with tabindex=-1 and first with tabindex=0', () => {
+  const wrapper = mount(
+    <List>
+      {threeChildren()}
+    </List>
+  );
+  const list = wrapper.childAt(0);
+  assert.equal(list.childAt(0).props().tabIndex, 0);
+  assert.equal(list.childAt(1).props().tabIndex, -1);
+  assert.equal(list.childAt(2).props().tabIndex, -1);
+});
 
 // test('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0', () => {
 //   const wrapper = mount(
@@ -465,14 +476,42 @@
 //   assert.isTrue(wrapper.children().length === 1);
 // });
 
-// test('renderWithListItemProps renders passes props to element', () => {
-//   const CustomComponent: React.FunctionComponent<ListItemProps<HTMLElement>>
-//     = () => <button>hello</button>;
-//   const wrapper = mount(<List radioList>
-//     <CustomComponent renderWithListItemProps />
-//   </List>);
-//   const list = wrapper.childAt(0);
-//   const listItem = list.childAt(0);
-//   assert.isTrue(listItem.props().radioList);
-//   assert.isFalse(listItem.props().checkboxList);
-// });
+test('renders listItemCount of 2 when 1 disabled and 2 enabled list items', () => {
+  const wrapper = mount(
+    <List selectedIndex={1}>
+      <ListItem></ListItem>
+      <ListItem disabled></ListItem>
+      <ListItem></ListItem>
+    </List>
+  );
+  assert.equal(coerceForTesting<List>(wrapper.instance()).listItemCount, 2);
+});
+
+test('renders listItemCount of 3 when 1 of the list items changes from disabled to enabled', () => {
+  const TestComponent = (props: {disabled?: boolean}) => {
+    const {disabled = true} = props;
+    return (
+      <List selectedIndex={1}>
+        <ListItem></ListItem>
+        <ListItem disabled={disabled}></ListItem>
+        <ListItem></ListItem>
+      </List>
+    );
+  };
+  const wrapper = mount(<TestComponent />);
+  assert.equal(coerceForTesting<List>(wrapper.childAt(0).instance()).listItemCount, 2);
+  wrapper.setProps({disabled: false});
+  assert.equal(coerceForTesting<List>(wrapper.childAt(0).instance()).listItemCount, 3);
+});
+
+test('renderWithListItemProps renders passes props to element', () => {
+  const CustomComponent: React.FunctionComponent<ListItemProps<HTMLElement>>
+    = () => <button>hello</button>;
+  const wrapper = mount(<List radioList>
+    <CustomComponent renderWithListItemProps />
+  </List>);
+  const list = wrapper.childAt(0);
+  const listItem = list.childAt(0);
+  assert.isTrue(listItem.props().radioList);
+  assert.isFalse(listItem.props().checkboxList);
+});

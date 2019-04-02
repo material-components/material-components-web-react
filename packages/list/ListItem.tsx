@@ -31,53 +31,82 @@ export interface ListItemProps<T extends HTMLElement = HTMLElement> extends Reac
   tag?: string;
   activated?: boolean;
   selected?: boolean;
+  onDestroy?: () => void;
   ref?: React.Ref<any>;
 };
 
-const getRole = (checkboxList?: boolean, radioList?: boolean, role?: string) => {
-  if (role) {
-    return role;
-  } else if (checkboxList) {
-    return 'checkbox';
-  } else if (radioList) {
-    return 'radio';
+export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<
+  ListItemProps<T>,
+  {}
+  > {
+  private listItemElement = React.createRef<T>();
+
+  static defaultProps: Partial<ListItemProps<HTMLElement>> = {
+    checkboxList: false,
+    radioList: false,
+    renderWithListItemProps: false,
+    className: '',
+    tabIndex: -1,
+    onKeyDown: () => {},
+    onClick: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
+    onDestroy: () => {},
+    tag: 'li',
+  };
+
+  componentWillUnmount() {
+    this.props.onDestroy!();
   }
-  return null;
-}
 
-const getClasses = (activated: boolean, selected: boolean, className: string) => {
-  return classnames('mdc-list-item', className, {
-    [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
-    [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
-  });
-}
+  get classes() {
+    const {className, activated, disabled, selected} = this.props;
+    return classnames('mdc-list-item', className, {
+      [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
+      [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
+      'mdc-list-item--disabled': disabled,
+    });
+  }
 
-// TODO: convert to functional component
-// https://github.com/material-components/material-components-web-react/issues/729
-const ListItemBase: React.FunctionComponent<ListItemProps> = ({
-  checkboxList = false,
-  radioList = false,
-  className = '',
-  tabIndex = -1,
-  tag: Tag = 'li',
-  children,
-  activated = false,
-  selected = false,
-  role,
-  ...otherProps
-}) => {
-  console.log(otherProps)
-  return (
-    // https://github.com/Microsoft/TypeScript/issues/28892
-    // @ts-ignore
-    <Tag
-      role={getRole(checkboxList, radioList, role)}
-      className={getClasses(activated, selected, className)}
-      {...otherProps}
-    >
-      {children}
-    </Tag>
-  );
+  get role() {
+    const {checkboxList, radioList, role} = this.props;
+    if (role) {
+      return role;
+    } else if (checkboxList) {
+      return 'checkbox';
+    } else if (radioList) {
+      return 'radio';
+    }
+    return null;
+  }
+
+  render() {
+    const {
+      /* eslint-disable no-unused-vars */
+      className,
+      children,
+      role,
+      checkboxList,
+      radioList,
+      onDestroy,
+      renderWithListItemProps,
+      /* eslint-enable no-unused-vars */
+      tag: Tag,
+      ...otherProps
+    } = this.props;
+    return (
+      // https://github.com/Microsoft/TypeScript/issues/28892
+      // @ts-ignore
+      <Tag
+        role={this.role}
+        className={this.classes}
+        ref={this.listItemElement}
+        {...otherProps}
+      >
+        {this.props.children}
+      </Tag>
+    );
+  }
 }
 
 class ListItem extends React.Component<ListItemProps, {}> {
@@ -93,5 +122,7 @@ class ListItem extends React.Component<ListItemProps, {}> {
     );
   }
 }
+
+export default ListItem;
 
 export default ListItem;

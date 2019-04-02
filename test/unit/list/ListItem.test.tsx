@@ -1,7 +1,8 @@
-// import * as React from 'react';
-// import {assert} from 'chai';
-// import {mount, shallow} from 'enzyme';
-// import {ListItem} from '../../../packages/list/index';
+import * as React from 'react';
+import {assert} from 'chai';
+import * as td from 'testdouble';
+import {mount, shallow} from 'enzyme';
+import {ListItem} from '../../../packages/list/index';
 
 // suite('ListItem');
 
@@ -20,10 +21,15 @@
 //   assert.isTrue(wrapper.hasClass('mdc-list-item--activated'));
 // });
 
-// test('has selected class if props.selected = true', () => {
-//   const wrapper = shallow(<ListItem selected><div>meow</div></ListItem>);
-//   assert.isTrue(wrapper.hasClass('mdc-list-item--selected'));
-// });
+test('has activated class if props.disabled = true', () => {
+  const wrapper = shallow(<ListItem disabled><div>meow</div></ListItem>);
+  assert.isTrue(wrapper.hasClass('mdc-list-item--disabled'));
+});
+
+test('has selected class if props.selected = true', () => {
+  const wrapper = shallow(<ListItem selected><div>meow</div></ListItem>);
+  assert.isTrue(wrapper.hasClass('mdc-list-item--selected'));
+});
 
 // test('has role=checkbox if props.checkboxList = true', () => {
 //   const wrapper = shallow(<ListItem checkboxList><div>meow</div></ListItem>);
@@ -69,3 +75,10 @@
 //   const wrapper = shallow(<ListItem tag='a'><div>Test</div></ListItem>);
 //   assert.equal(wrapper.type(), 'a');
 // });
+
+test('componentWillUnmount calls props.onDestroy()', () => {
+  const onDestroy = td.func<() => void>();
+  const wrapper = shallow(<ListItem onDestroy={onDestroy}><div>Test</div></ListItem>);
+  wrapper.unmount();
+  td.verify(onDestroy(), {times: 1});
+});
