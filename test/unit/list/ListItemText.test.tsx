@@ -40,17 +40,3 @@ test('renders primary and secondary text if text are elements', () => {
   assert.exists(wrapper.find('.mdc-list-item__primary-text'));
   assert.exists(wrapper.find('.mdc-list-item__secondary-text'));
 });
-
-test('has tabIndex of props.tabIndex if specified and tabbableOnListItemFocus is true', () => {
-  const wrapper = shallow(
-    <ListItemText primaryText='Hello' tabIndex={3} tabbableOnListItemFocus />
-  );
-  assert.equal(wrapper.find('.mdc-list-item__text').props().tabIndex, 3);
-});
-
-test('has tabIndex of -1 if tabbableOnListItemFocus is false', () => {
-  const wrapper = shallow(
-    <ListItemText primaryText='Hello' childrenTabIndex={3} />
-  );
-  assert.equal(wrapper.find('.mdc-list-item__text').props().tabIndex, -1);
-});
