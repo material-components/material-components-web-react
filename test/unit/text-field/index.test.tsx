@@ -316,17 +316,18 @@ test('#adapter.label.hasLabel returns true if label exists', () => {
 
 test('#adapter.label.getLabelWidth returns offsetWidth of labelElement', () => {
   const div = document.createElement('div');
-  document.body.append(div);
-  const options = {attachTo: div};
+  document.body.appendChild(div);
+
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label='my label'>
       <Input />
     </TextField>,
-    options
+    {attachTo: div}
   );
   const labelElement = wrapper.instance().floatingLabelElement.current!.labelElement_;
   assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), labelElement.current!.offsetWidth);
-  div.remove();
+
+  document.body.removeChild(div);
 });
 
 test('#adapter.label.getLabelWidth returns state.initialLabelWidth', () => {
