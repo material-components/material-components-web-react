@@ -153,7 +153,7 @@ test('#adapter.setAttributeForElementIndex call nothing when no children exist',
   assert.doesNotThrow(() => wrapper.instance().adapter.setAttributeForElementIndex(0, 'role', 'menu'));
 });
 
-test('#adapter.addClassForElementIndex adds class to classList', () => {
+test('#adapter.addClassForElementIndex adds classes to listitem', () => {
   const wrapper = mount<List>(<List>{children()}</List>);
   wrapper.instance().adapter.addClassForElementIndex =
     coerceForTesting<(index: number, className: string) => void>(td.func());
@@ -176,10 +176,13 @@ test('#adapter.addClassForElementIndex adds class to classList and keeps props.c
   assert.isTrue(listItem.html().includes('mdc-list-item'));
 });
 
-test('#adapter.removeClassForElementIndex adds class to classList and keeps props.className', () => {
+test('#adapter.removeClassForElementIndex removes classname from state.listItemClassNames', () => {
   const wrapper = mount<List>(<List>
-    <ListItem className='class987 class4321'><div>meow</div></ListItem>
+    <ListItem><div>meow</div></ListItem>
   </List>);
+  wrapper.setState({listItemClassNames: {
+    0: ['class987', 'class4321'],
+  }});
   wrapper.instance().adapter.removeClassForElementIndex =
     coerceForTesting<(index: number, className: string) => void>(td.func());
   wrapper.instance().adapter.removeClassForElementIndex(0, 'class4321');
@@ -354,6 +357,14 @@ test('renders with role=menu if props.role=menu and props.checkboxList', () => {
   assert.equal(wrapper.props().role, 'menu');
 });
 
+test('#listItem.props.onDestroy removes class name from state.listItemClassNames', () => {
+  const wrapper = mount<List>(<List><ListItem>
+    <div>meow</div>
+  </ListItem></List>);
+  wrapper.setState({listItemClassNames: {0: ['test']}});
+  wrapper.childAt(0).childAt(0).props().onDestroy();
+  console.log(wrapper.state().listItemClassNames[0]);
+});
 
 test('#handleKeyDown calls #foudation.handleKeydown', () => {
   const wrapper = shallow<List>(<List>{children()}</List>);
@@ -405,7 +416,7 @@ test('renders 3 list items', () => {
   assert.equal(wrapper.childAt(0).children().length, 3);
 });
 
-test('renders list items with tabindex=-1 and first with tabindex=0', () => {
+test.only('renders list items with tabindex=-1 and first with tabindex=0', () => {
   const wrapper = mount(
     <List>
       {threeChildren()}
@@ -463,6 +474,34 @@ test('renders a list with children of non-DOM elements', () => {
     {undefined}
   </List>);
   assert.isTrue(wrapper.children().length === 1);
+});
+
+test('renders listItemCount of 2 when 1 disabled and 2 enabled list items', () => {
+  const wrapper = mount(
+    <List selectedIndex={1}>
+      <ListItem></ListItem>
+      <ListItem disabled></ListItem>
+      <ListItem></ListItem>
+    </List>
+  );
+  assert.equal(coerceForTesting<List>(wrapper.instance()).listItemCount, 2);
+});
+
+test('renders listItemCount of 3 when 1 of the list items changes from disabled to enabled', () => {
+  const TestComponent = (props: {disabled?: boolean}) => {
+    const {disabled = true} = props;
+    return (
+      <List selectedIndex={1}>
+        <ListItem></ListItem>
+        <ListItem disabled={disabled}></ListItem>
+        <ListItem></ListItem>
+      </List>
+    );
+  };
+  const wrapper = mount(<TestComponent />);
+  assert.equal(coerceForTesting<List>(wrapper.childAt(0).instance()).listItemCount, 2);
+  wrapper.setProps({disabled: false});
+  assert.equal(coerceForTesting<List>(wrapper.childAt(0).instance()).listItemCount, 3);
 });
 
 test('renderWithListItemProps renders passes props to element', () => {
