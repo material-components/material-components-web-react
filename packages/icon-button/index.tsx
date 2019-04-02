@@ -23,8 +23,9 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import * as Ripple from '@material/react-ripple';
-// @ts-ignore no mdc .d.ts file
-import {MDCIconButtonToggleFoundation} from '@material/icon-button/dist/mdc.iconButton';
+import {MDCIconButtonToggleAdapter} from '@material/icon-button/adapter';
+import {MDCIconButtonToggleFoundation} from '@material/icon-button/foundation';
+import {MDCIconButtonToggleEventDetail} from '@material/icon-button/types';
 import IconToggle from './IconToggle';
 const ARIA_PRESSED = 'aria-pressed';
 
@@ -35,6 +36,7 @@ interface ElementAttributes {
 
 type IconButtonTypes = HTMLButtonElement | HTMLAnchorElement;
 export interface IconButtonBaseProps extends ElementAttributes {
+  handleChange?: (evt: MDCIconButtonToggleEventDetail) => void;
   isLink?: boolean;
 };
 
@@ -49,7 +51,7 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
   IconButtonProps<T>,
   IconButtonBaseState
   > {
-  foundation = MDCIconButtonToggleFoundation;
+  foundation!: MDCIconButtonToggleFoundation;
 
   constructor(props: IconButtonProps<T>) {
     super(props);
@@ -61,6 +63,7 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
 
   static defaultProps = {
     className: '',
+    handleChange: () => {},
     initRipple: () => {},
     isLink: false,
     onClick: () => {},
@@ -78,17 +81,18 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
     return classnames('mdc-icon-button', Array.from(classList), className);
   }
 
-  get adapter() {
+  get adapter(): MDCIconButtonToggleAdapter {
     return {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className: string) => {
-        const classList = new Set(this.state.classList);
+        const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
       hasClass: (className: string) => this.classes.split(' ').includes(className),
       setAttr: this.updateState,
+      notifyChange: this.props.handleChange!,
     };
   }
 
@@ -111,6 +115,7 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
       isLink,
       /* eslint-disable no-unused-vars */
       className,
+      handleChange,
       onClick,
       unbounded,
       [ARIA_PRESSED]: ariaPressed,
