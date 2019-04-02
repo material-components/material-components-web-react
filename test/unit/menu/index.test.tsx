@@ -231,7 +231,7 @@ test('menu renders child with handleItemAction', () => {
     }
   }
   const wrapper = mount(<Menu><Div /></Menu>);
-  const {handleItemAction} = coerceForTesting<MenuListProps<HTMLElement>>(
+  const {handleItemAction} = coerceForTesting<MenuListProps>(
     wrapper.childAt(0).childAt(0).childAt(0).props());
   assert.isTrue(typeof handleItemAction === 'function');
   wrapper.unmount();
@@ -244,7 +244,7 @@ test('menu renders child with wrapFocus', () => {
     }
   }
   const wrapper = mount(<Menu><Div /></Menu>);
-  const {wrapFocus} = coerceForTesting<MenuListProps<HTMLElement>>(
+  const {wrapFocus} = coerceForTesting<MenuListProps>(
     wrapper.childAt(0).childAt(0).childAt(0).props());
   assert.isTrue(wrapFocus);
   wrapper.unmount();

@@ -23,86 +23,75 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
+import {ListItemContext} from './index';
 
-export interface ListItemProps<T> extends React.HTMLProps<T> {
+export interface ListItemProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<T> {
   checkboxList?: boolean;
   radioList?: boolean;
-  onKeyDown?: React.KeyboardEventHandler<T>;
-  onClick?: React.MouseEventHandler<T>;
-  onFocus?: React.FocusEventHandler<T>;
-  onBlur?: React.FocusEventHandler<T>;
   tag?: string;
   activated?: boolean;
   selected?: boolean;
   ref?: React.Ref<any>;
-  renderWithListItemProps?: boolean;
 };
+
+const getRole = (checkboxList?: boolean, radioList?: boolean, role?: string) => {
+  if (role) {
+    return role;
+  } else if (checkboxList) {
+    return 'checkbox';
+  } else if (radioList) {
+    return 'radio';
+  }
+  return null;
+}
+
+const getClasses = (activated: boolean, selected: boolean, className: string) => {
+  return classnames('mdc-list-item', className, {
+    [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
+    [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
+  });
+}
 
 // TODO: convert to functional component
 // https://github.com/material-components/material-components-web-react/issues/729
-export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<
-  ListItemProps<T>,
-  {}
-  > {
-  private listItemElement = React.createRef<T>();
+const ListItemBase: React.FunctionComponent<ListItemProps> = ({
+  checkboxList = false,
+  radioList = false,
+  className = '',
+  tabIndex = -1,
+  tag: Tag = 'li',
+  children,
+  activated = false,
+  selected = false,
+  role,
+  ...otherProps
+}) => {
+  console.log(otherProps)
+  return (
+    // https://github.com/Microsoft/TypeScript/issues/28892
+    // @ts-ignore
+    <Tag
+      role={getRole(checkboxList, radioList, role)}
+      className={getClasses(activated, selected, className)}
+      {...otherProps}
+    >
+      {children}
+    </Tag>
+  );
+}
 
-  static defaultProps: Partial<ListItemProps<HTMLElement>> = {
-    checkboxList: false,
-    radioList: false,
-    renderWithListItemProps: false,
-    className: '',
-    tabIndex: -1,
-    onKeyDown: () => {},
-    onClick: () => {},
-    onFocus: () => {},
-    onBlur: () => {},
-    tag: 'li',
-  };
-
-  get classes() {
-    const {className, activated, selected} = this.props;
-    return classnames('mdc-list-item', className, {
-      [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
-      [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
-    });
-  }
-
-  get role() {
-    const {checkboxList, radioList, role} = this.props;
-    if (role) {
-      return role;
-    } else if (checkboxList) {
-      return 'checkbox';
-    } else if (radioList) {
-      return 'radio';
-    }
-    return null;
-  }
-
+class ListItem extends React.Component<ListItemProps, {}> {
+  updatedProps?: ListItemProps;
   render() {
-    const {
-      /* eslint-disable no-unused-vars */
-      className,
-      children,
-      role,
-      checkboxList,
-      radioList,
-      renderWithListItemProps,
-      /* eslint-enable no-unused-vars */
-      tag: Tag,
-      ...otherProps
-    } = this.props;
     return (
-      // https://github.com/Microsoft/TypeScript/issues/28892
-      // @ts-ignore
-      <Tag
-        role={this.role}
-        className={this.classes}
-        ref={this.listItemElement}
-        {...otherProps}
-      >
-        {this.props.children}
-      </Tag>
+      <ListItemContext.Consumer>
+        {(getNewProps) => {
+          this.updatedProps = this.updatedProps || getNewProps(this.props);
+          return (<ListItemBase {...this.updatedProps} />);
+        }}
+      </ListItemContext.Consumer>
     );
   }
 }
+
+export default ListItem;

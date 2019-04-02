@@ -27,15 +27,15 @@ import {MDCMenuFoundation} from '@material/menu/foundation';
 
 type RefCallback<T> = (node: T | null) => void;
 
-export interface MenuListProps<T extends HTMLElement> extends Exclude<ListProps<T>, 'ref'> {
+export interface MenuListProps extends Exclude<ListProps, 'ref'> {
   innerRef?: RefCallback<List> | React.RefObject<List>;
   handleItemAction?: MDCMenuFoundation['handleItemAction'];
 };
 
-class MenuList<T extends HTMLElement = HTMLElement> extends React.Component<MenuListProps<T>, {}> {
+class MenuList extends React.Component<MenuListProps, {}> {
   private listInstance = React.createRef<List>();
 
-  static defaultProps: Partial<MenuListProps<HTMLElement>> = {
+  static defaultProps: Partial<MenuListProps> = {
     className: '',
     handleSelect: () => {},
     handleItemAction: () => {},
@@ -48,7 +48,7 @@ class MenuList<T extends HTMLElement = HTMLElement> extends React.Component<Menu
     return this.listInstance.current.listElements;
   }
 
-  handleSelect: ListProps<HTMLElement>['handleSelect'] = (activatedItemIndex, selected) => {
+  handleSelect: ListProps['handleSelect'] = (activatedItemIndex, selected) => {
     this.props.handleSelect!(activatedItemIndex, selected);
     this.props.handleItemAction!(this.listElements[activatedItemIndex]);
   }

@@ -35,7 +35,7 @@ import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
-export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLElement> {
+export interface ListProps extends React.HTMLProps<HTMLElement> {
   className?: string;
   checkboxList?: boolean;
   radioList?: boolean;
@@ -48,30 +48,34 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
   handleSelect?: (activatedItemIndex: number, selected: MDCListIndex) => void;
   wrapFocus?: boolean;
   tag?: string;
-  children: ListItem<T> | ListItem<T>[] | React.ReactNode;
+  // children: ListItem<T> | ListItem<T>[] | React.ReactNode;
   ref?: React.Ref<any>;
 };
 
-function isReactText(element: any): element is React.ReactText {
-  return typeof element === 'string' || typeof element === 'number' || !element;
-}
+// function isReactText(element: any): element is React.ReactText {
+//   return typeof element === 'string' || typeof element === 'number' || !element;
+// }
 
-function isListItem(element: any): element is ListItem {
-  return element && element.type === ListItem;
-}
+// function isListItem(element: any): element is ListItem {
+//   return element && element.type === ListItem;
+// }
 
 function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIndex {
   return typeof selectedIndex === 'number' && !isNaN(selectedIndex) || Array.isArray(selectedIndex);
 }
 
-export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, {}> {
+const getDefaultListItemProps: (listItemProps: ListItemProps<HTMLElement>) => ListItemProps<HTMLElement>
+  = () => ({});
+export const ListItemContext = React.createContext(getDefaultListItemProps);
+
+export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps, {}> {
   listItemCount = 0;
   foundation!: MDCListFoundation;
   hasInitializedListItem = false;
 
   private listElement = React.createRef<HTMLElement>();
 
-  static defaultProps: Partial<ListProps<HTMLElement>> = {
+  static defaultProps: Partial<ListProps> = {
     'className': '',
     'checkboxList': false,
     'radioList': false,
@@ -103,7 +107,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     this.initializeListType();
   }
 
-  componentDidUpdate(prevProps: ListProps<T>) {
+  componentDidUpdate(prevProps: ListProps) {
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     const hasSelectedIndexUpdated = selectedIndex !== prevProps.selectedIndex;
     if (singleSelection !== prevProps.singleSelection) {
@@ -311,31 +315,24 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         role={this.role}
         {...otherProps}
       >
-        {React.Children.map(children, this.renderChild)}
+        <ListItemContext.Provider value={this.getListItemProps}>
+          {children}
+        </ListItemContext.Provider>
       </Tag>
     );
   }
 
-  renderChild = (child: React.ReactElement<ListItemProps<T>> | React.ReactChild) => {
-    if (!isReactText(child)) {
-      const {renderWithListItemProps} = child.props;
-      if (renderWithListItemProps || isListItem(child)) {
-        return this.renderListItem(child, this.listItemCount++);
-      }
-    }
-    return child;
-  };
-
-  renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
+  getListItemProps = (listItemProps: ListItemProps<T>) => {
     const {checkboxList, radioList, selectedIndex} = this.props;
     let tabIndex = {};
+    const index = this.listItemCount++;
     const {
       onKeyDown,
       onClick,
       onFocus,
       onBlur,
       ...otherProps
-    } = listItem.props;
+    } = listItemProps;
 
     if (!this.hasInitializedListItem) {
       const isSelectedIndexArray = Array.isArray(selectedIndex) && selectedIndex.length > 0;
@@ -355,31 +352,38 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       }
     }
 
-
-    const props = {
+    return {
       // otherProps must come first
       ...otherProps,
       checkboxList,
       radioList,
       onKeyDown: (e: React.KeyboardEvent<T>) => {
-        onKeyDown!(e);
+        if (onKeyDown) {
+          onKeyDown(e);
+        }
         this.handleKeyDown(e, index);
       },
       onClick: (e: React.MouseEvent<T>) => {
-        onClick!(e);
+        if (onClick) {
+          onClick(e);
+        }
+        console.log('CLICK')
         this.handleClick(e, index);
       },
       onFocus: (e: React.FocusEvent<T>) => {
-        onFocus!(e);
+        if (onFocus) {
+          onFocus(e);
+        }
         this.handleFocus(e, index);
       },
       onBlur: (e: React.FocusEvent<T>) => {
-        onBlur!(e);
+        if (onBlur) {
+          onBlur(e);
+        }
         this.handleBlur(e, index);
       },
       ...tabIndex,
     };
-    return React.cloneElement(listItem, props);
   };
 }
 
