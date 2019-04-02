@@ -28,6 +28,7 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
+import {MenuList} from '@material/react-menu';
 import EnhancedSelect, {EnhancedChild} from './EnhancedSelect';
 import {EnhancedOptionProps} from './Option';
 
@@ -272,8 +273,11 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
 
     if (enhanced) {
       return (
+        // TODO: pass required and all props
         <EnhancedSelect open={open}>
+          <MenuList>
           {this.renderOptions()}
+          </MenuList>
         </EnhancedSelect>
       );
     }
