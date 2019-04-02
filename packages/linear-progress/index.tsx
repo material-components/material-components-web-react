@@ -22,8 +22,8 @@
 
 import classnames from 'classnames';
 import * as React from 'react';
-// @ts-ignore no .d.ts file
-import {MDCLinearProgressFoundation} from '@material/linear-progress/dist/mdc.linearProgress';
+import {MDCLinearProgressFoundation} from '@material/linear-progress/foundation';
+import {MDCLinearProgressAdapter} from '@material/linear-progress/adapter';
 
 export interface LinearProgressProps<T> extends React.HTMLProps<T> {
   buffer?: number;
@@ -72,10 +72,10 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
     const {buffer, closed, indeterminate, progress, reversed} = this.props;
     this.isComponentMounted = true;
     this.foundation.init();
-    this.foundation.setBuffer(buffer);
+    this.foundation.setBuffer(buffer!);
     this.foundation.setDeterminate(!indeterminate);
-    this.foundation.setProgress(progress);
-    this.foundation.setReverse(reversed);
+    this.foundation.setProgress(progress!);
+    this.foundation.setReverse(reversed!);
     if (closed) {
       this.foundation.close();
     }
@@ -91,7 +91,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
     } = prevProps;
     const {buffer, closed, indeterminate, progress, reversed} = this.props;
     if (buffer !== prevBuffer) {
-      this.foundation.setBuffer(buffer);
+      this.foundation.setBuffer(buffer!);
     }
     if (closed && !prevClosed) {
       this.foundation.close();
@@ -103,10 +103,10 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
       this.foundation.setDeterminate(!indeterminate);
     }
     if (progress !== prevProgress) {
-      this.foundation.setProgress(progress);
+      this.foundation.setProgress(progress!);
     }
     if (reversed !== prevReversed) {
-      this.foundation.setReverse(reversed);
+      this.foundation.setReverse(reversed!);
     }
   }
 
@@ -115,7 +115,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
     this.foundation.destroy();
   }
 
-  get adapter() {
+  get adapter(): MDCLinearProgressAdapter {
     return {
       addClass: (className: string) => {
         if (this.isComponentMounted) {
