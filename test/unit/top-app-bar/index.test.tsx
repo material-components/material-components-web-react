@@ -248,9 +248,11 @@ test(
 );
 
 test('#adapter.getViewportScrollY test for changing scrollTarget', () => {
-  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={false} />);
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={false} />, {attachTo: div});
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
-  document.body.appendChild(wrapper.getDOMNode());
 
   const windowY = 150;
   window.scrollTo(0, windowY);
@@ -263,21 +265,25 @@ test('#adapter.getViewportScrollY test for changing scrollTarget', () => {
   scrollTarget.scrollTo(0, scrollY);
   assert.equal(scrollY, scrollTarget.scrollTop);
   assert.equal(scrollY, topAppBar.adapter.getViewportScrollY());
-  wrapper.getDOMNode().remove();
+
+  document.body.removeChild(div);
 });
 
 test('#adapter.getViewportScrollY returns same value with scrollTarget.scrollTop', () => {
-  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={true} />);
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={true} />, {attachTo: div});
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const scrollTarget = topAppBar.state.scrollTarget!.current!;
-  document.body.appendChild(wrapper.getDOMNode());
   assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
 
   const y = 200;
   scrollTarget.scrollTo(0, y);
   assert.equal(y, scrollTarget.scrollTop);
   assert.equal(y, topAppBar.adapter.getViewportScrollY());
-  wrapper.getDOMNode().remove();
+
+  document.body.removeChild(div);
 });
 
 test('#adapter.getTotalActionItems returns one with one actionItem passed', () => {
@@ -323,7 +329,7 @@ test('#adapter.getTopAppBarHeight should return clientHeight', () => {
   const div = document.createElement('div');
   // needs to be attached to real DOM to get width
   // https://github.com/airbnb/enzyme/issues/1525
-  document.body.append(div);
+  document.body.appendChild(div);
   const options = {attachTo: div};
   const wrapper = mount<TopAppBar>(
     <TopAppBar>
@@ -334,7 +340,7 @@ test('#adapter.getTopAppBarHeight should return clientHeight', () => {
   const topAppBarHeight = wrapper.instance().adapter.getTopAppBarHeight();
   const realDOMHeight = wrapper.getDOMNode().clientHeight;
   assert.equal(topAppBarHeight, realDOMHeight);
-  div.remove();
+  document.body.removeChild(div);
 });
 
 test('when changes from short to fixed the foundation changes', () => {
