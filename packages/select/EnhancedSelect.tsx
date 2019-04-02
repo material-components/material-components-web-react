@@ -23,7 +23,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {MDCSelectFoundation} from '@material/select/foundation';
-import Menu, {MenuList, MenuProps} from '@material/react-menu';
+import Menu, {MenuProps} from '@material/react-menu';
 import { EnhancedOptionProps } from './Option';
 
 // type RefCallback<T> = (node: T | null) => void;
@@ -77,7 +77,7 @@ export default class EnhancedSelect extends React.Component<
   //   }
 
   //   if (typeof innerRef !== 'function') {
-  //     // @ts-ignore same as above
+  //     // @ts-ignore same as above  
   //     innerRef.current = node;
   //   } else {
   //     innerRef(node);
@@ -93,18 +93,26 @@ export default class EnhancedSelect extends React.Component<
       // value,
       handleDisabled,
       setRippleCenter,
+      ref,
+      required,
       ...otherProps
       /* eslint-enable no-unused-vars */
     } = this.props;
 
+    const isRequired: {[key: string]: string} = {};
+    if (required) {
+      isRequired['aria-required'] = required.toString();
+    }
+
     return (
       <React.Fragment>
         <input type='hidden' name='enhanced-select' />
-        <div className='mdc-select__selected-text'></div>
+        <div
+          className='mdc-select__selected-text'
+          {...isRequired}
+        ></div>
         <Menu className='mdc-select__menu' {...otherProps}>
-          <MenuList>
-            {children}
-          </MenuList>
+          {children}
         </Menu>
       </React.Fragment>
     );
