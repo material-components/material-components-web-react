@@ -416,7 +416,7 @@ test('renders 3 list items', () => {
   assert.equal(wrapper.childAt(0).children().length, 3);
 });
 
-test('renders list items with tabindex=-1 and first with tabindex=0', () => {
+test.only('renders list items with tabindex=-1 and first with tabindex=0', () => {
   const wrapper = mount(
     <List>
       {threeChildren()}

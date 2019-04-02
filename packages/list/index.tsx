@@ -282,27 +282,18 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   /**
    * Initializes the tabIndex prop for the listItems. tabIndex is determined by:
-   * 1. If checkboxList and props.selectedIndex is set
-   * 2. If radioList and props.selectedIndex is set
-   * 3. If neither and props.selectedIndex is set, set tabIndex on selectedIndex
-   * 4. If neither type of list nor props.selectedIndex is set, then set tabIndex on first element
+   * 1. if selectedIndex is an array, and the index === selectedIndex[0]
+   * 2. if selectedIndex is a number, and the the index === selectedIndex
+   * 3. if there is no selectedIndex
    */
   private getListItemInitialTabIndex = (index: number) => {
-    const {checkboxList, selectedIndex} = this.props;
+    const {selectedIndex} = this.props;
     let tabIndex = {};
     if (this.hasInitializedList && !this.hasInitializedListItemTabIndex) {
-      const isSelectedIndexArray = Array.isArray(selectedIndex) && selectedIndex.length > 0;
-      // if selectedIndex is populated then check if its a checkbox/radioList
-      if (selectedIndex && (isSelectedIndexArray || selectedIndex > -1)) {
-        const isCheckboxListSelected
-          = checkboxList && Array.isArray(selectedIndex) && selectedIndex.indexOf(index) > -1;
-        const isNonCheckboxListSelected = selectedIndex === index;
-        if (isCheckboxListSelected || isNonCheckboxListSelected) {
-          tabIndex = {tabIndex: 0};
-          this.hasInitializedListItemTabIndex = true;
-        }
-      // set tabIndex=0 to first listItem if selectedIndex is not populated
-      } else {
+      const isSelectedIndexArray
+        = Array.isArray(selectedIndex) && selectedIndex.length > 0 && index === selectedIndex[0];
+      const isSelected = selectedIndex === index;
+      if (isSelectedIndexArray || isSelected || selectedIndex === -1) {
         tabIndex = {tabIndex: 0};
         this.hasInitializedListItemTabIndex = true;
       }
