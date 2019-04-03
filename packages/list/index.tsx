@@ -48,31 +48,45 @@ export interface ListProps extends React.HTMLProps<HTMLElement> {
   handleSelect?: (activatedItemIndex: number, selected: MDCListIndex) => void;
   wrapFocus?: boolean;
   tag?: string;
-  // children: ListItem<T> | ListItem<T>[] | React.ReactNode;
   ref?: React.Ref<any>;
 };
-
 
 interface ListState {
   listItemClassNames: {[listItemIndex: number]: string[]},
 }
 
-// function isReactText(element: any): element is React.ReactText {
-//   return typeof element === 'string' || typeof element === 'number' || !element;
-// }
-
-// function isListItem(element: any): element is ListItem {
-//   return element && element.type === ListItem;
-// }
+export interface ListItemContextShape {
+  checkboxList?: boolean;
+  radioList?: boolean;
+  handleClick?: (e: React.MouseEvent<any>, index: number) => void;
+  handleKeyDown?: (e: React.KeyboardEvent<any>, index: number) => void;
+  handleBlur?: (e: React.FocusEvent<any>, index: number) => void;
+  handleFocus?: (e: React.FocusEvent<any>, index: number) => void;
+  onDestroy?: (index: number) => void;
+  getListItemInitialTabIndex?: (index: number) => number;
+  getClassNamesFromList?: () => ListState['listItemClassNames'];
+  getListElements?: () => Element[];
+  tabIndex?: number
+}
 
 function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIndex {
   return typeof selectedIndex === 'number' && !isNaN(selectedIndex) || Array.isArray(selectedIndex);
 }
-const getDefaultListItemProps: (listItemProps: ListItemProps<HTMLElement>) => ListItemProps<HTMLElement>
-  = () => ({});
-export const ListItemContext = React.createContext(getDefaultListItemProps);
 
-export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, ListState> {
+const defaultListItemContext: ListItemContextShape = {
+  handleClick: () => {},
+  handleKeyDown: () => {},
+  handleBlur: () => {},
+  handleFocus: () => {},
+  onDestroy: () => {},
+  getListItemInitialTabIndex: () => -1,
+  getClassNamesFromList: () => ({}),
+  getListElements: () => [],
+};
+
+export const ListItemContext = React.createContext(defaultListItemContext);
+
+export default class List extends React.Component<ListProps, ListState> {
   listItemCount = 0;
   foundation!: MDCListFoundation;
   hasInitializedListItemTabIndex = false;
@@ -176,6 +190,11 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       );
     }
     return [];
+  }
+
+  // this is a method for ListItem
+  getListElements = () => {
+    return this.listElements;
   }
 
   get classes() {
@@ -290,15 +309,15 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
    * 2. if selectedIndex is a number, and the the index === selectedIndex
    * 3. if there is no selectedIndex
    */
-  private getListItemInitialTabIndex = (index: number) => {
+  getListItemInitialTabIndex = (index: number) => {
     const {selectedIndex} = this.props;
-    let tabIndex = {};
+    let tabIndex = -1;
     if (this.hasInitializedList && !this.hasInitializedListItemTabIndex) {
       const isSelectedIndexArray
         = Array.isArray(selectedIndex) && selectedIndex.length > 0 && index === selectedIndex[0];
       const isSelected = selectedIndex === index;
       if (isSelectedIndexArray || isSelected || selectedIndex === -1) {
-        tabIndex = {tabIndex: 0};
+        tabIndex = 0;
         this.hasInitializedListItemTabIndex = true;
       }
     }
@@ -311,15 +330,9 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
    * method merges state.listItemClassNames[index] with listItem.props.className.
    * The return value is used as the listItem's className.
    */
-  private getListItemClassNames = (index: number, listItem: React.ReactElement<ListItemProps<T>>) => {
-    let {className = ''} = listItem.props;
+  private getListItemClassNames = () => {
     const {listItemClassNames} = this.state;
-    if (listItemClassNames[index]) {
-      listItemClassNames[index];
-      className = classnames(className, listItemClassNames[index]);
-    }
-
-    return className;
+    return listItemClassNames;
   }
 
   handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
@@ -351,6 +364,25 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     this.foundation.handleFocusOut(e.nativeEvent, index);
   };
 
+  onDestroy = (index: number) => {
+    const {listItemClassNames} = this.state;
+    delete listItemClassNames[index];
+    this.setState({listItemClassNames});
+  };
+
+  listItemProps = {
+    checkboxList: this.props.checkboxList,
+    radioList: this.props.radioList,
+    handleKeyDown: this.handleKeyDown,
+    handleClick: this.handleClick,
+    handleFocus: this.handleFocus,
+    handleBlur: this.handleBlur,
+    onDestroy: this.onDestroy,
+    getClassNamesFromList: this.getListItemClassNames,
+    getListElements: this.getListElements,
+    getListItemInitialTabIndex: this.getListItemInitialTabIndex,
+  }
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -372,6 +404,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       ...otherProps
     } = this.props;
     this.listItemCount = 0;
+
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
@@ -381,67 +414,12 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         role={this.role}
         {...otherProps}
       >
-        <ListItemContext.Provider value={this.getListItemProps}>
+        <ListItemContext.Provider value={this.listItemProps}>
           {children}
         </ListItemContext.Provider>
       </Tag>
     );
   }
-
-  getListItemProps = (listItemProps: ListItemProps<T>) => {
-    const {checkboxList, radioList, selectedIndex} = this.props;
-    let tabIndex = {};
-    const index = this.listItemCount++;
-    const {
-      onKeyDown,
-      onClick,
-      onFocus,
-      onBlur,
-      /* eslint-disable no-unused-vars */
-      className: _classNames,
-      /* eslint-enable no-unused-vars */
-      ...otherProps
-    } = listItemProps;
-
-    const props = {
-      // otherProps must be first
-      ...otherProps,
-      checkboxList,
-      radioList,
-      className,
-      onKeyDown: (e: React.KeyboardEvent<T>) => {
-        if (onKeyDown) {
-          onKeyDown(e);
-        }
-        this.handleKeyDown(e, index);
-      },
-      onClick: (e: React.MouseEvent<T>) => {
-        if (onClick) {
-          onClick(e);
-        }
-        console.log('CLICK')
-        this.handleClick(e, index);
-      },
-      onFocus: (e: React.FocusEvent<T>) => {
-        if (onFocus) {
-          onFocus(e);
-        }
-        this.handleFocus(e, index);
-      },
-      onBlur: (e: React.FocusEvent<T>) => {
-        if (onBlur) {
-          onBlur(e);
-        }
-        this.handleBlur(e, index);
-      },
-      onDestroy: () => {
-        const {listItemClassNames} = this.state;
-        delete listItemClassNames[index];
-        this.setState({listItemClassNames});
-      },
-      ...tabIndex,
-    };
-  };
 }
 
 /* eslint-enable quote-props */

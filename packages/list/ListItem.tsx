@@ -23,28 +23,25 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
-import {ListItemContext} from './index';
+import {ListItemContext, ListItemContextShape} from './index';
 
-export interface ListItemProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<T> {
+export interface ListItemProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<T>, ListItemContextShape {
   checkboxList?: boolean;
   radioList?: boolean;
   tag?: string;
   activated?: boolean;
   selected?: boolean;
-  onDestroy?: () => void;
   ref?: React.Ref<any>;
 };
 
-export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<
-  ListItemProps<T>,
-  {}
-  > {
+class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
+  ListItemProps<T>, {tabIndex?: number}> {
+
   private listItemElement = React.createRef<T>();
 
   static defaultProps: Partial<ListItemProps<HTMLElement>> = {
     checkboxList: false,
     radioList: false,
-    renderWithListItemProps: false,
     className: '',
     tabIndex: -1,
     onKeyDown: () => {},
@@ -55,13 +52,37 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
     tag: 'li',
   };
 
+  state = {
+    tabIndex: this.props.tabIndex,
+  };
+
+  componentDidMount() {
+    if (this.listItemElement.current) {
+      const index = this.getIndex(this.listItemElement.current);
+      const tabIndex = this.props.getListItemInitialTabIndex!(index);
+      console.log(tabIndex, index)
+      this.setState({tabIndex});
+    }
+  }
+
+  componentDidUpdate(prevProps: ListItemProps) {
+    if(prevProps.tabIndex !== this.props.tabIndex) {
+      this.setState({tabIndex: this.props.tabIndex});
+    }
+  }
+
   componentWillUnmount() {
-    this.props.onDestroy!();
+    this.props.onDestroy!(0);
   }
 
   get classes() {
-    const {className, activated, disabled, selected} = this.props;
-    return classnames('mdc-list-item', className, {
+    const {className, activated, disabled, selected, getClassNamesFromList} = this.props;
+    let classesFromList = [''];
+    if (this.listItemElement.current) {
+      const index = this.getIndex(this.listItemElement.current);
+      classesFromList = getClassNamesFromList!()[index];
+    }
+    return classnames('mdc-list-item', className, classesFromList, {
       [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
       [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
       'mdc-list-item--disabled': disabled,
@@ -80,6 +101,35 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
     return null;
   }
 
+  getIndex = (listElement: Element) => {
+    debugger
+    return this.props.getListElements!().indexOf(listElement);
+  }
+
+  handleClick = (e: React.MouseEvent<any>) => {
+    const {onClick} = this.props;
+    onClick!(e);
+    this.props.handleClick!(e, this.getIndex(e.currentTarget));
+  }
+
+  handleKeyDown = (e: React.KeyboardEvent<any>) => {
+    const {onKeyDown} = this.props;
+    onKeyDown!(e);
+    this.props.handleKeyDown!(e, this.getIndex(e.currentTarget));
+  }
+
+  handleFocus = (e: React.FocusEvent<any>) => {
+    const {onFocus} = this.props;
+    onFocus!(e);
+    this.props.handleFocus!(e, this.getIndex(e.currentTarget));
+  }
+
+  handleBlur = (e: React.FocusEvent<any>) => {
+    const {onBlur} = this.props;
+    onBlur!(e);
+    this.props.handleBlur!(e, this.getIndex(e.currentTarget));
+  }
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -89,40 +139,54 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
       checkboxList,
       radioList,
       onDestroy,
-      renderWithListItemProps,
+      onClick,
+      onKeyDown,
+      onFocus,
+      onBlur,
+      handleClick,
+      handleKeyDown,
+      handleFocus,
+      handleBlur,
+      getListItemInitialTabIndex,
+      getListElements,
+      getClassNamesFromList,
+      tabIndex,
       /* eslint-enable no-unused-vars */
       tag: Tag,
       ...otherProps
     } = this.props;
+
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
       <Tag
+        {...otherProps}
+        {...this.context}
         role={this.role}
         className={this.classes}
         ref={this.listItemElement}
-        {...otherProps}
+        onClick={this.handleClick}
+        onKeyDown={this.handleKeyDown}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        tabIndex={this.state.tabIndex}
       >
-        {this.props.children}
+        {children}
       </Tag>
     );
   }
 }
 
-class ListItem extends React.Component<ListItemProps, {}> {
-  updatedProps?: ListItemProps;
-  render() {
-    return (
-      <ListItemContext.Consumer>
-        {(getNewProps) => {
-          this.updatedProps = this.updatedProps || getNewProps(this.props);
-          return (<ListItemBase {...this.updatedProps} />);
-        }}
-      </ListItemContext.Consumer>
-    );
-  }
-}
-
-export default ListItem;
+const ListItem: React.FunctionComponent<ListItemProps> = (props) => {
+  return (
+    <ListItemContext.Consumer>
+      {(context) => {
+        return (
+          <ListItemBase {...context} {...props}/>
+        );
+      }}
+    </ListItemContext.Consumer>
+  )
+};
 
 export default ListItem;

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import {assert} from 'chai';
-import * as td from 'testdouble';
-import {mount, shallow} from 'enzyme';
-import {ListItem} from '../../../packages/list/index';
+// import * as React from 'react';
+// import {assert} from 'chai';
+// import * as td from 'testdouble';
+// import {mount, shallow} from 'enzyme';
+// import {ListItem} from '../../../packages/list/index';
 
 // suite('ListItem');
 
@@ -21,15 +21,15 @@ import {ListItem} from '../../../packages/list/index';
 //   assert.isTrue(wrapper.hasClass('mdc-list-item--activated'));
 // });
 
-test('has activated class if props.disabled = true', () => {
-  const wrapper = shallow(<ListItem disabled><div>meow</div></ListItem>);
-  assert.isTrue(wrapper.hasClass('mdc-list-item--disabled'));
-});
+// test('has activated class if props.disabled = true', () => {
+//   const wrapper = shallow(<ListItem disabled><div>meow</div></ListItem>);
+//   assert.isTrue(wrapper.hasClass('mdc-list-item--disabled'));
+// });
 
-test('has selected class if props.selected = true', () => {
-  const wrapper = shallow(<ListItem selected><div>meow</div></ListItem>);
-  assert.isTrue(wrapper.hasClass('mdc-list-item--selected'));
-});
+// test('has selected class if props.selected = true', () => {
+//   const wrapper = shallow(<ListItem selected><div>meow</div></ListItem>);
+//   assert.isTrue(wrapper.hasClass('mdc-list-item--selected'));
+// });
 
 // test('has role=checkbox if props.checkboxList = true', () => {
 //   const wrapper = shallow(<ListItem checkboxList><div>meow</div></ListItem>);
@@ -76,9 +76,9 @@ test('has selected class if props.selected = true', () => {
 //   assert.equal(wrapper.type(), 'a');
 // });
 
-test('componentWillUnmount calls props.onDestroy()', () => {
-  const onDestroy = td.func<() => void>();
-  const wrapper = shallow(<ListItem onDestroy={onDestroy}><div>Test</div></ListItem>);
-  wrapper.unmount();
-  td.verify(onDestroy(), {times: 1});
-});
+// test('componentWillUnmount calls props.onDestroy()', () => {
+//   const onDestroy = td.func<() => void>();
+//   const wrapper = shallow(<ListItem onDestroy={onDestroy}><div>Test</div></ListItem>);
+//   wrapper.unmount();
+//   td.verify(onDestroy(), {times: 1});
+// });
