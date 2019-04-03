@@ -52,7 +52,8 @@ export interface ListProps extends React.HTMLProps<HTMLElement> {
 };
 
 interface ListState {
-  listItemClassNames: {[listItemIndex: number]: string[]},
+  listItemClassNames: {[listItemIndex: number]: string[]};
+  listItemProps: ListItemContextShape;
 }
 
 export interface ListItemContextShape {
@@ -66,6 +67,7 @@ export interface ListItemContextShape {
   getListItemInitialTabIndex?: (index: number) => number;
   getClassNamesFromList?: () => ListState['listItemClassNames'];
   getListElements?: () => Element[];
+  hasInitializedList?: boolean;
   tabIndex?: number
 }
 
@@ -82,21 +84,37 @@ const defaultListItemContext: ListItemContextShape = {
   getListItemInitialTabIndex: () => -1,
   getClassNamesFromList: () => ({}),
   getListElements: () => [],
+  hasInitializedList: false,
 };
 
 export const ListItemContext = React.createContext(defaultListItemContext);
 
 export default class List extends React.Component<ListProps, ListState> {
-  listItemCount = 0;
   foundation!: MDCListFoundation;
   hasInitializedListItemTabIndex = false;
-  hasInitializedList = false;
 
   private listElement = React.createRef<HTMLElement>();
 
-  state: ListState = {
-    listItemClassNames: {},
-  };
+  constructor(props: ListItemProps) {
+    super(props);
+
+    this.state = {
+      listItemClassNames: {},
+      listItemProps: {
+        checkboxList: props.checkboxList,
+        radioList: props.radioList,
+        handleKeyDown: this.handleKeyDown,
+        handleClick: this.handleClick,
+        handleFocus: this.handleFocus,
+        handleBlur: this.handleBlur,
+        onDestroy: this.onDestroy,
+        getClassNamesFromList: this.getListItemClassNames,
+        getListElements: this.getListElements,
+        hasInitializedList: false,
+        getListItemInitialTabIndex: this.getListItemInitialTabIndex,
+      }
+    };
+  }
 
   static defaultProps: Partial<ListProps> = {
     'className': '',
@@ -115,24 +133,26 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   componentDidMount() {
-    const {singleSelection, wrapFocus, selectedIndex} = this.props;
-    this.foundation = new MDCListFoundation(this.adapter);
-    this.foundation.init();
-    this.foundation.setSingleSelection(singleSelection!);
-    this.foundation.layout();
-    if (isSelectedIndexType(selectedIndex)) {
-      this.foundation.setSelectedIndex(selectedIndex);
-    }
-    this.foundation.setWrapFocus(wrapFocus!);
-    this.foundation.setVerticalOrientation(
-      this.props[ARIA_ORIENTATION] === VERTICAL
-    );
-    this.initializeListType();
-
     // tabIndex for the list items can only be initialized after
     // the above logic has executed. Once this is true, we need to call forceUpdate.
-    this.hasInitializedList = true;
-    this.forceUpdate();
+    const listItemProps: ListItemContextShape = Object.assign({}, this.state.listItemProps);
+    listItemProps.hasInitializedList = true;
+    this.setState({listItemProps}, () => {
+      const {singleSelection, wrapFocus, selectedIndex} = this.props;
+      this.foundation = new MDCListFoundation(this.adapter);
+      this.foundation.init();
+      this.foundation.setSingleSelection(singleSelection!);
+      this.foundation.layout();
+      if (isSelectedIndexType(selectedIndex)) {
+        this.foundation.setSelectedIndex(selectedIndex);
+      }
+      this.foundation.setWrapFocus(wrapFocus!);
+      this.foundation.setVerticalOrientation(
+        this.props[ARIA_ORIENTATION] === VERTICAL
+      );
+      this.initializeListType();
+    });
+
   }
 
   componentDidUpdate(prevProps: ListProps) {
@@ -192,7 +212,7 @@ export default class List extends React.Component<ListProps, ListState> {
     return [];
   }
 
-  // this is a method for ListItem
+  // this is a proxy for ListItem
   getListElements = () => {
     return this.listElements;
   }
@@ -304,6 +324,7 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   /**
+   * Called from ListItem.
    * Initializes the tabIndex prop for the listItems. tabIndex is determined by:
    * 1. if selectedIndex is an array, and the index === selectedIndex[0]
    * 2. if selectedIndex is a number, and the the index === selectedIndex
@@ -312,7 +333,7 @@ export default class List extends React.Component<ListProps, ListState> {
   getListItemInitialTabIndex = (index: number) => {
     const {selectedIndex} = this.props;
     let tabIndex = -1;
-    if (this.hasInitializedList && !this.hasInitializedListItemTabIndex) {
+    if (!this.hasInitializedListItemTabIndex) {
       const isSelectedIndexArray
         = Array.isArray(selectedIndex) && selectedIndex.length > 0 && index === selectedIndex[0];
       const isSelected = selectedIndex === index;
@@ -370,19 +391,6 @@ export default class List extends React.Component<ListProps, ListState> {
     this.setState({listItemClassNames});
   };
 
-  listItemProps = {
-    checkboxList: this.props.checkboxList,
-    radioList: this.props.radioList,
-    handleKeyDown: this.handleKeyDown,
-    handleClick: this.handleClick,
-    handleFocus: this.handleFocus,
-    handleBlur: this.handleBlur,
-    onDestroy: this.onDestroy,
-    getClassNamesFromList: this.getListItemClassNames,
-    getListElements: this.getListElements,
-    getListItemInitialTabIndex: this.getListItemInitialTabIndex,
-  }
-
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -403,8 +411,6 @@ export default class List extends React.Component<ListProps, ListState> {
       tag: Tag,
       ...otherProps
     } = this.props;
-    this.listItemCount = 0;
-
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
@@ -414,8 +420,8 @@ export default class List extends React.Component<ListProps, ListState> {
         role={this.role}
         {...otherProps}
       >
-        <ListItemContext.Provider value={this.listItemProps}>
-          {children}
+        <ListItemContext.Provider value={this.state.listItemProps}>
+          {this.state.listItemProps.hasInitializedList ? children : null}
         </ListItemContext.Provider>
       </Tag>
     );

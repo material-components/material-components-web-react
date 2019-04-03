@@ -57,17 +57,17 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
   };
 
   componentDidMount() {
-    if (this.listItemElement.current) {
-      const index = this.getIndex(this.listItemElement.current);
-      const tabIndex = this.props.getListItemInitialTabIndex!(index);
-      console.log(tabIndex, index)
-      this.setState({tabIndex});
+    if (this.props.hasInitializedList) {
+      this.initializeTabIndex();
     }
   }
 
   componentDidUpdate(prevProps: ListItemProps) {
     if(prevProps.tabIndex !== this.props.tabIndex) {
       this.setState({tabIndex: this.props.tabIndex});
+    }
+    if (!prevProps.hasInitializedList && this.props.hasInitializedList) {
+      this.initializeTabIndex();
     }
   }
 
@@ -101,8 +101,16 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
     return null;
   }
 
+  initializeTabIndex = () => {
+    if (this.listItemElement.current) {
+      const index = this.getIndex(this.listItemElement.current);
+      const tabIndex = this.props.getListItemInitialTabIndex!(index);
+
+      this.setState({tabIndex});
+    }
+  }
+
   getIndex = (listElement: Element) => {
-    debugger
     return this.props.getListElements!().indexOf(listElement);
   }
 
@@ -147,9 +155,10 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
       handleKeyDown,
       handleFocus,
       handleBlur,
+      hasInitializedList,
       getListItemInitialTabIndex,
-      getListElements,
       getClassNamesFromList,
+      getListElements,
       tabIndex,
       /* eslint-enable no-unused-vars */
       tag: Tag,
@@ -180,11 +189,9 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
 const ListItem: React.FunctionComponent<ListItemProps> = (props) => {
   return (
     <ListItemContext.Consumer>
-      {(context) => {
-        return (
-          <ListItemBase {...context} {...props}/>
-        );
-      }}
+      {(context) => (
+        <ListItemBase {...context} {...props}/>
+      )}
     </ListItemContext.Consumer>
   )
 };
