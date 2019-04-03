@@ -165,7 +165,7 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
     };
     const nativeAdapter = {
       openMenu: () => this.setState({open: true}),
-      closeMenu: () => this.setState({open: false}),
+      closeMenu: this.closeMenu,
       isMenuOpen: () => this.state.open!,
       setValid: this.setValidClasses,
       checkValidity: () => {
@@ -225,6 +225,7 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
     classList.delete(className);
     this.setState({classList});
   };
+  closeMenu = () => this.setState({open: false});
 
   setValidClasses = (isValid: boolean) => {
     if (isValid) {
@@ -274,7 +275,11 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
     if (enhanced) {
       return (
         // TODO: pass required and all props
-        <EnhancedSelect open={open}>
+        <EnhancedSelect
+          open={open}
+          closeMenu={this.closeMenu}
+          foundation={this.foundation}
+        >
           <MenuList>
           {this.renderOptions()}
           </MenuList>

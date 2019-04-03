@@ -36,13 +36,19 @@ export interface EnhancedSelectProps extends MenuProps {
   value?: string;
   disabled?: boolean;
   className?: string;
+  closeMenu?: () => void;
+}
+
+interface EnhancedSelectState {
+  'aria-expanded'?: boolean | 'false' | 'true'
 }
 
 export default class EnhancedSelect extends React.Component<
   EnhancedSelectProps,
-  {}
+  EnhancedSelectState
   > {
   nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
+  menuEl = React.createRef<HTMLDivElement>();
 
   static defaultProps: Partial<EnhancedSelectProps> = {
     // className: '',
@@ -51,6 +57,10 @@ export default class EnhancedSelect extends React.Component<
     handleDisabled: () => {},
     // value: '',
   };
+
+  state = {
+    'aria-expanded': undefined,
+  }
 
   componentDidUpdate(prevProps: EnhancedSelectProps) {
     if (this.props.disabled !== prevProps.disabled) {
@@ -84,6 +94,42 @@ export default class EnhancedSelect extends React.Component<
   //   }
   // }
 
+  // TODO: also on nativeControl
+  handleClick = (evt: React.MouseEvent<any> | React.TouchEvent<any>) => {
+    if (this.props.foundation) {
+      this.props.foundation.handleClick(this.getNormalizedXCoordinate(evt));
+    }
+  }
+
+  handleKeydown = (evt: React.KeyboardEvent<any>) => {    
+    if (this.props.foundation) {
+      this.props.foundation.handleKeydown(evt.nativeEvent);
+    }
+  }
+
+  handleMenuClose = () => {
+    // this.closeMenu();
+    this.setState({'aria-expanded': undefined});
+  }
+
+  handleMenuOpen = () => {
+    this.setState({'aria-expanded': true});
+    // TODO
+    // if (this.menuEl.current) {
+    //   this.menuEl.current.focus();
+    // }
+  }
+
+  private isTouchEvent_(evt: MouseEvent | TouchEvent): evt is TouchEvent {
+    return Boolean((evt as TouchEvent).touches);
+  }
+
+  private getNormalizedXCoordinate(evt: React.MouseEvent<any> | React.TouchEvent<any>) {
+    const targetClientRect = (evt.currentTarget as Element).getBoundingClientRect();
+    const xCoordinate = this.isTouchEvent_(evt.nativeEvent) ? evt.nativeEvent.touches[0].clientX : evt.nativeEvent.clientX;
+    return xCoordinate - targetClientRect.left;
+  }
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -95,13 +141,18 @@ export default class EnhancedSelect extends React.Component<
       setRippleCenter,
       ref,
       required,
+      closeMenu,
       ...otherProps
       /* eslint-enable no-unused-vars */
     } = this.props;
+    const {'aria-expanded': ariaExpanded} = this.state;
 
-    const isRequired: {[key: string]: string} = {};
+    const selectedTextAttrs: {[key: string]: string} = {};
     if (required) {
-      isRequired['aria-required'] = required.toString();
+      selectedTextAttrs['aria-required'] = required.toString();
+    }
+    if (ariaExpanded || ariaExpanded === 'true') {
+      selectedTextAttrs['aria-expanded'] = 'true';
     }
 
     return (
@@ -109,9 +160,16 @@ export default class EnhancedSelect extends React.Component<
         <input type='hidden' name='enhanced-select' />
         <div
           className='mdc-select__selected-text'
-          {...isRequired}
-        ></div>
-        <Menu className='mdc-select__menu' {...otherProps}>
+          {...selectedTextAttrs}
+          onClick={this.handleClick}
+          onKeyDown={this.handleKeydown}
+          ></div>
+        <Menu
+          className='mdc-select__menu'
+          onClose={this.handleMenuClose}
+          onOpen={this.handleMenuOpen}
+          {...otherProps}
+        >
           {children}
         </Menu>
       </React.Fragment>
