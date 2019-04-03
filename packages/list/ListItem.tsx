@@ -24,6 +24,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
 import {ListItemContext, ListItemContextShape} from './index';
+import {closest} from '@material/dom/ponyfill';
 
 export interface ListItemProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<T>, ListItemContextShape {
   checkboxList?: boolean;
@@ -56,23 +57,32 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
     tabIndex: this.props.tabIndex,
   };
 
-  componentDidMount() {
-    if (this.props.hasInitializedList) {
-      this.initializeTabIndex();
+  get listElements(): Element[] {
+    if (this.listItemElement.current) {
+      const listElement = closest(this.listItemElement.current, `.${MDCListFoundation.cssClasses.ROOT}`);
+      if (!listElement)return [];
+      return [].slice.call(
+        listElement.querySelectorAll(MDCListFoundation.strings.ENABLED_ITEMS_SELECTOR)
+      );
     }
+    return [];
+  }
+
+  componentDidMount() {
+    this.initializeTabIndex();
   }
 
   componentDidUpdate(prevProps: ListItemProps) {
     if(prevProps.tabIndex !== this.props.tabIndex) {
       this.setState({tabIndex: this.props.tabIndex});
     }
-    if (!prevProps.hasInitializedList && this.props.hasInitializedList) {
-      this.initializeTabIndex();
-    }
   }
 
   componentWillUnmount() {
-    this.props.onDestroy!(0);
+    if (this.listItemElement.current) {
+      const index = this.getIndex(this.listItemElement.current);
+      this.props.onDestroy!(index);
+    }
   }
 
   get classes() {
@@ -105,13 +115,12 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
     if (this.listItemElement.current) {
       const index = this.getIndex(this.listItemElement.current);
       const tabIndex = this.props.getListItemInitialTabIndex!(index);
-
       this.setState({tabIndex});
     }
   }
 
   getIndex = (listElement: Element) => {
-    return this.props.getListElements!().indexOf(listElement);
+    return this.listElements.indexOf(listElement);
   }
 
   handleClick = (e: React.MouseEvent<any>) => {
@@ -155,10 +164,8 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
       handleKeyDown,
       handleFocus,
       handleBlur,
-      hasInitializedList,
       getListItemInitialTabIndex,
       getClassNamesFromList,
-      getListElements,
       tabIndex,
       /* eslint-enable no-unused-vars */
       tag: Tag,

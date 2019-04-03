@@ -53,7 +53,6 @@ export interface ListProps extends React.HTMLProps<HTMLElement> {
 
 interface ListState {
   listItemClassNames: {[listItemIndex: number]: string[]};
-  listItemProps: ListItemContextShape;
 }
 
 export interface ListItemContextShape {
@@ -66,8 +65,6 @@ export interface ListItemContextShape {
   onDestroy?: (index: number) => void;
   getListItemInitialTabIndex?: (index: number) => number;
   getClassNamesFromList?: () => ListState['listItemClassNames'];
-  getListElements?: () => Element[];
-  hasInitializedList?: boolean;
   tabIndex?: number
 }
 
@@ -83,8 +80,6 @@ const defaultListItemContext: ListItemContextShape = {
   onDestroy: () => {},
   getListItemInitialTabIndex: () => -1,
   getClassNamesFromList: () => ({}),
-  getListElements: () => [],
-  hasInitializedList: false,
 };
 
 export const ListItemContext = React.createContext(defaultListItemContext);
@@ -95,26 +90,9 @@ export default class List extends React.Component<ListProps, ListState> {
 
   private listElement = React.createRef<HTMLElement>();
 
-  constructor(props: ListItemProps) {
-    super(props);
-
-    this.state = {
-      listItemClassNames: {},
-      listItemProps: {
-        checkboxList: props.checkboxList,
-        radioList: props.radioList,
-        handleKeyDown: this.handleKeyDown,
-        handleClick: this.handleClick,
-        handleFocus: this.handleFocus,
-        handleBlur: this.handleBlur,
-        onDestroy: this.onDestroy,
-        getClassNamesFromList: this.getListItemClassNames,
-        getListElements: this.getListElements,
-        hasInitializedList: false,
-        getListItemInitialTabIndex: this.getListItemInitialTabIndex,
-      }
-    };
-  }
+  state: ListState = {
+    listItemClassNames: {},
+  };
 
   static defaultProps: Partial<ListProps> = {
     'className': '',
@@ -133,26 +111,19 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   componentDidMount() {
-    // tabIndex for the list items can only be initialized after
-    // the above logic has executed. Once this is true, we need to call forceUpdate.
-    const listItemProps: ListItemContextShape = Object.assign({}, this.state.listItemProps);
-    listItemProps.hasInitializedList = true;
-    this.setState({listItemProps}, () => {
-      const {singleSelection, wrapFocus, selectedIndex} = this.props;
-      this.foundation = new MDCListFoundation(this.adapter);
-      this.foundation.init();
-      this.foundation.setSingleSelection(singleSelection!);
-      this.foundation.layout();
-      if (isSelectedIndexType(selectedIndex)) {
-        this.foundation.setSelectedIndex(selectedIndex);
-      }
-      this.foundation.setWrapFocus(wrapFocus!);
-      this.foundation.setVerticalOrientation(
-        this.props[ARIA_ORIENTATION] === VERTICAL
-      );
-      this.initializeListType();
-    });
-
+    const {singleSelection, wrapFocus, selectedIndex} = this.props;
+    this.foundation = new MDCListFoundation(this.adapter);
+    this.foundation.init();
+    this.foundation.setSingleSelection(singleSelection!);
+    this.foundation.layout();
+    if (isSelectedIndexType(selectedIndex)) {
+      this.foundation.setSelectedIndex(selectedIndex);
+    }
+    this.foundation.setWrapFocus(wrapFocus!);
+    this.foundation.setVerticalOrientation(
+      this.props[ARIA_ORIENTATION] === VERTICAL
+    );
+    this.initializeListType();
   }
 
   componentDidUpdate(prevProps: ListProps) {
@@ -391,6 +362,18 @@ export default class List extends React.Component<ListProps, ListState> {
     this.setState({listItemClassNames});
   };
 
+  listItemProps = {
+    checkboxList: this.props.checkboxList,
+    radioList: this.props.radioList,
+    handleKeyDown: this.handleKeyDown,
+    handleClick: this.handleClick,
+    handleFocus: this.handleFocus,
+    handleBlur: this.handleBlur,
+    onDestroy: this.onDestroy,
+    getClassNamesFromList: this.getListItemClassNames,
+    getListItemInitialTabIndex: this.getListItemInitialTabIndex,
+  }
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -420,8 +403,8 @@ export default class List extends React.Component<ListProps, ListState> {
         role={this.role}
         {...otherProps}
       >
-        <ListItemContext.Provider value={this.state.listItemProps}>
-          {this.state.listItemProps.hasInitializedList ? children : null}
+        <ListItemContext.Provider value={this.listItemProps}>
+          {children}
         </ListItemContext.Provider>
       </Tag>
     );
