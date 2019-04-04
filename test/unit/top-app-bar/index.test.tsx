@@ -247,28 +247,6 @@ test(
   }
 );
 
-test('#adapter.getViewportScrollY test for changing scrollTarget', () => {
-  const div = document.createElement('div');
-  document.body.appendChild(div);
-
-  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={false} />, {attachTo: div});
-  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
-
-  const windowY = 150;
-  window.scrollTo(0, windowY);
-  assert.equal(windowY, window.pageYOffset);
-  assert.equal(windowY, topAppBar.adapter.getViewportScrollY());
-  wrapper.setState({withRef: true});
-
-  const scrollY = 300;
-  const scrollTarget = topAppBar.state.scrollTarget!.current!;
-  scrollTarget.scrollTo(0, scrollY);
-  assert.equal(scrollY, scrollTarget.scrollTop);
-  assert.equal(scrollY, topAppBar.adapter.getViewportScrollY());
-
-  document.body.removeChild(div);
-});
-
 test('#adapter.getViewportScrollY returns same value with scrollTarget.scrollTop', () => {
   const div = document.createElement('div');
   document.body.appendChild(div);
@@ -277,12 +255,19 @@ test('#adapter.getViewportScrollY returns same value with scrollTarget.scrollTop
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const scrollTarget = topAppBar.state.scrollTarget!.current!;
   assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
+  document.body.removeChild(div);
+});
 
-  const y = 200;
-  scrollTarget.scrollTo(0, y);
-  assert.equal(y, scrollTarget.scrollTop);
-  assert.equal(y, topAppBar.adapter.getViewportScrollY());
+test('#adapter.getViewportScrollY test for changing scrollTarget', () => {
+  const div = document.createElement('div');
+  document.body.appendChild(div);
 
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={false} />, {attachTo: div});
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const scrollTarget = topAppBar.state.scrollTarget!.current!;
+  assert.equal(window.pageYOffset, topAppBar.adapter.getViewportScrollY());
+  wrapper.setState({withRef: true});
+  assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
   document.body.removeChild(div);
 });
 
