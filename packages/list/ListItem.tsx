@@ -35,8 +35,12 @@ export interface ListItemProps<T extends HTMLElement = HTMLElement> extends Reac
   ref?: React.Ref<any>;
 };
 
-class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
-  ListItemProps<T>, {tabIndex?: number}> {
+export interface ListItemState {
+  tabIndex?: number;
+}
+
+export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
+  ListItemProps<T>, ListItemState> {
 
   private listItemElement = React.createRef<T>();
 
@@ -51,6 +55,12 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
     onBlur: () => {},
     onDestroy: () => {},
     tag: 'li',
+    handleClick: () => {},
+    handleKeyDown: () => {},
+    handleBlur: () => {},
+    handleFocus: () => {},
+    getListItemInitialTabIndex: () => -1,
+    getClassNamesFromList: () => ({}),
   };
 
   state = {
@@ -111,7 +121,7 @@ class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
     return null;
   }
 
-  initializeTabIndex = () => {
+  private initializeTabIndex = () => {
     if (this.listItemElement.current) {
       const index = this.getIndex(this.listItemElement.current);
       const tabIndex = this.props.getListItemInitialTabIndex!(index);

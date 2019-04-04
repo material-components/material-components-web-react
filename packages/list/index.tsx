@@ -72,7 +72,7 @@ function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIn
   return typeof selectedIndex === 'number' && !isNaN(selectedIndex) || Array.isArray(selectedIndex);
 }
 
-const defaultListItemContext: ListItemContextShape = {
+export const defaultListItemContext: ListItemContextShape = {
   handleClick: () => {},
   handleKeyDown: () => {},
   handleBlur: () => {},
