@@ -176,7 +176,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       // this is to avoid a `handleItemAction` of undefined error
       handleItemAction = foundation.handleItemAction.bind(foundation);
     }
-    const updatedProps: MenuListProps<HTMLElement> = {
+    const updatedProps: MenuListProps = {
       // children.props must appear first
       ...children.props,
       handleItemAction,

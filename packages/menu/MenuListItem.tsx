@@ -23,16 +23,11 @@
 import * as React from 'react';
 import {ListItem, ListItemProps} from '@material/react-list';
 
-export interface MenuListItemProps<T> extends ListItemProps<T> {
+export interface MenuListItemProps<T extends HTMLElement = HTMLElement> extends ListItemProps<T> {
   children?: React.ReactNode;
 }
 
 class MenuListItem<T extends HTMLElement = HTMLElement> extends React.Component<MenuListItemProps<T>, {}> {
-  static defaultProps: Partial<MenuListItemProps<HTMLElement>> = {
-    ...ListItem.defaultProps,
-    renderWithListItemProps: true,
-  };
-
   render() {
     const {
       role = 'menuitem',
