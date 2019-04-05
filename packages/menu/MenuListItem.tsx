@@ -28,7 +28,6 @@ export interface MenuListItemProps<T extends HTMLElement = HTMLElement> extends 
 }
 
 class MenuListItem<T extends HTMLElement = HTMLElement> extends React.Component<MenuListItemProps<T>, {}> {
-
   render() {
     const {
       role = 'menuitem',

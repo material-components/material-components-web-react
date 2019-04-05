@@ -41,7 +41,6 @@ export interface ListItemState {
 
 export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
   ListItemProps<T>, ListItemState> {
-
   private listItemElement = React.createRef<T>();
 
   static defaultProps: Partial<ListItemProps<HTMLElement>> = {
@@ -70,7 +69,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
   get listElements(): Element[] {
     if (this.listItemElement.current) {
       const listElement = closest(this.listItemElement.current, `.${MDCListFoundation.cssClasses.ROOT}`);
-      if (!listElement)return [];
+      if (!listElement) return [];
       return [].slice.call(
         listElement.querySelectorAll(MDCListFoundation.strings.ENABLED_ITEMS_SELECTOR)
       );
@@ -83,7 +82,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
   }
 
   componentDidUpdate(prevProps: ListItemProps) {
-    if(prevProps.tabIndex !== this.props.tabIndex) {
+    if (prevProps.tabIndex !== this.props.tabIndex) {
       this.setState({tabIndex: this.props.tabIndex});
     }
   }
@@ -210,7 +209,7 @@ const ListItem: React.FunctionComponent<ListItemProps> = (props) => {
         <ListItemBase {...context} {...props}/>
       )}
     </ListItemContext.Consumer>
-  )
+  );
 };
 
 export default ListItem;

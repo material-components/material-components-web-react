@@ -3,9 +3,9 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import {ListItemBase as ListItem, ListItemState} from '../../../packages/list/ListItem';
-import { coerceForTesting } from '../helpers/types';
+import {coerceForTesting} from '../helpers/types';
 
-suite.only('ListItem');
+suite('ListItem');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<ListItem className='test-class-name'><div>meow</div></ListItem>);
@@ -128,11 +128,21 @@ test('renders with tabIndex based off of props.getListItemInitialTabIndex', () =
   const getListItemInitialTabIndex = td.func<(index: number) => number>();
   td.when(getListItemInitialTabIndex(-1)).thenReturn(2);
   const wrapper = mount(<ListItem getListItemInitialTabIndex={getListItemInitialTabIndex}>Test</ListItem>);
-  assert.equal(coerceForTesting<ListItemState>(wrapper.state()).tabIndex, 2)
+  assert.equal(coerceForTesting<ListItemState>(wrapper.state()).tabIndex, 2);
 });
 
 test('if props.tabIndex updates, then it changes state.tabIndex', () => {
-  const wrapper = mount(<ListItem>Test</ListItem>);
-  
+  const wrapper = mount(<ListItem tabIndex={2}>Test</ListItem>);
+  wrapper.setProps({tabIndex: 1});
+  assert.equal(coerceForTesting<ListItemState>(wrapper.state()).tabIndex, 1);
+});
 
+test('get listElements', () => {
+  const wrapper = mount(<div className='mdc-list'>
+    <ListItem>Test</ListItem>
+    <ListItem>Test</ListItem>
+    <ListItem>Test</ListItem>
+  </div>);
+  const {listElements} = coerceForTesting<ListItem>(wrapper.childAt(0).instance());
+  assert.equal(listElements.length, 3);
 });
