@@ -20,8 +20,3 @@ test('role is set to props.role', () => {
   const wrapper = mount(<MenuListItem role='menu' />);
   assert.equal(wrapper.getDOMNode().getAttribute('role'), 'menu');
 });
-
-test('menuListItem has props.renderWithListItemProps set to true', () => {
-  const wrapper = mount(<MenuListItem />);
-  assert.isTrue(wrapper.props().renderWithListItemProps);
-});

@@ -14,21 +14,21 @@ function getAdapter(instance: MenuSurface) {
 
 test('classNames adds classes', () => {
   const wrapper = mount(<MenuSurface className='test-class-name' />);
-  assert.isTrue(wrapper.childAt(0).hasClass('test-class-name'));
-  assert.isTrue(wrapper.childAt(0).hasClass('mdc-menu-surface'));
+  assert.isTrue(wrapper.getDOMNode().classList.contains('test-class-name'));
+  assert.isTrue(wrapper.getDOMNode().classList.contains('mdc-menu-surface'));
   wrapper.unmount();
 });
 
 test('classList adds classes', () => {
   const wrapper = mount(<MenuSurface />);
   wrapper.setState({classList: new Set(['test-class-name'])});
-  assert.isTrue(wrapper.childAt(0).hasClass('test-class-name'));
+  assert.isTrue(wrapper.getDOMNode().classList.contains('test-class-name'));
   wrapper.unmount();
 });
 
 test('props.fixed adds fixed class', () => {
   const wrapper = mount(<MenuSurface fixed />);
-  assert.isTrue(wrapper.childAt(0).hasClass('mdc-menu-surface--fixed'));
+  assert.isTrue(wrapper.getDOMNode().classList.contains('mdc-menu-surface--fixed'));
   wrapper.unmount();
 });
 
@@ -509,8 +509,8 @@ test('component styles is applied from this.styles', () => {
     maxHeight: '200',
     styleLeft: 50,
   });
-  assert.equal(wrapper.childAt(0).props().style!.maxHeight, 200);
-  assert.equal(wrapper.childAt(0).props().style!.left, 50);
+  assert.equal(wrapper.instance().styles.maxHeight, 200);
+  assert.equal(wrapper.instance().styles.left, 50);
   wrapper.unmount();
 });
 

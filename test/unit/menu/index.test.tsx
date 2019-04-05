@@ -2,7 +2,7 @@ import * as React from 'react';
 import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount, ShallowWrapper, ReactWrapper} from 'enzyme';
-import Menu, {MenuState, MenuList, MenuListItem, MenuListProps} from '../../../packages/menu/index';
+import Menu, {MenuState, MenuList, MenuListItem} from '../../../packages/menu/index';
 import {coerceForTesting} from '../helpers/types';
 
 suite('Menu');
@@ -47,7 +47,7 @@ test('props.open updates from false to true, will set state.open to true', () =>
   assert.isTrue(coerceForTesting<MenuState>(wrapper.state()).open);
 });
 
-// TODO:
+// TODO: implement with https://github.com/material-components/material-components-web-react/issues/796
 // test('adapter.addClassToElementAtIndex adds a class to a listItem', () => {
 // });
 // test('adapter.removeClassToElementAtIndex adds a class to a listItem', () => {
@@ -231,9 +231,8 @@ test('menu renders child with handleItemAction', () => {
     }
   }
   const wrapper = mount(<Menu><Div /></Menu>);
-  const {handleItemAction} = coerceForTesting<MenuListProps>(
-    wrapper.childAt(0).childAt(0).childAt(0).props());
-  assert.isTrue(typeof handleItemAction === 'function');
+  assert.equal(
+    typeof coerceForTesting<Menu>(wrapper.instance()).menuListElement.current!.props.handleItemAction, 'function');
   wrapper.unmount();
 });
 
@@ -244,8 +243,6 @@ test('menu renders child with wrapFocus', () => {
     }
   }
   const wrapper = mount(<Menu><Div /></Menu>);
-  const {wrapFocus} = coerceForTesting<MenuListProps>(
-    wrapper.childAt(0).childAt(0).childAt(0).props());
-  assert.isTrue(wrapFocus);
+  assert.isTrue(coerceForTesting<Menu>(wrapper.instance()).menuListElement.current!.props.wrapFocus);
   wrapper.unmount();
 });

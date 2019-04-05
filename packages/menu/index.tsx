@@ -30,7 +30,7 @@ import MenuListItem from './MenuListItem';
 
 const {cssClasses} = MDCMenuFoundation;
 
-export interface MenuProps extends Exclude<MenuSurfaceProps, 'ref'> {
+export interface MenuProps extends MenuSurfaceProps {
   children: React.ReactElement<MenuList>;
   onSelected?: (index: number, item: Element) => void;
 };
@@ -88,6 +88,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
     return {
       // TODO: update to new class management system from
       // https://github.com/material-components/material-components-web-react/pull/776/files
+      // https://github.com/material-components/material-components-web-react/issues/796
       addClassToElementAtIndex: (index, className) => {
         const list = this.listElements;
         list[index].classList.add(className);

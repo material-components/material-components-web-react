@@ -93,19 +93,22 @@ class MyApp extends React.Component {
 
 ### Usage with HOC's
 
-You may want to use Menu or other auxilary components with an HOC, such as [styled-components](https://www.styled-components.com). The only component that requires special handling is MenuListItem, since it contains a prop that needs to be passed to List. Please follow below:
+You may want to use Menu or other auxilary components with an HOC, such as [styled-components](https://www.styled-components.com). You can wrap Menu using the following:
+
 
 ```js
 import React from 'react';
 import Menu, {MenuList, MenuListItem, MenuListItemText} from '@material/react-menu';
 import styled from 'styled-components';
 
+interface MenuState {
+  coordinates?: {x: number, y: number};
+  open: boolean;
+};
+
 const StyledMenuListItem = styled(MenuListItem)`
   color: blue;
 `;
-
-// Ensure that you set the HOC's defaultProps to MenuListItem's defaultProps.
-StyledMenuListItem.defaultProps = MenuListItem.defaultProps;
 
 class MenuScreenshotTest extends React.Component<{}, MenuState> {
 
