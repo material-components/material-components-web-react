@@ -28,9 +28,8 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
-import {MenuList} from '@material/react-menu';
-import EnhancedSelect, {EnhancedChild} from './EnhancedSelect';
-import {EnhancedOptionProps} from './Option';
+import EnhancedSelect, {EnhancedChild, EnhancedSelectProps} from './EnhancedSelect';
+import EnhancedOption, {EnhancedOptionProps} from './Option';
 
 const {cssClasses} = MDCSelectFoundation;
 
@@ -54,6 +53,7 @@ export interface SelectProps<T extends HTMLElement = HTMLElement> extends React.
   options?: SelectOptionsType;
   value?: string;
   afterChange?: (value: string) => void;
+  onChange?: React.ChangeEventHandler<HTMLSelectElement> | Pick<EnhancedSelectProps, 'handleSelected'>;
 }
 
 interface SelectState {
@@ -128,12 +128,6 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
       this.foundation.destroy();
     }
   }
-
-  onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
-    this.props.onChange && this.props.onChange(evt);
-    const {value} = evt.target;
-    this.setState({value});
-  };
 
   /**
    * getters
@@ -263,7 +257,6 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
       lineRippleClassName,
       notchedOutlineClassName,
       outlined,
-      onChange,
       ref,
       value,
       afterChange,
@@ -279,10 +272,9 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
           open={open}
           closeMenu={this.closeMenu}
           foundation={this.foundation}
+          handleSelected={this.props.onChange}
         >
-          <MenuList>
           {this.renderOptions()}
-          </MenuList>
         </EnhancedSelect>
       );
     }
@@ -292,7 +284,6 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
         className={nativeControlClassName}
         foundation={this.foundation}
         handleDisabled={this.setDisabled}
-        onChange={this.onChange}
         setRippleCenter={this.setRippleCenter}
         value={this.state.value}
         innerRef={this.nativeControl}
@@ -368,3 +359,13 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
     );
   }
 }
+
+export {EnhancedOption};
+export {
+  MenuListDivider as EnhancedOptionDivider,
+  MenuListGroup as EnhancedOptionGroup,
+  MenuListGroupSubheader as EnhancedOptionGroupSubheader,
+  MenuListItemGraphic as EnhancedOptionGraphic,
+  MenuListItemMeta as EnhancedOptionMeta,
+  MenuListItemText as EnhancedOptionText,
+} from '@material/react-menu';
