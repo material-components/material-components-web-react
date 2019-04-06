@@ -23,28 +23,9 @@
 import * as React from 'react';
 import {MenuListItem, MenuListItemProps} from '@material/react-menu';
 
-export interface EnhancedOptionProps<T> extends MenuListItemProps<T> {}
-// export type OptionProps<T extends HTMLElement>
-//   = T extends HTMLOptionElement ? HTMLOptionElement : EnhancedOptionProps<T>;
-
-// const EnhancedOption: <T extends HTMLElement = HTMLElement>(props: EnhancedOptionProps<T>) =>
-// React.ReactElement<EnhancedOptionProps<T>> = ({
-//   value,
-//   children,
-//   ...otherProps
-// }) => {
-//   return (
-//     <MenuListItem
-//       data-value={value}
-//       {...otherProps}
-//     >
-//       {children}
-//     </MenuListItem>
-//   );
-// }
+export interface EnhancedOptionProps<K extends HTMLElement = HTMLElement> extends MenuListItemProps<K> {}
 
 class EnhancedOption<T extends HTMLElement = HTMLElement> extends React.Component<EnhancedOptionProps<T>, {}> {
-  static defaultProps = {};
 
   render() {
     const {
@@ -52,7 +33,7 @@ class EnhancedOption<T extends HTMLElement = HTMLElement> extends React.Componen
       children,
       ...otherProps
     } = this.props;
-
+    console.log(value)
     return (
       <MenuListItem
         data-value={value}
@@ -63,7 +44,5 @@ class EnhancedOption<T extends HTMLElement = HTMLElement> extends React.Componen
     );
   }
 }
-
-EnhancedOption.defaultProps = MenuListItem.defaultProps;;
 
 export default EnhancedOption;

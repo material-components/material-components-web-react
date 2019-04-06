@@ -1,6 +1,5 @@
 import * as React from 'react';
-import Select, {SelectProps} from '../../../packages/select/index';
-import {MenuListItem, MenuListItemText} from '../../../packages/menu';
+import Select, {SelectProps, EnhancedOption, EnhancedOptionText} from '../../../packages/select/index';
 
 interface SelectTestState {
   value: any
@@ -31,9 +30,10 @@ class SelectedIndexTest extends React.Component<Props, SelectTestState> {
     onChange: () => {},
   }
 
-  onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => (
+  onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(evt);
     this.setState({value: evt.target.value})
-  );
+  }
 
   render() {
     const {
@@ -60,9 +60,23 @@ class SelectedIndexTest extends React.Component<Props, SelectTestState> {
           onChange={this.onChange}
           value={this.state.value}
         >
-          <MenuListItem>
-            <MenuListItemText primaryText={'save'} />
-          </MenuListItem>
+          {
+            [
+              'Save',
+              'Edit',
+              'Copy',
+              'Cut',
+              'Paste',
+            ].map((text, index) => (
+              <EnhancedOption
+                key={index}
+                value={text}
+                disabled={index === 2}
+              >
+                <EnhancedOptionText primaryText={text} />
+              </EnhancedOption>
+            ))
+          }
         </Select>
       </div>
     );

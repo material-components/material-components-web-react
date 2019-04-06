@@ -23,13 +23,13 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {MDCSelectFoundation} from '@material/select/foundation';
-import Menu, {MenuProps} from '@material/react-menu';
+import Menu, {MenuList} from '@material/react-menu';
 import { EnhancedOptionProps } from './Option';
 
 // type RefCallback<T> = (node: T | null) => void;
 export type EnhancedChild<T extends HTMLElement> = React.ReactElement<EnhancedOptionProps<T>>;
 
-export interface EnhancedSelectProps extends MenuProps {
+export interface EnhancedSelectProps extends React.HTMLProps<HTMLSelectElement> {
   foundation?: MDCSelectFoundation;
   setRippleCenter?: (lineRippleCenter: number) => void;
   handleDisabled?: (disabled: boolean) => void;
@@ -37,10 +37,12 @@ export interface EnhancedSelectProps extends MenuProps {
   disabled?: boolean;
   className?: string;
   closeMenu?: () => void;
+  handleSelected?: (index: number, element: Element) => void;
 }
 
 interface EnhancedSelectState {
-  'aria-expanded'?: boolean | 'false' | 'true'
+  'aria-expanded'?: boolean | 'false' | 'true';
+  selectedTextValue: string;
 }
 
 export default class EnhancedSelect extends React.Component<
@@ -48,18 +50,22 @@ export default class EnhancedSelect extends React.Component<
   EnhancedSelectState
   > {
   nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
-  menuEl = React.createRef<HTMLDivElement>();
+  // private menuEl = React.createRef<HTMLDivElement>();
+  private selectedTextEl = React.createRef<HTMLDivElement>();
 
   static defaultProps: Partial<EnhancedSelectProps> = {
     // className: '',
     disabled: false,
     // setRippleCenter: () => {},
     handleDisabled: () => {},
+    closeMenu: () => {},
+    handleSelected: () => {},
     // value: '',
   };
 
   state = {
     'aria-expanded': undefined,
+    selectedTextValue: '',
   }
 
   componentDidUpdate(prevProps: EnhancedSelectProps) {
@@ -67,32 +73,13 @@ export default class EnhancedSelect extends React.Component<
       this.props.handleDisabled!(this.props.disabled!);
     }
     if (this.props.value !== prevProps.value) {
-      
+      this.setState({selectedTextValue: this.props.value || ''});
     }
   }
 
   get classes() {
     return classnames('mdc-select__native-control', this.props.className);
   }
-
-  // attachRef = (node: HTMLSelectElement | null) => {
-  //   const {innerRef} = this.props;
-
-  //   // https://github.com/facebook/react/issues/13029#issuecomment-410002316
-  //   // @ts-ignore this is acceptable according to the comment above
-  //   this.nativeControl.current = node;
-
-  //   if (!innerRef) {
-  //     return;
-  //   }
-
-  //   if (typeof innerRef !== 'function') {
-  //     // @ts-ignore same as above  
-  //     innerRef.current = node;
-  //   } else {
-  //     innerRef(node);
-  //   }
-  // }
 
   // TODO: also on nativeControl
   handleClick = (evt: React.MouseEvent<any> | React.TouchEvent<any>) => {
@@ -101,15 +88,19 @@ export default class EnhancedSelect extends React.Component<
     }
   }
 
-  handleKeydown = (evt: React.KeyboardEvent<any>) => {    
+  handleKeydown = (evt: React.KeyboardEvent<any>) => {
     if (this.props.foundation) {
       this.props.foundation.handleKeydown(evt.nativeEvent);
     }
   }
 
   handleMenuClose = () => {
-    // this.closeMenu();
+    const {closeMenu, foundation} = this.props;
+    closeMenu!();
     this.setState({'aria-expanded': undefined});
+    if (foundation && document.activeElement !== this.selectedTextEl.current) {
+      foundation.handleBlur();
+    }
   }
 
   handleMenuOpen = () => {
@@ -120,11 +111,28 @@ export default class EnhancedSelect extends React.Component<
     // }
   }
 
+  handleFocus = (evt: React.FocusEvent<HTMLSelectElement>) => {
+    const {foundation, onFocus} = this.props;
+    if (foundation && foundation.handleFocus) {
+      foundation.handleFocus();
+    }
+    onFocus && onFocus(evt);
+  };
+
+  handleBlur = (evt: React.FocusEvent<HTMLSelectElement>) => {
+    const {foundation, onBlur} = this.props;
+    if (foundation && foundation.handleFocus) {
+      foundation.handleBlur();
+    }
+    onBlur && onBlur(evt);
+  };
+
   private isTouchEvent_(evt: MouseEvent | TouchEvent): evt is TouchEvent {
     return Boolean((evt as TouchEvent).touches);
   }
 
   private getNormalizedXCoordinate(evt: React.MouseEvent<any> | React.TouchEvent<any>) {
+    // TODO: does this work?
     const targetClientRect = (evt.currentTarget as Element).getBoundingClientRect();
     const xCoordinate = this.isTouchEvent_(evt.nativeEvent) ? evt.nativeEvent.touches[0].clientX : evt.nativeEvent.clientX;
     return xCoordinate - targetClientRect.left;
@@ -133,18 +141,19 @@ export default class EnhancedSelect extends React.Component<
   render() {
     const {
       /* eslint-disable no-unused-vars */
-      className,
+      // className,
       children,
-      foundation,
+      // foundation,
       // value,
-      handleDisabled,
-      setRippleCenter,
-      ref,
+      // handleDisabled,
+      // setRippleCenter,
       required,
-      closeMenu,
-      ...otherProps
+      open,
+      handleSelected,
+      // closeMenu
       /* eslint-enable no-unused-vars */
     } = this.props;
+    const {selectedTextValue} = this.state;
     const {'aria-expanded': ariaExpanded} = this.state;
 
     const selectedTextAttrs: {[key: string]: string} = {};
@@ -157,20 +166,24 @@ export default class EnhancedSelect extends React.Component<
 
     return (
       <React.Fragment>
-        <input type='hidden' name='enhanced-select' />
+        <input type='hidden' name='enhanced-select'/>
         <div
           className='mdc-select__selected-text'
           {...selectedTextAttrs}
           onClick={this.handleClick}
           onKeyDown={this.handleKeydown}
-          ></div>
+          ref={this.selectedTextEl}
+        >{selectedTextValue}</div>
         <Menu
           className='mdc-select__menu'
           onClose={this.handleMenuClose}
           onOpen={this.handleMenuOpen}
-          {...otherProps}
+          open={open}
+          onSelected={handleSelected}
         >
-          {children}
+          <MenuList>
+            {children}
+          </MenuList>
         </Menu>
       </React.Fragment>
     );

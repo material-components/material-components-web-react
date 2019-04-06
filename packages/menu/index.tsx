@@ -194,8 +194,8 @@ export {
   ListDivider as MenuListDivider,
   ListGroup as MenuListGroup,
   ListGroupSubheader as MenuListGroupSubheader,
-  ListItemGraphic as MenuListGraphic,
-  ListItemMeta as MenuListMeta,
+  ListItemGraphic as MenuListItemGraphic,
+  ListItemMeta as MenuListItemMeta,
   ListItemText as MenuListItemText,
 } from '@material/react-list';
 export {MenuListProps} from './MenuList';
