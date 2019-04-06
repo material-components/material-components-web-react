@@ -255,6 +255,13 @@ test('#adapter.getViewportScrollY returns same value with scrollTarget.scrollTop
   const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
   const scrollTarget = topAppBar.state.scrollTarget!.current!;
   assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
+
+  // https://github.com/material-components/material-components-web-react/pull/771
+  // We commented out the code below because linux puppeteer version doesn't scroll.
+  // const scrollY = 150;
+  // scrollTarget.scrollTo(0, scrollY);
+  // assert.equal(scrollY, topAppBar.adapter.getViewportScrollY());
+
   document.body.removeChild(div);
 });
 
