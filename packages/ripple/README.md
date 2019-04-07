@@ -20,7 +20,7 @@ import '@material/react-ripple/index.scss';
 You'll also need to include these sass mixins on the element. Please also refer to [Advanced Sass Mixins](https://github.com/material-components/material-components-web/blob/master/packages/mdc-ripple/README.md#sass-apis) to customize further.
 
 ```sass
-@import "@material/ripple/index.scss";
+@import "@material/ripple/mdc-ripple.scss";
 
 // refer to element in Javascript portion below
 .ripple-icon-component {
