@@ -27,6 +27,7 @@ You'll also need to include these sass mixins on the element. Please also refer 
   @include mdc-ripple-surface;
   @include mdc-ripple-radius-bounded;
   @include mdc-states;
+  overflow: hidden;
 }
 ```
 
