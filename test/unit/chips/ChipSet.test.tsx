@@ -85,7 +85,7 @@ test('#adapter.setSelected adds selectedChipId to state', () => {
   wrapper.instance().adapter.setSelected();
   assert.isTrue(wrapper.state().selectedChipIds.indexOf('1') > -1);
   td.verify(handleSelect(['1']), {times: 1});
-  td.verify(getSelectedChipIds(), {times: 1});
+  assert.equal(1, td.explain(getSelectedChipIds).callCount);
 });
 
 test('#chip.props.setSelected calls both #chip.props.handleSelect and #chipSet.props.handleSelect', () => {
@@ -407,7 +407,7 @@ test('chip is rendered computeBoundingRect method prop if is filter variant', ()
     width: 1,
   });
   chip.props.computeBoundingRect(chipElement);
-  td.verify(chipElement.getBoundingClientRect(), {times: 1});
+  assert.equal(1, td.explain(chipElement.getBoundingClientRect).callCount);
 });
 
 test('chip is rendered with computeBoundingRect method prop if is not filter variant', () => {
