@@ -34,10 +34,9 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   tag?: string;
   activated?: boolean;
   selected?: boolean;
-};
+  onDestroy?: () => void;
+}
 
-// TODO: convert to functional component
-// https://github.com/material-components/material-components-web-react/issues/729
 export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<
   ListItemProps<T>,
   {}
@@ -53,14 +52,20 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
     onClick: () => {},
     onFocus: () => {},
     onBlur: () => {},
+    onDestroy: () => {},
     tag: 'li',
   };
 
+  componentWillUnmount() {
+    this.props.onDestroy!();
+  }
+
   get classes() {
-    const {className, activated, selected} = this.props;
+    const {className, activated, disabled, selected} = this.props;
     return classnames('mdc-list-item', className, {
       [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
       [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
+      'mdc-list-item--disabled': disabled,
     });
   }
 
@@ -84,9 +89,9 @@ export default class ListItem<T extends HTMLElement = HTMLElement> extends React
       role,
       checkboxList,
       radioList,
+      onDestroy,
       /* eslint-enable no-unused-vars */
       tag: Tag,
-
       ...otherProps
     } = this.props;
     return (
