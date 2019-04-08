@@ -208,7 +208,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
       },
       getViewportScrollY: () => {
         return (this.state.scrollTarget && this.state.scrollTarget.current)
-          ? this.state.scrollTarget.current.offsetTop
+          ? this.state.scrollTarget.current.scrollTop
           : window.pageYOffset;
       },
       getTotalActionItems: () => {

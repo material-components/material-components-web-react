@@ -43,7 +43,9 @@ class TopAppBarWithScroll extends React.Component<ScrollProps, ScrollState> {
             <TopAppBarSection><TopAppBarTitle>Scroll</TopAppBarTitle></TopAppBarSection>
           </TopAppBarRow>
         </TopAppBar>
-        <div ref={this.state.scrollRef}>Scroll Target</div>
+        <div ref={this.state.scrollRef} style={{height: '1000px', overflow: 'auto'}}>
+          <div style={{height: '3000px'}}>Scroll Target</div>
+        </div>
       </div>
     );
   }
@@ -245,6 +247,37 @@ test(
   }
 );
 
+test('#adapter.getViewportScrollY returns same value with scrollTarget.scrollTop', () => {
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={true} />, {attachTo: div});
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const scrollTarget = topAppBar.state.scrollTarget!.current!;
+  assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
+
+  // https://github.com/material-components/material-components-web-react/pull/771
+  // We commented out the code below because linux puppeteer version doesn't scroll.
+  // const scrollY = 150;
+  // scrollTarget.scrollTo(0, scrollY);
+  // assert.equal(scrollY, topAppBar.adapter.getViewportScrollY());
+
+  document.body.removeChild(div);
+});
+
+test('#adapter.getViewportScrollY test for changing scrollTarget', () => {
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={false} />, {attachTo: div});
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  assert.equal(window.pageYOffset, topAppBar.adapter.getViewportScrollY());
+  wrapper.setState({withRef: true});
+
+  const scrollTarget = topAppBar.state.scrollTarget!.current!;
+  assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
+  document.body.removeChild(div);
+});
 
 test('#adapter.getTotalActionItems returns one with one actionItem passed', () => {
   const wrapper = mount<TopAppBar>(
@@ -289,7 +322,7 @@ test('#adapter.getTopAppBarHeight should return clientHeight', () => {
   const div = document.createElement('div');
   // needs to be attached to real DOM to get width
   // https://github.com/airbnb/enzyme/issues/1525
-  document.body.append(div);
+  document.body.appendChild(div);
   const options = {attachTo: div};
   const wrapper = mount<TopAppBar>(
     <TopAppBar>
@@ -300,7 +333,7 @@ test('#adapter.getTopAppBarHeight should return clientHeight', () => {
   const topAppBarHeight = wrapper.instance().adapter.getTopAppBarHeight();
   const realDOMHeight = wrapper.getDOMNode().clientHeight;
   assert.equal(topAppBarHeight, realDOMHeight);
-  div.remove();
+  document.body.removeChild(div);
 });
 
 test('when changes from short to fixed the foundation changes', () => {
