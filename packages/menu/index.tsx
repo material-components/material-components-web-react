@@ -151,7 +151,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
-
     return (
       <MenuSurface
         tabIndex={-1}

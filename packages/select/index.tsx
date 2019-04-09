@@ -28,7 +28,7 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 import NativeControl from './NativeControl';
-import EnhancedSelect, {EnhancedChild, EnhancedSelectProps} from './EnhancedSelect';
+import EnhancedSelect, {EnhancedChild} from './EnhancedSelect';
 import EnhancedOption, {EnhancedOptionProps} from './Option';
 
 const {cssClasses} = MDCSelectFoundation;
@@ -37,7 +37,8 @@ type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
 type NativeChild = React.ReactElement<EnhancedOptionProps<HTMLElement>>
 type SelectChildren<T extends HTMLElement> = EnhancedChild<T> | EnhancedChild<T>[] | NativeChild | NativeChild[];
 
-export interface SelectProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<HTMLSelectElement> {
+export interface SelectProps<T extends HTMLElement = HTMLElement> 
+  extends React.HTMLProps<HTMLSelectElement> {
   box?: boolean;
   enhanced?: boolean;
   children?: SelectChildren<T>;
@@ -53,7 +54,7 @@ export interface SelectProps<T extends HTMLElement = HTMLElement> extends React.
   options?: SelectOptionsType;
   value?: string;
   afterChange?: (value: string) => void;
-  onChange?: React.ChangeEventHandler<HTMLSelectElement> | Pick<EnhancedSelectProps, 'handleSelected'>;
+  onEnhancedChange?: (index: number, target: Element) => void;
 }
 
 interface SelectState {
@@ -66,12 +67,13 @@ interface SelectState {
   activeLineRipple: boolean;
   lineRippleCenter?: number;
   outlineIsNotched: boolean;
+  selectElement: React.RefObject<HTMLDivElement>;
 };
 
 export default class Select<T extends HTMLElement = HTMLElement> extends React.Component<SelectProps<T>, SelectState> {
   foundation?: MDCSelectFoundation;
   nativeControl = React.createRef<HTMLSelectElement>();
-
+  
   constructor(props: SelectProps<T>) {
     super(props);
     this.state = {
@@ -87,6 +89,7 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
       // notched outline state
       outlineIsNotched: false,
       open: false,
+      selectElement: React.createRef<HTMLDivElement>(),
     };
   }
 
@@ -103,6 +106,7 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
     outlined: false,
     options: [],
     onChange: () => {},
+    onEnhancedChange: () => {},
     value: '',
     afterChange: () => {},
   };
@@ -234,7 +238,7 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
    */
   render() {
     return (
-      <div className={this.classes}>
+      <div className={this.classes} ref={this.state.selectElement}>
         <i className='mdc-select__dropdown-icon'></i>
         {this.renderSelect()}
         {this.renderLabel()}
@@ -260,6 +264,8 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
       ref,
       value,
       afterChange,
+      onEnhancedChange,
+      disabled,
       /* eslint-enable */
       ...otherProps
     } = this.props;
@@ -267,12 +273,15 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
 
     if (enhanced) {
       return (
-        // TODO: pass required and all props
+        // TODO: pass required props
         <EnhancedSelect
           open={open}
           closeMenu={this.closeMenu}
           foundation={this.foundation}
-          handleSelected={this.props.onChange}
+          onEnhancedChange={this.props.onEnhancedChange}
+          value={value}
+          disabled={disabled}
+          anchorElement={this.state.selectElement!.current}
         >
           {this.renderOptions()}
         </EnhancedSelect>
@@ -287,6 +296,7 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
         setRippleCenter={this.setRippleCenter}
         value={this.state.value}
         innerRef={this.nativeControl}
+        disabled={disabled}
         {...otherProps}
       >
         {this.renderOptions()}

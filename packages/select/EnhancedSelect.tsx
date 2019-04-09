@@ -23,13 +23,15 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {MDCSelectFoundation} from '@material/select/foundation';
+import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import Menu, {MenuList} from '@material/react-menu';
-import { EnhancedOptionProps } from './Option';
+import {EnhancedOptionProps} from './Option';
 
-// type RefCallback<T> = (node: T | null) => void;
+const {Corner} = MDCMenuSurfaceFoundation;
+
 export type EnhancedChild<T extends HTMLElement> = React.ReactElement<EnhancedOptionProps<T>>;
 
-export interface EnhancedSelectProps extends React.HTMLProps<HTMLSelectElement> {
+export interface EnhancedSelectProps extends React.HTMLProps<HTMLElement> {
   foundation?: MDCSelectFoundation;
   setRippleCenter?: (lineRippleCenter: number) => void;
   handleDisabled?: (disabled: boolean) => void;
@@ -37,7 +39,8 @@ export interface EnhancedSelectProps extends React.HTMLProps<HTMLSelectElement> 
   disabled?: boolean;
   className?: string;
   closeMenu?: () => void;
-  handleSelected?: (index: number, element: Element) => void;
+  onEnhancedChange?: (index: number, item: Element) => void;
+  anchorElement: HTMLElement | null;
 }
 
 interface EnhancedSelectState {
@@ -50,7 +53,6 @@ export default class EnhancedSelect extends React.Component<
   EnhancedSelectState
   > {
   nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
-  // private menuEl = React.createRef<HTMLDivElement>();
   private selectedTextEl = React.createRef<HTMLDivElement>();
 
   static defaultProps: Partial<EnhancedSelectProps> = {
@@ -59,8 +61,9 @@ export default class EnhancedSelect extends React.Component<
     // setRippleCenter: () => {},
     handleDisabled: () => {},
     closeMenu: () => {},
-    handleSelected: () => {},
-    // value: '',
+    onEnhancedChange: () => {},
+    value: '',
+    anchorElement: null,
   };
 
   state = {
@@ -111,7 +114,7 @@ export default class EnhancedSelect extends React.Component<
     // }
   }
 
-  handleFocus = (evt: React.FocusEvent<HTMLSelectElement>) => {
+  handleFocus = (evt: React.FocusEvent<HTMLDivElement>) => {
     const {foundation, onFocus} = this.props;
     if (foundation && foundation.handleFocus) {
       foundation.handleFocus();
@@ -119,7 +122,7 @@ export default class EnhancedSelect extends React.Component<
     onFocus && onFocus(evt);
   };
 
-  handleBlur = (evt: React.FocusEvent<HTMLSelectElement>) => {
+  handleBlur = (evt: React.FocusEvent<HTMLDivElement>) => {
     const {foundation, onBlur} = this.props;
     if (foundation && foundation.handleFocus) {
       foundation.handleBlur();
@@ -132,7 +135,6 @@ export default class EnhancedSelect extends React.Component<
   }
 
   private getNormalizedXCoordinate(evt: React.MouseEvent<any> | React.TouchEvent<any>) {
-    // TODO: does this work?
     const targetClientRect = (evt.currentTarget as Element).getBoundingClientRect();
     const xCoordinate = this.isTouchEvent_(evt.nativeEvent) ? evt.nativeEvent.touches[0].clientX : evt.nativeEvent.clientX;
     return xCoordinate - targetClientRect.left;
@@ -143,13 +145,11 @@ export default class EnhancedSelect extends React.Component<
       /* eslint-disable no-unused-vars */
       // className,
       children,
-      // foundation,
-      // value,
-      // handleDisabled,
-      // setRippleCenter,
       required,
       open,
-      handleSelected,
+      onEnhancedChange,
+      disabled,
+      anchorElement,
       // closeMenu
       /* eslint-enable no-unused-vars */
     } = this.props;
@@ -173,13 +173,20 @@ export default class EnhancedSelect extends React.Component<
           onClick={this.handleClick}
           onKeyDown={this.handleKeydown}
           ref={this.selectedTextEl}
-        >{selectedTextValue}</div>
+          tabIndex={disabled ? -1 : 0}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+        >
+          {selectedTextValue}
+        </div>
         <Menu
           className='mdc-select__menu'
           onClose={this.handleMenuClose}
           onOpen={this.handleMenuOpen}
           open={open}
-          onSelected={handleSelected}
+          onSelected={onEnhancedChange}
+          anchorElement={anchorElement || undefined}
+          anchorCorner={Corner.BOTTOM_START}
         >
           <MenuList>
             {children}
