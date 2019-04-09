@@ -27,12 +27,11 @@ class SelectedIndexTest extends React.Component<Props, SelectTestState> {
     notchedOutlineClassName: '',
     outlined: false,
     options: [],
-    onChange: () => {},
+    onEnhancedChange: () => {},
   }
 
-  onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(evt);
-    this.setState({value: evt.target.value})
+  onEnhancedChange = (_index: number, item: Element) => {
+    this.setState({value: item.getAttribute('data-value')});
   }
 
   render() {
@@ -57,7 +56,7 @@ class SelectedIndexTest extends React.Component<Props, SelectTestState> {
           id={id}
           isRtl={isRtl}
           disabled={disabled}
-          onChange={this.onChange}
+          onEnhancedChange={this.onEnhancedChange}
           value={this.state.value}
         >
           {
