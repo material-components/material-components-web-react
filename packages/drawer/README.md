@@ -46,13 +46,13 @@ class MyApp extends Component {
 
 #### Header and Content Variant
 
-You may want to include a header, which MDC Web has already styled for you. For convenience, we've included `<DrawerHeader />`, `<DrawerSubtitle />`, `<DrawerTitle />`, and `<DrawerContent />` components. `DrawerHeader` and `DrawerContent` default to a `<div>` tag, while the `DrawerTitle` and `DrawerSubtitle` default to an `h3` and `h6` tag respectively, but can be customized with the `tag` prop (example shown below).
+You may want to include a header, which MDC Web has already styled for you. For convenience, we've included `<DrawerHeader />`, `<DrawerSubTitle />`, `<DrawerTitle />`, and `<DrawerContent />` components. `DrawerHeader` and `DrawerContent` default to a `<div>` tag, while the `DrawerTitle` and `DrawerSubTitle` default to an `h3` and `h6` tag respectively, but can be customized with the `tag` prop (example shown below).
 
 ```js
 import React, {Component} from 'react';
 import Drawer, {
   DrawerHeader,
-  DrawerSubtitle,
+  DrawerSubTitle,
   DrawerTitle,
   DrawerContent,
 } from '@material/react-drawer';
@@ -65,9 +65,9 @@ class MyApp extends Component {
           <DrawerTitle tag='h2'> {/*defaults to h3*/}
             Inbox
           </DrawerTitle>
-          <DrawerSubtitle> {/*defaults to h6*/}
+          <DrawerSubTitle> {/*defaults to h6*/}
             matt@email.com
-          </DrawerSubtitle>
+          </DrawerSubTitle>
         </DrawerHeader>
 
         <DrawerContent tag='main'>  {/*defaults to div*/}
