@@ -26,6 +26,7 @@ import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import Menu, {MenuList} from '@material/react-menu';
 import {OptionProps} from './Option';
 import {CommonSelectProps} from './BaseSelect';
+import MDCSelectFoundation from '@material/select/foundation';
 
 const {Corner} = MDCMenuSurfaceFoundation;
 
@@ -37,12 +38,13 @@ export interface EnhancedSelectProps extends CommonSelectProps, React.HTMLProps<
   anchorElement: HTMLElement | null;
   value?: string;
   ref?: React.Ref<any>;
-  selectedIndex?: number;
   isInvalid?: boolean;
 }
 
 interface EnhancedSelectState {
   'aria-expanded'?: boolean | 'false' | 'true';
+  selectedItem: Element | null;
+  selectedValue?: string;
 }
 
 export default class EnhancedSelect extends React.Component<
@@ -51,7 +53,7 @@ export default class EnhancedSelect extends React.Component<
   > {
   nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
   private selectedTextEl = React.createRef<HTMLDivElement>();
-  private menuEl = React.createRef<Menu>();
+  menuEl = React.createRef<Menu>();
 
   static defaultProps: Partial<EnhancedSelectProps> = {
     disabled: false,
@@ -60,22 +62,56 @@ export default class EnhancedSelect extends React.Component<
     onEnhancedChange: () => {},
     value: '',
     anchorElement: null,
-    selectedIndex: -1,
     isInvalid: false,
   };
 
   state = {
     'aria-expanded': undefined,
+    selectedItem: null,
+    selectedValue: '',
   }
 
   componentDidUpdate(prevProps: EnhancedSelectProps) {
     if (this.props.disabled !== prevProps.disabled) {
       this.props.handleDisabled!(this.props.disabled!);
     }
+    if (this.props.value !== prevProps.value) {
+      this.setSelected();
+    }
   }
 
   get classes() {
     return classnames('mdc-select__native-control', this.props.className);
+  }
+
+  get listElements() {
+    const listElements = this.menuEl.current !== null && this.menuEl.current!.listElements;
+    return listElements;
+  }
+
+  setSelected = () => {
+    const listElements = this.menuEl.current !== null && this.menuEl.current!.listElements;
+    if (!listElements || !listElements.length) return;
+    
+    const index = this.getIndexByValue(listElements);
+    const selectedItem = listElements[index];
+    const selectedValue = selectedItem && selectedItem.getAttribute(MDCSelectFoundation.strings.ENHANCED_VALUE_ATTR) || '';
+    this.setState({selectedItem, selectedValue});
+  }
+
+  getIndexByValue = (listElements: Element[]) => {
+    const {value} = this.props;
+    let index = -1;
+    if (index < 0 && value) {
+      listElements.some((element: Element, elementIndex: number) => {
+        if (element.getAttribute(MDCSelectFoundation.strings.ENHANCED_VALUE_ATTR) === value) {
+          index = elementIndex;
+          return true;
+        }
+        return false;
+      });
+    }
+    return index;
   }
 
   handleMenuClose = () => {
@@ -88,11 +124,12 @@ export default class EnhancedSelect extends React.Component<
   }
 
   handleMenuOpen = () => {
-    const {selectedIndex} = this.props;
     this.setState({'aria-expanded': true});
-    if (this.menuEl.current && this.menuEl.current.listElements) {
-      const index = selectedIndex! > -1 ? selectedIndex! : 0;
-      (this.menuEl.current.listElements[index] as HTMLElement).focus();
+    if (this.listElements && this.listElements.length > 0) {
+      let index = this.getIndexByValue(this.listElements);
+      index = index > -1 ? index : 0;
+      const listItem = this.listElements[index];
+      (listItem as HTMLElement).focus();
     }
   }
 
@@ -110,10 +147,9 @@ export default class EnhancedSelect extends React.Component<
       onBlur,
       onEnhancedChange,
       isInvalid,
-      selectedIndex,
     } = this.props;
     
-    const {'aria-expanded': ariaExpanded} = this.state;
+    const {'aria-expanded': ariaExpanded, selectedValue, selectedItem} = this.state;
 
     const selectedTextAttrs: {[key: string]: string} = {};
     if (required) {
@@ -126,11 +162,14 @@ export default class EnhancedSelect extends React.Component<
       selectedTextAttrs['aria-invalid'] = 'true';
     }
 
-    const selectedItem = this.menuEl.current && this.menuEl.current.listElements[selectedIndex!];
-
     return (
       <React.Fragment>
-        <input type='hidden' name='enhanced-select' disabled={disabled}/>
+        <input
+          type='hidden'
+          name='enhanced-select'
+          disabled={disabled}
+          value={selectedValue}
+        />
         <div
           className='mdc-select__selected-text'
           {...selectedTextAttrs}
@@ -142,7 +181,7 @@ export default class EnhancedSelect extends React.Component<
           onFocus={onFocus}
           onBlur={onBlur}
         >
-          {selectedItem ? selectedItem.textContent!.trim() : ''}
+          {selectedItem ? (selectedItem as Element).textContent!.trim() : ''}
         </div>
         <Menu
           className='mdc-select__menu'
@@ -153,6 +192,7 @@ export default class EnhancedSelect extends React.Component<
           anchorElement={anchorElement || undefined}
           anchorCorner={Corner.BOTTOM_START}
           ref={this.menuEl}
+          onMount={this.setSelected}
         >
           <MenuList>
             {children}

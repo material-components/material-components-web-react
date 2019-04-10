@@ -183,11 +183,6 @@ export default class List extends React.Component<ListProps, ListState> {
     return [];
   }
 
-  // this is a proxy for ListItem
-  getListElements = () => {
-    return this.listElements;
-  }
-
   get classes() {
     const {
       className,

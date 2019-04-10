@@ -44,6 +44,7 @@ export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
   };
   onClose?: () => void;
   onOpen?: () => void;
+  onMount?: (isMounted: boolean) => void;
   quickOpen?: boolean;
   open?: boolean;
   fixed?: boolean;
@@ -147,6 +148,9 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     }
     if (this.props.quickOpen !== prevProps.quickOpen) {
       this.foundation.setQuickOpen(this.props.quickOpen!);
+    }
+    if (this.state.mounted !== prevState.mounted) {
+      this.props.onMount && this.props.onMount(this.state.mounted);
     }
   }
 
@@ -344,6 +348,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       onKeyDown,
       styles,
       quickOpen,
+      onMount,
       /* eslint-enable */
       children,
       ...otherProps

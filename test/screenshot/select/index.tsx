@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import selectVariants from './variants';
-import Select, {SelectProps, Option} from '../../../packages/select/index';
+import Select, {SelectProps, Option, SelectHelperText} from '../../../packages/select/index';
 import '../../../packages/select/index.scss';
 import './index.scss';
 
@@ -63,10 +63,12 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
       ...otherProps // eslint-disable-line react/prop-types
     } = this.props;
     return (
-      <div dir={isRtl ? 'rtl' : 'ltr'}>
+      <div
+        dir={isRtl ? 'rtl' : 'ltr'} 
+        className='test-select'
+      >
         <Select
           {...otherProps}
-          className='test-select'
           label='Dog'
           id={id}
           enhanced={enhanced}
@@ -92,20 +94,27 @@ const rtlMap = [{}, {isRtl: true}];
 const disabledMap = [{}, {disabled: true}];
 const requiredMap = [{}, {required: true}];
 const valueMap = [{}, {value: 'pomsky'}];
+const helperTextMap = [
+  {key: 'nohelpertext'},
+  {helperText: <SelectHelperText persistent>Help me</SelectHelperText>, key: 'persistent'},
+  {helperText: <SelectHelperText validation>Error message</SelectHelperText>, key: 'validation'},
+];
 
 export const getSelects = (enhanced: boolean = false) => variants.map((variant) => {
   return rtlMap.map((isRtl) => {
     return disabledMap.map((disabled) => {
       return valueMap.map((value) => {
         return requiredMap.map((required) => {
-          const props = Object.assign({}, variant, disabled, isRtl, value, required, {enhanced});
-          const valueKey = Object.keys(value)[0] || '';
-          const variantKey = Object.keys(variant)[0] || '';
-          const rtlKey = Object.keys(isRtl)[0] || '';
-          const disabledKey = Object.keys(disabled)[0] || '';
-          const requiredKey = Object.keys(required)[0] || '';
-          const key = `${variantKey}-${disabledKey}-${valueKey}-${requiredKey}-${enhanced}--${rtlKey}`;
-          return <SelectTest {...props} key={key} id={key} />;
+          return helperTextMap.map((helperText) => {
+            const props = Object.assign({}, variant, disabled, isRtl, value, required, helperText, {enhanced});
+            const valueKey = Object.keys(value)[0] || '';
+            const variantKey = Object.keys(variant)[0] || '';
+            const rtlKey = Object.keys(isRtl)[0] || '';
+            const disabledKey = Object.keys(disabled)[0] || '';
+            const requiredKey = Object.keys(required)[0] || '';
+            const key = `${variantKey}-${disabledKey}-${valueKey}-${requiredKey}-${helperText.key}-${enhanced}--${rtlKey}`;
+            return <SelectTest {...props} key={key} id={key} />;
+          });
         });
       });
     });

@@ -30,6 +30,9 @@ import NotchedOutline from '@material/react-notched-outline';
 import {BaseSelect, BaseSelectProps} from './BaseSelect';
 import {EnhancedChild} from './EnhancedSelect';
 import Option, {OptionProps} from './Option';
+import {SelectHelperTextProps} from './helper-text/index';
+import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundation';
+import { HelperTextProps } from '../text-field';
 
 const {cssClasses} = MDCSelectFoundation;
 
@@ -54,6 +57,7 @@ export interface SelectProps<T extends HTMLElement = HTMLElement>
   value: string;
   afterChange?: (value: string) => void;
   onEnhancedChange?: (index: number, target: Element) => void;
+  helperText?: React.ReactElement<SelectHelperTextProps>;
 }
 
 interface SelectState {
@@ -67,12 +71,12 @@ interface SelectState {
   lineRippleCenter?: number;
   outlineIsNotched: boolean;
   selectElement: React.RefObject<HTMLDivElement>;
-  selectedIndex: number;
   isInvalid: boolean;
+  helperTextFoundation?: MDCSelectHelperTextFoundation;
+  foundation?: MDCSelectFoundation;
 };
 
 export default class Select<T extends HTMLElement = HTMLSelectElement> extends React.Component<SelectProps<T>, SelectState> {
-  foundation?: MDCSelectFoundation;
   nativeControl = React.createRef<HTMLSelectElement>();
 
   // These Sets are needed because setState({classList}) is asynchronous.
@@ -98,8 +102,9 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       outlineIsNotched: false,
       open: false,
       selectElement: React.createRef<HTMLDivElement>(),
-      selectedIndex: -1,
       isInvalid: false,
+      helperTextFoundation: undefined,
+      foundation: undefined,
     };
   }
 
@@ -121,9 +126,9 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
   };
 
   componentDidMount() {
-    this.foundation = new MDCSelectFoundation(this.adapter);
-    this.foundation.init();
-    this.foundation.handleChange(false);
+    this.createFoundation(() => {
+      this.state.foundation!.handleChange(false);
+    });
   }
 
   componentDidUpdate(prevProps: SelectProps<T>, prevState: SelectState) {
@@ -131,15 +136,17 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     if (this.props.value !== prevProps.value) {
       this.setState({value: this.props.value!});
     }
-    if (this.foundation && this.state.value !== prevState.value) {
-      this.foundation.handleChange(true);
+    if (this.state.foundation && this.state.value !== prevState.value) {
+      this.state.foundation.handleChange(true);
+    }
+    if (this.state.helperTextFoundation !== prevState.helperTextFoundation) {
+      this.destroyFoundation();
+      this.createFoundation();
     }
   }
 
   componentWillUnmount() {
-    if (this.foundation) {
-      this.foundation.destroy();
-    }
+    this.destroyFoundation();
   }
 
   /**
@@ -194,7 +201,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       isMenuOpen: () => this.state.open!,
       checkValidity: () => {
         if (!this.props.disabled && this.props.required) {
-          return this.state.selectedIndex !== -1 
+          return Boolean(this.state.value);
         }
         return true;
       },
@@ -227,23 +234,47 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     };
   }
 
+  get foundationMap() {
+    const {helperTextFoundation} = this.state;
+    return {
+      helperText: helperTextFoundation ? helperTextFoundation : undefined,
+      // leadingIcon: this.leadingIcon_ ? this.leadingIcon_.foundation : undefined,
+    };
+  }
+
+  createFoundation = (callback?: () => void) => {
+    const foundation = new MDCSelectFoundation(this.adapter, this.foundationMap);
+    foundation.init();
+    this.setState({foundation}, callback);
+  }
+
+  destroyFoundation = () => {
+    if (this.state.foundation) {
+      this.state.foundation.destroy();
+    }
+  }
+
   setRippleCenter = (lineRippleCenter: number) => this.setState({lineRippleCenter});
 
   addClass = (className: string) => {
-    // See comment aboe about classesBeingAdded/classesBeingRemoved
-    const classList = new Set(this.state.classList);
-    classList.add(className);
+    // See comment above about classesBeingAdded/classesBeingRemoved
     this.classesBeingAdded.add(className);
-    this.setState({classList}, () => {
+    this.setState((prevState) => {
+      const classList = new Set(prevState.classList);
+      classList.add(className);
+      return {classList};
+    }, () => {
       this.classesBeingAdded.delete(className);
     });
   };
   removeClass = (className: string) => {
-    // See comment aboe about classesBeingAdded/classesBeingRemoved
-    const classList = new Set(this.state.classList);
-    classList.delete(className);
+    // See comment above about classesBeingAdded/classesBeingRemoved
     this.classesBeingRemoved.add(className);
-    this.setState({classList}, () => {
+    this.setState((prevState) => {
+      const classList = new Set(prevState.classList);
+      classList.delete(className);
+      return {classList};
+    }, () => {
       this.classesBeingRemoved.delete(className);
     });
   };
@@ -257,10 +288,8 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     }
   }
 
-  handleEnhancedChange = (index: number, item: Element) => {
-    const {onEnhancedChange} = this.props;
-    this.setState({selectedIndex: index});
-    onEnhancedChange && onEnhancedChange(index, item);
+  getHelperTextFoundation = (helperTextFoundation: MDCSelectHelperTextFoundation) => {
+    this.setState({helperTextFoundation});
   }
 
   /**
@@ -268,14 +297,17 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
    */
   render() {
     return (
-      <div className={this.classes} ref={this.state.selectElement}>
-        <i className='mdc-select__dropdown-icon'></i>
-        {this.renderSelect()}
-        {this.renderLabel()}
-        {this.props.outlined
-          ? this.renderNotchedOutline()
-          : this.renderLineRipple()}
-      </div>
+      <React.Fragment>
+        <div className={this.classes} ref={this.state.selectElement}>
+          <i className='mdc-select__dropdown-icon'></i>
+          {this.renderSelect()}
+          {this.renderLabel()}
+          {this.props.outlined
+            ? this.renderNotchedOutline()
+            : this.renderLineRipple()}
+        </div>
+        {this.renderHelperText()}
+      </React.Fragment>
     );
   }
 
@@ -292,18 +324,18 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       value: propsValue,
       afterChange,
       onEnhancedChange,
+      helperText,
       /* eslint-enable */
       enhanced,
       ...otherProps
     } = this.props;
-    const {open, selectElement, selectedIndex, isInvalid, value} = this.state;
+    const {open, selectElement, isInvalid, value} = this.state;
 
     const enhancedProps = {
-      onEnhancedChange: this.handleEnhancedChange,
+      onEnhancedChange,
       closeMenu: this.closeMenu,
       anchorElement: selectElement!.current,
       enhanced,
-      selectedIndex,
       isInvalid,
     };
 
@@ -312,7 +344,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
         open={open}
         value={value}
         innerRef={this.nativeControl}
-        foundation={this.foundation}
+        foundation={this.state.foundation}
         className={enhanced ? '' : nativeControlClassName}
         {...(enhanced ? enhancedProps : {})}
         {...otherProps as BaseSelectProps<T>}
@@ -387,7 +419,22 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       />
     );
   }
+
+  renderHelperText() {
+    const {helperText} = this.props;
+    if (!helperText) return;
+    const props = {
+      ...helperText.props,
+      getHelperTextFoundation: this.getHelperTextFoundation,
+    } as HelperTextProps;
+    return React.cloneElement(helperText, props);
+  }
 }
+
+export {
+  SelectHelperText,
+  SelectHelperTextProps,
+} from './helper-text';
 
 export {Option};
 export {
