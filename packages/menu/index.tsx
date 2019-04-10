@@ -33,6 +33,7 @@ const {cssClasses} = MDCMenuFoundation;
 export interface MenuProps extends MenuSurfaceProps {
   children: React.ReactElement<MenuList>;
   onSelected?: (index: number, item: Element) => void;
+  ref?: React.Ref<any>;
 };
 
 export interface MenuState {
@@ -130,12 +131,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
 
   handleOpen: MenuSurfaceProps['onOpen'] = () => {
     const {onOpen} = this.props;
-    if (onOpen) {
-      onOpen();
-    }
-    if (this.listElements.length > 0) {
-      (this.listElements[0] as HTMLElement).focus();
-    }
+    onOpen && onOpen();
   }
 
   render() {
@@ -147,7 +143,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
       onOpen,
       children,
       onSelected,
-      ref,
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;

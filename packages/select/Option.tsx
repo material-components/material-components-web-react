@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,26 +23,41 @@
 import * as React from 'react';
 import {MenuListItem, MenuListItemProps} from '@material/react-menu';
 
-export interface EnhancedOptionProps<K extends HTMLElement = HTMLElement> extends MenuListItemProps<K> {}
+export type OptionProps<T extends HTMLElement = HTMLElement>
+  = (T extends HTMLOptionElement ? React.HTMLProps<HTMLOptionElement> : MenuListItemProps<T>)
 
-class EnhancedOption<T extends HTMLElement = HTMLElement> extends React.Component<EnhancedOptionProps<T>, {}> {
+class Option<T extends HTMLElement = HTMLElement> extends React.Component<OptionProps<T> &  {enhanced?: boolean}, {}> {
+  static defaultProps = {
+    enhanced: false,
+  };
 
   render() {
     const {
       value,
+      enhanced,
       children,
       ...otherProps
     } = this.props;
-    console.log(value)
+
+    if (enhanced) {
+      return (
+        <MenuListItem
+          data-value={value}
+          {...otherProps}
+        >
+          {children}
+        </MenuListItem>
+      );
+    }
     return (
-      <MenuListItem
-        data-value={value}
+      <option
+        value={value}
         {...otherProps}
       >
         {children}
-      </MenuListItem>
+      </option>
     );
   }
 }
 
-export default EnhancedOption;
+export default Option;

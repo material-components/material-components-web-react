@@ -27,19 +27,18 @@ import {MDCSelectFoundation} from '@material/select/foundation';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
-import NativeControl from './NativeControl';
-import EnhancedSelect, {EnhancedChild} from './EnhancedSelect';
-import EnhancedOption, {EnhancedOptionProps} from './Option';
+import {BaseSelect, BaseSelectProps} from './BaseSelect';
+import {EnhancedChild} from './EnhancedSelect';
+import Option, {OptionProps} from './Option';
 
 const {cssClasses} = MDCSelectFoundation;
 
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
-type NativeChild = React.ReactElement<EnhancedOptionProps<HTMLElement>>
+type NativeChild = React.ReactElement<OptionProps<HTMLElement>>
 type SelectChildren<T extends HTMLElement> = EnhancedChild<T> | EnhancedChild<T>[] | NativeChild | NativeChild[];
 
 export interface SelectProps<T extends HTMLElement = HTMLElement> 
   extends React.HTMLProps<HTMLSelectElement> {
-  box?: boolean;
   enhanced?: boolean;
   children?: SelectChildren<T>;
   className?: string;
@@ -52,7 +51,7 @@ export interface SelectProps<T extends HTMLElement = HTMLElement>
   notchedOutlineClassName?: string;
   outlined?: boolean;
   options?: SelectOptionsType;
-  value?: string;
+  value: string;
   afterChange?: (value: string) => void;
   onEnhancedChange?: (index: number, target: Element) => void;
 }
@@ -68,11 +67,20 @@ interface SelectState {
   lineRippleCenter?: number;
   outlineIsNotched: boolean;
   selectElement: React.RefObject<HTMLDivElement>;
+  selectedIndex: number;
+  isInvalid: boolean;
 };
 
-export default class Select<T extends HTMLElement = HTMLElement> extends React.Component<SelectProps<T>, SelectState> {
+export default class Select<T extends HTMLElement = HTMLSelectElement> extends React.Component<SelectProps<T>, SelectState> {
   foundation?: MDCSelectFoundation;
   nativeControl = React.createRef<HTMLSelectElement>();
+
+  // These Sets are needed because setState({classList}) is asynchronous.
+  // This is an issue during a foundation.handleBlur call, when the 
+  // focus class is being removed, and an adapter.hasClass() is immediately
+  // called after that.
+  classesBeingRemoved = new Set();
+  classesBeingAdded = new Set();
   
   constructor(props: SelectProps<T>) {
     super(props);
@@ -90,11 +98,12 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
       outlineIsNotched: false,
       open: false,
       selectElement: React.createRef<HTMLDivElement>(),
+      selectedIndex: -1,
+      isInvalid: false,
     };
   }
 
   static defaultProps: Partial<SelectProps<HTMLElement>> = {
-    box: false,
     enhanced: false,
     className: '',
     disabled: false,
@@ -152,40 +161,47 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
     const commonAdapter = {
       addClass: this.addClass,
       removeClass: this.removeClass,
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) => {
+        // See comment aboe about classesBeingAdded/classesBeingRemoved
+        const hasClass = this.classes.split(' ').includes(className);
+        const isBeingAdded = this.classesBeingAdded.has(className);
+        const isBeingRemoved = this.classesBeingRemoved.has(className);
+        return (hasClass || isBeingAdded) && !isBeingRemoved;
+      },
       setRippleCenter: this.setRippleCenter,
       getValue: () => this.state.value,
       setValue: (value: string) => this.setState({value}),
-      setDisabled: this.setDisabled,
+      setDisabled: (disabled: boolean) => this.setState({disabled}),
       // not implemented because react select element
       // does not support this API
       setSelectedIndex: () => {},
+      closeMenu: this.closeMenu,
+      openMenu: () => this.setState({open: true}),
     };
     const nativeAdapter = {
-      openMenu: () => this.setState({open: true}),
-      closeMenu: this.closeMenu,
-      isMenuOpen: () => this.state.open!,
-      setValid: this.setValidClasses,
+      // native select does not utilize this.props.open
+      isMenuOpen: () => false,
       checkValidity: () => {
         if (this.nativeControl.current) {
           return this.nativeControl.current.checkValidity();
         }
         return false;
       },
+      setValid: this.setValidClasses,
     };
 
-    // TODO
     const enhancedAdapter = {
-      openMenu: () => this.setState({open: true}),
-      closeMenu: () => this.setState({open: false}),
       isMenuOpen: () => this.state.open!,
-      setValid: this.setValidClasses,
       checkValidity: () => {
-        if (this.nativeControl.current) {
-          return this.nativeControl.current.checkValidity();
+        if (!this.props.disabled && this.props.required) {
+          return this.state.selectedIndex !== -1 
         }
-        return false;
+        return true;
       },
+      setValid: (isValid: boolean) => {
+        this.setState({isInvalid: !isValid});
+        this.setValidClasses(isValid);
+      }
     };
 
     const labelAdapter = {  
@@ -212,16 +228,24 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
   }
 
   setRippleCenter = (lineRippleCenter: number) => this.setState({lineRippleCenter});
-  setDisabled = (disabled: boolean) => this.setState({disabled});
+
   addClass = (className: string) => {
+    // See comment aboe about classesBeingAdded/classesBeingRemoved
     const classList = new Set(this.state.classList);
     classList.add(className);
-    this.setState({classList});
+    this.classesBeingAdded.add(className);
+    this.setState({classList}, () => {
+      this.classesBeingAdded.delete(className);
+    });
   };
   removeClass = (className: string) => {
+    // See comment aboe about classesBeingAdded/classesBeingRemoved
     const classList = new Set(this.state.classList);
     classList.delete(className);
-    this.setState({classList});
+    this.classesBeingRemoved.add(className);
+    this.setState({classList}, () => {
+      this.classesBeingRemoved.delete(className);
+    });
   };
   closeMenu = () => this.setState({open: false});
 
@@ -231,6 +255,12 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
     } else {
       this.addClass(cssClasses.INVALID);
     }
+  }
+
+  handleEnhancedChange = (index: number, item: Element) => {
+    const {onEnhancedChange} = this.props;
+    this.setState({selectedIndex: index});
+    onEnhancedChange && onEnhancedChange(index, item);
   }
 
   /**
@@ -253,54 +283,42 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
     const {
       nativeControlClassName,
       /* eslint-disable */
-      box,
-      enhanced,
-      className,
       floatingLabelClassName,
       isRtl,
       lineRippleClassName,
       notchedOutlineClassName,
       outlined,
       ref,
-      value,
+      value: propsValue,
       afterChange,
       onEnhancedChange,
-      disabled,
       /* eslint-enable */
+      enhanced,
       ...otherProps
     } = this.props;
-    const {open} = this.state;
+    const {open, selectElement, selectedIndex, isInvalid, value} = this.state;
 
-    if (enhanced) {
-      return (
-        // TODO: pass required props
-        <EnhancedSelect
-          open={open}
-          closeMenu={this.closeMenu}
-          foundation={this.foundation}
-          onEnhancedChange={this.props.onEnhancedChange}
-          value={value}
-          disabled={disabled}
-          anchorElement={this.state.selectElement!.current}
-        >
-          {this.renderOptions()}
-        </EnhancedSelect>
-      );
-    }
+    const enhancedProps = {
+      onEnhancedChange: this.handleEnhancedChange,
+      closeMenu: this.closeMenu,
+      anchorElement: selectElement!.current,
+      enhanced,
+      selectedIndex,
+      isInvalid,
+    };
 
     return (
-      <NativeControl
-        className={nativeControlClassName}
-        foundation={this.foundation}
-        handleDisabled={this.setDisabled}
-        setRippleCenter={this.setRippleCenter}
-        value={this.state.value}
+      <BaseSelect
+        open={open}
+        value={value}
         innerRef={this.nativeControl}
-        disabled={disabled}
-        {...otherProps}
+        foundation={this.foundation}
+        className={enhanced ? '' : nativeControlClassName}
+        {...(enhanced ? enhancedProps : {})}
+        {...otherProps as BaseSelectProps<T>}
       >
         {this.renderOptions()}
-      </NativeControl>
+      </BaseSelect>
     );
   }
 
@@ -371,12 +389,12 @@ export default class Select<T extends HTMLElement = HTMLElement> extends React.C
   }
 }
 
-export {EnhancedOption};
+export {Option};
 export {
-  MenuListDivider as EnhancedOptionDivider,
-  MenuListGroup as EnhancedOptionGroup,
-  MenuListGroupSubheader as EnhancedOptionGroupSubheader,
-  MenuListItemGraphic as EnhancedOptionGraphic,
-  MenuListItemMeta as EnhancedOptionMeta,
-  MenuListItemText as EnhancedOptionText,
+  MenuListDivider as OptionDivider,
+  MenuListGroup as OptionGroup,
+  MenuListGroupSubheader as OptionGroupSubheader,
+  MenuListItemGraphic as OptionGraphic,
+  MenuListItemMeta as OptionMeta,
+  MenuListItemText as OptionText,
 } from '@material/react-menu';
