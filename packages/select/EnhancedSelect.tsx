@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,30 +22,27 @@
 
 import * as React from 'react';
 import classnames from 'classnames';
-import {MDCSelectFoundation} from '@material/select/foundation';
 import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import Menu, {MenuList} from '@material/react-menu';
-import {EnhancedOptionProps} from './Option';
+import {OptionProps} from './Option';
+import {CommonSelectProps} from './BaseSelect';
 
 const {Corner} = MDCMenuSurfaceFoundation;
 
-export type EnhancedChild<T extends HTMLElement> = React.ReactElement<EnhancedOptionProps<T>>;
+export type EnhancedChild<T extends HTMLElement> = React.ReactElement<OptionProps<T>>;
 
-export interface EnhancedSelectProps extends React.HTMLProps<HTMLElement> {
-  foundation?: MDCSelectFoundation;
-  setRippleCenter?: (lineRippleCenter: number) => void;
-  handleDisabled?: (disabled: boolean) => void;
-  value?: string;
-  disabled?: boolean;
-  className?: string;
+export interface EnhancedSelectProps extends CommonSelectProps, React.HTMLProps<HTMLElement> {
   closeMenu?: () => void;
   onEnhancedChange?: (index: number, item: Element) => void;
   anchorElement: HTMLElement | null;
+  value?: string;
+  ref?: React.Ref<any>;
+  selectedIndex?: number;
+  isInvalid?: boolean;
 }
 
 interface EnhancedSelectState {
   'aria-expanded'?: boolean | 'false' | 'true';
-  selectedTextValue: string;
 }
 
 export default class EnhancedSelect extends React.Component<
@@ -54,47 +51,31 @@ export default class EnhancedSelect extends React.Component<
   > {
   nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
   private selectedTextEl = React.createRef<HTMLDivElement>();
+  private menuEl = React.createRef<Menu>();
 
   static defaultProps: Partial<EnhancedSelectProps> = {
-    // className: '',
     disabled: false,
-    // setRippleCenter: () => {},
     handleDisabled: () => {},
     closeMenu: () => {},
     onEnhancedChange: () => {},
     value: '',
     anchorElement: null,
+    selectedIndex: -1,
+    isInvalid: false,
   };
 
   state = {
     'aria-expanded': undefined,
-    selectedTextValue: '',
   }
 
   componentDidUpdate(prevProps: EnhancedSelectProps) {
     if (this.props.disabled !== prevProps.disabled) {
       this.props.handleDisabled!(this.props.disabled!);
     }
-    if (this.props.value !== prevProps.value) {
-      this.setState({selectedTextValue: this.props.value || ''});
-    }
   }
 
   get classes() {
     return classnames('mdc-select__native-control', this.props.className);
-  }
-
-  // TODO: also on nativeControl
-  handleClick = (evt: React.MouseEvent<any> | React.TouchEvent<any>) => {
-    if (this.props.foundation) {
-      this.props.foundation.handleClick(this.getNormalizedXCoordinate(evt));
-    }
-  }
-
-  handleKeydown = (evt: React.KeyboardEvent<any>) => {
-    if (this.props.foundation) {
-      this.props.foundation.handleKeydown(evt.nativeEvent);
-    }
   }
 
   handleMenuClose = () => {
@@ -107,53 +88,31 @@ export default class EnhancedSelect extends React.Component<
   }
 
   handleMenuOpen = () => {
+    const {selectedIndex} = this.props;
     this.setState({'aria-expanded': true});
-    // TODO
-    // if (this.menuEl.current) {
-    //   this.menuEl.current.focus();
-    // }
-  }
-
-  handleFocus = (evt: React.FocusEvent<HTMLDivElement>) => {
-    const {foundation, onFocus} = this.props;
-    if (foundation && foundation.handleFocus) {
-      foundation.handleFocus();
+    if (this.menuEl.current && this.menuEl.current.listElements) {
+      const index = selectedIndex! > -1 ? selectedIndex! : 0;
+      (this.menuEl.current.listElements[index] as HTMLElement).focus();
     }
-    onFocus && onFocus(evt);
-  };
-
-  handleBlur = (evt: React.FocusEvent<HTMLDivElement>) => {
-    const {foundation, onBlur} = this.props;
-    if (foundation && foundation.handleFocus) {
-      foundation.handleBlur();
-    }
-    onBlur && onBlur(evt);
-  };
-
-  private isTouchEvent_(evt: MouseEvent | TouchEvent): evt is TouchEvent {
-    return Boolean((evt as TouchEvent).touches);
-  }
-
-  private getNormalizedXCoordinate(evt: React.MouseEvent<any> | React.TouchEvent<any>) {
-    const targetClientRect = (evt.currentTarget as Element).getBoundingClientRect();
-    const xCoordinate = this.isTouchEvent_(evt.nativeEvent) ? evt.nativeEvent.touches[0].clientX : evt.nativeEvent.clientX;
-    return xCoordinate - targetClientRect.left;
   }
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
-      // className,
       children,
       required,
       open,
-      onEnhancedChange,
       disabled,
       anchorElement,
-      // closeMenu
-      /* eslint-enable no-unused-vars */
+      onMouseDown,
+      onTouchStart,
+      onKeyDown,
+      onFocus,
+      onBlur,
+      onEnhancedChange,
+      isInvalid,
+      selectedIndex,
     } = this.props;
-    const {selectedTextValue} = this.state;
+    
     const {'aria-expanded': ariaExpanded} = this.state;
 
     const selectedTextAttrs: {[key: string]: string} = {};
@@ -163,21 +122,27 @@ export default class EnhancedSelect extends React.Component<
     if (ariaExpanded || ariaExpanded === 'true') {
       selectedTextAttrs['aria-expanded'] = 'true';
     }
+    if (isInvalid) {
+      selectedTextAttrs['aria-invalid'] = 'true';
+    }
+
+    const selectedItem = this.menuEl.current && this.menuEl.current.listElements[selectedIndex!];
 
     return (
       <React.Fragment>
-        <input type='hidden' name='enhanced-select'/>
+        <input type='hidden' name='enhanced-select' disabled={disabled}/>
         <div
           className='mdc-select__selected-text'
           {...selectedTextAttrs}
-          onClick={this.handleClick}
-          onKeyDown={this.handleKeydown}
           ref={this.selectedTextEl}
           tabIndex={disabled ? -1 : 0}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
+          onMouseDown={onMouseDown}
+          onTouchStart={onTouchStart}
+          onKeyDown={onKeyDown}
+          onFocus={onFocus}
+          onBlur={onBlur}
         >
-          {selectedTextValue}
+          {selectedItem ? selectedItem.textContent!.trim() : ''}
         </div>
         <Menu
           className='mdc-select__menu'
@@ -187,6 +152,7 @@ export default class EnhancedSelect extends React.Component<
           onSelected={onEnhancedChange}
           anchorElement={anchorElement || undefined}
           anchorCorner={Corner.BOTTOM_START}
+          ref={this.menuEl}
         >
           <MenuList>
             {children}
