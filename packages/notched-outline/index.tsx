@@ -92,7 +92,7 @@ export default class NotchedOutline extends React.Component<
       [cssClasses.NO_LABEL]: !this.label,
     });
   }
-  
+
   get label() {
     if (!this.notchedEl.current) {
       return null;
@@ -136,15 +136,17 @@ export default class NotchedOutline extends React.Component<
   render() {
     const {
       children,
+      /* eslint-disable no-unused-vars */
       className,
       notchWidth,
       notch,
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
     const {foundationNotchWidth} = this.state;
 
     const notchStyle = {
-      width: foundationNotchWidth ? `${foundationNotchWidth}px`: undefined
+      width: foundationNotchWidth ? `${foundationNotchWidth}px`: undefined,
     };
 
     return (

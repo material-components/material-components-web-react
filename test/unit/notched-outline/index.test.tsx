@@ -4,7 +4,7 @@ import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import NotchedOutline from '../../../packages/notched-outline/index';
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/foundation';
-import { coerceForTesting } from '../helpers/types';
+import {coerceForTesting} from '../helpers/types';
 
 const {cssClasses} = MDCNotchedOutlineFoundation;
 
@@ -98,7 +98,7 @@ test('#adapter.addClass should update state.classList', () => {
 
 test('#adapter.removeClass should update state.classList', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
-  wrapper.setState({classList: new Set(['test-class-name'])})
+  wrapper.setState({classList: new Set(['test-class-name'])});
   getAdapter(wrapper.instance()).removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
