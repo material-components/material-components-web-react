@@ -36,11 +36,11 @@ interface ElementAttributes {
   role?: string;
 };
 
-interface SelectHelperState extends ElementAttributes {
+interface SelectHelperTextState extends ElementAttributes {
   classList: Set<string>;
 };
 
-export class SelectHelperText extends React.Component<SelectHelperTextProps, SelectHelperState> {
+export class SelectHelperText extends React.Component<SelectHelperTextProps, SelectHelperTextState> {
   foundation?: MDCSelectHelperTextFoundation;
 
   state = {
