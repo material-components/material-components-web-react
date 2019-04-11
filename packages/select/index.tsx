@@ -31,8 +31,8 @@ import {BaseSelect, BaseSelectProps} from './BaseSelect';
 import {EnhancedChild} from './EnhancedSelect';
 import Option, {OptionProps} from './Option';
 import {SelectHelperTextProps} from './helper-text/index';
+import {SelectIconProps} from './icon/index';
 import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundation';
-import { HelperTextProps } from '../text-field';
 
 const {cssClasses} = MDCSelectFoundation;
 
@@ -58,6 +58,7 @@ export interface SelectProps<T extends HTMLElement = HTMLElement>
   afterChange?: (value: string) => void;
   onEnhancedChange?: (index: number, target: Element) => void;
   helperText?: React.ReactElement<SelectHelperTextProps>;
+  leadingIcon?: React.ReactElement<SelectIconProps>;
 }
 
 interface SelectState {
@@ -154,11 +155,12 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
    */
   get classes() {
     const {classList, disabled} = this.state;
-    const {className, required, outlined} = this.props;
+    const {className, leadingIcon, required, outlined} = this.props;
     return classnames('mdc-select', Array.from(classList), className, {
       'mdc-select--outlined': outlined,
       'mdc-select--disabled': disabled,
       'mdc-select--required': required,
+      'mdc-select--with-leading-icon': leadingIcon,
     });
   }
 
@@ -425,8 +427,14 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     const props = {
       ...helperText.props,
       getHelperTextFoundation: this.getHelperTextFoundation,
-    } as HelperTextProps;
+    } as SelectHelperTextProps;
     return React.cloneElement(helperText, props);
+  }
+
+  renderIcon() {
+    return (
+      
+    );
   }
 }
 
