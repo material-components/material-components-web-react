@@ -22,7 +22,7 @@ const floatingLabel = () => (
   <label className='mdc-floating-label'>test</label>
 );
 
-suite.only('NotchedOutline');
+suite('NotchedOutline');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<NotchedOutline className='test-class-name' />);
