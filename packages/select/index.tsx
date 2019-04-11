@@ -276,10 +276,11 @@ export default class Select extends React.Component<SelectProps, SelectState> {
 
   renderNotchedOutline() {
     const {notchedOutlineClassName} = this.props;
-    const {labelWidth} = this.state;
+    const {outlineIsNotched, labelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
+        notch={outlineIsNotched}
         notchWidth={labelWidth}
       />
     );
