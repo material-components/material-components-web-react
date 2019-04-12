@@ -363,7 +363,7 @@ test('#listItem.props.onDestroy removes class name from state.listItemClassNames
   </ListItem></List>);
   wrapper.setState({listItemClassNames: {0: ['test']}});
   wrapper.childAt(0).childAt(0).props().onDestroy();
-  console.log(wrapper.state().listItemClassNames[0]);
+  assert.equal(0, Object.keys(wrapper.state().listItemClassNames).length);
 });
 
 test('#handleKeyDown calls #foudation.handleKeydown', () => {
