@@ -84,10 +84,8 @@ isFadingIndicator | boolean | Enables a fading indicator, instead of sliding (de
 indicatorContent | element | Element that will appear within the `<TabIndicator />` element.
 minWidth | boolean | If true will display the `<Tab />` as narrow as possible.
 isMinWidthIndicator | boolean | If true will display the `<TabIndicator />` to the size of the longest content element.
-isIconIndicator | boolean | If true will display the indicator content in the center of the tab.
 previousIndicatorClientRect | ClientRect | The indicator's clientRect that was previously activated.
 stacked | boolean | If true will display the tab icon and label to flow vertically instead of horizontally.
-onTransitionEnd | function | transitionend event callback handler.
 
 ## Sass Mixins
 
