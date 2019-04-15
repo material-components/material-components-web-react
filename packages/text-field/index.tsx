@@ -96,7 +96,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
 
     this.state = {
       // root state
-      value: undefined,
+      value: '',
       classList: new Set(),
       inputId,
       isFocused: false,
