@@ -21,8 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCTextFieldHelperTextFoundation} from '@material/textfield/dist/mdc.textfield';
+import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
 
 export interface HelperTextProps {
   'aria-hidden'?: boolean;
@@ -42,11 +41,8 @@ interface HelperTextState {
   classList: Set<string>;
 };
 
-export default class HelperText extends React.Component<
-  HelperTextProps,
-  HelperTextState
-  > {
-  foundation_: MDCTextFieldHelperTextFoundation;
+export default class HelperText extends React.Component<HelperTextProps, HelperTextState> {
+  foundation_!: MDCTextFieldHelperTextFoundation;
 
   static defaultProps = {
     'aria-hidden': false,
@@ -71,7 +67,7 @@ export default class HelperText extends React.Component<
     this.foundation_ = new MDCTextFieldHelperTextFoundation(this.adapter);
     this.foundation_.init();
     if (this.props.showToScreenReader) {
-      this.foundation_.showToScreenReader(true);
+      this.foundation_.showToScreenReader();
     }
     if (!this.props.isValid) {
       this.foundation_.setValidity(false);
@@ -82,13 +78,13 @@ export default class HelperText extends React.Component<
   }
 
   componentDidUpdate(prevProps: HelperTextProps) {
-    if (this.props.showToScreenReader !== prevProps.showToScreenReader) {
-      this.foundation_.showToScreenReader(this.props.showToScreenReader);
+    if (this.props.showToScreenReader !== prevProps.showToScreenReader && this.props.showToScreenReader) {
+      this.foundation_.showToScreenReader();
     }
     if (this.props.isValid !== prevProps.isValid) {
-      this.foundation_.setValidity(this.props.isValid);
+      this.foundation_.setValidity(!!this.props.isValid);
     }
-    if (this.props.isValidationMessage !== prevProps.isValidationMessage) {
+    if (this.props.isValidationMessage !== prevProps.isValidationMessage && this.props.isValidationMessage) {
       this.foundation_.setValidation(this.props.isValidationMessage);
     }
   }
@@ -133,9 +129,7 @@ export default class HelperText extends React.Component<
         className={this.classes}
         role={this.state.role}
         aria-hidden={this.state['aria-hidden']}
-      >
-        {this.props.children}
-      </p>
+      >{this.props.children}</p>
     );
   }
 }
