@@ -65,9 +65,9 @@ test(
     'props.showToScreenReader updates',
   () => {
     const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-    wrapper.instance().foundation_.showToScreenReader = td.func();
+    wrapper.instance().foundation_.showToScreenReader = td.func<() => void>();
     wrapper.setProps({showToScreenReader: true});
-    td.verify(wrapper.instance().foundation_.showToScreenReader(true), {
+    td.verify(wrapper.instance().foundation_.showToScreenReader(), {
       times: 1,
     });
   }
@@ -77,7 +77,7 @@ test(
     'props.isValid updates',
   () => {
     const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-    wrapper.instance().foundation_.setValidity = td.func();
+    wrapper.instance().foundation_.setValidity = td.func<(isValidity: boolean) => void>();
     wrapper.setProps({isValid: false});
     td.verify(wrapper.instance().foundation_.setValidity(false), {times: 1});
   }
@@ -85,7 +85,7 @@ test(
 
 test('#componentDidUpdate calls setValidation to true if props.isValidationMessage updates', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-  wrapper.instance().foundation_.setValidation = td.func();
+  wrapper.instance().foundation_.setValidation = td.func<(isValidation: boolean) => void>();
   wrapper.setProps({isValidationMessage: true});
   td.verify(wrapper.instance().foundation_.setValidation(true), {times: 1});
 });
@@ -94,14 +94,12 @@ test(
     'setValidity if another prop updates',
   () => {
     const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-    wrapper.instance().foundation_.showToScreenReader = td.func();
-    wrapper.instance().foundation_.setValidity = td.func();
-    wrapper.instance().foundation_.setValidation = td.func();
+    wrapper.instance().foundation_.showToScreenReader = td.func<() => void>();
+    wrapper.instance().foundation_.setValidity = td.func<(isValidity: boolean) => void>();
+    wrapper.instance().foundation_.setValidation = td.func<(isValidation: boolean) => void>();
     wrapper.setProps({persistent: true});
     td.verify(
-      wrapper
-        .instance()
-        .foundation_.showToScreenReader(td.matchers.isA(Boolean)),
+      wrapper.instance().foundation_.showToScreenReader(),
       {times: 0}
     );
     td.verify(
@@ -117,7 +115,7 @@ test(
 
 test('#adapter.addClass updates state.classList', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-  wrapper.instance().foundation_.adapter_.addClass('test-class-name');
+  wrapper.instance().adapter.addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
 
@@ -126,45 +124,46 @@ test('#adapter.removeClass updates state.classList', () => {
   const classList = new Set();
   classList.add('test-class-name');
   wrapper.setState({classList});
-  wrapper.instance().foundation_.adapter_.removeClass('test-class-name');
+  wrapper.instance().adapter.removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
 test('#adapter.hasClass', () => {
   const wrapper = shallow<HelperText>(<HelperText className='test-class-name'>Helper Text</HelperText>);
   assert.isTrue(
-    wrapper.instance().foundation_.adapter_.hasClass('test-class-name')
+    wrapper.instance().adapter.hasClass('test-class-name')
   );
 });
 
 test('#adapter.setAttr sets role', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-  wrapper.instance().foundation_.adapter_.setAttr('role', 'button');
+  wrapper.instance().adapter.setAttr('role', 'button');
   assert.equal(wrapper.state().role, 'button');
 });
 
 test('#adapter.setAttr sets aria-hidden', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-  wrapper.instance().foundation_.adapter_.setAttr('aria-hidden', true);
-  assert.equal(wrapper.state()['aria-hidden'], true);
+  const value = String(true);
+  wrapper.instance().adapter.setAttr('aria-hidden', value);
+  assert.equal(String(wrapper.state()['aria-hidden']), value);
 });
 
 test('#adapter.removeAttr sets role to null', () => {
   const wrapper = shallow<HelperText>(<HelperText aria-hidden={false}>Helper Text</HelperText>);
-  wrapper.instance().foundation_.adapter_.removeAttr('aria-hidden');
+  wrapper.instance().adapter.removeAttr('aria-hidden');
   assert.equal(wrapper.state()['aria-hidden'], null);
 });
 
 test('#adapter.removeAttr sets aria-hidden to null', () => {
   const wrapper = shallow<HelperText>(<HelperText role='button'>Helper Text</HelperText>);
-  wrapper.instance().foundation_.adapter_.removeAttr('role');
+  wrapper.instance().adapter.removeAttr('role');
   assert.equal(wrapper.state().role, null);
 });
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
   const foundation = wrapper.instance().foundation_;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
