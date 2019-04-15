@@ -21,8 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCTextFieldIconFoundation} from '@material/textfield/dist/mdc.textfield';
+import {MDCTextFieldIconFoundation} from '@material/textfield';
 
 export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
   disabled?: boolean;
@@ -39,7 +38,7 @@ export default class Icon extends React.Component<
   IconProps,
   IconState
   > {
-  foundation_: MDCTextFieldIconFoundation;
+  foundation_!: MDCTextFieldIconFoundation;
 
   static defaultProps: Partial<IconProps> = {
     disabled: false,
@@ -67,7 +66,7 @@ export default class Icon extends React.Component<
 
   componentDidUpdate(prevProps: IconProps) {
     if (this.props.disabled !== prevProps.disabled) {
-      this.foundation_.setDisabled(this.props.disabled);
+      this.foundation_.setDisabled(!!this.props.disabled);
     }
 
     if (this.props.onSelect !== prevProps.onSelect) {
@@ -116,10 +115,10 @@ export default class Icon extends React.Component<
   }
 
   handleClick = (e: React.MouseEvent<HTMLElement>) =>
-    this.foundation_.handleInteraction(e);
+    this.foundation_.handleInteraction(e.nativeEvent);
 
   handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) =>
-    this.foundation_.handleInteraction(e)
+    this.foundation_.handleInteraction(e.nativeEvent)
 
   addIconAttrsToChildren = () => {
     const {tabindex: tabIndex, role} = this.state;
