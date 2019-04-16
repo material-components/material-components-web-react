@@ -44,7 +44,6 @@ export interface Props<T extends HTMLElement = HTMLInputElement> {
   floatingLabelClassName?: string;
   fullWidth?: boolean;
   helperText?: React.ReactElement<any>;
-  isRtl?: boolean;
   label?: React.ReactNode;
   leadingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   lineRippleClassName?: string;
@@ -143,7 +142,8 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
    * getters
    */
   get classes() {
-    const {classList, disabled} = this.state;
+    const cssClasses = MDCTextFieldFoundation.cssClasses;
+    const {classList, disabled, isFocused, isValid} = this.state;
     const {
       className,
       dense,
@@ -154,14 +154,16 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       leadingIcon,
     } = this.props;
 
-    return classnames('mdc-text-field', Array.from(classList), className, {
-      'mdc-text-field--outlined': outlined,
-      'mdc-text-field--textarea': textarea,
+    return classnames(cssClasses.ROOT, Array.from(classList), className, {
+      [cssClasses.DENSE]: dense,
+      [cssClasses.DISABLED]: disabled,
+      [cssClasses.FOCUSED]: isFocused,
+      [cssClasses.INVALID]: isValid,
+      [cssClasses.OUTLINED]: outlined,
+      [cssClasses.TEXTAREA]: textarea,
       'mdc-text-field--fullwidth': fullWidth,
-      'mdc-text-field--disabled': disabled,
       'mdc-text-field--with-trailing-icon': trailingIcon,
-      'mdc-text-field--with-leading-icon': leadingIcon,
-      'mdc-text-field--dense': dense,
+      [cssClasses.WITH_LEADING_ICON]: leadingIcon,
     });
   }
 
@@ -174,7 +176,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       floatingLabelClassName,
       fullWidth,
       helperText,
-      isRtl,
       label,
       leadingIcon,
       lineRippleClassName,
@@ -192,16 +193,13 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
 
   get adapter(): MDCTextFieldAdapter {
     const rootAdapterMethods = {
-      addClass: (className: string) =>
-        this.setState({classList: this.state.classList.add(className)}),
+      addClass: (className: string) => this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
       hasClass: (className: string) => this.classes.split(' ').includes(className),
-      isFocused: () => this.state.isFocused,
-      isRtl: () => this.props.isRtl,
     };
 
     return Object.assign(
@@ -226,6 +224,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     //  },
     // }
     return {
+      isFocused: () => this.state.isFocused,
       getNativeInput: () => {
         const component = this.inputComponent_;
         if (component) {
@@ -388,12 +387,11 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   renderNotchedOutline() {
-    const {isRtl, notchedOutlineClassName} = this.props;
+    const {notchedOutlineClassName} = this.props;
     const {outlineIsNotched, notchedLabelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={isRtl}
         notch={outlineIsNotched}
         notchWidth={notchedLabelWidth}
       />
