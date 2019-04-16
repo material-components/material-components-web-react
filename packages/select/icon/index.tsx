@@ -27,6 +27,7 @@ import {MDCSelectIconFoundation} from '@material/select/icon/foundation';
 
 export interface SelectIconProps extends React.HTMLProps<HTMLElement> { 
   getIconFoundation?: (foundation?: MDCSelectIconFoundation) => void;
+  tag?: keyof React.ReactHTML;
 }
 
 interface ElementAttributes {
@@ -43,6 +44,10 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
   state = {
     'tabindex': undefined,
     role: undefined,
+  };
+
+  static defaultProps = {
+    tag: 'i',
   };
   
   componentDidMount() {
@@ -93,13 +98,18 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
   }
 
   render() {
-    const {getIconFoundation, children, className, ...otherProps} = this.props;
+    const {tag: Tag, getIconFoundation, children, className, ...otherProps} = this.props;
     const {tabindex: tabIndex, role} = this.state;
-    return React.cloneElement(React.Children.only(children), {
-      ...otherProps,
-      tabIndex,
-      role,
-      className: classnames('mdc-select__icon', className),
-    });
+    return (
+      // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+      <Tag
+        className={classnames('mdc-select__icon', className)}
+        role={role}
+        tabIndex={tabIndex}
+        {...otherProps}
+      >
+        {children}
+      </Tag>
+    );
   }
 }
