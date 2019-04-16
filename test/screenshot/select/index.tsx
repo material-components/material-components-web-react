@@ -1,7 +1,5 @@
 import * as React from 'react';
 import Select, {SelectProps} from '../../../packages/select/index';
-// import '../../../packages/select/index.scss';
-// import './index.scss';
 
 interface SelectTestState {
   value: any
