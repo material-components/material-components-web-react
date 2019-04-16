@@ -60,7 +60,6 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
     if (foundation) {
       foundation.handleBlur();
     }
-    debugger
     onBlur && onBlur(evt);
   };
 

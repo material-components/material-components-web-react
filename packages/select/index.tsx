@@ -298,9 +298,11 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
    * render methods
    */
   render() {
+    const {leadingIcon} = this.props;
     return (
       <React.Fragment>
         <div className={this.classes} ref={this.state.selectElement}>
+          {leadingIcon ? leadingIcon : null}
           <i className='mdc-select__dropdown-icon'></i>
           {this.renderSelect()}
           {this.renderLabel()}
@@ -327,6 +329,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       afterChange,
       onEnhancedChange,
       helperText,
+      leadingIcon,
       /* eslint-enable */
       enhanced,
       ...otherProps
@@ -430,18 +433,16 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     } as SelectHelperTextProps;
     return React.cloneElement(helperText, props);
   }
-
-  renderIcon() {
-    return (
-      
-    );
-  }
 }
 
 export {
   SelectHelperText,
   SelectHelperTextProps,
 } from './helper-text';
+export {
+  SelectIcon,
+  SelectIconProps,
+} from './icon';
 
 export {Option};
 export {

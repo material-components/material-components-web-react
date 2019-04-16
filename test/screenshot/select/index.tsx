@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import selectVariants from './variants';
-import Select, {SelectProps, Option, SelectHelperText} from '../../../packages/select/index';
+import Select, {SelectIcon, SelectProps, Option, SelectHelperText} from '../../../packages/select/index';
 import '../../../packages/select/index.scss';
 import './index.scss';
 
@@ -91,6 +91,10 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
 
 const variants = [{}, {outlined: true}];
 const rtlMap = [{}, {isRtl: true}];
+const leadingIconMap = [{}, {
+  leadingIcon: <SelectIcon className='material-icons'>favorite</SelectIcon>,
+  key: 'favorite',
+}];
 const disabledMap = [{}, {disabled: true}];
 const requiredMap = [{}, {required: true}];
 const valueMap = [{}, {value: 'pomsky'}];
@@ -106,14 +110,18 @@ export const getSelects = (enhanced: boolean = false) => variants.map((variant) 
       return valueMap.map((value) => {
         return requiredMap.map((required) => {
           return helperTextMap.map((helperText) => {
-            const props = Object.assign({}, variant, disabled, isRtl, value, required, helperText, {enhanced});
-            const valueKey = Object.keys(value)[0] || '';
-            const variantKey = Object.keys(variant)[0] || '';
-            const rtlKey = Object.keys(isRtl)[0] || '';
-            const disabledKey = Object.keys(disabled)[0] || '';
-            const requiredKey = Object.keys(required)[0] || '';
-            const key = `${variantKey}-${disabledKey}-${valueKey}-${requiredKey}-${helperText.key}-${enhanced}--${rtlKey}`;
-            return <SelectTest {...props} key={key} id={key} />;
+            return leadingIconMap.map((icon) => {
+              const props = Object.assign({}, variant, disabled, isRtl, value, required, helperText, icon, {enhanced});
+              const valueKey = Object.keys(value)[0] || '';
+              const variantKey = Object.keys(variant)[0] || '';
+              const rtlKey = Object.keys(isRtl)[0] || '';
+              const disabledKey = Object.keys(disabled)[0] || '';
+              const requiredKey = Object.keys(required)[0] || '';
+              const key
+                = `${variantKey}-${disabledKey}-${valueKey}-${requiredKey}
+                -${helperText.key}-${icon.key}-${enhanced}--${rtlKey}`;
+              return <SelectTest {...props} key={key} id={key} />;
+            });
           });
         });
       });
