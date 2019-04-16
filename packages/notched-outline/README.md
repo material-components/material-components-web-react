@@ -26,10 +26,28 @@ import '@material/react-notched-outline/dist/notched-outline.css';
 
 ```js
 import NotchedOutline from '@material/react-notched-outline';
+import FloatingLabel from '@material/react-floating-label';
 
 const MyComponent = () => {
   return (
-    <NotchedOutline />
+    <NotchedOutline notch>
+      <FloatingLabel float>My Label</FloatingLabel>
+    </NotchedOutline>
+  );
+}
+```
+
+#### Variant with No Notch
+
+```js
+import NotchedOutline from '@material/react-notched-outline';
+
+const MyComponent = () => {
+  return (
+    <React.Fragment>
+      <label>My Label</label>
+      <NotchedOutline />
+    </React.Fragment>
   );
 }
 ```
@@ -39,7 +57,6 @@ const MyComponent = () => {
 Prop Name | Type | Description
 --- | --- | ---
 className | String | Classes to be applied to the root element.
-isRtl | Boolean | Shifts notch to right side if true.
 notch | Boolean | Toggles between notched outline and idle outline state.
 notchWidth | Number | Width of the notch in the outline.
 

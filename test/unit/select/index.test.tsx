@@ -370,9 +370,3 @@ test('updates notchWidth prop with state.labelWidth', () => {
   wrapper.setState({labelWidth: 55});
   assert.equal(wrapper.childAt(2).props().notchWidth, 55);
 });
-
-test('notchedOutline props.isRtl updates with parent element dir attribute', () => {
-  const wrapper = mount(<Select label='my label' outlined isRtl />);
-  const NotchedOutline = wrapper.childAt(0).childAt(2);
-  assert.isTrue(NotchedOutline.props().isRtl);
-});
