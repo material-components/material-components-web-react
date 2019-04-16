@@ -332,7 +332,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       >
         {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
         {foundation ? this.renderInput() : null}
-        {label && !fullWidth ? this.renderLabel() : null}
+        {label && !outlined && !fullWidth ? this.renderLabel() : null}
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
         {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
@@ -387,14 +387,16 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   renderNotchedOutline() {
-    const {notchedOutlineClassName} = this.props;
-    const {outlineIsNotched, notchedLabelWidth} = this.state;
+    const {label, notchedOutlineClassName} = this.props;
+    const {notchedLabelWidth, outlineIsNotched} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        notch={outlineIsNotched}
         notchWidth={notchedLabelWidth}
-      />
+        notch={outlineIsNotched}
+      >
+        {label ? this.renderLabel(): null}
+      </NotchedOutline>
     );
   }
 
