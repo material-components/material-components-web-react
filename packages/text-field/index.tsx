@@ -21,8 +21,13 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCTextFieldFoundation, MDCTextFieldAdapter} from '@material/textfield/dist/mdc.textfield';
+import {
+  MDCTextFieldFoundation,
+  MDCTextFieldAdapter,
+  MDCTextFieldHelperTextAdapter,
+  MDCTextFieldOutlineAdapter,
+  MDCTextFieldLineRippleAdapter
+} from '@material/textfield';
 import Input, {InputProps} from './Input';
 import Icon, {IconProps} from './icon/index';
 import HelperText, {HelperTextProps} from './helper-text/index';
@@ -222,23 +227,22 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     // }
     return {
       getNativeInput: () => {
-        let badInput;
-        let valid;
-        if (this.inputComponent_) {
-          badInput = this.inputComponent_.isBadInput();
-          valid = this.inputComponent_.isValid();
+        const component = this.inputComponent_;
+        if (component) {
+          const input = {
+            disabled: component.isDisabled(),
+            value: typeof this.state.value === 'string' ? this.state.value : '',
+            maxLength: component.getMaxLength(),
+            type: component.getInputType(),
+            validity: {
+              badInput: !!component.isBadInput(),
+              valid: !!component.isValid(),
+            },
+          };
+          return input;
+        } else {
+          return null;
         }
-        const input = {
-          validity: {badInput, valid},
-        };
-        // https://stackoverflow.com/a/44913378
-        Object.defineProperty(input, 'value', {
-          get: () => this.state.value,
-          // set value doesn't need to be done, since value is set via <Input>
-          // needs setter here so it browser doesn't throw error
-          set: () => {},
-        });
-        return input;
       },
     };
   }
@@ -258,7 +262,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  get lineRippleAdapter(): Partial<MDCTextFieldAdapter> {
+  get lineRippleAdapter(): Partial<MDCTextFieldLineRippleAdapter> {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
@@ -267,7 +271,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  get notchedOutlineAdapter(): Partial<MDCTextFieldAdapter> {
+  get notchedOutlineAdapter(): Partial<MDCTextFieldOutlineAdapter> {
     return {
       notchOutline: (notchedLabelWidth: number) =>
         this.setState({outlineIsNotched: true, notchedLabelWidth}),
@@ -276,10 +280,9 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  get helperTextAdapter(): Partial<MDCTextFieldAdapter> {
+  get helperTextAdapter(): Partial<MDCTextFieldHelperTextAdapter> & any {
     return {
-      showToScreenReader: () =>
-        this.setState({showHelperTextToScreenReader: true}),
+      showToScreenReader: () => this.setState({showHelperTextToScreenReader: true}),
       setValidity: (isValid: boolean) => this.setState({isValid}),
     };
   }

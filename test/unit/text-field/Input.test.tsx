@@ -4,17 +4,32 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import {Input} from '../../../packages/text-field/index';
 
-const noop = () => {};
-const buildFoundation = (overrides = {}) => ({
+const noop: any = () => {};
+const buildFoundation: any = (overrides: any = {}) => ({
+  shouldFloat: false,
+  shouldShake: false,
+  init: noop,
+  destroy: noop,
+  handleTextFieldInteraction: noop,
+  handleValidationAttributeChange: noop,
+  notchOutline: noop,
   activateFocus: noop,
+  setTransformOrigin: noop,
+  handleInput: noop,
   autoCompleteFocus: noop,
   deactivateFocus: noop,
-  handleValidationAttributeChange: noop,
-  handleValidationAttributeMutation_: noop,
-  setDisabled: noop,
-  setTransformOrigin: noop,
-  setUseNativeValidation: noop,
+  getValue: noop,
+  setValue: noop,
+  isValid: noop,
   setValid: noop,
+  setUseNativeValidation: noop,
+  isDisabled: noop,
+  setDisabled: noop,
+  setHelperTextContent: noop,
+  setLeadingIconAriaLabel: noop,
+  setLeadingIconContent: noop,
+  setTrailingIconAriaLabel: noop,
+  setTrailingIconContent: noop,
   ...overrides,
 });
 
@@ -349,9 +364,9 @@ test('#event.onBlur calls props.onBlur()', () => {
 test('#event.onMouseDown calls foundation.setTransformOrigin()', () => {
   const foundation: any = buildFoundation({setTransformOrigin: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
-  const event = {preventDefault: () => {}};
+  const event = {nativeEvent: () => undefined};
   wrapper.simulate('mouseDown', event);
-  td.verify(foundation.setTransformOrigin(event), {times: 1});
+  td.verify(foundation.setTransformOrigin(event.nativeEvent), {times: 1});
 });
 
 test('#event.onMouseDown calls props.onMouseDown()', () => {
@@ -366,9 +381,9 @@ test('#event.onMouseDown calls props.onMouseDown()', () => {
 test('#event.onTouchStart calls foundation.setTransformOrigin()', () => {
   const foundation: any = buildFoundation({setTransformOrigin: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
-  const event = {preventDefault: () => {}};
+  const event = {nativeEvent: () => undefined};
   wrapper.simulate('touchStart', event);
-  td.verify(foundation.setTransformOrigin(event), {times: 1});
+  td.verify(foundation.setTransformOrigin(event.nativeEvent), {times: 1});
 });
 
 test('#event.onTouchStart calls props.onTouchStart()', () => {
