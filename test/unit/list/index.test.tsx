@@ -361,8 +361,8 @@ test('#onDestroy removes item from state.listItemClassNames', () => {
     <div>meow</div>
   </ListItem></List>);
   wrapper.setState({listItemClassNames: {0: ['test']}});
-  wrapper.childAt(0).childAt(0).props().onDestroy();
-  assert.equal(0, Object.keys(wrapper.state().listItemClassNames).length);
+  wrapper.instance().onDestroy(0);
+  assert.notExists(wrapper.state().listItemClassNames[0]);
 });
 
 test('#handleKeyDown calls #foudation.handleKeydown', () => {
