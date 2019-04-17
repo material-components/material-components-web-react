@@ -35,6 +35,8 @@ import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
 
+const cssClasses = MDCTextFieldFoundation.cssClasses;
+
 export interface Props<T extends HTMLElement = HTMLInputElement> {
   // InputProps<T> includes the prop `id`, which we use below in the constructor
   'children.props'?: InputProps<T>;
@@ -141,7 +143,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
    * getters
    */
   get classes() {
-    const cssClasses = MDCTextFieldFoundation.cssClasses;
     const {classList, disabled, isFocused, isValid} = this.state;
     const {
       className,
@@ -321,32 +322,27 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       textarea,
     } = this.props;
     const {foundation} = this.state;
-    const textField = (
-      <div
-        {...this.otherProps}
-        className={this.classes}
-        onClick={() => foundation && foundation.handleTextFieldInteraction()}
-        onKeyDown={() => foundation && foundation.handleTextFieldInteraction()}
-        key='text-field-container'
-      >
-        {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
-        {foundation ? this.renderInput() : null}
-        {label && !outlined && !fullWidth ? this.renderLabel() : null}
-        {outlined ? this.renderNotchedOutline() : null}
-        {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
-        {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
-      </div>
-    );
 
-    if (helperText) {
-      return (
-        <React.Fragment>
-          {textField}
-          {this.renderHelperText()}
-        </React.Fragment>
-      );
-    }
-    return textField;
+    return (
+      <React.Fragment>
+        <div
+          {...this.otherProps}
+          className={this.classes}
+          onClick={() => foundation && foundation.handleTextFieldInteraction()}
+          onKeyDown={() => foundation && foundation.handleTextFieldInteraction()}
+          key='text-field-container'>
+          {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
+          {foundation ? this.renderInput() : null}
+          {label && !fullWidth ? this.renderLabel() : null}
+          {outlined ? this.renderNotchedOutline() : null}
+          {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
+          {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
+        </div>
+        {(helperText || false) && <div className={cssClasses.HELPER_LINE}>
+          {helperText && this.renderHelperText(helperText)}
+        </div>}
+      </React.Fragment>
+    );
   }
 
   renderInput() {
@@ -399,9 +395,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     );
   }
 
-  renderHelperText() {
-    const {helperText} = this.props;
-    if (!helperText) return;
+  renderHelperText(helperText: React.ReactElement<any>) {
     const {
       isValid,
       showHelperTextToScreenReader: showToScreenReader,

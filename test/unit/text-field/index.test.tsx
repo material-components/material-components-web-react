@@ -409,7 +409,7 @@ test('#adapter.helperText.setValidity sets isValid to true', () => {
 });
 
 test('#events.onClick triggers #foundation.handleTextFieldInteraction', () => {
-  const wrapper = shallow<TextField<HTMLInputElement>>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label='my label'>
       <Input />
     </TextField>
@@ -423,7 +423,7 @@ test('#events.onClick triggers #foundation.handleTextFieldInteraction', () => {
 });
 
 test('#events.onKeyDown triggers #foundation.handleTextFieldInteraction', () => {
-  const wrapper = shallow<TextField<HTMLInputElement>>(
+  const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label='my label'>
       <Input />
     </TextField>
