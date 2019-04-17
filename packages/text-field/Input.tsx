@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-import {MDCTextFieldFoundation} from '@material/textfield';
+import MDCTextFieldFoundation from '@material/textfield/foundation';
 
 export interface InputProps<T extends HTMLElement = HTMLInputElement> {
   className?: string;
@@ -149,10 +149,16 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
     }
   }
 
-  valueToString(value: string | string[] | number | undefined) {
-    return value === undefined ? '' :
-      typeof value === 'object' ? value.join('') :
-      typeof value === 'number' ? value.toString() : value;
+  valueToString(value?: string | string[] | number) {
+    let str = '';
+    if (typeof value === 'object') {
+      str = value.join('');
+    } else if (typeof value === 'number') {
+      str = value.toString();
+    } else if (typeof value === 'string') {
+      str = value;
+    }
+    return str;
   }
 
   get classes() {
