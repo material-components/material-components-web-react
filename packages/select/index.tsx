@@ -27,12 +27,14 @@ import {MDCSelectFoundation} from '@material/select/foundation';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
+import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundation';
+import MDCSelectIconFoundation from '@material/select/icon/foundation';
+
 import {BaseSelect, BaseSelectProps} from './BaseSelect';
 import {EnhancedChild} from './EnhancedSelect';
 import Option, {OptionProps} from './Option';
 import {SelectHelperTextProps} from './helper-text/index';
 import {SelectIconProps} from './icon/index';
-import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundation';
 
 const {cssClasses} = MDCSelectFoundation;
 
@@ -47,10 +49,9 @@ export interface SelectProps<T extends HTMLElement = HTMLElement>
   className?: string;
   disabled?: boolean;
   floatingLabelClassName?: string;
-  isRtl?: boolean;
   label?: string;
   lineRippleClassName?: string;
-  nativeControlClassName?: string;
+  selectClassName?: string;
   notchedOutlineClassName?: string;
   outlined?: boolean;
   options?: SelectOptionsType;
@@ -74,6 +75,7 @@ interface SelectState {
   selectElement: React.RefObject<HTMLDivElement>;
   isInvalid: boolean;
   helperTextFoundation?: MDCSelectHelperTextFoundation;
+  iconFoundation?: MDCSelectIconFoundation;
   foundation?: MDCSelectFoundation;
 };
 
@@ -105,6 +107,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       selectElement: React.createRef<HTMLDivElement>(),
       isInvalid: false,
       helperTextFoundation: undefined,
+      iconFoundation: undefined,
       foundation: undefined,
     };
   }
@@ -114,9 +117,8 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     className: '',
     disabled: false,
     floatingLabelClassName: '',
-    isRtl: false,
     lineRippleClassName: '',
-    nativeControlClassName: '',
+    selectClassName: '',
     notchedOutlineClassName: '',
     outlined: false,
     options: [],
@@ -140,7 +142,8 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     if (this.state.foundation && this.state.value !== prevState.value) {
       this.state.foundation.handleChange(true);
     }
-    if (this.state.helperTextFoundation !== prevState.helperTextFoundation) {
+    if (this.state.helperTextFoundation !== prevState.helperTextFoundation
+      || this.state.iconFoundation !== prevState.iconFoundation) {
       this.destroyFoundation();
       this.createFoundation();
     }
@@ -237,10 +240,10 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
   }
 
   get foundationMap() {
-    const {helperTextFoundation} = this.state;
+    const {helperTextFoundation, iconFoundation} = this.state;
     return {
-      helperText: helperTextFoundation ? helperTextFoundation : undefined,
-      // leadingIcon: this.leadingIcon_ ? this.leadingIcon_.foundation : undefined,
+      helperText: helperTextFoundation,
+      leadingIcon: iconFoundation,
     };
   }
 
@@ -294,15 +297,18 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     this.setState({helperTextFoundation});
   }
 
+  getIconFoundation = (iconFoundation: MDCSelectIconFoundation) => {
+    this.setState({iconFoundation});
+  }
+
   /**
    * render methods
    */
   render() {
-    const {leadingIcon} = this.props;
     return (
       <React.Fragment>
         <div className={this.classes} ref={this.state.selectElement}>
-          {leadingIcon ? leadingIcon : null}
+          {this.renderIcon()}
           <i className='mdc-select__dropdown-icon'></i>
           {this.renderSelect()}
           {this.renderLabel()}
@@ -317,10 +323,9 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
 
   renderSelect() {
     const {
-      nativeControlClassName,
+      selectClassName,
       /* eslint-disable */
       floatingLabelClassName,
-      isRtl,
       lineRippleClassName,
       notchedOutlineClassName,
       outlined,
@@ -350,7 +355,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
         value={value}
         innerRef={this.nativeControl}
         foundation={this.state.foundation}
-        className={enhanced ? '' : nativeControlClassName}
+        className={enhanced ? '' : selectClassName}
         {...(enhanced ? enhancedProps : {})}
         {...otherProps as BaseSelectProps<T>}
       >
@@ -432,6 +437,16 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       getHelperTextFoundation: this.getHelperTextFoundation,
     } as SelectHelperTextProps;
     return React.cloneElement(helperText, props);
+  }
+
+  renderIcon() {
+    const {leadingIcon} = this.props;
+    if (!leadingIcon) return;
+    const props = {
+      ...leadingIcon.props,
+      getIconFoundation: this.getIconFoundation,
+    } as SelectIconProps;
+    return React.cloneElement(leadingIcon, props);
   }
 }
 

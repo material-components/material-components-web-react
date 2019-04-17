@@ -98,9 +98,8 @@ disabled | Boolean | Disables the select.
 floatingLabelClassName | String | An optional class added to the floating label element.
 id | String | Id of the `<select>` element.
 label | String | Mandatory. Label text that appears as the floating label.
-isRtl | Boolean | Whether the direction of the select is set to RTL.
 lineRippleClassName | String | An optional class added to the line ripple element.
-nativeControlClassName | String | An optional class added to the native `<select>` element.
+selectClassName | String | An optional class added to the native `<select>` element.
 notchedOutlineClassName | String | An optional class added to the notched outline element. Only applied if `props.outlined` is enabled.
 outlined | Boolean | Enables outlined variant.
 options | Array{String/Object} | Array of strings or objects to be used as options. To be used instead of `<option>` elements passed as `this.props.children`. If its an array of strings, then the string value will be used as the `label` and `value` of the `<option>` tag.

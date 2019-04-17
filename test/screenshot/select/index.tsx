@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
+import selectVariants from './variants';
 import Select, {SelectIcon, SelectProps, Option, SelectHelperText} from '../../../packages/select/index';
 import '../../../packages/select/index.scss';
 import './index.scss';
