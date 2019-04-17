@@ -413,12 +413,11 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
   }
 
   renderNotchedOutline() {
-    const {isRtl, notchedOutlineClassName} = this.props;
+    const {notchedOutlineClassName} = this.props;
     const {outlineIsNotched, labelWidth} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={isRtl}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
       />

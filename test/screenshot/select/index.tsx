@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import selectVariants from './variants';
 import Select, {SelectIcon, SelectProps, Option, SelectHelperText} from '../../../packages/select/index';
 import '../../../packages/select/index.scss';
 import './index.scss';
@@ -64,7 +63,7 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
     } = this.props;
     return (
       <div
-        dir={isRtl ? 'rtl' : 'ltr'} 
+        dir={isRtl ? 'rtl' : 'ltr'}
         className='test-select'
       >
         <Select
