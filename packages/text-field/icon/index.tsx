@@ -21,7 +21,10 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-import {MDCTextFieldIconFoundation} from '@material/textfield';
+import {
+  MDCTextFieldIconAdapter,
+  MDCTextFieldIconFoundation,
+} from '@material/textfield';
 
 export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
   disabled?: boolean;
@@ -34,11 +37,8 @@ interface IconState {
   role?: string;
 }
 
-export default class Icon extends React.Component<
-  IconProps,
-  IconState
-  > {
-  foundation_!: MDCTextFieldIconFoundation;
+export default class Icon extends React.Component<IconProps, IconState> {
+  foundation!: MDCTextFieldIconFoundation;
 
   static defaultProps: Partial<IconProps> = {
     disabled: false,
@@ -57,16 +57,14 @@ export default class Icon extends React.Component<
   }
 
   componentDidMount() {
-    this.foundation_ = new MDCTextFieldIconFoundation(this.adapter);
-    this.foundation_.init();
-    if (this.props.disabled) {
-      this.foundation_.setDisabled(true);
-    }
+    this.foundation = new MDCTextFieldIconFoundation(this.adapter);
+    this.foundation.init();
+    this.foundation.setDisabled(!!this.props.disabled);
   }
 
   componentDidUpdate(prevProps: IconProps) {
     if (this.props.disabled !== prevProps.disabled) {
-      this.foundation_.setDisabled(!!this.props.disabled);
+      this.foundation.setDisabled(!!this.props.disabled);
     }
 
     if (this.props.onSelect !== prevProps.onSelect) {
@@ -75,9 +73,7 @@ export default class Icon extends React.Component<
   }
 
   componentWillUnmount() {
-    if (this.foundation_) {
-      this.foundation_.destroy();
-    }
+    this.foundation.destroy();
   }
 
   get tabindex() {
@@ -90,7 +86,7 @@ export default class Icon extends React.Component<
     return this.props.onSelect ? 0 : -1;
   }
 
-  get adapter() {
+  get adapter(): MDCTextFieldIconAdapter {
     return {
       // need toString() call when tabindex === 0.
       // @types/react requires tabIndex is number
@@ -102,23 +98,28 @@ export default class Icon extends React.Component<
         return '';
       },
       setAttr: (attr: keyof IconState, value: string | number) => (
-        this.setState((prevState) => ({...prevState, [attr]: value}))
+        this.setState((prevState) => {
+          if (attr === 'tabindex') {
+            value = Number(value);
+          }
+          return {...prevState, [attr]: value};
+        })
       ),
       removeAttr: (attr: keyof IconState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
-      notifyIconAction: () => ( this.props.onSelect
-        ? this.props.onSelect()
-        : null
-      ),
+      setContent: () => undefined,
+      registerInteractionHandler: () => undefined,
+      deregisterInteractionHandler: () => undefined,
+      notifyIconAction: () => (this.props.onSelect ? this.props.onSelect() : null),
     };
   }
 
   handleClick = (e: React.MouseEvent<HTMLElement>) =>
-    this.foundation_.handleInteraction(e.nativeEvent);
+    this.foundation.handleInteraction(e.nativeEvent);
 
   handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) =>
-    this.foundation_.handleInteraction(e.nativeEvent)
+    this.foundation.handleInteraction(e.nativeEvent);
 
   addIconAttrsToChildren = () => {
     const {tabindex: tabIndex, role} = this.state;

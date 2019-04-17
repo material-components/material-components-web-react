@@ -51,7 +51,7 @@ test('#componentDidMount creates foundation', () => {
       <i />
     </Icon>
   );
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('#componentDidMount calls #foundation.setDisabled if disabled prop is true', () => {
@@ -103,9 +103,9 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation_.setDisabled = td.func<(isDisabled: boolean) => void>();
+    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
     wrapper.setProps({disabled: true});
-    td.verify(wrapper.instance().foundation_.setDisabled(true), {times: 1});
+    td.verify(wrapper.instance().foundation.setDisabled(true), {times: 1});
   }
 );
 
@@ -118,9 +118,9 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation_.setDisabled = td.func<(isDisabled: boolean) => void>();
+    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
     wrapper.setProps({disabled: false});
-    td.verify(wrapper.instance().foundation_.setDisabled(false), {times: 1});
+    td.verify(wrapper.instance().foundation.setDisabled(false), {times: 1});
   }
 );
 
@@ -133,10 +133,10 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation_.setDisabled = td.func<(isDisabled: boolean) => void>();
+    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
     wrapper.setProps({children: <i />});
     td.verify(
-      wrapper.instance().foundation_.setDisabled(td.matchers.isA(Boolean)),
+      wrapper.instance().foundation.setDisabled(td.matchers.isA(Boolean)),
       {times: 0}
     );
   }
@@ -168,7 +168,7 @@ test('#adapter.setAttr for tabIndex', () => {
       <i tabIndex={0} />
     </Icon>
   );
-  wrapper.instance().adapter.setAttr('tabindex', -1);
+  wrapper.instance().adapter.setAttr('tabindex', '-1');
   assert.equal(wrapper.state().tabindex, -1);
 });
 
@@ -208,7 +208,7 @@ test('#adapter.setAttr for tabIndex works with Custom Component', () => {
       <MaterialIcon icon='favorite' tabIndex={0} />
     </Icon>
   );
-  wrapper.instance().adapter.setAttr('tabindex', -1);
+  wrapper.instance().adapter.setAttr('tabindex', '-1');
   assert.equal(wrapper.state().tabindex, -1);
 });
 
@@ -241,9 +241,9 @@ test('onClick calls foundation.handleInteraction', () => {
     </Icon>
   );
   const evt = coerceForTesting<React.MouseEvent>({});
-  wrapper.instance().foundation_.handleInteraction = td.func<(evt: MouseEvent | KeyboardEvent) => void>();
+  wrapper.instance().foundation.handleInteraction = td.func<(evt: MouseEvent | KeyboardEvent) => void>();
   wrapper.simulate('click', evt);
-  td.verify(wrapper.instance().foundation_.handleInteraction(evt.nativeEvent), {
+  td.verify(wrapper.instance().foundation.handleInteraction(evt.nativeEvent), {
     times: 1,
   });
 });
@@ -256,9 +256,9 @@ test('onKeyDown call foundation.handleInteraction', () => {
     </Icon>
   );
   const evt = coerceForTesting<React.KeyboardEvent>({});
-  wrapper.instance().foundation_.handleInteraction = td.func<(evt: MouseEvent | KeyboardEvent) => void>();
+  wrapper.instance().foundation.handleInteraction = td.func<(evt: MouseEvent | KeyboardEvent) => void>();
   wrapper.simulate('keydown', evt);
-  td.verify(wrapper.instance().foundation_.handleInteraction(evt.nativeEvent), {
+  td.verify(wrapper.instance().foundation.handleInteraction(evt.nativeEvent), {
     times: 1,
   });
 });
@@ -289,7 +289,7 @@ test('#componentWillUnmount destroys foundation', () => {
       <i />
     </Icon>
   );
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
