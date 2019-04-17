@@ -3,28 +3,28 @@ import * as td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import Select from '../../../packages/select/index';
-import {MDCSelectAdapter} from '@material/select/adapter';
+// import {MDCSelectAdapter} from '@material/select/adapter';
 import {MDCSelectFoundation} from '@material/select/foundation';
 import {BaseSelect} from '../../../packages/select/BaseSelect';
 import {coerceForTesting} from '../helpers/types';
 
-function getAdapter(foundation?: MDCSelectFoundation): MDCSelectAdapter {
-  // @ts-ignore adapter_ is protected property, we need to override it
-  return foundation!.adapter_;
-}
+// function getAdapter(foundation?: MDCSelectFoundation): MDCSelectAdapter {
+//   // @ts-ignore adapter_ is protected property, we need to override it
+//   return foundation!.adapter_;
+// }
 
-suite('Select');
+suite.only('Select');
 
 test('has mdc-select class', () => {
   const wrapper = shallow(<Select label='my label' />);
-  assert.isTrue(wrapper.hasClass('mdc-select'));
+  assert.isTrue(wrapper.childAt(0).hasClass('mdc-select'));
 });
 
 test('classNames adds classes', () => {
   const wrapper = shallow(
     <Select label='my label' className='test-class-name' />
   );
-  assert.isTrue(wrapper.hasClass('test-class-name'));
+  assert.isTrue(wrapper.childAt(0).hasClass('test-class-name'));
 });
 
 test('creates foundation', () => {
@@ -34,10 +34,11 @@ test('creates foundation', () => {
 
 test('#foundation.handleChange gets called when state.value updates', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
-  wrapper.state().foundation!.handleChange = td.func<() => void>();
+  const handleChange = td.func<() => void>();
+  wrapper.setState({foundation: coerceForTesting<MDCSelectFoundation>({handleChange})})
   const value = 'value';
   wrapper.setState({value});
-  td.verify(wrapper.state().foundation!.handleChange(), {times: 1});
+  td.verify(wrapper.state().foundation!.handleChange(true), {times: 1});
 });
 
 test('state.value updates when props.value changes', () => {
