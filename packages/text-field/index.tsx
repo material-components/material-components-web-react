@@ -26,7 +26,7 @@ import {
   MDCTextFieldAdapter,
   MDCTextFieldHelperTextAdapter,
   MDCTextFieldOutlineAdapter,
-  MDCTextFieldLineRippleAdapter
+  MDCTextFieldLineRippleAdapter,
 } from '@material/textfield';
 import Input, {InputProps} from './Input';
 import Icon, {IconProps} from './icon/index';
@@ -84,7 +84,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     dense: false,
     floatingLabelClassName: '',
     fullWidth: false,
-    isRtl: false,
     lineRippleClassName: '',
     notchedOutlineClassName: '',
     outlined: false,

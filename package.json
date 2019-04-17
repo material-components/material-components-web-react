@@ -88,7 +88,7 @@
     "@material/tab-bar": "^1.0.0",
     "@material/tab-indicator": "^1.0.0",
     "@material/tab-scroller": "^1.0.0",
-    "@material/textfield": "^1.0.0",
+    "@material/textfield": "^1.1.1",
     "@material/top-app-bar": "^1.1.0",
     "@material/typography": "^1.0.0",
     "@types/chai": "^4.1.7",

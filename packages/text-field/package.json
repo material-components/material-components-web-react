@@ -20,7 +20,7 @@
     "@material/react-floating-label": "^0.11.0",
     "@material/react-line-ripple": "^0.11.0",
     "@material/react-notched-outline": "^0.11.0",
-    "@material/textfield": "^1.0.0",
+    "@material/textfield": "^1.1.1",
     "classnames": "^2.2.6",
     "react": "^16.4.2"
   },
