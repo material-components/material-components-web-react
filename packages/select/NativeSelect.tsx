@@ -26,19 +26,19 @@ import {CommonSelectProps} from './BaseSelect';
 
 type RefCallback<T> = (node: T | null) => void;
 
-export interface NativeControlProps extends CommonSelectProps, React.HTMLProps<HTMLSelectElement> {
+export interface NativeSelectProps extends CommonSelectProps, React.HTMLProps<HTMLSelectElement> {
   innerRef?: RefCallback<HTMLSelectElement> | React.RefObject<HTMLSelectElement>;
   value?: string;
   ref?: React.Ref<any>;
 }
 
-export default class NativeControl extends React.Component<
-  NativeControlProps,
+export default class NativeSelect extends React.Component<
+  NativeSelectProps,
   {}
   > {
-  nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
+  NativeSelect: React.RefObject<HTMLSelectElement> = React.createRef();
 
-  static defaultProps: Partial<NativeControlProps> = {
+  static defaultProps: Partial<NativeSelectProps> = {
     className: '',
     children: null,
     disabled: false,
@@ -46,7 +46,7 @@ export default class NativeControl extends React.Component<
     value: '',
   };
 
-  componentDidUpdate(prevProps: NativeControlProps) {
+  componentDidUpdate(prevProps: NativeSelectProps) {
     if (this.props.disabled !== prevProps.disabled) {
       this.props.handleDisabled!(this.props.disabled!);
     }
@@ -61,7 +61,7 @@ export default class NativeControl extends React.Component<
 
     // https://github.com/facebook/react/issues/13029#issuecomment-410002316
     // @ts-ignore this is acceptable according to the comment above
-    this.nativeControl.current = node;
+    this.NativeSelect.current = node;
 
     if (!innerRef) {
       return;
