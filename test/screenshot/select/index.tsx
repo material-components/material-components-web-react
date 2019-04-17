@@ -35,9 +35,8 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
     className: '',
     disabled: false,
     floatingLabelClassName: '',
-    isRtl: false,
     lineRippleClassName: '',
-    nativeControlClassName: '',
+    selectClassName: '',
     notchedOutlineClassName: '',
     outlined: false,
     options: [],
@@ -57,14 +56,12 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
     const {
       disabled,
       id,
-      isRtl,
       enhanced,
       ref, // eslint-disable-line no-unused-vars
       ...otherProps // eslint-disable-line react/prop-types
     } = this.props;
     return (
       <div
-        dir={isRtl ? 'rtl' : 'ltr'} 
         className='test-select'
       >
         <Select
@@ -72,7 +69,6 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
           label='Dog'
           id={id}
           enhanced={enhanced}
-          isRtl={isRtl}
           disabled={disabled}
           onChange={this.onChange}
           onEnhancedChange={this.onEnhancedChange}
@@ -90,7 +86,6 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
 }
 
 const variants = [{}, {outlined: true}];
-const rtlMap = [{}, {isRtl: true}];
 const leadingIconMap = [{}, {
   leadingIcon: <SelectIcon className='material-icons'>favorite</SelectIcon>,
   key: 'favorite',
@@ -105,23 +100,20 @@ const helperTextMap = [
 ];
 
 export const getSelects = (enhanced: boolean = false) => variants.map((variant) => {
-  return rtlMap.map((isRtl) => {
-    return disabledMap.map((disabled) => {
-      return valueMap.map((value) => {
-        return requiredMap.map((required) => {
-          return helperTextMap.map((helperText) => {
-            return leadingIconMap.map((icon) => {
-              const props = Object.assign({}, variant, disabled, isRtl, value, required, helperText, icon, {enhanced});
-              const valueKey = Object.keys(value)[0] || '';
-              const variantKey = Object.keys(variant)[0] || '';
-              const rtlKey = Object.keys(isRtl)[0] || '';
-              const disabledKey = Object.keys(disabled)[0] || '';
-              const requiredKey = Object.keys(required)[0] || '';
-              const key
-                = `${variantKey}-${disabledKey}-${valueKey}-${requiredKey}
-                -${helperText.key}-${icon.key}-${enhanced}--${rtlKey}`;
-              return <SelectTest {...props} key={key} id={key} />;
-            });
+  return disabledMap.map((disabled) => {
+    return valueMap.map((value) => {
+      return requiredMap.map((required) => {
+        return helperTextMap.map((helperText) => {
+          return leadingIconMap.map((icon) => {
+            const props = Object.assign({}, variant, disabled, value, required, helperText, icon, {enhanced});
+            const valueKey = Object.keys(value)[0] || '';
+            const variantKey = Object.keys(variant)[0] || '';
+            const disabledKey = Object.keys(disabled)[0] || '';
+            const requiredKey = Object.keys(required)[0] || '';
+            const key
+              = `${variantKey}-${disabledKey}-${valueKey}-${requiredKey}
+              -${helperText.key}-${icon.key}-${enhanced}`;
+            return <SelectTest {...props} key={key} id={key} />;
           });
         });
       });

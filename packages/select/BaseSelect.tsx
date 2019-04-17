@@ -21,15 +21,12 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-// import classnames from 'classnames';
-// import {MDCSelectFoundation} from '@material/select/foundation';
-// import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
-import NativeControl, {NativeControlProps} from './NativeSelect';
+import NativeSelect, {NativeSelectProps} from './NativeSelect';
 import EnhancedSelect, {EnhancedSelectProps} from './EnhancedSelect';
 import {MDCSelectFoundation} from '@material/select/foundation';
 
 export type BaseSelectProps<T extends HTMLElement>
-  = (T extends HTMLSelectElement ? NativeControlProps : EnhancedSelectProps);
+  = (T extends HTMLSelectElement ? NativeSelectProps : EnhancedSelectProps);
 
 export interface CommonSelectProps {
   enhanced: boolean;
@@ -137,12 +134,12 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       );
     }
     return (
-      <NativeControl
+      <NativeSelect
         onKeyDown={onKeyDown}
         {...props}
       >
         {children}
-      </NativeControl>
+      </NativeSelect>
     );
   }
 }
