@@ -62,7 +62,6 @@ type TextFieldProps<T extends HTMLElement = HTMLInputElement> = Props<T> & React
 
 interface TextFieldState {
   foundation?: MDCTextFieldFoundation;
-  value?: string | string[] | number;
   classList: Set<string>;
   inputId: string;
   isFocused: boolean;
@@ -102,7 +101,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
 
     this.state = {
       // root state
-      value: '',
       classList: new Set(),
       inputId,
       isFocused: false,
@@ -214,16 +212,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   get inputAdapter(): Partial<MDCTextFieldAdapter> {
-    // For reference: This is the shape of what the vanilla component `getNativeInput` returns
-    // {
-    //  value: string,
-    //  disabled: boolean, --> doesn't need to be implemented since the <INPUT> handles it
-    //  also the `get disabled` isn't actually used, except in the vanilla component
-    //  validity: {
-    //    badInput: boolean,
-    //    valid: boolean,
-    //  },
-    // }
     return {
       isFocused: () => this.state.isFocused,
       getNativeInput: () => {
@@ -293,7 +281,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     return Object.assign({}, props, {
       foundation: this.state.foundation,
       handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
-      handleValueChange: (value: string | number, cb: () => void) => this.setState({value}, cb),
       setDisabled: (disabled: boolean) => this.setState({disabled}),
       setInputId: (id: string) => this.setState({inputId: id}),
       ref: (input: Input<T>) => {
@@ -339,7 +326,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
           {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
         </div>
-        {helperText || characterCounter ? this.renderHelperLine() : null}
+        {helperText || characterCounter ? this.renderHelperLine(helperText, characterCounter) : null}
       </React.Fragment>
     );
   }
