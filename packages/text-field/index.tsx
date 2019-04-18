@@ -45,7 +45,8 @@ export interface Props<T extends HTMLElement = HTMLInputElement> {
   dense?: boolean;
   floatingLabelClassName?: string;
   fullWidth?: boolean;
-  helperText?: React.ReactElement<any>;
+  helperText?: React.ReactElement<HelperTextProps>;
+  characterCounter?: React.ReactElement<any>;
   label?: React.ReactNode;
   leadingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   lineRippleClassName?: string;
@@ -227,10 +228,12 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       isFocused: () => this.state.isFocused,
       getNativeInput: () => {
         const component = this.inputComponent_;
-        if (component) {
-          const input = {
+        if (!component) {
+          return null;
+        } else {
+          return {
             disabled: component.isDisabled(),
-            value: typeof this.state.value === 'string' ? this.state.value : '',
+            value: component.getValue(),
             maxLength: component.getMaxLength(),
             type: component.getInputType(),
             validity: {
@@ -238,9 +241,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
               valid: !!component.isValid(),
             },
           };
-          return input;
-        } else {
-          return null;
         }
       },
     };
@@ -314,6 +314,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       label,
       fullWidth,
       helperText,
+      characterCounter,
       outlined,
       onLeadingIconSelect,
       onTrailingIconSelect,
@@ -338,9 +339,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
           {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
         </div>
-        {(helperText || false) && <div className={cssClasses.HELPER_LINE}>
-          {helperText && this.renderHelperText(helperText)}
-        </div>}
+        {helperText || characterCounter ? this.renderHelperLine() : null}
       </React.Fragment>
     );
   }
@@ -395,7 +394,14 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     );
   }
 
-  renderHelperText(helperText: React.ReactElement<any>) {
+  renderHelperLine(helperText?: React.ReactElement<HelperTextProps>, characterCounter?: React.ReactElement<any>) {
+    return <div className={cssClasses.HELPER_LINE}>
+      {helperText && this.renderHelperText(helperText)}
+      {characterCounter}
+    </div>;
+  }
+
+  renderHelperText(helperText: React.ReactElement<HelperTextProps>) {
     const {
       isValid,
       showHelperTextToScreenReader: showToScreenReader,
