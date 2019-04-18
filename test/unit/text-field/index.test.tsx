@@ -217,15 +217,14 @@ test('#adapter.input.getNativeInput.validity.valid returns true for valid email'
   assert.isTrue(valid);
 });
 
-test('#get adapter.input.value returns state.value', () => {
+test('#get adapter.input.value returns input.props.value', () => {
+  const value = 123;
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label='my label'>
-      <Input />
+      <Input value={value} />
     </TextField>
   );
-  wrapper.setState({value: '123'});
-  const value = wrapper.instance().adapter.getNativeInput()!.value;
-  assert.equal(value, '123');
+  assert.equal(value.toString(), wrapper.instance().adapter.getNativeInput()!.value);
 });
 
 test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
@@ -595,6 +594,7 @@ test('renders helperText if helperText prop is passed', () => {
       <Input />
     </TextField>
   );
+  console.log(wrapper.getDOMNode().outerHTML);
   assert.equal(wrapper.find('.mdc-text-field-helper-text').length, 1);
   assert.equal(wrapper.find('.mdc-text-field').length, 1);
 });
@@ -640,33 +640,6 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
     .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
     .handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
-});
-
-test('#inputProps.handleValueChange updates state.value', () => {
-  const wrapper = shallow<TextField<HTMLInputElement>>(
-    <TextField label='my label'>
-      <Input />
-    </TextField>
-  );
-  wrapper
-    .instance()
-    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
-    .handleValueChange('meow', coerceForTesting<() => void>(td.func()));
-  assert.equal(wrapper.state().value, 'meow');
-});
-
-test('#inputProps.handleValueChange calls cb after state is set', () => {
-  const wrapper = shallow<TextField<HTMLInputElement>>(
-    <TextField label='my label'>
-      <Input />
-    </TextField>
-  );
-  const callback = td.func();
-  wrapper
-    .instance()
-    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
-    .handleValueChange('meow', coerceForTesting<() => void>(callback));
-  td.verify(callback(), {times: 1});
 });
 
 test('#inputProps.setDisabled updates state.disabled', () => {
