@@ -42,6 +42,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
 
   static defaultProps: Partial<IconProps> = {
     disabled: false,
+    onSelect: () => undefined,
   };
 
   constructor(props: IconProps) {
@@ -108,10 +109,10 @@ export default class Icon extends React.Component<IconProps, IconState> {
       removeAttr: (attr: keyof IconState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
-      setContent: () => undefined,
-      registerInteractionHandler: () => undefined,
-      deregisterInteractionHandler: () => undefined,
-      notifyIconAction: () => (this.props.onSelect ? this.props.onSelect() : null),
+      setContent: () => console.warn('Please manage content through JSX'),
+      registerInteractionHandler: () => console.warn('Please register handler through JSX'),
+      deregisterInteractionHandler: () => console.warn('Please deregister handler through JSX'),
+      notifyIconAction: () => this.props.onSelect!(),
     };
   }
 

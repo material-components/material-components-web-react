@@ -247,6 +247,8 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
 
   getInputType = () => (this.props.inputType ? this.props.inputType.toString() : 'input');
 
+  getValue = () => this.valueToString(this.props.value);
+
   render() {
     const {
       inputType,
