@@ -93,9 +93,7 @@ export default class HelperText extends React.Component<HelperTextProps, HelperT
   }
 
   componentWillUnmount() {
-    if (this.foundation) {
-      this.foundation.destroy();
-    }
+    this.foundation.destroy();
   }
 
   get classes() {
