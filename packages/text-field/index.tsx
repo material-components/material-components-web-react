@@ -269,10 +269,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     return {};
   }
 
-  setValidity(isValid: boolean) {
-    this.setState({isValid});
-  }
-
   inputProps(child: React.ReactElement<InputProps<T>>) {
     // ref does exist on React.ReactElement<InputProps<T>>
     // @ts-ignore

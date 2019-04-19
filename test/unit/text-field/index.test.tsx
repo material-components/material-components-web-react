@@ -388,16 +388,6 @@ test('#adapter.notchedOutline.hasOutline returns true if props.outlined is set',
   assert.isTrue(hasOutline);
 });
 
-test('#adapter.helperText.setValidity sets isValid to true', () => {
-  const wrapper = shallow<TextField<HTMLInputElement>>(
-    <TextField label='my label'>
-      <Input />
-    </TextField>
-  );
-  wrapper.instance().setValidity(true);
-  assert.isTrue(wrapper.state().isValid);
-});
-
 test('#events.onClick triggers #foundation.handleTextFieldInteraction', () => {
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label='my label'>
