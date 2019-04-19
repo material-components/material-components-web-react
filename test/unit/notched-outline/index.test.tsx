@@ -3,187 +3,143 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import NotchedOutline from '../../../packages/notched-outline/index';
+import {MDCNotchedOutlineFoundation} from '@material/notched-outline/foundation';
+import {coerceForTesting} from '../helpers/types';
+
+const {cssClasses} = MDCNotchedOutlineFoundation;
+
+
+const getFoundation = (instance: NotchedOutline) => {
+  return coerceForTesting<MDCNotchedOutlineFoundation>(instance.foundation!);
+};
+
+const getAdapter = (instance: NotchedOutline) => {
+  // @ts-ignore adapter_ property is protection, we need to override it for testing purposes
+  return getFoundation(instance).adapter_;
+};
+
+const floatingLabel = () => (
+  <label className='mdc-floating-label'>test</label>
+);
 
 suite('NotchedOutline');
 
 test('classNames adds classes', () => {
   const wrapper = shallow(<NotchedOutline className='test-class-name' />);
-  assert.isTrue(wrapper.children().first().hasClass('mdc-notched-outline'));
-  assert.isTrue(wrapper.children().first().hasClass('test-class-name'));
+  assert.isTrue(wrapper.hasClass('mdc-notched-outline'));
+  assert.isTrue(wrapper.hasClass('test-class-name'));
 });
 
-test('creates outlineElement_', () => {
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />);
-  assert.exists(wrapper.instance().outlineElement_.current);
+test('has no label class if there is no label', () => {
+  const wrapper = mount(<NotchedOutline />);
+  assert.isTrue(wrapper.childAt(0).hasClass('mdc-notched-outline'));
+  assert.isTrue(wrapper.childAt(0).hasClass(cssClasses.NO_LABEL));
 });
 
-test('creates pathElement_', () => {
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />);
-  assert.exists(wrapper.instance().pathElement_.current);
+test('has upgraded class if label is present', () => {
+  const wrapper = mount(<NotchedOutline>{floatingLabel()}</NotchedOutline>);
+  assert.isTrue(wrapper.childAt(0).hasClass('mdc-notched-outline'));
+  assert.isTrue(wrapper.childAt(0).hasClass(cssClasses.OUTLINE_UPGRADED));
 });
 
-test('creates idleElement_', () => {
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />);
-  assert.exists(wrapper.instance().idleElement_.current);
+test('label should not have any style transitionDuration', () => {
+  const wrapper = mount(<NotchedOutline>{floatingLabel()}</NotchedOutline>);
+  const floatingLabelElement = wrapper.find('.mdc-floating-label');
+  assert.notExists(floatingLabelElement.props().style);
 });
 
-test('initializes foundation', () => {
+test('should call foundation.notch if props.notchWidth changes and props.notch is true', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline notch />);
+  getFoundation(wrapper.instance()).notch = td.func<() => void>();
+  wrapper.setProps({notchWidth: 50});
+  td.verify(getFoundation(wrapper.instance()).notch(50), {times: 1});
+});
+
+test('should not call foundation.notch if props.notchWidth changes and props.notch is false', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
-  assert.exists(wrapper.instance().foundation_);
+  getFoundation(wrapper.instance()).notch = td.func<() => void>();
+  wrapper.setProps({notchWidth: 50});
+  td.verify(getFoundation(wrapper.instance()).notch(50), {times: 0});
 });
 
-test('calls #foundation.notch if notch adds the notched class', () => {
-  const wrapper = mount(<NotchedOutline notch notchWidth={50} />);
-  wrapper
-    .first()
-    .first()
-    .hasClass('mdc-notched-outline--notched');
-});
-
-test('#componentDidUpdate updating notch to true calls #foundation.notch', () => {
+test('should call foundation.closeNotch if props.notchWidth changes and props.notch is false', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
-  wrapper.instance().foundation_.notch = td.func();
+  getFoundation(wrapper.instance()).closeNotch = td.func<() => void>();
+  wrapper.setProps({notchWidth: 50});
+  td.verify(getFoundation(wrapper.instance()).closeNotch(), {times: 1});
+});
+
+test('should not call foundation.closeNotch if props.notchWidth changes and props.notch is true', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline notch />);
+  getFoundation(wrapper.instance()).closeNotch = td.func<() => void>();
+  wrapper.setProps({notchWidth: 50});
+  td.verify(getFoundation(wrapper.instance()).closeNotch(), {times: 0});
+});
+
+test('should call foundation.notch if props.notch changes from false to true', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline notchWidth={50} />);
+  getFoundation(wrapper.instance()).notch = td.func<() => void>();
   wrapper.setProps({notch: true});
-  td.verify(wrapper.instance().foundation_.notch(0, false), {times: 1});
+  td.verify(getFoundation(wrapper.instance()).notch(50), {times: 1});
 });
 
-test(
-  '#componentDidUpdate updating notch to false calls ' +
-    '#foundation.closeNotch',
-  () => {
-    const wrapper = mount<NotchedOutline>(<NotchedOutline notch />);
-    wrapper.instance().foundation_.closeNotch = td.func();
-    td.when(
-      wrapper.instance().foundation_.adapter_.getIdleOutlineStyleValue
-    ).thenReturn('0px');
-    wrapper.setProps({notch: false});
-    td.verify(wrapper.instance().foundation_.closeNotch(), {times: 1});
-  }
-);
-
-test(
-  '#componentDidUpdate updating notchWidth calls ' +
-    '#foundation.notch with correct arguments',
-  () => {
-    const wrapper = mount<NotchedOutline>(<NotchedOutline notch />);
-    wrapper.instance().foundation_.notch = td.func();
-    td.when(
-      wrapper.instance().foundation_.adapter_.getIdleOutlineStyleValue
-    ).thenReturn('0px');
-    wrapper.setProps({notchWidth: 100});
-    td.verify(wrapper.instance().foundation_.notch(100, false), {times: 1});
-  }
-);
-
-test('#componentDidUpdate updating isRtl calls #foundation.notch', () => {
-  const wrapper = mount<NotchedOutline>(<NotchedOutline notch />);
-  wrapper.instance().foundation_.notch = td.func();
-  td.when(
-    wrapper.instance().foundation_.adapter_.getIdleOutlineStyleValue
-  ).thenReturn('0px');
-  wrapper.setProps({isRtl: true});
-  td.verify(wrapper.instance().foundation_.notch(0, true), {times: 1});
-});
-test(
-  '#componentDidUpdate updating notch to true with and initial ' +
-    'notchWidth calls #foundation.notch with correct arguments',
-  () => {
-    const wrapper = mount<NotchedOutline>(<NotchedOutline notchWidth={100} />);
-    wrapper.instance().foundation_.notch = td.func();
-    wrapper.setProps({notch: true});
-    td.verify(wrapper.instance().foundation_.notch(100, false), {times: 1});
-  }
-);
-test(
-  '#componentDidUpdate shouldn\'t call #foundation notch or closeNotch' +
-    'if another prop changes',
-  () => {
-    const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
-    wrapper.setProps({className: 'test-class-name'});
-    wrapper.instance().foundation_.notch = td.func();
-    wrapper.instance().foundation_.closeNotch = td.func();
-    td.verify(
-      wrapper
-        .instance()
-        .foundation_.notch(td.matchers.isA(Number), td.matchers.isA(Boolean)),
-      {times: 0}
-    );
-    td.verify(wrapper.instance().foundation_.closeNotch(), {times: 0});
-  }
-);
-
-test('#adapter.getWidth returns width of outlineElement_', () => {
-  const div = document.createElement('div');
-  // needs to be attached to real DOM to get width
-  // https://github.com/airbnb/enzyme/issues/1525
-  document.body.append(div);
-  div.style.width = '150px';
-  div.style.height = '50px';
-  div.style.position = 'relative';
-  const options = {attachTo: div};
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />, options);
-  const notchedOutlineElement = wrapper.find('.mdc-notched-outline').instance() as any;
-  const outlineWidth = notchedOutlineElement.offsetWidth;
-  assert.equal(
-    wrapper.instance().foundation_.adapter_.getWidth(),
-    outlineWidth
-  );
-  div.remove();
+test('should call foundation.closeNotch if props.notch changes from true to false', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline notch notchWidth={50} />);
+  getFoundation(wrapper.instance()).closeNotch = td.func<() => void>();
+  wrapper.setProps({notch: false});
+  td.verify(getFoundation(wrapper.instance()).closeNotch(), {times: 1});
 });
 
-test('#adapter.getHeight returns height of outlineElement_', () => {
-  const div = document.createElement('div');
-  document.body.append(div);
-  div.style.width = '150px';
-  div.style.height = '50px';
-  div.style.position = 'relative';
-  const options = {attachTo: div};
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />, options);
-  const notchedOutlineElement = wrapper.find('.mdc-notched-outline').instance() as any;
-  const outlineHeight = notchedOutlineElement.offsetHeight;
-  assert.equal(
-    wrapper.instance().foundation_.adapter_.getHeight(),
-    outlineHeight
-  );
-  div.remove();
-});
-
-test('#adapter.addClass adds class to classList', () => {
+test('#adapter.addClass should update state.classList', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
-  wrapper.instance().foundation_.adapter_.addClass('test-class-name');
+  getAdapter(wrapper.instance()).addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
 
-test('#adapter.removeClass adds class to classList', () => {
+test('#adapter.removeClass should update state.classList', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
-  const classList = new Set();
-  classList.add('test-class-name');
-  wrapper.setState({classList});
-  wrapper.instance().foundation_.adapter_.removeClass('test-class-name');
+  wrapper.setState({classList: new Set(['test-class-name'])});
+  getAdapter(wrapper.instance()).removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
-test('#adapter.setOutlinePathAttr add attr to pathElement_', () => {
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />);
-  wrapper.instance().foundation_.adapter_.setOutlinePathAttr('M10 10');
-  const path = wrapper.instance().pathElement_.current;
-  assert.equal(path!.getAttribute('d'), 'M10 10');
+test('#adapter.setNotchWidthProperty should update state.foundationNotchWidth', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
+  getAdapter(wrapper.instance()).setNotchWidthProperty(10);
+  assert.equal(wrapper.state().foundationNotchWidth, 10);
 });
 
-test('#adapter.getIdleOutlineStyleValue add attr to pathElement_', () => {
-  const div = document.createElement('div');
-  document.body.append(div);
-  const options = {attachTo: div};
-  const wrapper = mount<NotchedOutline>(<NotchedOutline />, options);
-  wrapper.instance().idleElement_.current!.style.borderRadius = '5px';
-  const {adapter_} = wrapper.instance().foundation_;
-  assert.equal(adapter_.getIdleOutlineStyleValue('border-radius'), '5px');
+test('#adapter.removeNotchWidthProperty should update state.foundationNotchWidth to null', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
+  getAdapter(wrapper.instance()).removeNotchWidthProperty();
+  assert.equal(wrapper.state().foundationNotchWidth, null);
+});
+
+test('renders __notch element if children exist', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline>{floatingLabel()}</NotchedOutline>);
+  assert.equal(wrapper.find('.mdc-notched-outline__notch').length, 1);
+});
+
+test('does not render __notch element if children do not exist', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline></NotchedOutline>);
+  assert.equal(wrapper.find('.mdc-notched-outline__notch').length, 0);
+});
+
+test('renders style.width on __notch element if state.foundationNotchWidth is set', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline>{floatingLabel()}</NotchedOutline>);
+  wrapper.setState({foundationNotchWidth: 10});
+  assert.equal(wrapper.find('.mdc-notched-outline__notch').props().style!.width, '10px');
+});
+
+test('does not render style.width on __notch element if state.foundationNotchWidth is not set', () => {
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline>{floatingLabel()}</NotchedOutline>);
+  assert.equal(wrapper.find('.mdc-notched-outline__notch').props().style!.width, undefined);
 });
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
-  const foundation = wrapper.instance().foundation_;
-  foundation.destroy = td.func();
+  const foundation = getFoundation(wrapper.instance());
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
 });

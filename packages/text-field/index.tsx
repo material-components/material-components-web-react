@@ -367,14 +367,16 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   renderNotchedOutline() {
-    const {notchedOutlineClassName} = this.props;
-    const {outlineIsNotched, notchedLabelWidth} = this.state;
+    const {label, notchedOutlineClassName} = this.props;
+    const {notchedLabelWidth, outlineIsNotched} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        notch={outlineIsNotched}
         notchWidth={notchedLabelWidth}
-      />
+        notch={outlineIsNotched}
+      >
+        {label ? this.renderLabel(): null}
+      </NotchedOutline>
     );
   }
 
