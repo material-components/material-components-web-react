@@ -162,6 +162,15 @@ test('#adapter.getAttr for role', () => {
   assert.equal(role, 'button');
 });
 
+test('#adapter.getAttr return blank when unknown attr', () => {
+  const wrapper = shallow<Icon>(
+    <Icon>
+      <i role='button' />
+    </Icon>
+  );
+  assert.equal('', wrapper.instance().adapter.getAttr('test'));
+});
+
 test('#adapter.setAttr for tabIndex', () => {
   const wrapper = shallow<Icon>(
     <Icon>
