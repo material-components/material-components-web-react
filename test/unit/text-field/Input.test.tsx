@@ -41,14 +41,24 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('mdc-text-field__input'));
 });
 
-test('simple value test', () => {
+test('value test for string', () => {
   const wrapper = mount<Input<HTMLInputElement>>(<Input value={'hello world'} />);
   assert.equal(wrapper.instance().getValue(), 'hello world');
 });
 
-test('array string can pass to value', () => {
+test('value test for number', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value={123} />);
+  assert.equal(wrapper.instance().getValue(), '123');
+});
+
+test('value test for string array', () => {
   const wrapper = mount<Input<HTMLInputElement>>(<Input value={['hello', 'world']} />);
   assert.equal(wrapper.instance().getValue(), 'helloworld');
+});
+
+test('return -1 when maxLength does not define', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input />);
+  assert.equal(wrapper.instance().getMaxLength(), -1);
 });
 
 test('default inputType is "input"', () => {

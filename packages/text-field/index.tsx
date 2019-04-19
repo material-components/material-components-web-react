@@ -314,8 +314,8 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         <div
           {...this.otherProps}
           className={this.classes}
-          onClick={() => foundation!.handleTextFieldInteraction()}
-          onKeyDown={() => foundation!.handleTextFieldInteraction()}
+          onClick={foundation!.handleTextFieldInteraction}
+          onKeyDown={foundation!.handleTextFieldInteraction}
           key='text-field-container'>
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
           {this.renderInput()}
