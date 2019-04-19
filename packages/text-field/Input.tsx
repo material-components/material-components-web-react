@@ -133,7 +133,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
         // not changes by the user.
         if (this.state.wasUserTriggeredChange) {
           this.setState({wasUserTriggeredChange: false});
-        } else if (this.props.value !== undefined) {
+        } else {
           foundation && foundation.setValue(this.valueToString(value));
         }
       });
@@ -151,12 +151,12 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
 
   valueToString(value?: string | string[] | number) {
     let str = '';
-    if (typeof value === 'object') {
-      str = value.join('');
+    if (typeof value === 'string') {
+      str = value;
     } else if (typeof value === 'number') {
       str = value.toString();
-    } else if (typeof value === 'string') {
-      str = value;
+    } else if (typeof value === 'object') {
+      str = value.join('');
     }
     return str;
   }
@@ -246,8 +246,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   getMaxLength = () =>
     (typeof this.props.maxLength === 'number' ? this.props.maxLength : -1);
 
-  getInputType = () =>
-    (this.props.inputType ? this.props.inputType.toString() : 'input');
+  getInputType = () => String(this.props.inputType);
 
   getValue = () => this.valueToString(this.props.value);
 

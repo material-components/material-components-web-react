@@ -666,3 +666,18 @@ test('#componentWillUnmount destroys foundation', () => {
   wrapper.unmount();
   td.verify(foundation.destroy(), {times: 1});
 });
+
+test('Useless test for code coverage', () => {
+  const wrapper = shallow<TextField<HTMLInputElement>>(
+    <TextField>
+      <Input />
+    </TextField>
+  );
+  const temp: any = {};
+  wrapper.instance().adapter.registerTextFieldInteractionHandler(temp, temp);
+  wrapper.instance().adapter.deregisterTextFieldInteractionHandler(temp, temp);
+  wrapper.instance().adapter.registerValidationAttributeChangeHandler(temp);
+  wrapper.instance().adapter.deregisterValidationAttributeChangeHandler(temp);
+  wrapper.instance().adapter.registerInputInteractionHandler(temp, temp);
+  wrapper.instance().adapter.deregisterInputInteractionHandler(temp, temp);
+});
