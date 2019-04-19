@@ -108,11 +108,11 @@ export default class Icon extends React.Component<IconProps, IconState> {
       removeAttr: (attr: keyof IconState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
+      notifyIconAction: () => this.props.onSelect && this.props.onSelect(),
       // Please manage content and register through JSX
       setContent: () => undefined,
       registerInteractionHandler: () => undefined,
       deregisterInteractionHandler: () => undefined,
-      notifyIconAction: () => this.props.onSelect && this.props.onSelect(),
     };
   }
 
