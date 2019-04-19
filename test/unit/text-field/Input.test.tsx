@@ -61,6 +61,11 @@ test('return -1 when maxLength does not define', () => {
   assert.equal(wrapper.instance().getMaxLength(), -1);
 });
 
+test('getMaxLength returns defined maxLength', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input maxLength={15} />);
+  assert.equal(wrapper.instance().getMaxLength(), 15);
+});
+
 test('default inputType is "input"', () => {
   const wrapper = shallow(<Input />);
   assert.equal(wrapper.type(), 'input');
