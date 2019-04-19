@@ -219,7 +219,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       getNativeInput: () => {
         const component = this.inputComponent_;
         if (!component) {
-          return null;
+          throw 'The input did not render properly.';
         } else {
           return {
             disabled: component.isDisabled(),
@@ -314,8 +314,8 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         <div
           {...this.otherProps}
           className={this.classes}
-          onClick={foundation!.handleTextFieldInteraction}
-          onKeyDown={foundation!.handleTextFieldInteraction}
+          onClick={() => foundation!.handleTextFieldInteraction()}
+          onKeyDown={() => foundation!.handleTextFieldInteraction()}
           key='text-field-container'>
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
           {this.renderInput()}
