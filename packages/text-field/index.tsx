@@ -22,14 +22,14 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {
+  MDCTextFieldAdapter,
+  MDCTextFieldRootAdapter,
   MDCTextFieldLabelAdapter,
   MDCTextFieldInputAdapter,
   MDCTextFieldOutlineAdapter,
   MDCTextFieldLineRippleAdapter,
-} from '@material/textfield';
-import {MDCTextFieldAdapter} from '@material/textfield/adapter';
+} from '@material/textfield/adapter';
 import {MDCTextFieldFoundation} from '@material/textfield/foundation';
-import {MDCTextFieldHelperTextAdapter} from '@material/textfield/helper-text/adapter';
 import Input, {InputProps} from './Input';
 import Icon, {IconProps} from './icon/index';
 import HelperText, {HelperTextProps} from './helper-text/index';
@@ -125,10 +125,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   componentDidMount() {
-    const foundationMap: object = {
-      helperText: this.helperTextAdapter,
-    };
-    const foundation = new MDCTextFieldFoundation(this.adapter, foundationMap);
+    const foundation = new MDCTextFieldFoundation(this.adapter);
     this.setState({foundation});
     foundation.init();
   }
@@ -190,7 +187,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   get adapter(): MDCTextFieldAdapter {
-    const rootAdapterMethods = {
+    const rootAdapterMethods: MDCTextFieldRootAdapter = {
       addClass: (className: string) => this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className: string) => {
         const {classList} = this.state;
@@ -198,6 +195,11 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         this.setState({classList});
       },
       hasClass: (className: string) => this.classes.split(' ').includes(className),
+      // Please manage handler though JSX
+      registerTextFieldInteractionHandler: () => undefined,
+      deregisterTextFieldInteractionHandler: () => undefined,
+      registerValidationAttributeChangeHandler: (): any => undefined,
+      deregisterValidationAttributeChangeHandler: () => undefined,
     };
 
     return Object.assign(
@@ -210,7 +212,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     );
   }
 
-  get inputAdapter(): Partial<MDCTextFieldInputAdapter> {
+  get inputAdapter(): MDCTextFieldInputAdapter {
     return {
       isFocused: () => this.state.isFocused,
       getNativeInput: () => {
@@ -230,10 +232,13 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           };
         }
       },
+      // Please manage handler though JSX
+      registerInputInteractionHandler: () => undefined,
+      deregisterInputInteractionHandler: () => undefined,
     };
   }
 
-  get labelAdapter(): Partial<MDCTextFieldLabelAdapter> {
+  get labelAdapter(): MDCTextFieldLabelAdapter {
     return {
       shakeLabel: (shakeLabel: boolean) => {
         const {floatingLabelElement: floatingLabel} = this;
@@ -248,7 +253,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  get lineRippleAdapter(): Partial<MDCTextFieldLineRippleAdapter> {
+  get lineRippleAdapter(): MDCTextFieldLineRippleAdapter {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
@@ -257,17 +262,13 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  get notchedOutlineAdapter(): Partial<MDCTextFieldOutlineAdapter> {
+  get notchedOutlineAdapter(): MDCTextFieldOutlineAdapter {
     return {
       notchOutline: (notchedLabelWidth: number) =>
         this.setState({outlineIsNotched: true, notchedLabelWidth}),
       closeOutline: () => this.setState({outlineIsNotched: false}),
       hasOutline: () => !!this.props.outlined,
     };
-  }
-
-  get helperTextAdapter(): Partial<MDCTextFieldHelperTextAdapter> {
-    return {};
   }
 
   inputProps(child: React.ReactElement<InputProps<T>>) {
