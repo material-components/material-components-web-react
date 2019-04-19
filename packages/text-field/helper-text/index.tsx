@@ -21,7 +21,10 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
+import {MDCTextFieldHelperTextAdapter} from '@material/textfield/helper-text/adapter';
 import {MDCTextFieldHelperTextFoundation} from '@material/textfield/helper-text/foundation';
+
+const cssClasses = MDCTextFieldHelperTextFoundation.cssClasses;
 
 export interface HelperTextProps {
   'aria-hidden'?: boolean;
@@ -45,21 +48,21 @@ export default class HelperText extends React.Component<HelperTextProps, HelperT
   foundation!: MDCTextFieldHelperTextFoundation;
 
   static defaultProps = {
-    'aria-hidden': false,
-    'className': '',
-    'isValid': true,
-    'isValidationMessage': false,
-    'persistent': false,
-    'showToScreenReader': false,
-    'validation': false,
+    ['aria-hidden']: false,
+    className: '',
+    isValid: true,
+    isValidationMessage: false,
+    persistent: false,
+    showToScreenReader: false,
+    validation: false,
   };
 
   constructor(props: HelperTextProps) {
     super(props);
     this.state = {
-      'aria-hidden': props['aria-hidden']!,
-      'role': props.role,
-      'classList': new Set(),
+      ['aria-hidden']: props['aria-hidden']!,
+      role: props.role,
+      classList: new Set(),
     };
   }
 
@@ -97,13 +100,13 @@ export default class HelperText extends React.Component<HelperTextProps, HelperT
 
   get classes() {
     const {className, persistent, validation} = this.props;
-    return classnames('mdc-text-field-helper-text', className, {
-      'mdc-text-field-helper-text--persistent': persistent,
-      'mdc-text-field-helper-text--validation-msg': validation,
+    return classnames(cssClasses.ROOT, className, {
+      [cssClasses.HELPER_TEXT_PERSISTENT]: persistent,
+      [cssClasses.HELPER_TEXT_VALIDATION_MSG]: validation,
     });
   }
 
-  get adapter() {
+  get adapter(): MDCTextFieldHelperTextAdapter {
     return {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
@@ -120,6 +123,8 @@ export default class HelperText extends React.Component<HelperTextProps, HelperT
       removeAttr: (attr: keyof HelperTextState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
+      // Please manage content through JSX
+      setContent: () => undefined,
     };
   }
 
