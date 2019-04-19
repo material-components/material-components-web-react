@@ -296,7 +296,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
    */
   render() {
     const {
-      children,
       label,
       fullWidth,
       helperText,
@@ -319,7 +318,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           onKeyDown={() => foundation!.handleTextFieldInteraction()}
           key='text-field-container'>
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
-          {children ? this.renderInput(children) : null}
+          {this.renderInput()}
           {label && !fullWidth ? this.renderLabel() : null}
           {outlined ? this.renderNotchedOutline() : null}
           {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
@@ -330,8 +329,8 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     );
   }
 
-  renderInput(children: React.ReactElement<Input<T>>) {
-    const child: React.ReactElement<InputProps<T>> = React.Children.only(children);
+  renderInput() {
+    const child: React.ReactElement<InputProps<T>> = React.Children.only(this.props.children);
     const props = this.inputProps(child);
     return React.cloneElement(child, props);
   }

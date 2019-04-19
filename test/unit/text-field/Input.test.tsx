@@ -41,6 +41,11 @@ test('classNames adds classes', () => {
   assert.isTrue(wrapper.hasClass('mdc-text-field__input'));
 });
 
+test('simple value test', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value={'hello world'} />);
+  assert.equal(wrapper.instance().getValue(), 'hello world');
+});
+
 test('array string can pass to value', () => {
   const wrapper = mount<Input<HTMLInputElement>>(<Input value={['hello', 'world']} />);
   assert.equal(wrapper.instance().getValue(), 'helloworld');
