@@ -230,10 +230,8 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   };
 
   isBadInput = () => {
-    if (!this.inputElement) {
-      return false;
-    }
-    return this.inputElement.validity.badInput;
+    const input = this.inputElement;
+    return input && input.validity.badInput;
   }
 
   isValid = () => {
