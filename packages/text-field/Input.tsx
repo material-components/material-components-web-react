@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-import MDCTextFieldFoundation from '@material/textfield/foundation';
+import {MDCTextFieldFoundation} from '@material/textfield/foundation';
 
 export interface InputProps<T extends HTMLElement = HTMLInputElement> {
   className?: string;

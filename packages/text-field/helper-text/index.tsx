@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-import {MDCTextFieldHelperTextFoundation} from '@material/textfield';
+import {MDCTextFieldHelperTextFoundation} from '@material/textfield/helper-text/foundation';
 
 export interface HelperTextProps {
   'aria-hidden'?: boolean;
@@ -42,7 +42,7 @@ interface HelperTextState {
 };
 
 export default class HelperText extends React.Component<HelperTextProps, HelperTextState> {
-  foundation_!: MDCTextFieldHelperTextFoundation;
+  foundation!: MDCTextFieldHelperTextFoundation;
 
   static defaultProps = {
     'aria-hidden': false,
@@ -64,34 +64,34 @@ export default class HelperText extends React.Component<HelperTextProps, HelperT
   }
 
   componentDidMount() {
-    this.foundation_ = new MDCTextFieldHelperTextFoundation(this.adapter);
-    this.foundation_.init();
+    this.foundation = new MDCTextFieldHelperTextFoundation(this.adapter);
+    this.foundation.init();
     if (this.props.showToScreenReader) {
-      this.foundation_.showToScreenReader();
+      this.foundation.showToScreenReader();
     }
     if (!this.props.isValid) {
-      this.foundation_.setValidity(false);
+      this.foundation.setValidity(false);
     }
     if (this.props.isValidationMessage) {
-      this.foundation_.setValidation(true);
+      this.foundation.setValidation(true);
     }
   }
 
   componentDidUpdate(prevProps: HelperTextProps) {
     if (this.props.showToScreenReader !== prevProps.showToScreenReader && this.props.showToScreenReader) {
-      this.foundation_.showToScreenReader();
+      this.foundation.showToScreenReader();
     }
     if (this.props.isValid !== prevProps.isValid) {
-      this.foundation_.setValidity(!!this.props.isValid);
+      this.foundation.setValidity(!!this.props.isValid);
     }
     if (this.props.isValidationMessage !== prevProps.isValidationMessage && this.props.isValidationMessage) {
-      this.foundation_.setValidation(this.props.isValidationMessage);
+      this.foundation.setValidation(this.props.isValidationMessage);
     }
   }
 
   componentWillUnmount() {
-    if (this.foundation_) {
-      this.foundation_.destroy();
+    if (this.foundation) {
+      this.foundation.destroy();
     }
   }
 
