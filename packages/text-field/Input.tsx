@@ -167,8 +167,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   }
 
   get inputElement() {
-    const element = this.inputElement_.current;
-    return element ? element : null;
+    return this.inputElement_.current;
   }
 
   handleFocus = (evt: React.FocusEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
@@ -231,7 +230,9 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   };
 
   isBadInput = () => {
-    if (!this.inputElement) return false;
+    if (!this.inputElement) {
+      return false;
+    }
     return this.inputElement.validity.badInput;
   }
 
@@ -244,9 +245,11 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
 
   isDisabled = () => !!this.props.disabled;
 
-  getMaxLength = () => (typeof this.props.maxLength === 'number' ? this.props.maxLength : -1);
+  getMaxLength = () =>
+    (typeof this.props.maxLength === 'number' ? this.props.maxLength : -1);
 
-  getInputType = () => (this.props.inputType ? this.props.inputType.toString() : 'input');
+  getInputType = () =>
+    (this.props.inputType ? this.props.inputType.toString() : 'input');
 
   getValue = () => this.valueToString(this.props.value);
 
