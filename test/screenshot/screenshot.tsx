@@ -7,7 +7,7 @@ import * as puppeteer from 'puppeteer';
 import * as compareImages from 'resemblejs/compareImages';
 import {test} from 'mocha';
 import {assert} from 'chai';
-import Storage from '@google-cloud/storage';
+import * as Storage from '@google-cloud/storage';
 import comparisonOptions from './screenshot-comparison-options';
 import axios from 'axios';
 import * as path from 'path';
