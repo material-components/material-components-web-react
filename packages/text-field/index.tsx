@@ -219,7 +219,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       getNativeInput: () => {
         const component = this.inputComponent_;
         if (!component) {
-          throw 'The input did not render properly.';
+          throw Error('The input did not render properly');
         } else {
           return {
             disabled: component.isDisabled(),
