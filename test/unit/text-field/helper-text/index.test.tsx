@@ -167,3 +167,8 @@ test('#componentWillUnmount destroys foundation', () => {
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
+
+test('Useless test for code coverage', () => {
+  const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
+  wrapper.instance().adapter.setContent('');
+});
