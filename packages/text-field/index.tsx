@@ -22,6 +22,8 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {
+  MDCTextFieldLabelAdapter,
+  MDCTextFieldInputAdapter,
   MDCTextFieldOutlineAdapter,
   MDCTextFieldLineRippleAdapter,
 } from '@material/textfield';
@@ -132,9 +134,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   componentWillUnmount() {
-    if (this.state.foundation) {
-      this.state.foundation.destroy();
-    }
+    this.state.foundation!.destroy();
   }
   /**
    * getters
@@ -185,6 +185,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
+
     return otherProps;
   }
 
@@ -209,7 +210,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     );
   }
 
-  get inputAdapter(): Partial<MDCTextFieldAdapter> {
+  get inputAdapter(): Partial<MDCTextFieldInputAdapter> {
     return {
       isFocused: () => this.state.isFocused,
       getNativeInput: () => {
@@ -232,7 +233,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  get labelAdapter(): Partial<MDCTextFieldAdapter> {
+  get labelAdapter(): Partial<MDCTextFieldLabelAdapter> {
     return {
       shakeLabel: (shakeLabel: boolean) => {
         const {floatingLabelElement: floatingLabel} = this;
@@ -293,6 +294,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
    */
   render() {
     const {
+      children,
       label,
       fullWidth,
       helperText,
@@ -311,11 +313,11 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         <div
           {...this.otherProps}
           className={this.classes}
-          onClick={() => foundation && foundation.handleTextFieldInteraction()}
-          onKeyDown={() => foundation && foundation.handleTextFieldInteraction()}
+          onClick={() => foundation!.handleTextFieldInteraction()}
+          onKeyDown={() => foundation!.handleTextFieldInteraction()}
           key='text-field-container'>
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
-          {foundation ? this.renderInput() : null}
+          {children ? this.renderInput(children) : null}
           {label && !fullWidth ? this.renderLabel() : null}
           {outlined ? this.renderNotchedOutline() : null}
           {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
@@ -326,8 +328,8 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     );
   }
 
-  renderInput() {
-    const child: React.ReactElement<InputProps<T>> = React.Children.only(this.props.children);
+  renderInput(children: React.ReactElement<Input<T>>) {
+    const child: React.ReactElement<InputProps<T>> = React.Children.only(children);
     const props = this.inputProps(child);
     return React.cloneElement(child, props);
   }
