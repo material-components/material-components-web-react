@@ -162,6 +162,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   }
 
   get classes() {
+    // TODO change literal to constant
     return classnames('mdc-text-field__input', this.props.className);
   }
 
