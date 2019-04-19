@@ -21,10 +21,8 @@
 // THE SOFTWARE.
 import * as React from 'react';
 import classnames from 'classnames';
-import {
-  MDCTextFieldIconAdapter,
-  MDCTextFieldIconFoundation,
-} from '@material/textfield';
+import {MDCTextFieldIconAdapter} from '@material/textfield/icon/adapter';
+import {MDCTextFieldIconFoundation} from '@material/textfield/icon/foundation';
 
 export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
   disabled?: boolean;
@@ -59,7 +57,9 @@ export default class Icon extends React.Component<IconProps, IconState> {
   componentDidMount() {
     this.foundation = new MDCTextFieldIconFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setDisabled(!!this.props.disabled);
+    if (this.props.disabled) {
+      this.foundation.setDisabled(true);
+    }
   }
 
   componentDidUpdate(prevProps: IconProps) {

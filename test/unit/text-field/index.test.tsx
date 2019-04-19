@@ -388,23 +388,13 @@ test('#adapter.notchedOutline.hasOutline returns true if props.outlined is set',
   assert.isTrue(hasOutline);
 });
 
-test('#adapter.helperText.showToScreenReader toggles state.showHelperTextToScreenReader', () => {
-  const wrapper = shallow<TextField<HTMLInputElement>>(
-    <TextField label='my label'>
-      <Input />
-    </TextField>
-  );
-  wrapper.instance().helperTextAdapter.showToScreenReader();
-  assert.isTrue(wrapper.state().showHelperTextToScreenReader);
-});
-
 test('#adapter.helperText.setValidity sets isValid to true', () => {
   const wrapper = shallow<TextField<HTMLInputElement>>(
     <TextField label='my label'>
       <Input />
     </TextField>
   );
-  wrapper.instance().helperTextAdapter.setValidity(true);
+  wrapper.instance().setValidity(true);
   assert.isTrue(wrapper.state().isValid);
 });
 
@@ -596,7 +586,6 @@ test('renders helperText if helperText prop is passed', () => {
       <Input />
     </TextField>
   );
-  console.log(wrapper.getDOMNode().outerHTML);
   assert.equal(wrapper.find('.mdc-text-field-helper-text').length, 1);
   assert.equal(wrapper.find('.mdc-text-field').length, 1);
 });
