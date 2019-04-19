@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import classnames from 'classnames';
 import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import Menu, {MenuList} from '@material/react-menu';
 import {OptionProps} from './Option';
@@ -57,7 +56,6 @@ export default class EnhancedSelect extends React.Component<
 
   static defaultProps: Partial<EnhancedSelectProps> = {
     disabled: false,
-    handleDisabled: () => {},
     closeMenu: () => {},
     onEnhancedChange: () => {},
     value: '',
@@ -72,16 +70,9 @@ export default class EnhancedSelect extends React.Component<
   }
 
   componentDidUpdate(prevProps: EnhancedSelectProps) {
-    if (this.props.disabled !== prevProps.disabled) {
-      this.props.handleDisabled!(this.props.disabled!);
-    }
     if (this.props.value !== prevProps.value) {
       this.setSelected();
     }
-  }
-
-  get classes() {
-    return classnames('mdc-select__native-control', this.props.className);
   }
 
   get listElements() {
@@ -91,6 +82,7 @@ export default class EnhancedSelect extends React.Component<
 
   setSelected = () => {
     const listElements = this.menuEl.current !== null && this.menuEl.current!.listElements;
+    debugger
     if (!listElements || !listElements.length) return;
     
     const index = this.getIndexByValue(listElements);
@@ -160,6 +152,11 @@ export default class EnhancedSelect extends React.Component<
     }
     if (isInvalid) {
       selectedTextAttrs['aria-invalid'] = 'true';
+    }
+    if (disabled) {
+      selectedTextAttrs['aria-disabled'] = 'true';
+    } else {
+      selectedTextAttrs['aria-disabled'] = 'false';
     }
 
     return (

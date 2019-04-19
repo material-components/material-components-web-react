@@ -180,7 +180,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
         const isBeingRemoved = this.classesBeingRemoved.has(className);
         return (hasClass || isBeingAdded) && !isBeingRemoved;
       },
-      setRippleCenter: this.setRippleCenter,
+      setRippleCenter: (lineRippleCenter: number) => this.setState({lineRippleCenter}),
       getValue: () => this.state.value,
       setValue: (value: string) => this.setState({value}),
       setDisabled: (disabled: boolean) => this.setState({disabled}),
@@ -259,8 +259,6 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     }
   }
 
-  setRippleCenter = (lineRippleCenter: number) => this.setState({lineRippleCenter});
-
   addClass = (className: string) => {
     // See comment above about classesBeingAdded/classesBeingRemoved
     this.classesBeingAdded.add(className);
@@ -293,11 +291,11 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     }
   }
 
-  getHelperTextFoundation = (helperTextFoundation: MDCSelectHelperTextFoundation) => {
+  setHelperTextFoundation = (helperTextFoundation: MDCSelectHelperTextFoundation) => {
     this.setState({helperTextFoundation});
   }
 
-  getIconFoundation = (iconFoundation: MDCSelectIconFoundation) => {
+  setIconFoundation = (iconFoundation: MDCSelectIconFoundation) => {
     this.setState({iconFoundation});
   }
 
@@ -355,7 +353,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
         value={value}
         innerRef={this.nativeControl}
         foundation={this.state.foundation}
-        className={enhanced ? '' : selectClassName}
+        className={selectClassName}
         {...(enhanced ? enhancedProps : {})}
         {...otherProps as BaseSelectProps<T>}
       >
@@ -374,9 +372,9 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     return options.map((optionData, index) => {
       if (typeof optionData === 'string') {
         return (
-          <option key={index} value={optionData}>
+          <Option key={index} value={optionData}>
             {optionData}
-          </option>
+          </Option>
         );
       }
 
@@ -384,15 +382,17 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       return (
         // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31485
         // @ts-ignore
-        <option key={index} {...nonLabelOptionData}>
+        <Option key={index} {...nonLabelOptionData}>
           {label}
-        </option>
+        </Option>
       );
     });
   }
 
   renderLabel() {
     const {id, label, floatingLabelClassName} = this.props;
+    if (!label) return;
+
     return (
       <FloatingLabel
         className={floatingLabelClassName}
@@ -434,7 +434,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     if (!helperText) return;
     const props = {
       ...helperText.props,
-      getHelperTextFoundation: this.getHelperTextFoundation,
+      setHelperTextFoundation: this.setHelperTextFoundation,
     } as SelectHelperTextProps;
     return React.cloneElement(helperText, props);
   }
@@ -444,7 +444,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
     if (!leadingIcon) return;
     const props = {
       ...leadingIcon.props,
-      getIconFoundation: this.getIconFoundation,
+      setIconFoundation: this.setIconFoundation,
     } as SelectIconProps;
     return React.cloneElement(leadingIcon, props);
   }

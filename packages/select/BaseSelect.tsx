@@ -33,8 +33,8 @@ export interface CommonSelectProps {
   className?: string;
   disabled?: boolean;
   foundation?: MDCSelectFoundation;
-  handleDisabled?: (disabled: boolean) => void;
   value?: string;
+  selectClassName?: string;
 }
 
 export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
@@ -42,6 +42,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
 
   static defaultProps = {
     enhanced: false,
+    selectClassName: '',
   };
 
   handleFocus = (evt: React.FocusEvent<T>) => {
@@ -112,6 +113,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       onTouchStart,
       onKeyDown,
       ref,
+      selectClassName,
       ...otherProps
     } = this.props;
 
@@ -120,6 +122,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       onBlur: this.handleBlur,
       onMouseDown: this.handleMouseDown,
       onTouchStart: this.handleTouchStart,
+      className: selectClassName,
       ...otherProps
     };
 
