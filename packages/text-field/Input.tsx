@@ -150,13 +150,15 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   }
 
   valueToString(value?: string | string[] | number) {
-    let str = '';
+    let str;
     if (typeof value === 'string') {
       str = value;
     } else if (typeof value === 'number') {
       str = value.toString();
     } else if (typeof value === 'object') {
       str = value.join('');
+    } else {
+      str = '';
     }
     return str;
   }
