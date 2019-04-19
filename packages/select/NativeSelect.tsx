@@ -42,15 +42,8 @@ export default class NativeSelect extends React.Component<
     className: '',
     children: null,
     disabled: false,
-    handleDisabled: () => {},
     value: '',
   };
-
-  componentDidUpdate(prevProps: NativeSelectProps) {
-    if (this.props.disabled !== prevProps.disabled) {
-      this.props.handleDisabled!(this.props.disabled!);
-    }
-  }
 
   get classes() {
     return classnames('mdc-select__native-control', this.props.className);
@@ -83,7 +76,6 @@ export default class NativeSelect extends React.Component<
       children,
       foundation,
       value,
-      handleDisabled,
       onFocus,
       onBlur,
       onTouchStart,

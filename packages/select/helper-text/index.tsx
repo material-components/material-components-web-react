@@ -28,7 +28,7 @@ import {MDCSelectHelperTextFoundation} from '@material/select/helper-text/founda
 export interface SelectHelperTextProps extends React.HTMLProps<HTMLParagraphElement> { 
   validation?: boolean;
   persistent?: boolean;
-  getHelperTextFoundation?: (foundation?: MDCSelectHelperTextFoundation) => void;
+  setHelperTextFoundation?: (foundation?: MDCSelectHelperTextFoundation) => void;
 }
 
 interface ElementAttributes {
@@ -50,17 +50,17 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
   };
   
   componentDidMount() {
-    const {getHelperTextFoundation} = this.props;
+    const {setHelperTextFoundation} = this.props;
     this.foundation = new MDCSelectHelperTextFoundation(this.adapter);
     this.foundation.init();
-    getHelperTextFoundation && getHelperTextFoundation(this.foundation);
+    setHelperTextFoundation && setHelperTextFoundation(this.foundation);
   }
 
   componentWillUnmount() {
-    const {getHelperTextFoundation} = this.props;
+    const {setHelperTextFoundation} = this.props;
     if (this.foundation) {
       this.foundation.destroy();
-      getHelperTextFoundation && getHelperTextFoundation(undefined);
+      setHelperTextFoundation && setHelperTextFoundation(undefined);
     }
   }
 
@@ -107,7 +107,7 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
       children,
       persistent,
       validation,
-      getHelperTextFoundation,
+      setHelperTextFoundation,
       ...otherProps
     } = this.props;
     const {

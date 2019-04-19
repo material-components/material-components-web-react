@@ -26,7 +26,7 @@ import {MDCSelectIconAdapter} from '@material/select/icon/adapter';
 import {MDCSelectIconFoundation} from '@material/select/icon/foundation';
 
 export interface SelectIconProps extends React.HTMLProps<HTMLElement> { 
-  getIconFoundation?: (foundation?: MDCSelectIconFoundation) => void;
+  setIconFoundation?: (foundation?: MDCSelectIconFoundation) => void;
   tag?: keyof React.ReactHTML;
 }
 
@@ -50,17 +50,17 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
   };
   
   componentDidMount() {
-    const {getIconFoundation} = this.props;
+    const {setIconFoundation} = this.props;
     this.foundation = new MDCSelectIconFoundation(this.adapter);
     this.foundation.init();
-    getIconFoundation && getIconFoundation(this.foundation);
+    setIconFoundation && setIconFoundation(this.foundation);
   }
 
   componentWillUnmount() {
-    const {getIconFoundation} = this.props;
+    const {setIconFoundation} = this.props;
     if (this.foundation) {
       this.foundation.destroy();
-      getIconFoundation && getIconFoundation(undefined);
+      setIconFoundation && setIconFoundation(undefined);
     }
   }
 
@@ -97,7 +97,7 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
   }
 
   render() {
-    const {tag: Tag, getIconFoundation, children, className, ...otherProps} = this.props;
+    const {tag: Tag, setIconFoundation, children, className, ...otherProps} = this.props;
     const {tabindex: tabIndex, role} = this.state;
     return (
       // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
