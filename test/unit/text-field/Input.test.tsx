@@ -417,6 +417,23 @@ test('#event.onChange calls props.onChange()', () => {
   td.verify(onChange(event), {times: 1});
 });
 
+test('wasUserTriggeredChange test', () => {
+  const foundation: any = buildFoundation();
+  const handleValueChange =
+    (value: string | number | string[] | undefined, cb: () => void) => value && cb();
+  const wrapper = mount<Input<HTMLInputElement>>(
+    <Input
+      value='test value'
+      foundation={foundation}
+      handleValueChange={handleValueChange}
+    />
+  );
+  wrapper.simulate('change');
+  assert.isTrue(wrapper.instance().state.wasUserTriggeredChange);
+  wrapper.setProps({value: 'meow'});
+  assert.isFalse(wrapper.instance().state.wasUserTriggeredChange);
+});
+
 test('#inputElement should return the native input', () => {
   const wrapper = mount<Input<HTMLInputElement>>(<Input />);
   const inputElement = wrapper.instance().inputElement;
