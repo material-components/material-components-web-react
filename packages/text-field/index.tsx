@@ -155,6 +155,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       [cssClasses.INVALID]: isValid,
       [cssClasses.OUTLINED]: outlined,
       [cssClasses.TEXTAREA]: textarea,
+      // TODO change literal to constant
       'mdc-text-field--fullwidth': fullWidth,
       'mdc-text-field--with-trailing-icon': trailingIcon,
       [cssClasses.WITH_LEADING_ICON]: leadingIcon,

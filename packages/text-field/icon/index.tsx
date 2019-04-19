@@ -97,12 +97,9 @@ export default class Icon extends React.Component<IconProps, IconState> {
         }
         return '';
       },
-      setAttr: (attr: keyof IconState, value: string | number) => (
+      setAttr: (attr: keyof IconState, value: string) => (
         this.setState((prevState) => {
-          if (attr === 'tabindex') {
-            value = Number(value);
-          }
-          return {...prevState, [attr]: value};
+          return {...prevState, [attr]: attr === 'tabindex' ? Number(value) : value};
         })
       ),
       removeAttr: (attr: keyof IconState) => (
@@ -125,6 +122,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
   addIconAttrsToChildren = () => {
     const {tabindex: tabIndex, role} = this.state;
     const child = React.Children.only(this.props.children);
+    // TODO change literal to constant
     const className = classnames('mdc-text-field__icon', child.props.className);
     const props = Object.assign({}, child.props, {
       className,
