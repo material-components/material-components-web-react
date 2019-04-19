@@ -181,6 +181,16 @@ test('#adapter.setAttr for tabIndex', () => {
   assert.equal(wrapper.state().tabindex, -1);
 });
 
+test('#adapter.setAttr for role', () => {
+  const wrapper = shallow<Icon>(
+    <Icon>
+      <i tabIndex={0} />
+    </Icon>
+  );
+  wrapper.instance().adapter.setAttr('role', 'test');
+  assert.equal(wrapper.state().role, 'test');
+});
+
 test('#adapter.removeAttr for role', () => {
   const wrapper = shallow<Icon>(
     <Icon>

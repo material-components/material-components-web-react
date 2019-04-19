@@ -133,8 +133,8 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
         // not changes by the user.
         if (this.state.wasUserTriggeredChange) {
           this.setState({wasUserTriggeredChange: false});
-        } else if (this.props.value !== undefined && foundation) {
-          foundation.setValue(this.valueToString(value));
+        } else if (this.props.value !== undefined) {
+          foundation && foundation.setValue(this.valueToString(value));
         }
       });
     }
