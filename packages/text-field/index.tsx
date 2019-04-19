@@ -22,12 +22,12 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import {
-  MDCTextFieldFoundation,
-  MDCTextFieldAdapter,
-  MDCTextFieldHelperTextAdapter,
   MDCTextFieldOutlineAdapter,
   MDCTextFieldLineRippleAdapter,
 } from '@material/textfield';
+import {MDCTextFieldAdapter} from '@material/textfield/adapter';
+import {MDCTextFieldFoundation} from '@material/textfield/foundation';
+import {MDCTextFieldHelperTextAdapter} from '@material/textfield/helper-text/adapter';
 import Input, {InputProps} from './Input';
 import Icon, {IconProps} from './icon/index';
 import HelperText, {HelperTextProps} from './helper-text/index';
@@ -73,7 +73,6 @@ interface TextFieldState {
   activeLineRipple: boolean;
   lineRippleCenter: number;
   outlineIsNotched: boolean;
-  showHelperTextToScreenReader: boolean;
   isValid: boolean;
 };
 
@@ -116,7 +115,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       // notched outline state
       outlineIsNotched: false,
       // helper text state
-      showHelperTextToScreenReader: false,
       isValid: true,
       // foundation is on state,
       // so that the Input renders after this component
@@ -267,11 +265,12 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  get helperTextAdapter(): Partial<MDCTextFieldHelperTextAdapter> & any {
-    return {
-      showToScreenReader: () => this.setState({showHelperTextToScreenReader: true}),
-      setValidity: (isValid: boolean) => this.setState({isValid}),
-    };
+  get helperTextAdapter(): Partial<MDCTextFieldHelperTextAdapter> {
+    return {};
+  }
+
+  setValidity(isValid: boolean) {
+    this.setState({isValid});
   }
 
   inputProps(child: React.ReactElement<InputProps<T>>) {
@@ -389,13 +388,9 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   renderHelperText(helperText: React.ReactElement<HelperTextProps>) {
-    const {
-      isValid,
-      showHelperTextToScreenReader: showToScreenReader,
-    } = this.state;
+    const {isValid} = this.state;
     const props = Object.assign(
       {
-        showToScreenReader,
         isValid,
         key: 'text-field-helper-text',
       },

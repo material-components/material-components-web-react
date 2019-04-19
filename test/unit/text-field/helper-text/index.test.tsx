@@ -31,7 +31,7 @@ test('adds validation class if props.validation is true', () => {
 
 test('#componentDidMount creates foundation', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('#componentDidMount calls setValidation to true if isValidationMessage is set', () => {
@@ -65,9 +65,9 @@ test(
     'props.showToScreenReader updates',
   () => {
     const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-    wrapper.instance().foundation_.showToScreenReader = td.func<() => void>();
+    wrapper.instance().foundation.showToScreenReader = td.func<() => void>();
     wrapper.setProps({showToScreenReader: true});
-    td.verify(wrapper.instance().foundation_.showToScreenReader(), {
+    td.verify(wrapper.instance().foundation.showToScreenReader(), {
       times: 1,
     });
   }
@@ -77,37 +77,37 @@ test(
     'props.isValid updates',
   () => {
     const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-    wrapper.instance().foundation_.setValidity = td.func<(isValidity: boolean) => void>();
+    wrapper.instance().foundation.setValidity = td.func<(isValidity: boolean) => void>();
     wrapper.setProps({isValid: false});
-    td.verify(wrapper.instance().foundation_.setValidity(false), {times: 1});
+    td.verify(wrapper.instance().foundation.setValidity(false), {times: 1});
   }
 );
 
 test('#componentDidUpdate calls setValidation to true if props.isValidationMessage updates', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-  wrapper.instance().foundation_.setValidation = td.func<(isValidation: boolean) => void>();
+  wrapper.instance().foundation.setValidation = td.func<(isValidation: boolean) => void>();
   wrapper.setProps({isValidationMessage: true});
-  td.verify(wrapper.instance().foundation_.setValidation(true), {times: 1});
+  td.verify(wrapper.instance().foundation.setValidation(true), {times: 1});
 });
 test(
   '#componentDidUpdate neither calls #showToScreenReader nor ' +
     'setValidity if another prop updates',
   () => {
     const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-    wrapper.instance().foundation_.showToScreenReader = td.func<() => void>();
-    wrapper.instance().foundation_.setValidity = td.func<(isValidity: boolean) => void>();
-    wrapper.instance().foundation_.setValidation = td.func<(isValidation: boolean) => void>();
+    wrapper.instance().foundation.showToScreenReader = td.func<() => void>();
+    wrapper.instance().foundation.setValidity = td.func<(isValidity: boolean) => void>();
+    wrapper.instance().foundation.setValidation = td.func<(isValidation: boolean) => void>();
     wrapper.setProps({persistent: true});
     td.verify(
-      wrapper.instance().foundation_.showToScreenReader(),
+      wrapper.instance().foundation.showToScreenReader(),
       {times: 0}
     );
     td.verify(
-      wrapper.instance().foundation_.setValidity(td.matchers.isA(Boolean)),
+      wrapper.instance().foundation.setValidity(td.matchers.isA(Boolean)),
       {times: 0}
     );
     td.verify(
-      wrapper.instance().foundation_.setValidation(td.matchers.isA(Boolean)),
+      wrapper.instance().foundation.setValidation(td.matchers.isA(Boolean)),
       {times: 0}
     );
   }
@@ -162,7 +162,7 @@ test('#adapter.removeAttr sets aria-hidden to null', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-  const foundation = wrapper.instance().foundation_;
+  const foundation = wrapper.instance().foundation;
   foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
