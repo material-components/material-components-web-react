@@ -70,16 +70,10 @@ export default class NativeSelect extends React.Component<
 
   render() {
     const {
-      disabled,
       /* eslint-disable no-unused-vars */
       className,
       children,
       foundation,
-      value,
-      onFocus,
-      onBlur,
-      onTouchStart,
-      onMouseDown,
       innerRef,
       /* eslint-enable no-unused-vars */
       ...otherProps
@@ -87,12 +81,6 @@ export default class NativeSelect extends React.Component<
 
     return (
       <select
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onMouseDown={onMouseDown}
-        onTouchStart={onTouchStart}
-        disabled={disabled}
-        value={value}
         className={this.classes}
         ref={this.attachRef}
         {...otherProps}

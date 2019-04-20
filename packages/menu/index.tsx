@@ -163,7 +163,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
   renderChild() {
     const {children} = this.props;
     const {foundation} = this.state;
-    debugger
     if (!children) return;
 
     let handleItemAction: MDCMenuFoundation['handleItemAction'] = () => {};

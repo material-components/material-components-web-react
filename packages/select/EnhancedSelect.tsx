@@ -63,7 +63,7 @@ export default class EnhancedSelect extends React.Component<
     isInvalid: false,
   };
 
-  state = {
+  state: EnhancedSelectState = {
     'aria-expanded': undefined,
     selectedItem: null,
     selectedValue: '',
@@ -82,7 +82,6 @@ export default class EnhancedSelect extends React.Component<
 
   setSelected = () => {
     const listElements = this.menuEl.current !== null && this.menuEl.current!.listElements;
-    debugger
     if (!listElements || !listElements.length) return;
     
     const index = this.getIndexByValue(listElements);
@@ -91,7 +90,7 @@ export default class EnhancedSelect extends React.Component<
     this.setState({selectedItem, selectedValue});
   }
 
-  getIndexByValue = (listElements: Element[]) => {
+  private getIndexByValue = (listElements: Element[]) => {
     const {value} = this.props;
     let index = -1;
     if (index < 0 && value) {
@@ -106,7 +105,7 @@ export default class EnhancedSelect extends React.Component<
     return index;
   }
 
-  handleMenuClose = () => {
+  private handleMenuClose = () => {
     const {closeMenu, foundation} = this.props;
     closeMenu!();
     this.setState({'aria-expanded': undefined});
@@ -115,7 +114,7 @@ export default class EnhancedSelect extends React.Component<
     }
   }
 
-  handleMenuOpen = () => {
+  private handleMenuOpen = () => {
     this.setState({'aria-expanded': true});
     if (this.listElements && this.listElements.length > 0) {
       let index = this.getIndexByValue(this.listElements);
@@ -136,6 +135,7 @@ export default class EnhancedSelect extends React.Component<
       onTouchStart,
       onKeyDown,
       onFocus,
+      onClick,
       onBlur,
       onEnhancedChange,
       isInvalid,
@@ -147,7 +147,7 @@ export default class EnhancedSelect extends React.Component<
     if (required) {
       selectedTextAttrs['aria-required'] = required.toString();
     }
-    if (ariaExpanded || ariaExpanded === 'true') {
+    if (ariaExpanded && ariaExpanded !== 'false') {
       selectedTextAttrs['aria-expanded'] = 'true';
     }
     if (isInvalid) {
@@ -176,6 +176,7 @@ export default class EnhancedSelect extends React.Component<
           onTouchStart={onTouchStart}
           onKeyDown={onKeyDown}
           onFocus={onFocus}
+          onClick={onClick}
           onBlur={onBlur}
         >
           {selectedItem ? (selectedItem as Element).textContent!.trim() : ''}
@@ -192,7 +193,10 @@ export default class EnhancedSelect extends React.Component<
           onMount={this.setSelected}
         >
           <MenuList>
-            {children}
+            {React.Children.map(children, (child) => {
+              const c = child as React.ReactElement<OptionProps>;
+              return React.cloneElement(c, {...c.props, enhanced: true})
+            })}
           </MenuList>
         </Menu>
       </React.Fragment>
