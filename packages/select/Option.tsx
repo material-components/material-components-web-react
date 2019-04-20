@@ -24,9 +24,13 @@ import * as React from 'react';
 import {MenuListItem, MenuListItemProps} from '@material/react-menu';
 
 export type OptionProps<T extends HTMLElement = HTMLElement>
-  = (T extends HTMLOptionElement ? React.HTMLProps<HTMLOptionElement> : MenuListItemProps<T>)
+  = BaseOptionProps & (T extends HTMLOptionElement ? React.HTMLProps<HTMLOptionElement> : MenuListItemProps<T>)
 
-class Option<T extends HTMLElement = HTMLElement> extends React.Component<OptionProps<T> &  {enhanced?: boolean}, {}> {
+interface BaseOptionProps {
+  enhanced?: boolean;
+}
+
+class Option<T extends HTMLElement = HTMLElement> extends React.Component<OptionProps<T>, {}> {
   static defaultProps = {
     enhanced: false,
   };

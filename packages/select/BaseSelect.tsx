@@ -77,10 +77,12 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
     onMouseDown && onMouseDown(evt);
   }
 
-  handleClick = (evt: React.MouseEvent<T> | React.TouchEvent<T>) => {
-    if (this.props.foundation) {
-      this.props.foundation.handleClick(this.getNormalizedXCoordinate(evt));
+  handleClick = (evt: React.MouseEvent<T>) => {
+    const {foundation, onClick} = this.props;
+    if (foundation) {
+      foundation.handleClick(this.getNormalizedXCoordinate(evt));
     }
+    onClick && onClick(evt);
   }
 
   handleKeyDown = (evt: React.KeyboardEvent<T>) => {
@@ -109,6 +111,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       children,
       onFocus,
       onBlur,
+      onClick,
       onMouseDown,
       onTouchStart,
       onKeyDown,
@@ -121,6 +124,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
       onMouseDown: this.handleMouseDown,
+      onClick: this.handleClick,
       onTouchStart: this.handleTouchStart,
       className: selectClassName,
       ...otherProps
