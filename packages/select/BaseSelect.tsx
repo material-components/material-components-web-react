@@ -21,8 +21,12 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import NativeSelect, {NativeSelectProps} from './NativeSelect';
-import EnhancedSelect, {EnhancedSelectProps} from './EnhancedSelect';
+import NativeSelect, {
+  NativeSelectProps, // eslint-disable-line no-unused-vars
+} from './NativeSelect';
+import EnhancedSelect, {
+  EnhancedSelectProps, // eslint-disable-line no-unused-vars
+} from './EnhancedSelect';
 import {MDCSelectFoundation} from '@material/select/foundation';
 
 export type BaseSelectProps<T extends HTMLElement>
@@ -39,7 +43,6 @@ export interface CommonSelectProps {
 
 export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
   extends React.Component<BaseSelectProps<T>> {
-
   static defaultProps = {
     enhanced: false,
     selectClassName: '',
@@ -65,7 +68,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
     const {foundation, onTouchStart} = this.props;
     if (foundation) {
       foundation.handleClick(this.getNormalizedXCoordinate(evt));
-    } 
+    }
     onTouchStart && onTouchStart(evt);
   }
 
@@ -73,7 +76,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
     const {foundation, onMouseDown} = this.props;
     if (foundation) {
       foundation.handleClick(this.getNormalizedXCoordinate(evt));
-    } 
+    }
     onMouseDown && onMouseDown(evt);
   }
 
@@ -96,26 +99,29 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
   private isTouchEvent = (evt: MouseEvent | TouchEvent): evt is TouchEvent => {
     return Boolean((evt as TouchEvent).touches);
   }
-  
-  private getNormalizedXCoordinate 
+
+  private getNormalizedXCoordinate
     = (evt: React.MouseEvent<T> | React.TouchEvent<T>) => {
-    const targetClientRect = (evt.currentTarget as Element).getBoundingClientRect();
-    const xCoordinate = this.isTouchEvent(evt.nativeEvent) ? evt.nativeEvent.touches[0].clientX : evt.nativeEvent.clientX;
-    return xCoordinate - targetClientRect.left;
-  }
+      const targetClientRect = (evt.currentTarget as Element).getBoundingClientRect();
+      const xCoordinate
+        = this.isTouchEvent(evt.nativeEvent) ? evt.nativeEvent.touches[0].clientX : evt.nativeEvent.clientX;
+      return xCoordinate - targetClientRect.left;
+    }
 
 
   render() {
     const {
-      enhanced,
-      children,
+      /* eslint-enable no-unused-vars */
       onFocus,
       onBlur,
       onClick,
       onMouseDown,
       onTouchStart,
-      onKeyDown,
       ref,
+      /* eslint-disable no-unused-vars */
+      enhanced,
+      children,
+      onKeyDown,
       selectClassName,
       ...otherProps
     } = this.props;
@@ -127,15 +133,15 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       onClick: this.handleClick,
       onTouchStart: this.handleTouchStart,
       className: selectClassName,
-      ...otherProps
+      ...otherProps,
     };
 
     if (enhanced) {
       return (
-      <EnhancedSelect
-        onKeyDown={this.handleKeyDown}
-        {...props}
-      >
+        <EnhancedSelect
+          onKeyDown={this.handleKeyDown}
+          {...props}
+        >
           {children}
         </EnhancedSelect>
       );

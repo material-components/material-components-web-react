@@ -25,7 +25,7 @@ import classnames from 'classnames';
 import {MDCSelectIconAdapter} from '@material/select/icon/adapter';
 import {MDCSelectIconFoundation} from '@material/select/icon/foundation';
 
-export interface SelectIconProps extends React.HTMLProps<HTMLElement> { 
+export interface SelectIconProps extends React.HTMLProps<HTMLElement> {
   setIconFoundation?: (foundation?: MDCSelectIconFoundation) => void;
   tag?: keyof React.ReactHTML;
 }
@@ -42,13 +42,13 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
 
   state = {
     'tabindex': undefined,
-    role: undefined,
+    'role': undefined,
   };
 
   static defaultProps = {
     tag: 'i',
   };
-  
+
   componentDidMount() {
     const {setIconFoundation} = this.props;
     this.foundation = new MDCSelectIconFoundation(this.adapter);
@@ -83,7 +83,7 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
         }));
       },
       removeAttr: (attr: keyof ElementAttributes) => {
-        this.setState((prevState) => ({...prevState, [attr]: null}))
+        this.setState((prevState) => ({...prevState, [attr]: null}));
       },
       setContent: () => {
         // not implmenting because developer should would never call `setContent()`
@@ -93,11 +93,17 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
       registerInteractionHandler: () => undefined,
       deregisterInteractionHandler: () => undefined,
       notifyIconAction: () => undefined,
-    }
+    };
   }
 
   render() {
-    const {tag: Tag, setIconFoundation, children, className, ...otherProps} = this.props;
+    const {
+      tag: Tag,
+      setIconFoundation, // eslint-disable-line no-unused-vars
+      children,
+      className,
+      ...otherProps
+    } = this.props;
     const {tabindex: tabIndex, role} = this.state;
     return (
       // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892

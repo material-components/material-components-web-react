@@ -25,7 +25,7 @@ import classnames from 'classnames';
 import {MDCSelectHelperTextAdapter} from '@material/select/helper-text/adapter';
 import {MDCSelectHelperTextFoundation} from '@material/select/helper-text/foundation';
 
-export interface SelectHelperTextProps extends React.HTMLProps<HTMLParagraphElement> { 
+export interface SelectHelperTextProps extends React.HTMLProps<HTMLParagraphElement> {
   validation?: boolean;
   persistent?: boolean;
   setHelperTextFoundation?: (foundation?: MDCSelectHelperTextFoundation) => void;
@@ -45,10 +45,10 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
 
   state = {
     'aria-hidden': undefined,
-    role: undefined,
-    classList: new Set(),
+    'role': undefined,
+    'classList': new Set(),
   };
-  
+
   componentDidMount() {
     const {setHelperTextFoundation} = this.props;
     this.foundation = new MDCSelectHelperTextFoundation(this.adapter);
@@ -94,20 +94,22 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
         }));
       },
       removeAttr: (attr: keyof ElementAttributes) => {
-        this.setState((prevState) => ({...prevState, [attr]: null}))
+        this.setState((prevState) => ({...prevState, [attr]: null}));
       },
       setContent: () => {
         // not implmenting because developer should would never call `setContent()`
       },
-    }
+    };
   }
 
   render() {
     const {
       children,
+      /* eslint-enable no-unused-vars */
       persistent,
       validation,
       setHelperTextFoundation,
+      /* eslint-disable no-unused-vars */
       ...otherProps
     } = this.props;
     const {
