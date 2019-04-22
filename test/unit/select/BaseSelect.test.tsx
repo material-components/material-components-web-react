@@ -78,12 +78,12 @@ test('NativeSelect onTouchStart calls handleClick', () => {
   const clientX = 100;
   const left = 10;
   const getBoundingClientRect = td.func();
-  const currentTarget = coerceForTesting<Element>({getBoundingClientRect})
+  const currentTarget = coerceForTesting<Element>({getBoundingClientRect});
   const evt = coerceForTesting<React.TouchEvent<HTMLSelectElement>>({
     currentTarget,
     nativeEvent: {
-      touches: [{clientX}]
-    }
+      touches: [{clientX}],
+    },
   });
   td.when(getBoundingClientRect()).thenReturn({left});
 
@@ -101,12 +101,12 @@ test('EnhancedSelect onTouchStart calls handleClick', () => {
   const clientX = 100;
   const left = 10;
   const getBoundingClientRect = td.func();
-  const currentTarget = coerceForTesting<Element>({getBoundingClientRect})
+  const currentTarget = coerceForTesting<Element>({getBoundingClientRect});
   const evt = coerceForTesting<React.TouchEvent<HTMLElement>>({
     currentTarget,
     nativeEvent: {
-      touches: [{clientX}]
-    }
+      touches: [{clientX}],
+    },
   });
   td.when(getBoundingClientRect()).thenReturn({left});
 
@@ -124,10 +124,10 @@ test('NativeSelect onMouseDown calls handleClick', () => {
   const clientX = 100;
   const left = 10;
   const getBoundingClientRect = td.func();
-  const currentTarget = coerceForTesting<Element>({getBoundingClientRect})
+  const currentTarget = coerceForTesting<Element>({getBoundingClientRect});
   const evt = coerceForTesting<React.MouseEvent<HTMLSelectElement>>({
     currentTarget,
-    nativeEvent: {clientX}
+    nativeEvent: {clientX},
   });
   td.when(getBoundingClientRect()).thenReturn({left});
 
@@ -145,10 +145,10 @@ test('EnhancedSelect onMouseDown calls handleClick', () => {
   const clientX = 100;
   const left = 10;
   const getBoundingClientRect = td.func();
-  const currentTarget = coerceForTesting<Element>({getBoundingClientRect})
+  const currentTarget = coerceForTesting<Element>({getBoundingClientRect});
   const evt = coerceForTesting<React.MouseEvent<HTMLElement>>({
     currentTarget,
-    nativeEvent: {clientX}
+    nativeEvent: {clientX},
   });
   td.when(getBoundingClientRect()).thenReturn({left});
 
@@ -166,10 +166,10 @@ test('NativeSelect onClick calls handleClick', () => {
   const clientX = 100;
   const left = 10;
   const getBoundingClientRect = td.func();
-  const currentTarget = coerceForTesting<Element>({getBoundingClientRect})
+  const currentTarget = coerceForTesting<Element>({getBoundingClientRect});
   const evt = coerceForTesting<React.MouseEvent<HTMLSelectElement>>({
     currentTarget,
-    nativeEvent: {clientX}
+    nativeEvent: {clientX},
   });
   td.when(getBoundingClientRect()).thenReturn({left});
 
@@ -187,10 +187,10 @@ test('EnhancedSelect onClick calls handleClick', () => {
   const clientX = 100;
   const left = 10;
   const getBoundingClientRect = td.func();
-  const currentTarget = coerceForTesting<Element>({getBoundingClientRect})
+  const currentTarget = coerceForTesting<Element>({getBoundingClientRect});
   const evt = coerceForTesting<React.MouseEvent<HTMLElement>>({
     currentTarget,
-    nativeEvent: {clientX}
+    nativeEvent: {clientX},
   });
   td.when(getBoundingClientRect()).thenReturn({left});
 
@@ -206,10 +206,10 @@ test('NativeSelect onKeyDown calls props.onKeyDown', () => {
   const clientX = 100;
   const left = 10;
   const getBoundingClientRect = td.func();
-  const currentTarget = coerceForTesting<Element>({getBoundingClientRect})
+  const currentTarget = coerceForTesting<Element>({getBoundingClientRect});
   const evt = coerceForTesting<React.KeyboardEvent<HTMLSelectElement>>({
     currentTarget,
-    nativeEvent: {clientX}
+    nativeEvent: {clientX},
   });
   td.when(getBoundingClientRect()).thenReturn({left});
 
@@ -226,10 +226,10 @@ test('EnhancedSelect onKeyDown calls handleKeydown', () => {
   const clientX = 100;
   const left = 10;
   const getBoundingClientRect = td.func();
-  const currentTarget = coerceForTesting<Element>({getBoundingClientRect})
+  const currentTarget = coerceForTesting<Element>({getBoundingClientRect});
   const evt = coerceForTesting<React.KeyboardEvent<HTMLElement>>({
     currentTarget,
-    nativeEvent: {clientX}
+    nativeEvent: {clientX},
   });
   td.when(getBoundingClientRect()).thenReturn({left});
 

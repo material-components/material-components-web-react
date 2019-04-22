@@ -158,7 +158,7 @@ test('Menu.onOpen calls sets aria-expanded sets list item to focus', () => {
     {attachTo: div}
   );
   wrapper.find(Menu).props().onOpen!();
-  
+
   assert.equal(document.activeElement, wrapper.find(Option).getDOMNode());
   assert.equal(wrapper.state()['aria-expanded'], true);
   div.remove();
@@ -228,7 +228,7 @@ test('renders selectedText with state.selectedItem trimed', () => {
     <EnhancedSelect value='test321'>
       <Option data-value='test321'>MEOW MEOW</Option>
     </EnhancedSelect>
-  ); 
+  );
   assert.equal(wrapper.find('.mdc-select__selected-text').text(), 'MEOW MEOW');
   wrapper.unmount();
 });

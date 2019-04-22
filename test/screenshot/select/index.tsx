@@ -5,7 +5,7 @@ import Select, {SelectIcon, SelectProps, Option, SelectHelperText} from '../../.
 import '../../../packages/select/index.scss';
 import './index.scss';
 
-export default () => {
+const SelectScreenshotTest = () => {
   return (
     <div>
       {selectVariants.map((variant, index) => (
@@ -121,3 +121,4 @@ export const getSelects = (enhanced: boolean = false) => variants.map((variant) 
   });
 });
 
+export default SelectScreenshotTest;

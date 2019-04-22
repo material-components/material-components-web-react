@@ -1,6 +1,7 @@
 import topAppBarVariants from './top-app-bar/variants';
 import dialogVariants from './dialog/variants';
 import drawerVariants from './drawer/variants';
+import selectVariants from './select/variants';
 import textFieldVariants from './text-field/variants';
 const urls = [
   'button',
@@ -40,6 +41,10 @@ dialogVariants.forEach((variant: string) => {
 
 drawerVariants.forEach((variant: string) => {
   urls.push(`drawer/${variant}`);
+});
+
+selectVariants.forEach((variant: string) => {
+  urls.push(`select/${variant}`);
 });
 
 textFieldVariants.forEach((variant: string) => {

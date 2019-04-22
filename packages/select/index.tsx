@@ -31,18 +31,18 @@ import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundati
 import MDCSelectIconFoundation from '@material/select/icon/foundation';
 
 import {BaseSelect, BaseSelectProps} from './BaseSelect';
-import {EnhancedChild} from './EnhancedSelect';
-import Option, {OptionProps} from './Option';
+import {EnhancedChild} from './EnhancedSelect'; // eslint-disable-line no-unused-vars
+import Option, {OptionProps} from './Option'; // eslint-disable-line no-unused-vars
 import {SelectHelperTextProps} from './helper-text/index';
 import {SelectIconProps} from './icon/index';
 
 const {cssClasses} = MDCSelectFoundation;
 
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
-type NativeChild = React.ReactElement<OptionProps<HTMLElement>>
+type NativeChild = React.ReactElement<OptionProps<HTMLElement>>;
 type SelectChildren<T extends HTMLElement> = EnhancedChild<T> | EnhancedChild<T>[] | NativeChild | NativeChild[];
 
-export interface SelectProps<T extends HTMLElement = HTMLElement> 
+export interface SelectProps<T extends HTMLElement = HTMLElement>
   extends React.HTMLProps<HTMLSelectElement> {
   enhanced?: boolean;
   children?: SelectChildren<T>;
@@ -79,16 +79,17 @@ interface SelectState {
   foundation?: MDCSelectFoundation;
 };
 
-export default class Select<T extends HTMLElement = HTMLSelectElement> extends React.Component<SelectProps<T>, SelectState> {
+export default class Select<T extends HTMLElement = HTMLSelectElement>
+  extends React.Component<SelectProps<T>, SelectState> {
   nativeControl = React.createRef<HTMLSelectElement>();
 
   // These Sets are needed because setState({classList}) is asynchronous.
-  // This is an issue during a foundation.handleBlur call, when the 
+  // This is an issue during a foundation.handleBlur call, when the
   // focus class is being removed, and an adapter.hasClass() is immediately
   // called after that.
   classesBeingRemoved = new Set();
   classesBeingAdded = new Set();
-  
+
   constructor(props: SelectProps<T>) {
     super(props);
     this.state = {
@@ -213,10 +214,10 @@ export default class Select<T extends HTMLElement = HTMLSelectElement> extends R
       setValid: (isValid: boolean) => {
         this.setState({isInvalid: !isValid});
         this.setValidClasses(isValid);
-      }
+      },
     };
 
-    const labelAdapter = {  
+    const labelAdapter = {
       floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),
       getLabelWidth: () => this.state.labelWidth,
     };

@@ -23,7 +23,7 @@
 import * as React from 'react';
 import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import Menu, {MenuList} from '@material/react-menu';
-import {OptionProps} from './Option';
+import {OptionProps} from './Option'; // eslint-disable-line no-unused-vars
 import {CommonSelectProps} from './BaseSelect';
 import MDCSelectFoundation from '@material/select/foundation';
 
@@ -65,8 +65,8 @@ export default class EnhancedSelect extends React.Component<
 
   state: EnhancedSelectState = {
     'aria-expanded': undefined,
-    selectedItem: null,
-    selectedValue: '',
+    'selectedItem': null,
+    'selectedValue': '',
   }
 
   componentDidUpdate(prevProps: EnhancedSelectProps) {
@@ -83,10 +83,11 @@ export default class EnhancedSelect extends React.Component<
   setSelected = () => {
     const listElements = this.menuEl.current !== null && this.menuEl.current!.listElements;
     if (!listElements || !listElements.length) return;
-    
+
     const index = this.getIndexByValue(listElements);
     const selectedItem = listElements[index];
-    const selectedValue = selectedItem && selectedItem.getAttribute(MDCSelectFoundation.strings.ENHANCED_VALUE_ATTR) || '';
+    const selectedValue
+      = selectedItem && selectedItem.getAttribute(MDCSelectFoundation.strings.ENHANCED_VALUE_ATTR) || '';
     this.setState({selectedItem, selectedValue});
   }
 
@@ -140,7 +141,7 @@ export default class EnhancedSelect extends React.Component<
       onEnhancedChange,
       isInvalid,
     } = this.props;
-    
+
     const {'aria-expanded': ariaExpanded, selectedValue, selectedItem} = this.state;
 
     const selectedTextAttrs: {[key: string]: string} = {};
@@ -195,7 +196,7 @@ export default class EnhancedSelect extends React.Component<
           <MenuList>
             {React.Children.map(children, (child) => {
               const c = child as React.ReactElement<OptionProps>;
-              return React.cloneElement(c, {...c.props, enhanced: true})
+              return React.cloneElement(c, {...c.props, enhanced: true});
             })}
           </MenuList>
         </Menu>

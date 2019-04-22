@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-import Select, { SelectHelperText } from '../../../packages/select/index';
+import Select, {SelectHelperText} from '../../../packages/select/index';
 import {MDCSelectFoundation} from '@material/select/foundation';
 import {BaseSelect} from '../../../packages/select/BaseSelect';
 import {SelectIcon} from '../../../packages/select/index';
@@ -38,7 +38,7 @@ test('creates foundation', () => {
 test('#foundation.handleChange gets called when state.value updates', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
   const handleChange = td.func<() => void>();
-  wrapper.setState({foundation: coerceForTesting<MDCSelectFoundation>({handleChange})})
+  wrapper.setState({foundation: coerceForTesting<MDCSelectFoundation>({handleChange})});
   const value = 'value';
   wrapper.setState({value});
   td.verify(wrapper.state().foundation!.handleChange(true), {times: 1});
@@ -118,7 +118,7 @@ test('back to back calls to removeClass result in removing both classes', () => 
   wrapper.instance().adapter.removeClass(fakeSecondClassName);
   assert.isFalse(wrapper.state().classList.has(fakeClassName));
   assert.isFalse(wrapper.state().classList.has(fakeSecondClassName));
-})
+});
 
 test('#adapter.hasClass returns true if the string is in state.classList', () => {
   const wrapper = shallow<Select>(<Select />);
@@ -248,7 +248,8 @@ test('#adapter.checkValidity for enhancedSelect returns false if no state.value 
   assert.isFalse(wrapper.instance().adapter.checkValidity());
 });
 
-test('#adapter.setValid for enhancedSelect sets state.isInvalid to false and removes invalid class when isValid=true', () => {
+test('#adapter.setValid for enhancedSelect sets state.isInvalid to false and ' +
+'removes invalid class when isValid=true', () => {
   const wrapper = shallow<Select>(<Select enhanced/>);
   wrapper.setState({classList: new Set([MDCSelectFoundation.cssClasses.INVALID])});
   wrapper.instance().adapter.setValid(true);
@@ -256,7 +257,8 @@ test('#adapter.setValid for enhancedSelect sets state.isInvalid to false and rem
   assert.isFalse(wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID));
 });
 
-test('#adapter.setValid for enhancedSelect sets state.isInvalid to true and adds invalid class when isValid=false', () => {
+test('#adapter.setValid for enhancedSelect sets state.isInvalid to true and ' +
+'adds invalid class when isValid=false', () => {
   const wrapper = shallow<Select>(<Select enhanced/>);
   wrapper.instance().adapter.setValid(false);
   assert.isTrue(wrapper.state().isInvalid);
