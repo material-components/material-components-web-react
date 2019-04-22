@@ -20,7 +20,6 @@ const urls = [
   'menu-surface',
   'notched-outline',
   'radio',
-  'select',
   'snackbar',
   'tab',
   'tab-bar',
