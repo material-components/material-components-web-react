@@ -667,6 +667,20 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy(), {times: 1});
 });
 
+test('#adapter.getNativeInput throws error when no inputComponent', () => {
+  const wrapper = mount<TextField<HTMLInputElement>>(
+    <TextField>
+      <Input />
+    </TextField>
+  );
+  wrapper.instance().inputComponent_ = null;
+  try {
+    wrapper.instance().adapter.getNativeInput();
+  } catch (e) {
+    assert.equal(e.message, 'MDCReactTextField: The input did not render properly');
+  }
+});
+
 test('Useless test for code coverage', () => {
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField>
