@@ -310,7 +310,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
           {this.renderIcon()}
           <i className='mdc-select__dropdown-icon'></i>
           {this.renderSelect()}
-          {this.renderLabel()}
+          {this.props.outlined ? null : this.renderLabel()}
           {this.props.outlined
             ? this.renderNotchedOutline()
             : this.renderLineRipple()}
@@ -426,7 +426,9 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
         className={notchedOutlineClassName}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
-      />
+      >
+        {this.renderLabel()}
+      </NotchedOutline>
     );
   }
 
