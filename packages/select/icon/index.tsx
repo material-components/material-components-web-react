@@ -40,7 +40,7 @@ interface SelectIconState extends ElementAttributes {};
 export class SelectIcon extends React.Component<SelectIconProps, SelectIconState> {
   foundation?: MDCSelectIconFoundation;
 
-  state = {
+  state: SelectIconState = {
     'tabindex': undefined,
     'role': undefined,
   };

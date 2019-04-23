@@ -26,7 +26,6 @@ import {MDCSelectHelperTextAdapter} from '@material/select/helper-text/adapter';
 import {MDCSelectHelperTextFoundation} from '@material/select/helper-text/foundation';
 
 export interface SelectHelperTextProps extends React.HTMLProps<HTMLParagraphElement> {
-  validation?: boolean;
   persistent?: boolean;
   setHelperTextFoundation?: (foundation?: MDCSelectHelperTextFoundation) => void;
 }
@@ -43,7 +42,7 @@ interface SelectHelperTextState extends ElementAttributes {
 export class SelectHelperText extends React.Component<SelectHelperTextProps, SelectHelperTextState> {
   foundation?: MDCSelectHelperTextFoundation;
 
-  state = {
+  state: SelectHelperTextState = {
     'aria-hidden': undefined,
     'role': undefined,
     'classList': new Set(),
@@ -65,9 +64,9 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
   }
 
   get classes() {
-    const {persistent} = this.props;
+    const {className, persistent} = this.props;
     const {classList} = this.state;
-    return classnames('mdc-select-helper-text', Array.from(classList), {
+    return classnames('mdc-select-helper-text', Array.from(classList), className, {
       'mdc-select-helper-text--persistent': persistent,
     });
   }
@@ -107,7 +106,7 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
       children,
       /* eslint-enable no-unused-vars */
       persistent,
-      validation,
+      className,
       setHelperTextFoundation,
       /* eslint-disable no-unused-vars */
       ...otherProps
