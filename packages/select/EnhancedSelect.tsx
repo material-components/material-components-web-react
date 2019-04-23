@@ -194,6 +194,7 @@ export default class EnhancedSelect extends React.Component<
           onMount={this.setSelected}
         >
           <MenuList>
+            {/* TODO: this should use React.createContext instead */}
             {React.Children.map(children, (child) => {
               const c = child as React.ReactElement<OptionProps>;
               return React.cloneElement(c, {...c.props, enhanced: true});
