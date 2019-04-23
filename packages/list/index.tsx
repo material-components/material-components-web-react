@@ -25,7 +25,7 @@ import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
 import {MDCListIndex} from '@material/list/types';
 import {MDCListAdapter} from '@material/list/adapter';
-import * as memoizeOne from 'memoize-one';
+import memoizeOne from 'memoize-one';
 
 import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line no-unused-vars
 import ListItemGraphic from './ListItemGraphic';
@@ -364,6 +364,19 @@ export default class List extends React.Component<ListProps, ListState> {
     this.setState({listItemClassNames});
   };
 
+
+  getListProps = (checkboxList?: boolean, radioList?: boolean) => ({
+    checkboxList: Boolean(checkboxList),
+    radioList: Boolean(radioList),
+    handleKeyDown: this.handleKeyDown,
+    handleClick: this.handleClick,
+    handleFocus: this.handleFocus,
+    handleBlur: this.handleBlur,
+    onDestroy: this.onDestroy,
+    getClassNamesFromList: this.getListItemClassNames,
+    getListItemInitialTabIndex: this.getListItemInitialTabIndex,
+  });
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -385,21 +398,9 @@ export default class List extends React.Component<ListProps, ListState> {
       ...otherProps
     } = this.props;
 
-    const getListProps = (checkboxList?: boolean, radioList?: boolean) => ({
-      checkboxList: Boolean(checkboxList),
-      radioList: Boolean(radioList),
-      handleKeyDown: this.handleKeyDown,
-      handleClick: this.handleClick,
-      handleFocus: this.handleFocus,
-      handleBlur: this.handleBlur,
-      onDestroy: this.onDestroy,
-      getClassNamesFromList: this.getListItemClassNames,
-      getListItemInitialTabIndex: this.getListItemInitialTabIndex,
-    });
-
     // decreases rerenders
     // https://overreacted.io/writing-resilient-components/#dont-stop-the-data-flow-in-rendering
-    const getMemoizedListProps = memoizeOne(getListProps);
+    const getMemoizedListProps = memoizeOne(this.getListProps);
 
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
