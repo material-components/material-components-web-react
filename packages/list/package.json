@@ -21,9 +21,13 @@
     "@material/react-checkbox": "^0.10.0",
     "@material/react-radio": "^0.10.0",
     "classnames": "^2.2.6",
+    "memoize-one": "^5.0.4",
     "react": "^16.4.2"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/memoize-one": "^4.1.1"
   }
 }
