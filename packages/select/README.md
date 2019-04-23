@@ -24,11 +24,11 @@ import '@material/react-select/dist/select.css';
 
 ### Javascript Instantiation
 
-React Select requires at least one `<option>` element as a child and a label prop.
+React Select requires at least one `<Option>` element as a child and a label prop.
 
 ```js
 import React from 'react';
-import Select from '@material/react-select';
+import Select, {Option} from '@material/react-select';
 
 class MyApp extends React.Component {
   state = {value: 'pomsky'};
@@ -37,10 +37,11 @@ class MyApp extends React.Component {
     return (
       <Select
         label='Choose Dog'
+        value={this.state.value}
         onChange={(evt) => this.setState({value: evt.target.value})}
       >
-        <option value='pomsky'>Pomsky</option>
-        <option value='goldenDoodle'>Golden Doodle</option>
+        <Option value='pomsky'>Pomsky</Option>
+        <Option value='goldenDoodle'>Golden Doodle</Option>
       </Select>
     );
   }
@@ -48,6 +49,38 @@ class MyApp extends React.Component {
 ```
 
 > NOTE: In order to get access to the value, you must add an `onChange` handler, which accepts an event and updates the value of the select as shown above.
+
+#### Enhanced Select
+
+React Select provides a Material styled select, instead of the default native drop down.
+
+```js
+import React from 'react';
+import Select, {Option} from '@material/react-select';
+
+class MyApp extends React.Component {
+  state = {value: 'pomsky'};
+
+  onEnhancedChange = (index, item) => (
+    this.setState({value: item.getAttribute('data-value')});
+  );
+
+  render() {
+    return (
+      <Select
+        enhanced
+        label='Choose Dog'
+        value={this.state.value}
+        onEnhancedChange={this.onEnhancedChange}
+      >
+        <Option value='pomsky'>Pomsky</Option>
+        <Option value='goldenDoodle'>Golden Doodle</Option>
+      </Select>
+    );
+  }
+}
+```
+
 
 #### Shorthand options
 
@@ -84,14 +117,12 @@ class MyApp extends React.Component {
 }
 ```
 
-> NOTE: If you want a the floating label to act as a placeholder, you will need
-> an empty option as documented in the [MDC Web Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/#using-the-floating-label-as-the-placeholder).
+> NOTE: If you want a the floating label to act as a placeholder, you will need an empty option as documented in the [MDC Web Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/#using-the-floating-label-as-the-placeholder).
 
 ## Props
 
 Prop Name | Type | Description
 --- | --- | ---
-box | Boolean | Enables box variant.
 children | Array{Element}/Element | Array of `<option>` elements or a single `<option>` element.
 className | String | An optional class added to the `.mdc-select` element.
 disabled | Boolean | Disables the select.
