@@ -58,7 +58,6 @@ test('if hasRipple true, then it should contain RippleMaterialIcon', () => {
 
 test('if hasRipple true prop.tag, then it should contain RippleMaterialIcon with custom tag', () => {
   const wrapper = mount(<MaterialIcon icon='menu' tag='a' href='/' hasRipple />);
-  console.log({x: wrapper.find('.material-icons').type(), y: rippledTaggedIconComponent});
   assert.isTrue(wrapper.contains(rippledTaggedIconComponent));
   assert.strictEqual(wrapper.find('.material-icons').type(), 'a');
 });
