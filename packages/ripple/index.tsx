@@ -25,7 +25,7 @@ import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 
 import {MDCRippleFoundation} from '@material/ripple/foundation';
 import {MDCRippleAdapter} from '@material/ripple/adapter';
-import util from '@material/ripple/util';
+import {supportsCssVariables} from '@material/ripple/util';
 import {SpecificEventListener} from '@material/base/types';
 import {matches} from '@material/dom/ponyfill';
 
@@ -152,7 +152,7 @@ export function withRipple <
 
   createAdapter = (surface: Surface, activator?: Activator): MDCRippleAdapter => {
     return {
-      browserSupportsCssVars: () => util.supportsCssVariables(window),
+      browserSupportsCssVars: () => supportsCssVariables(window),
       isUnbounded: () => this.props.unbounded! as boolean,
       isSurfaceActive: () => {
         if (activator) {
