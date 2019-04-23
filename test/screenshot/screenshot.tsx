@@ -2,7 +2,7 @@ import {Readable} from 'stream';
 import {createHash} from 'crypto';
 import {readFile, writeFile} from 'fs';
 import {promisify} from 'util';
-import * as puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer';
 // @ts-ignore
 import * as compareImages from 'resemblejs/compareImages';
 import {test} from 'mocha';
