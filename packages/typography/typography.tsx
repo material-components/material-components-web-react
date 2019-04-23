@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import classnames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 
 export interface TypographyProps<T> extends React.HTMLProps<T> {
   children?: React.ReactNode;

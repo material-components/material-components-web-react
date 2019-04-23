@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {HelperText} from '../../../packages/text-field';
 import MaterialIcon from '../../../packages/material-icon/index';
 

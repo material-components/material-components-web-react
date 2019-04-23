@@ -19,13 +19,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 
 import {MDCRippleFoundation} from '@material/ripple/foundation';
 import {MDCRippleAdapter} from '@material/ripple/adapter';
-import * as util from '@material/ripple/util';
+import util from '@material/ripple/util';
 import {SpecificEventListener} from '@material/base/types';
 import {matches} from '@material/dom/ponyfill';
 

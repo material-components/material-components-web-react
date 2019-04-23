@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import * as Ripple from '@material/react-ripple';
+import Ripple from '@material/react-ripple';
 
 export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement>{
   className: string;

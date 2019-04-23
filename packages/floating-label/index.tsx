@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import {MDCFloatingLabelFoundation} from '@material/floating-label/foundation';
 import {MDCFloatingLabelAdapter} from '@material/floating-label/adapter';
