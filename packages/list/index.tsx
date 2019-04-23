@@ -365,7 +365,7 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
 
-  getListProps = (checkboxList?: boolean, radioList?: boolean) => ({
+  private getListProps = (checkboxList?: boolean, radioList?: boolean) => ({
     checkboxList: Boolean(checkboxList),
     radioList: Boolean(radioList),
     handleKeyDown: this.handleKeyDown,
@@ -376,6 +376,11 @@ export default class List extends React.Component<ListProps, ListState> {
     getClassNamesFromList: this.getListItemClassNames,
     getListItemInitialTabIndex: this.getListItemInitialTabIndex,
   });
+
+
+  // decreases rerenders
+  // https://overreacted.io/writing-resilient-components/#dont-stop-the-data-flow-in-rendering
+  getListPropsMemoized = memoizeOne(this.getListProps);
 
   render() {
     const {
@@ -398,10 +403,6 @@ export default class List extends React.Component<ListProps, ListState> {
       ...otherProps
     } = this.props;
 
-    // decreases rerenders
-    // https://overreacted.io/writing-resilient-components/#dont-stop-the-data-flow-in-rendering
-    const getMemoizedListProps = memoizeOne(this.getListProps);
-
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
@@ -411,7 +412,7 @@ export default class List extends React.Component<ListProps, ListState> {
         role={this.role}
         {...otherProps}
       >
-        <ListItemContext.Provider value={getMemoizedListProps(checkboxList, radioList)}>
+        <ListItemContext.Provider value={this.getListPropsMemoized(checkboxList, radioList)}>
           {children}
         </ListItemContext.Provider>
       </Tag>
