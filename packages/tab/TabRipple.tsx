@@ -23,13 +23,13 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import Ripple from '@material/react-ripple';
 import {
+  withRipple, InjectedProps,
   RippledComponentInterface, RippledComponentState, // eslint-disable-line no-unused-vars
 } from '@material/react-ripple';
 
 export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>,
-  Ripple.InjectedProps<HTMLDivElement> {
+  InjectedProps<HTMLDivElement> {
   className: string;
   ref?: React.RefObject<TabRipple>;
 }
@@ -59,6 +59,6 @@ class TabRippleBase extends React.Component<TabRippleProps, {}> {
   }
 }
 
-const TabRipple = Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
+const TabRipple = withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
 type TabRipple = React.Component<TabRippleProps, RippledComponentState> & RippledComponentInterface<any>;
 export default TabRipple;

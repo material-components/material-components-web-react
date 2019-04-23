@@ -22,14 +22,14 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import Ripple from '@material/react-ripple';
+import {withRipple, InjectedProps} from '@material/react-ripple';
 
 const BUTTON_CLASS_NAME = 'mdc-button__icon';
 
 type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
 
 export interface ButtonProps<T extends ButtonTypes>
-  extends Ripple.InjectedProps<T>, React.AnchorHTMLAttributes<T>, React.ButtonHTMLAttributes<T> {
+  extends InjectedProps<T>, React.AnchorHTMLAttributes<T>, React.ButtonHTMLAttributes<T> {
     raised?: boolean;
     unelevated?: boolean;
     outlined?: boolean;
@@ -109,5 +109,5 @@ Button.defaultProps = {
   initRipple: () => {},
 };
 
-export default Ripple.withRipple<ButtonProps<ButtonTypes>, ButtonTypes>(Button);
+export default withRipple<ButtonProps<ButtonTypes>, ButtonTypes>(Button);
 

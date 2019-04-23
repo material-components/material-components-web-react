@@ -35,7 +35,7 @@ import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
-export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLElement> {
+export interface ListProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<HTMLElement> {
   className?: string;
   checkboxList?: boolean;
   radioList?: boolean;
@@ -49,6 +49,7 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
   wrapFocus?: boolean;
   tag?: string;
   children: ListItem<T> | ListItem<T>[] | React.ReactNode;
+  ref?: React.Ref<any>;
 };
 
 

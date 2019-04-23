@@ -25,11 +25,11 @@ import classnames from 'classnames';
 import {MDCCheckboxFoundation} from '@material/checkbox/foundation';
 import {MDCCheckboxAdapter} from '@material/checkbox/adapter';
 import {cssClasses} from '@material/checkbox/constants';
-import Ripple from '@material/react-ripple';
+import {withRipple, InjectedProps} from '@material/react-ripple';
 
 import NativeControl from './NativeControl';
 
-export interface CheckboxProps extends Ripple.InjectedProps<HTMLDivElement, HTMLInputElement> {
+export interface CheckboxProps extends InjectedProps<HTMLDivElement, HTMLInputElement> {
   checked?: boolean;
   className?: string;
   disabled?: boolean;
@@ -220,4 +220,4 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 }
 
-export default Ripple.withRipple<CheckboxProps, HTMLDivElement, HTMLInputElement>(Checkbox);
+export default withRipple<CheckboxProps, HTMLDivElement, HTMLInputElement>(Checkbox);

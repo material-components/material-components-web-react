@@ -22,7 +22,7 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import Ripple from '@material/react-ripple';
+import {withRipple, InjectedProps} from '@material/react-ripple';
 
 export interface MaterialIconDefaultProps extends React.HTMLAttributes<HTMLElement> {
   icon?: string;
@@ -31,7 +31,7 @@ export interface MaterialIconDefaultProps extends React.HTMLAttributes<HTMLEleme
   unbounded?: boolean;
 };
 
-export interface MaterialIconProps extends MaterialIconDefaultProps, Ripple.InjectedProps<HTMLElement> {};
+export interface MaterialIconProps extends MaterialIconDefaultProps, InjectedProps<HTMLElement> {};
 
 const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
   className, icon, initRipple, hasRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
@@ -50,7 +50,7 @@ const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
   );
 };
 
-export const RippleMaterialIcon = Ripple.withRipple<MaterialIconProps, HTMLElement>(MaterialIconDefault);
+export const RippleMaterialIcon = withRipple<MaterialIconProps, HTMLElement>(MaterialIconDefault);
 
 export default class MaterialIcon extends React.Component<
   MaterialIconProps, {}
