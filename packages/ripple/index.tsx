@@ -25,7 +25,7 @@ import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
 
 import {MDCRippleFoundation} from '@material/ripple/foundation';
 import {MDCRippleAdapter} from '@material/ripple/adapter';
-import {supportsCssVariables} from '@material/ripple/util';
+import {supportsCssVariables, applyPassive} from '@material/ripple/util';
 import {SpecificEventListener} from '@material/base/types';
 import {matches} from '@material/dom/ponyfill';
 
@@ -180,13 +180,13 @@ export function withRipple <
         document.documentElement.addEventListener(
           evtType,
           handler,
-          util.applyPassive()
+          applyPassive()
         ),
       deregisterDocumentInteractionHandler: (evtType: string, handler: EventListener) =>
         document.documentElement.removeEventListener(
           evtType,
           handler,
-          util.applyPassive()
+          applyPassive()
         ),
       registerResizeHandler: (handler: SpecificEventListener<'resize'>) =>
         window.addEventListener('resize', handler),
