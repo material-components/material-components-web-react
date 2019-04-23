@@ -96,7 +96,6 @@ const valueMap = [{}, {value: 'pomsky'}];
 const helperTextMap = [
   {key: 'nohelpertext'},
   {helperText: <SelectHelperText persistent>Help me</SelectHelperText>, key: 'persistent'},
-  {helperText: <SelectHelperText validation>Error message</SelectHelperText>, key: 'validation'},
 ];
 
 export const getSelects = (enhanced: boolean = false) => variants.map((variant) => {
