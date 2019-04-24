@@ -153,7 +153,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       [cssClasses.DISABLED]: disabled,
       [cssClasses.FOCUSED]: isFocused,
       [cssClasses.INVALID]: isValid,
-      [cssClasses.OUTLINED]: outlined,
+      [cssClasses.OUTLINED]: outlined && !fullWidth,
       [cssClasses.TEXTAREA]: textarea,
       // TODO change literal to constant
       'mdc-text-field--fullwidth': fullWidth,
@@ -316,12 +316,14 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           className={this.classes}
           onClick={() => foundation!.handleTextFieldInteraction()}
           onKeyDown={() => foundation!.handleTextFieldInteraction()}
-          key='text-field-container'>
+          key='text-field-container'
+        >
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
           {this.renderInput()}
-          {label && !fullWidth ? this.renderLabel() : null}
-          {outlined ? this.renderNotchedOutline() : null}
-          {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
+          {outlined ? this.renderNotchedOutline() : <React.Fragment>
+            {label && !fullWidth ? this.renderLabel() : null}
+            {!textarea && !fullWidth ? this.renderLineRipple() : null}
+          </React.Fragment>}
           {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
         </div>
         {helperText || characterCounter ? this.renderHelperLine(helperText, characterCounter) : null}
