@@ -35,7 +35,6 @@ export interface ListItemProps<T> extends React.HTMLProps<T> {
   activated?: boolean;
   selected?: boolean;
   onDestroy?: () => void;
-  ref?: React.Ref<any>;
 }
 
 export default class ListItem<T extends HTMLElement = HTMLElement> extends React.Component<

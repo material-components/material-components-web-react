@@ -49,7 +49,6 @@ export interface ListProps<T extends HTMLElement = HTMLElement> extends React.HT
   wrapFocus?: boolean;
   tag?: string;
   children: ListItem<T> | ListItem<T>[] | React.ReactNode;
-  ref?: React.Ref<any>;
 };
 
 
