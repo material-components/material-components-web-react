@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import {MDCTabScrollerFoundation} from '@material/tab-scroller/foundation';
 import {MDCTabScrollerAdapter} from '@material/tab-scroller/adapter';
-import * as util from '@material/tab-scroller/util';
+import {computeHorizontalScrollbarHeight} from '@material/tab-scroller/util';
 import {matches} from '@material/dom/ponyfill';
 
 const convertDashToCamelCase = (propName: string) =>
@@ -160,7 +160,7 @@ export default class TabScroller extends React.Component<
           this.contentElement.current.getBoundingClientRect() :
           new ClientRect(),
       computeHorizontalScrollbarHeight: () =>
-        util.computeHorizontalScrollbarHeight(document),
+        computeHorizontalScrollbarHeight(document),
     };
   }
 

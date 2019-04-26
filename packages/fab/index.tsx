@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import * as Ripple from '@material/react-ripple';
+import {withRipple, InjectedProps} from '@material/react-ripple';
 
-export interface FabProps extends Ripple.InjectedProps<HTMLButtonElement>,
+export interface FabProps extends InjectedProps<HTMLButtonElement>,
   React.ButtonHTMLAttributes<HTMLButtonElement> {
     exited?: boolean;
     mini?: boolean;
@@ -81,4 +81,4 @@ export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonE
   );
 };
 
-export default Ripple.withRipple<FabProps, HTMLButtonElement>(Fab);
+export default withRipple<FabProps, HTMLButtonElement>(Fab);

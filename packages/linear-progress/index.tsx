@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import classnames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import {MDCLinearProgressFoundation} from '@material/linear-progress/foundation';
 import {MDCLinearProgressAdapter} from '@material/linear-progress/adapter';
 

@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import './index.scss';
 import '../../../packages/chips/index.scss';
 import MaterialIcon from '../../../packages/material-icon';
 import {ChipProps, Chip, ChipSet} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
 // no .d.ts file
 // @ts-ignore
-import * as uuidv1 from 'uuid/v1';
+import uuidv1 from 'uuid/v1';
 
 interface ChipsTestProps {
   selectedChipIds: string[];

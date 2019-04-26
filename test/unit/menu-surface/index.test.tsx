@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
 import {MDCMenuDistance} from '@material/menu-surface';

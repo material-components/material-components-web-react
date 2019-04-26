@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Select, {SelectProps} from '../../../packages/select/index';
 
 interface SelectTestState {

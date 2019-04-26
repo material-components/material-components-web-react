@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import TabIndicator from '../../../packages/tab-indicator/index';
 import MaterialIcon from '../../../packages/material-icon/index';
