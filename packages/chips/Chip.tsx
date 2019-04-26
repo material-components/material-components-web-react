@@ -19,13 +19,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import * as Ripple from '@material/react-ripple';
+import {withRipple, InjectedProps} from '@material/react-ripple';
 import {MDCChipFoundation} from '@material/chips/chip/foundation';
 import {MDCChipAdapter} from '@material/chips/chip/adapter';
 
-export interface ChipProps extends Ripple.InjectedProps<HTMLDivElement> {
+export interface ChipProps extends InjectedProps<HTMLDivElement> {
   id?: string;
   label?: string;
   className?: string;
@@ -256,4 +256,4 @@ export class Chip extends React.Component<ChipProps, ChipState> {
   }
 }
 
-export default Ripple.withRipple<ChipProps, HTMLDivElement>(Chip);
+export default withRipple<ChipProps, HTMLDivElement>(Chip);

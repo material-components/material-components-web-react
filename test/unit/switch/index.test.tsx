@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import Switch from '../../../packages/switch/index';
 import {coerceForTesting} from '../helpers/types';
 

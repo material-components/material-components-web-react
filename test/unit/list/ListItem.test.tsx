@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import {ListItem} from '../../../packages/list/index';
 

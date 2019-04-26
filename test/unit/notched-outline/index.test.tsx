@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {mount, shallow} from 'enzyme';
 import NotchedOutline from '../../../packages/notched-outline/index';
 import {MDCNotchedOutlineFoundation} from '@material/notched-outline/foundation';

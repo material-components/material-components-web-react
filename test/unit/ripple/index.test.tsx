@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {MDCRippleFoundation} from '@material/ripple/foundation';
 import {MDCRippleAdapter} from '@material/ripple/adapter';
 import {SpecificEventListener} from '@material/base/types';

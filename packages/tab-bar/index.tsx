@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import TabScroller from '@material/react-tab-scroller';
 import Tab, {TabProps} from '@material/react-tab'; // eslint-disable-line no-unused-vars

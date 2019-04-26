@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Fab from '../../../packages/fab/index';
 import '../../../packages/fab/index.scss';
 import './index.scss';

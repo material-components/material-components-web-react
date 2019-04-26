@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import * as Ripple from '@material/react-ripple';
+import {withRipple, InjectedProps} from '@material/react-ripple';
 import {MDCIconButtonToggleAdapter} from '@material/icon-button/adapter';
 import {MDCIconButtonToggleFoundation} from '@material/icon-button/foundation';
 import {MDCIconButtonToggleEventDetail} from '@material/icon-button/types';
@@ -45,7 +45,7 @@ interface IconButtonBaseState extends ElementAttributes {
 };
 
 export interface IconButtonProps<T extends IconButtonTypes>
-  extends Ripple.InjectedProps<T>, IconButtonBaseProps, React.HTMLProps<T> {};
+  extends InjectedProps<T>, IconButtonBaseProps, React.HTMLProps<T> {};
 
 class IconButtonBase<T extends IconButtonTypes> extends React.Component<
   IconButtonProps<T>,
@@ -137,7 +137,7 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
   }
 }
 
-const IconButton = Ripple.withRipple<IconButtonProps<IconButtonTypes>, IconButtonTypes>(IconButtonBase);
+const IconButton = withRipple<IconButtonProps<IconButtonTypes>, IconButtonTypes>(IconButtonBase);
 
 export default IconButton;
 export {IconToggle, IconButtonBase};

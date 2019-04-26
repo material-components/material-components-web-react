@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as td from 'testdouble';
+import React from 'react';
+import td from 'testdouble';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
 import NativeControl from '../../../packages/select/NativeControl';
