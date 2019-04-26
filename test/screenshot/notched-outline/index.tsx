@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import NotchedOutline from '../../../packages/notched-outline/index';
 import FloatingLabel from '../../../packages/floating-label/index';
 import '../../../packages/notched-outline/index.scss';

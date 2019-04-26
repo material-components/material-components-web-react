@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
-import * as React from 'react';
-import * as td from 'testdouble';
+import React from 'react';
+import td from 'testdouble';
 import LinearProgress from '../../../packages/linear-progress/index';
 
 suite('LinearProgress');

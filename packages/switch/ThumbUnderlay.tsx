@@ -20,12 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import * as Ripple from '@material/react-ripple';
+import {withRipple, InjectedProps} from '@material/react-ripple';
 
 export interface ThumbUnderlayProps
-  extends Ripple.InjectedProps<HTMLDivElement, HTMLInputElement>, React.HTMLProps<HTMLDivElement> {
+  extends InjectedProps<HTMLDivElement, HTMLInputElement>, React.HTMLProps<HTMLDivElement> {
     rippleActivator: React.RefObject<HTMLInputElement>;
     initRipple: (surface: HTMLDivElement, activator?: HTMLInputElement) => void;
 }
@@ -66,4 +66,4 @@ export class ThumbUnderlay extends React.Component<ThumbUnderlayProps, {}> {
   }
 }
 
-export default Ripple.withRipple<ThumbUnderlayProps, HTMLDivElement, HTMLInputElement>(ThumbUnderlay);
+export default withRipple<ThumbUnderlayProps, HTMLDivElement, HTMLInputElement>(ThumbUnderlay);

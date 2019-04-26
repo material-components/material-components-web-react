@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import TabScroller from '../../../packages/tab-scroller';
 import '../../../packages/tab-scroller/index.scss';
 import './index.scss';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import '../../../packages/snackbar/index.scss';
 import './index.scss';
 import {Snackbar} from '../../../packages/snackbar/index';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import './index.scss';
 import {Cell, Grid, Row} from '../../../packages/layout-grid/index';
 import '../../../packages/layout-grid/index.scss';
