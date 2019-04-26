@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {MDCModalDrawerFoundation, MDCDismissibleDrawerFoundation, MDCDrawerAdapter} from '@material/drawer';
 import Drawer from '../../../packages/drawer/index';
 import {Options, DeactivateOptions, FocusTrap} from 'focus-trap'; // eslint-disable-line no-unused-vars

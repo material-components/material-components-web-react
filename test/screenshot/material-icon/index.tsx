@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import MaterialIcon from '../../../packages/material-icon';
 import '../../../packages/material-icon/index.scss';
 

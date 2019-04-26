@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   TopAppBarFixedAdjust,
   TopAppbarFixedAdjustProps, // eslint-disable-line no-unused-vars
