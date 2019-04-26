@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import {MDCLineRippleFoundation} from '@material/line-ripple/foundation';
 import {MDCLineRippleAdapter} from '@material/line-ripple/adapter';

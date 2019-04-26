@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {Chip} from '../../../packages/chips/Chip';
 import ChipCheckmark from '../../../packages/chips/ChipCheckmark';
 import {coerceForTesting} from '../helpers/types';

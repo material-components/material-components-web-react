@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import '../../../packages/drawer/index.scss';
 import './index.scss';
 import TopAppBar, {

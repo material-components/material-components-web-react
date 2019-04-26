@@ -14,7 +14,7 @@
     "pretest": "npm stop",
     "test": "npm run lint && npm run test:unit && npm run test:screenshots",
     "posttest": "npm stop && istanbul report --root coverage text-summary && istanbul check-coverage --lines 95 --statements 95 --branches 95 --functions 95",
-    "postinstall": "lerna bootstrap",
+    "postinstall": "lerna bootstrap && rm node_modules/**/.babelrc -f && rm packages/**/node_modules/.babelrc -f",
     "test:watch": "karma start karma.local.js --auto-watch",
     "test:unit": "npm run clean && cross-env NODE_ENV=test karma start karma.local.js --single-run",
     "test:unit-ci": "karma start karma.ci.js --single-run",
