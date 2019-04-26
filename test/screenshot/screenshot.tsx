@@ -3,7 +3,7 @@ import {createHash} from 'crypto';
 import {readFile, writeFile} from 'fs';
 import {promisify} from 'util';
 import puppeteer from 'puppeteer';
-// @ts-ignore
+// @ts-ignore no typings
 import compareImages from 'resemblejs/compareImages';
 import {test} from 'mocha';
 import {assert} from 'chai';
