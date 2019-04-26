@@ -15,6 +15,7 @@ const urls = [
   'icon-button',
   'layout-grid',
   'material-icon',
+  'menu',
   'menu-surface',
   'notched-outline',
   'radio',

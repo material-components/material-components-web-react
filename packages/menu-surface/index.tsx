@@ -29,7 +29,6 @@ import {Corner} from '@material/menu-surface/index';
 import {MDCMenuDistance} from '@material/menu-surface/types';
 
 export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
-  className?: string;
   anchorElement?: HTMLElement;
   anchorCorner?: number;
   anchorMargin?: {
@@ -45,7 +44,6 @@ export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
   };
   onClose?: () => void;
   onOpen?: () => void;
-  onKeyDown?: (event: React.KeyboardEvent) => void;
   quickOpen?: boolean;
   open?: boolean;
   fixed?: boolean;
