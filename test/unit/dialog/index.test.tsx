@@ -1,12 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 
 import {assert} from 'chai';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 import Dialog, {
   ChildTypes, DialogTitle, DialogContent, DialogFooter, DialogButton,
 } from '../../../packages/dialog';
-import * as util from '@material/dialog/util';
+import {isScrollable, areTopsMisaligned} from '@material/dialog/util';
 import {cssClasses, LAYOUT_EVENTS} from '../../../packages/dialog/constants';
 import {coerceForTesting} from '../helpers/types';
 import {FocusTrap} from 'focus-trap';
@@ -235,7 +235,7 @@ test('#adapter.isContentScrollable returns the value of util.isScrollable', () =
   );
   const content = wrapper.instance().content;
   assert.strictEqual(
-    wrapper.instance().adapter.isContentScrollable(), util.isScrollable(content)
+    wrapper.instance().adapter.isContentScrollable(), isScrollable(content)
   );
 });
 
@@ -244,7 +244,7 @@ test('#adapter.areButtonsStacked returns result of util.areTopsMisaligned', () =
   const buttons = wrapper.instance().buttons;
   assert.strictEqual(
     wrapper.instance().adapter.areButtonsStacked(),
-    util.areTopsMisaligned(buttons)
+    areTopsMisaligned(buttons)
   );
 });
 

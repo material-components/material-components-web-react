@@ -28,8 +28,3 @@ Since `classnames@2.2.6` is exporting `default`, we should be importing as such:
 // referenced in https://github.com/basarat/typescript-book/blob/master/docs/project/external-modules.md#default-exportsimports
 import classnames from 'classnames';
 ```
-
-In other cases where we import modules that do not use `default`, we should import like:
-```ts
-import * as classnames from 'classnames';
-```

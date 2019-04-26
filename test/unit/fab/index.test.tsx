@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
 import {mount} from 'enzyme'; // need mount for ripple ref call
 import Fab from '../../../packages/fab/index';

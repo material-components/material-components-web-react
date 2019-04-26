@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import '@material/button/mdc-button.scss';
 import '@material/list/mdc-list.scss';
 import '../../../packages/card/index.scss';

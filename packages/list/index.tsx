@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
 import {MDCListIndex} from '@material/list/types';
@@ -35,7 +35,7 @@ import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
-export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLElement> {
+export interface ListProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<HTMLElement> {
   className?: string;
   checkboxList?: boolean;
   radioList?: boolean;

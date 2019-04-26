@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import './index.scss';
 import LinearProgress from '../../../packages/linear-progress/index';
 import '../../../packages/linear-progress/index.scss';

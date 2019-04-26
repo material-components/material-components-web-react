@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 import {Headline3} from '../../../packages/typography/index';
 
 suite('TypographyHeadline3');
