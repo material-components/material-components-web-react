@@ -1,6 +1,5 @@
 import * as React from 'react';
 import '../../../packages/menu/index.scss';
-import './index.scss';
 import Menu, {MenuList, MenuListItem, MenuListItemText} from '../../../packages/menu/index';
 
 interface MenuState {
