@@ -280,7 +280,7 @@ test('event transitionend triggers foundation.handleTransitionEnd', () => {
 
 test('does not render scrim when props.modal is false', () => {
   const wrapper = shallow(<Drawer />);
-  assert.equal(wrapper.childAt(1).type(), null);
+  assert.equal(wrapper.children().length, 1);
 });
 
 test('renders scrim when props.modal is true', () => {

@@ -153,27 +153,24 @@ test('#adapter.setAttributeForElementIndex call nothing when no children exist',
   assert.doesNotThrow(() => wrapper.instance().adapter.setAttributeForElementIndex(0, 'role', 'menu'));
 });
 
-test('#adapter.addClassForElementIndex adds classes to listitem', () => {
+test('#adapter.addClassForElementIndex adds classes to state', () => {
   const wrapper = mount<List>(<List>{children()}</List>);
   wrapper.instance().adapter.addClassForElementIndex =
     coerceForTesting<(index: number, className: string) => void>(td.func());
   wrapper.instance().adapter.addClassForElementIndex(0, 'class4321');
-  const listItem = wrapper.childAt(0).childAt(0);
-  assert.isTrue(listItem.html().includes('class4321'));
-  assert.isTrue(listItem.html().includes('mdc-list-item'));
+  assert.isTrue(wrapper.state().listItemClassNames[0].includes('class4321'));
 });
 
-test('#adapter.addClassForElementIndex adds class to classList and keeps props.className', () => {
+test('#adapter.addClassForElementIndex adds multiple classes to state', () => {
   const wrapper = mount<List>(<List>
-    <ListItem className='class987'><div>meow</div></ListItem>
+    <ListItem><div>meow</div></ListItem>
   </List>);
   wrapper.instance().adapter.addClassForElementIndex =
     coerceForTesting<(index: number, className: string) => void>(td.func());
   wrapper.instance().adapter.addClassForElementIndex(0, 'class4321');
-  const listItem = wrapper.childAt(0).childAt(0);
-  assert.isTrue(listItem.html().includes('class4321'));
-  assert.isTrue(listItem.html().includes('class987'));
-  assert.isTrue(listItem.html().includes('mdc-list-item'));
+  wrapper.instance().adapter.addClassForElementIndex(0, 'class987');
+  assert.isTrue(wrapper.state().listItemClassNames[0].includes('class4321'));
+  assert.isTrue(wrapper.state().listItemClassNames[0].includes('class987'));
 });
 
 test('#adapter.removeClassForElementIndex removes classname from state.listItemClassNames', () => {
@@ -186,10 +183,8 @@ test('#adapter.removeClassForElementIndex removes classname from state.listItemC
   wrapper.instance().adapter.removeClassForElementIndex =
     coerceForTesting<(index: number, className: string) => void>(td.func());
   wrapper.instance().adapter.removeClassForElementIndex(0, 'class4321');
-  const listItem = wrapper.childAt(0).childAt(0);
-  assert.isFalse(listItem.html().includes('class4321'));
-  assert.isTrue(listItem.html().includes('class987'));
-  assert.isTrue(listItem.html().includes('mdc-list-item'));
+  assert.isFalse(wrapper.state().listItemClassNames[0].includes('class4321'));
+  assert.isTrue(wrapper.state().listItemClassNames[0].includes('class987'));
 });
 
 test('#adapter.setTabIndexForListItemChildren updates the button and anchor tag to have tabindex=0', () => {
@@ -296,8 +291,12 @@ test('#adapter.isFocusInsideList returns true if the list element has focus insi
 });
 
 test('#adapter.notifyAction calls props.handleSelect with args', () => {
-  const handleSelect = coerceForTesting<(selectedIndex: number, selected: MDCListIndex) => void>(td.func());
-  const wrapper = mount<List>(<List handleSelect={handleSelect}>{children}</List>);
+  const handleSelect = td.func<(selectedIndex: number, selected: MDCListIndex) => void>();
+  const wrapper = mount<List>(
+    <List handleSelect={handleSelect}>
+      <ListItem />
+    </List>
+  );
   wrapper.instance().adapter.notifyAction(0);
   td.verify(handleSelect(0, -1), {times: 1});
 });
@@ -357,13 +356,13 @@ test('renders with role=menu if props.role=menu and props.checkboxList', () => {
   assert.equal(wrapper.props().role, 'menu');
 });
 
-test('#listItem.props.onDestroy removes class name from state.listItemClassNames', () => {
+test('#onDestroy removes item from state.listItemClassNames', () => {
   const wrapper = mount<List>(<List><ListItem>
     <div>meow</div>
   </ListItem></List>);
   wrapper.setState({listItemClassNames: {0: ['test']}});
-  wrapper.childAt(0).childAt(0).props().onDestroy();
-  assert.equal(0, Object.keys(wrapper.state().listItemClassNames).length);
+  wrapper.instance().onDestroy(0);
+  assert.notExists(wrapper.state().listItemClassNames[0]);
 });
 
 test('#handleKeyDown calls #foudation.handleKeydown', () => {
@@ -423,9 +422,9 @@ test('renders list items with tabindex=-1 and first with tabindex=0', () => {
     </List>
   );
   const list = wrapper.childAt(0);
-  assert.equal(list.childAt(0).props().tabIndex, 0);
-  assert.equal(list.childAt(1).props().tabIndex, -1);
-  assert.equal(list.childAt(2).props().tabIndex, -1);
+  assert.equal(coerceForTesting<HTMLElement>(list.childAt(0).getDOMNode()).tabIndex, 0);
+  assert.equal(coerceForTesting<HTMLElement>(list.childAt(1).getDOMNode()).tabIndex, -1);
+  assert.equal(coerceForTesting<HTMLElement>(list.childAt(2).getDOMNode()).tabIndex, -1);
 });
 
 test('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0', () => {
@@ -435,9 +434,9 @@ test('renders list items with tabindex=-1 and child at props.selectedIndex tabin
     </List>
   );
   const list = wrapper.childAt(0);
-  assert.equal(list.childAt(0).props().tabIndex, -1);
-  assert.equal(list.childAt(1).props().tabIndex, 0);
-  assert.equal(list.childAt(2).props().tabIndex, -1);
+  assert.equal(coerceForTesting<HTMLElement>(list.childAt(0).getDOMNode()).tabIndex, -1);
+  assert.equal(coerceForTesting<HTMLElement>(list.childAt(1).getDOMNode()).tabIndex, 0);
+  assert.equal(coerceForTesting<HTMLElement>(list.childAt(2).getDOMNode()).tabIndex, -1);
 });
 
 test('renders list items with tabindex=-1 and child at props.selectedIndex tabindex=0 as an array',
@@ -450,9 +449,9 @@ test('renders list items with tabindex=-1 and child at props.selectedIndex tabin
       </List>
     );
     const list = wrapper.childAt(0);
-    assert.equal(list.childAt(0).props().tabIndex, -1);
-    assert.equal(list.childAt(1).props().tabIndex, 0);
-    assert.equal(list.childAt(2).props().tabIndex, -1);
+    assert.equal(coerceForTesting<HTMLElement>(list.childAt(0).getDOMNode()).tabIndex, -1);
+    assert.equal(coerceForTesting<HTMLElement>(list.childAt(1).getDOMNode()).tabIndex, 0);
+    assert.equal(coerceForTesting<HTMLElement>(list.childAt(2).getDOMNode()).tabIndex, -1);
   });
 
 test('renders a list with default tag', () => {
@@ -465,7 +464,7 @@ test('renders a list with a nav tag', () => {
   assert.equal(wrapper.type(), 'nav');
 });
 
-test('renders a list with children which is not DOM', () => {
+test('renders a list with children of non-DOM elements', () => {
   const wrapper = shallow(<List>
     {}
     {false}
@@ -474,32 +473,4 @@ test('renders a list with children which is not DOM', () => {
     {undefined}
   </List>);
   assert.isTrue(wrapper.children().length === 1);
-});
-
-test('renders listItemCount of 2 when 1 disabled and 2 enabled list items', () => {
-  const wrapper = mount(
-    <List selectedIndex={1}>
-      <ListItem></ListItem>
-      <ListItem disabled></ListItem>
-      <ListItem></ListItem>
-    </List>
-  );
-  assert.equal(coerceForTesting<List>(wrapper.instance()).listItemCount, 2);
-});
-
-test('renders listItemCount of 3 when 1 of the list items changes from disabled to enabled', () => {
-  const TestComponent = (props: {disabled?: boolean}) => {
-    const {disabled = true} = props;
-    return (
-      <List selectedIndex={1}>
-        <ListItem></ListItem>
-        <ListItem disabled={disabled}></ListItem>
-        <ListItem></ListItem>
-      </List>
-    );
-  };
-  const wrapper = mount(<TestComponent />);
-  assert.equal(coerceForTesting<List>(wrapper.childAt(0).instance()).listItemCount, 2);
-  wrapper.setProps({disabled: false});
-  assert.equal(coerceForTesting<List>(wrapper.childAt(0).instance()).listItemCount, 3);
 });
