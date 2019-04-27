@@ -175,7 +175,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
       addClass: this.addClass,
       removeClass: this.removeClass,
       hasClass: (className: string) => {
-        // See comment aboe about classesBeingAdded/classesBeingRemoved
+        // See comment above about classesBeingAdded/classesBeingRemoved
         const hasClass = this.classes.split(' ').includes(className);
         const isBeingAdded = this.classesBeingAdded.has(className);
         const isBeingRemoved = this.classesBeingRemoved.has(className);

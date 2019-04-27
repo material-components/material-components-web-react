@@ -21,11 +21,6 @@ const MyComponent = () => {
 Prop Name | Type | Description
 --- | --- | ---
 aria-hidden | Boolean | Toggles aria-hidden functionality.
-## Props
-
-Prop Name | Type | Description
---- | --- | ---
-aria-hidden | Boolean | Toggles aria-hidden functionality.
 children | String or Element | Required. Text to be displayed as helper text.
 className | String | CSS classes for element.
 isValid | Boolean | When toggled will style the helper text component.
