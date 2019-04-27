@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@material/drawer": "^1.0.1",
-    "@material/list": "^0.41.0",
+    "@material/list": "^1.1.1",
     "classnames": "^2.2.6",
     "focus-trap": "^3.0.0",
     "react": "^16.4.2"
