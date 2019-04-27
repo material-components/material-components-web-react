@@ -111,14 +111,14 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
 
   render() {
     const {
-      /* eslint-enable no-unused-vars */
+      /* eslint-disable no-unused-vars */
       onFocus,
       onBlur,
       onClick,
       onMouseDown,
       onTouchStart,
       ref,
-      /* eslint-disable no-unused-vars */
+      /* eslint-enable no-unused-vars */
       enhanced,
       children,
       onKeyDown,

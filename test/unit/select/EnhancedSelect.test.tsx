@@ -5,7 +5,7 @@ import {shallow, mount} from 'enzyme';
 import EnhancedSelect from '../../../packages/select/EnhancedSelect';
 import {Option} from '../../../packages/select/index';
 import {coerceForTesting} from '../helpers/types';
-import MDCSelectFoundation from '@material/select/foundation';
+import {MDCSelectFoundation} from '@material/select/foundation';
 import Menu from '../../../packages/menu/index';
 
 suite('Enhanced Select');

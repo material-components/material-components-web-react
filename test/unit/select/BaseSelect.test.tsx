@@ -7,7 +7,7 @@ import {coerceForTesting} from '../helpers/types';
 import {BaseSelect} from '../../../packages/select/BaseSelect';
 import NativeSelect from '../../../packages/select/NativeSelect';
 import EnhancedSelect from '../../../packages/select/EnhancedSelect';
-import MDCSelectFoundation from '@material/select/foundation';
+import {MDCSelectFoundation} from '@material/select/foundation';
 
 suite('Base Select');
 

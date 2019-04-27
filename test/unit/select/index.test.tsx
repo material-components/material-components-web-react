@@ -10,8 +10,8 @@ import {coerceForTesting} from '../helpers/types';
 import FloatingLabel from '../../../packages/floating-label/index';
 import LineRipple from '../../../packages/line-ripple/index';
 import NotchedOutline from '../../../packages/notched-outline';
-import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundation';
-import MDCSelectIconFoundation from '@material/select/icon/foundation';
+import {MDCSelectHelperTextFoundation} from '@material/select/helper-text/foundation';
+import {MDCSelectIconFoundation} from '@material/select/icon/foundation';
 
 suite('Select');
 

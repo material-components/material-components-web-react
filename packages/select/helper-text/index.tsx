@@ -104,11 +104,11 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
   render() {
     const {
       children,
-      /* eslint-enable no-unused-vars */
+      /* eslint-disable no-unused-vars */
       persistent,
       className,
       setHelperTextFoundation,
-      /* eslint-disable no-unused-vars */
+      /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
     const {
