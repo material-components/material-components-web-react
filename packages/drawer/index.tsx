@@ -27,7 +27,8 @@ import {
   MDCModalDrawerFoundation,
   util,
 } from '@material/drawer';
-import MDCListFoundation from '@material/list/foundation';
+// @ts-ignore no .d.ts file
+import {MDCListFoundation} from '@material/list/dist/mdc.list';
 import DrawerHeader from './Header';
 import DrawerContent from './Content';
 import DrawerSubtitle from './Subtitle';
