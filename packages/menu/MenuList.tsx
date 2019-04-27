@@ -53,6 +53,7 @@ class MenuList extends React.Component<MenuListProps, {}> {
     this.props.handleItemAction!(this.listElements[activatedItemIndex]);
   }
 
+
   attachRef = (node: List | null) => {
     const {innerRef} = this.props;
 
