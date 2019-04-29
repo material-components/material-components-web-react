@@ -216,6 +216,9 @@ export default class List extends React.Component<ListProps, ListState> {
           listItem.setAttribute(attr, value);
         }
       },
+      // TODO: implement
+      // https://github.com/material-components/material-components-web-react/issues/822
+      getAttributeForElementIndex: () => '',
       /**
        * Pushes class name to state.listItemClassNames[listItemIndex] if it doesn't yet exist.
        */
