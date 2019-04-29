@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
-import {SelectIcon} from '../../../../packages/select';
+import {SelectIcon} from '../../../../packages/select/index';
 import {MDCSelectIconFoundation} from '@material/select';
 
 suite('Select Icon');

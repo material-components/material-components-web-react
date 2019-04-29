@@ -20,4 +20,4 @@ const MyComponent = () => {
 
 Prop Name | Type | Description
 --- | --- | ---
-tag | keyof React.ReactHTML | Sets the element tag. Defaults to `<i />`.
+tag | string (keyof React.ReactHTML) | Sets the element tag. Defaults to i which becomes`<i />`.
