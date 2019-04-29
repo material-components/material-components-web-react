@@ -18,6 +18,7 @@
   "dependencies": {
     "@material/react-floating-label": "^0.11.0",
     "@material/react-line-ripple": "^0.11.0",
+    "@material/react-menu": "^0.0.0",
     "@material/react-notched-outline": "^0.11.0",
     "@material/select": "^1.1.1",
     "classnames": "^2.2.6",
