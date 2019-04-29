@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as td from 'testdouble';
+import React from 'react';
+import td from 'testdouble';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import Select from '../../../packages/select/index';

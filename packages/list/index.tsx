@@ -20,11 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
 import {MDCListIndex} from '@material/list/types';
 import {MDCListAdapter} from '@material/list/adapter';
+import memoizeOne from 'memoize-one';
+
 import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line no-unused-vars
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
@@ -35,7 +37,7 @@ import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
 
-export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLElement> {
+export interface ListProps extends React.HTMLProps<HTMLElement> {
   className?: string;
   checkboxList?: boolean;
   radioList?: boolean;
@@ -48,31 +50,45 @@ export interface ListProps<T extends HTMLElement> extends React.HTMLProps<HTMLEl
   handleSelect?: (activatedItemIndex: number, selected: MDCListIndex) => void;
   wrapFocus?: boolean;
   tag?: string;
-  children: ListItem<T> | ListItem<T>[] | React.ReactNode;
+  ref?: React.Ref<any>;
 };
 
-
 interface ListState {
-  listItemClassNames: {[listItemIndex: number]: string[]},
+  listItemClassNames: {[listItemIndex: number]: string[]};
 }
 
-function isReactText(element: any): element is React.ReactText {
-  return typeof element === 'string' || typeof element === 'number';
-}
-
-function isListItem(element: any): element is ListItem {
-  return element && element.type === ListItem;
+export interface ListItemContextShape {
+  checkboxList?: boolean;
+  radioList?: boolean;
+  handleClick?: (e: React.MouseEvent<any>, index: number) => void;
+  handleKeyDown?: (e: React.KeyboardEvent<any>, index: number) => void;
+  handleBlur?: (e: React.FocusEvent<any>, index: number) => void;
+  handleFocus?: (e: React.FocusEvent<any>, index: number) => void;
+  onDestroy?: (index: number) => void;
+  getListItemInitialTabIndex?: (index: number) => number;
+  getClassNamesFromList?: () => ListState['listItemClassNames'];
+  tabIndex?: number
 }
 
 function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIndex {
   return typeof selectedIndex === 'number' && !isNaN(selectedIndex) || Array.isArray(selectedIndex);
 }
 
-export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, ListState> {
-  listItemCount = 0;
+export const defaultListItemContext: ListItemContextShape = {
+  handleClick: () => {},
+  handleKeyDown: () => {},
+  handleBlur: () => {},
+  handleFocus: () => {},
+  onDestroy: () => {},
+  getListItemInitialTabIndex: () => -1,
+  getClassNamesFromList: () => ({}),
+};
+
+export const ListItemContext = React.createContext(defaultListItemContext);
+
+export default class List extends React.Component<ListProps, ListState> {
   foundation!: MDCListFoundation;
   hasInitializedListItemTabIndex = false;
-  hasInitializedList = false;
 
   private listElement = React.createRef<HTMLElement>();
 
@@ -80,7 +96,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     listItemClassNames: {},
   };
 
-  static defaultProps: Partial<ListProps<HTMLElement>> = {
+  static defaultProps: Partial<ListProps> = {
     'className': '',
     'checkboxList': false,
     'radioList': false,
@@ -110,14 +126,9 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       this.props[ARIA_ORIENTATION] === VERTICAL
     );
     this.initializeListType();
-
-    // tabIndex for the list items can only be initialized after
-    // the above logic has executed. Once this is true, we need to call forceUpdate.
-    this.hasInitializedList = true;
-    this.forceUpdate();
   }
 
-  componentDidUpdate(prevProps: ListProps<T>) {
+  componentDidUpdate(prevProps: ListProps) {
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     const hasSelectedIndexUpdated = selectedIndex !== prevProps.selectedIndex;
     if (singleSelection !== prevProps.singleSelection) {
@@ -172,6 +183,11 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       );
     }
     return [];
+  }
+
+  // this is a proxy for ListItem
+  getListElements = () => {
+    return this.listElements;
   }
 
   get classes() {
@@ -281,20 +297,21 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
   }
 
   /**
+   * Called from ListItem.
    * Initializes the tabIndex prop for the listItems. tabIndex is determined by:
    * 1. if selectedIndex is an array, and the index === selectedIndex[0]
    * 2. if selectedIndex is a number, and the the index === selectedIndex
    * 3. if there is no selectedIndex
    */
-  private getListItemInitialTabIndex = (index: number) => {
+  getListItemInitialTabIndex = (index: number) => {
     const {selectedIndex} = this.props;
-    let tabIndex = {};
-    if (this.hasInitializedList && !this.hasInitializedListItemTabIndex) {
+    let tabIndex = -1;
+    if (!this.hasInitializedListItemTabIndex) {
       const isSelectedIndexArray
         = Array.isArray(selectedIndex) && selectedIndex.length > 0 && index === selectedIndex[0];
       const isSelected = selectedIndex === index;
       if (isSelectedIndexArray || isSelected || selectedIndex === -1) {
-        tabIndex = {tabIndex: 0};
+        tabIndex = 0;
         this.hasInitializedListItemTabIndex = true;
       }
     }
@@ -307,15 +324,9 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
    * method merges state.listItemClassNames[index] with listItem.props.className.
    * The return value is used as the listItem's className.
    */
-  private getListItemClassNames = (index: number, listItem: React.ReactElement<ListItemProps<T>>) => {
-    let {className = ''} = listItem.props;
+  private getListItemClassNames = () => {
     const {listItemClassNames} = this.state;
-    if (listItemClassNames[index]) {
-      listItemClassNames[index];
-      className = classnames(className, listItemClassNames[index]);
-    }
-
-    return className;
+    return listItemClassNames;
   }
 
   handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
@@ -347,6 +358,30 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     this.foundation.handleFocusOut(e.nativeEvent, index);
   };
 
+  onDestroy = (index: number) => {
+    const {listItemClassNames} = this.state;
+    delete listItemClassNames[index];
+    this.setState({listItemClassNames});
+  };
+
+
+  private getListProps = (checkboxList?: boolean, radioList?: boolean) => ({
+    checkboxList: Boolean(checkboxList),
+    radioList: Boolean(radioList),
+    handleKeyDown: this.handleKeyDown,
+    handleClick: this.handleClick,
+    handleFocus: this.handleFocus,
+    handleBlur: this.handleBlur,
+    onDestroy: this.onDestroy,
+    getClassNamesFromList: this.getListItemClassNames,
+    getListItemInitialTabIndex: this.getListItemInitialTabIndex,
+  });
+
+
+  // decreases rerenders
+  // https://overreacted.io/writing-resilient-components/#dont-stop-the-data-flow-in-rendering
+  getListPropsMemoized = memoizeOne(this.getListProps);
+
   render() {
     const {
       /* eslint-disable no-unused-vars */
@@ -367,7 +402,7 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       tag: Tag,
       ...otherProps
     } = this.props;
-    this.listItemCount = 0;
+
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
@@ -377,65 +412,12 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
         role={this.role}
         {...otherProps}
       >
-        {React.Children.map(children, this.renderChild)}
+        <ListItemContext.Provider value={this.getListPropsMemoized(checkboxList, radioList)}>
+          {children}
+        </ListItemContext.Provider>
       </Tag>
     );
   }
-
-  renderChild = (child: React.ReactElement<ListItemProps<T>> | React.ReactChild) => {
-    if (!isReactText(child) && isListItem(child)) {
-      return this.renderListItem(child, child.props.disabled ? -1 : this.listItemCount++);
-    }
-    return child;
-  };
-
-  renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
-    const {checkboxList, radioList} = this.props;
-    const tabIndex = this.getListItemInitialTabIndex(index);
-    const className = this.getListItemClassNames(index, listItem);
-
-    const {
-      onKeyDown,
-      onClick,
-      onFocus,
-      onBlur,
-      /* eslint-disable no-unused-vars */
-      className: _classNames,
-      /* eslint-enable no-unused-vars */
-      ...otherProps
-    } = listItem.props;
-
-    const props = {
-      // otherProps must be first
-      ...otherProps,
-      checkboxList,
-      radioList,
-      className,
-      onKeyDown: (e: React.KeyboardEvent<T>) => {
-        onKeyDown!(e);
-        this.handleKeyDown(e, index);
-      },
-      onClick: (e: React.MouseEvent<T>) => {
-        onClick!(e);
-        this.handleClick(e, index);
-      },
-      onFocus: (e: React.FocusEvent<T>) => {
-        onFocus!(e);
-        this.handleFocus(e, index);
-      },
-      onBlur: (e: React.FocusEvent<T>) => {
-        onBlur!(e);
-        this.handleBlur(e, index);
-      },
-      onDestroy: () => {
-        const {listItemClassNames} = this.state;
-        delete listItemClassNames[index];
-        this.setState({listItemClassNames});
-      },
-      ...tabIndex,
-    };
-    return React.cloneElement(listItem, props);
-  };
 }
 
 /* eslint-enable quote-props */

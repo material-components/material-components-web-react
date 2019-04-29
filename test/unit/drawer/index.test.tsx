@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {MDCModalDrawerFoundation, MDCDismissibleDrawerFoundation, MDCDrawerAdapter} from '@material/drawer';
 import Drawer from '../../../packages/drawer/index';
 import {Options, DeactivateOptions, FocusTrap} from 'focus-trap'; // eslint-disable-line no-unused-vars
@@ -280,7 +280,7 @@ test('event transitionend triggers foundation.handleTransitionEnd', () => {
 
 test('does not render scrim when props.modal is false', () => {
   const wrapper = shallow(<Drawer />);
-  assert.equal(wrapper.childAt(1).type(), null);
+  assert.equal(wrapper.children().length, 1);
 });
 
 test('renders scrim when props.modal is true', () => {

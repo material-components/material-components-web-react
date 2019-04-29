@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import {MDCMenuSurfaceAdapter} from '@material/menu-surface/adapter';
@@ -29,7 +29,6 @@ import {Corner} from '@material/menu-surface/index';
 import {MDCMenuDistance} from '@material/menu-surface/types';
 
 export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
-  className?: string;
   anchorElement?: HTMLElement;
   anchorCorner?: number;
   anchorMargin?: {
@@ -45,7 +44,6 @@ export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
   };
   onClose?: () => void;
   onOpen?: () => void;
-  onKeyDown?: (event: React.KeyboardEvent) => void;
   quickOpen?: boolean;
   open?: boolean;
   fixed?: boolean;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import '../../../packages/menu-surface/index.scss';
 import '@material/list/mdc-list.scss';
 import './index.scss';

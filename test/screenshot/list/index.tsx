@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import './index.scss';
 import '../../../packages/list/index.scss';
 import MaterialIcon from '../../../packages/material-icon/index';
@@ -205,4 +205,5 @@ const ListScreenshotTest = () => {
     </div>
   );
 };
+
 export default ListScreenshotTest;
