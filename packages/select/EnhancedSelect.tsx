@@ -28,6 +28,8 @@ import {CommonSelectProps} from './BaseSelect';
 import MDCSelectFoundation from '@material/select/foundation';
 
 const {Corner} = MDCMenuSurfaceFoundation;
+const TRUE = 'true';
+const FALSE = 'false';
 
 export type EnhancedChild<T extends HTMLElement> = React.ReactElement<OptionProps<T>>;
 
@@ -76,8 +78,7 @@ export default class EnhancedSelect extends React.Component<
   }
 
   get listElements() {
-    const listElements = this.menuEl.current !== null && this.menuEl.current!.listElements;
-    return listElements;
+    return this.menuEl.current !== null && this.menuEl.current!.listElements;
   }
 
   setSelected = () => {
@@ -148,16 +149,16 @@ export default class EnhancedSelect extends React.Component<
     if (required) {
       selectedTextAttrs['aria-required'] = required.toString();
     }
-    if (ariaExpanded && ariaExpanded !== 'false') {
-      selectedTextAttrs['aria-expanded'] = 'true';
+    if (ariaExpanded && ariaExpanded !== FALSE) {
+      selectedTextAttrs['aria-expanded'] = TRUE;
     }
     if (isInvalid) {
-      selectedTextAttrs['aria-invalid'] = 'true';
+      selectedTextAttrs['aria-invalid'] = TRUE;
     }
     if (disabled) {
-      selectedTextAttrs['aria-disabled'] = 'true';
+      selectedTextAttrs['aria-disabled'] = TRUE;
     } else {
-      selectedTextAttrs['aria-disabled'] = 'false';
+      selectedTextAttrs['aria-disabled'] = FALSE;
     }
 
     return (

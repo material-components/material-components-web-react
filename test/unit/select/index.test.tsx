@@ -334,7 +334,7 @@ test('renders leadingIcon if props.leadingIcon is set', () => {
 
 test('renders notchedOutline if props.outlined is true', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
-  assert.equal(wrapper.childAt(0).childAt(3).type(), NotchedOutline);
+  assert.equal(wrapper.childAt(0).childAt(2).type(), NotchedOutline);
 });
 
 test('renders lineRipple if props.outlined is false', () => {
@@ -486,19 +486,19 @@ test('passes classNames to NotchedOutline through props.notchedOutlineClassName'
   const wrapper = shallow(
     <Select label='my label' outlined notchedOutlineClassName={className} />
   );
-  assert.isTrue(wrapper.childAt(0).childAt(3).hasClass(className));
+  assert.isTrue(wrapper.childAt(0).childAt(2).hasClass(className));
 });
 
 test('updates notch prop with state.outlineIsNotched', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
   wrapper.setState({outlineIsNotched: true});
-  assert.isTrue(wrapper.childAt(0).childAt(3).props().notch);
+  assert.isTrue(wrapper.childAt(0).childAt(2).props().notch);
 });
 
 test('updates notchWidth prop with state.labelWidth', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
   wrapper.setState({labelWidth: 55});
-  assert.equal(wrapper.childAt(0).childAt(3).props().notchWidth, 55);
+  assert.equal(wrapper.childAt(0).childAt(2).props().notchWidth, 55);
 });
 
 test('createFoundation instantiates a new foundation', () => {

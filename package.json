@@ -156,7 +156,7 @@
     "testdouble": "^3.6.0",
     "ts-loader": "^3.5.0",
     "ts-node": "^7.0.1",
-    "typescript": "^3.2.2",
+    "typescript": "^3.3.3",
     "typescript-eslint-parser": "^21.0.1",
     "utility-types": "^2.1.0",
     "uuid": "^3.3.2",

@@ -161,8 +161,8 @@ When used in the enhanced select, the `<Option />` component extends from [MenuL
 * OptionGroup (see [MenuListGroup](../menu/README.md#menulistgroup))
 * OptionDivider (see [MenuListDivider](../menu/README.md#menulistdivider))
 * OptionGroupSubheader (see [MenuListGroup](../menu/README.md#menulistgroup))
-* OptionGraphic (see [MenuListGraphic](../menu/README.md#menulistgraphic))
-* OptionMeta (see [MenuListMeta](../menu/README.md#menulistmeta))
+* OptionGraphic (see [MenuListItemGraphic](../menu/README.md#menulistitemgraphic))
+* OptionMeta (see [MenuListItemMeta](../menu/README.md#menulistitemmeta))
 * OptionText (see [MenuListText](../menu/README.md#menulisttext))
 
 ### Sass Mixins
