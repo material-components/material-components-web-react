@@ -53,7 +53,7 @@ export default class NativeSelect extends React.Component<
     const {innerRef} = this.props;
 
     // https://github.com/facebook/react/issues/13029#issuecomment-410002316
-    // @ts-ignore this is acceptable according to the comment above
+    // @ts-ignore incorrectly typed as readonly - see github comment
     this.NativeSelect.current = node;
 
     if (!innerRef) {
