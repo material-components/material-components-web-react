@@ -300,7 +300,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       fullWidth,
       helperText,
       characterCounter,
-      outlined,
       onLeadingIconSelect,
       onTrailingIconSelect,
       leadingIcon,
@@ -320,7 +319,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         >
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
           {this.renderInput()}
-          {outlined || textarea ? this.renderNotchedOutline() : <React.Fragment>
+          {this.notchedOutlineAdapter.hasOutline() ? this.renderNotchedOutline() : <React.Fragment>
             {label && !fullWidth ? this.renderLabel() : null}
             {!textarea && !fullWidth ? this.renderLineRipple() : null}
           </React.Fragment>}
