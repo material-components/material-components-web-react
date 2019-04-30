@@ -296,7 +296,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
    */
   render() {
     const {
-      label,
       fullWidth,
       helperText,
       characterCounter,
@@ -367,7 +366,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   renderNotchedOutline() {
-    const {label, notchedOutlineClassName} = this.props;
+    const {notchedOutlineClassName} = this.props;
     const {notchedLabelWidth, outlineIsNotched} = this.state;
     return (
       <NotchedOutline
