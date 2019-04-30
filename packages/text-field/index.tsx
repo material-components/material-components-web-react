@@ -152,7 +152,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       [cssClasses.DENSE]: dense,
       [cssClasses.DISABLED]: disabled,
       [cssClasses.FOCUSED]: isFocused,
-      [cssClasses.INVALID]: isValid,
+      [cssClasses.INVALID]: !isValid,
       [cssClasses.OUTLINED]: outlined && !fullWidth,
       [cssClasses.TEXTAREA]: textarea,
       // TODO change literal to constant
@@ -268,7 +268,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       notchOutline: (notchedLabelWidth: number) =>
         this.setState({outlineIsNotched: true, notchedLabelWidth}),
       closeOutline: () => this.setState({outlineIsNotched: false}),
-      hasOutline: () => !!this.props.outlined,
+      hasOutline: () => !!this.props.outlined || !!this.props.textarea,
     };
   }
 
@@ -320,7 +320,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         >
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
           {this.renderInput()}
-          {outlined ? this.renderNotchedOutline() : <React.Fragment>
+          {outlined || textarea ? this.renderNotchedOutline() : <React.Fragment>
             {label && !fullWidth ? this.renderLabel() : null}
             {!textarea && !fullWidth ? this.renderLineRipple() : null}
           </React.Fragment>}
