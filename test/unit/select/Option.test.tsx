@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
-import Option from '../../../packages/select/Option';
+import {Option} from '../../../packages/select/index';
 import {MenuListItem} from '../../../packages/menu/index';
 
 suite('Select Options');

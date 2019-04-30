@@ -22,32 +22,49 @@
 
 import React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no mdc .d.ts file
-import {MDCSelectFoundation, MDCSelectAdapter} from '@material/select/dist/mdc.select';
+import {MDCSelectAdapter} from '@material/select/adapter';
+import {MDCSelectFoundation} from '@material/select/foundation';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
-import NativeControl from './NativeControl';
+import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundation';
+import MDCSelectIconFoundation from '@material/select/icon/foundation';
+
+import {BaseSelect, BaseSelectProps} from './BaseSelect';
+import {EnhancedChild} from './EnhancedSelect'; // eslint-disable-line no-unused-vars
+import Option, {OptionProps} from './Option'; // eslint-disable-line no-unused-vars
+import {SelectHelperTextProps} from './helper-text/index';
+import {SelectIconProps} from './icon/index';
+
+const {cssClasses} = MDCSelectFoundation;
 
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
+type NativeChild = React.ReactElement<OptionProps<HTMLElement>>;
+type SelectChildren<T extends HTMLElement> = EnhancedChild<T> | EnhancedChild<T>[] | NativeChild | NativeChild[];
 
-export interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
-  box?: boolean;
+export interface SelectProps<T extends HTMLElement = HTMLElement>
+  extends React.HTMLProps<HTMLSelectElement> {
+  enhanced?: boolean;
+  children?: SelectChildren<T>;
   className?: string;
   disabled?: boolean;
   floatingLabelClassName?: string;
-  isRtl?: boolean;
   label?: string;
   lineRippleClassName?: string;
-  nativeControlClassName?: string;
+  selectClassName?: string;
   notchedOutlineClassName?: string;
   outlined?: boolean;
   options?: SelectOptionsType;
-  value?: string;
+  value: string;
+  afterChange?: (value: string) => void;
+  onEnhancedChange?: (index: number, target: Element) => void;
+  helperText?: React.ReactElement<SelectHelperTextProps>;
+  leadingIcon?: React.ReactElement<SelectIconProps>;
 }
 
 interface SelectState {
-  value?: string;
+  open?: boolean;
+  value: string;
   classList: Set<string>;
   disabled: boolean;
   labelIsFloated: boolean;
@@ -55,17 +72,30 @@ interface SelectState {
   activeLineRipple: boolean;
   lineRippleCenter?: number;
   outlineIsNotched: boolean;
+  selectElement: React.RefObject<HTMLDivElement>;
+  isInvalid: boolean;
+  helperTextFoundation?: MDCSelectHelperTextFoundation;
+  iconFoundation?: MDCSelectIconFoundation;
+  foundation?: MDCSelectFoundation;
 };
 
-export default class Select extends React.Component<SelectProps, SelectState> {
-  foundation?: MDCSelectFoundation;
+export default class Select<T extends HTMLElement = HTMLSelectElement>
+  extends React.Component<SelectProps<T>, SelectState> {
+  nativeControl = React.createRef<HTMLSelectElement>();
 
-  constructor(props: SelectProps) {
+  // These Sets are needed because setState({classList}) is asynchronous.
+  // This is an issue during a foundation.handleBlur call, when the
+  // focus class is being removed, and an adapter.hasClass() is immediately
+  // called after that.
+  classesBeingRemoved = new Set();
+  classesBeingAdded = new Set();
+
+  constructor(props: SelectProps<T>) {
     super(props);
     this.state = {
       classList: new Set(),
       disabled: props.disabled!,
-      value: props.value,
+      value: props.value!,
       // floating label state
       labelIsFloated: false,
       labelWidth: 0,
@@ -74,88 +104,127 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       lineRippleCenter: undefined,
       // notched outline state
       outlineIsNotched: false,
+      open: false,
+      selectElement: React.createRef<HTMLDivElement>(),
+      isInvalid: false,
+      helperTextFoundation: undefined,
+      iconFoundation: undefined,
+      foundation: undefined,
     };
   }
 
-  static defaultProps: Partial<SelectProps> = {
-    box: false,
+  static defaultProps: Partial<SelectProps<HTMLElement>> = {
+    enhanced: false,
     className: '',
     disabled: false,
     floatingLabelClassName: '',
-    isRtl: false,
     lineRippleClassName: '',
-    nativeControlClassName: '',
+    selectClassName: '',
     notchedOutlineClassName: '',
     outlined: false,
     options: [],
     onChange: () => {},
+    onEnhancedChange: () => {},
     value: '',
+    afterChange: () => {},
   };
 
   componentDidMount() {
-    this.foundation = new MDCSelectFoundation(this.adapter);
-    this.foundation.init();
-    this.foundation.handleChange();
+    this.createFoundation(() => {
+      this.state.foundation!.handleChange(false);
+    });
   }
 
-  componentDidUpdate(prevProps: SelectProps, prevState: SelectState) {
+  componentDidUpdate(prevProps: SelectProps<T>, prevState: SelectState) {
     // this is to fix onChange being called twice
     if (this.props.value !== prevProps.value) {
-      this.setState({value: this.props.value});
+      this.setState({value: this.props.value!});
     }
-    if (this.state.value !== prevState.value) {
-      this.foundation.handleChange();
+    if (this.state.foundation && this.state.value !== prevState.value) {
+      this.state.foundation.handleChange(true);
+    }
+    if (this.state.helperTextFoundation !== prevState.helperTextFoundation
+      || this.state.iconFoundation !== prevState.iconFoundation) {
+      this.destroyFoundation();
+      this.createFoundation();
     }
   }
 
   componentWillUnmount() {
-    if (this.foundation) {
-      this.foundation.destroy();
-    }
+    this.destroyFoundation();
   }
-  onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
-    this.props.onChange && this.props.onChange(evt);
-    const {value} = evt.target;
-    this.setState({value});
-  };
 
   /**
    * getters
    */
   get classes() {
     const {classList, disabled} = this.state;
-    const {className, box, outlined} = this.props;
+    const {className, leadingIcon, required, outlined} = this.props;
     return classnames('mdc-select', Array.from(classList), className, {
       'mdc-select--outlined': outlined,
       'mdc-select--disabled': disabled,
-      'mdc-select--box': box,
+      'mdc-select--required': required,
+      'mdc-select--with-leading-icon': leadingIcon,
     });
   }
 
   get adapter(): MDCSelectAdapter {
-    const rootAdapterMethods = {
-      addClass: (className: string) => {
-        const classList = new Set(this.state.classList);
-        classList.add(className);
-        this.setState({classList});
+    const {enhanced} = this.props;
+
+    const commonAdapter = {
+      addClass: this.addClass,
+      removeClass: this.removeClass,
+      hasClass: (className: string) => {
+        // See comment above about classesBeingAdded/classesBeingRemoved
+        const hasClass = this.classes.split(' ').includes(className);
+        const isBeingAdded = this.classesBeingAdded.has(className);
+        const isBeingRemoved = this.classesBeingRemoved.has(className);
+        return (hasClass || isBeingAdded) && !isBeingRemoved;
       },
-      removeClass: (className: string) => {
-        const classList = new Set(this.state.classList);
-        classList.delete(className);
-        this.setState({classList});
-      },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
-      isRtl: () => this.props.isRtl,
+      setRippleCenter: (lineRippleCenter: number) => this.setState({lineRippleCenter}),
       getValue: () => this.state.value,
+      setValue: (value: string) => this.setState({value}),
+      setDisabled: (disabled: boolean) => this.setState({disabled}),
+      // not implemented because react select element
+      // does not support this API
+      setSelectedIndex: () => {},
+      closeMenu: this.closeMenu,
+      openMenu: () => this.setState({open: true}),
     };
+    const nativeAdapter = {
+      // native select does not utilize this.props.open
+      isMenuOpen: () => false,
+      checkValidity: () => {
+        if (this.nativeControl.current) {
+          return this.nativeControl.current.checkValidity();
+        }
+        return false;
+      },
+      setValid: this.setValidClasses,
+    };
+
+    const enhancedAdapter = {
+      isMenuOpen: () => this.state.open!,
+      checkValidity: () => {
+        if (!this.props.disabled && this.props.required) {
+          return Boolean(this.state.value);
+        }
+        return true;
+      },
+      setValid: (isValid: boolean) => {
+        this.setState({isInvalid: !isValid});
+        this.setValidClasses(isValid);
+      },
+    };
+
     const labelAdapter = {
       floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),
-      hasLabel: () => !!this.props.label,
       getLabelWidth: () => this.state.labelWidth,
     };
     const lineRippleAdapter = {
       activateBottomLine: () => this.setState({activeLineRipple: true}),
       deactivateBottomLine: () => this.setState({activeLineRipple: false}),
+      notifyChange: (value: string) => this.props.afterChange!(value),
     };
     const notchedOutlineAdapter = {
       notchOutline: () => this.setState({outlineIsNotched: true}),
@@ -163,61 +232,134 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       hasOutline: () => !!this.props.outlined,
     };
     return {
-      ...rootAdapterMethods,
+      ...(enhanced ? enhancedAdapter : nativeAdapter),
+      ...commonAdapter,
       ...labelAdapter,
       ...lineRippleAdapter,
       ...notchedOutlineAdapter,
     };
   }
 
-  setRippleCenter = (lineRippleCenter: number) => this.setState({lineRippleCenter});
-  setDisabled = (disabled: boolean) => this.setState({disabled});
+  get foundationMap() {
+    const {helperTextFoundation, iconFoundation} = this.state;
+    return {
+      helperText: helperTextFoundation,
+      leadingIcon: iconFoundation,
+    };
+  }
+
+  createFoundation = (callback?: () => void) => {
+    const foundation = new MDCSelectFoundation(this.adapter, this.foundationMap);
+    foundation.init();
+    this.setState({foundation}, callback);
+  }
+
+  destroyFoundation = () => {
+    if (this.state.foundation) {
+      this.state.foundation.destroy();
+    }
+  }
+
+  addClass = (className: string) => {
+    // See comment above about classesBeingAdded/classesBeingRemoved
+    this.classesBeingAdded.add(className);
+    this.setState((prevState) => {
+      const classList = new Set(prevState.classList);
+      classList.add(className);
+      return {classList};
+    }, () => {
+      this.classesBeingAdded.delete(className);
+    });
+  };
+  removeClass = (className: string) => {
+    // See comment above about classesBeingAdded/classesBeingRemoved
+    this.classesBeingRemoved.add(className);
+    this.setState((prevState) => {
+      const classList = new Set(prevState.classList);
+      classList.delete(className);
+      return {classList};
+    }, () => {
+      this.classesBeingRemoved.delete(className);
+    });
+  };
+  closeMenu = () => this.setState({open: false});
+
+  setValidClasses = (isValid: boolean) => {
+    if (isValid) {
+      this.removeClass(cssClasses.INVALID);
+    } else {
+      this.addClass(cssClasses.INVALID);
+    }
+  }
+
+  setHelperTextFoundation = (helperTextFoundation: MDCSelectHelperTextFoundation) => {
+    this.setState({helperTextFoundation});
+  }
+
+  setIconFoundation = (iconFoundation: MDCSelectIconFoundation) => {
+    this.setState({iconFoundation});
+  }
 
   /**
    * render methods
    */
   render() {
     return (
-      <div className={this.classes}>
-        {this.renderSelect()}
-        {this.renderLabel()}
-        {this.props.outlined
-          ? this.renderNotchedOutline()
-          : this.renderLineRipple()}
-      </div>
+      <React.Fragment>
+        <div className={this.classes} ref={this.state.selectElement}>
+          {this.renderIcon()}
+          <i className='mdc-select__dropdown-icon'></i>
+          {this.renderSelect()}
+          {this.props.outlined ? null : this.renderLabel()}
+          {this.props.outlined
+            ? this.renderNotchedOutline()
+            : this.renderLineRipple()}
+        </div>
+        {this.renderHelperText()}
+      </React.Fragment>
     );
   }
 
   renderSelect() {
     const {
-      nativeControlClassName,
+      selectClassName,
       /* eslint-disable */
-      box,
-      className,
       floatingLabelClassName,
-      isRtl,
       lineRippleClassName,
       notchedOutlineClassName,
       outlined,
-      onChange,
       ref,
-      value,
+      value: propsValue,
+      afterChange,
+      onEnhancedChange,
+      helperText,
+      leadingIcon,
       /* eslint-enable */
+      enhanced,
       ...otherProps
     } = this.props;
+    const {open, selectElement, isInvalid, value} = this.state;
+
+    const enhancedProps = {
+      onEnhancedChange,
+      closeMenu: this.closeMenu,
+      anchorElement: selectElement!.current,
+      enhanced,
+      isInvalid,
+    };
 
     return (
-      <NativeControl
-        className={nativeControlClassName}
-        foundation={this.foundation}
-        handleDisabled={this.setDisabled}
-        onChange={this.onChange}
-        setRippleCenter={this.setRippleCenter}
-        value={this.state.value}
-        {...otherProps}
+      <BaseSelect
+        open={open}
+        value={value}
+        innerRef={this.nativeControl}
+        foundation={this.state.foundation}
+        className={selectClassName}
+        {...(enhanced ? enhancedProps : {})}
+        {...otherProps as BaseSelectProps<T>}
       >
         {this.renderOptions()}
-      </NativeControl>
+      </BaseSelect>
     );
   }
 
@@ -231,9 +373,9 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     return options.map((optionData, index) => {
       if (typeof optionData === 'string') {
         return (
-          <option key={index} value={optionData}>
+          <Option key={index} value={optionData}>
             {optionData}
-          </option>
+          </Option>
         );
       }
 
@@ -241,15 +383,17 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       return (
         // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31485
         // @ts-ignore
-        <option key={index} {...nonLabelOptionData}>
+        <Option key={index} {...nonLabelOptionData}>
           {label}
-        </option>
+        </Option>
       );
     });
   }
 
   renderLabel() {
     const {id, label, floatingLabelClassName} = this.props;
+    if (!label) return;
+
     return (
       <FloatingLabel
         className={floatingLabelClassName}
@@ -282,7 +426,48 @@ export default class Select extends React.Component<SelectProps, SelectState> {
         className={notchedOutlineClassName}
         notch={outlineIsNotched}
         notchWidth={labelWidth}
-      />
+      >
+        {this.renderLabel()}
+      </NotchedOutline>
     );
   }
+
+  renderHelperText() {
+    const {helperText} = this.props;
+    if (!helperText) return;
+    const props = {
+      ...helperText.props,
+      setHelperTextFoundation: this.setHelperTextFoundation,
+    } as SelectHelperTextProps;
+    return React.cloneElement(helperText, props);
+  }
+
+  renderIcon() {
+    const {leadingIcon} = this.props;
+    if (!leadingIcon) return;
+    const props = {
+      ...leadingIcon.props,
+      setIconFoundation: this.setIconFoundation,
+    } as SelectIconProps;
+    return React.cloneElement(leadingIcon, props);
+  }
 }
+
+export {
+  SelectHelperText,
+  SelectHelperTextProps,
+} from './helper-text';
+export {
+  SelectIcon,
+  SelectIconProps,
+} from './icon';
+
+export {Option};
+export {
+  MenuListDivider as OptionDivider,
+  MenuListGroup as OptionGroup,
+  MenuListGroupSubheader as OptionGroupSubheader,
+  MenuListItemGraphic as OptionGraphic,
+  MenuListItemMeta as OptionMeta,
+  MenuListItemText as OptionText,
+} from '@material/react-menu';
