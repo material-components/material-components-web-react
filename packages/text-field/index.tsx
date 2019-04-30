@@ -249,7 +249,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         }
       },
       floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),
-      hasLabel: () => !!this.props.label,
+      hasLabel: () => !!this.props.label && !this.props.fullWidth,
       getLabelWidth: () => this.state.initialLabelWidth,
     };
   }
@@ -320,7 +320,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
           {this.renderInput()}
           {this.notchedOutlineAdapter.hasOutline() ? this.renderNotchedOutline() : <React.Fragment>
-            {label && !fullWidth ? this.renderLabel() : null}
+            {this.labelAdapter.hasLabel() ? this.renderLabel() : null}
             {!textarea && !fullWidth ? this.renderLineRipple() : null}
           </React.Fragment>}
           {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
@@ -375,7 +375,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         notchWidth={notchedLabelWidth}
         notch={outlineIsNotched}
       >
-        {label ? this.renderLabel(): null}
+        {this.labelAdapter.hasLabel() ? this.renderLabel(): null}
       </NotchedOutline>
     );
   }
