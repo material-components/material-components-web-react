@@ -85,7 +85,7 @@ class MyApp extends React.Component {
 
 If the option elements do not require anything unique, you can omit passing `this.props.children` and set the `options` prop.
 
-This options shorthand is most useful when you're select options come in the form of JSON. Typically when building a select, the options will be backed by an array of objects or strings (either from an API endpoint or a JSON File). If the label/value key names, you can run a `map` function over your options.
+This options shorthand is most useful when your select options come in the form of JSON. Typically, when building a select, the options will be backed by an array of objects or strings (either from an API endpoint or a JSON File). If the `label` and `value` key names exist in the array of objects, you can run a `map` function over that array as shown below.
 
 ```js
 import React from 'react';
