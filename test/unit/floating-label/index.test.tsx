@@ -1,12 +1,18 @@
-import * as React from 'react';
-import * as td from 'testdouble';
+import React from 'react';
+import td from 'testdouble';
 import {suite, test} from 'mocha';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import FloatingLabel from '../../../packages/floating-label/index';
+import {MDCFloatingLabelAdapter} from '@material/floating-label/adapter';
 import {coerceForTesting} from '../helpers/types';
 
 suite('Floating Label');
+
+function getAdapter(instance: FloatingLabel): MDCFloatingLabelAdapter {
+  // @ts-ignore adapter_ property is protected, we need to bypass this check for testing purposes
+  return instance.foundation.adapter_;
+}
 
 test('classNames adds classes', () => {
   const wrapper = shallow(
@@ -21,14 +27,14 @@ test('adds text to children', () => {
   assert.equal(wrapper.text(), 'Test');
 });
 
-test('creates labelElement_', () => {
+test('creates labelElement', () => {
   const wrapper = mount<FloatingLabel>(<FloatingLabel />);
-  assert.exists(wrapper.instance().labelElement_.current);
+  assert.exists(wrapper.instance().labelElement.current);
 });
 
 test('#initializeFoundation creates foundation', () => {
   const wrapper = shallow<FloatingLabel>(<FloatingLabel />);
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('initializing with float to true floats the label', () => {
@@ -36,7 +42,7 @@ test('initializing with float to true floats the label', () => {
   assert.isTrue(wrapper.hasClass('mdc-floating-label--float-above'));
 });
 
-test('calls handleWidthChange with the offhandleWidthChange of the labelElement_', () => {
+test('calls handleWidthChange with the offhandleWidthChange of the labelElement', () => {
   const handleWidthChange = coerceForTesting<(width: number) => void>(td.func());
   const div = document.createElement('div');
   // needs to be attached to real DOM to get width
@@ -95,7 +101,7 @@ test('on animationend should remove the shake class', () => {
 
 test('#adapter.addClass', () => {
   const wrapper = mount<FloatingLabel>(<FloatingLabel />);
-  wrapper.instance().foundation_.adapter_.addClass('test-class-name');
+  getAdapter(wrapper.instance()).addClass('test-class-name');
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
 });
 
@@ -105,14 +111,14 @@ test('#adapter.removeClass', () => {
   classList.add('test-class-name');
   wrapper.setState({classList});
   assert.isTrue(wrapper.state().classList.has('test-class-name'));
-  wrapper.instance().foundation_.adapter_.removeClass('test-class-name');
+  getAdapter(wrapper.instance()).removeClass('test-class-name');
   assert.isFalse(wrapper.state().classList.has('test-class-name'));
 });
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<FloatingLabel>(<FloatingLabel />);
-  const foundation = wrapper.instance().foundation_;
-  foundation.destroy = td.func();
+  const foundation = wrapper.instance().foundation;
+  foundation.destroy = coerceForTesting<() => void>(td.func());
   wrapper.unmount();
   td.verify(foundation.destroy());
 });

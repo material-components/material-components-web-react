@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Tab, {TabProps} from '../../../packages/tab/index'; // eslint-disable-line no-unused-vars
 import TabBar from '../../../packages/tab-bar/index';
 import './index.scss';

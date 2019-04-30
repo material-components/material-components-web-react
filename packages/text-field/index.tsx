@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 // @ts-ignore no .d.ts file
 import {MDCTextFieldFoundation, MDCTextFieldAdapter} from '@material/textfield/dist/mdc.textfield';
@@ -330,7 +330,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       >
         {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
         {foundation ? this.renderInput() : null}
-        {label && !fullWidth ? this.renderLabel() : null}
+        {label && !outlined && !fullWidth ? this.renderLabel() : null}
         {outlined ? this.renderNotchedOutline() : null}
         {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
         {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
@@ -385,15 +385,16 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   renderNotchedOutline() {
-    const {isRtl, notchedOutlineClassName} = this.props;
-    const {outlineIsNotched, notchedLabelWidth} = this.state;
+    const {label, notchedOutlineClassName} = this.props;
+    const {notchedLabelWidth, outlineIsNotched} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={isRtl}
-        notch={outlineIsNotched}
         notchWidth={notchedLabelWidth}
-      />
+        notch={outlineIsNotched}
+      >
+        {label ? this.renderLabel(): null}
+      </NotchedOutline>
     );
   }
 

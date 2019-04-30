@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import TopAppBarFixedAdjust, {TopAppbarFixedAdjustProps} from './FixedAdjust';
 import TopAppBarSection from './Section';
@@ -28,12 +28,11 @@ import TopAppBarRow from './Row';
 import TopAppBarTitle from './Title';
 import TopAppBarIcon from './Icon';
 import {cssClasses} from './constants';
-import {
-  MDCFixedTopAppBarFoundation,
-  MDCTopAppBarFoundation,
-  MDCShortTopAppBarFoundation,
-// @ts-ignore no .d.ts file
-} from '@material/top-app-bar/dist/mdc.topAppBar';
+import {MDCFixedTopAppBarFoundation} from '@material/top-app-bar/fixed/foundation';
+import {MDCTopAppBarAdapter} from '@material/top-app-bar/adapter';
+import {MDCTopAppBarFoundation} from '@material/top-app-bar/standard/foundation';
+import {MDCShortTopAppBarFoundation} from '@material/top-app-bar/short/foundation';
+import {SpecificEventListener} from '@material/base/types';
 
 export type MDCTopAppBarFoundationTypes
   = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
@@ -57,6 +56,7 @@ export interface TopAppBarProps<T> extends React.HTMLProps<T>, DeprecatedProps {
   style?: React.CSSProperties;
   scrollTarget?: React.RefObject<HTMLElement>;
   tag?: string;
+  onNavIconClicked?: () => void;
 }
 
 interface TopAppBarState {
@@ -72,7 +72,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
   TopAppBarState
   > {
   topAppBarElement: React.RefObject<HTMLElement> = React.createRef();
-  foundation?: MDCTopAppBarFoundationTypes;
+  foundation!: MDCTopAppBarFoundationTypes;
 
   state: TopAppBarState = {
     classList: new Set(),
@@ -171,7 +171,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
     return Object.assign({}, style, this.props.style);
   };
 
-  get adapter() {
+  get adapter(): MDCTopAppBarAdapter {
     return {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
@@ -192,14 +192,14 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
         }
         return 0;
       },
-      registerScrollHandler: (handler: EventListener) => {
+      registerScrollHandler: (handler: SpecificEventListener<'scroll'>) => {
         if (this.state.scrollTarget && this.state.scrollTarget.current) {
           this.state.scrollTarget.current.addEventListener('scroll', handler);
         } else {
           window.addEventListener('scroll', handler);
         }
       },
-      deregisterScrollHandler: (handler: EventListener) => {
+      deregisterScrollHandler: (handler: SpecificEventListener<'scroll'>) => {
         if (this.state.scrollTarget && this.state.scrollTarget.current) {
           this.state.scrollTarget.current.removeEventListener('scroll', handler);
         } else {
@@ -218,6 +218,21 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
           return actionItems.length;
         }
         return 0;
+      },
+      registerResizeHandler: (handler: SpecificEventListener<'resize'>) => {
+        window.addEventListener('resize', handler);
+      },
+      deregisterResizeHandler: (handler: SpecificEventListener<'resize'>) => {
+        window.removeEventListener('resize', handler);
+      },
+      // onClick handler of navigation bar is used instead
+      // see https://github.com/material-components/material-components-web/issues/2813
+      registerNavigationIconInteractionHandler: () => null,
+      deregisterNavigationIconInteractionHandler: () => null,
+      notifyNavigationIconClicked: () => {
+        if (this.props.onNavIconClicked) {
+          this.props.onNavIconClicked();
+        }
       },
     };
   }

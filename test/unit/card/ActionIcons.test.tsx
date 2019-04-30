@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import {CardActionIcons} from '../../../packages/card/index';
