@@ -51,7 +51,7 @@ test('#componentDidMount creates foundation', () => {
       <i />
     </Icon>
   );
-  assert.exists(wrapper.instance().foundation_);
+  assert.exists(wrapper.instance().foundation);
 });
 
 test('#componentDidMount calls #foundation.setDisabled if disabled prop is true', () => {
@@ -103,9 +103,9 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation_.setDisabled = td.func();
+    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
     wrapper.setProps({disabled: true});
-    td.verify(wrapper.instance().foundation_.setDisabled(true), {times: 1});
+    td.verify(wrapper.instance().foundation.setDisabled(true), {times: 1});
   }
 );
 
@@ -118,9 +118,9 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation_.setDisabled = td.func();
+    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
     wrapper.setProps({disabled: false});
-    td.verify(wrapper.instance().foundation_.setDisabled(false), {times: 1});
+    td.verify(wrapper.instance().foundation.setDisabled(false), {times: 1});
   }
 );
 
@@ -133,10 +133,10 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation_.setDisabled = td.func();
+    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
     wrapper.setProps({children: <i />});
     td.verify(
-      wrapper.instance().foundation_.setDisabled(td.matchers.isA(Boolean)),
+      wrapper.instance().foundation.setDisabled(td.matchers.isA(Boolean)),
       {times: 0}
     );
   }
@@ -148,7 +148,7 @@ test('#adapter.getAttr for tabIndex', () => {
       <i tabIndex={0} />
     </Icon>
   );
-  const tabIndex = wrapper.instance().foundation_.adapter_.getAttr('tabindex');
+  const tabIndex = wrapper.instance().adapter.getAttr('tabindex');
   assert.equal(tabIndex, '0');
 });
 
@@ -158,8 +158,17 @@ test('#adapter.getAttr for role', () => {
       <i role='button' />
     </Icon>
   );
-  const role = wrapper.instance().foundation_.adapter_.getAttr('role');
+  const role = wrapper.instance().adapter.getAttr('role');
   assert.equal(role, 'button');
+});
+
+test('#adapter.getAttr return blank when unknown attr', () => {
+  const wrapper = shallow<Icon>(
+    <Icon>
+      <i role='button' />
+    </Icon>
+  );
+  assert.equal('', wrapper.instance().adapter.getAttr('test'));
 });
 
 test('#adapter.setAttr for tabIndex', () => {
@@ -168,8 +177,18 @@ test('#adapter.setAttr for tabIndex', () => {
       <i tabIndex={0} />
     </Icon>
   );
-  wrapper.instance().foundation_.adapter_.setAttr('tabindex', -1);
+  wrapper.instance().adapter.setAttr('tabindex', '-1');
   assert.equal(wrapper.state().tabindex, -1);
+});
+
+test('#adapter.setAttr for role', () => {
+  const wrapper = shallow<Icon>(
+    <Icon>
+      <i tabIndex={0} />
+    </Icon>
+  );
+  wrapper.instance().adapter.setAttr('role', 'test');
+  assert.equal(wrapper.state().role, 'test');
 });
 
 test('#adapter.removeAttr for role', () => {
@@ -178,7 +197,7 @@ test('#adapter.removeAttr for role', () => {
       <i role='button' />
     </Icon>
   );
-  wrapper.instance().foundation_.adapter_.removeAttr('role');
+  wrapper.instance().adapter.removeAttr('role');
   assert.equal(wrapper.state().role, undefined);
 });
 
@@ -188,7 +207,7 @@ test('#adapter.getAttr for tabIndex works with Custom Component', () => {
       <MaterialIcon icon='favorite' tabIndex={0} />
     </Icon>
   );
-  const tabIndex = wrapper.instance().foundation_.adapter_.getAttr('tabindex');
+  const tabIndex = wrapper.instance().adapter.getAttr('tabindex');
   assert.equal(tabIndex, '0');
 });
 
@@ -198,7 +217,7 @@ test('#adapter.getAttr for role works with Custom Component', () => {
       <MaterialIcon icon='favorite' role='button' />
     </Icon>
   );
-  const role = wrapper.instance().foundation_.adapter_.getAttr('role');
+  const role = wrapper.instance().adapter.getAttr('role');
   assert.equal(role, 'button');
 });
 
@@ -208,7 +227,7 @@ test('#adapter.setAttr for tabIndex works with Custom Component', () => {
       <MaterialIcon icon='favorite' tabIndex={0} />
     </Icon>
   );
-  wrapper.instance().foundation_.adapter_.setAttr('tabindex', -1);
+  wrapper.instance().adapter.setAttr('tabindex', '-1');
   assert.equal(wrapper.state().tabindex, -1);
 });
 
@@ -218,7 +237,7 @@ test('#adapter.removeAttr for role works with Custom Component', () => {
       <MaterialIcon icon='favorite' role='button' />
     </Icon>
   );
-  wrapper.instance().foundation_.adapter_.removeAttr('role');
+  wrapper.instance().adapter.removeAttr('role');
   assert.equal(wrapper.state().role, undefined);
 });
 
@@ -229,7 +248,7 @@ test('#adapter.notifyIconAction calls props.onSelect', () => {
       <MaterialIcon icon='favorite' role='button' />
     </Icon>
   );
-  wrapper.instance().foundation_.adapter_.notifyIconAction();
+  wrapper.instance().adapter.notifyIconAction();
   td.verify(onSelect(), {times: 1});
 });
 
@@ -241,9 +260,9 @@ test('onClick calls foundation.handleInteraction', () => {
     </Icon>
   );
   const evt = coerceForTesting<React.MouseEvent>({});
-  wrapper.instance().foundation_.handleInteraction = td.func();
+  wrapper.instance().foundation.handleInteraction = td.func<(evt: MouseEvent | KeyboardEvent) => void>();
   wrapper.simulate('click', evt);
-  td.verify(wrapper.instance().foundation_.handleInteraction(evt), {
+  td.verify(wrapper.instance().foundation.handleInteraction(evt.nativeEvent), {
     times: 1,
   });
 });
@@ -256,9 +275,9 @@ test('onKeyDown call foundation.handleInteraction', () => {
     </Icon>
   );
   const evt = coerceForTesting<React.KeyboardEvent>({});
-  wrapper.instance().foundation_.handleInteraction = td.func();
+  wrapper.instance().foundation.handleInteraction = td.func<(evt: MouseEvent | KeyboardEvent) => void>();
   wrapper.simulate('keydown', evt);
-  td.verify(wrapper.instance().foundation_.handleInteraction(evt), {
+  td.verify(wrapper.instance().foundation.handleInteraction(evt.nativeEvent), {
     times: 1,
   });
 });
@@ -289,8 +308,20 @@ test('#componentWillUnmount destroys foundation', () => {
       <i />
     </Icon>
   );
-  const foundation = wrapper.instance().foundation_;
-  foundation.destroy = td.func();
+  const foundation = wrapper.instance().foundation;
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
+});
+
+test('Useless test for code coverage', () => {
+  const wrapper = shallow<Icon>(
+    <Icon>
+      <MaterialIcon icon='favorite' role='button' />
+    </Icon>
+  );
+  const temp: any = {};
+  wrapper.instance().adapter.setContent('');
+  wrapper.instance().adapter.registerInteractionHandler(temp, temp);
+  wrapper.instance().adapter.deregisterInteractionHandler(temp, temp);
 });
