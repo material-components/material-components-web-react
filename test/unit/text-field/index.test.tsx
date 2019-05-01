@@ -303,7 +303,6 @@ test('#adapter.label.getLabelWidth returns offsetWidth of labelElement', () => {
   );
   const labelElement = wrapper.instance().floatingLabelElement.current!.labelElement_;
   assert.equal(wrapper.state().foundation.adapter_.getLabelWidth(), labelElement.current!.offsetWidth);
-
   document.body.removeChild(div);
 });
 
