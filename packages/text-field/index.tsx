@@ -141,7 +141,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     const {
       className,
       dense,
-      outlined,
       fullWidth,
       textarea,
       trailingIcon,
@@ -153,12 +152,13 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       [cssClasses.DISABLED]: disabled,
       [cssClasses.FOCUSED]: isFocused,
       [cssClasses.INVALID]: !isValid,
-      [cssClasses.OUTLINED]: outlined && !fullWidth,
+      [cssClasses.OUTLINED]: this.notchedOutlineAdapter.hasOutline() && !fullWidth,
       [cssClasses.TEXTAREA]: textarea,
+      [cssClasses.WITH_LEADING_ICON]: leadingIcon,
       // TODO change literal to constant
       'mdc-text-field--fullwidth': fullWidth,
       'mdc-text-field--with-trailing-icon': trailingIcon,
-      [cssClasses.WITH_LEADING_ICON]: leadingIcon,
+      'mdc-text-field--no-label': !this.labelAdapter.hasLabel(),
     });
   }
 
