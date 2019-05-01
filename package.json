@@ -7,7 +7,7 @@
     "stop": "./test/screenshot/stop.sh",
     "build": "npm run clean && mkdirp build && node --max_old_space_size=8192 node_modules/.bin/webpack --config packages/webpack.config.js --progress --colors",
     "capture": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --require ts-node/register --require babel-core/register --ui tdd --timeout 30000 test/screenshot/capture-suite.tsx",
-    "clean": "rimraf build/** build packages/**/dist/",
+    "clean": "rimraf build/** build packages/*/dist/",
     "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix --ext .jsx,.js,.tsx,.ts packages test",
     "lint": "eslint --ext .jsx,.js,.tsx,.ts packages test",
