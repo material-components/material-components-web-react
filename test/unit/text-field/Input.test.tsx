@@ -4,17 +4,32 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import {Input} from '../../../packages/text-field/index';
 
-const noop = () => {};
-const buildFoundation = (overrides = {}) => ({
+const noop: any = () => {};
+const buildFoundation: any = (overrides: any = {}) => ({
+  shouldFloat: false,
+  shouldShake: false,
+  init: noop,
+  destroy: noop,
+  handleTextFieldInteraction: noop,
+  handleValidationAttributeChange: noop,
+  notchOutline: noop,
   activateFocus: noop,
+  setTransformOrigin: noop,
+  handleInput: noop,
   autoCompleteFocus: noop,
   deactivateFocus: noop,
-  handleValidationAttributeChange: noop,
-  handleValidationAttributeMutation_: noop,
-  setDisabled: noop,
-  setTransformOrigin: noop,
-  setUseNativeValidation: noop,
+  getValue: noop,
+  setValue: noop,
+  isValid: noop,
   setValid: noop,
+  setUseNativeValidation: noop,
+  isDisabled: noop,
+  setDisabled: noop,
+  setHelperTextContent: noop,
+  setLeadingIconAriaLabel: noop,
+  setLeadingIconContent: noop,
+  setTrailingIconAriaLabel: noop,
+  setTrailingIconContent: noop,
   ...overrides,
 });
 
@@ -24,6 +39,31 @@ test('classNames adds classes', () => {
   const wrapper = shallow(<Input className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-text-field__input'));
+});
+
+test('value test for string', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value={'hello world'} />);
+  assert.equal(wrapper.instance().getValue(), 'hello world');
+});
+
+test('value test for number', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value={123} />);
+  assert.equal(wrapper.instance().getValue(), '123');
+});
+
+test('value test for string array', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input value={['hello', 'world']} />);
+  assert.equal(wrapper.instance().getValue(), 'helloworld');
+});
+
+test('return -1 when maxLength does not define', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input />);
+  assert.equal(wrapper.instance().getMaxLength(), -1);
+});
+
+test('getMaxLength returns defined maxLength', () => {
+  const wrapper = mount<Input<HTMLInputElement>>(<Input maxLength={15} />);
+  assert.equal(wrapper.instance().getMaxLength(), 15);
 });
 
 test('default inputType is "input"', () => {
@@ -349,9 +389,9 @@ test('#event.onBlur calls props.onBlur()', () => {
 test('#event.onMouseDown calls foundation.setTransformOrigin()', () => {
   const foundation: any = buildFoundation({setTransformOrigin: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
-  const event = {preventDefault: () => {}};
+  const event = {nativeEvent: () => undefined};
   wrapper.simulate('mouseDown', event);
-  td.verify(foundation.setTransformOrigin(event), {times: 1});
+  td.verify(foundation.setTransformOrigin(event.nativeEvent), {times: 1});
 });
 
 test('#event.onMouseDown calls props.onMouseDown()', () => {
@@ -366,9 +406,9 @@ test('#event.onMouseDown calls props.onMouseDown()', () => {
 test('#event.onTouchStart calls foundation.setTransformOrigin()', () => {
   const foundation: any = buildFoundation({setTransformOrigin: td.func()});
   const wrapper = shallow(<Input foundation={foundation} />);
-  const event = {preventDefault: () => {}};
+  const event = {nativeEvent: () => undefined};
   wrapper.simulate('touchStart', event);
-  td.verify(foundation.setTransformOrigin(event), {times: 1});
+  td.verify(foundation.setTransformOrigin(event.nativeEvent), {times: 1});
 });
 
 test('#event.onTouchStart calls props.onTouchStart()', () => {
@@ -395,6 +435,23 @@ test('#event.onChange calls props.onChange()', () => {
   const event = {target: {value: 'apple'}};
   wrapper.simulate('change', event);
   td.verify(onChange(event), {times: 1});
+});
+
+test('wasUserTriggeredChange test', () => {
+  const foundation: any = buildFoundation();
+  const handleValueChange =
+    (value: string | number | string[] | undefined, cb: () => void) => value && cb();
+  const wrapper = mount<Input<HTMLInputElement>>(
+    <Input
+      value='test value'
+      foundation={foundation}
+      handleValueChange={handleValueChange}
+    />
+  );
+  wrapper.simulate('change');
+  assert.isTrue(wrapper.instance().state.wasUserTriggeredChange);
+  wrapper.setProps({value: 'meow'});
+  assert.isFalse(wrapper.instance().state.wasUserTriggeredChange);
 });
 
 test('#inputElement should return the native input', () => {

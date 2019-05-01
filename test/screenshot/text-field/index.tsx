@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import textFieldVariants from './variants';
+import '../../../packages/text-field/index.scss';
 
 const TextFieldHomePage = () => {
   return (
