@@ -1,14 +1,15 @@
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import TabScroller from '@material/react-tab-scroller';
 import Tab, {TabProps} from '@material/react-tab'; // eslint-disable-line no-unused-vars
-// @ts-ignore No mdc .d.ts files
-import {MDCTabBarFoundation} from '@material/tab-bar/dist/mdc.tabBar';
+import {MDCTabBarFoundation} from '@material/tab-bar/foundation';
+import {MDCTabBarAdapter} from '@material/tab-bar/adapter';
 
 export interface TabBarProps extends React.HTMLAttributes<HTMLDivElement> {
   indexInView?: number;
   activeIndex: number;
   handleActiveIndexUpdate?: (index: number) => void;
+  onActivated?: (index: number) => void;
   className?: string;
   isRtl?: boolean;
   children: React.ReactElement<TabProps> | React.ReactElement<TabProps>[];
@@ -24,7 +25,7 @@ class TabBar extends React.Component<
   tabBarRef: React.RefObject<HTMLDivElement> = React.createRef();
   tabScrollerRef: React.RefObject<TabScroller> = React.createRef();
   tabList: Tab[] = [];
-  foundation?: MDCTabBarFoundation;
+  foundation!: MDCTabBarFoundation;
 
   constructor(props: TabBarProps) {
     super(props);
@@ -47,9 +48,20 @@ class TabBar extends React.Component<
     this.foundation.init();
     const {activeIndex, indexInView} = this.props;
     if (this.tabList[activeIndex]) {
-      this.tabList[activeIndex].activate({} /* previousIndicatorClientRect */);
+      // new DOMRect is not IE11 compatible
+      const defaultDOMRect = {
+        bottom: 0,
+        height: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        width: 0,
+        x: 0,
+        y: 0,
+      };
+      this.tabList[activeIndex].activate(defaultDOMRect /* previousIndicatorClientRect */);
     }
-    this.foundation.scrollIntoView(indexInView);
+    this.foundation.scrollIntoView(indexInView!);
   }
 
   componentDidUpdate(prevProps: TabBarProps) {
@@ -59,7 +71,7 @@ class TabBar extends React.Component<
       );
     }
     if (this.props.indexInView !== prevProps.indexInView) {
-      this.foundation.scrollIntoView(this.props.indexInView);
+      this.foundation.scrollIntoView(this.props.indexInView!);
     }
   }
 
@@ -71,7 +83,7 @@ class TabBar extends React.Component<
     return classnames('mdc-tab-bar', this.props.className);
   }
 
-  get adapter() {
+  get adapter(): MDCTabBarAdapter {
     return {
       scrollTo: (scrollX: number) => {
         this.tabScrollerRef.current && this.tabScrollerRef.current.scrollTo(scrollX);
@@ -80,15 +92,15 @@ class TabBar extends React.Component<
         this.tabScrollerRef.current && this.tabScrollerRef.current.incrementScroll(scrollXIncrement);
       },
       getScrollPosition: () => {
-        if (!this.tabScrollerRef.current) return;
+        if (!this.tabScrollerRef.current) return 0;
         return this.tabScrollerRef.current.getScrollPosition();
       },
       getScrollContentWidth: () => {
-        if (!this.tabScrollerRef.current) return;
+        if (!this.tabScrollerRef.current) return 0;
         return this.tabScrollerRef.current.getScrollContentWidth();
       },
       getOffsetWidth: () => {
-        if (this.tabBarRef.current === null) return;
+        if (this.tabBarRef.current === null) return 0;
         return this.tabBarRef.current.offsetWidth;
       },
       isRTL: () => !!this.props.isRtl,
@@ -116,8 +128,9 @@ class TabBar extends React.Component<
         }
         return -1;
       },
-      getIndexOfTab: (tabToFind: Tab) => this.tabList.indexOf(tabToFind),
+      getIndexOfTabById: (id: string) => this.tabList.map((tab) => tab.props.id).indexOf(id),
       getTabListLength: () => this.tabList.length,
+      notifyTabActivated: (index: number) => this.props.onActivated && this.props.onActivated(index),
     };
   }
 
@@ -129,7 +142,7 @@ class TabBar extends React.Component<
     // Persist the synthetic event to access its `key`.
     e.persist();
     this.setState({previousActiveIndex: this.props.activeIndex}, () =>
-      this.foundation.handleKeyDown(e)
+      this.foundation.handleKeyDown(e.nativeEvent)
     );
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e);

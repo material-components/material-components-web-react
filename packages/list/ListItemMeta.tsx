@@ -20,11 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 
 export interface ListItemMetaProps {
-  tabbableOnListItemFocus?: boolean;
   className?: string;
   tabIndex?: number;
   meta: string | React.ReactElement<any>;
@@ -32,10 +31,9 @@ export interface ListItemMetaProps {
 };
 
 const ListItemMeta:React.FunctionComponent<ListItemMetaProps> = ({
-  tabIndex = -1, // eslint-disable-line no-unused-vars
+  tabIndex, // eslint-disable-line no-unused-vars
   meta,
   className = '',
-  tabbableOnListItemFocus = false,
   ...otherProps
 }) => {
   let metaElement: React.ReactElement<any>;
@@ -46,7 +44,7 @@ const ListItemMeta:React.FunctionComponent<ListItemMetaProps> = ({
   }
   const metaProps = {
     className: classnames('mdc-list-item__meta', className, metaElement.props.className),
-    tabIndex: tabbableOnListItemFocus ? tabIndex : -1,
+    tabIndex: tabIndex !== undefined ? tabIndex : -1,
     ...otherProps,
   };
   return React.cloneElement(metaElement, metaProps);

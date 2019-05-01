@@ -85,6 +85,7 @@ indicatorContent | element | Element that will appear within the `<TabIndicator 
 minWidth | boolean | If true will display the `<Tab />` as narrow as possible.
 isMinWidthIndicator | boolean | If true will display the `<TabIndicator />` to the size of the longest content element.
 previousIndicatorClientRect | ClientRect | The indicator's clientRect that was previously activated.
+onInteraction | Function | The function is called if the tab receives any interaction
 stacked | boolean | If true will display the tab icon and label to flow vertically instead of horizontally.
 
 ## Sass Mixins

@@ -20,16 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 
-import * as Ripple from '@material/react-ripple';
 import {
+  withRipple, InjectedProps,
   RippledComponentInterface, RippledComponentState, // eslint-disable-line no-unused-vars
 } from '@material/react-ripple';
 
-export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>, Ripple.InjectedProps<HTMLDivElement> {
+export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>,
+  InjectedProps<HTMLDivElement> {
   className: string;
+  ref?: React.RefObject<TabRipple>;
 }
 
 class TabRippleBase extends React.Component<TabRippleProps, {}> {
@@ -57,6 +59,6 @@ class TabRippleBase extends React.Component<TabRippleProps, {}> {
   }
 }
 
-const TabRipple = Ripple.withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
+const TabRipple = withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
 type TabRipple = React.Component<TabRippleProps, RippledComponentState> & RippledComponentInterface<any>;
 export default TabRipple;

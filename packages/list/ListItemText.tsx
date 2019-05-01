@@ -20,11 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 
 export interface ListItemTextProps {
-  tabbableOnListItemFocus?: boolean;
   tabIndex?: number;
   className?: string;
   primaryText?: React.ReactNode;
@@ -41,7 +40,6 @@ const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
   /* eslint-disable react/prop-types */
   primaryText = '',
   secondaryText = '',
-  tabbableOnListItemFocus = false,
   tabIndex = -1,
   className = '',
   /* eslint-enable react/prop-types */
@@ -53,7 +51,7 @@ const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
       return (
         <span
           className={className}
-          tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
+          tabIndex={tabIndex !== undefined ? tabIndex : -1}
         >
           {text}
         </span>
@@ -78,7 +76,7 @@ const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
   return (
     <span
       className={classnames('mdc-list-item__text', className)}
-      tabIndex={tabbableOnListItemFocus ? tabIndex : -1}
+      tabIndex={tabIndex !== undefined ? tabIndex : -1}
       {...otherProps}
     >
       {renderText(primaryText, 'mdc-list-item__primary-text')}
