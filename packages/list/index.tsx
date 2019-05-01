@@ -25,7 +25,8 @@ import classnames from 'classnames';
 import {MDCListFoundation} from '@material/list/foundation';
 import {MDCListIndex} from '@material/list/types';
 import {MDCListAdapter} from '@material/list/adapter';
-import memoizeOne from 'memoize-one';
+// @ts-ignore @types cannot be used on dist files
+import memoizeOne from 'memoize-one/dist/memoize-one.cjs.js';
 
 import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line no-unused-vars
 import ListItemGraphic from './ListItemGraphic';
