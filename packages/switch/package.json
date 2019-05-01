@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@material/react-ripple": "^0.11.0",
-    "@material/switch": "^0.41.0",
+    "@material/switch": "^1.0.0",
     "classnames": "^2.2.6",
     "react": "^16.3.2"
   },

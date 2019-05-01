@@ -1,14 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 
 import {assert} from 'chai';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {shallow, mount} from 'enzyme';
-// @ts-ignore
 import Dialog, {
   ChildTypes, DialogTitle, DialogContent, DialogFooter, DialogButton,
 } from '../../../packages/dialog';
-// @ts-ignore no mdc .d.ts file
-import {util} from '@material/dialog/dist/mdc.dialog';
+import {isScrollable, areTopsMisaligned} from '@material/dialog/util';
 import {cssClasses, LAYOUT_EVENTS} from '../../../packages/dialog/constants';
 import {coerceForTesting} from '../helpers/types';
 import {FocusTrap} from 'focus-trap';
@@ -25,6 +23,11 @@ const DialogStub = (
 );
 
 suite('Dialog');
+
+const getAdapter = (instance: Dialog) => {
+  // @ts-ignore adapter_ property is protection, we need to override it for testing purposes
+  return instance.foundation.adapter_;
+};
 
 test('renders a dialog with default tag', () => {
   const wrapper = shallow<Dialog>(<Dialog />);
@@ -44,7 +47,7 @@ test('creates foundation', () => {
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Dialog>(<Dialog />);
   const foundation = wrapper.instance().foundation;
-  foundation.destroy = td.func();
+  foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
@@ -87,14 +90,14 @@ test('#componentDidMount calls #foundaiton.setScrimClickAction if prop present',
 
 test('when props.open updates to true, #foundation.open is called ', () => {
   const wrapper = shallow<Dialog>(<Dialog />);
-  wrapper.instance().foundation.open = td.func();
+  wrapper.instance().foundation.open = td.func<() => void>();
   wrapper.setProps({open: true});
   td.verify(wrapper.instance().foundation.open(), {times: 1});
 });
 
 test('when props.open updates to false from true, #foundation.close is called ', () => {
   const wrapper = shallow<Dialog>(<Dialog open />);
-  wrapper.instance().foundation.close = td.func();
+  wrapper.instance().foundation.close = td.func<(action: string) => null>();
   wrapper.setProps({open: false});
   td.verify(wrapper.instance().foundation.close(), {times: 1});
 });
@@ -103,7 +106,7 @@ test('when props.autoStackButtons updates to true,  ' +
   ' #foundation.setAutoStackButtons is called ', () => {
   const wrapper = shallow<Dialog>(<Dialog autoStackButtons={false}/>);
   assert.isFalse(wrapper.instance().foundation.getAutoStackButtons());
-  wrapper.instance().foundation.setAutoStackButtons = td.func();
+  wrapper.instance().foundation.setAutoStackButtons = td.func<(autoStack: boolean) => null>();
   wrapper.setProps({autoStackButtons: true});
   td.verify(wrapper.instance().foundation.setAutoStackButtons(true), {times: 1});
 });
@@ -112,7 +115,7 @@ test('when props.autoStackButtons updates to false, ' +
   ' #foundation.setAutoStackButtons is called ', () => {
   const wrapper = shallow<Dialog>(<Dialog />);
   assert.isTrue(wrapper.instance().foundation.getAutoStackButtons());
-  wrapper.instance().foundation.setAutoStackButtons = td.func();
+  wrapper.instance().foundation.setAutoStackButtons = td.func<(autoStack: boolean) => null>();
   wrapper.setProps({autoStackButtons: false});
   td.verify(wrapper.instance().foundation.setAutoStackButtons(false), {times: 1});
 });
@@ -121,7 +124,7 @@ test('when props.escapeKeyAction updates #foundation.setEscapeKeyAction is calle
   const wrapper = shallow<Dialog>(<Dialog />);
   const escapeKeyAction: string = 'meow';
 
-  wrapper.instance().foundation.setEscapeKeyAction = td.func();
+  wrapper.instance().foundation.setEscapeKeyAction = td.func<(action: string) => null>();
   wrapper.setProps({escapeKeyAction});
   td.verify(wrapper.instance().foundation.setEscapeKeyAction(escapeKeyAction), {times: 1});
 });
@@ -130,7 +133,7 @@ test('when props.scrimClickAction updates #foundation.setScrimClickAction is cal
   const wrapper = shallow<Dialog>(<Dialog />);
   const scrimClickAction: string = 'meow';
 
-  wrapper.instance().foundation.setScrimClickAction = td.func();
+  wrapper.instance().foundation.setScrimClickAction = td.func<(action: string) => null>();
   wrapper.setProps({scrimClickAction});
   td.verify(wrapper.instance().foundation.setScrimClickAction(scrimClickAction), {times: 1});
 });
@@ -159,26 +162,26 @@ test('classNames adds classes', () => {
 
 test('#adapter.addClass should update state with new className', () => {
   const wrapper = mount<Dialog>(<Dialog />);
-  wrapper.instance().foundation.adapter_.addClass('test-class');
+  getAdapter(wrapper.instance()).addClass('test-class');
   assert.isTrue(wrapper.state().classList.has('test-class'));
 });
 
 test('#adapter.removeClass should update state with new className', () => {
   const wrapper = mount<Dialog>(<Dialog />);
   wrapper.setState({classList: new Set(['test-class'])});
-  wrapper.instance().foundation.adapter_.removeClass('test-class');
+  getAdapter(wrapper.instance()).removeClass('test-class');
   assert.isFalse(wrapper.state().classList.has('test-class'));
 });
 
 test('#adapter.hasClass returns true if class is contained in classes', () => {
   const wrapper = mount<Dialog>(<Dialog />);
   wrapper.setState({classList: new Set(['test-class'])});
-  assert.isTrue(wrapper.instance().foundation.adapter_.hasClass('test-class'));
+  assert.isTrue(getAdapter(wrapper.instance()).hasClass('test-class'));
 });
 
 test('#adapter.addBodyClass adds a class to the body', () => {
   const wrapper = shallow<Dialog>(<Dialog />);
-  wrapper.instance().foundation.adapter_.addBodyClass('test-class');
+  getAdapter(wrapper.instance()).addBodyClass('test-class');
   const body = document.querySelector('body')!;
   assert.isTrue(body.classList.contains('test-class'));
 });
@@ -232,7 +235,7 @@ test('#adapter.isContentScrollable returns the value of util.isScrollable', () =
   );
   const content = wrapper.instance().content;
   assert.strictEqual(
-    wrapper.instance().adapter.isContentScrollable(), util.isScrollable(content)
+    wrapper.instance().adapter.isContentScrollable(), isScrollable(content)
   );
 });
 
@@ -241,7 +244,7 @@ test('#adapter.areButtonsStacked returns result of util.areTopsMisaligned', () =
   const buttons = wrapper.instance().buttons;
   assert.strictEqual(
     wrapper.instance().adapter.areButtonsStacked(),
-    util.areTopsMisaligned(buttons)
+    areTopsMisaligned(buttons)
   );
 });
 
@@ -249,7 +252,7 @@ test('#adapter.getActionFromEvent returns attribute value on event target', () =
   const wrapper = mount<Dialog>(DialogStub);
 
   const buttons = wrapper.instance().buttons!;
-  const action = wrapper.instance().adapter.getActionFromEvent({target: buttons[1]});
+  const action = wrapper.instance().adapter.getActionFromEvent(coerceForTesting<Event>({target: buttons[1]}));
   assert.equal(action, 'accept');
 });
 
@@ -268,7 +271,7 @@ test('#adapter.getActionFromEvent returns attribute value on parent of event tar
   );
 
   const spanEl = wrapper.instance().content!.getElementsByTagName('span')[0];
-  const action = wrapper.instance().adapter.getActionFromEvent({target: spanEl});
+  const action = wrapper.instance().adapter.getActionFromEvent(coerceForTesting<Event>({target: spanEl}));
   assert.equal(action, 'pet');
 });
 
@@ -288,7 +291,7 @@ test('#adapter.getActionFromEvent returns null when attribute is not present', (
   );
 
   const spanEl = wrapper.instance().content!.getElementsByTagName('span')[0];
-  const action = wrapper.instance().adapter.getActionFromEvent({target: spanEl});
+  const action = wrapper.instance().adapter.getActionFromEvent(coerceForTesting<Event>({target: spanEl}));
   assert.isNull(action);
 });
 
@@ -370,9 +373,9 @@ test('#handleOpening adds keydown handler on document that triggers ' +
   '#foundation.handleDocumentKeyDown',
 () => {
   const wrapper = shallow<Dialog>(<Dialog open={false}/>);
-  wrapper.instance().foundation.handleDocumentKeydown = td.func();
+  wrapper.instance().foundation.handleDocumentKeydown = td.func<(evt: KeyboardEvent) => null>();
 
-  const e = new Event('keydown');
+  const e = new KeyboardEvent('keydown');
 
   document.dispatchEvent(e);
   td.verify(wrapper.instance().foundation.handleDocumentKeydown(e), {times: 0});
@@ -402,7 +405,7 @@ test('#handleClosing removes keydown handler on document that triggers ' +
     coerceForTesting<(evt: KeyboardEvent) => void>(td.func());
   wrapper.instance().handleOpening();
 
-  const e = new Event('keydown');
+  const e = new KeyboardEvent('keydown');
   document.dispatchEvent(e);
   td.verify(wrapper.instance().foundation.handleDocumentKeydown(e), {times: 1});
 
@@ -419,7 +422,7 @@ test('#handleClosing removes handler for LAYOUT_EVENTS to window', () => {
   wrapper.instance().handleOpening();
 
   LAYOUT_EVENTS.forEach((eventType) => {
-    let evt = new Event(eventType);
+    let evt = new KeyboardEvent(eventType);
     window.dispatchEvent(evt);
     // @ts-ignore expected 0 arguments but got 1
     td.verify(wrapper.instance().handleLayout(evt), {times: 1});
@@ -521,19 +524,23 @@ test('#setId will set labelledby and from a custom DialogTitle', () => {
 test('#events.onKeyDown triggers #foundaiton.handleInteraction', () => {
   const wrapper = shallow<Dialog>(<Dialog><DialogContent><p>meow</p></DialogContent></Dialog>);
 
-  wrapper.instance().foundation.handleInteraction = td.func();
-  const e = {};
+  wrapper.instance().foundation.handleInteraction = td.func<(e: KeyboardEvent) => null>();
+  const e = coerceForTesting<React.KeyboardEvent>({
+    nativeEvent: {},
+  });
   wrapper.simulate('keydown', e);
-  td.verify(wrapper.instance().foundation.handleInteraction(e), {times: 1});
+  td.verify(wrapper.instance().foundation.handleInteraction(e.nativeEvent), {times: 1});
 });
 
 test('#events.onClick triggers #foundaiton.handleInteraction', () => {
   const wrapper = shallow<Dialog>(<Dialog><DialogContent><p>meow</p></DialogContent></Dialog>);
 
-  wrapper.instance().foundation.handleInteraction = td.func();
-  const e = {};
+  wrapper.instance().foundation.handleInteraction = td.func<(e: KeyboardEvent) => null>();
+  const e = coerceForTesting<React.KeyboardEvent>({
+    nativeEvent: {},
+  });
   wrapper.simulate('click', e);
-  td.verify(wrapper.instance().foundation.handleInteraction(e), {times: 1});
+  td.verify(wrapper.instance().foundation.handleInteraction(e.nativeEvent), {times: 1});
 });
 
 test('Dialog closes when esc key is pressed', () => {

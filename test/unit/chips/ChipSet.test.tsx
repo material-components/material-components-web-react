@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import {assert} from 'chai';
-import * as td from 'testdouble';
+import td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 import ChipSet from '../../../packages/chips/ChipSet';
 import {Chip, ChipProps} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
@@ -74,7 +74,7 @@ test('#adapter.hasClass returns false if component does not contains class', () 
 test('#adapter.setSelected adds selectedChipId to state', () => {
   const getSelectedChipIds = td.func();
   const handleSelect = coerceForTesting<(selectedChipIds: string[]) => void>(td.func());
-  const foundation = {getSelectedChipIds};
+  const foundation = coerceForTesting<any>({getSelectedChipIds});
   const wrapper = shallow<ChipSet>(
     <ChipSet handleSelect={handleSelect}>
       <div id='1' />
@@ -120,22 +120,22 @@ test(
         <div id='1' />
       </ChipSet>
     );
-    wrapper.state().foundation.select = td.func();
+    wrapper.state().foundation!.select = td.func<(chipId: string) => null>();
     const selectedChipIds = ['1'];
     wrapper.setState({selectedChipIds});
     wrapper.instance().initChipSelection();
-    td.verify(wrapper.state().foundation.select('1'), {times: 1});
+    td.verify(wrapper.state().foundation!.select('1'), {times: 1});
   }
 );
 
 test('#handleSelect calls foundation.handleChipSelection with selectedChipId and selected=true', () => {
   const handleChipSelection = td.func();
-  const foundation = {handleChipSelection};
   const wrapper = shallow<ChipSet>(
     <ChipSet>
       <div id='1' />
     </ChipSet>
   );
+  const foundation = coerceForTesting<any>({handleChipSelection});
   wrapper.setState({foundation});
   wrapper.instance().handleSelect('1', true);
   td.verify(handleChipSelection('1', true), {times: 1});
@@ -143,7 +143,7 @@ test('#handleSelect calls foundation.handleChipSelection with selectedChipId and
 
 test('#handleSelect calls foundation.handleChipSelection with selectedChipId and selected=false', () => {
   const handleChipSelection = td.func();
-  const foundation = {handleChipSelection};
+  const foundation = coerceForTesting<any>({handleChipSelection});
   const wrapper = shallow<ChipSet>(
     <ChipSet>
       <div id='1' />
@@ -211,7 +211,7 @@ test('#chip.props.handleInteraction calls both #chip.handleInteraction calls #fo
 
 test('#handleInteraction calls #foundation.handleChipInteraction', () => {
   const handleChipInteraction = td.func();
-  const foundation = {handleChipInteraction};
+  const foundation = coerceForTesting<any>({handleChipInteraction});
   const wrapper = shallow<ChipSet>(
     <ChipSet>
       <div id='1' />
@@ -224,7 +224,7 @@ test('#handleInteraction calls #foundation.handleChipInteraction', () => {
 
 test('#handleRemove calls foundation.handleChipRemoval with chipId', () => {
   const handleChipRemoval = td.func();
-  const foundation = {handleChipRemoval};
+  const foundation = coerceForTesting<any>({handleChipRemoval});
   const wrapper = shallow<ChipSet>(
     <ChipSet>
       <div id='1' />
@@ -447,8 +447,8 @@ test('input variant of ChipSet will throw error if chip missing id', () => {
 
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<ChipSet>(<ChipSet><Chip id='1' /></ChipSet>);
-  const foundation = wrapper.state().foundation;
-  foundation.destroy = td.func();
+  const foundation = wrapper.state().foundation!;
+  foundation.destroy = td.func<() => null>();
   wrapper.unmount();
   td.verify(foundation.destroy());
 });

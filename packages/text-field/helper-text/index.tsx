@@ -19,10 +19,12 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCTextFieldHelperTextFoundation} from '@material/textfield/dist/mdc.textfield';
+import {MDCTextFieldHelperTextAdapter} from '@material/textfield/helper-text/adapter';
+import {MDCTextFieldHelperTextFoundation} from '@material/textfield/helper-text/foundation';
+
+const cssClasses = MDCTextFieldHelperTextFoundation.cssClasses;
 
 export interface HelperTextProps {
   'aria-hidden'?: boolean;
@@ -42,72 +44,67 @@ interface HelperTextState {
   classList: Set<string>;
 };
 
-export default class HelperText extends React.Component<
-  HelperTextProps,
-  HelperTextState
-  > {
-  foundation_: MDCTextFieldHelperTextFoundation;
+export default class HelperText extends React.Component<HelperTextProps, HelperTextState> {
+  foundation!: MDCTextFieldHelperTextFoundation;
 
   static defaultProps = {
-    'aria-hidden': false,
-    'className': '',
-    'isValid': true,
-    'isValidationMessage': false,
-    'persistent': false,
-    'showToScreenReader': false,
-    'validation': false,
+    ['aria-hidden']: false,
+    className: '',
+    isValid: true,
+    isValidationMessage: false,
+    persistent: false,
+    showToScreenReader: false,
+    validation: false,
   };
 
   constructor(props: HelperTextProps) {
     super(props);
     this.state = {
-      'aria-hidden': props['aria-hidden']!,
-      'role': props.role,
-      'classList': new Set(),
+      ['aria-hidden']: props['aria-hidden']!,
+      role: props.role,
+      classList: new Set(),
     };
   }
 
   componentDidMount() {
-    this.foundation_ = new MDCTextFieldHelperTextFoundation(this.adapter);
-    this.foundation_.init();
+    this.foundation = new MDCTextFieldHelperTextFoundation(this.adapter);
+    this.foundation.init();
     if (this.props.showToScreenReader) {
-      this.foundation_.showToScreenReader(true);
+      this.foundation.showToScreenReader();
     }
     if (!this.props.isValid) {
-      this.foundation_.setValidity(false);
+      this.foundation.setValidity(false);
     }
     if (this.props.isValidationMessage) {
-      this.foundation_.setValidation(true);
+      this.foundation.setValidation(true);
     }
   }
 
   componentDidUpdate(prevProps: HelperTextProps) {
-    if (this.props.showToScreenReader !== prevProps.showToScreenReader) {
-      this.foundation_.showToScreenReader(this.props.showToScreenReader);
+    if (this.props.showToScreenReader !== prevProps.showToScreenReader && this.props.showToScreenReader) {
+      this.foundation.showToScreenReader();
     }
     if (this.props.isValid !== prevProps.isValid) {
-      this.foundation_.setValidity(this.props.isValid);
+      this.foundation.setValidity(!!this.props.isValid);
     }
-    if (this.props.isValidationMessage !== prevProps.isValidationMessage) {
-      this.foundation_.setValidation(this.props.isValidationMessage);
+    if (this.props.isValidationMessage !== prevProps.isValidationMessage && this.props.isValidationMessage) {
+      this.foundation.setValidation(this.props.isValidationMessage);
     }
   }
 
   componentWillUnmount() {
-    if (this.foundation_) {
-      this.foundation_.destroy();
-    }
+    this.foundation.destroy();
   }
 
   get classes() {
     const {className, persistent, validation} = this.props;
-    return classnames('mdc-text-field-helper-text', className, {
-      'mdc-text-field-helper-text--persistent': persistent,
-      'mdc-text-field-helper-text--validation-msg': validation,
+    return classnames(cssClasses.ROOT, className, {
+      [cssClasses.HELPER_TEXT_PERSISTENT]: persistent,
+      [cssClasses.HELPER_TEXT_VALIDATION_MSG]: validation,
     });
   }
 
-  get adapter() {
+  get adapter(): MDCTextFieldHelperTextAdapter {
     return {
       addClass: (className: string) =>
         this.setState({classList: this.state.classList.add(className)}),
@@ -124,6 +121,8 @@ export default class HelperText extends React.Component<
       removeAttr: (attr: keyof HelperTextState) => (
         this.setState((prevState) => ({...prevState, [attr]: null}))
       ),
+      // Please manage content through JSX
+      setContent: () => undefined,
     };
   }
 
@@ -133,9 +132,7 @@ export default class HelperText extends React.Component<
         className={this.classes}
         role={this.state.role}
         aria-hidden={this.state['aria-hidden']}
-      >
-        {this.props.children}
-      </p>
+      >{this.props.children}</p>
     );
   }
 }
