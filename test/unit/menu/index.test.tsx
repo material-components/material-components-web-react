@@ -203,22 +203,6 @@ test('handleOpen calls props.onOpen', () => {
   td.verify(onOpen(), {times: 1});
 });
 
-test('handleOpen calls focuses on first list element', () => {
-  const div = document.createElement('div');
-  document.body.append(div);
-  const options = {attachTo: div};
-  const wrapper = mount(<Menu>
-    <MenuList>
-      <button className='mdc-list-item'>Meow</button>
-      <button className='mdc-list-item'>Woof</button>
-    </MenuList>
-  </Menu>, options);
-  coerceForTesting<Menu>(wrapper.instance()).handleOpen!();
-  assert.equal(document.activeElement, wrapper.find('.mdc-list-item').first().getDOMNode());
-  wrapper.unmount();
-  div.remove();
-});
-
 test('menu renders with tabindex=-1', () => {
   const wrapper = shallow(<Menu />);
   assert.equal(wrapper.props().tabIndex, -1);

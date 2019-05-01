@@ -28,10 +28,9 @@ test('renders with persistent class when props.persistent is true', () => {
   assert.isTrue(wrapper.hasClass('mdc-select-helper-text--persistent'));
 });
 
-test.only('calls setHelperTextFoundation with foundation', () => {
+test('calls setHelperTextFoundation with foundation', () => {
   const setHelperTextFoundation = td.func<(foundation?: MDCSelectHelperTextFoundation) => void>();
   shallow(<SelectHelperText setHelperTextFoundation={setHelperTextFoundation} />);
-  // TODO: change Object to MDCSelectHelperTextFoundation in PR 823
   td.verify(setHelperTextFoundation(td.matchers.isA(Object)), {times: 1});
 });
 

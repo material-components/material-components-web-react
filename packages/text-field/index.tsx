@@ -306,6 +306,22 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       textarea,
     } = this.props;
     const {foundation} = this.state;
+    const textField = (
+      <div
+        {...this.otherProps}
+        className={this.classes}
+        onClick={() => foundation && foundation.handleTextFieldInteraction()}
+        onKeyDown={() => foundation && foundation.handleTextFieldInteraction()}
+        key='text-field-container'
+      >
+        {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
+        {foundation ? this.renderInput() : null}
+        {label && !outlined && !fullWidth ? this.renderLabel() : null}
+        {outlined ? this.renderNotchedOutline() : null}
+        {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
+        {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
+      </div>
+    );
 
     return (
       <React.Fragment>

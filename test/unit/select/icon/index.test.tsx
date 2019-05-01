@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as td from 'testdouble';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
-import {SelectIcon} from '../../../../packages/select/icon/index';
+import {SelectIcon} from '../../../../packages/select/index';
 import {MDCSelectIconFoundation} from '@material/select';
 
 suite('Select Icon');
@@ -20,7 +20,6 @@ test('renders with a test class name', () => {
 test('calls setIconFoundation with foundation', () => {
   const setIconFoundation = td.func<(foundation?: MDCSelectIconFoundation) => void>();
   shallow(<SelectIcon setIconFoundation={setIconFoundation} />);
-  // TODO: change Object to MDCSelectHelperTextFoundation in PR 823
   td.verify(setIconFoundation(td.matchers.isA(Object)), {times: 1});
 });
 
