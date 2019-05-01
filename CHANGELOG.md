@@ -1,32 +1,44 @@
-# [](https://github.com/material-components/material-components-web-react/compare/v0.10.0...v) (2019-03-19)
+<a name=""></a>
+# [](https://github.com/material-components/material-components-web-react/compare/v0.10.0...v) (2019-05-01)
 
 
 ### Bug Fixes
 
-* **chips:** update classnames version to 2.2.6 ([#702](https://github.com/material-components/material-components-web-react/issues/702)) ([bfd2986](https://github.com/material-components/material-components-web-react/commit/bfd2986))
-* **dialog:** should extend HTMLElement ([#723](https://github.com/material-components/material-components-web-react/issues/723)) ([af449f4](https://github.com/material-components/material-components-web-react/commit/af449f4))
-* **infrastructure:** remove duplicate tsconfig properties ([#736](https://github.com/material-components/material-components-web-react/issues/736)) ([582cca3](https://github.com/material-components/material-components-web-react/commit/582cca3))
-* **menu-surface:** Hoist menu-surface via a portal ([#500](https://github.com/material-components/material-components-web-react/issues/500),[#628](https://github.com/material-components/material-components-web-react/issues/628)) ([#693](https://github.com/material-components/material-components-web-react/issues/693)) ([41d8750](https://github.com/material-components/material-components-web-react/commit/41d8750))
-* **ripple:** ClientRect => defaultrect object ([#754](https://github.com/material-components/material-components-web-react/issues/754)) ([b2f78e8](https://github.com/material-components/material-components-web-react/commit/b2f78e8))
-* **ripple:** Use mdc-dom.matches instead of `getMatchesProperty()` ([#706](https://github.com/material-components/material-components-web-react/issues/706)) ([74d07fd](https://github.com/material-components/material-components-web-react/commit/74d07fd))
-* **select:** pass state.value to NativeControl as prop.value ([#726](https://github.com/material-components/material-components-web-react/issues/726)) ([09ad132](https://github.com/material-components/material-components-web-react/commit/09ad132))
-* classnames@2.2.5 --> classnames@2.2.6 & update imports ([#709](https://github.com/material-components/material-components-web-react/issues/709)) ([230337e](https://github.com/material-components/material-components-web-react/commit/230337e))
-* make require props optional ([#737](https://github.com/material-components/material-components-web-react/issues/737)) ([f4e78e7](https://github.com/material-components/material-components-web-react/commit/f4e78e7))
-* **select:** prop value should be string only ([#725](https://github.com/material-components/material-components-web-react/issues/725)) ([619d12c](https://github.com/material-components/material-components-web-react/commit/619d12c))
-* **snackbar:** Add missing mdcw snackbar dependency ([#714](https://github.com/material-components/material-components-web-react/issues/714)) ([9e6fc92](https://github.com/material-components/material-components-web-react/commit/9e6fc92))
-* **tab:** Set initial tabIndex state to -1 ([#690](https://github.com/material-components/material-components-web-react/issues/690)) ([#691](https://github.com/material-components/material-components-web-react/issues/691)) ([9034c98](https://github.com/material-components/material-components-web-react/commit/9034c98))
-* **text-field:** make props optional ([#735](https://github.com/material-components/material-components-web-react/issues/735)) ([93e8c15](https://github.com/material-components/material-components-web-react/commit/93e8c15))
+* **chips:** update classnames version to 2.2.6 ([#702](https://github.com/material-components/material-components-web-react/issues/702)) ([09b7b51](https://github.com/material-components/material-components-web-react/commit/09b7b51))
+* **dialog:** should extend HTMLElement ([#723](https://github.com/material-components/material-components-web-react/issues/723)) ([75902a5](https://github.com/material-components/material-components-web-react/commit/75902a5))
+* **infrastructure:** remove duplicate tsconfig properties ([#736](https://github.com/material-components/material-components-web-react/issues/736)) ([90a8b87](https://github.com/material-components/material-components-web-react/commit/90a8b87))
+* **list:** make listitem props optional ([#766](https://github.com/material-components/material-components-web-react/issues/766)) ([16ada4b](https://github.com/material-components/material-components-web-react/commit/16ada4b))
+* **list:** memoize-one build ([#833](https://github.com/material-components/material-components-web-react/issues/833)) ([0f9b593](https://github.com/material-components/material-components-web-react/commit/0f9b593))
+* **menu-surface:** Hoist menu-surface via a portal ([#500](https://github.com/material-components/material-components-web-react/issues/500),[#628](https://github.com/material-components/material-components-web-react/issues/628)) ([#693](https://github.com/material-components/material-components-web-react/issues/693)) ([4f5164c](https://github.com/material-components/material-components-web-react/commit/4f5164c))
+* **ripple:** ClientRect => defaultrect object ([#754](https://github.com/material-components/material-components-web-react/issues/754)) ([c6c289f](https://github.com/material-components/material-components-web-react/commit/c6c289f))
+* **ripple:** Use mdc-dom.matches instead of `getMatchesProperty()` ([#706](https://github.com/material-components/material-components-web-react/issues/706)) ([eca5054](https://github.com/material-components/material-components-web-react/commit/eca5054))
+* **select:** pass state.value to NativeControl as prop.value ([#726](https://github.com/material-components/material-components-web-react/issues/726)) ([6b26e85](https://github.com/material-components/material-components-web-react/commit/6b26e85))
+* **select:** prop value should be string only ([#725](https://github.com/material-components/material-components-web-react/issues/725)) ([e154b3e](https://github.com/material-components/material-components-web-react/commit/e154b3e))
+* **snackbar:** Add missing mdcw snackbar dependency ([#714](https://github.com/material-components/material-components-web-react/issues/714)) ([22eb97c](https://github.com/material-components/material-components-web-react/commit/22eb97c))
+* **tab:** Set initial tabIndex state to -1 ([#690](https://github.com/material-components/material-components-web-react/issues/690)) ([#691](https://github.com/material-components/material-components-web-react/issues/691)) ([ab434fd](https://github.com/material-components/material-components-web-react/commit/ab434fd))
+* classnames@2.2.5 --> classnames@2.2.6 & update imports ([#709](https://github.com/material-components/material-components-web-react/issues/709)) ([4f22b5a](https://github.com/material-components/material-components-web-react/commit/4f22b5a))
+* Ensure all package.json files have a link to the repo ([#807](https://github.com/material-components/material-components-web-react/issues/807)) ([10f2614](https://github.com/material-components/material-components-web-react/commit/10f2614))
+* make require props optional ([#737](https://github.com/material-components/material-components-web-react/issues/737)) ([0161b30](https://github.com/material-components/material-components-web-react/commit/0161b30))
+* Remove MDCTextfield Constant External ([#803](https://github.com/material-components/material-components-web-react/issues/803)) ([2269920](https://github.com/material-components/material-components-web-react/commit/2269920))
+* **text-field:** make props optional ([#735](https://github.com/material-components/material-components-web-react/issues/735)) ([1907fda](https://github.com/material-components/material-components-web-react/commit/1907fda))
 
 
 ### Features
 
-* **drawer:** add innerRef prop ([#758](https://github.com/material-components/material-components-web-react/issues/758)) ([364b0b2](https://github.com/material-components/material-components-web-react/commit/364b0b2))
-* **snackbar:** dynamic open ([#708](https://github.com/material-components/material-components-web-react/issues/708)) ([04fe2bf](https://github.com/material-components/material-components-web-react/commit/04fe2bf))
-* **tab:** implement setFocusOnActivate ([#722](https://github.com/material-components/material-components-web-react/issues/722)) ([fcd480d](https://github.com/material-components/material-components-web-react/commit/fcd480d))
-* **top-app-bar:** add children components for composition ([f3454b6](https://github.com/material-components/material-components-web-react/commit/f3454b6))
+* **drawer:** add innerRef prop ([#758](https://github.com/material-components/material-components-web-react/issues/758)) ([de6b9cf](https://github.com/material-components/material-components-web-react/commit/de6b9cf))
+* **snackbar:** dynamic open ([#708](https://github.com/material-components/material-components-web-react/issues/708)) ([8e5868a](https://github.com/material-components/material-components-web-react/commit/8e5868a))
+* **tab:** implement setFocusOnActivate ([#722](https://github.com/material-components/material-components-web-react/issues/722)) ([0f7ebba](https://github.com/material-components/material-components-web-react/commit/0f7ebba))
+* **top-app-bar:** add children components for composition ([50f908e](https://github.com/material-components/material-components-web-react/commit/50f908e))
+* update mdcweb v1.x.x ([#830](https://github.com/material-components/material-components-web-react/issues/830)) ([0f63a69](https://github.com/material-components/material-components-web-react/commit/0f63a69))
+
+
+### BREAKING CHANGES
+
+* Text-field, select, list have API changes. Please see PR #830 for more details.
 
 
 
+<a name="0.10.0"></a>
 # [0.10.0](https://github.com/material-components/material-components-web-react/compare/v0.9.3...v0.10.0) (2019-02-19)
 
 
@@ -61,6 +73,7 @@
 
 
 
+<a name="0.9.3"></a>
 ## [0.9.3](https://github.com/material-components/material-components-web-react/compare/v0.9.2...v0.9.3) (2019-02-14)
 
 
@@ -70,14 +83,17 @@
 
 
 
+<a name="0.9.2"></a>
 ## [0.9.2](https://github.com/material-components/material-components-web-react/compare/v0.9.1...v0.9.2) (2019-01-30)
 
 
 
+<a name="0.9.1"></a>
 ## [0.9.1](https://github.com/material-components/material-components-web-react/compare/v0.9.0...v0.9.1) (2019-01-30)
 
 
 
+<a name="0.9.0"></a>
 # [0.9.0](https://github.com/material-components/material-components-web-react/compare/v0.8.0...v0.9.0) (2019-01-23)
 
 
@@ -97,6 +113,7 @@
 
 
 
+<a name="0.8.0"></a>
 # [0.8.0](https://github.com/material-components/material-components-web-react/compare/v0.7.1...v0.8.0) (2018-12-28)
 
 
@@ -150,6 +167,7 @@
 
 
 
+<a name="0.7.1"></a>
 ## [0.7.1](https://github.com/material-components/material-components-web-react/compare/v0.6.2...v0.7.1) (2018-11-30)
 
 
@@ -176,6 +194,7 @@
 
 
 
+<a name="0.6.2"></a>
 ## [0.6.2](https://github.com/material-components/material-components-web-react/compare/v0.6.0...v0.6.2) (2018-11-07)
 
 
@@ -210,6 +229,7 @@
 
 
 
+<a name="0.6.0"></a>
 # [0.6.0](https://github.com/material-components/material-components-web-react/compare/v0.5.1...v0.6.0) (2018-10-24)
 
 
@@ -239,6 +259,7 @@
 
 
 
+<a name="0.5.1"></a>
 ## [0.5.1](https://github.com/material-components/material-components-web-react/compare/v0.5.0...v0.5.1) (2018-09-25)
 
 
@@ -248,6 +269,7 @@
 
 
 
+<a name="0.5.0"></a>
 # [0.5.0](https://github.com/material-components/material-components-web-react/compare/v0.4.2...v0.5.0) (2018-09-25)
 
 
@@ -285,10 +307,12 @@
 
 
 
+<a name="0.4.2"></a>
 ## [0.4.2](https://github.com/material-components/material-components-web-react/compare/v0.4.1...v0.4.2) (2018-08-14)
 
 
 
+<a name="0.4.1"></a>
 ## [0.4.1](https://github.com/material-components/material-components-web-react/compare/v0.4.0...v0.4.1) (2018-08-13)
 
 
@@ -314,6 +338,7 @@
 
 
 
+<a name="0.4.0"></a>
 # [0.4.0](https://github.com/material-components/material-components-web-react/compare/v0.3.0...v0.4.0) (2018-07-30)
 
 
@@ -328,7 +353,7 @@
 * point packages to MDC Web /dist ES5 files ([#182](https://github.com/material-components/material-components-web-react/issues/182)) ([9d387d3](https://github.com/material-components/material-components-web-react/commit/9d387d3))
 
 
-### chore
+### Chores
 
 * **fab:** Pass icon as a prop, not a child element ([#159](https://github.com/material-components/material-components-web-react/issues/159)) ([1569f97](https://github.com/material-components/material-components-web-react/commit/1569f97))
 
@@ -348,6 +373,7 @@
 
 
 
+<a name="0.3.0"></a>
 # [0.3.0](https://github.com/material-components/material-components-web-react/compare/v0.2.0...v0.3.0) (2018-06-25)
 
 
@@ -371,6 +397,7 @@
 
 
 
+<a name="0.2.0"></a>
 # [0.2.0](https://github.com/material-components/material-components-web-react/compare/v0.1.0...v0.2.0) (2018-06-01)
 
 
@@ -390,6 +417,7 @@
 
 
 
+<a name="0.1.0"></a>
 # [0.1.0](https://github.com/material-components/material-components-web-react/compare/5fd6d86...v0.1.0) (2018-05-09)
 
 
