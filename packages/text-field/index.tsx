@@ -19,16 +19,25 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCTextFieldFoundation, MDCTextFieldAdapter} from '@material/textfield/dist/mdc.textfield';
+import {
+  MDCTextFieldAdapter,
+  MDCTextFieldRootAdapter,
+  MDCTextFieldLabelAdapter,
+  MDCTextFieldInputAdapter,
+  MDCTextFieldOutlineAdapter,
+  MDCTextFieldLineRippleAdapter,
+} from '@material/textfield/adapter';
+import {MDCTextFieldFoundation} from '@material/textfield/foundation';
 import Input, {InputProps} from './Input';
 import Icon, {IconProps} from './icon/index';
 import HelperText, {HelperTextProps} from './helper-text/index';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
+
+const cssClasses = MDCTextFieldFoundation.cssClasses;
 
 export interface Props<T extends HTMLElement = HTMLInputElement> {
   // InputProps<T> includes the prop `id`, which we use below in the constructor
@@ -38,8 +47,8 @@ export interface Props<T extends HTMLElement = HTMLInputElement> {
   dense?: boolean;
   floatingLabelClassName?: string;
   fullWidth?: boolean;
-  helperText?: React.ReactElement<any>;
-  isRtl?: boolean;
+  helperText?: React.ReactElement<HelperTextProps>;
+  characterCounter?: React.ReactElement<any>;
   label?: React.ReactNode;
   leadingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   lineRippleClassName?: string;
@@ -55,7 +64,6 @@ type TextFieldProps<T extends HTMLElement = HTMLInputElement> = Props<T> & React
 
 interface TextFieldState {
   foundation?: MDCTextFieldFoundation;
-  value?: string | string[] | number;
   classList: Set<string>;
   inputId: string;
   isFocused: boolean;
@@ -67,7 +75,6 @@ interface TextFieldState {
   activeLineRipple: boolean;
   lineRippleCenter: number;
   outlineIsNotched: boolean;
-  showHelperTextToScreenReader: boolean;
   isValid: boolean;
 };
 
@@ -80,7 +87,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     dense: false,
     floatingLabelClassName: '',
     fullWidth: false,
-    isRtl: false,
     lineRippleClassName: '',
     notchedOutlineClassName: '',
     outlined: false,
@@ -96,7 +102,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
 
     this.state = {
       // root state
-      value: undefined,
       classList: new Set(),
       inputId,
       isFocused: false,
@@ -112,7 +117,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       // notched outline state
       outlineIsNotched: false,
       // helper text state
-      showHelperTextToScreenReader: false,
       isValid: true,
       // foundation is on state,
       // so that the Input renders after this component
@@ -121,42 +125,40 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   componentDidMount() {
-    const foundationMap: object = {
-      helperText: this.helperTextAdapter,
-    };
-    const foundation = new MDCTextFieldFoundation(this.adapter, foundationMap);
+    const foundation = new MDCTextFieldFoundation(this.adapter);
     this.setState({foundation});
     foundation.init();
   }
 
   componentWillUnmount() {
-    if (this.state.foundation) {
-      this.state.foundation.destroy();
-    }
+    this.state.foundation!.destroy();
   }
   /**
    * getters
    */
   get classes() {
-    const {classList, disabled} = this.state;
+    const {classList, disabled, isFocused, isValid} = this.state;
     const {
       className,
       dense,
-      outlined,
       fullWidth,
       textarea,
       trailingIcon,
       leadingIcon,
     } = this.props;
 
-    return classnames('mdc-text-field', Array.from(classList), className, {
-      'mdc-text-field--outlined': outlined,
-      'mdc-text-field--textarea': textarea,
+    return classnames(cssClasses.ROOT, Array.from(classList), className, {
+      [cssClasses.DENSE]: dense,
+      [cssClasses.DISABLED]: disabled,
+      [cssClasses.FOCUSED]: isFocused,
+      [cssClasses.INVALID]: !isValid,
+      [cssClasses.OUTLINED]: this.notchedOutlineAdapter.hasOutline() && !fullWidth,
+      [cssClasses.TEXTAREA]: textarea,
+      [cssClasses.WITH_LEADING_ICON]: leadingIcon,
+      // TODO change literal to constant
       'mdc-text-field--fullwidth': fullWidth,
-      'mdc-text-field--disabled': disabled,
       'mdc-text-field--with-trailing-icon': trailingIcon,
-      'mdc-text-field--with-leading-icon': leadingIcon,
-      'mdc-text-field--dense': dense,
+      'mdc-text-field--no-label': !this.labelAdapter.hasLabel(),
     });
   }
 
@@ -169,7 +171,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       floatingLabelClassName,
       fullWidth,
       helperText,
-      isRtl,
       label,
       leadingIcon,
       lineRippleClassName,
@@ -182,21 +183,24 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
+
     return otherProps;
   }
 
   get adapter(): MDCTextFieldAdapter {
-    const rootAdapterMethods = {
-      addClass: (className: string) =>
-        this.setState({classList: this.state.classList.add(className)}),
+    const rootAdapterMethods: MDCTextFieldRootAdapter = {
+      addClass: (className: string) => this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
       hasClass: (className: string) => this.classes.split(' ').includes(className),
-      isFocused: () => this.state.isFocused,
-      isRtl: () => this.props.isRtl,
+      // Please manage handler though JSX
+      registerTextFieldInteractionHandler: () => undefined,
+      deregisterTextFieldInteractionHandler: () => undefined,
+      registerValidationAttributeChangeHandler: (): any => undefined,
+      deregisterValidationAttributeChangeHandler: () => undefined,
     };
 
     return Object.assign(
@@ -209,41 +213,33 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     );
   }
 
-  get inputAdapter(): Partial<MDCTextFieldAdapter> {
-    // For reference: This is the shape of what the vanilla component `getNativeInput` returns
-    // {
-    //  value: string,
-    //  disabled: boolean, --> doesn't need to be implemented since the <INPUT> handles it
-    //  also the `get disabled` isn't actually used, except in the vanilla component
-    //  validity: {
-    //    badInput: boolean,
-    //    valid: boolean,
-    //  },
-    // }
+  get inputAdapter(): MDCTextFieldInputAdapter {
     return {
+      isFocused: () => this.state.isFocused,
       getNativeInput: () => {
-        let badInput;
-        let valid;
-        if (this.inputComponent_) {
-          badInput = this.inputComponent_.isBadInput();
-          valid = this.inputComponent_.isValid();
+        const component = this.inputComponent_;
+        if (!component) {
+          throw Error('MDCReactTextField: The input did not render properly');
+        } else {
+          return {
+            disabled: component.isDisabled(),
+            value: component.getValue(),
+            maxLength: component.getMaxLength(),
+            type: component.getInputType(),
+            validity: {
+              badInput: !!component.isBadInput(),
+              valid: !!component.isValid(),
+            },
+          };
         }
-        const input = {
-          validity: {badInput, valid},
-        };
-        // https://stackoverflow.com/a/44913378
-        Object.defineProperty(input, 'value', {
-          get: () => this.state.value,
-          // set value doesn't need to be done, since value is set via <Input>
-          // needs setter here so it browser doesn't throw error
-          set: () => {},
-        });
-        return input;
       },
+      // Please manage handler though JSX
+      registerInputInteractionHandler: () => undefined,
+      deregisterInputInteractionHandler: () => undefined,
     };
   }
 
-  get labelAdapter(): Partial<MDCTextFieldAdapter> {
+  get labelAdapter(): MDCTextFieldLabelAdapter {
     return {
       shakeLabel: (shakeLabel: boolean) => {
         const {floatingLabelElement: floatingLabel} = this;
@@ -253,12 +249,12 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         }
       },
       floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),
-      hasLabel: () => !!this.props.label,
+      hasLabel: () => !!this.props.label && !this.props.fullWidth,
       getLabelWidth: () => this.state.initialLabelWidth,
     };
   }
 
-  get lineRippleAdapter(): Partial<MDCTextFieldAdapter> {
+  get lineRippleAdapter(): MDCTextFieldLineRippleAdapter {
     return {
       activateLineRipple: () => this.setState({activeLineRipple: true}),
       deactivateLineRipple: () => this.setState({activeLineRipple: false}),
@@ -267,20 +263,12 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  get notchedOutlineAdapter(): Partial<MDCTextFieldAdapter> {
+  get notchedOutlineAdapter(): MDCTextFieldOutlineAdapter {
     return {
       notchOutline: (notchedLabelWidth: number) =>
         this.setState({outlineIsNotched: true, notchedLabelWidth}),
       closeOutline: () => this.setState({outlineIsNotched: false}),
-      hasOutline: () => !!this.props.outlined,
-    };
-  }
-
-  get helperTextAdapter(): Partial<MDCTextFieldAdapter> {
-    return {
-      showToScreenReader: () =>
-        this.setState({showHelperTextToScreenReader: true}),
-      setValidity: (isValid: boolean) => this.setState({isValid}),
+      hasOutline: () => !!this.props.outlined || !!this.props.textarea,
     };
   }
 
@@ -291,7 +279,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     return Object.assign({}, props, {
       foundation: this.state.foundation,
       handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
-      handleValueChange: (value: string | number, cb: () => void) => this.setState({value}, cb),
       setDisabled: (disabled: boolean) => this.setState({disabled}),
       setInputId: (id: string) => this.setState({inputId: id}),
       ref: (input: Input<T>) => {
@@ -309,10 +296,9 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
    */
   render() {
     const {
-      label,
       fullWidth,
       helperText,
-      outlined,
+      characterCounter,
       onLeadingIconSelect,
       onTrailingIconSelect,
       leadingIcon,
@@ -320,32 +306,27 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       textarea,
     } = this.props;
     const {foundation} = this.state;
-    const textField = (
-      <div
-        {...this.otherProps}
-        className={this.classes}
-        onClick={() => foundation && foundation.handleTextFieldInteraction()}
-        onKeyDown={() => foundation && foundation.handleTextFieldInteraction()}
-        key='text-field-container'
-      >
-        {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
-        {foundation ? this.renderInput() : null}
-        {label && !fullWidth ? this.renderLabel() : null}
-        {outlined ? this.renderNotchedOutline() : null}
-        {!fullWidth && !textarea && !outlined ? this.renderLineRipple() : null}
-        {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
-      </div>
-    );
 
-    if (helperText) {
-      return (
-        <React.Fragment>
-          {textField}
-          {this.renderHelperText()}
-        </React.Fragment>
-      );
-    }
-    return textField;
+    return (
+      <React.Fragment>
+        <div
+          {...this.otherProps}
+          className={this.classes}
+          onClick={() => foundation!.handleTextFieldInteraction()}
+          onKeyDown={() => foundation!.handleTextFieldInteraction()}
+          key='text-field-container'
+        >
+          {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
+          {this.renderInput()}
+          {this.notchedOutlineAdapter.hasOutline() ? this.renderNotchedOutline() : <React.Fragment>
+            {this.labelAdapter.hasLabel() ? this.renderLabel() : null}
+            {!textarea && !fullWidth ? this.renderLineRipple() : null}
+          </React.Fragment>}
+          {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
+        </div>
+        {helperText || characterCounter ? this.renderHelperLine(helperText, characterCounter) : null}
+      </React.Fragment>
+    );
   }
 
   renderInput() {
@@ -385,28 +366,30 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   renderNotchedOutline() {
-    const {isRtl, notchedOutlineClassName} = this.props;
-    const {outlineIsNotched, notchedLabelWidth} = this.state;
+    const {notchedOutlineClassName} = this.props;
+    const {notchedLabelWidth, outlineIsNotched} = this.state;
     return (
       <NotchedOutline
         className={notchedOutlineClassName}
-        isRtl={isRtl}
-        notch={outlineIsNotched}
         notchWidth={notchedLabelWidth}
-      />
+        notch={outlineIsNotched}
+      >
+        {this.labelAdapter.hasLabel() ? this.renderLabel(): null}
+      </NotchedOutline>
     );
   }
 
-  renderHelperText() {
-    const {helperText} = this.props;
-    if (!helperText) return;
-    const {
-      isValid,
-      showHelperTextToScreenReader: showToScreenReader,
-    } = this.state;
+  renderHelperLine(helperText?: React.ReactElement<HelperTextProps>, characterCounter?: React.ReactElement<any>) {
+    return <div className={cssClasses.HELPER_LINE}>
+      {helperText && this.renderHelperText(helperText)}
+      {characterCounter}
+    </div>;
+  }
+
+  renderHelperText(helperText: React.ReactElement<HelperTextProps>) {
+    const {isValid} = this.state;
     const props = Object.assign(
       {
-        showToScreenReader,
         isValid,
         key: 'text-field-helper-text',
       },

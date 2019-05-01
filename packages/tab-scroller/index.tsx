@@ -20,14 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import {
-  MDCTabScrollerFoundation,
-  util,
-// @ts-ignore no .d.ts file
-} from '@material/tab-scroller/dist/mdc.tabScroller';
-// @ts-ignore no mdc .d.ts file
+import {MDCTabScrollerFoundation} from '@material/tab-scroller/foundation';
+import {MDCTabScrollerAdapter} from '@material/tab-scroller/adapter';
+import {computeHorizontalScrollbarHeight} from '@material/tab-scroller/util';
 import {matches} from '@material/dom/ponyfill';
 
 const convertDashToCamelCase = (propName: string) =>
@@ -55,7 +52,7 @@ export default class TabScroller extends React.Component<
   > {
   areaElement: React.RefObject<HTMLDivElement> = React.createRef();
   contentElement: React.RefObject<HTMLDivElement> = React.createRef();
-  foundation?: MDCTabScrollerFoundation;
+  foundation!: MDCTabScrollerFoundation;
 
   state: TabScrollerState = {
     classList: new Set(),
@@ -113,7 +110,7 @@ export default class TabScroller extends React.Component<
     });
   };
 
-  get adapter() {
+  get adapter(): MDCTabScrollerAdapter {
     return {
       eventTargetMatchesSelector: (evtTarget: HTMLDivElement, selector: string) => {
         if (selector) {
@@ -141,27 +138,29 @@ export default class TabScroller extends React.Component<
       setScrollContentStyleProperty: (prop: string, value: string) =>
         this.setStyleToElement(prop, value, 'scrollContentStyleProperty'),
       getScrollContentStyleValue: (propName: string) =>
-        this.contentElement.current &&
-        window
-          .getComputedStyle(this.contentElement.current)
-          .getPropertyValue(propName),
+        this.contentElement.current ?
+          window
+            .getComputedStyle(this.contentElement.current)
+            .getPropertyValue(propName) : '',
       setScrollAreaScrollLeft: (scrollX: number) => {
         if (!this.areaElement.current) return;
         this.areaElement.current.scrollLeft = scrollX;
       },
       getScrollAreaScrollLeft: () =>
-        this.areaElement.current && this.areaElement.current.scrollLeft,
+        this.areaElement.current ? this.areaElement.current.scrollLeft : 0,
       getScrollContentOffsetWidth: this.getScrollContentWidth,
       getScrollAreaOffsetWidth: () =>
-        this.areaElement.current && this.areaElement.current.offsetWidth,
+        this.areaElement.current ? this.areaElement.current.offsetWidth : 0,
       computeScrollAreaClientRect: () =>
-        this.areaElement.current &&
-        this.areaElement.current.getBoundingClientRect(),
+        this.areaElement.current ?
+          this.areaElement.current.getBoundingClientRect() :
+          new ClientRect(),
       computeScrollContentClientRect: () =>
-        this.contentElement.current &&
-        this.contentElement.current.getBoundingClientRect(),
+        this.contentElement.current ?
+          this.contentElement.current.getBoundingClientRect() :
+          new ClientRect(),
       computeHorizontalScrollbarHeight: () =>
-        util.computeHorizontalScrollbarHeight(document),
+        computeHorizontalScrollbarHeight(document),
     };
   }
 
@@ -172,7 +171,7 @@ export default class TabScroller extends React.Component<
   // needs to be public class method for react tab-bar
   getScrollContentWidth = () => {
     return (
-      this.contentElement.current && this.contentElement.current.offsetWidth
+      this.contentElement.current ? this.contentElement.current.offsetWidth : 0
     );
   };
 
@@ -186,32 +185,32 @@ export default class TabScroller extends React.Component<
 
   handleWheel_ = (evt: React.WheelEvent<HTMLDivElement>) => {
     this.props.onWheel && this.props.onWheel(evt);
-    this.foundation.handleInteraction(evt);
+    this.foundation.handleInteraction();
   };
 
   handleTouchStart_ = (evt: React.TouchEvent<HTMLDivElement>) => {
     this.props.onTouchStart && this.props.onTouchStart(evt);
-    this.foundation.handleInteraction(evt);
+    this.foundation.handleInteraction();
   };
 
   handlePointerDown_ = (evt: React.PointerEvent<HTMLDivElement>) => {
     this.props.onPointerDown && this.props.onPointerDown(evt);
-    this.foundation.handleInteraction(evt);
+    this.foundation.handleInteraction();
   };
 
   handleMouseDown_ = (evt: React.MouseEvent<HTMLDivElement>) => {
     this.props.onMouseDown && this.props.onMouseDown(evt);
-    this.foundation.handleInteraction(evt);
+    this.foundation.handleInteraction();
   };
 
   handleKeyDown_ = (evt: React.KeyboardEvent<HTMLDivElement>) => {
     this.props.onKeyDown && this.props.onKeyDown(evt);
-    this.foundation.handleInteraction(evt);
+    this.foundation.handleInteraction();
   };
 
   handleTransitionEnd_ = (evt: React.TransitionEvent<HTMLDivElement>) => {
     this.props.onTransitionEnd && this.props.onTransitionEnd(evt);
-    this.foundation.handleTransitionEnd(evt);
+    this.foundation.handleTransitionEnd(evt.nativeEvent);
   };
 
   render() {

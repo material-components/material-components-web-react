@@ -20,125 +20,196 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
+import {MDCListFoundation} from '@material/list/foundation';
+import {ListItemContext, ListItemContextShape} from './index';
+import {closest} from '@material/dom/ponyfill';
 
-export interface ListItemProps<T> extends React.HTMLProps<T> {
-  className?: string;
-  classNamesFromList?: string[];
-  attributesFromList?: object;
-  childrenTabIndex?: number;
-  tabIndex?: number;
-  shouldFocus?: boolean;
-  shouldFollowHref?: boolean;
-  shouldToggleCheckbox?: boolean;
+export interface ListItemProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<T>, ListItemContextShape {
+  checkboxList?: boolean;
+  radioList?: boolean;
   tag?: string;
-  children?: React.ReactNode;
+  activated?: boolean;
+  selected?: boolean;
+  ref?: React.Ref<any>;
 };
 
-function isAnchorElement(element: any): element is HTMLAnchorElement {
-  return !!element.href;
+export interface ListItemState {
+  tabIndex?: number;
 }
 
-function isFocusableElement(element: any): element is HTMLElement {
-  return typeof <HTMLElement>element.focus === 'function';
-}
-
-export default class ListItem<T extends {} = HTMLElement> extends React.Component<
-  ListItemProps<T>,
-  {}
-  > {
-  listItemElement_: React.RefObject<T> = React.createRef();
+export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
+  ListItemProps<T>, ListItemState> {
+  private listItemElement = React.createRef<T>();
 
   static defaultProps: Partial<ListItemProps<HTMLElement>> = {
+    checkboxList: false,
+    radioList: false,
     className: '',
-    classNamesFromList: [],
-    attributesFromList: {},
-    childrenTabIndex: -1,
     tabIndex: -1,
-    shouldFocus: false,
-    shouldFollowHref: false,
-    shouldToggleCheckbox: false,
     onKeyDown: () => {},
     onClick: () => {},
     onFocus: () => {},
     onBlur: () => {},
+    onDestroy: () => {},
     tag: 'li',
+    handleClick: () => {},
+    handleKeyDown: () => {},
+    handleBlur: () => {},
+    handleFocus: () => {},
+    getListItemInitialTabIndex: () => -1,
+    getClassNamesFromList: () => ({}),
   };
 
-  componentDidUpdate(prevProps: ListItemProps<T>) {
-    const {shouldFocus, shouldFollowHref, shouldToggleCheckbox} = this.props;
-    if (shouldFocus && !prevProps.shouldFocus) {
-      this.focus();
+  state = {
+    tabIndex: this.props.tabIndex,
+  };
+
+  get listElements(): Element[] {
+    if (this.listItemElement.current) {
+      const listElement = closest(this.listItemElement.current, `.${MDCListFoundation.cssClasses.ROOT}`);
+      if (!listElement) return [];
+      return [].slice.call(
+        listElement.querySelectorAll(MDCListFoundation.strings.ENABLED_ITEMS_SELECTOR)
+      );
     }
-    if (shouldFollowHref && !prevProps.shouldFollowHref) {
-      this.followHref();
+    return [];
+  }
+
+  componentDidMount() {
+    this.initializeTabIndex();
+  }
+
+  componentDidUpdate(prevProps: ListItemProps) {
+    if (prevProps.tabIndex !== this.props.tabIndex) {
+      this.setState({tabIndex: this.props.tabIndex});
     }
-    if (shouldToggleCheckbox && !prevProps.shouldToggleCheckbox) {
-      this.toggleCheckbox();
+  }
+
+  componentWillUnmount() {
+    if (this.listItemElement.current) {
+      const index = this.getIndex(this.listItemElement.current);
+      this.props.onDestroy!(index);
     }
   }
 
   get classes() {
-    const {className, classNamesFromList} = this.props;
-    return classnames('mdc-list-item', className, classNamesFromList);
+    const {className, activated, disabled, selected, getClassNamesFromList} = this.props;
+    let classesFromList = [''];
+    if (this.listItemElement.current) {
+      const index = this.getIndex(this.listItemElement.current);
+      classesFromList = getClassNamesFromList!()[index];
+    }
+    return classnames('mdc-list-item', className, classesFromList, {
+      [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
+      [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
+      'mdc-list-item--disabled': disabled,
+    });
   }
 
-  focus() {
-    const element = this.listItemElement_.current;
-    if (isFocusableElement(element)) {
-      element.focus();
+  get role() {
+    const {checkboxList, radioList, role} = this.props;
+    if (role) {
+      return role;
+    } else if (checkboxList) {
+      return 'checkbox';
+    } else if (radioList) {
+      return 'radio';
+    }
+    return null;
+  }
+
+  private initializeTabIndex = () => {
+    if (this.listItemElement.current) {
+      const index = this.getIndex(this.listItemElement.current);
+      const tabIndex = this.props.getListItemInitialTabIndex!(index);
+      this.setState({tabIndex});
     }
   }
 
-  followHref() {
-    const element = this.listItemElement_.current;
-    if (isAnchorElement(element)) {
-      element.click();
-    }
+  getIndex = (listElement: Element) => {
+    return this.listElements.indexOf(listElement);
   }
 
-  toggleCheckbox() {
-    // TODO(bonniez): implement
-    // https://github.com/material-components/material-components-web-react/issues/352
+  handleClick = (e: React.MouseEvent<any>) => {
+    const {onClick} = this.props;
+    onClick!(e);
+    this.props.handleClick!(e, this.getIndex(e.currentTarget));
+  }
+
+  handleKeyDown = (e: React.KeyboardEvent<any>) => {
+    const {onKeyDown} = this.props;
+    onKeyDown!(e);
+    this.props.handleKeyDown!(e, this.getIndex(e.currentTarget));
+  }
+
+  handleFocus = (e: React.FocusEvent<any>) => {
+    const {onFocus} = this.props;
+    onFocus!(e);
+    this.props.handleFocus!(e, this.getIndex(e.currentTarget));
+  }
+
+  handleBlur = (e: React.FocusEvent<any>) => {
+    const {onBlur} = this.props;
+    onBlur!(e);
+    this.props.handleBlur!(e, this.getIndex(e.currentTarget));
   }
 
   render() {
     const {
-      /* eslint-disable */
+      /* eslint-disable no-unused-vars */
       className,
-      classNamesFromList,
-      childrenTabIndex,
-      shouldFocus,
-      shouldFollowHref,
-      shouldToggleCheckbox,
-      /* eslint-enable */
-      attributesFromList,
       children,
+      role,
+      checkboxList,
+      radioList,
+      onDestroy,
+      onClick,
+      onKeyDown,
+      onFocus,
+      onBlur,
+      handleClick,
+      handleKeyDown,
+      handleFocus,
+      handleBlur,
+      getListItemInitialTabIndex,
+      getClassNamesFromList,
+      tabIndex,
+      /* eslint-enable no-unused-vars */
       tag: Tag,
       ...otherProps
     } = this.props;
+
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
       <Tag
-        className={this.classes}
         {...otherProps}
-        {...attributesFromList} // overrides attributes in otherProps
-        ref={this.listItemElement_}
+        {...this.context}
+        role={this.role}
+        className={this.classes}
+        ref={this.listItemElement}
+        onClick={this.handleClick}
+        onKeyDown={this.handleKeyDown}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        tabIndex={this.state.tabIndex}
       >
-        {React.Children.map(children, this.renderChild)}
+        {children}
       </Tag>
     );
   }
-
-  renderChild = (child: React.ReactChild) => {
-    if (typeof child === 'string' || typeof child === 'number' || child === null) {
-      return child;
-    }
-
-    const tabIndex = this.props.childrenTabIndex;
-    const props = {...child.props, tabIndex};
-    return React.cloneElement(child, props);
-  };
 }
+
+const ListItem: React.FunctionComponent<ListItemProps> = (props) => {
+  return (
+    <ListItemContext.Consumer>
+      {(context) => (
+        <ListItemBase {...context} {...props}/>
+      )}
+    </ListItemContext.Consumer>
+  );
+};
+
+export default ListItem;

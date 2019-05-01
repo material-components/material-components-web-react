@@ -20,11 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 
 export interface ListItemGraphicProps {
-  tabbableOnListItemFocus?: boolean;
   className?: string;
   tabIndex?: number;
   graphic: React.ReactElement<any>;
@@ -34,13 +33,12 @@ export interface ListItemGraphicProps {
 const ListItemGraphic:React.FunctionComponent<ListItemGraphicProps> = ({
   tabIndex = -1, // eslint-disable-line no-unused-vars
   graphic,
-  tabbableOnListItemFocus = false,
   className = '',
   ...otherProps
 }) => {
   const graphicProps = {
     className: classnames('mdc-list-item__graphic', className),
-    tabIndex: tabbableOnListItemFocus ? tabIndex : -1,
+    tabIndex: tabIndex !== undefined ? tabIndex : -1,
     ...otherProps,
   };
   return React.cloneElement(graphic, graphicProps);

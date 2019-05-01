@@ -20,13 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 
-// @ts-ignore no .d.ts file
-import {MDCDialogFoundation, MDCDialogAdapter, util} from '@material/dialog/dist/mdc.dialog';
-// @ts-ignore no .d.ts file
-import {ponyfill} from '@material/dom/dist/mdc.dom';
+import {MDCDialogFoundation} from '@material/dialog/foundation';
+import {MDCDialogAdapter} from '@material/dialog/adapter';
+import {createFocusTrapInstance, isScrollable, areTopsMisaligned} from '@material/dialog/util';
+import {strings} from '@material/dialog/constants';
+import {ponyfill} from '@material/dom';
 /* eslint-disable no-unused-vars */
 import DialogContent, {DialogContentProps} from './DialogContent';
 import DialogFooter, {DialogFooterProps} from './DialogFooter';
@@ -89,7 +90,7 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   DialogState
   > {
   focusTrap?: FocusTrap;
-  foundation: MDCDialogFoundation;
+  foundation!: MDCDialogFoundation;
   dialogElement: React.RefObject<HTMLElement> = React.createRef();
   labelledBy?: string;
   describedBy?: string;
@@ -103,6 +104,8 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
     id: 'mdc-dialog',
     open: false,
     role: 'alertdialog',
+    escapeKeyAction: strings.CLOSE_ACTION,
+    scrimClickAction: strings.CLOSE_ACTION,
   };
 
   state: DialogState = {classList: new Set()};
@@ -116,7 +119,7 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
       this.open();
     }
     if (!autoStackButtons) {
-      this.foundation.setAutoStackButtons(autoStackButtons);
+      this.foundation.setAutoStackButtons(autoStackButtons!);
     }
 
     if (typeof escapeKeyAction === 'string') { // set even if empty string
@@ -136,15 +139,15 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
     const {open, autoStackButtons, escapeKeyAction, scrimClickAction} = this.props;
 
     if (prevProps.autoStackButtons !== autoStackButtons) {
-      this.foundation.setAutoStackButtons(autoStackButtons);
+      this.foundation.setAutoStackButtons(autoStackButtons!);
     }
 
     if (prevProps.escapeKeyAction !== escapeKeyAction) {
-      this.foundation.setEscapeKeyAction(escapeKeyAction);
+      this.foundation.setEscapeKeyAction(escapeKeyAction!);
     }
 
     if (prevProps.scrimClickAction !== scrimClickAction) {
-      this.foundation.setScrimClickAction(scrimClickAction);
+      this.foundation.setScrimClickAction(scrimClickAction!);
     }
 
     if (prevProps.open !== open) {
@@ -181,13 +184,12 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   };
 
   private initializeFocusTrap = (): void => {
-    this.focusTrap = this.props.children && util.createFocusTrapInstance(this.dialogElement.current);
+    this.focusTrap = this.props.children && createFocusTrapInstance(this.dialogElement.current!);
   };
 
-  get adapter(): Partial<MDCDialogAdapter> {
+  get adapter(): MDCDialogAdapter {
     const strings = MDCDialogFoundation.strings;
     const {closest, matches} = ponyfill;
-    const {isScrollable, areTopsMisaligned} = util;
     return {
       addClass: (className: string) => {
         const {classList} = this.state;
@@ -258,8 +260,8 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   };
 
   handleInteraction = (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void =>
-    this.foundation.handleInteraction(e);
-  handleDocumentKeyDown = (e: Event): void =>
+    this.foundation.handleInteraction(e.nativeEvent);
+  handleDocumentKeyDown = (e: KeyboardEvent): void =>
     this.foundation.handleDocumentKeydown(e);
   handleLayout = (): void => this.foundation.layout();
 

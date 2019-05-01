@@ -20,14 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, Corner} from '@material/menu-surface/dist/mdc.menuSurface';
+import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
+import {MDCMenuSurfaceAdapter} from '@material/menu-surface/adapter';
+import {Corner} from '@material/menu-surface/index';
+import {MDCMenuDistance} from '@material/menu-surface/types';
 
 export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
-  className?: string;
   anchorElement?: HTMLElement;
   anchorCorner?: number;
   anchorMargin?: {
@@ -43,7 +44,7 @@ export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
   };
   onClose?: () => void;
   onOpen?: () => void;
-  onKeyDown?: (event: React.KeyboardEvent) => void;
+  onMount?: (isMounted: boolean) => void;
   quickOpen?: boolean;
   open?: boolean;
   fixed?: boolean;
@@ -51,7 +52,7 @@ export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
 
 export interface MenuSurfaceState {
   transformOrigin: string;
-  maxHeight?: number;
+  maxHeight?: string;
   styleLeft?: number;
   styleRight?: number;
   styleTop?: number;
@@ -60,18 +61,11 @@ export interface MenuSurfaceState {
   mounted: boolean;
 };
 
-interface Position {
-  top?: string;
-  right?: string;
-  bottom?: string;
-  left?: string;
-};
-
 class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
   menuSurfaceElement: React.RefObject<HTMLDivElement> = React.createRef();
   previousFocus: HTMLElement | null = null;
-  foundation: MDCMenuSurfaceFoundation;
-  handleWindowClick?: EventListener;
+  foundation!: MDCMenuSurfaceFoundation;
+  handleWindowClick?: (e: MouseEvent) => void;
   registerWindowClickListener?: () => void;
   deregisterWindowClickListener?: () => void;
   firstFocusableElement: HTMLElement | null = null;
@@ -109,7 +103,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       fixed,
       quickOpen,
     } = this.props;
-    this.handleWindowClick = (evt) => this.foundation.handleBodyClick(evt);
+    this.handleWindowClick = (evt: MouseEvent) => this.foundation.handleBodyClick(evt);
     this.registerWindowClickListener = () =>
       window.addEventListener('click', this.handleWindowClick!);
     this.deregisterWindowClickListener = () =>
@@ -120,7 +114,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     // here we force the menu to hoist, and require either
     // this.props.(x,y) or this.props.anchorElement.
     this.foundation.setIsHoisted(true);
-    this.foundation.setFixedPosition(fixed);
+    this.foundation.setFixedPosition(fixed!);
     if (coordinates) {
       this.setCoordinates();
     }
@@ -147,13 +141,16 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       this.setCoordinates();
     }
     if (this.props.anchorCorner !== prevProps.anchorCorner) {
-      this.foundation.setAnchorCorner(this.props.anchorCorner);
+      this.foundation.setAnchorCorner(this.props.anchorCorner!);
     }
     if (this.props.anchorMargin !== prevProps.anchorMargin) {
-      this.foundation.setAnchorMargin(this.props.anchorMargin);
+      this.foundation.setAnchorMargin(this.props.anchorMargin!);
     }
     if (this.props.quickOpen !== prevProps.quickOpen) {
-      this.foundation.setQuickOpen(this.props.quickOpen);
+      this.foundation.setQuickOpen(this.props.quickOpen!);
+    }
+    if (this.state.mounted !== prevState.mounted) {
+      this.props.onMount && this.props.onMount(this.state.mounted);
     }
   }
 
@@ -217,15 +214,14 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
         this.previousFocus.focus();
       },
       isFirstElementFocused: () =>
-        this.firstFocusableElement &&
         this.firstFocusableElement === document.activeElement,
       isLastElementFocused: () =>
-        this.lastFocusableElement &&
         this.lastFocusableElement === document.activeElement,
-      focusFirstElement: () =>
-        this.firstFocusableElement &&
-        this.firstFocusableElement.focus &&
-        this.firstFocusableElement.focus(),
+      focusFirstElement: () => {
+        if (!this.firstFocusableElement) return false;
+        return this.firstFocusableElement.focus &&
+        this.firstFocusableElement.focus();
+      },
       focusLastElement: () =>
         this.lastFocusableElement &&
         this.lastFocusableElement.focus &&
@@ -235,12 +231,13 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     const dimensionAdapterMethods = {
       getInnerDimensions: () => {
         const element = this.menuSurfaceElement.current;
-        if (!element) return;
+        if (!element) return {width: 0, height: 0};
         return {width: element.offsetWidth, height: element.offsetHeight};
       },
-      getAnchorDimensions: () =>
-        this.props.anchorElement &&
-        this.props.anchorElement.getBoundingClientRect(),
+      getAnchorDimensions: () => {
+        if (!this.props.anchorElement) return null;
+        return this.props.anchorElement.getBoundingClientRect();
+      },
       getWindowDimensions: () => {
         return {width: window.innerWidth, height: window.innerHeight};
       },
@@ -253,7 +250,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       getWindowScroll: () => {
         return {x: window.pageXOffset, y: window.pageYOffset};
       },
-      setPosition: (position: Position) => {
+      setPosition: (position: Partial<MDCMenuDistance>) => {
         this.setState((prevState) => Object.assign(prevState, {
           styleLeft: 'left' in position ? position.left : null,
           styleRight: 'right' in position ? position.right : null,
@@ -261,54 +258,45 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
           styleBottom: 'bottom' in position ? position.bottom : null,
         }));
       },
-      setMaxHeight: (maxHeight: number) => this.setState({maxHeight}),
+      setMaxHeight: (maxHeight: string) => this.setState({maxHeight}),
     };
 
-    return Object.assign(
-      {
-        addClass: (className: string) => {
-          const classList = new Set(this.state.classList);
-          classList.add(className);
-          this.setState({classList});
-        },
-        removeClass: (className: string) => {
-          const classList = new Set(this.state.classList);
-          classList.delete(className);
-          this.setState({classList});
-        },
-        hasClass: (className: string) => this.classes.split(' ').includes(className),
-        hasAnchor: () => !!this.props.anchorElement,
-        notifyOpen: () => {
-          if (this.registerWindowClickListener) {
-            this.registerWindowClickListener();
-          }
-          this.props.onOpen!();
-        },
-        notifyClose: () => {
-          if (this.deregisterWindowClickListener) {
-            this.deregisterWindowClickListener();
-          }
-          this.props.onClose!();
-        },
-        isElementInContainer: (el: HTMLElement) => {
-          if (!this.menuSurfaceElement.current) return false;
-          if (this.menuSurfaceElement.current === el) {
-            return true;
-          }
-          return this.menuSurfaceElement.current.contains(el);
-        },
-        isRtl: () => {
-          if (!this.menuSurfaceElement) return false;
-          if (!this.menuSurfaceElement.current) return false;
-          return window
-            .getComputedStyle(this.menuSurfaceElement.current)
-            .getPropertyValue('direction') === 'rtl';
-        },
-        setTransformOrigin: (transformOrigin: string) => this.setState({transformOrigin}),
+    return {
+      addClass: (className: string) => {
+        const classList = new Set(this.state.classList);
+        classList.add(className);
+        this.setState({classList});
       },
-      focusAdapterMethods,
-      dimensionAdapterMethods
-    );
+      removeClass: (className: string) => {
+        const classList = new Set(this.state.classList);
+        classList.delete(className);
+        this.setState({classList});
+      },
+      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasAnchor: () => !!this.props.anchorElement,
+      notifyOpen: () => {
+        this.handleOpen();
+        this.props.onOpen!();
+      },
+      notifyClose: () => {
+        this.handleClose();
+        this.props.onClose!();
+      },
+      isElementInContainer: (el: HTMLElement) => {
+        if (!this.menuSurfaceElement.current) return false;
+        return this.menuSurfaceElement.current.contains(el);
+      },
+      isRtl: () => {
+        if (!this.menuSurfaceElement) return false;
+        if (!this.menuSurfaceElement.current) return false;
+        return window
+          .getComputedStyle(this.menuSurfaceElement.current)
+          .getPropertyValue('direction') === 'rtl';
+      },
+      setTransformOrigin: (transformOrigin: string) => this.setState({transformOrigin}),
+      ...focusAdapterMethods,
+      ...dimensionAdapterMethods,
+    };
   }
 
   open_ = (): void => {
@@ -318,10 +306,10 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
         MDCMenuSurfaceFoundation.strings.FOCUSABLE_ELEMENTS
       );
       this.firstFocusableElement =
-        focusableElements.length > 0 ? focusableElements[0] : null;
+        focusableElements.length > 0 ? focusableElements[0] as HTMLElement : null;
       this.lastFocusableElement =
         focusableElements.length > 0
-          ? focusableElements[focusableElements.length - 1]
+          ? focusableElements[focusableElements.length - 1] as HTMLElement
           : null;
       this.foundation.open();
     } else {
@@ -329,10 +317,22 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
     }
   };
 
-  handleKeydown = (evt: React.KeyboardEvent) => {
+  handleKeydown = (evt: React.KeyboardEvent<HTMLDivElement>) => {
     this.props.onKeyDown!(evt);
-    this.foundation.handleKeydown(evt);
+    this.foundation.handleKeydown(evt.nativeEvent);
   };
+
+  private handleOpen = () => {
+    if (this.registerWindowClickListener) {
+      this.registerWindowClickListener();
+    }
+  }
+
+  private handleClose = () => {
+    if (this.deregisterWindowClickListener) {
+      this.deregisterWindowClickListener();
+    }
+  }
 
   render() {
     const {
@@ -348,6 +348,7 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
       onKeyDown,
       styles,
       quickOpen,
+      onMount,
       /* eslint-enable */
       children,
       ...otherProps

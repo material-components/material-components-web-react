@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import TextField, {Input} from '../../../packages/text-field';
 type TestFieldProps = {
   disabled?: boolean,
@@ -46,9 +46,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
           fullWidth={variant === 'fullWidth'}
           textarea={variant === 'textarea'}
           {...otherProps}
-          className='text-field'
-          isRtl={isRtl}
-        >
+          className='text-field'>
           <Input
             value={this.state.value}
             id={id}

@@ -19,10 +19,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCTextFieldFoundation} from '@material/textfield/dist/mdc.textfield';
+import {MDCTextFieldFoundation} from '@material/textfield/foundation';
 
 export interface InputProps<T extends HTMLElement = HTMLInputElement> {
   className?: string;
@@ -60,9 +59,7 @@ const VALIDATION_ATTR_WHITELIST: ValidationAttrWhiteList[] = [
 ];
 
 
-export default class Input<T extends HTMLElement = HTMLInputElement> extends React.Component<
-  Props<T>, InputState
-  > {
+export default class Input<T extends HTMLElement = HTMLInputElement> extends React.Component<Props<T>, InputState> {
   inputElement_: React.RefObject<
     T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement
   > = React.createRef();
@@ -99,11 +96,11 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       setDisabled(true);
     }
     if (handleValueChange && value) {
-      handleValueChange(value, () => foundation.setValue(value));
+      handleValueChange(value, () => foundation && foundation.setValue(this.valueToString(value)));
     }
-    if (isValid !== undefined) {
+    if (foundation && isValid !== undefined) {
       foundation.setUseNativeValidation(false);
-      foundation.setValid(isValid);
+      foundation.setValid(!!isValid);
     }
   }
 
@@ -123,7 +120,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
 
     if (disabled !== prevProps.disabled) {
       setDisabled && setDisabled(disabled!);
-      foundation.setDisabled(disabled);
+      foundation && foundation.setDisabled(!!disabled);
     }
 
     if (id !== prevProps.id) {
@@ -137,53 +134,65 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
         if (this.state.wasUserTriggeredChange) {
           this.setState({wasUserTriggeredChange: false});
         } else {
-          foundation.setValue(value);
+          foundation && foundation.setValue(this.valueToString(value));
         }
       });
     }
 
-    if (isValid !== prevProps.isValid) {
+    if (isValid !== prevProps.isValid && foundation) {
       if (isValid === undefined) {
         foundation.setUseNativeValidation(true);
       } else {
         foundation.setUseNativeValidation(false);
-        foundation.setValid(isValid);
+        foundation.setValid(!!isValid);
       }
     }
   }
 
+  valueToString(value?: string | string[] | number) {
+    let str;
+    if (typeof value === 'object') {
+      str = value.join('');
+    } else if (typeof value === 'number') {
+      str = value.toString();
+    } else {
+      str = value ? value : '';
+    }
+    return str;
+  }
+
   get classes() {
+    // TODO change literal to constant
     return classnames('mdc-text-field__input', this.props.className);
   }
 
   get inputElement() {
-    const element = this.inputElement_.current;
-    return element ? element : null;
+    return this.inputElement_.current;
   }
 
   handleFocus = (evt: React.FocusEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
     const {foundation, handleFocusChange, onFocus = () => {}} = this.props;
-    foundation.activateFocus();
+    foundation && foundation.activateFocus();
     handleFocusChange && handleFocusChange(true);
     onFocus(evt);
   };
 
   handleBlur = (evt: React.FocusEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
     const {foundation, handleFocusChange, onBlur = () => {}} = this.props;
-    foundation.deactivateFocus();
+    foundation && foundation.deactivateFocus();
     handleFocusChange && handleFocusChange(false);
     onBlur(evt);
   };
 
   handleMouseDown = (evt: React.MouseEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
     const {foundation, onMouseDown = () => {}} = this.props;
-    foundation.setTransformOrigin(evt);
+    foundation && foundation.setTransformOrigin(evt.nativeEvent);
     onMouseDown(evt);
   };
 
   handleTouchStart = (evt: React.TouchEvent<T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement>) => {
     const {foundation, onTouchStart = () => {}} = this.props;
-    foundation.setTransformOrigin(evt);
+    foundation && foundation.setTransformOrigin(evt.nativeEvent);
     onTouchStart(evt);
   };
 
@@ -196,7 +205,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
     // autoCompleteFocus runs on `input` event in MDC Web. In React, onChange and
     // onInput are the same event
     // https://stackoverflow.com/questions/38256332/in-react-whats-the-difference-between-onchange-and-oninput
-    foundation.autoCompleteFocus();
+    foundation && foundation.autoCompleteFocus();
     this.setState({wasUserTriggeredChange: true});
     onChange(evt);
   };
@@ -213,7 +222,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
         attr = attributeName;
       }
       if (this.props[attr] !== nextProps[attr]) {
-        foundation.handleValidationAttributeChange([attributeName]);
+        foundation!.handleValidationAttributeChange([attributeName]);
         return true;
       }
       return false;
@@ -221,16 +230,25 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   };
 
   isBadInput = () => {
-    if (!this.inputElement_.current) return false;
-    return this.inputElement_.current.validity.badInput;
+    const input = this.inputElement;
+    return input && input.validity.badInput;
   }
 
   isValid = () => {
-    if (!this.inputElement_.current || this.props.isValid !== undefined) {
+    if (!this.inputElement || this.props.isValid !== undefined) {
       return this.props.isValid;
     }
-    return this.inputElement_.current.validity.valid;
+    return this.inputElement.validity.valid;
   };
+
+  isDisabled = () => !!this.props.disabled;
+
+  getMaxLength = () =>
+    (typeof this.props.maxLength === 'number' ? this.props.maxLength : -1);
+
+  getInputType = () => String(this.props.inputType);
+
+  getValue = () => this.valueToString(this.props.value);
 
   render() {
     const {

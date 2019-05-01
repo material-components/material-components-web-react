@@ -20,30 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// TODO: remove this when MDC Web types are added.
+import * as React from 'react';
+import {MenuListItem, MenuListItemProps} from '@material/react-menu'; // eslint-disable-line no-unused-vars
 
-export interface IMDCSnackbarAdapter {
-    addClass(className: string): void
-    removeClass(className: string): void
-    announce(): void
-    notifyOpening(): void
-    notifyOpened(): void
-    notifyClosing(reason: string): void
-    notifyClosed(reason: string): void
+export type OptionProps<T extends HTMLElement = HTMLElement>
+  = BaseOptionProps & (T extends HTMLOptionElement ? React.HTMLProps<HTMLOptionElement> : MenuListItemProps<T>);
+
+interface BaseOptionProps {
+  enhanced?: boolean;
 }
 
-export interface IMDCSnackbarFoundation {
-    open(): void;
-    close(action: string): void;
-    isOpen(): boolean
-    getTimeoutMs(): number
-    setTimeoutMs(timeoutMs: number): void
-    getCloseOnEscape(): boolean
-    setCloseOnEscape(closeOnEscape: boolean): void
-    handleKeyDown(event: KeyboardEvent): void
-    handleActionButtonClick(event: MouseEvent): void
-    handleActionIconClick(event: MouseEvent): void
-    init(): void
-    destroy(): void
-    adapter_: IMDCSnackbarAdapter
+class Option<T extends HTMLElement = HTMLElement> extends React.Component<OptionProps<T>, {}> {
+  static defaultProps = {
+    enhanced: false,
+  };
+
+  render() {
+    const {
+      value,
+      enhanced,
+      children,
+      ...otherProps
+    } = this.props;
+
+    if (enhanced) {
+      return (
+        <MenuListItem
+          data-value={value}
+          {...otherProps}
+        >
+          {children}
+        </MenuListItem>
+      );
+    }
+    return (
+      <option
+        value={value}
+        {...otherProps}
+      >
+        {children}
+      </option>
+    );
+  }
 }
+
+export default Option;

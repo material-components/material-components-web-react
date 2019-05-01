@@ -20,10 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-// @ts-ignore no .d.ts file
-import {MDCListFoundation} from '@material/list/dist/mdc.list';
+import {MDCListFoundation} from '@material/list/foundation';
+import {MDCListIndex} from '@material/list/types';
+import {MDCListAdapter} from '@material/list/adapter';
+import memoizeOne from 'memoize-one';
+
 import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line no-unused-vars
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
@@ -33,65 +36,70 @@ import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
 const ARIA_ORIENTATION = 'aria-orientation';
 const VERTICAL = 'vertical';
-const CHECKBOX_TYPE = 'checkbox';
 
-export interface ListProps<T> extends React.HTMLProps<HTMLElement> {
+export interface ListProps extends React.HTMLProps<HTMLElement> {
   className?: string;
+  checkboxList?: boolean;
+  radioList?: boolean;
   nonInteractive?: boolean;
   dense?: boolean;
   avatarList?: boolean;
   twoLine?: boolean;
   singleSelection?: boolean;
-  selectedIndex?: number;
-  handleSelect?: (selectedIndex: number) => void;
+  selectedIndex?: MDCListIndex;
+  handleSelect?: (activatedItemIndex: number, selected: MDCListIndex) => void;
   wrapFocus?: boolean;
   tag?: string;
-  children: ListItem<T> | ListItem<T>[] | React.ReactNode;
+  ref?: React.Ref<any>;
 };
 
 interface ListState {
-  focusListItemAtIndex: number;
-  followHrefAtIndex: number;
-  toggleCheckboxAtIndex: number;
-  listItemAttributes: {[N: number]: any};
-  listItemClassNames: {[N: number]: string[]};
-  listItemChildrenTabIndex: {[N: number]: number};
+  listItemClassNames: {[listItemIndex: number]: string[]};
+}
+
+export interface ListItemContextShape {
+  checkboxList?: boolean;
+  radioList?: boolean;
+  handleClick?: (e: React.MouseEvent<any>, index: number) => void;
+  handleKeyDown?: (e: React.KeyboardEvent<any>, index: number) => void;
+  handleBlur?: (e: React.FocusEvent<any>, index: number) => void;
+  handleFocus?: (e: React.FocusEvent<any>, index: number) => void;
+  onDestroy?: (index: number) => void;
+  getListItemInitialTabIndex?: (index: number) => number;
+  getClassNamesFromList?: () => ListState['listItemClassNames'];
+  tabIndex?: number
+}
+
+function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIndex {
+  return typeof selectedIndex === 'number' && !isNaN(selectedIndex) || Array.isArray(selectedIndex);
+}
+
+export const defaultListItemContext: ListItemContextShape = {
+  handleClick: () => {},
+  handleKeyDown: () => {},
+  handleBlur: () => {},
+  handleFocus: () => {},
+  onDestroy: () => {},
+  getListItemInitialTabIndex: () => -1,
+  getClassNamesFromList: () => ({}),
 };
 
-function isCheckbox(element: any): element is HTMLInputElement {
-  return element.type === CHECKBOX_TYPE;
-}
+export const ListItemContext = React.createContext(defaultListItemContext);
 
-function isReactText(element: any): element is React.ReactText {
-  return typeof element === 'string' || typeof element === 'number';
-}
+export default class List extends React.Component<ListProps, ListState> {
+  foundation!: MDCListFoundation;
+  hasInitializedListItemTabIndex = false;
 
-function isListItem(element: any): element is ListItem {
-  return element && element.type === ListItem;
-}
-
-export default class List<T extends HTMLElement = HTMLElement> extends React.Component<ListProps<T>, ListState> {
-  listItemCount = 0;
-  foundation = MDCListFoundation;
+  private listElement = React.createRef<HTMLElement>();
 
   state: ListState = {
-    focusListItemAtIndex: -1,
-    followHrefAtIndex: -1,
-    toggleCheckboxAtIndex: -1,
-    // listItemAttributes: {index: {attr: value}}
-    listItemAttributes: {
-      0: {
-        tabIndex: 0,
-      },
-    },
-    // listItemClassNames: {index: Array<String>}
     listItemClassNames: {},
-    // listItemChildrenTabIndex: {index: Number}
-    listItemChildrenTabIndex: {},
   };
 
-  static defaultProps: Partial<ListProps<HTMLElement>> = {
+  static defaultProps: Partial<ListProps> = {
     'className': '',
+    'checkboxList': false,
+    'radioList': false,
     'nonInteractive': false,
     'dense': false,
     'avatarList': false,
@@ -108,34 +116,29 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
     this.foundation = new MDCListFoundation(this.adapter);
     this.foundation.init();
-    this.foundation.setSingleSelection(singleSelection);
-    if (
-      singleSelection &&
-      typeof selectedIndex === 'number' &&
-      !isNaN(selectedIndex)
-    ) {
+    this.foundation.setSingleSelection(singleSelection!);
+    this.foundation.layout();
+    if (isSelectedIndexType(selectedIndex)) {
       this.foundation.setSelectedIndex(selectedIndex);
     }
-    this.foundation.setWrapFocus(wrapFocus);
+    this.foundation.setWrapFocus(wrapFocus!);
     this.foundation.setVerticalOrientation(
       this.props[ARIA_ORIENTATION] === VERTICAL
     );
+    this.initializeListType();
   }
 
-  componentDidUpdate(prevProps: ListProps<T>) {
+  componentDidUpdate(prevProps: ListProps) {
     const {singleSelection, wrapFocus, selectedIndex} = this.props;
+    const hasSelectedIndexUpdated = selectedIndex !== prevProps.selectedIndex;
     if (singleSelection !== prevProps.singleSelection) {
-      this.foundation.setSingleSelection(singleSelection);
+      this.foundation.setSingleSelection(singleSelection!);
     }
-    if (
-      selectedIndex !== prevProps.selectedIndex &&
-      typeof selectedIndex === 'number' &&
-      !isNaN(selectedIndex)
-    ) {
+    if (hasSelectedIndexUpdated && isSelectedIndexType(selectedIndex)) {
       this.foundation.setSelectedIndex(selectedIndex);
     }
     if (wrapFocus !== prevProps.wrapFocus) {
-      this.foundation.setWrapFocus(wrapFocus);
+      this.foundation.setWrapFocus(wrapFocus!);
     }
     if (this.props[ARIA_ORIENTATION] !== prevProps[ARIA_ORIENTATION]) {
       this.foundation.setVerticalOrientation(
@@ -146,6 +149,40 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
 
   componentWillUnmount() {
     this.foundation.destroy();
+  }
+
+  initializeListType = () => {
+    const {singleSelection} = this.props;
+    const {cssClasses, strings} = MDCListFoundation;
+
+    if (!this.listElement.current) return;
+    const checkboxListItems = this.listElement.current.querySelectorAll(strings.ARIA_ROLE_CHECKBOX_SELECTOR);
+    const radioSelectedListItem = this.listElement.current.querySelector(strings.ARIA_CHECKED_RADIO_SELECTOR);
+
+    if (checkboxListItems.length) {
+      const preselectedItems = this.listElement.current.querySelectorAll(strings.ARIA_CHECKED_CHECKBOX_SELECTOR);
+      const selectedIndex =
+          [].map.call(preselectedItems, (listItem: Element) => this.listElements.indexOf(listItem)) as number[];
+      this.foundation.setSelectedIndex(selectedIndex);
+    } else if (singleSelection) {
+      const isActivated = this.listElement.current.querySelector(cssClasses.LIST_ITEM_ACTIVATED_CLASS);
+      if (isActivated) {
+        this.foundation.setUseActivatedClass(true);
+      }
+    } else if (radioSelectedListItem) {
+      this.foundation.setSelectedIndex(this.listElements.indexOf(radioSelectedListItem));
+    }
+  }
+
+  get listElements(): Element[] {
+    if (this.listElement.current) {
+      return [].slice.call(
+        this.listElement.current.querySelectorAll(
+          MDCListFoundation.strings.ENABLED_ITEMS_SELECTOR
+        )
+      );
+    }
+    return [];
   }
 
   get classes() {
@@ -164,118 +201,197 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
     });
   }
 
-  get adapter() {
+  get adapter(): MDCListAdapter {
     return {
-      getListItemCount: () => this.listItemCount,
-      // Remove when MDC Web issue resolves:
-      // https://github.com/material-components/material-components-web/issues/4058
-      getFocusedElementIndex: () => -1,
-      setAttributeForElementIndex: (index: number, attr: string, value: string) => {
-        const {listItemAttributes} = this.state;
-        attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        if (!listItemAttributes[index]) {
-          listItemAttributes[index] = {};
+      getListItemCount: () => this.listElements.length,
+      getFocusedElementIndex: () => this.listElements.indexOf(document.activeElement as HTMLLIElement),
+      setAttributeForElementIndex: (index, attr, value) => {
+        const listItem = this.listElements[index];
+        if (listItem) {
+          listItem.setAttribute(attr, value);
         }
-        listItemAttributes[index][attr] = value;
-        this.setState({listItemAttributes});
       },
-      removeAttributeForElementIndex: (index: number, attr: string) => {
-        const {listItemAttributes} = this.state;
-        attr = attr === 'tabindex' ? 'tabIndex' : attr;
-        if (!listItemAttributes[index]) {
-          return;
-        }
-        delete listItemAttributes[index][attr];
-        this.setState({listItemAttributes});
-      },
-      addClassForElementIndex: (index: number, className: string) => {
+      // TODO: implement
+      // https://github.com/material-components/material-components-web-react/issues/822
+      getAttributeForElementIndex: () => '',
+      /**
+       * Pushes class name to state.listItemClassNames[listItemIndex] if it doesn't yet exist.
+       */
+      addClassForElementIndex: (index, className) => {
         const {listItemClassNames} = this.state;
-        if (!listItemClassNames[index]) {
-          listItemClassNames[index] = [];
+        if (listItemClassNames[index] && listItemClassNames[index].indexOf(className) === -1) {
+          listItemClassNames[index].push(className);
+        } else {
+          listItemClassNames[index] = [className];
         }
-        listItemClassNames[index].push(className);
         this.setState({listItemClassNames});
       },
-      removeClassForElementIndex: (index: number, className: string) => {
+      /**
+       * Finds the className within state.listItemClassNames[listItemIndex], and removes it
+       * from the array.
+       */
+      removeClassForElementIndex: (index, className) => {
         const {listItemClassNames} = this.state;
-        if (!listItemClassNames[index]) {
-          return;
+        if (listItemClassNames[index]) {
+          const removalIndex = listItemClassNames[index].indexOf(className);
+          if (removalIndex !== -1) {
+            listItemClassNames[index].splice(removalIndex, 1);
+            this.setState({listItemClassNames});
+          }
         }
-        const i = listItemClassNames[index].indexOf(className);
-        if (i >= 0) {
-          listItemClassNames[index].splice(i, 1);
-          this.setState({listItemClassNames});
+      },
+      setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
+        const listItem = this.listElements[listItemIndex];
+        const selector = MDCListFoundation.strings.CHILD_ELEMENTS_TO_TOGGLE_TABINDEX;
+        const listItemChildren: Element[] =
+          [].slice.call(listItem.querySelectorAll(selector));
+        listItemChildren.forEach((el) => el.setAttribute('tabindex', tabIndexValue));
+      },
+      focusItemAtIndex: (index) => {
+        const element = this.listElements[index] as HTMLElement | undefined;
+        if (element) {
+          element.focus();
         }
       },
-      setTabIndexForListItemChildren: (listItemIndex: number, tabIndexValue: number) => {
-        const {listItemChildrenTabIndex} = this.state;
-        listItemChildrenTabIndex[listItemIndex] = tabIndexValue;
-        this.setState({listItemChildrenTabIndex});
+      setCheckedCheckboxOrRadioAtIndex: () => {
+        // TODO: implement when this issue is fixed:
+        // https://github.com/material-components/material-components-web-react/issues/438
+        // not implemented since MDC React Radio/Checkbox has events to
+        // handle toggling checkbox to correct state
       },
-      focusItemAtIndex: (index: number) => {
-        this.setState({focusListItemAtIndex: index});
+      hasCheckboxAtIndex: (index) => {
+        const listItem = this.listElements[index];
+        return !!listItem.querySelector(MDCListFoundation.strings.CHECKBOX_SELECTOR);
       },
-      followHref: (index: number) => {
-        this.setState({followHrefAtIndex: index});
+      hasRadioAtIndex: (index) => {
+        const listItem = this.listElements[index];
+        return !!listItem.querySelector(MDCListFoundation.strings.RADIO_SELECTOR);
       },
-      toggleCheckbox: (index: number) => {
-        this.setState({toggleCheckboxAtIndex: index});
+      isCheckboxCheckedAtIndex: (index) => {
+        const listItem = this.listElements[index];
+        const selector = MDCListFoundation.strings.CHECKBOX_SELECTOR;
+        const toggleEl = listItem.querySelector<HTMLInputElement>(selector);
+        return toggleEl!.checked;
+      },
+      isFocusInsideList: () => {
+        if (!this.listElement.current) return false;
+        return this.listElement.current.contains(document.activeElement);
+      },
+      notifyAction: (index) => {
+        this.props.handleSelect!(index, this.foundation.getSelectedIndex());
       },
     };
+  }
+
+  get role() {
+    const {checkboxList, radioList, role} = this.props;
+    if (role) return role;
+    if (checkboxList) {
+      return 'group';
+    } else if (radioList) {
+      return 'radiogroup';
+    }
+    return null;
+  }
+
+  /**
+   * Called from ListItem.
+   * Initializes the tabIndex prop for the listItems. tabIndex is determined by:
+   * 1. if selectedIndex is an array, and the index === selectedIndex[0]
+   * 2. if selectedIndex is a number, and the the index === selectedIndex
+   * 3. if there is no selectedIndex
+   */
+  getListItemInitialTabIndex = (index: number) => {
+    const {selectedIndex} = this.props;
+    let tabIndex = -1;
+    if (!this.hasInitializedListItemTabIndex) {
+      const isSelectedIndexArray
+        = Array.isArray(selectedIndex) && selectedIndex.length > 0 && index === selectedIndex[0];
+      const isSelected = selectedIndex === index;
+      if (isSelectedIndexArray || isSelected || selectedIndex === -1) {
+        tabIndex = 0;
+        this.hasInitializedListItemTabIndex = true;
+      }
+    }
+
+    return tabIndex;
+  }
+
+  /**
+   * Method checks if the list item at `index` contains classes. If true,
+   * method merges state.listItemClassNames[index] with listItem.props.className.
+   * The return value is used as the listItem's className.
+   */
+  private getListItemClassNames = () => {
+    const {listItemClassNames} = this.state;
+    return listItemClassNames;
   }
 
   handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
     e.persist(); // Persist the synthetic event to access its `key`
     this.foundation.handleKeydown(
-      e,
+      e.nativeEvent,
       true /* isRootListItem is true if index >= 0 */,
       index
     );
-    // Work around until MDC Web issue is resolved:
-    // https://github.com/material-components/material-components-web/issues/4053
-    if (
-      index >= 0 &&
-      (e.key === 'Enter' ||
-        e.keyCode === 13 ||
-        e.key === 'Space' ||
-        e.keyCode === 32)
-    ) {
-      this.props.handleSelect!(index);
-    }
   };
 
-  handleClick = (e: React.MouseEvent<any>, index: number) => {
-    // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
-    const toggleCheckbox = isCheckbox(e.target);
-    this.foundation.handleClick(index, toggleCheckbox);
-    // Work around until MDC Web issue is resolved:
-    // https://github.com/material-components/material-components-web/issues/4053
-    if (index >= 0) {
-      this.props.handleSelect!(index);
-    }
+  handleClick = (_e: React.MouseEvent<any>, index: number) => {
+    // TODO: fix https://github.com/material-components/material-components-web-react/issues/728
+    // Hardcoding toggleCheckbox to false for now since we want the checkbox to handle checkbox logic.
+    // The List Foundation tries to toggle the checkbox and radio, but its difficult to turn that off for checkbox
+    // or radio.
+    this.foundation.handleClick(index, false);
   };
 
   // Use onFocus as workaround because onFocusIn is not yet supported in React
   // https://github.com/facebook/react/issues/6410
   handleFocus = (e: React.FocusEvent, index: number) => {
-    this.foundation.handleFocusIn(e, index);
+    this.foundation.handleFocusIn(e.nativeEvent, index);
   };
 
   // Use onBlur as workaround because onFocusOut is not yet supported in React
   // https://github.com/facebook/react/issues/6410
   handleBlur = (e: React.FocusEvent, index: number) => {
-    this.foundation.handleFocusOut(e, index);
+    this.foundation.handleFocusOut(e.nativeEvent, index);
   };
+
+  onDestroy = (index: number) => {
+    const {listItemClassNames} = this.state;
+    delete listItemClassNames[index];
+    this.setState({listItemClassNames});
+  };
+
+
+  private getListProps = (checkboxList?: boolean, radioList?: boolean) => ({
+    checkboxList: Boolean(checkboxList),
+    radioList: Boolean(radioList),
+    handleKeyDown: this.handleKeyDown,
+    handleClick: this.handleClick,
+    handleFocus: this.handleFocus,
+    handleBlur: this.handleBlur,
+    onDestroy: this.onDestroy,
+    getClassNamesFromList: this.getListItemClassNames,
+    getListItemInitialTabIndex: this.getListItemInitialTabIndex,
+  });
+
+
+  // decreases rerenders
+  // https://overreacted.io/writing-resilient-components/#dont-stop-the-data-flow-in-rendering
+  getListPropsMemoized = memoizeOne(this.getListProps);
 
   render() {
     const {
       /* eslint-disable no-unused-vars */
       className,
+      checkboxList,
+      radioList,
       nonInteractive,
       dense,
       avatarList,
       twoLine,
       singleSelection,
+      role,
       selectedIndex,
       handleSelect,
       wrapFocus,
@@ -284,66 +400,22 @@ export default class List<T extends HTMLElement = HTMLElement> extends React.Com
       tag: Tag,
       ...otherProps
     } = this.props;
-    this.listItemCount = 0;
+
     return (
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
-      <Tag className={this.classes} {...otherProps}>
-        {React.Children.map(children, this.renderChild)}
+      <Tag
+        className={this.classes}
+        ref={this.listElement}
+        role={this.role}
+        {...otherProps}
+      >
+        <ListItemContext.Provider value={this.getListPropsMemoized(checkboxList, radioList)}>
+          {children}
+        </ListItemContext.Provider>
       </Tag>
     );
   }
-
-  renderChild = (child: React.ReactElement<ListItemProps<T>> | React.ReactChild) => {
-    if (!isReactText(child) && isListItem(child)) {
-      return this.renderListItem(child, this.listItemCount++);
-    }
-    return child;
-  };
-
-  renderListItem = (listItem: React.ReactElement<ListItemProps<T>>, index: number) => {
-    const {
-      onKeyDown,
-      onClick,
-      onFocus,
-      onBlur,
-      ...otherProps
-    } = listItem.props;
-    const {
-      focusListItemAtIndex,
-      followHrefAtIndex,
-      toggleCheckboxAtIndex,
-      listItemAttributes,
-      listItemClassNames,
-      listItemChildrenTabIndex,
-    } = this.state;
-    const props = {
-      ...otherProps,
-      onKeyDown: (e: React.KeyboardEvent<T>) => {
-        onKeyDown!(e);
-        this.handleKeyDown(e, index);
-      },
-      onClick: (e: React.MouseEvent<T>) => {
-        onClick!(e);
-        this.handleClick(e, index);
-      },
-      onFocus: (e: React.FocusEvent<T>) => {
-        onFocus!(e);
-        this.handleFocus(e, index);
-      },
-      onBlur: (e: React.FocusEvent<T>) => {
-        onBlur!(e);
-        this.handleBlur(e, index);
-      },
-      shouldFocus: focusListItemAtIndex === index,
-      shouldFollowHref: followHrefAtIndex === index,
-      shouldToggleCheckbox: toggleCheckboxAtIndex === index,
-      attributesFromList: listItemAttributes[index],
-      classNamesFromList: listItemClassNames[index],
-      childrenTabIndex: listItemChildrenTabIndex[index],
-    };
-    return React.cloneElement(listItem, props);
-  };
 }
 
 /* eslint-enable quote-props */
