@@ -18,6 +18,7 @@ const denseMap = [{}, {dense: true}];
 const rtlMap = [{}, {isRtl: true}];
 const requiredMap = [{}, {required: true}];
 const disabledMap = [{}, {disabled: true}];
+const floatLabelMap = [{}, {floatLabel: false}];
 const helperTextMap = [
   {},
   {helperText: <HelperText persistent>Help me</HelperText>},
@@ -51,4 +52,5 @@ export {
   helperTextMap,
   getHelperKeyText,
   isValidationMsg,
+  floatLabelMap,
 };

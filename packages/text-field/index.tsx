@@ -58,6 +58,7 @@ export interface Props<T extends HTMLElement = HTMLInputElement> {
   onTrailingIconSelect?: () => void;
   textarea?: boolean;
   trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+  floatLabel?: boolean;
 };
 
 type TextFieldProps<T extends HTMLElement = HTMLInputElement> = Props<T> & React.HTMLProps<HTMLDivElement>;
@@ -91,6 +92,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     notchedOutlineClassName: '',
     outlined: false,
     textarea: false,
+    floatLabel: true,
   };
 
   constructor(props: TextFieldProps<T>) {
@@ -145,6 +147,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       textarea,
       trailingIcon,
       leadingIcon,
+      floatLabel,
     } = this.props;
 
     return classnames(cssClasses.ROOT, Array.from(classList), className, {
@@ -158,7 +161,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       // TODO change literal to constant
       'mdc-text-field--fullwidth': fullWidth,
       'mdc-text-field--with-trailing-icon': trailingIcon,
-      'mdc-text-field--no-label': !this.labelAdapter.hasLabel(),
+      'mdc-text-field--no-label': !this.labelAdapter.hasLabel() || !floatLabel,
     });
   }
 
@@ -180,6 +183,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       outlined,
       textarea,
       trailingIcon,
+      floatLabel,
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
@@ -288,6 +292,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         this.inputComponent_ = input;
       },
       inputType: this.props.textarea ? 'textarea' : 'input',
+      placeholder: !this.props.floatLabel ? this.props.label : null,
     });
   }
 
@@ -304,6 +309,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       leadingIcon,
       trailingIcon,
       textarea,
+      floatLabel,
     } = this.props;
     const {foundation} = this.state;
 
@@ -319,7 +325,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
           {this.renderInput()}
           {this.notchedOutlineAdapter.hasOutline() ? this.renderNotchedOutline() : <React.Fragment>
-            {this.labelAdapter.hasLabel() ? this.renderLabel() : null}
+            {this.labelAdapter.hasLabel() && floatLabel ? this.renderLabel() : null}
             {!textarea && !fullWidth ? this.renderLineRipple() : null}
           </React.Fragment>}
           {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}

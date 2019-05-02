@@ -38,6 +38,7 @@ export interface InputProps<T extends HTMLElement = HTMLInputElement> {
   setDisabled?: (disabled: boolean) => void;
   setInputId?: (id: string | number) => void;
   handleFocusChange?: (isFocused: boolean) => void;
+  placeholder?: string;
 };
 
 type InputElementProps = Exclude<React.HTMLProps<HTMLInputElement>, 'ref'>;
@@ -268,6 +269,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       onMouseDown,
       onTouchStart,
       onChange,
+      placeholder,
       /* eslint-enable no-unused-vars */
       ...otherProps
     } = this.props;
@@ -282,6 +284,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       value: value,
       ref: this.inputElement_,
       className: this.classes,
+      placeholder: placeholder,
     }, otherProps);
 
     if (inputType === 'input') {
