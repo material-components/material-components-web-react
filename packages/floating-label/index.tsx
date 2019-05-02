@@ -102,9 +102,17 @@ export default class FloatingLabel extends React.Component<
     };
   }
 
-  // must be called via ref
-  shake = () => {
-    this.foundation.shake(true);
+  shake = (shouldShake: boolean) => {
+    this.foundation.shake(shouldShake);
+  };
+
+  float = (shouldFloat: boolean) => {
+    this.foundation.float(shouldFloat);
+  };
+
+  getWidth = () => {
+    const labelElement = this.labelElement.current;
+    return labelElement ? labelElement.offsetWidth : -1;
   };
 
   removeClassFromClassList = (className: string) => {
@@ -115,7 +123,7 @@ export default class FloatingLabel extends React.Component<
 
   handleWidthChange = () => {
     if (this.props.handleWidthChange && this.labelElement.current) {
-      this.props.handleWidthChange(this.labelElement.current.offsetWidth);
+      this.props.handleWidthChange(this.getWidth());
     }
   };
 
