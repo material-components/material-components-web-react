@@ -65,7 +65,7 @@ npm install -g conventional-changelog-cli
 Once installed run:
 
 ```
-conventional-changelog -p angular -i CHANGELOG.md -s -r 0
+conventional-changelog -p angular -i CHANGELOG.md -s -r 1
 ```
 
 The `CHANGELOG.md` will also be updated with the new version's changes. You will need to edit the header of the file at the very least. If you need to **edit** any other parts of the `CHANGELOG.md`, now is the time.
