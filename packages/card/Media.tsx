@@ -23,6 +23,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import {CSS_CLASSES} from './constant';
+
 export interface MediaProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;
   square?: boolean;
@@ -48,7 +50,7 @@ const renderChildren: (mediaChildren: MediaChildren) => React.ReactElement<HTMLD
   if (!children) {
     return;
   }
-  const classes = classnames('mdc-card__media-content', contentClassName);
+  const classes = classnames(CSS_CLASSES.MEDIA_CONTENT, contentClassName);
   return <div className={classes}>{children}</div>;
 };
 
@@ -71,9 +73,9 @@ const Media: React.FunctionComponent<MediaProps> = ({
   /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
-  const classes = classnames('mdc-card__media', className, {
-    'mdc-card__media--square': square,
-    'mdc-card__media--16-9': wide,
+  const classes = classnames(CSS_CLASSES.MEDIA, className, {
+    [CSS_CLASSES.MEDIA_SQUARE]: square,
+    [CSS_CLASSES.MEDIA_16_9]: wide,
   });
 
   return (
