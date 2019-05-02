@@ -245,7 +245,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         const {floatingLabelElement: floatingLabel} = this;
         if (!shakeLabel) return;
         if (floatingLabel && floatingLabel.current) {
-          floatingLabel.current.shake();
+          floatingLabel.current.shake(true);
         }
       },
       floatLabel: (labelIsFloated: boolean) => this.setState({labelIsFloated}),

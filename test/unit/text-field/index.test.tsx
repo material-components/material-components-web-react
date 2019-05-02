@@ -239,7 +239,7 @@ test('#adapter.label.shakeLabel calls floatingLabelElement shake', () => {
     }),
   }) as React.RefObject<FloatingLabel>;
   wrapper.instance().adapter.shakeLabel(true);
-  td.verify(wrapper.instance().floatingLabelElement.current!.shake(), {
+  td.verify(wrapper.instance().floatingLabelElement.current!.shake(true), {
     times: 1,
   });
 });
@@ -256,7 +256,7 @@ test('#adapter.label.shakeLabel does not call floatingLabelElement shake if fals
     }),
   }));
   wrapper.instance().adapter.shakeLabel(false);
-  td.verify(wrapper.instance().floatingLabelElement.current!.shake(), {
+  td.verify(wrapper.instance().floatingLabelElement.current!.shake(true), {
     times: 0,
   });
 });
