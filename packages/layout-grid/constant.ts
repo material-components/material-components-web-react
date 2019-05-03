@@ -31,4 +31,10 @@ const CSS_CLASSES = {
   ALIGN: 'mdc-layout-grid--align',
 };
 
-export {CSS_CLASSES};
+const DEVICE_TYPE = {
+  DESKTOP: 'desktop',
+  PHONE: 'phone',
+  TABLET: 'tablet',
+};
+
+export {CSS_CLASSES, DEVICE_TYPE};
