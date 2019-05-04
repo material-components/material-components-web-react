@@ -709,8 +709,8 @@ test('Input component sync test in TextField', () => {
     }
   }
   const wrapper = mount<TestComponent>(<TestComponent/>);
-  wrapper.instance().setState({disabled: true});
-  // If input component is null in TextField,
+  // If inputComponent is null and disabled is true,
   // setDisabled called #inputAdapter.getNativeInput
   // and throw error because there is no inputComponent
+  assert.doesNotThrow(() => wrapper.instance().setState({disabled: true}));
 });
