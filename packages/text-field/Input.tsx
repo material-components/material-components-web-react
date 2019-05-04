@@ -111,7 +111,6 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   componentDidUpdate(prevProps: Props<T>) {
     const {
       id,
-      syncInput,
       foundation,
       value,
       disabled,
@@ -122,10 +121,6 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
     } = this.props;
 
     this.handleValidationAttributeUpdate(prevProps);
-
-    if (syncInput) {
-      syncInput(this);
-    }
 
     if (disabled !== prevProps.disabled) {
       setDisabled && setDisabled(disabled!);
