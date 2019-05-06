@@ -26,7 +26,7 @@ import '@material/react-menu-surface/dist/menu-surface.css';
 
 #### Anchored to Element
 
-React Menu Surface accepts one child element. Please see the below example if you need to anchor the menu surface to a specific element. In this case, we wrapper `<button>` and `<MenuSurface>` element within the anchor, and give the `mdc-menu-surface--anchor` class to the element. You can specify a corner for the menu surface to appear from, otherwise it defaults to top-left. For a list of different anchor corner values, please see the [MDC Web Menu Surface constants.js file](https://github.com/material-components/material-components-web/blob/master/packages/mdc-menu-surface/constants.js#L74).
+React Menu Surface accepts one child element. Please see the below example if you need to anchor the menu surface to a specific element. In this case, we wrapper `<button>` and `<MenuSurface>` element within the anchor, and give the `mdc-menu-surface--anchor` class to the element. You can specify a corner for the menu surface to appear from, otherwise it defaults to top-left. For a list of different anchor corner values, please see the [MDC Web Menu Surface constants.ts file](https://github.com/material-components/material-components-web/blob/master/packages/mdc-menu-surface/constants.ts#L75).
 
 > NOTE: `<MenuSurface>` also has an `onClose` callback method prop, which is called when the menu closes. Use this as an opportunity to update your application's state.
 
