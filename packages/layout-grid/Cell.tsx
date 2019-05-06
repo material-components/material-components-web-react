@@ -23,6 +23,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import {CSS_CLASSES, DEVICE_TYPE} from './constant';
+
 export type TwelveColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 export type FourColumn = 1 | 2 | 3 | 4;
 export type EightColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -53,13 +55,13 @@ const Cell: <T extends {} = HTMLDivElement>(props: CellProps<T>) => React.ReactE
   /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
-  const classes = classnames('mdc-layout-grid__cell', className, {
-    [`mdc-layout-grid__cell--align-${align}`]: !!align,
-    [`mdc-layout-grid__cell--order-${order}`]: !!order,
-    [`mdc-layout-grid__cell--span-${columns}`]: !!columns,
-    [`mdc-layout-grid__cell--span-${desktopColumns}-desktop`]: !!desktopColumns,
-    [`mdc-layout-grid__cell--span-${phoneColumns}-phone`]: !!phoneColumns,
-    [`mdc-layout-grid__cell--span-${tabletColumns}-tablet`]: !!tabletColumns,
+  const classes = classnames(CSS_CLASSES.CELL, className, {
+    [`${CSS_CLASSES.CELL_ALIGN}-${align}`]: !!align,
+    [`${CSS_CLASSES.CELL_ORDER}-${order}`]: !!order,
+    [`${CSS_CLASSES.CELL_SPAN}-${columns}`]: !!columns,
+    [`${CSS_CLASSES.CELL_SPAN}-${desktopColumns}-${DEVICE_TYPE.DESKTOP}`]: !!desktopColumns,
+    [`${CSS_CLASSES.CELL_SPAN}-${phoneColumns}-${DEVICE_TYPE.PHONE}`]: !!phoneColumns,
+    [`${CSS_CLASSES.CELL_SPAN}-${tabletColumns}-${DEVICE_TYPE.TABLET}`]: !!tabletColumns,
   });
 
   return (
