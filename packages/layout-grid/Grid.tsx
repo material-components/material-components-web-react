@@ -23,6 +23,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import {CSS_CLASSES} from './constant';
+
 export type Alignment = 'left' | 'right';
 export interface GridProps<T> extends React.HTMLProps<T> {
   align?: Alignment,
@@ -41,9 +43,9 @@ const Grid: <T extends {} = HTMLDivElement>(props: GridProps<T>) => React.ReactE
   /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
-  const classes = classnames('mdc-layout-grid', className, {
-    [`mdc-layout-grid--align-${align}`]: !!align,
-    'mdc-layout-grid--fixed-column-width': fixedColumnWidth,
+  const classes = classnames(CSS_CLASSES.ROOT, className, {
+    [`${CSS_CLASSES.ALIGN}-${align}`]: !!align,
+    [CSS_CLASSES.FIXED_COLUMN_WIDTH]: fixedColumnWidth,
   });
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

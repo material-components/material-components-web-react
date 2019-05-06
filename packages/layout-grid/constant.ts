@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-
-import {CSS_CLASSES} from './constant';
-
-export interface RowProps<T> extends React.HTMLProps<T> {
-  className?: string,
-  tag?: string
+const CSS_CLASSES = {
+  ROOT: 'mdc-layout-grid',
+  INNER: 'mdc-layout-grid__inner',
+  CELL: 'mdc-layout-grid__cell',
+  CELL_SPAN: 'mdc-layout-grid__cell--span',
+  CELL_ORDER: 'mdc-layout-grid__cell--order',
+  CELL_ALIGN: 'mdc-layout-grid__cell--align',
+  FIXED_COLUMN_WIDTH: 'mdc-layout-grid--fixed-column-width',
+  ALIGN: 'mdc-layout-grid--align',
 };
 
-const Row: <T extends {} = HTMLDivElement>(props: RowProps<T>) => React.ReactElement<any> = ({
-  /* eslint-disable react/prop-types */
-  children = '',
-  className,
-  tag: Tag = 'div',
-  ...otherProps
-  /* eslint-enable react/prop-types */
-}) => {
-  const classes = classnames(CSS_CLASSES.INNER, className);
-
-  return (
-    // https://github.com/Microsoft/TypeScript/issues/28892
-    // @ts-ignore
-    <Tag className={classes} {...otherProps}>
-      {children}
-    </Tag>
-  );
+const DEVICE_TYPE = {
+  DESKTOP: 'desktop',
+  PHONE: 'phone',
+  TABLET: 'tablet',
 };
 
-export default Row;
+export {CSS_CLASSES, DEVICE_TYPE};
