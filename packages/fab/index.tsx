@@ -24,6 +24,8 @@ import React from 'react';
 import classnames from 'classnames';
 import {withRipple, InjectedProps} from '@material/react-ripple';
 
+import {CSS_CLASSES} from './constant';
+
 export interface FabProps extends InjectedProps<HTMLButtonElement>,
   React.ButtonHTMLAttributes<HTMLButtonElement> {
     exited?: boolean;
@@ -40,7 +42,7 @@ const Icon: React.FunctionComponent<{icon?: React.ReactElement<HTMLElement>}> = 
     return null;
   }
   const updatedProps = {
-    className: classnames('mdc-fab__icon', icon.props.className),
+    className: classnames(CSS_CLASSES.ICON, icon.props.className),
   };
   return React.cloneElement(icon, updatedProps);
 };
@@ -51,7 +53,7 @@ const TextLabel: React.FunctionComponent<{textLabel: string}> = ({
   if (textLabel.length === 0) {
     return null;
   }
-  return <span className='mdc-fab__label'>{textLabel}</span>;
+  return <span className={CSS_CLASSES.LABEL}>{textLabel}</span>;
 };
 
 export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonElement>> = ({
@@ -67,10 +69,10 @@ export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonE
   ...otherProps
 }) => {
   const extended = textLabel.length > 0;
-  const classes = classnames('mdc-fab', className, {
-    'mdc-fab--mini': mini,
-    'mdc-fab--extended': extended,
-    'mdc-fab--exited': exited,
+  const classes = classnames(CSS_CLASSES.ROOT, className, {
+    [CSS_CLASSES.MINI]: mini,
+    [CSS_CLASSES.EXTENDED]: extended,
+    [CSS_CLASSES.EXITED]: exited,
   });
 
   return (
