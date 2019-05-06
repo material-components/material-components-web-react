@@ -275,18 +275,13 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   inputProps(child: React.ReactElement<InputProps<T>>) {
     // ref does exist on React.ReactElement<InputProps<T>>
     // @ts-ignore
-    const {props, ref} = child;
+    const {props} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
       handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
       setDisabled: (disabled: boolean) => this.setState({disabled}),
       setInputId: (id: string) => this.setState({inputId: id}),
-      ref: (input: Input<T>) => {
-        if (typeof ref === 'function') {
-          ref(input);
-        }
-        this.inputComponent_ = input;
-      },
+      syncInput: (input: Input<T>) => (this.inputComponent_ = input),
       inputType: this.props.textarea ? 'textarea' : 'input',
     });
   }
