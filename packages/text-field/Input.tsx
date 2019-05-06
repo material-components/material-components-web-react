@@ -29,7 +29,7 @@ export interface InputProps<T extends HTMLElement = HTMLInputElement> {
   isValid?: boolean;
   foundation?: MDCTextFieldFoundation;
   handleValueChange?: (value: string | number | string[] | undefined, cb: () => void) => void;
-  ref?: (inputInstance: Input<T>) => void,
+  syncInput?: (inputInstance: Input<T>) => void,
   onBlur?: Pick<React.HTMLProps<T>, 'onBlur'>;
   onChange?: Pick<React.HTMLProps<T>, 'onChange'>;
   onFocus?: Pick<React.HTMLProps<T>, 'onFocus'>;
@@ -81,6 +81,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
   componentDidMount() {
     const {
       id,
+      syncInput,
       disabled,
       value,
       setInputId,
@@ -89,6 +90,9 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       foundation,
       isValid,
     } = this.props;
+    if (syncInput) {
+      syncInput(this);
+    }
     if (setInputId && id) {
       setInputId(id!);
     }
@@ -257,6 +261,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       /* eslint-disable no-unused-vars */
       className,
       foundation,
+      syncInput,
       isValid,
       value,
       handleFocusChange,

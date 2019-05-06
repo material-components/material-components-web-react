@@ -696,3 +696,21 @@ test('Useless test for code coverage', () => {
   wrapper.instance().adapter.registerInputInteractionHandler(temp, temp);
   wrapper.instance().adapter.deregisterInputInteractionHandler(temp, temp);
 });
+
+test('Input component sync test in TextField', () => {
+  class TestComponent extends React.Component {
+    state = {
+      disabled: false,
+    };
+    render() {
+      return <TextField>
+        <Input disabled={this.state.disabled} />
+      </TextField>;
+    }
+  }
+  const wrapper = mount<TestComponent>(<TestComponent/>);
+  // If inputComponent is null and disabled is true,
+  // setDisabled called #inputAdapter.getNativeInput
+  // and throw error because there is no inputComponent
+  assert.doesNotThrow(() => wrapper.instance().setState({disabled: true}));
+});
