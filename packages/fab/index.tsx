@@ -33,8 +33,8 @@ export interface FabProps extends InjectedProps<HTMLButtonElement>,
     icon?: React.ReactElement<HTMLElement>;
     textLabel?: string;
     className?: string;
-    initRipple: React.Ref<HTMLButtonElement>;
-    unbounded: boolean;
+    initRipple?: React.Ref<HTMLButtonElement>;
+    unbounded?: boolean;
 }
 
 const Icon: React.FunctionComponent<{icon?: React.ReactElement<HTMLElement>}> = ({icon}) => {
