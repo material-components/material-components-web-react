@@ -22,11 +22,14 @@
 
 import React from 'react';
 import classnames from 'classnames';
+
 import ActionButtons from './ActionButtons';
 import ActionIcons from './ActionIcons';
 import Actions from './Actions';
 import PrimaryContent from './PrimaryContent';
 import Media from './Media';
+
+import {CSS_CLASSES} from './constant';
 
 export interface CardProps extends React.HTMLProps<HTMLDivElement> {
   className?: string,
@@ -36,8 +39,8 @@ export interface CardProps extends React.HTMLProps<HTMLDivElement> {
 const Card: React.FunctionComponent<CardProps> = ({
   children, className = '', outlined = false, ...otherProps // eslint-disable-line react/prop-types
 }) => {
-  const classes = classnames('mdc-card', className, {
-    'mdc-card--outlined': outlined,
+  const classes = classnames(CSS_CLASSES.ROOT, className, {
+    [CSS_CLASSES.OUTLINED]: outlined,
   });
   return (
     <div className={classes} {...otherProps}>

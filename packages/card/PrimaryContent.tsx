@@ -24,6 +24,8 @@ import React from 'react';
 import classnames from 'classnames';
 import {withRipple, InjectedProps} from '@material/react-ripple';
 
+import {CSS_CLASSES} from './constant';
+
 export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>, InjectedProps<HTMLDivElement>{
   className: string;
   unbounded?: boolean;
@@ -38,7 +40,7 @@ export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps
   /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
-  const classes = classnames('mdc-card__primary-action', className);
+  const classes = classnames(CSS_CLASSES.PRIMARY_ACTION, className);
 
   return (
     <div className={classes} ref={initRipple} {...otherProps}>

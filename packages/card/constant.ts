@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
-
-import {CSS_CLASSES} from './constant';
-
-export interface ActionsProps extends React.HTMLProps<HTMLDivElement> {
-  className?: string;
-  fullBleed?: boolean;
+const CSS_CLASSES = {
+  ROOT: 'mdc-card',
+  OUTLINED: 'mdc-card--outlined',
+  PRIMARY_ACTION: 'mdc-card__primary-action',
+  MEDIA: 'mdc-card__media',
+  MEDIA_SQUARE: 'mdc-card__media--square',
+  MEDIA_16_9: 'mdc-card__media--16-9',
+  MEDIA_CONTENT: 'mdc-card__media-content',
+  ACTIONS: 'mdc-card__actions',
+  ACTIONS_FULL_BLEED: 'mdc-card__actions--full-bleed',
+  ACTION_BUTTONS: 'mdc-card__action-buttons',
+  ACTION_ICONS: 'mdc-card__action-icons',
+  ACTION: 'mdc-card__action',
+  ACTION_BUTTON: 'mdc-card__action--button',
+  ACTION_ICON: 'mdc-card__action--icon',
 };
 
-const Actions: React.FunctionComponent<ActionsProps> = ({
-  className = '', children, fullBleed = false, ...otherProps // eslint-disable-line react/prop-types
-}) => {
-  const classes = classnames(CSS_CLASSES.ACTIONS, className, {
-    [CSS_CLASSES.ACTIONS_FULL_BLEED]: fullBleed,
-  });
-  return (
-    <div className={classes} {...otherProps}>
-      {children}
-    </div>
-  );
-};
-
-export default Actions;
+export {CSS_CLASSES};
