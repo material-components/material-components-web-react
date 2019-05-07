@@ -132,7 +132,20 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
 
   computeContentClientRect = () => {
     const contentElement = this.getNativeContentElement();
-    if (!(contentElement && contentElement.getBoundingClientRect)) return new ClientRect();
+    if (!(contentElement && contentElement.getBoundingClientRect)) {
+      // new DOMRect is not IE11 compatible
+      const defaultDOMRect = {
+        bottom: 0,
+        height: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        width: 0,
+        x: 0,
+        y: 0,
+      };
+      return defaultDOMRect;
+    }
     return contentElement.getBoundingClientRect();
   };
 
