@@ -1,3 +1,22 @@
+<a name="0.12.1"></a>
+# [0.12.1](https://github.com/material-components/material-components-web-react/compare/v0.12.0...v0.12.1) (2019-05-08)
+
+
+### Bug Fixes
+
+* **fab:** Made initRipple and unbounded props optional ([#854](https://github.com/material-components/material-components-web-react/issues/854)) ([baca67b](https://github.com/material-components/material-components-web-react/commit/baca67b))
+* **infrastructure:** fix postinstall ([#842](https://github.com/material-components/material-components-web-react/issues/842)) ([5077078](https://github.com/material-components/material-components-web-react/commit/5077078))
+
+
+### Features
+
+* **button:** define CSS_CLASSES ([#838](https://github.com/material-components/material-components-web-react/issues/838)) ([cbf6cc5](https://github.com/material-components/material-components-web-react/commit/cbf6cc5))
+* **text-field**: Sync inputComponent when component is updated ([#848](https://github.com/material-components/material-components-web-react/issues/848)) ([2b954fa
+](https://github.com/material-components/material-components-web-react/commit/2b954fa
+))
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/material-components/material-components-web-react/compare/v0.11.0...v0.12.0) (2019-05-01)
 

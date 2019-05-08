@@ -1,6 +1,6 @@
 {
   "name": "@material/react-menu",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "Material Components React Menu",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@material/menu": "^1.1.0",
     "@material/react-list": "^0.12.0",
-    "@material/react-menu-surface": "^0.12.0",
+    "@material/react-menu-surface": "^0.12.1",
     "classnames": "^2.2.6",
     "react": "^16.4.2"
   },
