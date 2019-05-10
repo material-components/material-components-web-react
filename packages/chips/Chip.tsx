@@ -134,12 +134,38 @@ export class Chip extends React.Component<ChipProps, ChipState> {
           .getPropertyValue(propertyName);
       },
       getRootBoundingClientRect: () => {
-        if (!this.chipElement) return new ClientRect();
+        if (!this.chipElement) {
+          // new DOMRect is not IE11 compatible
+          const defaultDOMRect = {
+            bottom: 0,
+            height: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+            width: 0,
+            x: 0,
+            y: 0,
+          };
+          return defaultDOMRect;
+        }
         return this.chipElement.getBoundingClientRect();
       },
       getCheckmarkBoundingClientRect: () => {
         const {chipCheckmark} = this.props;
-        if (!chipCheckmark) return new ClientRect();
+        if (!(chipCheckmark && chipCheckmark.props && chipCheckmark.props.getBoundingClientRect)) {
+          // new DOMRect is not IE11 compatible
+          const defaultDOMRect = {
+            bottom: 0,
+            height: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+            width: 0,
+            x: 0,
+            y: 0,
+          };
+          return defaultDOMRect;
+        }
         return chipCheckmark.props.getBoundingClientRect();
       },
       setStyleProperty: (propertyName: keyof React.CSSProperties, value: string | null) => {

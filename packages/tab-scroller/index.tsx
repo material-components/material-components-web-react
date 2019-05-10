@@ -151,17 +151,33 @@ export default class TabScroller extends React.Component<
       getScrollContentOffsetWidth: this.getScrollContentWidth,
       getScrollAreaOffsetWidth: () =>
         this.areaElement.current ? this.areaElement.current.offsetWidth : 0,
-      computeScrollAreaClientRect: () =>
-        this.areaElement.current ?
-          this.areaElement.current.getBoundingClientRect() :
-          new ClientRect(),
-      computeScrollContentClientRect: () =>
-        this.contentElement.current ?
-          this.contentElement.current.getBoundingClientRect() :
-          new ClientRect(),
+      computeScrollAreaClientRect: () => {
+        return this.getBoundingClientRectOf(this.contentElement.current);
+      },
+      computeScrollContentClientRect: () => {
+        return this.getBoundingClientRectOf(this.contentElement.current);
+      },
       computeHorizontalScrollbarHeight: () =>
         computeHorizontalScrollbarHeight(document),
     };
+  }
+
+  getBoundingClientRectOf = (element: HTMLElement | null) => {
+    if (!element) {
+      // new DOMRect is not IE11 compatible
+      const defaultDOMRect = {
+        bottom: 0,
+        height: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        width: 0,
+        x: 0,
+        y: 0,
+      };
+      return defaultDOMRect;
+    }
+    return element.getBoundingClientRect();
   }
 
   getScrollPosition = () => {
