@@ -162,7 +162,7 @@ export default class TabScroller extends React.Component<
     };
   }
 
-  getBoundingClientRectOf = (element: HTMLElement) => {
+  getBoundingClientRectOf = (element: HTMLElement | null) => {
     if (!element) {
       // new DOMRect is not IE11 compatible
       const defaultDOMRect = {
