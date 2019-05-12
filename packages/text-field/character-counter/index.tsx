@@ -71,6 +71,7 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
     const {
       /* eslint-disable no-unused-vars */
       className,
+      count,
       maxLength,
       template,
       /* eslint-disable no-unused-vars */

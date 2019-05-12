@@ -274,10 +274,11 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     };
   }
 
-  inputProps(child: React.ReactElement<InputProps<T>>) {
+  get inputProps() {
     // ref does exist on React.ReactElement<InputProps<T>>
     // @ts-ignore
-    const {props} = child;
+    const {props} = React.Children.only(this.props.children);
+
     return Object.assign({}, props, {
       foundation: this.state.foundation,
       handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
@@ -286,6 +287,19 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       syncInput: (input: Input<T>) => (this.inputComponent_ = input),
       inputType: this.props.textarea ? 'textarea' : 'input',
     });
+  }
+
+  get characterCounterProps() {
+    const {
+      value,
+      maxLength,
+    } = this.inputProps;
+    console.warn(value, maxLength);
+
+    return {
+      count: value ? value.length : 0,
+      maxLength: maxLength ? parseInt(maxLength) : 0,
+    };
   }
 
   /**
@@ -328,8 +342,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
 
   renderInput() {
     const child: React.ReactElement<InputProps<T>> = React.Children.only(this.props.children);
-    const props = this.inputProps(child);
-    return React.cloneElement(child, props);
+    return React.cloneElement(child, this.inputProps);
   }
 
   renderLabel() {
@@ -406,13 +419,10 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   renderCharacterCounter(characterCounter: React.ReactElement<CharacterCounterProps>) {
-    const input = this.inputComponent_!;
-    const props = Object.assign(characterCounter.props, {
-      key: 'text-field-character-counter',
-      count: input.getValue().length,
-      maxLength: input.getMaxLength(),
-    });
-    return React.cloneElement(characterCounter, props);
+    return React.cloneElement(characterCounter, Object.assign(
+      this.characterCounterProps,
+      characterCounter.props,
+    ));
   }
 }
 
