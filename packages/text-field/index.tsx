@@ -31,8 +31,9 @@ import {
 } from '@material/textfield/adapter';
 import {MDCTextFieldFoundation} from '@material/textfield/foundation';
 import Input, {InputProps} from './Input';
-import Icon, {IconProps} from './icon/index';
-import HelperText, {HelperTextProps} from './helper-text/index';
+import Icon, {IconProps} from './icon';
+import HelperText, {HelperTextProps} from './helper-text';
+import CharacterCounter, {CharacterCounterProps} from './character-counter';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
@@ -48,7 +49,7 @@ export interface Props<T extends HTMLElement = HTMLInputElement> {
   floatingLabelClassName?: string;
   fullWidth?: boolean;
   helperText?: React.ReactElement<HelperTextProps>;
-  characterCounter?: React.ReactElement<any>;
+  characterCounter?: React.ReactElement<CharacterCounterProps>;
   label?: React.ReactNode;
   leadingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   lineRippleClassName?: string;
@@ -171,6 +172,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       floatingLabelClassName,
       fullWidth,
       helperText,
+      characterCounter,
       label,
       leadingIcon,
       lineRippleClassName,
@@ -374,10 +376,13 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     );
   }
 
-  renderHelperLine(helperText?: React.ReactElement<HelperTextProps>, characterCounter?: React.ReactElement<any>) {
+  renderHelperLine(
+    helperText?: React.ReactElement<HelperTextProps>,
+    characterCounter?: React.ReactElement<CharacterCounterProps>
+  ) {
     return <div className={cssClasses.HELPER_LINE}>
       {helperText && this.renderHelperText(helperText)}
-      {characterCounter}
+      {characterCounter && this.renderCharacterCounter(characterCounter)}
     </div>;
   }
 
@@ -399,7 +404,17 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
     // Toggling disabled will trigger icon.foundation.setDisabled()
     return <Icon disabled={disabled} onSelect={onSelect}>{icon}</Icon>;
   }
+
+  renderCharacterCounter(characterCounter: React.ReactElement<CharacterCounterProps>) {
+    const input = this.inputComponent_!;
+    const props = Object.assign(characterCounter.props, {
+      key: 'text-field-character-counter',
+      count: input.getValue().length,
+      maxLength: input.getMaxLength(),
+    });
+    return React.cloneElement(characterCounter, props);
+  }
 }
 
-export {Icon, HelperText, Input, IconProps, HelperTextProps, InputProps};
+export {Icon, HelperText, CharacterCounter, Input, IconProps, HelperTextProps, CharacterCounterProps, InputProps};
 export default TextField;
