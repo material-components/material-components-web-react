@@ -24,6 +24,13 @@ import classnames from 'classnames';
 import {MDCTextFieldCharacterCounterAdapter} from '@material/textfield/character-counter/adapter';
 import {MDCTextFieldCharacterCounterFoundation} from '@material/textfield/character-counter/foundation';
 
+const cssClasses = MDCTextFieldCharacterCounterFoundation.cssClasses;
+
+const TEMPLATE = {
+  COUNT: '${count}',
+  MAX_LENGTH: '${maxLength}',
+};
+
 export interface CharacterCounterProps extends React.HTMLProps<HTMLDivElement> {
   count?: number;
   maxLength?: number;
@@ -51,13 +58,13 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
     } = this.props;
 
     return template
-      .replace('${count}', count.toString())
-      .replace('${maxLength}', maxLength.toString())
+      .replace(TEMPLATE.COUNT, count.toString())
+      .replace(TEMPLATE.MAX_LENGTH, maxLength.toString())
     ;
   }
 
   get classes() {
-    return classnames('mdc-text-field-character-counter', this.props.className);
+    return classnames(cssClasses.ROOT, this.props.className);
   }
 
   get otherProps() {
@@ -79,7 +86,7 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
     } = this.props;
 
     return <div className={this.classes} {...this.otherProps}>
-      {this.renderTemplate(template ? template : '${count} / ${maxLength}')}
+      {this.renderTemplate(template ? template : `${TEMPLATE.COUNT} / ${TEMPLATE.MAX_LENGTH}`)}
     </div>;
   }
 }
