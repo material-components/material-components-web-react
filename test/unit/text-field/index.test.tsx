@@ -7,7 +7,6 @@ import TextField, {
   Input,
 } from '../../../packages/text-field';
 import {coerceForTesting} from '../helpers/types';
-import {InputProps} from '../../../packages/text-field/Input'; // eslint-disable-line no-unused-vars
 /* eslint-disable */
 import FloatingLabel from '../../../packages/floating-label';
 /* eslint-enable */
@@ -597,45 +596,6 @@ test('renders input after foundation is created', () => {
   );
   wrapper.setState({foundation: {}});
   assert.equal(wrapper.find(Input).length, 1);
-});
-
-test('#inputProps.handleFocusChange updates state.isFocused', () => {
-  const wrapper = mount<TextField<HTMLInputElement>>(
-    <TextField label='my label'>
-      <Input />
-    </TextField>
-  );
-  wrapper
-    .instance()
-    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
-    .handleFocusChange(true);
-  assert.isTrue(wrapper.state().isFocused);
-});
-
-test('#inputProps.setDisabled updates state.disabled', () => {
-  const wrapper = mount<TextField<HTMLInputElement>>(
-    <TextField label='my label'>
-      <Input />
-    </TextField>
-  );
-  wrapper
-    .instance()
-    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
-    .setDisabled(true);
-  assert.isTrue(wrapper.state().disabled);
-});
-
-test('#inputProps.setInputId updates state.disabled', () => {
-  const wrapper = mount<TextField<HTMLInputElement>>(
-    <TextField label='my label'>
-      <Input />
-    </TextField>
-  );
-  wrapper
-    .instance()
-    .inputProps(coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({}))
-    .setInputId('my-id');
-  assert.equal(wrapper.state().inputId, 'my-id');
 });
 
 test('passing a ref to the <Input /> should return the instance of the Input', () => {

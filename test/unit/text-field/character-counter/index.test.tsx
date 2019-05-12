@@ -1,0 +1,59 @@
+import React from 'react';
+import {shallow, mount} from 'enzyme';
+import {assert} from 'chai';
+import TextField, {
+  Input,
+  CharacterCounter,
+} from '../../../../packages/text-field';
+
+
+suite('Text Field Charater Counter');
+
+test('classNames adds classes', () => {
+  const wrapper = shallow(<CharacterCounter className='test-class-name'/>);
+  assert.isTrue(wrapper.hasClass('test-class-name'));
+  assert.isTrue(wrapper.hasClass('mdc-text-field-character-counter'));
+});
+
+test('default props test', () => {
+  const wrapper = shallow(<CharacterCounter/>);
+  assert.equal('0 / 0', wrapper.text());
+});
+
+test('maxLength test', () => {
+  const maxLength = 100;
+  const wrapper = mount<TextField>(
+    <TextField characterCounter={<CharacterCounter/>}>
+      <Input maxLength={maxLength}/>
+    </TextField>
+  );
+  assert.equal(`0 / ${maxLength}`, wrapper.find('.mdc-text-field-character-counter').text());
+});
+
+
+test('maxLength test', () => {
+  const value = 'test value';
+  const maxLength = 1000;
+  const wrapper = mount<TextField>(
+    <TextField characterCounter={<CharacterCounter/>}>
+      <Input value={value} maxLength={maxLength}/>
+    </TextField>
+  );
+  assert.equal(`${value.length} / ${maxLength}`, wrapper.find('.mdc-text-field-character-counter').text());
+});
+
+test('dynamic count test', () => {
+  class TestComponent extends React.Component {
+    state = {value: ''};
+    render() {
+      return <TextField characterCounter={<CharacterCounter/>}>
+        <Input value={this.state.value} maxLength={250}/>
+      </TextField>;
+    }
+  }
+  const wrapper = mount(<TestComponent/>);
+  const counter = wrapper.find('.mdc-text-field-character-counter');
+  assert.equal('0 / 250', counter.text());
+  wrapper.instance().setState({value: 'Test Value'});
+  assert.equal('10 / 250', counter.text());
+});
