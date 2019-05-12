@@ -30,21 +30,8 @@ export interface CharacterCounterProps extends React.HTMLProps<HTMLDivElement> {
   template?: string;
 }
 
-interface CharacterCounterState {
-  count: number;
-  maxLength: number;
-}
-
-export default class CharacterCounter extends React.Component<CharacterCounterProps, CharacterCounterState> {
+export default class CharacterCounter extends React.Component<CharacterCounterProps> {
   foundation = new MDCTextFieldCharacterCounterFoundation(this.adapter);
-
-  constructor(props: CharacterCounterProps) {
-    super(props);
-    this.state = {
-      count: props.count || 0,
-      maxLength: props.maxLength || 0,
-    };
-  }
 
   componentWillUnmount() {
     this.foundation.destroy();
@@ -57,17 +44,15 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
     };
   }
 
-  renderTemplate(template: string, data: {
-    count: number,
-    maxLength: number,
-  }) {
+  renderTemplate(template: string) {
     const {
-      maxLength,
-    } = data;
+      count = 0,
+      maxLength = 0,
+    } = this.props;
 
     return template
+      .replace('${count}', count.toString())
       .replace('${maxLength}', maxLength.toString())
-      .replace('${count}', '0')
     ;
   }
 
@@ -90,18 +75,11 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
 
   render() {
     const {
-      count,
-      maxLength,
-    } = this.state;
-    const {
       template,
     } = this.props;
 
     return <div className={this.classes} {...this.otherProps}>
-      {this.renderTemplate(template ? template : '${count} / ${maxLength}', {
-        count: count,
-        maxLength: maxLength!,
-      })}
+      {this.renderTemplate(template ? template : '${count} / ${maxLength}')}
     </div>;
   }
 }
