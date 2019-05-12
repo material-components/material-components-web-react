@@ -294,7 +294,6 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       value,
       maxLength,
     } = this.inputProps;
-    console.warn(value, maxLength);
 
     return {
       count: value ? value.length : 0,
@@ -328,6 +327,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           key='text-field-container'
         >
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
+          {textarea && characterCounter && this.renderCharacterCounter(characterCounter)}
           {this.renderInput()}
           {this.notchedOutlineAdapter.hasOutline() ? this.renderNotchedOutline() : <React.Fragment>
             {this.labelAdapter.hasLabel() ? this.renderLabel() : null}
@@ -395,7 +395,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   ) {
     return <div className={cssClasses.HELPER_LINE}>
       {helperText && this.renderHelperText(helperText)}
-      {characterCounter && this.renderCharacterCounter(characterCounter)}
+      {characterCounter && !this.props.textarea && this.renderCharacterCounter(characterCounter)}
     </div>;
   }
 
