@@ -131,7 +131,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
   }
 
   componentWillUnmount() {
-    this.state.foundation!.destroy();
+    this.state.foundation && this.state.foundation.destroy();
   }
   /**
    * getters
