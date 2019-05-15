@@ -36,7 +36,7 @@ export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps
   className = '',
   initRipple,
   children,
-  unbounded, // eslint-disable-line no-unused-vars
+  unbounded, // eslint-disable-line @typescript-eslint/no-unused-vars
   /* eslint-enable react/prop-types */
   ...otherProps
 }) => {

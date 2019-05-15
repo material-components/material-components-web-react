@@ -171,7 +171,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       checked,
       indeterminate,
@@ -179,7 +179,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onChange,
       unbounded,
       disabled,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       nativeControlId,
       name,
       ...otherProps

@@ -31,8 +31,8 @@ import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundati
 import MDCSelectIconFoundation from '@material/select/icon/foundation';
 
 import {BaseSelect, BaseSelectProps} from './BaseSelect';
-import {EnhancedChild} from './EnhancedSelect'; // eslint-disable-line no-unused-vars
-import Option, {OptionProps} from './Option'; // eslint-disable-line no-unused-vars
+import {EnhancedChild} from './EnhancedSelect'; // eslint-disable-line @typescript-eslint/no-unused-vars
+import Option, {OptionProps} from './Option'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {SelectHelperTextProps} from './helper-text/index';
 import {SelectIconProps} from './icon/index';
 

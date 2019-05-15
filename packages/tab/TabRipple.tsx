@@ -25,7 +25,7 @@ import classnames from 'classnames';
 
 import {
   withRipple, InjectedProps,
-  RippledComponentInterface, RippledComponentState, // eslint-disable-line no-unused-vars
+  RippledComponentInterface, RippledComponentState, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
 
 export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>,
@@ -42,10 +42,10 @@ class TabRippleBase extends React.Component<TabRippleProps, {}> {
   render() {
     const {
       // keeping out of ...otherProps
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       unbounded,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       initRipple,
       ...otherProps
     } = this.props;

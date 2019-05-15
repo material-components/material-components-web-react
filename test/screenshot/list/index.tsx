@@ -13,7 +13,7 @@ import List, {
 } from '../../../packages/list/index';
 import Checkbox from '../../../packages/checkbox/index';
 import Radio, {NativeRadioControl} from '../../../packages/radio/index';
-import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line no-unused-vars
+import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {MDCListIndex} from '@material/list/types';
 
 const groceryItems = ['Milk', 'Eggs', 'Barley'];

@@ -99,7 +99,7 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
   render() {
     const {
       tag: Tag,
-      setIconFoundation, // eslint-disable-line no-unused-vars
+      setIconFoundation, // eslint-disable-line @typescript-eslint/no-unused-vars
       children,
       className,
       ...otherProps

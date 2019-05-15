@@ -137,13 +137,13 @@ class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     const {
       className,
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       open,
       onKeyDown,
       onOpen,
       children,
       onSelected,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
     return (

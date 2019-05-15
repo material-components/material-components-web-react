@@ -258,7 +258,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
     const {
       inputType,
       disabled,
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       foundation,
       syncInput,
@@ -273,7 +273,7 @@ export default class Input<T extends HTMLElement = HTMLInputElement> extends Rea
       onMouseDown,
       onTouchStart,
       onChange,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
 

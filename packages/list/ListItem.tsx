@@ -158,7 +158,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       children,
       role,
@@ -176,7 +176,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
       getListItemInitialTabIndex,
       getClassNamesFromList,
       tabIndex,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       tag: Tag,
       ...otherProps
     } = this.props;

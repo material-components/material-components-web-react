@@ -4,7 +4,7 @@ import {shallow, mount} from 'enzyme';
 import td from 'testdouble';
 import {MDCModalDrawerFoundation, MDCDismissibleDrawerFoundation, MDCDrawerAdapter} from '@material/drawer';
 import Drawer from '../../../packages/drawer/index';
-import {Options, DeactivateOptions, FocusTrap} from 'focus-trap'; // eslint-disable-line no-unused-vars
+import {Options, DeactivateOptions, FocusTrap} from 'focus-trap'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {coerceForTesting} from '../helpers/types';
 
 function getAdapter(foundation: MDCModalDrawerFoundation | MDCDismissibleDrawerFoundation): MDCDrawerAdapter {

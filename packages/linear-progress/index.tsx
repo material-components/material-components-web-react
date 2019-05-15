@@ -159,7 +159,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       buffer,
       bufferingDots,
       className,
@@ -168,7 +168,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
       progress,
       reversed,
       tag: Tag,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
     return (

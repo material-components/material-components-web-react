@@ -219,7 +219,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       onClose,
       onOpen,
       onKeyDown,
@@ -229,7 +229,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       className,
       innerRef,
       modal,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       tag: Tag,
       ...otherProps
     } = this.props;

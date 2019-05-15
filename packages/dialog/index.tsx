@@ -28,11 +28,11 @@ import {MDCDialogAdapter} from '@material/dialog/adapter';
 import {createFocusTrapInstance, isScrollable, areTopsMisaligned} from '@material/dialog/util';
 import {strings} from '@material/dialog/constants';
 import {ponyfill} from '@material/dom';
-/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import DialogContent, {DialogContentProps} from './DialogContent';
 import DialogFooter, {DialogFooterProps} from './DialogFooter';
 import DialogTitle, {DialogTitleProps} from './DialogTitle';
-/* eslint-enable no-unused-vars */
+/* eslint-enable @typescript-eslint/no-unused-vars */
 import DialogButton from './DialogButton';
 import {cssClasses, LAYOUT_EVENTS} from './constants';
 import {FocusTrap} from 'focus-trap';
@@ -268,7 +268,7 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       autoStackButtons,
       className,
       children,
@@ -284,7 +284,7 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
       scrimClickAction,
       tag: Tag,
       ...otherProps
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
     } = this.props;
 
     const container: React.ReactElement<HTMLDivElement> | undefined =

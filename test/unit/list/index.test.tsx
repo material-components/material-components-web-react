@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 import List, {
-  ListItem, ListItemProps, // eslint-disable-line no-unused-vars
+  ListItem, ListItemProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '../../../packages/list/index';
 import {coerceForTesting} from '../helpers/types';
 import {MDCListIndex} from '@material/list/types';

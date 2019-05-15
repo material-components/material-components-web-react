@@ -28,7 +28,7 @@ import {MDCListAdapter} from '@material/list/adapter';
 // @ts-ignore @types cannot be used on dist files
 import memoizeOne from 'memoize-one/dist/memoize-one.cjs.js';
 
-import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line no-unused-vars
+import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
 import ListItemMeta from './ListItemMeta';
@@ -383,7 +383,7 @@ export default class List extends React.Component<ListProps, ListState> {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       checkboxList,
       radioList,
@@ -396,7 +396,7 @@ export default class List extends React.Component<ListProps, ListState> {
       selectedIndex,
       handleSelect,
       wrapFocus,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       children,
       tag: Tag,
       ...otherProps

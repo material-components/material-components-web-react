@@ -164,7 +164,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
 
   get otherProps() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       children,
       className,
       dense,
@@ -180,7 +180,7 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       outlined,
       textarea,
       trailingIcon,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
 

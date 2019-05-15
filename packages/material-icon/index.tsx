@@ -34,7 +34,7 @@ export interface MaterialIconDefaultProps extends React.HTMLAttributes<HTMLEleme
 export interface MaterialIconProps extends MaterialIconDefaultProps, InjectedProps<HTMLElement> {};
 
 const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
-  className, icon, initRipple, hasRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types
+  className, icon, initRipple, hasRipple, unbounded, ...otherProps // eslint-disable-line react/prop-types, @typescript-eslint/no-unused-vars
 }) => {
   const classes = classnames('material-icons', className, {
     'material-icons--ripple-surface': hasRipple,
@@ -63,7 +63,7 @@ export default class MaterialIcon extends React.Component<
   };
 
   render() {
-    const {icon, hasRipple, unbounded, ...otherProps} = this.props; // eslint-disable-line no-unused-vars
+    const {icon, hasRipple, unbounded, ...otherProps} = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     if (hasRipple) {
       return (
         <RippleMaterialIcon

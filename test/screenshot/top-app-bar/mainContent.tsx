@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   TopAppBarFixedAdjust,
-  TopAppbarFixedAdjustProps, // eslint-disable-line no-unused-vars
+  TopAppbarFixedAdjustProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '../../../packages/top-app-bar';
 
 const MainTopAppBarContent: React.FunctionComponent<TopAppbarFixedAdjustProps> = (props) => {

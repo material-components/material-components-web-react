@@ -31,7 +31,7 @@ export interface ListItemMetaProps {
 };
 
 const ListItemMeta:React.FunctionComponent<ListItemMetaProps> = ({
-  tabIndex, // eslint-disable-line no-unused-vars
+  tabIndex, // eslint-disable-line @typescript-eslint/no-unused-vars
   meta,
   className = '',
   ...otherProps

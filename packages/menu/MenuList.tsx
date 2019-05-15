@@ -22,7 +22,7 @@
 
 import * as React from 'react';
 import List, {ListProps} from '@material/react-list';
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {MDCMenuFoundation} from '@material/menu/foundation';
 
 type RefCallback<T> = (node: T | null) => void;
@@ -76,14 +76,14 @@ class MenuList extends React.Component<MenuListProps, {}> {
   render() {
     const {
       'aria-hidden': ariaHidden,
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       handleSelect,
       handleItemAction,
       role,
       innerRef,
       children,
       ref,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
 

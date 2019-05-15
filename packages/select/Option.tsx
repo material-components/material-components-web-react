@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import * as React from 'react';
-import {MenuListItem, MenuListItemProps} from '@material/react-menu'; // eslint-disable-line no-unused-vars
+import {MenuListItem, MenuListItemProps} from '@material/react-menu'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export type OptionProps<T extends HTMLElement = HTMLElement>
   = BaseOptionProps & (T extends HTMLOptionElement ? React.HTMLProps<HTMLOptionElement> : MenuListItemProps<T>);

@@ -23,7 +23,7 @@
 import * as React from 'react';
 import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import Menu, {MenuList} from '@material/react-menu';
-import {OptionProps} from './Option'; // eslint-disable-line no-unused-vars
+import {OptionProps} from './Option'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {CommonSelectProps} from './BaseSelect';
 import MDCSelectFoundation from '@material/select/foundation';
 

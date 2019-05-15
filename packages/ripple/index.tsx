@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 import React from 'react';
 import classnames from 'classnames';
-import {Subtract} from 'utility-types'; // eslint-disable-line no-unused-vars
+import {Subtract} from 'utility-types'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 import {MDCRippleFoundation} from '@material/ripple/foundation';
 import {MDCRippleAdapter} from '@material/ripple/adapter';

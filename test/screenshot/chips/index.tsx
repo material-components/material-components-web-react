@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 import '../../../packages/chips/index.scss';
 import MaterialIcon from '../../../packages/material-icon';
-import {ChipProps, Chip, ChipSet} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
+import {ChipProps, Chip, ChipSet} from '../../../packages/chips/index'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import uuidv1 from 'uuid/v1';
 
 interface ChipsTestProps {

@@ -22,10 +22,10 @@
 
 import * as React from 'react';
 import NativeSelect, {
-  NativeSelectProps, // eslint-disable-line no-unused-vars
+  NativeSelectProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from './NativeSelect';
 import EnhancedSelect, {
-  EnhancedSelectProps, // eslint-disable-line no-unused-vars
+  EnhancedSelectProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from './EnhancedSelect';
 import {MDCSelectFoundation} from '@material/select/foundation';
 
@@ -111,14 +111,14 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       onFocus,
       onBlur,
       onClick,
       onMouseDown,
       onTouchStart,
       ref,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       enhanced,
       children,
       onKeyDown,

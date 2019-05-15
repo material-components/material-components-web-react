@@ -7,7 +7,7 @@ import TextField, {
   Input,
 } from '../../../packages/text-field';
 import {coerceForTesting} from '../helpers/types';
-import {InputProps} from '../../../packages/text-field/Input'; // eslint-disable-line no-unused-vars
+import {InputProps} from '../../../packages/text-field/Input'; // eslint-disable-line @typescript-eslint/no-unused-vars
 /* eslint-disable */
 import FloatingLabel from '../../../packages/floating-label';
 /* eslint-enable */

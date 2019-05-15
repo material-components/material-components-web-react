@@ -16,7 +16,7 @@ import Drawer, {
 } from '../../../packages/drawer/index';
 // @ts-ignore
 import List from './List.js';
-import {MaterialIconProps} from '../../../packages/material-icon/index'; // eslint-disable-line no-unused-vars
+import {MaterialIconProps} from '../../../packages/material-icon/index'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 interface DrawerScreenshotTestProps {
   onClose: () => void;

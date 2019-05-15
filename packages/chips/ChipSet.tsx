@@ -23,7 +23,7 @@ import React from 'react';
 import classnames from 'classnames';
 import {MDCChipSetFoundation} from '@material/chips/chip-set/foundation';
 import ChipCheckmark from './ChipCheckmark';
-import {ChipProps} from './Chip'; // eslint-disable-line no-unused-vars
+import {ChipProps} from './Chip'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type ChipType = React.ReactElement<ChipProps>;
 

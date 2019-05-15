@@ -58,7 +58,7 @@ export const Button = <T extends ButtonTypes>(
     // this in ...otherProps.
     // if unbounded is passed to the <button> element, it will throw
     // a warning.
-    unbounded = false, // eslint-disable-line no-unused-vars
+    unbounded = false, // eslint-disable-line @typescript-eslint/no-unused-vars
     ...otherProps
   }: ButtonProps<T>
 ) => {

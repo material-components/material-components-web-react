@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import TabScroller from '@material/react-tab-scroller';
-import Tab, {TabProps} from '@material/react-tab'; // eslint-disable-line no-unused-vars
+import Tab, {TabProps} from '@material/react-tab'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {MDCTabBarFoundation} from '@material/tab-bar/foundation';
 import {MDCTabBarAdapter} from '@material/tab-bar/adapter';
 
@@ -164,13 +164,13 @@ class TabBar extends React.Component<
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       indexInView,
       activeIndex,
       handleActiveIndexUpdate,
       onKeyDown,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       isRtl,
       children,
       ...otherProps

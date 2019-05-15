@@ -33,7 +33,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
       isRtl,
       minLength,
       required,
-      value, // eslint-disable-line no-unused-vars
+      value, // eslint-disable-line @typescript-eslint/no-unused-vars
       /* eslint-enable react/prop-types */
       ...otherProps
     } = this.props;

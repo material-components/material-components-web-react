@@ -57,7 +57,7 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
       disabled,
       id,
       enhanced,
-      ref, // eslint-disable-line no-unused-vars
+      ref, // eslint-disable-line @typescript-eslint/no-unused-vars
       ...otherProps // eslint-disable-line react/prop-types
     } = this.props;
     return (

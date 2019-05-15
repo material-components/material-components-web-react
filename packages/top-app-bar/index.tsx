@@ -239,7 +239,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       children,
       className,
       dense,
@@ -253,7 +253,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
       navigationIcon,
       title,
       ...otherProps
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
     } = this.props;
 
     /**

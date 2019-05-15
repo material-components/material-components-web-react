@@ -31,7 +31,7 @@ export interface ListItemGraphicProps {
 };
 
 const ListItemGraphic:React.FunctionComponent<ListItemGraphicProps> = ({
-  tabIndex = -1, // eslint-disable-line no-unused-vars
+  tabIndex = -1, // eslint-disable-line @typescript-eslint/no-unused-vars
   graphic,
   className = '',
   ...otherProps

@@ -113,13 +113,13 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
       children,
       initRipple,
       isLink,
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       handleChange,
       onClick,
       unbounded,
       [ARIA_PRESSED]: ariaPressed,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
 

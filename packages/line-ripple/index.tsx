@@ -126,10 +126,10 @@ export default class LineRipple extends React.Component<
 
   render() {
     const {
-      style, // eslint-disable-line no-unused-vars
-      className, // eslint-disable-line no-unused-vars
-      active, // eslint-disable-line no-unused-vars
-      rippleCenter, // eslint-disable-line no-unused-vars
+      style, // eslint-disable-line @typescript-eslint/no-unused-vars
+      className, // eslint-disable-line @typescript-eslint/no-unused-vars
+      active, // eslint-disable-line @typescript-eslint/no-unused-vars
+      rippleCenter, // eslint-disable-line @typescript-eslint/no-unused-vars
       ...otherProps
     } = this.props;
 

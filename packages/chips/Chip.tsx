@@ -241,7 +241,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       id,
       className,
       selected,
@@ -256,7 +256,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       initRipple,
       unbounded,
       shouldRemoveOnTrailingIconClick,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       chipCheckmark,
       leadingIcon,
       trailingIcon,
