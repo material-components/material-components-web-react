@@ -18,7 +18,7 @@ const title: string = 'Miami, FL';
 class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component<
   {},
   TopAppBarProminentToShortCollapsedScreenshotTestState
-  > {
+> {
   state = {
     isPhone: window.innerWidth < 599,
   };
@@ -27,7 +27,10 @@ class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component<
     window.addEventListener('resize', this.updateTopAppBarVariant);
   }
 
-  shouldComponentUpdate(_: {}, nextState: TopAppBarProminentToShortCollapsedScreenshotTestState) {
+  shouldComponentUpdate(
+    _: {},
+    nextState: TopAppBarProminentToShortCollapsedScreenshotTestState
+  ) {
     return nextState.isPhone !== this.state.isPhone;
   }
 
@@ -44,20 +47,22 @@ class TopAppBarProminentToShortCollapsedScreenshotTest extends React.Component<
     const {isPhone} = this.state;
     return (
       <div>
-        <TopAppBar prominent={!isPhone} shortCollapsed={isPhone} >
+        <TopAppBar prominent={!isPhone} shortCollapsed={isPhone}>
           <TopAppBarRow>
             <TopAppBarSection align='start'>
-              <TopAppBarIcon navIcon tabIndex={0} >
-                <MaterialIcon hasRipple icon='menu'/>
+              <TopAppBarIcon navIcon tabIndex={0}>
+                <MaterialIcon hasRipple icon='menu' />
               </TopAppBarIcon>
               <TopAppBarTitle>{title}</TopAppBarTitle>
             </TopAppBarSection>
             <TopAppBarSection align='end' role='toolbar'>
-              {isPhone
-                ? (<TopAppBarIcon actionItem tabIndex={0}>
-                  <MaterialIcon hasRipple icon='more_vert'/>
-                </TopAppBarIcon>)
-                : actionItems.map(mapActionItem)}
+              {isPhone ? (
+                <TopAppBarIcon actionItem tabIndex={0}>
+                  <MaterialIcon hasRipple icon='more_vert' />
+                </TopAppBarIcon>
+              ) : (
+                actionItems.map(mapActionItem)
+              )}
             </TopAppBarSection>
           </TopAppBarRow>
         </TopAppBar>

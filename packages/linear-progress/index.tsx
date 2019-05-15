@@ -34,16 +34,16 @@ export interface LinearProgressProps<T> extends React.HTMLProps<T> {
   progress?: number;
   reversed?: boolean;
   tag?: string;
-};
+}
 
 interface LinearProgressState {
   classList: Set<string>;
-};
+}
 
 class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
   LinearProgressProps<T>,
   LinearProgressState
-  > {
+> {
   isComponentMounted: boolean = false;
   bufferElement: React.RefObject<HTMLDivElement> = React.createRef();
   primaryBarElement: React.RefObject<HTMLDivElement> = React.createRef();
@@ -159,7 +159,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       buffer,
       bufferingDots,
       className,
@@ -168,7 +168,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
       progress,
       reversed,
       tag: Tag,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
     return (
@@ -178,10 +178,7 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
         {bufferingDots && (
           <div className='mdc-linear-progress__buffering-dots' />
         )}
-        <div
-          className='mdc-linear-progress__buffer'
-          ref={this.bufferElement}
-        />
+        <div className='mdc-linear-progress__buffer' ref={this.bufferElement} />
         <div
           className='mdc-linear-progress__bar mdc-linear-progress__primary-bar'
           ref={this.primaryBarElement}

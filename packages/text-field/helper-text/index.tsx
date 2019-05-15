@@ -36,15 +36,18 @@ export interface HelperTextProps {
   role?: string;
   showToScreenReader?: boolean;
   validation?: boolean;
-};
+}
 
 interface HelperTextState {
   'aria-hidden': boolean;
   role?: string;
   classList: Set<string>;
-};
+}
 
-export default class HelperText extends React.Component<HelperTextProps, HelperTextState> {
+export default class HelperText extends React.Component<
+  HelperTextProps,
+  HelperTextState
+> {
   foundation!: MDCTextFieldHelperTextFoundation;
 
   static defaultProps = {
@@ -81,13 +84,19 @@ export default class HelperText extends React.Component<HelperTextProps, HelperT
   }
 
   componentDidUpdate(prevProps: HelperTextProps) {
-    if (this.props.showToScreenReader !== prevProps.showToScreenReader && this.props.showToScreenReader) {
+    if (
+      this.props.showToScreenReader !== prevProps.showToScreenReader &&
+      this.props.showToScreenReader
+    ) {
       this.foundation.showToScreenReader();
     }
     if (this.props.isValid !== prevProps.isValid) {
       this.foundation.setValidity(!!this.props.isValid);
     }
-    if (this.props.isValidationMessage !== prevProps.isValidationMessage && this.props.isValidationMessage) {
+    if (
+      this.props.isValidationMessage !== prevProps.isValidationMessage &&
+      this.props.isValidationMessage
+    ) {
       this.foundation.setValidation(this.props.isValidationMessage);
     }
   }
@@ -113,14 +122,13 @@ export default class HelperText extends React.Component<HelperTextProps, HelperT
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
       // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
-      setAttr: (attr: keyof HelperTextState, value: string) => (
-        this.setState((prevState) => ({...prevState, [attr]: value}))
-      ),
-      removeAttr: (attr: keyof HelperTextState) => (
-        this.setState((prevState) => ({...prevState, [attr]: null}))
-      ),
+      setAttr: (attr: keyof HelperTextState, value: string) =>
+        this.setState((prevState) => ({...prevState, [attr]: value})),
+      removeAttr: (attr: keyof HelperTextState) =>
+        this.setState((prevState) => ({...prevState, [attr]: null})),
       // Please manage content through JSX
       setContent: () => undefined,
     };
@@ -132,8 +140,9 @@ export default class HelperText extends React.Component<HelperTextProps, HelperT
         className={this.classes}
         role={this.state.role}
         aria-hidden={this.state['aria-hidden']}
-      >{this.props.children}</p>
+      >
+        {this.props.children}
+      </p>
     );
   }
 }
-

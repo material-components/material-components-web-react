@@ -7,12 +7,14 @@ import {cssClasses} from '../../../packages/dialog/constants';
 suite('DialogButton');
 
 test('renders a DialogButton with the default className', () => {
-  const wrapper = shallow(<DialogButton action='accept'/>);
+  const wrapper = shallow(<DialogButton action='accept' />);
   assert.isTrue(wrapper.hasClass(cssClasses.BUTTON));
 });
 
 test('props.className adds classes', () => {
-  const wrapper = shallow(<DialogButton action='accept' className='test-class'/>);
+  const wrapper = shallow(
+    <DialogButton action='accept' className='test-class' />
+  );
   assert.isTrue(wrapper.hasClass('test-class'));
   assert.isTrue(wrapper.hasClass(cssClasses.BUTTON));
 });
@@ -28,7 +30,7 @@ test('props.isDefault does not add default className when false', () => {
 });
 
 test('props.action is rendered as a data-mdc-dialog-action attribute', () => {
-  const wrapper = shallow(<DialogButton action='accept'/>);
+  const wrapper = shallow(<DialogButton action='accept' />);
   assert.equal(wrapper.prop('data-mdc-dialog-action'), 'accept');
 });
 

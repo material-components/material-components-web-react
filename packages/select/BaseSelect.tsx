@@ -22,15 +22,16 @@
 
 import * as React from 'react';
 import NativeSelect, {
-  NativeSelectProps, // eslint-disable-line no-unused-vars
+  NativeSelectProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from './NativeSelect';
 import EnhancedSelect, {
-  EnhancedSelectProps, // eslint-disable-line no-unused-vars
+  EnhancedSelectProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from './EnhancedSelect';
 import {MDCSelectFoundation} from '@material/select/foundation';
 
-export type BaseSelectProps<T extends HTMLElement>
-  = (T extends HTMLSelectElement ? NativeSelectProps : EnhancedSelectProps);
+export type BaseSelectProps<T extends HTMLElement> = T extends HTMLSelectElement
+  ? NativeSelectProps
+  : EnhancedSelectProps;
 
 export interface CommonSelectProps {
   enhanced: boolean;
@@ -41,8 +42,9 @@ export interface CommonSelectProps {
   selectClassName?: string;
 }
 
-export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
-  extends React.Component<BaseSelectProps<T>> {
+export class BaseSelect<
+  T extends HTMLElement = HTMLSelectElement
+> extends React.Component<BaseSelectProps<T>> {
   static defaultProps = {
     enhanced: false,
     selectClassName: '',
@@ -70,7 +72,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       foundation.handleClick(this.getNormalizedXCoordinate(evt));
     }
     onTouchStart && onTouchStart(evt);
-  }
+  };
 
   handleMouseDown = (evt: React.MouseEvent<T>) => {
     const {foundation, onMouseDown} = this.props;
@@ -78,7 +80,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       foundation.handleClick(this.getNormalizedXCoordinate(evt));
     }
     onMouseDown && onMouseDown(evt);
-  }
+  };
 
   handleClick = (evt: React.MouseEvent<T>) => {
     const {foundation, onClick} = this.props;
@@ -86,7 +88,7 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       foundation.handleClick(this.getNormalizedXCoordinate(evt));
     }
     onClick && onClick(evt);
-  }
+  };
 
   handleKeyDown = (evt: React.KeyboardEvent<T>) => {
     const {foundation, onKeyDown} = this.props;
@@ -94,31 +96,32 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
       foundation.handleKeydown(evt.nativeEvent);
     }
     onKeyDown && onKeyDown(evt);
-  }
+  };
 
   private isTouchEvent = (evt: MouseEvent | TouchEvent): evt is TouchEvent => {
     return Boolean((evt as TouchEvent).touches);
-  }
+  };
 
-  private getNormalizedXCoordinate
-    = (evt: React.MouseEvent<T> | React.TouchEvent<T>) => {
-      const targetClientRect = (evt.currentTarget as Element).getBoundingClientRect();
-      const xCoordinate
-        = this.isTouchEvent(evt.nativeEvent) ? evt.nativeEvent.touches[0].clientX : evt.nativeEvent.clientX;
-      return xCoordinate - targetClientRect.left;
-    }
-
+  private getNormalizedXCoordinate = (
+    evt: React.MouseEvent<T> | React.TouchEvent<T>
+  ) => {
+    const targetClientRect = (evt.currentTarget as Element).getBoundingClientRect();
+    const xCoordinate = this.isTouchEvent(evt.nativeEvent)
+      ? evt.nativeEvent.touches[0].clientX
+      : evt.nativeEvent.clientX;
+    return xCoordinate - targetClientRect.left;
+  };
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       onFocus,
       onBlur,
       onClick,
       onMouseDown,
       onTouchStart,
       ref,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       enhanced,
       children,
       onKeyDown,
@@ -138,19 +141,13 @@ export class BaseSelect<T extends HTMLElement = HTMLSelectElement>
 
     if (enhanced) {
       return (
-        <EnhancedSelect
-          onKeyDown={this.handleKeyDown}
-          {...props}
-        >
+        <EnhancedSelect onKeyDown={this.handleKeyDown} {...props}>
           {children}
         </EnhancedSelect>
       );
     }
     return (
-      <NativeSelect
-        onKeyDown={onKeyDown}
-        {...props}
-      >
+      <NativeSelect onKeyDown={onKeyDown} {...props}>
         {children}
       </NativeSelect>
     );

@@ -23,12 +23,15 @@
 import React from 'react';
 import classnames from 'classnames';
 export interface ListGroupSubheaderProps extends React.HTMLProps<HTMLElement> {
-  className?: string,
-  tag?: string
-};
+  className?: string;
+  tag?: string;
+}
 
-const ListGroupSubheader:React.FunctionComponent<ListGroupSubheaderProps> = ({
-  tag: Tag = 'h3', className = '', children, ...otherProps // eslint-disable-line react/prop-types
+const ListGroupSubheader: React.FunctionComponent<ListGroupSubheaderProps> = ({
+  tag: Tag = 'h3',
+  className = '',
+  children,
+  ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

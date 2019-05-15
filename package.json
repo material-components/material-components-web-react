@@ -8,7 +8,6 @@
     "build": "npm run clean && mkdirp build && node --max_old_space_size=8192 node_modules/.bin/webpack --config packages/webpack.config.js --progress --colors",
     "capture": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --require ts-node/register --require babel-core/register --ui tdd --timeout 30000 test/screenshot/capture-suite.tsx",
     "clean": "rimraf build/** build packages/*/dist/",
-    "commitmsg": "validate-commit-msg",
     "fix": "eslint --fix --ext .jsx,.js,.tsx,.ts packages test",
     "lint": "eslint --ext .jsx,.js,.tsx,.ts packages test",
     "pretest": "npm stop",
@@ -60,6 +59,12 @@
       }
     }
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint",
+      "commit-msg": "validate-commit-msg"
+    }
+  },
   "devDependencies": {
     "@google-cloud/storage": "^1.6.0",
     "@material/base": "^1.0.0",
@@ -97,6 +102,8 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/uuid": "^3.4.4",
     "@types/webpack-env": "^1.13.6",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
     "autoprefixer": "^8.5.1",
     "axios": "^0.18.0",
     "babel-core": "^6.26.3",
@@ -119,11 +126,13 @@
     "enzyme-adapter-utils": "^1.10.1",
     "eslint": "^5.9.0",
     "eslint-config-google": "^0.9.1",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.7.0",
     "eslint-plugin-typescript": "^0.14.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "gts": "^0.9.0",
-    "husky": "^0.14.3",
+    "husky": "^2.3.0",
     "istanbul": "^0.4.5",
     "istanbul-instrumenter-loader": "^3.0.1",
     "karma": "^2.0.4",
@@ -137,6 +146,7 @@
     "node-sass": "^4.9.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "postcss-loader": "^2.1.5",
+    "prettier": "^1.17.1",
     "puppeteer": "^1.1.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -149,7 +159,6 @@
     "ts-loader": "^3.5.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.3.3",
-    "typescript-eslint-parser": "^21.0.1",
     "utility-types": "^2.1.0",
     "uuid": "^3.3.2",
     "validate-commit-msg": "^2.14.0",

@@ -77,7 +77,9 @@ test('renders a button with an anchor attribute', () => {
 });
 
 test('default initRipple function', () => {
-  const initRipple = coerceForTesting<(surface: HTMLButtonElement) => {}>(td.func());
+  const initRipple = coerceForTesting<(surface: HTMLButtonElement) => {}>(
+    td.func()
+  );
   mount(<Button initRipple={initRipple} />);
   td.verify(initRipple(td.matchers.isA(Object)), {
     times: 1,

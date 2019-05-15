@@ -34,8 +34,10 @@ import {MDCTopAppBarFoundation} from '@material/top-app-bar/standard/foundation'
 import {MDCShortTopAppBarFoundation} from '@material/top-app-bar/short/foundation';
 import {SpecificEventListener} from '@material/base/types';
 
-export type MDCTopAppBarFoundationTypes
-  = MDCFixedTopAppBarFoundation | MDCTopAppBarFoundation | MDCShortTopAppBarFoundation;
+export type MDCTopAppBarFoundationTypes =
+  | MDCFixedTopAppBarFoundation
+  | MDCTopAppBarFoundation
+  | MDCShortTopAppBarFoundation;
 
 /**
  * @deprecated since 0.11.0. Will be deleted in 0.13.0
@@ -65,12 +67,16 @@ interface TopAppBarState {
   scrollTarget?: React.RefObject<HTMLElement>;
 }
 
-export type VariantType = 'dense' | 'fixed' | 'prominent' | 'short' | 'shortCollapsed';
+export type VariantType =
+  | 'dense'
+  | 'fixed'
+  | 'prominent'
+  | 'short'
+  | 'shortCollapsed';
 
-class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Component<
-  TopAppBarProps<T>,
-  TopAppBarState
-  > {
+class TopAppBar<
+  T extends HTMLElement = HTMLHeadingElement
+> extends React.Component<TopAppBarProps<T>, TopAppBarState> {
   topAppBarElement: React.RefObject<HTMLElement> = React.createRef();
   foundation!: MDCTopAppBarFoundationTypes;
 
@@ -109,7 +115,6 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
     });
   }
 
-
   componentDidMount() {
     this.initializeFoundation();
     if (this.props.scrollTarget) {
@@ -123,7 +128,8 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
 
   componentDidUpdate(prevProps: TopAppBarProps<T>, prevState: TopAppBarState) {
     const foundationChanged = ['short', 'shortCollapsed', 'fixed'].some(
-      (variant: string) => this.props[variant as VariantType] !== prevProps[variant as VariantType]
+      (variant: string) =>
+        this.props[variant as VariantType] !== prevProps[variant as VariantType]
     );
     if (foundationChanged) {
       // foundation.destroy() does not remove old variant className(s)
@@ -159,7 +165,10 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
   /**
    * @deprecated since 0.11.0. Will be deleted in 0.13.0
    */
-  addClassesToElement/* istanbul ignore next */(classes: string, element: React.ReactElement<any>) {
+  addClassesToElement /* istanbul ignore next */(
+    classes: string,
+    element: React.ReactElement<any>
+  ) {
     const updatedProps = {
       className: classnames(classes, element.props.className),
     };
@@ -180,9 +189,13 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
       setStyle: (varName: keyof React.CSSProperties, value: string) => {
-        const updatedStyle = Object.assign({}, this.state.style) as React.CSSProperties;
+        const updatedStyle = Object.assign(
+          {},
+          this.state.style
+        ) as React.CSSProperties;
         updatedStyle[varName] = value;
         this.setState({style: updatedStyle});
       },
@@ -201,20 +214,24 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
       },
       deregisterScrollHandler: (handler: SpecificEventListener<'scroll'>) => {
         if (this.state.scrollTarget && this.state.scrollTarget.current) {
-          this.state.scrollTarget.current.removeEventListener('scroll', handler);
+          this.state.scrollTarget.current.removeEventListener(
+            'scroll',
+            handler
+          );
         } else {
           window.removeEventListener('scroll', handler);
         }
       },
       getViewportScrollY: () => {
-        return (this.state.scrollTarget && this.state.scrollTarget.current)
+        return this.state.scrollTarget && this.state.scrollTarget.current
           ? this.state.scrollTarget.current.scrollTop
           : window.pageYOffset;
       },
       getTotalActionItems: () => {
         if (this.topAppBarElement && this.topAppBarElement.current) {
           const actionItems = this.topAppBarElement.current.querySelectorAll(
-            `.${cssClasses.ACTION_ITEM}`);
+            `.${cssClasses.ACTION_ITEM}`
+          );
           return actionItems.length;
         }
         return 0;
@@ -239,7 +256,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       children,
       className,
       dense,
@@ -253,7 +270,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
       navigationIcon,
       title,
       ...otherProps
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
     } = this.props;
 
     /**
@@ -261,14 +278,15 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
      */
     /* istanbul ignore if */
     if (actionItems || navigationIcon || title) {
-    // TODO(mgr34): remove all deprecated statements and istanbul ignore's for v0.13.0
-      const warning = 'actionItems, navigationIcon, and title  are deprecated  ' +
-      'since v0.11.0 and will be removed in v0.13.0. Please refer to ' +
-      'https://github.com/material-components/material-components-web-react' +
-      '/blob/master/packages/top-app-bar/README.md';
+      // TODO(mgr34): remove all deprecated statements and istanbul ignore's for v0.13.0
+      const warning =
+        'actionItems, navigationIcon, and title  are deprecated  ' +
+        'since v0.11.0 and will be removed in v0.13.0. Please refer to ' +
+        'https://github.com/material-components/material-components-web-react' +
+        '/blob/master/packages/top-app-bar/README.md';
       console.warn(warning);
       return (
-      // @ts-ignore Tag does not have any construct https://github.com/Microsoft/TypeScript/issues/28892
+        // @ts-ignore Tag does not have any construct https://github.com/Microsoft/TypeScript/issues/28892
         <Tag
           {...otherProps}
           className={this.classes}
@@ -290,14 +308,16 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
         className={this.classes}
         style={this.getMergedStyles()}
         ref={this.topAppBarElement}
-      >{children}</Tag>
+      >
+        {children}
+      </Tag>
     );
   }
 
   /**
    * @deprecated since 0.11.0. Will be deleted in 0.13.0
    */
-  renderTitleAndNavigationSection/* istanbul ignore next */() {
+  renderTitleAndNavigationSection /* istanbul ignore next */() {
     const {title} = this.props;
     const classes =
       'mdc-top-app-bar__section mdc-top-app-bar__section--align-start';
@@ -312,7 +332,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
   /**
    * @deprecated since 0.11.0. Will be deleted in 0.13.0
    */
-  renderNavigationIcon/* istanbul ignore next */() {
+  renderNavigationIcon /* istanbul ignore next */() {
     const {navigationIcon} = this.props;
     if (!navigationIcon) {
       return;
@@ -326,7 +346,7 @@ class TopAppBar<T extends HTMLElement = HTMLHeadingElement> extends React.Compon
   /**
    * @deprecated since 0.11.0. Will be deleted in 0.13.0
    */
-  renderActionItems/* istanbul ignore next */() {
+  renderActionItems /* istanbul ignore next */() {
     const {actionItems} = this.props;
     if (!actionItems) {
       return;

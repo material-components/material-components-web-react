@@ -41,7 +41,6 @@ test('has correct exited class', () => {
   assert.isTrue(wrapper.find('button').hasClass('mdc-fab--exited'));
 });
 
-
 test('has correct extended class', () => {
   const icon = <i className='test-action-icon-1' />;
   const wrapper = mount(<Fab icon={icon} textLabel='Text Label' />);
@@ -51,9 +50,7 @@ test('has correct extended class', () => {
 test('text label is rendered', () => {
   const icon = <i className='test-action-icon-1' />;
   const wrapper = mount(<Fab icon={icon} textLabel='Text Label' />);
-  assert.isTrue(
-    wrapper.find('.mdc-fab__label').length === 1
-  );
+  assert.isTrue(wrapper.find('.mdc-fab__label').length === 1);
 });
 
 test('i tag is rendered', () => {

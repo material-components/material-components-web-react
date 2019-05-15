@@ -37,15 +37,18 @@ export interface MediaProps extends React.HTMLProps<HTMLDivElement> {
 interface MediaChildren {
   children?: React.ReactNode;
   contentClassName?: string;
-};
+}
 
 interface StyleValues {
   imageUrl: string;
   style: React.CSSProperties;
-};
+}
 
-const renderChildren: (mediaChildren: MediaChildren) => React.ReactElement<HTMLDivElement> | undefined = ({
-  children, contentClassName, // eslint-disable-line react/prop-types
+const renderChildren: (
+  mediaChildren: MediaChildren
+) => React.ReactElement<HTMLDivElement> | undefined = ({
+  children,
+  contentClassName,
 }) => {
   if (!children) {
     return;
@@ -54,15 +57,14 @@ const renderChildren: (mediaChildren: MediaChildren) => React.ReactElement<HTMLD
   return <div className={classes}>{children}</div>;
 };
 
-const getStyles: (styleValues: StyleValues) => React.CSSProperties = ({imageUrl, style}) => {
-  return Object.assign({},
-    {backgroundImage: `url(${imageUrl})`},
-    style
-  );
+const getStyles: (styleValues: StyleValues) => React.CSSProperties = ({
+  imageUrl,
+  style,
+}) => {
+  return Object.assign({}, {backgroundImage: `url(${imageUrl})`}, style);
 };
 
 const Media: React.FunctionComponent<MediaProps> = ({
-  /* eslint-disable react/prop-types */
   className = '',
   contentClassName = '',
   children,
@@ -70,7 +72,6 @@ const Media: React.FunctionComponent<MediaProps> = ({
   wide = false,
   imageUrl = '',
   style = {},
-  /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.MEDIA, className, {
@@ -79,7 +80,11 @@ const Media: React.FunctionComponent<MediaProps> = ({
   });
 
   return (
-    <div className={classes} style={getStyles({imageUrl, style})} {...otherProps}>
+    <div
+      className={classes}
+      style={getStyles({imageUrl, style})}
+      {...otherProps}
+    >
       {renderChildren({children, contentClassName})}
     </div>
   );

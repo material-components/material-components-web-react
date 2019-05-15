@@ -18,14 +18,15 @@ class ProgramaticSnackbar extends React.Component {
         </Button>
         <Snackbar
           message='Example'
-          actionText='action' open={this.state.isOpen}
+          actionText='action'
+          open={this.state.isOpen}
           onClose={() => this.setState({isOpen: false})}
         />
       </React.Fragment>
     );
   }
 }
-const SnackbarScreenshotTest = () =>{
+const SnackbarScreenshotTest = () => {
   return (
     <div>
       <div className='snackbar-container'>

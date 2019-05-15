@@ -85,7 +85,9 @@ test('#foundation.handleChange gets called when prop.indeterminate updates', () 
 
 test('#foundation.setDisabled gets called when prop.disabled updates', () => {
   const wrapper = shallow<Checkbox>(<Checkbox />);
-  wrapper.instance().foundation.setDisabled = td.func<(disabled: boolean) => null>();
+  wrapper.instance().foundation.setDisabled = td.func<
+    (disabled: boolean) => null
+  >();
   wrapper.setProps({disabled: true});
   td.verify(wrapper.instance().foundation.setDisabled(true), {times: 1});
 });
@@ -173,7 +175,9 @@ test('calls foundation.handleChange in native control props.onChange', () => {
 });
 
 test('calls props.onChange in native control props.onChange', () => {
-  const onChange = coerceForTesting<(evt: React.ChangeEvent<HTMLInputElement>) => void>(td.func());
+  const onChange = coerceForTesting<
+    (evt: React.ChangeEvent<HTMLInputElement>) => void
+  >(td.func());
   const wrapper = shallow(<Checkbox onChange={onChange} />);
   const nativeControl = wrapper.childAt(0);
   const mockEvt = coerceForTesting<React.ChangeEvent<HTMLInputElement>>({

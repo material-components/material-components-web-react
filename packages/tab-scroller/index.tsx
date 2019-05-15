@@ -35,21 +35,23 @@ export interface TabScrollerProps extends React.HTMLAttributes<HTMLDivElement> {
   alignEnd?: boolean;
   alignCenter?: boolean;
   className?: string;
-};
+}
 
 interface TabScrollerState {
   classList: Set<string>;
   areaClassList: Set<string>;
   scrollAreaStyleProperty: React.CSSProperties;
   scrollContentStyleProperty: React.CSSProperties;
-};
+}
 
-type ScrollerElementNames = 'scrollAreaStyleProperty' | 'scrollContentStyleProperty';
+type ScrollerElementNames =
+  | 'scrollAreaStyleProperty'
+  | 'scrollContentStyleProperty';
 
 export default class TabScroller extends React.Component<
   TabScrollerProps,
   TabScrollerState
-  > {
+> {
   areaElement: React.RefObject<HTMLDivElement> = React.createRef();
   contentElement: React.RefObject<HTMLDivElement> = React.createRef();
   foundation!: MDCTabScrollerFoundation;
@@ -95,7 +97,9 @@ export default class TabScroller extends React.Component<
   }
 
   setStyleToElement = (
-    prop: string, value: string | boolean, elementStyleProperty: ScrollerElementNames
+    prop: string,
+    value: string | boolean,
+    elementStyleProperty: ScrollerElementNames
   ) => {
     const styleName = convertDashToCamelCase(prop);
     const updateElementStyleProperty = Object.assign(
@@ -112,7 +116,10 @@ export default class TabScroller extends React.Component<
 
   get adapter(): MDCTabScrollerAdapter {
     return {
-      eventTargetMatchesSelector: (evtTarget: HTMLDivElement, selector: string) => {
+      eventTargetMatchesSelector: (
+        evtTarget: HTMLDivElement,
+        selector: string
+      ) => {
         if (selector) {
           return matches(evtTarget, selector);
         }
@@ -138,10 +145,11 @@ export default class TabScroller extends React.Component<
       setScrollContentStyleProperty: (prop: string, value: string) =>
         this.setStyleToElement(prop, value, 'scrollContentStyleProperty'),
       getScrollContentStyleValue: (propName: string) =>
-        this.contentElement.current ?
-          window
-            .getComputedStyle(this.contentElement.current)
-            .getPropertyValue(propName) : '',
+        this.contentElement.current
+          ? window
+              .getComputedStyle(this.contentElement.current)
+              .getPropertyValue(propName)
+          : '',
       setScrollAreaScrollLeft: (scrollX: number) => {
         if (!this.areaElement.current) return;
         this.areaElement.current.scrollLeft = scrollX;
@@ -178,7 +186,7 @@ export default class TabScroller extends React.Component<
       return defaultDOMRect;
     }
     return element.getBoundingClientRect();
-  }
+  };
 
   getScrollPosition = () => {
     return this.foundation.getScrollPosition();
@@ -186,9 +194,9 @@ export default class TabScroller extends React.Component<
 
   // needs to be public class method for react tab-bar
   getScrollContentWidth = () => {
-    return (
-      this.contentElement.current ? this.contentElement.current.offsetWidth : 0
-    );
+    return this.contentElement.current
+      ? this.contentElement.current.offsetWidth
+      : 0;
   };
 
   incrementScroll = (scrollXIncrement: number) => {
@@ -284,4 +292,3 @@ export default class TabScroller extends React.Component<
     );
   }
 }
-
