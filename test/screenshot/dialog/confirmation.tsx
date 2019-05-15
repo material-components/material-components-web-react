@@ -40,7 +40,7 @@ class Confirmation extends React.Component<{}, {isOpen: boolean; action: string;
           <DialogContent>
             <List singleSelection handleSelect={ (selectedIndex) => this.setState({selectedIndex})}>
               {choices.map((choice: string, i: number) => {
-                let c: string = choice.replace(/\s/g, '-');
+                const c: string = choice.replace(/\s/g, '-');
                 return (
                   <ListItem key={i}>
                     <span className='mdc-list-item__graphic'>

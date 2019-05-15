@@ -15,11 +15,11 @@ interface RippleProps extends InjectedProps<HTMLAnchorElement> {
 }
 
 const NavigationIcon: React.FunctionComponent<RippleProps> = ({
-  /* eslint-disable react/prop-types */
+  /* eslint-disable react/prop-types, @typescript-eslint/no-unused-vars */
   hasRipple,
   initRipple,
   unbounded,
-  /* eslint-enable react/prop-types */
+  /* eslint-enable react/prop-types, @typescript-eslint/no-unused-vars */
   ...otherProps
 }) => (
   <a

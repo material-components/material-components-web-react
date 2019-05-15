@@ -18,12 +18,12 @@ type ActionItemRippleProps = RippleProps<HTMLAnchorElement> & React.HTMLProps<HT
 type SVGRippleProps = RippleProps<SVGSVGElement> & React.HTMLProps<SVGSVGElement>;
 
 const NavigationIcon: React.FunctionComponent<DivRippleProps> = ({
-  /* eslint-disable react/prop-types */
+  /* eslint-disable react/prop-types, @typescript-eslint/no-unused-vars */
   initRipple,
   hasRipple,
   unbounded,
   className,
-  /* eslint-enable react/prop-types */
+  /* eslint-enable react/prop-types, @typescript-eslint/no-unused-vars */
   ...otherProps
 }) => (
   <div
@@ -36,13 +36,13 @@ const NavigationIcon: React.FunctionComponent<DivRippleProps> = ({
 const RippledNavigationIcon = withRipple<RippleProps<HTMLDivElement>, HTMLDivElement>(NavigationIcon);
 
 const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
-  /* eslint-disable react/prop-types */
+  /* eslint-disable react/prop-types, @typescript-eslint/no-unused-vars */
   initRipple,
   hasRipple,
   unbounded,
   className,
   ref,
-  /* eslint-enable react/prop-types */
+  /* eslint-enable react/prop-types, @typescript-eslint/no-unused-vars */
   ...otherProps
 }) => (
   <a
@@ -56,11 +56,11 @@ const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
 const RippledActionItem = withRipple<RippleProps<HTMLAnchorElement>, HTMLAnchorElement>(ActionItem);
 
 const SVGNavigationIcon: React.FunctionComponent<SVGRippleProps> = ({
-  /* eslint-disable react/prop-types */
+  /* eslint-disable react/prop-types, @typescript-eslint/no-unused-vars */
   hasRipple,
   initRipple,
   unbounded,
-  /* eslint-enable react/prop-types */
+  /* eslint-enable react/prop-types, @typescript-eslint/no-unused-vars */
   ...otherProps
 }) => (
   <svg

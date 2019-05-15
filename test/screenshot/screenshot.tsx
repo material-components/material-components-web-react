@@ -196,7 +196,7 @@ export default class Screenshot {
       return;
     }
     // Create a new stream from the image buffer
-    let stream = new Readable();
+    const stream = new Readable();
     stream.push(imageBuffer);
     stream.push(null);
     // The promise is resolved or rejected inside the stream event callbacks

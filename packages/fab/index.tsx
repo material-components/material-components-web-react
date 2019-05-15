@@ -57,7 +57,7 @@ const TextLabel: React.FunctionComponent<{textLabel: string}> = ({
 };
 
 export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonElement>> = ({
-  /* eslint-disable react/prop-types */
+  /* eslint-disable react/prop-types, @typescript-eslint/no-unused-vars */
   exited = false,
   mini = false,
   icon,
@@ -65,7 +65,7 @@ export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonE
   className = '',
   initRipple = () => {},
   unbounded,
-  /* eslint-enable react/prop-types */
+  /* eslint-enable react/prop-types, @typescript-eslint/no-unused-vars */
   ...otherProps
 }) => {
   const extended = textLabel.length > 0;

@@ -391,7 +391,7 @@ test('#handleOpening adds handler for LAYOUT_EVENTS to window', () => {
   wrapper.instance().handleOpening();
 
   LAYOUT_EVENTS.forEach((eventType: string) => {
-    let evt = new Event(eventType);
+    const evt = new Event(eventType);
     window.dispatchEvent(evt);
     // @ts-ignore expected 0 arguments but got 1 -- evt will always be passed
     td.verify(wrapper.instance().handleLayout(evt), {times: 1});
@@ -422,7 +422,7 @@ test('#handleClosing removes handler for LAYOUT_EVENTS to window', () => {
   wrapper.instance().handleOpening();
 
   LAYOUT_EVENTS.forEach((eventType) => {
-    let evt = new KeyboardEvent(eventType);
+    const evt = new KeyboardEvent(eventType);
     window.dispatchEvent(evt);
     // @ts-ignore expected 0 arguments but got 1
     td.verify(wrapper.instance().handleLayout(evt), {times: 1});
@@ -431,7 +431,7 @@ test('#handleClosing removes handler for LAYOUT_EVENTS to window', () => {
   wrapper.instance().handleClosing('close');
 
   LAYOUT_EVENTS.forEach((eventType) => {
-    let evt = new Event(eventType);
+    const evt = new Event(eventType);
     window.dispatchEvent(evt);
     // @ts-ignore expected 0 arguments but got 1
     td.verify(wrapper.instance().handleLayout(evt), {times: 0});

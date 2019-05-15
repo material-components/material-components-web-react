@@ -21,7 +21,7 @@ const Div: React.FunctionComponent<DivProps> = ({
   children,
   className = '',
   initRipple,
-  unbounded,
+  unbounded, // eslint-disable-line @typescript-eslint/no-unused-vars
   /* eslint-enable */
   ...otherProps
 }) => {
