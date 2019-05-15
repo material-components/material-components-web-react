@@ -102,7 +102,7 @@ const NewsCard = () => {
 };
 
 const NewsRow: React.FunctionComponent<{title: string, snippet: string, index: number}> = ({
-  title, snippet, index, // eslint-disable-line react/prop-types
+  title, snippet, index,
 }) => {
   return (
     <React.Fragment>

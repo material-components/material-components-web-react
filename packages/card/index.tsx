@@ -37,7 +37,7 @@ export interface CardProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 const Card: React.FunctionComponent<CardProps> = ({
-  children, className = '', outlined = false, ...otherProps // eslint-disable-line react/prop-types
+  children, className = '', outlined = false, ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.ROOT, className, {
     [CSS_CLASSES.OUTLINED]: outlined,

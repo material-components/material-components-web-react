@@ -26,7 +26,6 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
 
   render() {
     const {
-      /* eslint-disable react/prop-types */
       disabled,
       id,
       variant,
@@ -34,7 +33,6 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
       minLength,
       required,
       value, // eslint-disable-line @typescript-eslint/no-unused-vars
-      /* eslint-enable react/prop-types */
       ...otherProps
     } = this.props;
 

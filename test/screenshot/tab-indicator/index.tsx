@@ -9,7 +9,7 @@ const Tab: React.FunctionComponent<{
   index: number,
   active: boolean,
   icon: boolean
-}> = ({children, index, active, icon}) => { // eslint-disable-line react/prop-types
+}> = ({children, index, active, icon}) => {
   return (
     <div className='tab'>
       <span>Tab {index}</span>
@@ -23,7 +23,7 @@ const Tab: React.FunctionComponent<{
 const Tabs: React.FunctionComponent<{
   children?: React.ReactElement<any>,
   activeIndex: number
-}> = ({children, activeIndex}) => { // eslint-disable-line react/prop-types
+}> = ({children, activeIndex}) => {
   return (
     <div className='tabs'>
       {[1, 2, 3].map((number, index) => (

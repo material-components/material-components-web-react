@@ -32,12 +32,10 @@ export interface DialogTitleProps<T> extends React.HTMLProps<T> {
 
 const DialogTitle: <T extends HTMLElement = HTMLHeadingElement>(props: DialogTitleProps<T>) =>
     React.ReactElement<T> = ({
-      /* eslint-disable react/prop-types */
       className = '',
       children,
       tag: Tag = 'h2',
       ...otherProps
-      /* eslint-enable react/prop-types */
     }) => (
       // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
       <Tag className={classnames(className, cssClasses.TITLE)} {...otherProps}>

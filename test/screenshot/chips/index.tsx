@@ -23,7 +23,7 @@ class ChipsTest extends React.Component<ChipsTestProps, ChipsTestState> {
   handleSelect = (selectedChipIds: string[]) => this.setState({selectedChipIds});
 
   render() {
-    const {children, variant} = this.props; // eslint-disable-line react/prop-types
+    const {children, variant} = this.props;
     const isChoice = variant === 'choice';
     const isFilter = variant === 'filter';
     return (

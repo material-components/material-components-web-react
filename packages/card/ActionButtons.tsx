@@ -45,7 +45,7 @@ const addButtonClassToChildren = (children: ChildType | ChildType[]) => {
 };
 
 const ActionButtons: React.FunctionComponent<ActionButtonsProps> = ({
-  className = '', children, ...otherProps // eslint-disable-line react/prop-types
+  className = '', children, ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.ACTION_BUTTONS, className);
   if (!children) return null;

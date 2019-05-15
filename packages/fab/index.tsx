@@ -48,7 +48,7 @@ const Icon: React.FunctionComponent<{icon?: React.ReactElement<HTMLElement>}> = 
 };
 
 const TextLabel: React.FunctionComponent<{textLabel: string}> = ({
-  textLabel, // eslint-disable-line react/prop-types
+  textLabel,
 }) => {
   if (textLabel.length === 0) {
     return null;
@@ -57,15 +57,13 @@ const TextLabel: React.FunctionComponent<{textLabel: string}> = ({
 };
 
 export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonElement>> = ({
-  /* eslint-disable react/prop-types, @typescript-eslint/no-unused-vars */
   exited = false,
   mini = false,
   icon,
   textLabel = '',
   className = '',
   initRipple = () => {},
-  unbounded,
-  /* eslint-enable react/prop-types, @typescript-eslint/no-unused-vars */
+  unbounded, // eslint-disable-line @typescript-eslint/no-unused-vars
   ...otherProps
 }) => {
   const extended = textLabel.length > 0;

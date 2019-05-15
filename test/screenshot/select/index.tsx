@@ -28,7 +28,7 @@ interface SelectTestState {
 class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
   constructor(props: SelectTestProps) {
     super(props);
-    this.state = {value: props.value || ''}; // eslint-disable-line react/prop-types
+    this.state = {value: props.value || ''};
   }
 
   static defaultProps: Partial<SelectProps> = {
@@ -58,7 +58,7 @@ class SelectTest extends React.Component<SelectTestProps, SelectTestState> {
       id,
       enhanced,
       ref, // eslint-disable-line @typescript-eslint/no-unused-vars
-      ...otherProps // eslint-disable-line react/prop-types
+      ...otherProps
     } = this.props;
     return (
       <div

@@ -29,7 +29,7 @@ export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
 };
 
 const NativeControl: React.FunctionComponent<NativeControlProps> = ({
-  rippleActivatorRef, className = '', ...otherProps // eslint-disable-line react/prop-types
+  rippleActivatorRef, className = '', ...otherProps
 }) => {
   return (
     <input

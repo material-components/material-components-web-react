@@ -29,7 +29,7 @@ export interface ListGroupProps extends React.HTMLProps<HTMLElement>{
 };
 
 const ListGroup:React.FunctionComponent<ListGroupProps> = ({
-  tag: Tag = 'div', className = '', children, ...otherProps // eslint-disable-line react/prop-types
+  tag: Tag = 'div', className = '', children, ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

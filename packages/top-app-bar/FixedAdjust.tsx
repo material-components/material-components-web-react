@@ -32,14 +32,12 @@ export interface TopAppbarFixedAdjustProps {
 };
 
 const FixedAdjust: React.FunctionComponent<TopAppbarFixedAdjustProps> = ({
-  /* eslint-disable react/prop-types */
   tag: Tag = 'main',
   children,
   className = '',
   dense = false,
   prominent = false,
   short = false,
-  /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
   const base = 'mdc-top-app-bar';

@@ -32,12 +32,10 @@ export interface DialogContentProps<T> extends React.HTMLProps<T> {
 
 const DialogContent: <T extends HTMLElement = HTMLDivElement>(props: DialogContentProps<T>) =>
   React.ReactElement<T> = ({
-    /* eslint-disable react/prop-types */
     className = '',
     children,
     tag: Tag = 'div',
     ...otherProps
-    /* eslint-enable react/prop-types */
   }) => (
     // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
     <Tag className={classnames(className, cssClasses.CONTENT)} {...otherProps}>

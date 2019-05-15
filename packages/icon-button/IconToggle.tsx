@@ -29,7 +29,7 @@ export interface IconToggleProps {
 }
 
 const IconToggle: React.FunctionComponent<IconToggleProps> = ({
-  isOn = false, className = '', children = '', // eslint-disable-line react/prop-types
+  isOn = false, className = '', children = '',
 }) => {
   const classes = classnames(
     'mdc-icon-button__icon',

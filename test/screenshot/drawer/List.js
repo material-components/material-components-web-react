@@ -1,7 +1,7 @@
 import React from 'react';
 
 const renderListItem = ({
-  title, icon, activated, // eslint-disable-line react/prop-types
+  title, icon, activated,
 }, index) => {
   return (
     <a

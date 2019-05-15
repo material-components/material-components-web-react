@@ -30,7 +30,6 @@ interface DrawerScreenshotTestProps {
 };
 
 const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({
-  /* eslint-disable react/prop-types */
   onClose,
   open,
   title,

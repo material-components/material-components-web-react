@@ -35,13 +35,11 @@ export interface IconProps<T> extends React.HTMLProps<T> {
 
 const Icon: <T extends Element = HTMLElement>(props: IconProps<T> ) =>
   React.ReactElement<HTMLElement> = ({
-    /* eslint-disable react/prop-types */
     actionItem = false,
     navIcon = false,
     className,
     children,
     ...otherProps
-    /* eslint-enable react/prop-types */
   }) =>
     React.cloneElement(children, {
       ...otherProps,

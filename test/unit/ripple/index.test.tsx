@@ -17,12 +17,10 @@ interface DivProps extends InjectedProps<HTMLDivElement> {
 }
 
 const Div: React.FunctionComponent<DivProps> = ({
-  /* eslint-disable react/prop-types */
   children,
   className = '',
   initRipple,
   unbounded, // eslint-disable-line @typescript-eslint/no-unused-vars
-  /* eslint-enable */
   ...otherProps
 }) => {
   const classes = `ripple-test-component ${className}`;

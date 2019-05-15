@@ -23,7 +23,7 @@ class PetsRadio extends React.Component<PetsRadioProps, PetsRadioState> {
 
   render() {
     const {petValue} = this.state;
-    const {name, disabled} = this.props; // eslint-disable-line react/prop-types
+    const {name, disabled} = this.props;
     const pets = [
       {
         value: 'dogs',

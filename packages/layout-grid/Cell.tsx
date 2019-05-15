@@ -42,7 +42,6 @@ export interface CellProps<T> extends React.HTMLProps<T> {
 };
 
 const Cell: <T extends {} = HTMLDivElement>(props: CellProps<T>) => React.ReactElement<any> = ({
-  /* eslint-disable react/prop-types */
   align,
   children,
   className = '',
@@ -52,7 +51,6 @@ const Cell: <T extends {} = HTMLDivElement>(props: CellProps<T>) => React.ReactE
   phoneColumns,
   tabletColumns,
   tag: Tag = 'div',
-  /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.CELL, className, {

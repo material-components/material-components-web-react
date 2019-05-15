@@ -35,13 +35,11 @@ export interface DialogButtonProps<T extends ButtonTypes> extends Omit<ButtonPro
 
 const DialogButton: <T extends ButtonTypes>(props: DialogButtonProps<T>) =>
   React.ReactElement<any> = ({
-    /* eslint-disable react/prop-types */
     action,
     className = '',
     children,
     isDefault = false,
     ...otherProps
-    /* eslint-enable react/prop-types */
   }) => (
     // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
     <Button

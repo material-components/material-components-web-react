@@ -7,7 +7,7 @@ import {coerceForTesting} from '../helpers/types';
 import {MDCRadioFoundation} from '@material/radio';
 
 const NativeControlUpdate: React.FunctionComponent<React.HTMLProps<HTMLInputElement>> = ({
-  disabled, id, // eslint-disable-line react/prop-types
+  disabled, id,
 }) => {
   return (
     <Radio label='meow'>

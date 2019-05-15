@@ -26,7 +26,6 @@ class TabBarTest extends React.Component<TabBarTestProps, TabBarTestState> {
 
   render() {
     const {
-      /* eslint-disable react/prop-types */
       className,
       indicatorContent,
       isFadingIndicator,

@@ -10,7 +10,7 @@ interface TabContentType {
 }
 
 function TabContent({
-  num, // eslint-disable-line react/prop-types
+  num,
 }: TabContentType) {
   return (
     <React.Fragment>
@@ -29,7 +29,7 @@ function isElementTab(element: any): element is Tab {
 }
 
 function Tabs({
-  children, // eslint-disable-line react/prop-types
+  children,
 }: TabsProps) {
   return <div className='tabs'>{children}</div>;
 };

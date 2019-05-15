@@ -45,7 +45,7 @@ const addIconClassToChildren = (children: ChildType | ChildType[]) => {
 };
 
 const ActionIcons: React.FunctionComponent<ActionIconsProps> = ({
-  className = '', children, ...otherProps // eslint-disable-line react/prop-types
+  className = '', children, ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.ACTION_ICONS, className);
   if (!children) return null;

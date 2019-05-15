@@ -45,7 +45,7 @@ interface StyleValues {
 };
 
 const renderChildren: (mediaChildren: MediaChildren) => React.ReactElement<HTMLDivElement> | undefined = ({
-  children, contentClassName, // eslint-disable-line react/prop-types
+  children, contentClassName,
 }) => {
   if (!children) {
     return;
@@ -62,7 +62,6 @@ const getStyles: (styleValues: StyleValues) => React.CSSProperties = ({imageUrl,
 };
 
 const Media: React.FunctionComponent<MediaProps> = ({
-  /* eslint-disable react/prop-types */
   className = '',
   contentClassName = '',
   children,
@@ -70,7 +69,6 @@ const Media: React.FunctionComponent<MediaProps> = ({
   wide = false,
   imageUrl = '',
   style = {},
-  /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.MEDIA, className, {

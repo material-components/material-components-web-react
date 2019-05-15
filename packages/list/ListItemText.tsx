@@ -37,12 +37,10 @@ function isReactElement(element: any): element is React.ReactElement<any> {
 }
 
 const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
-  /* eslint-disable react/prop-types */
   primaryText = '',
   secondaryText = '',
   tabIndex = -1,
   className = '',
-  /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
   const renderText = (text: React.ReactNode, className: string) => {

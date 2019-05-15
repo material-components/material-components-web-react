@@ -29,7 +29,7 @@ export interface DrawerHeaderProps {
 };
 
 const DrawerHeader: React.FunctionComponent<DrawerHeaderProps> = ({
-  tag: Tag = 'div', children, className = '', ...otherProps // eslint-disable-line react/prop-types
+  tag: Tag = 'div', children, className = '', ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

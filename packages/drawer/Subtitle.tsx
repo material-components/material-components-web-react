@@ -29,7 +29,7 @@ export interface DrawerSubTitleProps {
 };
 
 const DrawerSubTitle: React.FunctionComponent<DrawerSubTitleProps> = ({
-  tag: Tag = 'h6', children, className = '', ...otherProps // eslint-disable-line react/prop-types
+  tag: Tag = 'h6', children, className = '', ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

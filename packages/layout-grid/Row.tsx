@@ -31,12 +31,10 @@ export interface RowProps<T> extends React.HTMLProps<T> {
 };
 
 const Row: <T extends {} = HTMLDivElement>(props: RowProps<T>) => React.ReactElement<any> = ({
-  /* eslint-disable react/prop-types */
   children = '',
   className,
   tag: Tag = 'div',
   ...otherProps
-  /* eslint-enable react/prop-types */
 }) => {
   const classes = classnames(CSS_CLASSES.INNER, className);
 

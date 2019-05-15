@@ -34,13 +34,11 @@ export interface GridProps<T> extends React.HTMLProps<T> {
 };
 
 const Grid: <T extends {} = HTMLDivElement>(props: GridProps<T>) => React.ReactElement<any> = ({
-  /* eslint-disable react/prop-types */
   align,
   children,
   className = '',
   fixedColumnWidth = false,
   tag: Tag = 'div',
-  /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.ROOT, className, {

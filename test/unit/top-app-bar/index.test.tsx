@@ -59,13 +59,13 @@ interface RippleProps<T> extends InjectedProps<T> {
 type ActionItemRippleProps = RippleProps<HTMLAnchorElement> & React.HTMLProps<HTMLAnchorElement>;
 
 const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
-  /* eslint-disable react/prop-types, @typescript-eslint/no-unused-vars */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   initRipple,
   hasRipple,
   unbounded,
   className,
   ref,
-  /* eslint-enable react/prop-types, @typescript-eslint/no-unused-vars */
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   ...otherProps
 }) => (
   <a

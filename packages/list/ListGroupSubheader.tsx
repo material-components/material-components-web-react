@@ -28,7 +28,7 @@ export interface ListGroupSubheaderProps extends React.HTMLProps<HTMLElement> {
 };
 
 const ListGroupSubheader:React.FunctionComponent<ListGroupSubheaderProps> = ({
-  tag: Tag = 'h3', className = '', children, ...otherProps // eslint-disable-line react/prop-types
+  tag: Tag = 'h3', className = '', children, ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

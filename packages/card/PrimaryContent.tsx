@@ -32,12 +32,10 @@ export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>
 };
 
 export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps> = ({
-  /* eslint-disable react/prop-types */
   className = '',
   initRipple,
   children,
   unbounded, // eslint-disable-line @typescript-eslint/no-unused-vars
-  /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.PRIMARY_ACTION, className);

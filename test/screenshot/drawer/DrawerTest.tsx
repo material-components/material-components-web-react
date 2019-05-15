@@ -35,7 +35,7 @@ class DrawerScreenshotTest extends React.Component<
 
   render() {
     const {open} = this.state;
-    const {title, dismissible = false, modal = false, isBelow} = this.props; // eslint-disable-line react/prop-types
+    const {title, dismissible = false, modal = false, isBelow} = this.props;
     const Tag = isBelow ? DrawerBelowTopAppBar : DrawerAboveTopAppBar;
 
     return (
@@ -52,7 +52,7 @@ class DrawerScreenshotTest extends React.Component<
   }
 
   renderNavigationIcon = () => {
-    if (this.props.hideNavigationIcon) return; // eslint-disable-line react/prop-types
+    if (this.props.hideNavigationIcon) return;
     return (
       <MaterialIcon
         className='mdc-top-app-bar__navigation-icon'
