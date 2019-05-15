@@ -36,17 +36,17 @@
 // ```
 
 interface Frame {
-  id: number,
-  fn: FrameRequestCallback,
+  id: number;
+  fn: FrameRequestCallback;
 }
 
 interface MockRaf {
-  lastFrameId: number,
-  pendingFrames: Frame[],
-  flush: () => void,
-  restore: () => void,
-  requestAnimationFrame: (fn: FrameRequestCallback) => number,
-  cancelAnimationFrame: (id: number) => void,
+  lastFrameId: number;
+  pendingFrames: Frame[];
+  flush: () => void;
+  restore: () => void;
+  requestAnimationFrame: (fn: FrameRequestCallback) => number;
+  cancelAnimationFrame: (id: number) => void;
 }
 
 // creates a mock of a requestAnimationFrame. This allows tests to synchronously run.
@@ -93,8 +93,10 @@ export function createMockRaf(): MockRaf {
     },
   };
 
-  window.requestAnimationFrame = (fn: FrameRequestCallback) => mockRaf.requestAnimationFrame(fn);
-  window.cancelAnimationFrame = (id: number) => mockRaf.cancelAnimationFrame(id);
+  window.requestAnimationFrame = (fn: FrameRequestCallback) =>
+    mockRaf.requestAnimationFrame(fn);
+  window.cancelAnimationFrame = (id: number) =>
+    mockRaf.cancelAnimationFrame(id);
 
   return mockRaf;
 }

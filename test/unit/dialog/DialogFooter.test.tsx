@@ -17,21 +17,20 @@ test('renders a DialogFooter with custom tag', () => {
 });
 
 test('redners a DialogFooter with the default className', () => {
-  const wrapper = shallow(<DialogFooter/>);
+  const wrapper = shallow(<DialogFooter />);
   assert.isTrue(wrapper.hasClass(cssClasses.ACTIONS));
 });
 
 test('props.className adds classes', () => {
-  const wrapper = shallow(<DialogFooter className='test-class'/>);
+  const wrapper = shallow(<DialogFooter className='test-class' />);
   assert.isTrue(wrapper.hasClass('test-class'));
   assert.isTrue(wrapper.hasClass(cssClasses.ACTIONS));
 });
 
-
 test('children are added correctly', () => {
   const wrapper = shallow(
     <DialogFooter>
-      <DialogButton action='dismiss'/>
+      <DialogButton action='dismiss' />
       <DialogButton action='accept' />
     </DialogFooter>
   );

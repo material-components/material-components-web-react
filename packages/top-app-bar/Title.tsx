@@ -27,21 +27,20 @@ import {cssClasses} from './constants';
 export interface TitleProps<T> extends React.HTMLProps<T> {
   className?: string;
   tag?: string;
-};
+}
 
-const Title: <T extends HTMLElement = HTMLSpanElement>(props: TitleProps<T>) =>
-  React.ReactElement<T> = ({
-    /* eslint-disable react/prop-types */
-    children,
-    className,
-    tag: Tag = 'span',
-    ...otherProps
-    /* eslint-enable react/prop-types */
-  }) => (
-    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-    <Tag className={classnames(className, cssClasses.TITLE)} {...otherProps} >
-      {children}
-    </Tag>
-  );
+const Title: <T extends HTMLElement = HTMLSpanElement>(
+  props: TitleProps<T>
+) => React.ReactElement<T> = ({
+  children,
+  className,
+  tag: Tag = 'span',
+  ...otherProps
+}) => (
+  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+  <Tag className={classnames(className, cssClasses.TITLE)} {...otherProps}>
+    {children}
+  </Tag>
+);
 
 export default Title;

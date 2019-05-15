@@ -4,13 +4,13 @@ import '../../../packages/list/index.scss';
 import Radio, {NativeRadioControl} from '../../../packages/radio/index';
 
 type PetsRadioProps = {
-  name: string,
-  disabled?: boolean,
-  petValue?: string
+  name: string;
+  disabled?: boolean;
+  petValue?: string;
 };
 
 type PetsRadioState = {
-  petValue?: string
+  petValue?: string;
 };
 
 class PetsRadio extends React.Component<PetsRadioProps, PetsRadioState> {
@@ -23,7 +23,7 @@ class PetsRadio extends React.Component<PetsRadioProps, PetsRadioState> {
 
   render() {
     const {petValue} = this.state;
-    const {name, disabled} = this.props; // eslint-disable-line react/prop-types
+    const {name, disabled} = this.props;
     const pets = [
       {
         value: 'dogs',
@@ -47,7 +47,9 @@ class PetsRadio extends React.Component<PetsRadioProps, PetsRadioState> {
               checked={petValue === pet.value}
               value={pet.value}
               id={`${pet.id}-${name}`}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({petValue: e.target.value})}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.setState({petValue: e.target.value})
+              }
             />
           </Radio>
         ))}

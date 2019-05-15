@@ -38,12 +38,9 @@ const typographyHOC = <T extends {}>(options: EnhancedProps) => {
   const {tag, classModifier} = options;
 
   const Typography: React.FunctionComponent<TypographyProps<T>> = ({
-    // TODO: clean up after removing eslint react/prop-types
-    /* eslint-disable */
     children,
     className = '',
     tag: Tag = tag,
-    /* eslint-enable */
     ...otherProps
   }) => {
     const classes = classnames(

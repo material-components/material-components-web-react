@@ -18,11 +18,22 @@ test('renders an MenuListItem if enhanced', () => {
 
 test('renders an a value attribute if not enhanced', () => {
   const wrapper = mount(<Option value='test' />);
-  assert.equal(wrapper.find('option').getDOMNode().getAttribute('value'), 'test');
+  assert.equal(
+    wrapper
+      .find('option')
+      .getDOMNode()
+      .getAttribute('value'),
+    'test'
+  );
 });
 
 test('renders an a data-value attribute if enhanced', () => {
   const wrapper = mount(<Option enhanced data-value='test' />);
-  assert.equal(wrapper.find(MenuListItem).getDOMNode().getAttribute('data-value'), 'test');
+  assert.equal(
+    wrapper
+      .find(MenuListItem)
+      .getDOMNode()
+      .getAttribute('data-value'),
+    'test'
+  );
 });
-

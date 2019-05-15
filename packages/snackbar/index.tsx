@@ -41,20 +41,20 @@ export interface Props {
   onClosing?: (reason: string) => void;
   onClose?: (reason: string) => void;
   onAnnounce?: () => void;
-};
+}
 
 type State = {
-  classes: Set<string>,
+  classes: Set<string>;
 };
 
 export class Snackbar extends React.Component<Props, State> {
-  foundation: MDCSnackbarFoundation
+  foundation: MDCSnackbarFoundation;
 
   static defaultProps: Partial<Props> = {
     open: true,
     stacked: false,
     leading: false,
-  }
+  };
 
   constructor(props: Props) {
     super(props);
@@ -141,10 +141,10 @@ export class Snackbar extends React.Component<Props, State> {
   }
   handleKeyDown = (e: React.KeyboardEvent) => {
     this.foundation.handleKeyDown(e.nativeEvent);
-  }
+  };
   handleActionClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     this.foundation.handleActionButtonClick(e.nativeEvent);
-  }
+  };
   componentDidMount() {
     this.foundation.init();
     if (this.props.open) {
@@ -165,23 +165,32 @@ export class Snackbar extends React.Component<Props, State> {
     this.foundation.destroy();
   }
   get classes() {
-    return classnames(this.props.className, 'mdc-snackbar', ...Array.from(this.state.classes));
+    return classnames(
+      this.props.className,
+      'mdc-snackbar',
+      ...Array.from(this.state.classes)
+    );
   }
   render() {
-    return <div className={this.classes} onKeyDown={this.handleKeyDown}>
-      <div className='mdc-snackbar__surface'>
-        <div className='mdc-snackbar__label'
-          role='status'
-          aria-live='polite'>
-          {this.props.message}
+    return (
+      <div className={this.classes} onKeyDown={this.handleKeyDown}>
+        <div className='mdc-snackbar__surface'>
+          <div className='mdc-snackbar__label' role='status' aria-live='polite'>
+            {this.props.message}
+          </div>
+          {this.props.actionText ? (
+            <div className='mdc-snackbar__actions'>
+              <button
+                type='button'
+                onClick={this.handleActionClick}
+                className='mdc-button mdc-snackbar__action'
+              >
+                {this.props.actionText}
+              </button>
+            </div>
+          ) : null}
         </div>
-        {this.props.actionText ?
-          <div className='mdc-snackbar__actions'>
-            <button type='button' onClick={this.handleActionClick} className='mdc-button mdc-snackbar__action'>
-              {this.props.actionText}
-            </button>
-          </div> : null}
       </div>
-    </div>;
+    );
   }
 }

@@ -1,4 +1,1 @@
-export default [
-  'nativeSelect',
-  'enhanced',
-];
+export default ['nativeSelect', 'enhanced'];

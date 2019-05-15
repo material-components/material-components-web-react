@@ -12,17 +12,17 @@ const title: string = 'Miami, FL';
 const TopAppBarShortCollapsedScreenshotTest: React.FunctionComponent = () => {
   return (
     <div>
-      <TopAppBar shortCollapsed >
+      <TopAppBar shortCollapsed>
         <TopAppBarRow>
           <TopAppBarSection align='start'>
             <TopAppBarIcon navIcon tabIndex={0}>
-              <MaterialIcon hasRipple icon='menu'/>
+              <MaterialIcon hasRipple icon='menu' />
             </TopAppBarIcon>
             <TopAppBarTitle>{title}</TopAppBarTitle>
           </TopAppBarSection>
           <TopAppBarSection align='end' role='toolbar'>
             <TopAppBarIcon actionItem tabIndex={0}>
-              <MaterialIcon hasRipple icon='more_vert'/>
+              <MaterialIcon hasRipple icon='more_vert' />
             </TopAppBarIcon>
           </TopAppBarSection>
         </TopAppBarRow>

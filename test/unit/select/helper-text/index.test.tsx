@@ -29,8 +29,12 @@ test('renders with persistent class when props.persistent is true', () => {
 });
 
 test('calls setHelperTextFoundation with foundation', () => {
-  const setHelperTextFoundation = td.func<(foundation?: MDCSelectHelperTextFoundation) => void>();
-  shallow(<SelectHelperText setHelperTextFoundation={setHelperTextFoundation} />);
+  const setHelperTextFoundation = td.func<
+    (foundation?: MDCSelectHelperTextFoundation) => void
+  >();
+  shallow(
+    <SelectHelperText setHelperTextFoundation={setHelperTextFoundation} />
+  );
   td.verify(setHelperTextFoundation(td.matchers.isA(Object)), {times: 1});
 });
 
@@ -62,7 +66,9 @@ test('#adapter.hasClass should return true if state.classList has class', () => 
 });
 
 test('#adapter.hasClass should return true if className has class', () => {
-  const wrapper = shallow<SelectHelperText>(<SelectHelperText className='test-class' />);
+  const wrapper = shallow<SelectHelperText>(
+    <SelectHelperText className='test-class' />
+  );
   assert.isTrue(wrapper.instance().adapter.hasClass('test-class'));
 });
 
@@ -87,11 +93,13 @@ test('renders with aria-hidden from state.aria-hidden', () => {
 
 test('renders with role from state.role', () => {
   const wrapper = mount<SelectHelperText>(<SelectHelperText />);
-  wrapper.setState({'role': 'true'});
+  wrapper.setState({role: 'true'});
   assert.equal(wrapper.getDOMNode().getAttribute('role'), 'true');
 });
 
 test('renders children', () => {
-  const wrapper = mount<SelectHelperText>(<SelectHelperText>MEOW</SelectHelperText>);
+  const wrapper = mount<SelectHelperText>(
+    <SelectHelperText>MEOW</SelectHelperText>
+  );
   assert.equal(wrapper.text(), 'MEOW');
 });

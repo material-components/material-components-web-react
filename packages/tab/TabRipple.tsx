@@ -24,12 +24,15 @@ import React from 'react';
 import classnames from 'classnames';
 
 import {
-  withRipple, InjectedProps,
-  RippledComponentInterface, RippledComponentState, // eslint-disable-line no-unused-vars
+  withRipple,
+  InjectedProps,
+  RippledComponentInterface,
+  RippledComponentState, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
 
-export interface TabRippleProps extends React.HTMLAttributes<HTMLDivElement>,
-  InjectedProps<HTMLDivElement> {
+export interface TabRippleProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    InjectedProps<HTMLDivElement> {
   className: string;
   ref?: React.RefObject<TabRipple>;
 }
@@ -42,23 +45,18 @@ class TabRippleBase extends React.Component<TabRippleProps, {}> {
   render() {
     const {
       // keeping out of ...otherProps
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       unbounded,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       initRipple,
       ...otherProps
     } = this.props;
-    return (
-      <div
-        className={this.classes}
-        {...otherProps}
-        ref={initRipple}
-      />
-    );
+    return <div className={this.classes} {...otherProps} ref={initRipple} />;
   }
 }
 
 const TabRipple = withRipple<TabRippleProps, HTMLDivElement>(TabRippleBase);
-type TabRipple = React.Component<TabRippleProps, RippledComponentState> & RippledComponentInterface<any>;
+type TabRipple = React.Component<TabRippleProps, RippledComponentState> &
+  RippledComponentInterface<any>;
 export default TabRipple;

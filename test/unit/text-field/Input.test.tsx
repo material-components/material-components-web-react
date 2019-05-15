@@ -42,7 +42,9 @@ test('classNames adds classes', () => {
 });
 
 test('value test for string', () => {
-  const wrapper = mount<Input<HTMLInputElement>>(<Input value={'hello world'} />);
+  const wrapper = mount<Input<HTMLInputElement>>(
+    <Input value={'hello world'} />
+  );
   assert.equal(wrapper.instance().getValue(), 'hello world');
 });
 
@@ -52,7 +54,9 @@ test('value test for number', () => {
 });
 
 test('value test for string array', () => {
-  const wrapper = mount<Input<HTMLInputElement>>(<Input value={['hello', 'world']} />);
+  const wrapper = mount<Input<HTMLInputElement>>(
+    <Input value={['hello', 'world']} />
+  );
   assert.equal(wrapper.instance().getValue(), 'helloworld');
 });
 
@@ -83,13 +87,17 @@ test('#isBadInput returns false if input is ok', () => {
 });
 
 test('#isValid returns true if input is valid', () => {
-  const wrapper = mount<Input<HTMLInputElement>>(<Input value='m' pattern='[a-z]' />);
+  const wrapper = mount<Input<HTMLInputElement>>(
+    <Input value='m' pattern='[a-z]' />
+  );
   const isValidInput = wrapper.instance().isValid();
   assert.isTrue(isValidInput);
 });
 
 test('#isValid returns false if input is invalid', () => {
-  const wrapper = mount<Input<HTMLInputElement>>(<Input value='meow' pattern='[a-z]' />);
+  const wrapper = mount<Input<HTMLInputElement>>(
+    <Input value='meow' pattern='[a-z]' />
+  );
   const isValidInput = wrapper.instance().isValid();
   assert.isFalse(isValidInput);
 });
@@ -167,9 +175,7 @@ test('#componentDidMount should not call any method if disabled and id do not ex
   const setDisabled = td.func();
   const setInputId = td.func();
   const props: any = {setDisabled, setInputId};
-  shallow(
-    <Input {...props} disabled={false} />
-  );
+  shallow(<Input {...props} disabled={false} />);
   td.verify(setInputId(td.matchers.isA(Boolean)), {times: 0});
   td.verify(setDisabled(td.matchers.isA(Boolean)), {times: 0});
 });
@@ -325,8 +331,10 @@ test('props.handleValueChange() is called if this.props.value updates', () => {
 
 test('foundation.setValue() is called if this.props.value updates', () => {
   const foundation: any = buildFoundation({setValue: td.func()});
-  const handleValueChange: (value: string | number | string[] | undefined, cb: () => void) => void
-    = (value, cb) => value && cb();
+  const handleValueChange: (
+    value: string | number | string[] | undefined,
+    cb: () => void
+  ) => void = (value, cb) => value && cb();
   const wrapper = shallow(
     <Input
       value='test value'
@@ -439,8 +447,10 @@ test('#event.onChange calls props.onChange()', () => {
 
 test('wasUserTriggeredChange test', () => {
   const foundation: any = buildFoundation();
-  const handleValueChange =
-    (value: string | number | string[] | undefined, cb: () => void) => value && cb();
+  const handleValueChange = (
+    value: string | number | string[] | undefined,
+    cb: () => void
+  ) => value && cb();
   const wrapper = mount<Input<HTMLInputElement>>(
     <Input
       value='test value'

@@ -19,7 +19,10 @@ test('classNames adds classes', () => {
     current: <input />,
   });
   const wrapper = mount(
-    <ThumbUnderlay className='test-class-name' rippleActivator={rippleActivator} />
+    <ThumbUnderlay
+      className='test-class-name'
+      rippleActivator={rippleActivator}
+    />
   );
   assert.isTrue(wrapper.hasClass('test-class-name'));
 });
