@@ -17,18 +17,18 @@ test('renders a DialogContent with custom tag', () => {
 });
 
 test('redners a DialogContent with the default className', () => {
-  const wrapper = shallow(<DialogContent/>);
+  const wrapper = shallow(<DialogContent />);
   assert.isTrue(wrapper.hasClass(cssClasses.CONTENT));
 });
 
 test('props.className adds classes', () => {
-  const wrapper = shallow(<DialogContent className='test-class'/>);
+  const wrapper = shallow(<DialogContent className='test-class' />);
   assert.isTrue(wrapper.hasClass('test-class'));
   assert.isTrue(wrapper.hasClass(cssClasses.CONTENT));
 });
 
 test('prop.id adds id', () => {
-  const wrapper = shallow(<DialogContent id='custom-content'/>);
+  const wrapper = shallow(<DialogContent id='custom-content' />);
   assert.equal(wrapper.find('#custom-content').length, 1);
 });
 

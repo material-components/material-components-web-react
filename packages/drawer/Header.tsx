@@ -24,12 +24,15 @@ import React from 'react';
 import classnames from 'classnames';
 
 export interface DrawerHeaderProps {
-  tag?: string,
-  className?: string
-};
+  tag?: string;
+  className?: string;
+}
 
 const DrawerHeader: React.FunctionComponent<DrawerHeaderProps> = ({
-  tag: Tag = 'div', children, className = '', ...otherProps
+  tag: Tag = 'div',
+  children,
+  className = '',
+  ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

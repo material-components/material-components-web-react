@@ -5,10 +5,10 @@ import '../../../packages/tab-indicator/index.scss';
 import './index.scss';
 
 const Tab: React.FunctionComponent<{
-  children?: React.ReactElement<any>,
-  index: number,
-  active: boolean,
-  icon: boolean
+  children?: React.ReactElement<any>;
+  index: number;
+  active: boolean;
+  icon: boolean;
 }> = ({children, index, active, icon}) => {
   return (
     <div className='tab'>
@@ -21,8 +21,8 @@ const Tab: React.FunctionComponent<{
 };
 
 const Tabs: React.FunctionComponent<{
-  children?: React.ReactElement<any>,
-  activeIndex: number
+  children?: React.ReactElement<any>;
+  activeIndex: number;
 }> = ({children, activeIndex}) => {
   return (
     <div className='tabs'>

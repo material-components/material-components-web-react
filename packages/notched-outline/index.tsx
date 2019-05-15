@@ -31,17 +31,17 @@ export interface NotchedOutlineProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;
   notchWidth?: number;
   notch?: boolean;
-};
+}
 
 interface NotchedOutlineState {
   classList: Set<string>;
   foundationNotchWidth?: number;
-};
+}
 
 export default class NotchedOutline extends React.Component<
   NotchedOutlineProps,
   NotchedOutlineState
-  > {
+> {
   foundation?: MDCNotchedOutlineFoundation;
   notchedEl = React.createRef<HTMLDivElement>();
 
@@ -79,8 +79,10 @@ export default class NotchedOutline extends React.Component<
   }
 
   componentDidUpdate(prevProps: NotchedOutlineProps) {
-    if (this.props.notchWidth !== prevProps.notchWidth
-      || this.props.notch !== prevProps.notch) {
+    if (
+      this.props.notchWidth !== prevProps.notchWidth ||
+      this.props.notch !== prevProps.notch
+    ) {
       this.notch();
     }
   }
@@ -97,7 +99,9 @@ export default class NotchedOutline extends React.Component<
     if (!this.notchedEl.current) {
       return null;
     }
-    return this.notchedEl.current.querySelector<HTMLElement>(`.${MDCFloatingLabelFoundation.cssClasses.ROOT}`);
+    return this.notchedEl.current.querySelector<HTMLElement>(
+      `.${MDCFloatingLabelFoundation.cssClasses.ROOT}`
+    );
   }
 
   get adapter(): MDCNotchedOutlineAdapter {
@@ -110,8 +114,10 @@ export default class NotchedOutline extends React.Component<
           return {classList};
         });
       },
-      setNotchWidthProperty: (foundationNotchWidth) => this.setState({foundationNotchWidth}),
-      removeNotchWidthProperty: () => this.setState({foundationNotchWidth: undefined}),
+      setNotchWidthProperty: (foundationNotchWidth) =>
+        this.setState({foundationNotchWidth}),
+      removeNotchWidthProperty: () =>
+        this.setState({foundationNotchWidth: undefined}),
     };
   }
 
@@ -121,7 +127,7 @@ export default class NotchedOutline extends React.Component<
       classList.add(className);
       return {classList};
     });
-  }
+  };
 
   notch = () => {
     const {notchWidth, notch} = this.props;
@@ -131,7 +137,7 @@ export default class NotchedOutline extends React.Component<
     } else {
       this.foundation.closeNotch();
     }
-  }
+  };
 
   render() {
     const {
@@ -146,22 +152,18 @@ export default class NotchedOutline extends React.Component<
     const {foundationNotchWidth} = this.state;
 
     const notchStyle = {
-      width: foundationNotchWidth ? `${foundationNotchWidth}px`: undefined,
+      width: foundationNotchWidth ? `${foundationNotchWidth}px` : undefined,
     };
 
     return (
-      <div
-        className={this.classes}
-        ref={this.notchedEl}
-        {...otherProps}
-      >
-        <div className='mdc-notched-outline__leading'></div>
-        {children ?
+      <div className={this.classes} ref={this.notchedEl} {...otherProps}>
+        <div className='mdc-notched-outline__leading' />
+        {children ? (
           <div className='mdc-notched-outline__notch' style={notchStyle}>
             {React.Children.only(children)}
           </div>
-          : null}
-        <div className='mdc-notched-outline__trailing'></div>
+        ) : null}
+        <div className='mdc-notched-outline__trailing' />
       </div>
     );
   }

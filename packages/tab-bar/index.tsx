@@ -13,15 +13,13 @@ export interface TabBarProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   isRtl?: boolean;
   children: React.ReactElement<TabProps> | React.ReactElement<TabProps>[];
-};
+}
 
 interface TabBarState {
   previousActiveIndex: number;
-};
+}
 
-class TabBar extends React.Component<
-  TabBarProps, TabBarState
-  > {
+class TabBar extends React.Component<TabBarProps, TabBarState> {
   tabBarRef: React.RefObject<HTMLDivElement> = React.createRef();
   tabScrollerRef: React.RefObject<TabScroller> = React.createRef();
   tabList: Tab[] = [];
@@ -59,7 +57,9 @@ class TabBar extends React.Component<
         x: 0,
         y: 0,
       };
-      this.tabList[activeIndex].activate(defaultDOMRect /* previousIndicatorClientRect */);
+      this.tabList[activeIndex].activate(
+        defaultDOMRect /* previousIndicatorClientRect */
+      );
     }
     this.foundation.scrollIntoView(indexInView!);
   }
@@ -86,10 +86,12 @@ class TabBar extends React.Component<
   get adapter(): MDCTabBarAdapter {
     return {
       scrollTo: (scrollX: number) => {
-        this.tabScrollerRef.current && this.tabScrollerRef.current.scrollTo(scrollX);
+        this.tabScrollerRef.current &&
+          this.tabScrollerRef.current.scrollTo(scrollX);
       },
       incrementScroll: (scrollXIncrement: number) => {
-        this.tabScrollerRef.current && this.tabScrollerRef.current.incrementScroll(scrollXIncrement);
+        this.tabScrollerRef.current &&
+          this.tabScrollerRef.current.incrementScroll(scrollXIncrement);
       },
       getScrollPosition: () => {
         if (!this.tabScrollerRef.current) return 0;
@@ -128,15 +130,17 @@ class TabBar extends React.Component<
         }
         return -1;
       },
-      getIndexOfTabById: (id: string) => this.tabList.map((tab) => tab.props.id).indexOf(id),
+      getIndexOfTabById: (id: string) =>
+        this.tabList.map((tab) => tab.props.id).indexOf(id),
       getTabListLength: () => this.tabList.length,
-      notifyTabActivated: (index: number) => this.props.onActivated && this.props.onActivated(index),
+      notifyTabActivated: (index: number) =>
+        this.props.onActivated && this.props.onActivated(index),
     };
   }
 
   pushToTabList = (el: Tab) => {
     this.tabList.push(el);
-  }
+  };
 
   onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     // Persist the synthetic event to access its `key`.
@@ -147,7 +151,7 @@ class TabBar extends React.Component<
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e);
     }
-  }
+  };
 
   onClickTab = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -160,7 +164,7 @@ class TabBar extends React.Component<
     if (onClick) {
       onClick(e);
     }
-  }
+  };
 
   render() {
     const {
@@ -186,20 +190,20 @@ class TabBar extends React.Component<
         {...otherProps}
       >
         <TabScroller ref={this.tabScrollerRef}>
-          {React.Children.map(children as React.ReactElement<TabProps>[], this.renderTab)}
+          {React.Children.map(
+            children as React.ReactElement<TabProps>[],
+            this.renderTab
+          )}
         </TabScroller>
       </div>
     );
   }
 
   renderTab = (tab: React.ReactElement<TabProps>, index: number) => {
-    const {
-      children,
-      onClick,
-      ...otherProps
-    } = tab.props;
+    const {children, onClick, ...otherProps} = tab.props;
     const props = {
-      onClick: (e: React.MouseEvent<HTMLButtonElement>) => this.onClickTab(e, index, onClick),
+      onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
+        this.onClickTab(e, index, onClick),
       ref: this.pushToTabList,
       ...otherProps,
     } as TabProps;

@@ -26,7 +26,8 @@ export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
 }
 
 const NativeControl: React.FunctionComponent<NativeControlProps> = ({
-  rippleActivatorRef, ...otherProps
+  rippleActivatorRef,
+  ...otherProps
 }) => {
   return (
     <input

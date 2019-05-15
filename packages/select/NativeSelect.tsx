@@ -26,8 +26,12 @@ import {CommonSelectProps} from './BaseSelect';
 
 type RefCallback<T> = (node: T | null) => void;
 
-export interface NativeSelectProps extends CommonSelectProps, React.HTMLProps<HTMLSelectElement> {
-  innerRef?: RefCallback<HTMLSelectElement> | React.RefObject<HTMLSelectElement>;
+export interface NativeSelectProps
+  extends CommonSelectProps,
+    React.HTMLProps<HTMLSelectElement> {
+  innerRef?:
+    | RefCallback<HTMLSelectElement>
+    | React.RefObject<HTMLSelectElement>;
   value?: string;
   ref?: React.Ref<any>;
 }
@@ -35,7 +39,7 @@ export interface NativeSelectProps extends CommonSelectProps, React.HTMLProps<HT
 export default class NativeSelect extends React.Component<
   NativeSelectProps,
   {}
-  > {
+> {
   NativeSelect: React.RefObject<HTMLSelectElement> = React.createRef();
 
   static defaultProps: Partial<NativeSelectProps> = {
@@ -66,7 +70,7 @@ export default class NativeSelect extends React.Component<
     } else {
       innerRef(node);
     }
-  }
+  };
 
   render() {
     const {
@@ -80,11 +84,7 @@ export default class NativeSelect extends React.Component<
     } = this.props;
 
     return (
-      <select
-        className={this.classes}
-        ref={this.attachRef}
-        {...otherProps}
-      >
+      <select className={this.classes} ref={this.attachRef} {...otherProps}>
         {children}
       </select>
     );

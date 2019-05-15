@@ -28,9 +28,9 @@ export interface ListItemGraphicProps {
   tabIndex?: number;
   graphic: React.ReactElement<any>;
   childrenTabIndex?: number;
-};
+}
 
-const ListItemGraphic:React.FunctionComponent<ListItemGraphicProps> = ({
+const ListItemGraphic: React.FunctionComponent<ListItemGraphicProps> = ({
   tabIndex = -1, // eslint-disable-line @typescript-eslint/no-unused-vars
   graphic,
   className = '',

@@ -14,16 +14,16 @@ interface DrawerScreenshotTestProps {
   modal?: boolean;
   isBelow?: boolean;
   hideNavigationIcon?: boolean;
-};
+}
 
 interface DrawerScreenshotTestState {
   open: boolean;
-};
+}
 
 class DrawerScreenshotTest extends React.Component<
   DrawerScreenshotTestProps,
   DrawerScreenshotTestState
-  > {
+> {
   constructor(props: DrawerScreenshotTestProps) {
     super(props);
     this.state = {
@@ -46,7 +46,9 @@ class DrawerScreenshotTest extends React.Component<
         open={open}
         onClose={this.onClose}
         renderLoremIpsum={this.renderLoremIpsum}
-        renderNavigationIcon={dismissible || modal ? this.renderNavigationIcon : noop}
+        renderNavigationIcon={
+          dismissible || modal ? this.renderNavigationIcon : noop
+        }
       />
     );
   }

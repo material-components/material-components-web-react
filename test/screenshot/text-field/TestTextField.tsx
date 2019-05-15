@@ -1,17 +1,17 @@
 import React from 'react';
 import TextField, {Input} from '../../../packages/text-field';
 type TestFieldProps = {
-  disabled?: boolean,
-  id?: string,
-  variant?: string,
-  isRtl?: boolean,
-  minLength?: number,
-  required?: boolean,
-  value?: string | number | boolean,
+  disabled?: boolean;
+  id?: string;
+  variant?: string;
+  isRtl?: boolean;
+  minLength?: number;
+  required?: boolean;
+  value?: string | number | boolean;
 };
 
 type TestFieldState = {
-  value: string,
+  value: string;
 };
 
 class TestField extends React.Component<TestFieldProps, TestFieldState> {
@@ -22,7 +22,8 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
     };
   }
 
-  onChange = (e: React.FormEvent) => this.setState({value: (e.target as HTMLInputElement).value});
+  onChange = (e: React.FormEvent) =>
+    this.setState({value: (e.target as HTMLInputElement).value});
 
   render() {
     const {
@@ -44,7 +45,8 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
           fullWidth={variant === 'fullWidth'}
           textarea={variant === 'textarea'}
           {...otherProps}
-          className='text-field'>
+          className='text-field'
+        >
           <Input
             value={this.state.value}
             id={id}

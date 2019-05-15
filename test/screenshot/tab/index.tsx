@@ -9,9 +9,7 @@ interface TabContentType {
   num: number;
 }
 
-function TabContent({
-  num,
-}: TabContentType) {
+function TabContent({num}: TabContentType) {
   return (
     <React.Fragment>
       <MaterialIcon className='mdc-tab__icon' icon='favorite' />
@@ -28,14 +26,12 @@ function isElementTab(element: any): element is Tab {
   return element && typeof element.computeIndicatorClientRect === 'function';
 }
 
-function Tabs({
-  children,
-}: TabsProps) {
+function Tabs({children}: TabsProps) {
   return <div className='tabs'>{children}</div>;
-};
+}
 
 interface TabsControllerProps extends TabProps {
-  tabContent: (num: number) => React.ReactElement<any>
+  tabContent: (num: number) => React.ReactElement<any>;
 }
 
 interface TabsControllerState {
@@ -43,7 +39,10 @@ interface TabsControllerState {
   previousActiveIndex: number;
 }
 
-class TabsController extends React.Component<TabsControllerProps, TabsControllerState> {
+class TabsController extends React.Component<
+  TabsControllerProps,
+  TabsControllerState
+> {
   tabBoundingRects: {[n: number]: ClientRect | undefined} = {};
 
   state = {activeIndex: 0, previousActiveIndex: 0};
@@ -52,13 +51,10 @@ class TabsController extends React.Component<TabsControllerProps, TabsController
     if (isElementTab(tabEl)) {
       this.tabBoundingRects[index] = tabEl.computeIndicatorClientRect();
     }
-  }
+  };
 
   render() {
-    const {
-      tabContent,
-      ...otherProps
-    } = this.props;
+    const {tabContent, ...otherProps} = this.props;
 
     const {activeIndex, previousActiveIndex} = this.state;
 
@@ -68,7 +64,9 @@ class TabsController extends React.Component<TabsControllerProps, TabsController
           <Tab
             active={index === activeIndex}
             key={index}
-            previousIndicatorClientRect={this.tabBoundingRects[previousActiveIndex]}
+            previousIndicatorClientRect={
+              this.tabBoundingRects[previousActiveIndex]
+            }
             // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/28884
             // @ts-ignore
             ref={(el: Tab) => this.tabInit(el, index)}
@@ -105,9 +103,9 @@ function TabScreenshotTest() {
       <h3>Tabs w/ Icon Tag</h3>
       <TabsController
         tabContent={() => <span>Tab</span>}
-        indicatorContent={<i className='material-icons light-border'>
-          3d_rotation
-        </i>}
+        indicatorContent={
+          <i className='material-icons light-border'>3d_rotation</i>
+        }
       />
 
       <h3>Tabs Min Width</h3>

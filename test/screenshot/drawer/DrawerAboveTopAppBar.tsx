@@ -27,9 +27,11 @@ interface DrawerScreenshotTestProps {
   dismissible: boolean;
   renderLoremIpsum: (section: number) => JSX.Element;
   renderNavigationIcon: () => React.ReactElement<MaterialIconProps> | undefined;
-};
+}
 
-const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({
+const DrawerScreenshotTest: React.FunctionComponent<
+  DrawerScreenshotTestProps
+> = ({
   onClose,
   open,
   title,

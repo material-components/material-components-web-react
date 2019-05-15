@@ -25,7 +25,11 @@ import classnames from 'classnames';
 
 import {MDCDialogFoundation} from '@material/dialog/foundation';
 import {MDCDialogAdapter} from '@material/dialog/adapter';
-import {createFocusTrapInstance, isScrollable, areTopsMisaligned} from '@material/dialog/util';
+import {
+  createFocusTrapInstance,
+  isScrollable,
+  areTopsMisaligned,
+} from '@material/dialog/util';
 import {strings} from '@material/dialog/constants';
 import {ponyfill} from '@material/dom';
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -37,29 +41,26 @@ import DialogButton from './DialogButton';
 import {cssClasses, LAYOUT_EVENTS} from './constants';
 import {FocusTrap} from 'focus-trap';
 
-export type ChildTypes = (
-    DialogTitle<DialogTitleProps<{}>>
-    | DialogContent<DialogContentProps<{}>>
-    | DialogFooter<DialogFooterProps<{}>>
-    );
+export type ChildTypes =
+  | DialogTitle<DialogTitleProps<{}>>
+  | DialogContent<DialogContentProps<{}>>
+  | DialogFooter<DialogFooterProps<{}>>;
 
-
-export interface DialogProps<T,
-      TitleProps extends {} = DialogTitleProps<HTMLHeadingElement>,
-      ContentProps extends {} = DialogContentProps<HTMLDivElement>,
-      FooterProps extends {} = DialogFooterProps<HTMLElement>
-      > extends React.HTMLProps<T> {
+export interface DialogProps<
+  T,
+  TitleProps extends {} = DialogTitleProps<HTMLHeadingElement>,
+  ContentProps extends {} = DialogContentProps<HTMLDivElement>,
+  FooterProps extends {} = DialogFooterProps<HTMLElement>
+> extends React.HTMLProps<T> {
   autoStackButtons?: boolean;
-  children?:(
-    (
-      React.ReactElement<TitleProps>
-      | React.ReactElement<ContentProps>
-      | React.ReactElement<FooterProps>
-    )[]
+  children?:
+    | (
+        | React.ReactElement<TitleProps>
+        | React.ReactElement<ContentProps>
+        | React.ReactElement<FooterProps>)[]
     | React.ReactElement<FooterProps>
     | React.ReactElement<ContentProps>
-    | React.ReactElement<TitleProps>
-  );
+    | React.ReactElement<TitleProps>;
   className?: string;
   escapeKeyAction?: string;
   id?: string;
@@ -71,7 +72,7 @@ export interface DialogProps<T,
   role?: 'alertdialog' | 'dialog';
   scrimClickAction?: string;
   tag?: string;
-};
+}
 
 interface DialogState {
   classList: Set<string>;
@@ -88,7 +89,7 @@ function isDialogContent(element: any): element is DialogContent<any> {
 class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   DialogProps<T>,
   DialogState
-  > {
+> {
   focusTrap?: FocusTrap;
   foundation!: MDCDialogFoundation;
   dialogElement: React.RefObject<HTMLElement> = React.createRef();
@@ -111,7 +112,12 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   state: DialogState = {classList: new Set()};
 
   componentDidMount() {
-    const {open, autoStackButtons, escapeKeyAction, scrimClickAction} = this.props;
+    const {
+      open,
+      autoStackButtons,
+      escapeKeyAction,
+      scrimClickAction,
+    } = this.props;
     this.foundation = new MDCDialogFoundation(this.adapter);
     this.foundation.init();
 
@@ -122,11 +128,13 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
       this.foundation.setAutoStackButtons(autoStackButtons!);
     }
 
-    if (typeof escapeKeyAction === 'string') { // set even if empty string
+    if (typeof escapeKeyAction === 'string') {
+      // set even if empty string
       this.foundation.setEscapeKeyAction(escapeKeyAction);
     }
 
-    if (typeof scrimClickAction === 'string') { // set even if empty string
+    if (typeof scrimClickAction === 'string') {
+      // set even if empty string
       this.foundation.setScrimClickAction(scrimClickAction);
     }
   }
@@ -136,7 +144,12 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   }
 
   componentDidUpdate(prevProps: DialogProps<T>) {
-    const {open, autoStackButtons, escapeKeyAction, scrimClickAction} = this.props;
+    const {
+      open,
+      autoStackButtons,
+      escapeKeyAction,
+      scrimClickAction,
+    } = this.props;
 
     if (prevProps.autoStackButtons !== autoStackButtons) {
       this.foundation.setAutoStackButtons(autoStackButtons!);
@@ -162,19 +175,26 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   }
 
   get buttons(): HTMLButtonElement[] {
-    const buttons = this.dialogElement.current &&
-        [].slice.call(this.dialogElement.current.getElementsByClassName(cssClasses.BUTTON));
+    const buttons =
+      this.dialogElement.current &&
+      [].slice.call(
+        this.dialogElement.current.getElementsByClassName(cssClasses.BUTTON)
+      );
     return buttons ? buttons : [];
   }
 
   get content(): HTMLElement | null {
-    return this.dialogElement.current &&
-        this.dialogElement.current.querySelector(`.${cssClasses.CONTENT}`);
+    return (
+      this.dialogElement.current &&
+      this.dialogElement.current.querySelector(`.${cssClasses.CONTENT}`)
+    );
   }
 
   get defaultButton(): HTMLButtonElement | null {
-    return this.dialogElement.current &&
-        this.dialogElement.current.querySelector(`.${cssClasses.DEFAULT_BUTTON}`);
+    return (
+      this.dialogElement.current &&
+      this.dialogElement.current.querySelector(`.${cssClasses.DEFAULT_BUTTON}`)
+    );
   }
 
   private open = (): void => {
@@ -184,7 +204,9 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   };
 
   private initializeFocusTrap = (): void => {
-    this.focusTrap = this.props.children && createFocusTrapInstance(this.dialogElement.current!);
+    this.focusTrap =
+      this.props.children &&
+      createFocusTrapInstance(this.dialogElement.current!);
   };
 
   get adapter(): MDCDialogAdapter {
@@ -201,19 +223,23 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
-      addBodyClass: (className: string) => document.body.classList.add(className),
-      removeBodyClass: (className: string) => document.body.classList.remove(className),
-      eventTargetMatches: (target: HTMLElement, selector: string) => matches(target, selector),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
+      addBodyClass: (className: string) =>
+        document.body.classList.add(className),
+      removeBodyClass: (className: string) =>
+        document.body.classList.remove(className),
+      eventTargetMatches: (target: HTMLElement, selector: string) =>
+        matches(target, selector),
       trapFocus: () => this.focusTrap && this.focusTrap.activate(),
       releaseFocus: () => this.focusTrap && this.focusTrap.deactivate(),
       isContentScrollable: () => {
         const content = this.content;
-        return (!!content) ? isScrollable(content) : false;
+        return !!content ? isScrollable(content) : false;
       },
       areButtonsStacked: () => {
         const buttons = this.buttons;
-        return (!!buttons) ? areTopsMisaligned(this.buttons) : false;
+        return !!buttons ? areTopsMisaligned(this.buttons) : false;
       },
       getActionFromEvent: (evt: any) => {
         const elem = closest(evt.target, `[${strings.ACTION_ATTRIBUTE}]`);
@@ -227,15 +253,21 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
       },
       reverseButtons: () => {
         const buttons = this.buttons;
-        return buttons &&
-          buttons.reverse().forEach((button: HTMLButtonElement) =>
-            button.parentElement && button.parentElement.appendChild(button)
-          );
+        return (
+          buttons &&
+          buttons
+            .reverse()
+            .forEach(
+              (button: HTMLButtonElement) =>
+                button.parentElement && button.parentElement.appendChild(button)
+            )
+        );
       },
       notifyOpening: () => this.handleOpening(),
       notifyOpened: () => this.props.onOpen && this.props.onOpen(),
       notifyClosing: (action: string) => this.handleClosing(action),
-      notifyClosed: (action: string) => this.props.onClose && this.props.onClose(action),
+      notifyClosed: (action: string) =>
+        this.props.onClose && this.props.onClose(action),
     };
   }
 
@@ -244,9 +276,7 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
     LAYOUT_EVENTS.forEach((evt: string) =>
       window.addEventListener(evt, this.handleLayout)
     );
-    document.addEventListener(
-      'keydown', this.handleDocumentKeyDown
-    );
+    document.addEventListener('keydown', this.handleDocumentKeyDown);
   };
 
   handleClosing = (action: string): void => {
@@ -254,17 +284,15 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
     LAYOUT_EVENTS.forEach((evt: string) =>
       window.removeEventListener(evt, this.handleLayout)
     );
-    document.removeEventListener(
-      'keydown', this.handleDocumentKeyDown
-    );
+    document.removeEventListener('keydown', this.handleDocumentKeyDown);
   };
 
-  handleInteraction = (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>): void =>
-    this.foundation.handleInteraction(e.nativeEvent);
+  handleInteraction = (
+    e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
+  ): void => this.foundation.handleInteraction(e.nativeEvent);
   handleDocumentKeyDown = (e: KeyboardEvent): void =>
     this.foundation.handleDocumentKeydown(e);
   handleLayout = (): void => this.foundation.layout();
-
 
   render() {
     const {
@@ -287,8 +315,9 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
       /* eslint-enable @typescript-eslint/no-unused-vars */
     } = this.props;
 
-    const container: React.ReactElement<HTMLDivElement> | undefined =
-      this.renderContainer(children as ChildTypes[]);
+    const container:
+      | React.ReactElement<HTMLDivElement>
+      | undefined = this.renderContainer(children as ChildTypes[]);
     return (
       // @ts-ignore Tag does not have any construct https://github.com/Microsoft/TypeScript/issues/28892
       <Tag
@@ -303,52 +332,46 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
         ref={this.dialogElement}
       >
         {container}
-        <div className={cssClasses.SCRIM}/>
+        <div className={cssClasses.SCRIM} />
       </Tag>
     );
   }
 
-
-  renderContainer = (children?: ChildTypes[]):
-      React.ReactElement<HTMLDivElement> | undefined => !children ? undefined : (
-    <div className={cssClasses.CONTAINER}>
-      <div className={cssClasses.SURFACE}>
-        {React.Children.map(
-          (children as ChildTypes[]),
-          this.renderChild
-        )}
+  renderContainer = (
+    children?: ChildTypes[]
+  ): React.ReactElement<HTMLDivElement> | undefined =>
+    !children ? (
+      undefined
+    ) : (
+      <div className={cssClasses.CONTAINER}>
+        <div className={cssClasses.SURFACE}>
+          {React.Children.map(children as ChildTypes[], this.renderChild)}
+        </div>
       </div>
-    </div>
-  );
+    );
 
-  renderChild = (child: ChildTypes, i: number ):
-    ChildTypes =>
-    (isDialogTitle(child) || isDialogContent(child))
+  renderChild = (child: ChildTypes, i: number): ChildTypes =>
+    isDialogTitle(child) || isDialogContent(child)
       ? React.cloneElement(child, {
-        key: `child-${i}`,
-        ...child.props,
-        id: this.setId(child, child.props.id)})
+          key: `child-${i}`,
+          ...child.props,
+          id: this.setId(child, child.props.id),
+        })
       : child;
 
-
-    setId = (child: ChildTypes, componentId?: string): string => {
-      const {id} = this.props;
-      if (isDialogTitle(child)) {
-        const labelledBy = componentId || id + '-title';
-        this.labelledBy = labelledBy;
-        return labelledBy;
-      }
-
-      const describedBy = componentId || id + '-content';
-      this.describedBy = describedBy;
-      return describedBy;
+  setId = (child: ChildTypes, componentId?: string): string => {
+    const {id} = this.props;
+    if (isDialogTitle(child)) {
+      const labelledBy = componentId || id + '-title';
+      this.labelledBy = labelledBy;
+      return labelledBy;
     }
+
+    const describedBy = componentId || id + '-content';
+    this.describedBy = describedBy;
+    return describedBy;
+  };
 }
 
 export default Dialog;
-export {
-  DialogTitle,
-  DialogContent,
-  DialogFooter,
-  DialogButton,
-};
+export {DialogTitle, DialogContent, DialogFooter, DialogButton};

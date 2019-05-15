@@ -34,12 +34,12 @@ export interface MenuProps extends MenuSurfaceProps {
   children: React.ReactElement<MenuList>;
   onSelected?: (index: number, item: Element) => void;
   ref?: React.Ref<any>;
-};
+}
 
 export interface MenuState {
   open: boolean;
   foundation?: MDCMenuFoundation;
-};
+}
 
 class Menu extends React.Component<MenuProps, MenuState> {
   menuListElement = React.createRef<MenuList>();
@@ -77,9 +77,13 @@ class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   get listElements(): Element[] {
-    if (!(this.menuListElement.current
-      && this.menuListElement.current.listElements
-      && this.menuListElement.current.listElements.length >= 0 )) {
+    if (
+      !(
+        this.menuListElement.current &&
+        this.menuListElement.current.listElements &&
+        this.menuListElement.current.listElements.length >= 0
+      )
+    ) {
       return [];
     }
     return this.menuListElement.current.listElements;
@@ -106,18 +110,21 @@ class Menu extends React.Component<MenuProps, MenuState> {
         const list = this.listElements;
         list[index].removeAttribute(attr);
       },
-      elementContainsClass: (element, className) => element.classList.contains(className),
+      elementContainsClass: (element, className) =>
+        element.classList.contains(className),
       closeSurface: () => this.setState({open: false}),
       getElementIndex: (element) => this.listElements.indexOf(element),
       getParentElement: (element) => element.parentElement,
       getSelectedElementIndex: (selectionGroup) => {
-        const selectedListItem = selectionGroup.querySelector(`.${cssClasses.MENU_SELECTED_LIST_ITEM}`);
-        return selectedListItem ? this.listElements.indexOf(selectedListItem) : -1;
+        const selectedListItem = selectionGroup.querySelector(
+          `.${cssClasses.MENU_SELECTED_LIST_ITEM}`
+        );
+        return selectedListItem
+          ? this.listElements.indexOf(selectedListItem)
+          : -1;
       },
-      notifySelected: (evtData) => this.props.onSelected!(
-        evtData.index,
-        this.listElements[evtData.index],
-      ),
+      notifySelected: (evtData) =>
+        this.props.onSelected!(evtData.index, this.listElements[evtData.index]),
     };
   }
 
@@ -126,13 +133,14 @@ class Menu extends React.Component<MenuProps, MenuState> {
     if (onKeyDown) {
       onKeyDown(evt);
     }
-    this.state.foundation && this.state.foundation.handleKeydown(evt.nativeEvent);
-  }
+    this.state.foundation &&
+      this.state.foundation.handleKeydown(evt.nativeEvent);
+  };
 
   handleOpen: MenuSurfaceProps['onOpen'] = () => {
     const {onOpen} = this.props;
     onOpen && onOpen();
-  }
+  };
 
   render() {
     const {

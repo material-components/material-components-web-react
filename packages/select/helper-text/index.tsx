@@ -25,27 +25,33 @@ import classnames from 'classnames';
 import {MDCSelectHelperTextAdapter} from '@material/select/helper-text/adapter';
 import {MDCSelectHelperTextFoundation} from '@material/select/helper-text/foundation';
 
-export interface SelectHelperTextProps extends React.HTMLProps<HTMLParagraphElement> {
+export interface SelectHelperTextProps
+  extends React.HTMLProps<HTMLParagraphElement> {
   persistent?: boolean;
-  setHelperTextFoundation?: (foundation?: MDCSelectHelperTextFoundation) => void;
+  setHelperTextFoundation?: (
+    foundation?: MDCSelectHelperTextFoundation
+  ) => void;
 }
 
 interface ElementAttributes {
   'aria-hidden'?: boolean | 'false' | 'true';
   role?: string;
-};
+}
 
 interface SelectHelperTextState extends ElementAttributes {
   classList: Set<string>;
-};
+}
 
-export class SelectHelperText extends React.Component<SelectHelperTextProps, SelectHelperTextState> {
+export class SelectHelperText extends React.Component<
+  SelectHelperTextProps,
+  SelectHelperTextState
+> {
   foundation?: MDCSelectHelperTextFoundation;
 
   state: SelectHelperTextState = {
     'aria-hidden': undefined,
-    'role': undefined,
-    'classList': new Set(),
+    role: undefined,
+    classList: new Set(),
   };
 
   componentDidMount() {
@@ -66,9 +72,14 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
   get classes() {
     const {className, persistent} = this.props;
     const {classList} = this.state;
-    return classnames('mdc-select-helper-text', Array.from(classList), className, {
-      'mdc-select-helper-text--persistent': persistent,
-    });
+    return classnames(
+      'mdc-select-helper-text',
+      Array.from(classList),
+      className,
+      {
+        'mdc-select-helper-text--persistent': persistent,
+      }
+    );
   }
 
   get adapter(): MDCSelectHelperTextAdapter {
@@ -86,7 +97,10 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
       hasClass: (className: string) => {
         return this.classes.split(' ').includes(className);
       },
-      setAttr: (attr: keyof ElementAttributes, value: ElementAttributes[keyof ElementAttributes]) => {
+      setAttr: (
+        attr: keyof ElementAttributes,
+        value: ElementAttributes[keyof ElementAttributes]
+      ) => {
         this.setState((prevState) => ({
           ...prevState,
           [attr]: value,
@@ -111,10 +125,7 @@ export class SelectHelperText extends React.Component<SelectHelperTextProps, Sel
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
-    const {
-      'aria-hidden': ariaHidden,
-      role,
-    } = this.state;
+    const {'aria-hidden': ariaHidden, role} = this.state;
 
     return (
       <p

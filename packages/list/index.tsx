@@ -52,7 +52,7 @@ export interface ListProps extends React.HTMLProps<HTMLElement> {
   wrapFocus?: boolean;
   tag?: string;
   ref?: React.Ref<any>;
-};
+}
 
 interface ListState {
   listItemClassNames: {[listItemIndex: number]: string[]};
@@ -68,11 +68,16 @@ export interface ListItemContextShape {
   onDestroy?: (index: number) => void;
   getListItemInitialTabIndex?: (index: number) => number;
   getClassNamesFromList?: () => ListState['listItemClassNames'];
-  tabIndex?: number
+  tabIndex?: number;
 }
 
-function isSelectedIndexType(selectedIndex: unknown): selectedIndex is MDCListIndex {
-  return typeof selectedIndex === 'number' && !isNaN(selectedIndex) || Array.isArray(selectedIndex);
+function isSelectedIndexType(
+  selectedIndex: unknown
+): selectedIndex is MDCListIndex {
+  return (
+    (typeof selectedIndex === 'number' && !isNaN(selectedIndex)) ||
+    Array.isArray(selectedIndex)
+  );
 }
 
 export const defaultListItemContext: ListItemContextShape = {
@@ -98,19 +103,19 @@ export default class List extends React.Component<ListProps, ListState> {
   };
 
   static defaultProps: Partial<ListProps> = {
-    'className': '',
-    'checkboxList': false,
-    'radioList': false,
-    'nonInteractive': false,
-    'dense': false,
-    'avatarList': false,
-    'twoLine': false,
-    'singleSelection': false,
-    'selectedIndex': -1,
-    'handleSelect': () => {},
-    'wrapFocus': true,
+    className: '',
+    checkboxList: false,
+    radioList: false,
+    nonInteractive: false,
+    dense: false,
+    avatarList: false,
+    twoLine: false,
+    singleSelection: false,
+    selectedIndex: -1,
+    handleSelect: () => {},
+    wrapFocus: true,
     'aria-orientation': VERTICAL,
-    'tag': 'ul',
+    tag: 'ul',
   };
 
   componentDidMount() {
@@ -157,23 +162,34 @@ export default class List extends React.Component<ListProps, ListState> {
     const {cssClasses, strings} = MDCListFoundation;
 
     if (!this.listElement.current) return;
-    const checkboxListItems = this.listElement.current.querySelectorAll(strings.ARIA_ROLE_CHECKBOX_SELECTOR);
-    const radioSelectedListItem = this.listElement.current.querySelector(strings.ARIA_CHECKED_RADIO_SELECTOR);
+    const checkboxListItems = this.listElement.current.querySelectorAll(
+      strings.ARIA_ROLE_CHECKBOX_SELECTOR
+    );
+    const radioSelectedListItem = this.listElement.current.querySelector(
+      strings.ARIA_CHECKED_RADIO_SELECTOR
+    );
 
     if (checkboxListItems.length) {
-      const preselectedItems = this.listElement.current.querySelectorAll(strings.ARIA_CHECKED_CHECKBOX_SELECTOR);
-      const selectedIndex =
-          [].map.call(preselectedItems, (listItem: Element) => this.listElements.indexOf(listItem)) as number[];
+      const preselectedItems = this.listElement.current.querySelectorAll(
+        strings.ARIA_CHECKED_CHECKBOX_SELECTOR
+      );
+      const selectedIndex = [].map.call(preselectedItems, (listItem: Element) =>
+        this.listElements.indexOf(listItem)
+      ) as number[];
       this.foundation.setSelectedIndex(selectedIndex);
     } else if (singleSelection) {
-      const isActivated = this.listElement.current.querySelector(cssClasses.LIST_ITEM_ACTIVATED_CLASS);
+      const isActivated = this.listElement.current.querySelector(
+        cssClasses.LIST_ITEM_ACTIVATED_CLASS
+      );
       if (isActivated) {
         this.foundation.setUseActivatedClass(true);
       }
     } else if (radioSelectedListItem) {
-      this.foundation.setSelectedIndex(this.listElements.indexOf(radioSelectedListItem));
+      this.foundation.setSelectedIndex(
+        this.listElements.indexOf(radioSelectedListItem)
+      );
     }
-  }
+  };
 
   get listElements(): Element[] {
     if (this.listElement.current) {
@@ -187,13 +203,7 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   get classes() {
-    const {
-      className,
-      nonInteractive,
-      dense,
-      avatarList,
-      twoLine,
-    } = this.props;
+    const {className, nonInteractive, dense, avatarList, twoLine} = this.props;
     return classnames('mdc-list', className, {
       'mdc-list--non-interactive': nonInteractive,
       'mdc-list--dense': dense,
@@ -205,7 +215,8 @@ export default class List extends React.Component<ListProps, ListState> {
   get adapter(): MDCListAdapter {
     return {
       getListItemCount: () => this.listElements.length,
-      getFocusedElementIndex: () => this.listElements.indexOf(document.activeElement as HTMLLIElement),
+      getFocusedElementIndex: () =>
+        this.listElements.indexOf(document.activeElement as HTMLLIElement),
       setAttributeForElementIndex: (index, attr, value) => {
         const listItem = this.listElements[index];
         if (listItem) {
@@ -220,7 +231,10 @@ export default class List extends React.Component<ListProps, ListState> {
        */
       addClassForElementIndex: (index, className) => {
         const {listItemClassNames} = this.state;
-        if (listItemClassNames[index] && listItemClassNames[index].indexOf(className) === -1) {
+        if (
+          listItemClassNames[index] &&
+          listItemClassNames[index].indexOf(className) === -1
+        ) {
           listItemClassNames[index].push(className);
         } else {
           listItemClassNames[index] = [className];
@@ -243,10 +257,14 @@ export default class List extends React.Component<ListProps, ListState> {
       },
       setTabIndexForListItemChildren: (listItemIndex, tabIndexValue) => {
         const listItem = this.listElements[listItemIndex];
-        const selector = MDCListFoundation.strings.CHILD_ELEMENTS_TO_TOGGLE_TABINDEX;
-        const listItemChildren: Element[] =
-          [].slice.call(listItem.querySelectorAll(selector));
-        listItemChildren.forEach((el) => el.setAttribute('tabindex', tabIndexValue));
+        const selector =
+          MDCListFoundation.strings.CHILD_ELEMENTS_TO_TOGGLE_TABINDEX;
+        const listItemChildren: Element[] = [].slice.call(
+          listItem.querySelectorAll(selector)
+        );
+        listItemChildren.forEach((el) =>
+          el.setAttribute('tabindex', tabIndexValue)
+        );
       },
       focusItemAtIndex: (index) => {
         const element = this.listElements[index] as HTMLElement | undefined;
@@ -262,11 +280,15 @@ export default class List extends React.Component<ListProps, ListState> {
       },
       hasCheckboxAtIndex: (index) => {
         const listItem = this.listElements[index];
-        return !!listItem.querySelector(MDCListFoundation.strings.CHECKBOX_SELECTOR);
+        return !!listItem.querySelector(
+          MDCListFoundation.strings.CHECKBOX_SELECTOR
+        );
       },
       hasRadioAtIndex: (index) => {
         const listItem = this.listElements[index];
-        return !!listItem.querySelector(MDCListFoundation.strings.RADIO_SELECTOR);
+        return !!listItem.querySelector(
+          MDCListFoundation.strings.RADIO_SELECTOR
+        );
       },
       isCheckboxCheckedAtIndex: (index) => {
         const listItem = this.listElements[index];
@@ -306,8 +328,10 @@ export default class List extends React.Component<ListProps, ListState> {
     const {selectedIndex} = this.props;
     let tabIndex = -1;
     if (!this.hasInitializedListItemTabIndex) {
-      const isSelectedIndexArray
-        = Array.isArray(selectedIndex) && selectedIndex.length > 0 && index === selectedIndex[0];
+      const isSelectedIndexArray =
+        Array.isArray(selectedIndex) &&
+        selectedIndex.length > 0 &&
+        index === selectedIndex[0];
       const isSelected = selectedIndex === index;
       if (isSelectedIndexArray || isSelected || selectedIndex === -1) {
         tabIndex = 0;
@@ -316,7 +340,7 @@ export default class List extends React.Component<ListProps, ListState> {
     }
 
     return tabIndex;
-  }
+  };
 
   /**
    * Method checks if the list item at `index` contains classes. If true,
@@ -326,7 +350,7 @@ export default class List extends React.Component<ListProps, ListState> {
   private getListItemClassNames = () => {
     const {listItemClassNames} = this.state;
     return listItemClassNames;
-  }
+  };
 
   handleKeyDown = (e: React.KeyboardEvent<any>, index: number) => {
     e.persist(); // Persist the synthetic event to access its `key`
@@ -363,7 +387,6 @@ export default class List extends React.Component<ListProps, ListState> {
     this.setState({listItemClassNames});
   };
 
-
   private getListProps = (checkboxList?: boolean, radioList?: boolean) => ({
     checkboxList: Boolean(checkboxList),
     radioList: Boolean(radioList),
@@ -375,7 +398,6 @@ export default class List extends React.Component<ListProps, ListState> {
     getClassNamesFromList: this.getListItemClassNames,
     getListItemInitialTabIndex: this.getListItemInitialTabIndex,
   });
-
 
   // decreases rerenders
   // https://overreacted.io/writing-resilient-components/#dont-stop-the-data-flow-in-rendering
@@ -411,7 +433,9 @@ export default class List extends React.Component<ListProps, ListState> {
         role={this.role}
         {...otherProps}
       >
-        <ListItemContext.Provider value={this.getListPropsMemoized(checkboxList, radioList)}>
+        <ListItemContext.Provider
+          value={this.getListPropsMemoized(checkboxList, radioList)}
+        >
           {children}
         </ListItemContext.Provider>
       </Tag>

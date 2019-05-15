@@ -29,7 +29,9 @@ export interface IconToggleProps {
 }
 
 const IconToggle: React.FunctionComponent<IconToggleProps> = ({
-  isOn = false, className = '', children = '',
+  isOn = false,
+  className = '',
+  children = '',
 }) => {
   const classes = classnames(
     'mdc-icon-button__icon',

@@ -13,9 +13,12 @@ interface RippleProps<T> extends InjectedProps<T> {
   className: string;
 }
 
-type DivRippleProps = RippleProps<HTMLDivElement> & React.HTMLProps<HTMLDivElement>;
-type ActionItemRippleProps = RippleProps<HTMLAnchorElement> & React.HTMLProps<HTMLAnchorElement>;
-type SVGRippleProps = RippleProps<SVGSVGElement> & React.HTMLProps<SVGSVGElement>;
+type DivRippleProps = RippleProps<HTMLDivElement> &
+  React.HTMLProps<HTMLDivElement>;
+type ActionItemRippleProps = RippleProps<HTMLAnchorElement> &
+  React.HTMLProps<HTMLAnchorElement>;
+type SVGRippleProps = RippleProps<SVGSVGElement> &
+  React.HTMLProps<SVGSVGElement>;
 
 const NavigationIcon: React.FunctionComponent<DivRippleProps> = ({
   /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -33,7 +36,10 @@ const NavigationIcon: React.FunctionComponent<DivRippleProps> = ({
   />
 );
 
-const RippledNavigationIcon = withRipple<RippleProps<HTMLDivElement>, HTMLDivElement>(NavigationIcon);
+const RippledNavigationIcon = withRipple<
+  RippleProps<HTMLDivElement>,
+  HTMLDivElement
+>(NavigationIcon);
 
 const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
   /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -53,7 +59,10 @@ const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
   />
 );
 
-const RippledActionItem = withRipple<RippleProps<HTMLAnchorElement>, HTMLAnchorElement>(ActionItem);
+const RippledActionItem = withRipple<
+  RippleProps<HTMLAnchorElement>,
+  HTMLAnchorElement
+>(ActionItem);
 
 const SVGNavigationIcon: React.FunctionComponent<SVGRippleProps> = ({
   /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -86,39 +95,52 @@ const SVGNavigationIcon: React.FunctionComponent<SVGRippleProps> = ({
   </svg>
 );
 
-const RippledSVGNavigationIcon = withRipple<RippleProps<SVGSVGElement>, SVGSVGElement>(SVGNavigationIcon);
+const RippledSVGNavigationIcon = withRipple<
+  RippleProps<SVGSVGElement>,
+  SVGSVGElement
+>(SVGNavigationIcon);
 
 test('props.actionItem add actionItem class', () => {
   const wrapper = shallow(
-    <TopAppBarIcon actionItem><MaterialIcon icon='favorite' /></TopAppBarIcon>
+    <TopAppBarIcon actionItem>
+      <MaterialIcon icon='favorite' />
+    </TopAppBarIcon>
   );
   assert.isTrue(wrapper.hasClass(cssClasses.ACTION_ITEM));
 });
 
 test('actionItem can be rendered as a custom component', () => {
   const wrapper = shallow(
-    <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+    <TopAppBarIcon actionItem>
+      <RippledActionItem />
+    </TopAppBarIcon>
   );
   assert.isTrue(wrapper.hasClass(cssClasses.ACTION_ITEM));
 });
 
 test('props.navIcon add navIcon class', () => {
   const wrapper = shallow(
-    <TopAppBarIcon navIcon><MaterialIcon icon='menu' /></TopAppBarIcon>
+    <TopAppBarIcon navIcon>
+      <MaterialIcon icon='menu' />
+    </TopAppBarIcon>
   );
   assert.isTrue(wrapper.hasClass(cssClasses.NAV_ICON));
 });
 
 test('navIcon can be rendered as a custom component', () => {
   const wrapper = shallow(
-    <TopAppBarIcon navIcon><RippledNavigationIcon/></TopAppBarIcon>
+    <TopAppBarIcon navIcon>
+      <RippledNavigationIcon />
+    </TopAppBarIcon>
   );
   assert.isTrue(wrapper.hasClass(cssClasses.NAV_ICON));
 });
 
 test('navIcon can be rendered as a custom SVG component', () => {
   const wrapper = shallow(
-    <TopAppBarIcon navIcon><RippledSVGNavigationIcon/></TopAppBarIcon>
+    <TopAppBarIcon navIcon>
+      <RippledSVGNavigationIcon />
+    </TopAppBarIcon>
   );
   assert.isTrue(wrapper.hasClass(cssClasses.NAV_ICON));
 });
@@ -127,7 +149,8 @@ test('props.className adds classes', () => {
   const wrapper = shallow(
     <TopAppBarIcon navIcon className='test-class'>
       <MaterialIcon icon='menu' />
-    </TopAppBarIcon>);
+    </TopAppBarIcon>
+  );
   assert.isTrue(wrapper.hasClass('test-class'));
   assert.isTrue(wrapper.hasClass(cssClasses.NAV_ICON));
 });
@@ -141,4 +164,3 @@ test('children are added correctly', () => {
 
   assert.equal(wrapper.find('i').length, 1);
 });
-

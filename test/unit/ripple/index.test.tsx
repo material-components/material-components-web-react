@@ -33,8 +33,9 @@ const Div: React.FunctionComponent<DivProps> = ({
 
 const DivRipple = withRipple<DivProps, HTMLDivElement>(Div);
 
-interface RippledComponent extends React.Component<InjectedProps<HTMLDivElement>> {
-  foundation: MDCRippleFoundation
+interface RippledComponent
+  extends React.Component<InjectedProps<HTMLDivElement>> {
+  foundation: MDCRippleFoundation;
   isComponentMounted: boolean;
 }
 
@@ -64,7 +65,8 @@ test('mouseDown event triggers activateRipple', () => {
   const mockRaf = createMockRaf();
   const mouseDownHandler = coerceForTesting<React.MouseEventHandler>(td.func());
   const wrapper = mount<DivProps>(<DivRipple onMouseDown={mouseDownHandler} />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.activate = td.func<(evt?: Event) => void>();
   wrapper.simulate('mouseDown');
   mockRaf.flush();
@@ -76,7 +78,8 @@ test('mouseDown event triggers activateRipple', () => {
 test('mouseUp event triggers deactivateRipple', () => {
   const mouseUpHandler = coerceForTesting<React.MouseEventHandler>(td.func());
   const wrapper = mount<DivProps>(<DivRipple onMouseUp={mouseUpHandler} />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.deactivate = td.func<() => void>();
   wrapper.simulate('mouseUp');
   td.verify(foundation.deactivate(), {times: 1});
@@ -85,7 +88,8 @@ test('mouseUp event triggers deactivateRipple', () => {
 
 test('mouseUp event triggers deactivateRipple with no onMouseUp handler', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.deactivate = td.func<() => void>();
   wrapper.simulate('mouseUp');
   td.verify(foundation.deactivate(), {times: 1});
@@ -93,9 +97,14 @@ test('mouseUp event triggers deactivateRipple with no onMouseUp handler', () => 
 
 test('touchStart event triggers activateRipple', () => {
   const mockRaf = createMockRaf();
-  const touchStartHandler = coerceForTesting<React.TouchEventHandler>(td.func());
-  const wrapper = mount<DivProps>(<DivRipple onTouchStart={touchStartHandler} />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const touchStartHandler = coerceForTesting<React.TouchEventHandler>(
+    td.func()
+  );
+  const wrapper = mount<DivProps>(
+    <DivRipple onTouchStart={touchStartHandler} />
+  );
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.activate = td.func<(evt?: Event) => void>();
   wrapper.simulate('touchStart');
   mockRaf.flush();
@@ -107,7 +116,8 @@ test('touchStart event triggers activateRipple', () => {
 test('touchStart event triggers activateRipple with no onTouchStart handler', () => {
   const mockRaf = createMockRaf();
   const wrapper = mount<DivProps>(<DivRipple />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.activate = td.func<(evt?: Event) => void>();
   wrapper.simulate('touchStart');
   mockRaf.flush();
@@ -118,7 +128,8 @@ test('touchStart event triggers activateRipple with no onTouchStart handler', ()
 test('touchEnd event triggers deactivateRipple', () => {
   const touchEndHandler = coerceForTesting<React.TouchEventHandler>(td.func());
   const wrapper = mount<DivProps>(<DivRipple onTouchEnd={touchEndHandler} />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.deactivate = td.func<() => void>();
   wrapper.simulate('touchEnd');
   td.verify(foundation.deactivate(), {times: 1});
@@ -127,7 +138,8 @@ test('touchEnd event triggers deactivateRipple', () => {
 
 test('touchEnd event triggers deactivateRipple with no onTouchEnd handler', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.deactivate = td.func<() => void>();
   wrapper.simulate('touchEnd');
   td.verify(foundation.deactivate(), {times: 1});
@@ -135,9 +147,12 @@ test('touchEnd event triggers deactivateRipple with no onTouchEnd handler', () =
 
 test('keyDown event triggers activateRipple', () => {
   const mockRaf = createMockRaf();
-  const keyDownHandler = coerceForTesting<React.KeyboardEventHandler>(td.func());
+  const keyDownHandler = coerceForTesting<React.KeyboardEventHandler>(
+    td.func()
+  );
   const wrapper = mount<DivProps>(<DivRipple onKeyDown={keyDownHandler} />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.activate = td.func<(evt?: Event) => void>();
   wrapper.simulate('keyDown');
   mockRaf.flush();
@@ -149,7 +164,8 @@ test('keyDown event triggers activateRipple', () => {
 test('keyDown event triggers activateRipple with no onKeyDown handler', () => {
   const mockRaf = createMockRaf();
   const wrapper = mount<DivProps>(<DivRipple />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.activate = td.func<(evt?: Event) => void>();
   wrapper.simulate('keyDown');
   mockRaf.flush();
@@ -160,7 +176,8 @@ test('keyDown event triggers activateRipple with no onKeyDown handler', () => {
 test('keyUp event triggers deactivateRipple', () => {
   const keyUpHandler = coerceForTesting<React.KeyboardEventHandler>(td.func());
   const wrapper = mount<DivProps>(<DivRipple onKeyUp={keyUpHandler} />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.deactivate = td.func<() => void>();
   wrapper.simulate('keyUp');
   td.verify(foundation.deactivate(), {times: 1});
@@ -169,7 +186,8 @@ test('keyUp event triggers deactivateRipple', () => {
 
 test('keyUp event triggers deactivateRipple with no onKeyUp handler', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.deactivate = td.func<() => void>();
   wrapper.simulate('keyUp');
   td.verify(foundation.deactivate(), {times: 1});
@@ -178,7 +196,8 @@ test('keyUp event triggers deactivateRipple with no onKeyUp handler', () => {
 test('focus event proxies to foundation focus handler', () => {
   const focusHandler = coerceForTesting<React.FocusEventHandler>(td.func());
   const wrapper = mount<DivProps>(<DivRipple onFocus={focusHandler} />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.handleFocus = td.func<() => void>();
   wrapper.simulate('focus');
   td.verify(foundation.handleFocus(), {times: 1});
@@ -187,7 +206,8 @@ test('focus event proxies to foundation focus handler', () => {
 
 test('focus event proxies to foundation focus handler with no onFocus handler', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.handleFocus = td.func<() => void>();
   wrapper.simulate('focus');
   td.verify(foundation.handleFocus(), {times: 1});
@@ -196,7 +216,8 @@ test('focus event proxies to foundation focus handler with no onFocus handler', 
 test('blur event proxies to foundation blur handler', () => {
   const blurHandler = coerceForTesting<React.FocusEventHandler>(td.func());
   const wrapper = mount<DivProps>(<DivRipple onBlur={blurHandler} />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.handleBlur = td.func<() => void>();
   wrapper.simulate('blur');
   td.verify(foundation.handleBlur(), {times: 1});
@@ -205,7 +226,8 @@ test('blur event proxies to foundation blur handler', () => {
 
 test('blur event proxies to foundation blur handler with no onBlur handler', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.handleBlur = td.func<() => void>();
   wrapper.simulate('blur');
   td.verify(foundation.handleBlur(), {times: 1});
@@ -213,27 +235,45 @@ test('blur event proxies to foundation blur handler with no onBlur handler', () 
 
 test('#adapter.isUnbounded returns true is prop is set', () => {
   const wrapper = mount<DivProps>(<DivRipple unbounded />);
-  assert.isTrue(getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).isUnbounded());
+  assert.isTrue(
+    getAdapter(
+      coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+    ).isUnbounded()
+  );
 });
 
 test('#adapter.isUnbounded returns false prop is not set', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  assert.isFalse(getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).isUnbounded());
+  assert.isFalse(
+    getAdapter(
+      coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+    ).isUnbounded()
+  );
 });
 
 test('#adapter.isSurfaceDisabled returns true is prop is set', () => {
   const wrapper = mount<DivProps>(<DivRipple disabled />);
-  assert.isTrue(getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).isSurfaceDisabled());
+  assert.isTrue(
+    getAdapter(
+      coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+    ).isSurfaceDisabled()
+  );
 });
 
 test('#adapter.isSurfaceDisabled returns false prop is not set', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  assert.isFalse(getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).isSurfaceDisabled());
+  assert.isFalse(
+    getAdapter(
+      coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+    ).isSurfaceDisabled()
+  );
 });
 
 test('#adapter.addClass adds a class to the root element', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).addClass('test-class');
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).addClass('test-class');
   assert.isTrue(
     wrapper
       .update()
@@ -244,8 +284,12 @@ test('#adapter.addClass adds a class to the root element', () => {
 
 test('#adapter.addClass does not add class if isMounted is false', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  coerceForTesting<RippledComponent>(wrapper.instance()).isComponentMounted = false;
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).addClass('test-class');
+  coerceForTesting<RippledComponent>(
+    wrapper.instance()
+  ).isComponentMounted = false;
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).addClass('test-class');
   assert.isFalse(
     wrapper
       .update()
@@ -256,9 +300,13 @@ test('#adapter.addClass does not add class if isMounted is false', () => {
 
 test('#adapter.removeClass removes a class to the root element', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).addClass('test-class');
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).addClass('test-class');
   wrapper.update();
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).removeClass('test-class');
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).removeClass('test-class');
   assert.isFalse(
     wrapper
       .update()
@@ -269,10 +317,16 @@ test('#adapter.removeClass removes a class to the root element', () => {
 
 test('#adapter.removeClass removes a class to the root element', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).addClass('test-class');
-  coerceForTesting<RippledComponent>(wrapper.instance()).isComponentMounted = false;
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).addClass('test-class');
+  coerceForTesting<RippledComponent>(
+    wrapper.instance()
+  ).isComponentMounted = false;
   wrapper.update();
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).removeClass('test-class');
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).removeClass('test-class');
   assert.isTrue(
     wrapper
       .update()
@@ -283,14 +337,20 @@ test('#adapter.removeClass removes a class to the root element', () => {
 
 test('#adapter.updateCssVariable updates style', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).updateCssVariable('color', 'blue');
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).updateCssVariable('color', 'blue');
   assert.equal(wrapper.state().style.color, 'blue');
 });
 
 test('#adapter.updateCssVariable does not update style if isComponentMounted is false', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  coerceForTesting<RippledComponent>(wrapper.instance()).isComponentMounted = false;
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).updateCssVariable('color', 'blue');
+  coerceForTesting<RippledComponent>(
+    wrapper.instance()
+  ).isComponentMounted = false;
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).updateCssVariable('color', 'blue');
   assert.notEqual(wrapper.state().style.color, 'blue');
 });
 
@@ -299,10 +359,7 @@ test('#adapter.registerDocumentInteractionHandler triggers handler on document s
   const testHandler = td.func<SpecificEventListener<'scroll'>>();
   getAdapter(
     coerceForTesting<RippledComponent>(wrapper.instance()).foundation
-  ).registerDocumentInteractionHandler(
-    'scroll',
-    testHandler
-  );
+  ).registerDocumentInteractionHandler('scroll', testHandler);
   const event = new UIEvent('scroll');
   document.documentElement.dispatchEvent(event);
   td.verify(testHandler(event), {times: 1});
@@ -313,17 +370,11 @@ test('#adapter.deregisterDocumentInteractionHandler does not trigger handler on 
   const testHandler = td.func<SpecificEventListener<'scroll'>>();
   getAdapter(
     coerceForTesting<RippledComponent>(wrapper.instance()).foundation
-  ).registerDocumentInteractionHandler(
-    'scroll',
-    testHandler
-  );
+  ).registerDocumentInteractionHandler('scroll', testHandler);
   const event = new UIEvent('scroll');
   getAdapter(
     coerceForTesting<RippledComponent>(wrapper.instance()).foundation
-  ).deregisterDocumentInteractionHandler(
-    'scroll',
-    testHandler
-  );
+  ).deregisterDocumentInteractionHandler('scroll', testHandler);
   document.documentElement.dispatchEvent(event);
   td.verify(testHandler(event), {times: 0});
 });
@@ -331,7 +382,9 @@ test('#adapter.deregisterDocumentInteractionHandler does not trigger handler on 
 test('#adapter.registerResizeHandler triggers handler on window resize', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
   const testHandler = td.func<SpecificEventListener<'scroll'>>();
-  getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).registerResizeHandler(testHandler);
+  getAdapter(
+    coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+  ).registerResizeHandler(testHandler);
   const event = new UIEvent('resize');
   window.dispatchEvent(event);
   td.verify(testHandler(event), {times: 1});
@@ -342,7 +395,9 @@ test(
   () => {
     const wrapper = mount<DivProps>(<DivRipple />);
     const testHandler = td.func<SpecificEventListener<'scroll'>>();
-    getAdapter(coerceForTesting<RippledComponent>(wrapper.instance()).foundation).registerResizeHandler(testHandler);
+    getAdapter(
+      coerceForTesting<RippledComponent>(wrapper.instance()).foundation
+    ).registerResizeHandler(testHandler);
     const event = new UIEvent('resize');
     getAdapter(
       coerceForTesting<RippledComponent>(wrapper.instance()).foundation
@@ -387,7 +442,8 @@ test('#componentWillUnmount destroys foundation', () => {
   const mockRaf = createMockRaf();
   const wrapper = mount<DivProps>(<DivRipple />);
   mockRaf.flush();
-  const foundation = coerceForTesting<RippledComponent>(wrapper.instance()).foundation;
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
   foundation.destroy = td.func<() => void>();
   wrapper.unmount();
   td.verify(foundation.destroy());
@@ -417,7 +473,10 @@ test('unmounting component does not throw errors', (done) => {
   const wrapper = mount<TestComp>(<TestComp />);
   wrapper.simulate('mouseDown');
   requestAnimationFrame(() => {
-    assert.equal(coerceForTesting<HTMLSpanElement>(wrapper.getDOMNode()).innerText, 'hi');
+    assert.equal(
+      coerceForTesting<HTMLSpanElement>(wrapper.getDOMNode()).innerText,
+      'hi'
+    );
     done();
   });
 });

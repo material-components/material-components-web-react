@@ -78,7 +78,8 @@ const newsContent = [
   },
   {
     title: 'Is coffee heatlhy?',
-    snippet: 'The reduction in risk was more significant once people reached...',
+    snippet:
+      'The reduction in risk was more significant once people reached...',
   },
 ];
 
@@ -101,9 +102,11 @@ const NewsCard = () => {
   );
 };
 
-const NewsRow: React.FunctionComponent<{title: string, snippet: string, index: number}> = ({
-  title, snippet, index,
-}) => {
+const NewsRow: React.FunctionComponent<{
+  title: string;
+  snippet: string;
+  index: number;
+}> = ({title, snippet, index}) => {
   return (
     <React.Fragment>
       <hr key={`title-${index}`} className='mdc-list-divider' />

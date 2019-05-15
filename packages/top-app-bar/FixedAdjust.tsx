@@ -29,7 +29,7 @@ export interface TopAppbarFixedAdjustProps {
   dense?: boolean;
   prominent?: boolean;
   short?: boolean;
-};
+}
 
 const FixedAdjust: React.FunctionComponent<TopAppbarFixedAdjustProps> = ({
   tag: Tag = 'main',

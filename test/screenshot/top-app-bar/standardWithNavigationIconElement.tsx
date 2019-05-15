@@ -48,7 +48,9 @@ const NavigationIcon: React.FunctionComponent<RippleProps> = ({
   </a>
 );
 
-const NavigationIconWithRipple = withRipple<RippleProps, HTMLAnchorElement>(NavigationIcon);
+const NavigationIconWithRipple = withRipple<RippleProps, HTMLAnchorElement>(
+  NavigationIcon
+);
 const title: string = 'Miami, FL';
 const TopAppBarStandardWithNavigationIconElementScreenshotTest: React.FunctionComponent = () => {
   return (
@@ -56,7 +58,7 @@ const TopAppBarStandardWithNavigationIconElementScreenshotTest: React.FunctionCo
       <TopAppBar>
         <TopAppBarRow>
           <TopAppBarSection align='start'>
-            <TopAppBarIcon navIcon tabIndex={0} >
+            <TopAppBarIcon navIcon tabIndex={0}>
               <NavigationIconWithRipple unbounded />
             </TopAppBarIcon>
             <TopAppBarTitle>{title}</TopAppBarTitle>

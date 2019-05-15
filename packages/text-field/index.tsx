@@ -58,9 +58,10 @@ export interface Props<T extends HTMLElement = HTMLInputElement> {
   onTrailingIconSelect?: () => void;
   textarea?: boolean;
   trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
-};
+}
 
-type TextFieldProps<T extends HTMLElement = HTMLInputElement> = Props<T> & React.HTMLProps<HTMLDivElement>;
+type TextFieldProps<T extends HTMLElement = HTMLInputElement> = Props<T> &
+  React.HTMLProps<HTMLDivElement>;
 
 interface TextFieldState {
   foundation?: MDCTextFieldFoundation;
@@ -76,9 +77,11 @@ interface TextFieldState {
   lineRippleCenter: number;
   outlineIsNotched: boolean;
   isValid: boolean;
-};
+}
 
-class TextField<T extends HTMLElement = HTMLInputElement> extends React.Component<TextFieldProps<T>, TextFieldState> {
+class TextField<
+  T extends HTMLElement = HTMLInputElement
+> extends React.Component<TextFieldProps<T>, TextFieldState> {
   floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
   inputComponent_: null | Input<T> = null;
 
@@ -152,7 +155,8 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
       [cssClasses.DISABLED]: disabled,
       [cssClasses.FOCUSED]: isFocused,
       [cssClasses.INVALID]: !isValid,
-      [cssClasses.OUTLINED]: this.notchedOutlineAdapter.hasOutline() && !fullWidth,
+      [cssClasses.OUTLINED]:
+        this.notchedOutlineAdapter.hasOutline() && !fullWidth,
       [cssClasses.TEXTAREA]: textarea,
       [cssClasses.WITH_LEADING_ICON]: leadingIcon,
       // TODO change literal to constant
@@ -189,13 +193,15 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
 
   get adapter(): MDCTextFieldAdapter {
     const rootAdapterMethods: MDCTextFieldRootAdapter = {
-      addClass: (className: string) => this.setState({classList: this.state.classList.add(className)}),
+      addClass: (className: string) =>
+        this.setState({classList: this.state.classList.add(className)}),
       removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
       // Please manage handler though JSX
       registerTextFieldInteractionHandler: () => undefined,
       deregisterTextFieldInteractionHandler: () => undefined,
@@ -311,21 +317,33 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
           onKeyDown={() => foundation!.handleTextFieldInteraction()}
           key='text-field-container'
         >
-          {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
+          {leadingIcon
+            ? this.renderIcon(leadingIcon, onLeadingIconSelect)
+            : null}
           {this.renderInput()}
-          {this.notchedOutlineAdapter.hasOutline() ? this.renderNotchedOutline() : <React.Fragment>
-            {this.labelAdapter.hasLabel() ? this.renderLabel() : null}
-            {!textarea && !fullWidth ? this.renderLineRipple() : null}
-          </React.Fragment>}
-          {trailingIcon ? this.renderIcon(trailingIcon, onTrailingIconSelect) : null}
+          {this.notchedOutlineAdapter.hasOutline() ? (
+            this.renderNotchedOutline()
+          ) : (
+            <React.Fragment>
+              {this.labelAdapter.hasLabel() ? this.renderLabel() : null}
+              {!textarea && !fullWidth ? this.renderLineRipple() : null}
+            </React.Fragment>
+          )}
+          {trailingIcon
+            ? this.renderIcon(trailingIcon, onTrailingIconSelect)
+            : null}
         </div>
-        {helperText || characterCounter ? this.renderHelperLine(helperText, characterCounter) : null}
+        {helperText || characterCounter
+          ? this.renderHelperLine(helperText, characterCounter)
+          : null}
       </React.Fragment>
     );
   }
 
   renderInput() {
-    const child: React.ReactElement<InputProps<T>> = React.Children.only(this.props.children);
+    const child: React.ReactElement<InputProps<T>> = React.Children.only(
+      this.props.children
+    );
     const props = this.inputProps(child);
     return React.cloneElement(child, props);
   }
@@ -369,16 +387,21 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         notchWidth={notchedLabelWidth}
         notch={outlineIsNotched}
       >
-        {this.labelAdapter.hasLabel() ? this.renderLabel(): null}
+        {this.labelAdapter.hasLabel() ? this.renderLabel() : null}
       </NotchedOutline>
     );
   }
 
-  renderHelperLine(helperText?: React.ReactElement<HelperTextProps>, characterCounter?: React.ReactElement<any>) {
-    return <div className={cssClasses.HELPER_LINE}>
-      {helperText && this.renderHelperText(helperText)}
-      {characterCounter}
-    </div>;
+  renderHelperLine(
+    helperText?: React.ReactElement<HelperTextProps>,
+    characterCounter?: React.ReactElement<any>
+  ) {
+    return (
+      <div className={cssClasses.HELPER_LINE}>
+        {helperText && this.renderHelperText(helperText)}
+        {characterCounter}
+      </div>
+    );
   }
 
   renderHelperText(helperText: React.ReactElement<HelperTextProps>) {
@@ -388,16 +411,22 @@ class TextField<T extends HTMLElement = HTMLInputElement> extends React.Componen
         isValid,
         key: 'text-field-helper-text',
       },
-      helperText.props,
+      helperText.props
     );
     return React.cloneElement(helperText, props);
   }
 
-  renderIcon(icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>,
-    onSelect?: () => void) {
+  renderIcon(
+    icon: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>,
+    onSelect?: () => void
+  ) {
     const {disabled} = this.state;
     // Toggling disabled will trigger icon.foundation.setDisabled()
-    return <Icon disabled={disabled} onSelect={onSelect}>{icon}</Icon>;
+    return (
+      <Icon disabled={disabled} onSelect={onSelect}>
+        {icon}
+      </Icon>
+    );
   }
 }
 

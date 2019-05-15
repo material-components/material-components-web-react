@@ -11,18 +11,19 @@ interface TabBarTestProps {
   numTabs: number;
   isRtl?: boolean;
   hasUpdateActiveIndexButton?: boolean;
-};
+}
 
 interface TabBarTestState {
-  activeIndex: number
-};
+  activeIndex: number;
+}
 
 class TabBarTest extends React.Component<TabBarTestProps, TabBarTestState> {
   state = {
     activeIndex: this.props.activeIndex || 0,
   };
 
-  handleActiveIndexUpdate = (activeIndex: number) => this.setState({activeIndex});
+  handleActiveIndexUpdate = (activeIndex: number) =>
+    this.setState({activeIndex});
 
   render() {
     const {
@@ -34,7 +35,10 @@ class TabBarTest extends React.Component<TabBarTestProps, TabBarTestState> {
       hasUpdateActiveIndexButton,
     } = this.props;
 
-    const renderTab: (num: number, index: number) => React.ReactElement<TabProps> = (num, index) => {
+    const renderTab: (
+      num: number,
+      index: number
+    ) => React.ReactElement<TabProps> = (num, index) => {
       return (
         <Tab
           key={index}
@@ -48,7 +52,6 @@ class TabBarTest extends React.Component<TabBarTestProps, TabBarTestState> {
 
     let tabList = new Array(numTabs);
     tabList = tabList.fill(null).map((_, i) => i);
-
 
     return (
       <React.Fragment>

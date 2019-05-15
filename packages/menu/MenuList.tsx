@@ -30,7 +30,7 @@ type RefCallback<T> = (node: T | null) => void;
 export interface MenuListProps extends Exclude<ListProps, 'ref'> {
   innerRef?: RefCallback<List> | React.RefObject<List>;
   handleItemAction?: MDCMenuFoundation['handleItemAction'];
-};
+}
 
 class MenuList extends React.Component<MenuListProps, {}> {
   private listInstance = React.createRef<List>();
@@ -51,8 +51,7 @@ class MenuList extends React.Component<MenuListProps, {}> {
   handleSelect: ListProps['handleSelect'] = (activatedItemIndex, selected) => {
     this.props.handleSelect!(activatedItemIndex, selected);
     this.props.handleItemAction!(this.listElements[activatedItemIndex]);
-  }
-
+  };
 
   attachRef = (node: List | null) => {
     const {innerRef} = this.props;
@@ -71,7 +70,7 @@ class MenuList extends React.Component<MenuListProps, {}> {
     } else {
       innerRef(node);
     }
-  }
+  };
 
   render() {
     const {

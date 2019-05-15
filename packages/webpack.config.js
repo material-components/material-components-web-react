@@ -25,18 +25,21 @@ const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {readMaterialPackages} = require('../scripts/package-json-reader');
-const {convertToImportMDCWebPaths} = require('../scripts/package-name-converter');
+const {
+  convertToImportMDCWebPaths,
+} = require('../scripts/package-name-converter');
 const {getDirectories} = require('../scripts/directory-reader');
 const {importer} = require('./webpack.util');
 
 const isDirectory = (source) => lstatSync(source).isDirectory();
-const containsTsxFile = (source) => readdirSync(source).some((file) => path.extname(file) === '.tsx');
+const containsTsxFile = (source) =>
+  readdirSync(source).some((file) => path.extname(file) === '.tsx');
 
 const getChunks = (source) =>
   readdirSync(source)
     .map((filename) => path.join(source, filename))
     .filter((source) => isDirectory(source) && containsTsxFile(source))
-    .map((directoryPath) => directoryPath.replace('packages\/', ''));
+    .map((directoryPath) => directoryPath.replace('packages/', ''));
 
 const chunks = getChunks('./packages');
 
@@ -82,9 +85,9 @@ function getCommonWebpackParams({isCss} = {}) {
 }
 
 function getReactMaterialExternals() {
-  return getDirectories('./packages').map((directory) => (
-    `react-${path.parse(directory).name}`
-  ));
+  return getDirectories('./packages').map(
+    (directory) => `react-${path.parse(directory).name}`
+  );
 }
 
 function getMaterialExternals() {
@@ -104,22 +107,23 @@ function getMaterialExternals() {
 const materialExternals = getMaterialExternals();
 
 function getJavaScriptWebpackConfig() {
-  return Object.assign(
-    getCommonWebpackParams(), {
-      externals: Object.assign(
+  return Object.assign(getCommonWebpackParams(), {
+    externals: Object.assign(
+      {
+        react: 'react',
+        'react-dom': 'react-dom',
+        classnames: 'classnames',
+        'prop-types': 'prop-types',
+      },
+      materialExternals
+    ),
+    module: {
+      rules: [
         {
-          'react': 'react',
-          'react-dom': 'react-dom',
-          'classnames': 'classnames',
-          'prop-types': 'prop-types',
-        },
-        materialExternals,
-      ),
-      module: {
-        rules: [{
           test: /\.ts(x)?$/,
           loader: 'ts-loader',
-        }, {
+        },
+        {
           test: /\.js$/,
           loader: 'babel-loader',
           options: {
@@ -131,46 +135,48 @@ function getJavaScriptWebpackConfig() {
               'transform-object-rest-spread',
             ],
           },
-        }],
-      },
-      plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-          include: /\.min\.js$/,
-        }),
+        },
       ],
-    });
+    },
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        include: /\.min\.js$/,
+      }),
+    ],
+  });
 }
 
 function getCssWebpackConfig(shouldMinify) {
-  return Object.assign(
-    getCommonWebpackParams({isCss: true}), {
-      module: {
-        rules: [{
+  return Object.assign(getCommonWebpackParams({isCss: true}), {
+    module: {
+      rules: [
+        {
           test: /\.scss$/,
           use: ExtractTextPlugin.extract({
-            use: [{
-              loader: 'css-loader',
-              options: {
-                minimize: shouldMinify,
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  minimize: shouldMinify,
+                },
               },
-            }, {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => [
-                  require('autoprefixer')(),
-                ],
+              {
+                loader: 'postcss-loader',
+                options: {
+                  plugins: () => [require('autoprefixer')()],
+                },
               },
-            }, {
-              loader: 'sass-loader',
-              options: {importer},
-            }],
+              {
+                loader: 'sass-loader',
+                options: {importer},
+              },
+            ],
           }),
-        }],
-      },
-      plugins: [
-        new ExtractTextPlugin(`${filename}.css`),
+        },
       ],
-    });
+    },
+    plugins: [new ExtractTextPlugin(`${filename}.css`)],
+  });
 }
 
 module.exports = getWebpackConfigs();

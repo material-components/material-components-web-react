@@ -1,11 +1,15 @@
 import * as React from 'react';
 import '../../../packages/menu/index.scss';
-import Menu, {MenuList, MenuListItem, MenuListItemText} from '../../../packages/menu/index';
+import Menu, {
+  MenuList,
+  MenuListItem,
+  MenuListItemText,
+} from '../../../packages/menu/index';
 
 interface MenuState {
-  coordinates?: {x: number, y: number};
+  coordinates?: {x: number; y: number};
   open: boolean;
-};
+}
 
 class MenuScreenshotTest extends React.Component<{}, MenuState> {
   state = {
@@ -23,25 +27,21 @@ class MenuScreenshotTest extends React.Component<{}, MenuState> {
     window.removeEventListener('contextmenu', this.rightClickCallback);
   }
 
-  private rightClickCallback: React.MouseEventHandler = (event: React.MouseEvent) => {
+  private rightClickCallback: React.MouseEventHandler = (
+    event: React.MouseEvent
+  ) => {
     this.setState({
       open: !this.state.open,
       coordinates: {x: event.clientX, y: event.clientY},
     });
     event.preventDefault();
-  }
+  };
   private onClose = () => {
     this.setState({open: false});
-  }
+  };
 
   render() {
-    const menuOptions = [
-      'Save',
-      'Edit',
-      'Cut',
-      'Copy',
-      'Paste',
-    ];
+    const menuOptions = ['Save', 'Edit', 'Cut', 'Copy', 'Paste'];
 
     return (
       <Menu

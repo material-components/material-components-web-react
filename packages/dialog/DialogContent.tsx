@@ -23,25 +23,25 @@ import React from 'react';
 import classnames from 'classnames';
 import {cssClasses} from './constants';
 
-
 export interface DialogContentProps<T> extends React.HTMLProps<T> {
-  className?: string,
-  tag?: string,
-  id?: string,
-};
+  className?: string;
+  tag?: string;
+  id?: string;
+}
 
-const DialogContent: <T extends HTMLElement = HTMLDivElement>(props: DialogContentProps<T>) =>
-  React.ReactElement<T> = ({
-    className = '',
-    children,
-    tag: Tag = 'div',
-    ...otherProps
-  }) => (
-    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-    <Tag className={classnames(className, cssClasses.CONTENT)} {...otherProps}>
-      {children}
-    </Tag>
-  );
+const DialogContent: <T extends HTMLElement = HTMLDivElement>(
+  props: DialogContentProps<T>
+) => React.ReactElement<T> = ({
+  className = '',
+  children,
+  tag: Tag = 'div',
+  ...otherProps
+}) => (
+  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+  <Tag className={classnames(className, cssClasses.CONTENT)} {...otherProps}>
+    {children}
+  </Tag>
+);
 
 type DialogContent<T> = React.ReactElement<T>;
 export default DialogContent;

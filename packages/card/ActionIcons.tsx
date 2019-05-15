@@ -25,27 +25,31 @@ import classnames from 'classnames';
 
 import {CSS_CLASSES} from './constant';
 
-type ChildType = React.ReactElement<React.HTMLProps<HTMLImageElement|HTMLOrSVGElement>>;
+type ChildType = React.ReactElement<
+  React.HTMLProps<HTMLImageElement | HTMLOrSVGElement>
+>;
 
 export interface ActionIconsProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;
   children?: ChildType | ChildType[];
-};
+}
 
 const addIconClassToChildren = (children: ChildType | ChildType[]) => {
-  return React.Children.map((children as ChildType | ChildType[]), (item) => {
+  return React.Children.map(children as ChildType | ChildType[], (item) => {
     const className = classnames(
       (item as ChildType).props.className,
       CSS_CLASSES.ACTION,
-      CSS_CLASSES.ACTION_ICON,
+      CSS_CLASSES.ACTION_ICON
     );
     const props = Object.assign({}, (item as ChildType).props, {className});
-    return React.cloneElement((item as ChildType), props);
+    return React.cloneElement(item as ChildType, props);
   });
 };
 
 const ActionIcons: React.FunctionComponent<ActionIconsProps> = ({
-  className = '', children, ...otherProps
+  className = '',
+  children,
+  ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.ACTION_ICONS, className);
   if (!children) return null;

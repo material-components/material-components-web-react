@@ -23,25 +23,25 @@ import React from 'react';
 import classnames from 'classnames';
 import {cssClasses} from './constants';
 
-
 export interface DialogTitleProps<T> extends React.HTMLProps<T> {
-  className?: string,
-  tag?: string,
-  id?: string,
-};
+  className?: string;
+  tag?: string;
+  id?: string;
+}
 
-const DialogTitle: <T extends HTMLElement = HTMLHeadingElement>(props: DialogTitleProps<T>) =>
-    React.ReactElement<T> = ({
-      className = '',
-      children,
-      tag: Tag = 'h2',
-      ...otherProps
-    }) => (
-      // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-      <Tag className={classnames(className, cssClasses.TITLE)} {...otherProps}>
-        {children}
-      </Tag>
-    );
+const DialogTitle: <T extends HTMLElement = HTMLHeadingElement>(
+  props: DialogTitleProps<T>
+) => React.ReactElement<T> = ({
+  className = '',
+  children,
+  tag: Tag = 'h2',
+  ...otherProps
+}) => (
+  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+  <Tag className={classnames(className, cssClasses.TITLE)} {...otherProps}>
+    {children}
+  </Tag>
+);
 
 type DialogTitle<T> = React.ReactElement<T>;
 export default DialogTitle;

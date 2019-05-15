@@ -23,14 +23,17 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export interface ListDividerProps extends React.HTMLProps<HTMLElement>{
-  className?: string,
-  tag?: string,
-  role?: string
-};
+export interface ListDividerProps extends React.HTMLProps<HTMLElement> {
+  className?: string;
+  tag?: string;
+  role?: string;
+}
 
 const ListDivider: React.FunctionComponent<ListDividerProps> = ({
-  tag: Tag = 'li', className = '', role = 'separator', ...otherProps
+  tag: Tag = 'li',
+  className = '',
+  role = 'separator',
+  ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

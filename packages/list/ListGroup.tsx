@@ -23,13 +23,16 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export interface ListGroupProps extends React.HTMLProps<HTMLElement>{
-  className?: string,
-  tag?: string
-};
+export interface ListGroupProps extends React.HTMLProps<HTMLElement> {
+  className?: string;
+  tag?: string;
+}
 
-const ListGroup:React.FunctionComponent<ListGroupProps> = ({
-  tag: Tag = 'div', className = '', children, ...otherProps
+const ListGroup: React.FunctionComponent<ListGroupProps> = ({
+  tag: Tag = 'div',
+  className = '',
+  children,
+  ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

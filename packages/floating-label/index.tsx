@@ -26,20 +26,21 @@ import {MDCFloatingLabelFoundation} from '@material/floating-label/foundation';
 import {MDCFloatingLabelAdapter} from '@material/floating-label/adapter';
 import {cssClasses} from '@material/floating-label/constants';
 
-export interface FloatingLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface FloatingLabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   className?: string;
   handleWidthChange?: (width: number) => void;
   float?: boolean;
-};
+}
 
 interface FloatingLabelState {
   classList: Set<string>;
-};
+}
 
 export default class FloatingLabel extends React.Component<
   FloatingLabelProps,
   FloatingLabelState
-  > {
+> {
   foundation!: MDCFloatingLabelFoundation;
   labelElement: React.RefObject<HTMLLabelElement> = React.createRef();
 

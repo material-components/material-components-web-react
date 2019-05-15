@@ -27,19 +27,20 @@ import {cssClasses} from './constants';
 export interface RowProps<T> extends React.HTMLProps<T> {
   className?: string;
   tag?: string;
-};
+}
 
-const Row: <T extends HTMLElement = HTMLDivElement>(props: RowProps<T>) =>
-  React.ReactElement<T> = ({
-    children,
-    className,
-    tag: Tag = 'div',
-    ...otherProps
-  }) => (
-    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-    <Tag className={classnames(className, cssClasses.ROW)} {...otherProps}>
-      {children}
-    </Tag>
-  );
+const Row: <T extends HTMLElement = HTMLDivElement>(
+  props: RowProps<T>
+) => React.ReactElement<T> = ({
+  children,
+  className,
+  tag: Tag = 'div',
+  ...otherProps
+}) => (
+  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+  <Tag className={classnames(className, cssClasses.ROW)} {...otherProps}>
+    {children}
+  </Tag>
+);
 
 export default Row;

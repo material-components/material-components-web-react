@@ -2,12 +2,18 @@ import React from 'react';
 import {assert} from 'chai';
 import {shallow, mount} from 'enzyme';
 import td from 'testdouble';
-import {MDCModalDrawerFoundation, MDCDismissibleDrawerFoundation, MDCDrawerAdapter} from '@material/drawer';
+import {
+  MDCModalDrawerFoundation,
+  MDCDismissibleDrawerFoundation,
+  MDCDrawerAdapter,
+} from '@material/drawer';
 import Drawer from '../../../packages/drawer/index';
 import {Options, DeactivateOptions, FocusTrap} from 'focus-trap'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {coerceForTesting} from '../helpers/types';
 
-function getAdapter(foundation: MDCModalDrawerFoundation | MDCDismissibleDrawerFoundation): MDCDrawerAdapter {
+function getAdapter(
+  foundation: MDCModalDrawerFoundation | MDCDismissibleDrawerFoundation
+): MDCDrawerAdapter {
   // @ts-ignore adapter_ property is marked as protected in mdc-web. We need to override this behaviour for testing
   return foundation.adapter_;
 }
@@ -38,7 +44,9 @@ test('when props.open updates to true, #foundation.open is called when dismissib
 
 test('when props.open updates to false from true, #foundation.close is called when dismissible', () => {
   const wrapper = shallow<Drawer>(<Drawer open dismissible />);
-  wrapper.instance().foundation!.close = coerceForTesting<() => void>(td.func());
+  wrapper.instance().foundation!.close = coerceForTesting<() => void>(
+    td.func()
+  );
   wrapper.setProps({open: false});
   td.verify(wrapper.instance().foundation!.close(), {times: 1});
 });
@@ -52,7 +60,9 @@ test('when props.open updates to true, #foundation.open is called when modal', (
 
 test('when props.open updates to false from true, #foundation.close is called when modal', () => {
   const wrapper = shallow<Drawer>(<Drawer open modal />);
-  wrapper.instance().foundation!.close = coerceForTesting<() => void>(td.func());
+  wrapper.instance().foundation!.close = coerceForTesting<() => void>(
+    td.func()
+  );
   wrapper.setProps({open: false});
   td.verify(wrapper.instance().foundation!.close(), {times: 1});
 });
@@ -126,7 +136,9 @@ test('#adapter.removeClass should update state with new className', () => {
 test('#adapter.hasClass returns true if class is contained in classes', () => {
   const wrapper = mount<Drawer>(<Drawer modal />);
   wrapper.setState({classList: new Set(['test-class'])});
-  assert.isTrue(getAdapter(wrapper.instance().foundation!).hasClass('test-class'));
+  assert.isTrue(
+    getAdapter(wrapper.instance().foundation!).hasClass('test-class')
+  );
 });
 
 test('#adapter.elementHasClass should return true when element has class', () => {
@@ -148,9 +160,10 @@ test('#adapter.elementHasClass should return false when element does not have cl
     .childAt(0)
     .childAt(0)
     .getDOMNode();
-  const hasClass = getAdapter(
-    wrapper.instance().foundation!
-  ).elementHasClass(element, 'test-class');
+  const hasClass = getAdapter(wrapper.instance().foundation!).elementHasClass(
+    element,
+    'test-class'
+  );
   assert.isFalse(hasClass);
 });
 
@@ -160,7 +173,7 @@ test('#adapter.saveFocus updates previousFocus', () => {
   assert.exists(wrapper.instance().previousFocus);
 });
 test(
-  '#adapter.restoreFocus, focuses on component\'s previousFocus element ' +
+  "#adapter.restoreFocus, focuses on component's previousFocus element " +
     'if document.activeElement is contained within drawer element',
   () => {
     const div = document.createElement('div');
@@ -175,10 +188,12 @@ test(
       options
     );
     wrapper.instance().previousFocus = focusedElement;
-    const drawerButtonElement = coerceForTesting<HTMLElement>(wrapper
-      .childAt(0)
-      .childAt(0)
-      .getDOMNode());
+    const drawerButtonElement = coerceForTesting<HTMLElement>(
+      wrapper
+        .childAt(0)
+        .childAt(0)
+        .getDOMNode()
+    );
     drawerButtonElement.focus();
     getAdapter(wrapper.instance().foundation!).restoreFocus();
     assert.equal(focusedElement, document.activeElement);
@@ -224,7 +239,9 @@ test('#adapter.notifyOpen calls props.onOpen', () => {
 
 test('#adapter.trapFocus calls focusTrap.activate if modal variant', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  const activate = coerceForTesting<(activateOptions?: Pick<Options, 'onActivate'>) => void>(td.func());
+  const activate = coerceForTesting<
+    (activateOptions?: Pick<Options, 'onActivate'>) => void
+  >(td.func());
   wrapper.instance().focusTrap = coerceForTesting<FocusTrap>({activate});
   getAdapter(wrapper.instance().foundation!).trapFocus();
   td.verify(activate(), {times: 1});
@@ -232,14 +249,18 @@ test('#adapter.trapFocus calls focusTrap.activate if modal variant', () => {
 
 test('#adapter.releaseFocus calls focusTrap.deactivate if modal variant', () => {
   const wrapper = shallow<Drawer>(<Drawer modal />);
-  const deactivate = coerceForTesting<(deactivateOptions?: DeactivateOptions) => void>(td.func());
+  const deactivate = coerceForTesting<
+    (deactivateOptions?: DeactivateOptions) => void
+  >(td.func());
   wrapper.instance().focusTrap = coerceForTesting<FocusTrap>({deactivate});
   getAdapter(wrapper.instance().foundation!).releaseFocus();
   td.verify(deactivate(), {times: 1});
 });
 
 test('event keydown triggers props.onKeyDown', () => {
-  const onKeyDown = coerceForTesting<(event: React.KeyboardEvent) => void>(td.func());
+  const onKeyDown = coerceForTesting<(event: React.KeyboardEvent) => void>(
+    td.func()
+  );
   const wrapper = shallow(<Drawer onKeyDown={onKeyDown} />);
   const evt = coerceForTesting<React.KeyboardEvent>({});
   wrapper.childAt(0).simulate('keydown', evt);
@@ -259,7 +280,9 @@ test('event keydown triggers foundation.handleKeydown', () => {
 });
 
 test('event transitionend triggers props.onTransitionEnd', () => {
-  const onTransitionEnd = coerceForTesting<(event: React.TransitionEvent) => void>(td.func());
+  const onTransitionEnd = coerceForTesting<
+    (event: React.TransitionEvent) => void
+  >(td.func());
   const wrapper = shallow(<Drawer onTransitionEnd={onTransitionEnd} />);
   const evt = coerceForTesting<React.TransitionEvent>({});
   wrapper.childAt(0).simulate('transitionend', evt);

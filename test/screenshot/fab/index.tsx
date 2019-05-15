@@ -4,7 +4,7 @@ import '../../../packages/fab/index.scss';
 import './index.scss';
 import MaterialIcon from '../../../packages/material-icon';
 
-class FabScreenshotTest extends React.Component<{}, {isHidden: boolean;}> {
+class FabScreenshotTest extends React.Component<{}, {isHidden: boolean}> {
   state = {isHidden: false};
 
   render() {
@@ -249,19 +249,18 @@ class FabScreenshotTest extends React.Component<{}, {isHidden: boolean;}> {
           exited={this.state.isHidden}
           onClick={() => this.setState({isHidden: true})}
           textLabel='Hide With Click'
-          icon={<MaterialIcon icon='cancel'/>}
+          icon={<MaterialIcon icon='cancel' />}
           title='test'
         />
         <Fab
           exited={!this.state.isHidden}
           mini
-          icon={<MaterialIcon icon='favorite'/>}
+          icon={<MaterialIcon icon='favorite' />}
           onClick={() => this.setState({isHidden: false})}
         />
       </div>
     );
   }
-};
-
+}
 
 export default FabScreenshotTest;

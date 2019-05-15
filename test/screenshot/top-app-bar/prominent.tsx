@@ -10,16 +10,15 @@ import MainTopAppBarContent from './mainContent';
 import {mapActionItem} from './index';
 import {actionItems} from './actionItems';
 
-
 const title: string = 'Miami, FL';
 const TopAppBarProminentScreenshotTest: React.FunctionComponent = () => {
   return (
     <div className='top-app-bar-container'>
-      <TopAppBar prominent >
+      <TopAppBar prominent>
         <TopAppBarRow>
           <TopAppBarSection align='start'>
             <TopAppBarIcon navIcon tabIndex={0}>
-              <MaterialIcon hasRipple icon='menu'/>
+              <MaterialIcon hasRipple icon='menu' />
             </TopAppBarIcon>
             <TopAppBarTitle>{title}</TopAppBarTitle>
           </TopAppBarSection>

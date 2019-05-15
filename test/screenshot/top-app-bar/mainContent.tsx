@@ -4,10 +4,12 @@ import {
   TopAppbarFixedAdjustProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '../../../packages/top-app-bar';
 
-const MainTopAppBarContent: React.FunctionComponent<TopAppbarFixedAdjustProps> = (props) => {
+const MainTopAppBarContent: React.FunctionComponent<
+  TopAppbarFixedAdjustProps
+> = (props) => {
   return (
     <TopAppBarFixedAdjust {...props}>
-      <h1>{'Look at me I\'m a header'}</h1>
+      <h1>{"Look at me I'm a header"}</h1>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
       veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea

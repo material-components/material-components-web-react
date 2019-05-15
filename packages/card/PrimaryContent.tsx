@@ -26,12 +26,16 @@ import {withRipple, InjectedProps} from '@material/react-ripple';
 
 import {CSS_CLASSES} from './constant';
 
-export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>, InjectedProps<HTMLDivElement>{
+export interface PrimaryContentBaseProps
+  extends React.HTMLProps<HTMLDivElement>,
+    InjectedProps<HTMLDivElement> {
   className: string;
   unbounded?: boolean;
-};
+}
 
-export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps> = ({
+export const PrimaryContentBase: React.FunctionComponent<
+  PrimaryContentBaseProps
+> = ({
   className = '',
   initRipple,
   children,
@@ -47,4 +51,6 @@ export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps
   );
 };
 
-export default withRipple<PrimaryContentBaseProps, HTMLDivElement>(PrimaryContentBase);
+export default withRipple<PrimaryContentBaseProps, HTMLDivElement>(
+  PrimaryContentBase
+);

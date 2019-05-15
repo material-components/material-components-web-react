@@ -26,10 +26,13 @@ import classnames from 'classnames';
 export interface DrawerTitleProps {
   tag?: string;
   className?: string;
-};
+}
 
 const DrawerTitle: React.FunctionComponent<DrawerTitleProps> = ({
-  tag: Tag = 'h3', children, className = '', ...otherProps
+  tag: Tag = 'h3',
+  children,
+  className = '',
+  ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

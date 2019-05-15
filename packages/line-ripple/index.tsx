@@ -29,17 +29,17 @@ export interface LineRippleProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;
   active?: boolean;
   rippleCenter?: number;
-};
+}
 
 interface LineRippleState {
   classList: Set<string>;
   style: React.CSSProperties;
-};
+}
 
 export default class LineRipple extends React.Component<
   LineRippleProps,
   LineRippleState
-  > {
+> {
   static defaultProps = {
     className: '',
     style: {},
@@ -75,7 +75,8 @@ export default class LineRipple extends React.Component<
     // https://github.com/material-components/material-components-web/issues/3643
     const {rippleCenter} = this.props;
     if (
-      rippleCenter && rippleCenter !== prevProps.rippleCenter &&
+      rippleCenter &&
+      rippleCenter !== prevProps.rippleCenter &&
       !isNaN(rippleCenter)
     ) {
       this.foundation_.setRippleCenter(rippleCenter);
@@ -122,7 +123,8 @@ export default class LineRipple extends React.Component<
     return Object.assign({}, style, wrappedStyle);
   };
 
-  onTransitionEnd = (evt: React.TransitionEvent<Element>) => this.foundation_.handleTransitionEnd(evt.nativeEvent);
+  onTransitionEnd = (evt: React.TransitionEvent<Element>) =>
+    this.foundation_.handleTransitionEnd(evt.nativeEvent);
 
   render() {
     const {

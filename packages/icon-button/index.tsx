@@ -38,19 +38,21 @@ type IconButtonTypes = HTMLButtonElement | HTMLAnchorElement;
 export interface IconButtonBaseProps extends ElementAttributes {
   handleChange?: (evt: MDCIconButtonToggleEventDetail) => void;
   isLink?: boolean;
-};
+}
 
 interface IconButtonBaseState extends ElementAttributes {
   classList: Set<string>;
-};
+}
 
 export interface IconButtonProps<T extends IconButtonTypes>
-  extends InjectedProps<T>, IconButtonBaseProps, React.HTMLProps<T> {};
+  extends InjectedProps<T>,
+    IconButtonBaseProps,
+    React.HTMLProps<T> {}
 
 class IconButtonBase<T extends IconButtonTypes> extends React.Component<
   IconButtonProps<T>,
   IconButtonBaseState
-  > {
+> {
   foundation!: MDCIconButtonToggleFoundation;
 
   constructor(props: IconButtonProps<T>) {
@@ -90,7 +92,8 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
       setAttr: this.updateState,
       notifyChange: this.props.handleChange!,
     };
@@ -101,7 +104,7 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
       ...prevState,
       [key]: value,
     }));
-  }
+  };
 
   handleClick_ = (e: React.MouseEvent<T>) => {
     this.props.onClick!(e);
@@ -133,11 +136,18 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
     if (isLink) {
       return <a {...props as IconButtonProps<HTMLAnchorElement>}>{children}</a>;
     }
-    return <button {...props as IconButtonProps<HTMLButtonElement>}>{children}</button>;
+    return (
+      <button {...props as IconButtonProps<HTMLButtonElement>}>
+        {children}
+      </button>
+    );
   }
 }
 
-const IconButton = withRipple<IconButtonProps<IconButtonTypes>, IconButtonTypes>(IconButtonBase);
+const IconButton = withRipple<
+  IconButtonProps<IconButtonTypes>,
+  IconButtonTypes
+>(IconButtonBase);
 
 export default IconButton;
 export {IconToggle, IconButtonBase};

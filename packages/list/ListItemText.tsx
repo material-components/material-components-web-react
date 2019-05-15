@@ -29,7 +29,7 @@ export interface ListItemTextProps {
   primaryText?: React.ReactNode;
   secondaryText?: React.ReactNode;
   childrenTabIndex?: number;
-};
+}
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14064
 function isReactElement(element: any): element is React.ReactElement<any> {

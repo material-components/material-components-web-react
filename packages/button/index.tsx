@@ -29,39 +29,39 @@ import {CSS_CLASSES} from './constant';
 type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
 
 export interface ButtonProps<T extends ButtonTypes>
-  extends InjectedProps<T>, React.AnchorHTMLAttributes<T>, React.ButtonHTMLAttributes<T> {
-    raised?: boolean;
-    unelevated?: boolean;
-    outlined?: boolean;
-    dense?: boolean;
-    disabled?: boolean;
-    className?: string;
-    icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
-    href?: string;
-    trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+  extends InjectedProps<T>,
+    React.AnchorHTMLAttributes<T>,
+    React.ButtonHTMLAttributes<T> {
+  raised?: boolean;
+  unelevated?: boolean;
+  outlined?: boolean;
+  dense?: boolean;
+  disabled?: boolean;
+  className?: string;
+  icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+  href?: string;
+  trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
 }
 
-export const Button = <T extends ButtonTypes>(
-  {
-    className = '',
-    raised = false,
-    unelevated = false,
-    outlined = false,
-    dense = false,
-    disabled = false,
-    icon,
-    href,
-    children,
-    initRipple,
-    trailingIcon,
-    // eslint disabled since we do not want to include
-    // this in ...otherProps.
-    // if unbounded is passed to the <button> element, it will throw
-    // a warning.
-    unbounded = false, // eslint-disable-line @typescript-eslint/no-unused-vars
-    ...otherProps
-  }: ButtonProps<T>
-) => {
+export const Button = <T extends ButtonTypes>({
+  className = '',
+  raised = false,
+  unelevated = false,
+  outlined = false,
+  dense = false,
+  disabled = false,
+  icon,
+  href,
+  children,
+  initRipple,
+  trailingIcon,
+  // eslint disabled since we do not want to include
+  // this in ...otherProps.
+  // if unbounded is passed to the <button> element, it will throw
+  // a warning.
+  unbounded = false, // eslint-disable-line @typescript-eslint/no-unused-vars
+  ...otherProps
+}: ButtonProps<T>) => {
   const props = {
     className: classnames(CSS_CLASSES.ROOT, className, {
       [CSS_CLASSES.RAISED]: raised,
@@ -78,9 +78,7 @@ export const Button = <T extends ButtonTypes>(
     return (
       <a {...props as React.HTMLProps<HTMLAnchorElement>} href={href}>
         {!trailingIcon ? renderIcon(icon) : null}
-        <span className={CSS_CLASSES.LABEL}>
-          {children}
-        </span>
+        <span className={CSS_CLASSES.LABEL}>{children}</span>
         {trailingIcon ? renderIcon(trailingIcon) : null}
       </a>
     );
@@ -89,25 +87,23 @@ export const Button = <T extends ButtonTypes>(
   return (
     <button {...props as React.HTMLProps<HTMLButtonElement>}>
       {!trailingIcon ? renderIcon(icon) : null}
-      <span className={CSS_CLASSES.LABEL}>
-        {children}
-      </span>
+      <span className={CSS_CLASSES.LABEL}>{children}</span>
       {trailingIcon ? renderIcon(trailingIcon) : null}
     </button>
   );
 };
 
-const renderIcon = (icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>) => (
-  icon ?
-    React.cloneElement(icon, {
-      className: classnames(CSS_CLASSES.ICON, icon.props.className),
-    }) :
-    null
-);
+const renderIcon = (
+  icon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>
+) =>
+  icon
+    ? React.cloneElement(icon, {
+        className: classnames(CSS_CLASSES.ICON, icon.props.className),
+      })
+    : null;
 
 Button.defaultProps = {
   initRipple: () => {},
 };
 
 export default withRipple<ButtonProps<ButtonTypes>, ButtonTypes>(Button);
-

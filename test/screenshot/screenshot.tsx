@@ -15,7 +15,8 @@ import mkdirp from 'mkdirp';
 
 const readFilePromise = promisify(readFile);
 const writeFilePromise = promisify(writeFile);
-const serviceAccountKey: string = process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY || '';
+const serviceAccountKey: string =
+  process.env.MDC_GCLOUD_SERVICE_ACCOUNT_KEY || '';
 const branchName = process.env.MDC_BRANCH_NAME;
 const commitHash = process.env.MDC_COMMIT_HASH;
 const goldenFilePath = './test/screenshot/golden.json';
@@ -27,8 +28,8 @@ const defaultMetadata = {
 
 const NO_MATCH_DIRECTORY = 'no_match';
 
-let storage: Storage|null = null;
-let bucket: Storage.Bucket|null = null;
+let storage: Storage | null = null;
+let bucket: Storage.Bucket | null = null;
 if (serviceAccountKey) {
   storage = new Storage({
     credentials: JSON.parse(serviceAccountKey),
@@ -183,8 +184,16 @@ export default class Screenshot {
    * @param {!Object=} customMetadata Optional custom metadata
    * @private
    */
-  async saveImage_(imagePath: string, imageBuffer: Buffer, customMetadata: Storage.CustomFileMetadata = {}) {
-    const metadata: Storage.CustomFileMetadata = Object.assign({}, defaultMetadata, customMetadata);
+  async saveImage_(
+    imagePath: string,
+    imageBuffer: Buffer,
+    customMetadata: Storage.CustomFileMetadata = {}
+  ) {
+    const metadata: Storage.CustomFileMetadata = Object.assign(
+      {},
+      defaultMetadata,
+      customMetadata
+    );
     if (!bucket) {
       throw new Error('GCS is not configured');
     }

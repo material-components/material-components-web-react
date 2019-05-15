@@ -22,13 +22,25 @@
 
 import typographyHOC from './typography';
 
-export const Body1 = typographyHOC<HTMLParagraphElement>({classModifier: 'body1', tag: 'p'});
+export const Body1 = typographyHOC<HTMLParagraphElement>({
+  classModifier: 'body1',
+  tag: 'p',
+});
 
-export const Body2 = typographyHOC<HTMLParagraphElement>({classModifier: 'body2', tag: 'p'});
+export const Body2 = typographyHOC<HTMLParagraphElement>({
+  classModifier: 'body2',
+  tag: 'p',
+});
 
-export const Button = typographyHOC<HTMLSpanElement>({classModifier: 'button', tag: 'span'});
+export const Button = typographyHOC<HTMLSpanElement>({
+  classModifier: 'button',
+  tag: 'span',
+});
 
-export const Caption = typographyHOC<HTMLSpanElement>({classModifier: 'caption', tag: 'span'});
+export const Caption = typographyHOC<HTMLSpanElement>({
+  classModifier: 'caption',
+  tag: 'span',
+});
 
 export const Headline1 = typographyHOC<HTMLHeadingElement>({
   classModifier: 'headline1',

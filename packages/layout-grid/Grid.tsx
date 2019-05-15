@@ -27,13 +27,15 @@ import {CSS_CLASSES} from './constant';
 
 export type Alignment = 'left' | 'right';
 export interface GridProps<T> extends React.HTMLProps<T> {
-  align?: Alignment,
-  className?: string,
-  fixedColumnWidth?: boolean,
-  tag?: string
-};
+  align?: Alignment;
+  className?: string;
+  fixedColumnWidth?: boolean;
+  tag?: string;
+}
 
-const Grid: <T extends {} = HTMLDivElement>(props: GridProps<T>) => React.ReactElement<any> = ({
+const Grid: <T extends {} = HTMLDivElement>(
+  props: GridProps<T>
+) => React.ReactElement<any> = ({
   align,
   children,
   className = '',

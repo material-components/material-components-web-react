@@ -28,26 +28,27 @@ export interface SectionProps<T> extends React.HTMLProps<T> {
   align?: 'start' | 'end';
   className?: string;
   tag?: string;
-};
+}
 
-const Section: <T extends HTMLElement = HTMLElement>(props: SectionProps<T>) =>
-  React.ReactElement<T> = ({
-    align,
-    className,
-    children,
-    tag: Tag = 'section',
-    ...otherProps
-  }) => (
-    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-    <Tag
-      className={classnames(className, cssClasses.SECTION, {
-        [cssClasses.SECTION_START]: align === 'start',
-        [cssClasses.SECTION_END]: align === 'end',
-      })}
-      {...otherProps}
-    >
-      {children}
-    </Tag>
-  );
+const Section: <T extends HTMLElement = HTMLElement>(
+  props: SectionProps<T>
+) => React.ReactElement<T> = ({
+  align,
+  className,
+  children,
+  tag: Tag = 'section',
+  ...otherProps
+}) => (
+  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+  <Tag
+    className={classnames(className, cssClasses.SECTION, {
+      [cssClasses.SECTION_START]: align === 'start',
+      [cssClasses.SECTION_END]: align === 'end',
+    })}
+    {...otherProps}
+  >
+    {children}
+  </Tag>
+);
 
 export default Section;

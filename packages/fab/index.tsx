@@ -26,18 +26,21 @@ import {withRipple, InjectedProps} from '@material/react-ripple';
 
 import {CSS_CLASSES} from './constant';
 
-export interface FabProps extends InjectedProps<HTMLButtonElement>,
-  React.ButtonHTMLAttributes<HTMLButtonElement> {
-    exited?: boolean;
-    mini?: boolean;
-    icon?: React.ReactElement<HTMLElement>;
-    textLabel?: string;
-    className?: string;
-    initRipple?: React.Ref<HTMLButtonElement>;
-    unbounded?: boolean;
+export interface FabProps
+  extends InjectedProps<HTMLButtonElement>,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {
+  exited?: boolean;
+  mini?: boolean;
+  icon?: React.ReactElement<HTMLElement>;
+  textLabel?: string;
+  className?: string;
+  initRipple?: React.Ref<HTMLButtonElement>;
+  unbounded?: boolean;
 }
 
-const Icon: React.FunctionComponent<{icon?: React.ReactElement<HTMLElement>}> = ({icon}) => {
+const Icon: React.FunctionComponent<{
+  icon?: React.ReactElement<HTMLElement>;
+}> = ({icon}) => {
   if (!icon) {
     return null;
   }
@@ -56,7 +59,9 @@ const TextLabel: React.FunctionComponent<{textLabel: string}> = ({
   return <span className={CSS_CLASSES.LABEL}>{textLabel}</span>;
 };
 
-export const Fab: React.FunctionComponent<FabProps & React.HTMLProps<HTMLButtonElement>> = ({
+export const Fab: React.FunctionComponent<
+  FabProps & React.HTMLProps<HTMLButtonElement>
+> = ({
   exited = false,
   mini = false,
   icon,
