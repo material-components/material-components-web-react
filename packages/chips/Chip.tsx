@@ -42,7 +42,7 @@ export interface ChipProps extends InjectedProps<HTMLDivElement> {
   shouldRemoveOnTrailingIconClick?: boolean;
   trailingIcon?: React.ReactElement<HTMLElement>;
   initRipple: (surface: HTMLElement | null) => void;
-};
+}
 
 type ChipState = {
   classList: Set<string>;
@@ -79,8 +79,13 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     this.foundation = new MDCChipFoundation(this.adapter);
     this.foundation.init();
     this.foundation.setSelected(selected!);
-    if (shouldRemoveOnTrailingIconClick !== this.foundation.getShouldRemoveOnTrailingIconClick()) {
-      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick!);
+    if (
+      shouldRemoveOnTrailingIconClick !==
+      this.foundation.getShouldRemoveOnTrailingIconClick()
+    ) {
+      this.foundation.setShouldRemoveOnTrailingIconClick(
+        shouldRemoveOnTrailingIconClick!
+      );
     }
   }
 
@@ -91,8 +96,13 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       this.foundation.setSelected(selected!);
     }
 
-    if (shouldRemoveOnTrailingIconClick !== prevProps.shouldRemoveOnTrailingIconClick) {
-      this.foundation.setShouldRemoveOnTrailingIconClick(shouldRemoveOnTrailingIconClick!);
+    if (
+      shouldRemoveOnTrailingIconClick !==
+      prevProps.shouldRemoveOnTrailingIconClick
+    ) {
+      this.foundation.setShouldRemoveOnTrailingIconClick(
+        shouldRemoveOnTrailingIconClick!
+      );
     }
   }
 
@@ -123,7 +133,8 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
       hasLeadingIcon: () => Boolean(this.props.leadingIcon),
       eventTargetHasClass: (target: HTMLElement, className: string) =>
         target.classList.contains(className),
@@ -168,7 +179,10 @@ export class Chip extends React.Component<ChipProps, ChipState> {
         }
         return chipCheckmark.props.getBoundingClientRect();
       },
-      setStyleProperty: (propertyName: keyof React.CSSProperties, value: string | null) => {
+      setStyleProperty: (
+        propertyName: keyof React.CSSProperties,
+        value: string | null
+      ) => {
         if (!this.chipElement) return;
         this.chipElement.style.setProperty(propertyName, value);
       },
@@ -176,7 +190,8 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       notifyInteraction: () => this.props.handleInteraction!(this.props.id!),
       notifySelection: (selected: boolean) =>
         this.props.handleSelect!(this.props.id!, selected),
-      notifyTrailingIconInteraction: () => this.props.handleTrailingIconInteraction!(this.props.id!),
+      notifyTrailingIconInteraction: () =>
+        this.props.handleTrailingIconInteraction!(this.props.id!),
       addClassToLeadingIcon: (className: string) => {
         const leadingIconClassList = new Set(this.state.leadingIconClassList);
         leadingIconClassList.add(className);
@@ -200,7 +215,8 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     this.foundation.handleInteraction(e.nativeEvent);
   };
 
-  handleTrailingIconClick = (e: React.MouseEvent) => this.foundation.handleTrailingIconInteraction(e.nativeEvent);
+  handleTrailingIconClick = (e: React.MouseEvent) =>
+    this.foundation.handleTrailingIconInteraction(e.nativeEvent);
 
   handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
     this.props.onTransitionEnd!(e);
@@ -241,7 +257,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       id,
       className,
       selected,
@@ -256,7 +272,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       initRipple,
       unbounded,
       shouldRemoveOnTrailingIconClick,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       chipCheckmark,
       leadingIcon,
       trailingIcon,

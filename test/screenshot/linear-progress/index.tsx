@@ -5,7 +5,7 @@ import '../../../packages/linear-progress/index.scss';
 
 interface ClosableState {
   closed: boolean;
-};
+}
 
 class Closable extends React.Component<{}, ClosableState> {
   state = {closed: false};

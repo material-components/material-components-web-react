@@ -31,18 +31,21 @@ export interface SelectIconProps extends React.HTMLProps<HTMLElement> {
 }
 
 interface ElementAttributes {
-  'tabindex'?: number;
+  tabindex?: number;
   role?: string;
-};
+}
 
-interface SelectIconState extends ElementAttributes {};
+interface SelectIconState extends ElementAttributes {}
 
-export class SelectIcon extends React.Component<SelectIconProps, SelectIconState> {
+export class SelectIcon extends React.Component<
+  SelectIconProps,
+  SelectIconState
+> {
   foundation?: MDCSelectIconFoundation;
 
   state: SelectIconState = {
-    'tabindex': undefined,
-    'role': undefined,
+    tabindex: undefined,
+    role: undefined,
   };
 
   static defaultProps = {
@@ -68,15 +71,20 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
     return {
       getAttr: (attr: keyof ElementAttributes) => {
         if (this.state[attr] !== undefined) {
-          return (this.state[attr] as ElementAttributes[keyof ElementAttributes])!.toString();
+          return (this.state[
+            attr
+          ] as ElementAttributes[keyof ElementAttributes])!.toString();
         }
         const reactAttr = attr === 'tabindex' ? 'tabIndex' : attr;
         if (this.props[reactAttr] !== undefined) {
-          return (this.props[reactAttr])!.toString();
+          return this.props[reactAttr]!.toString();
         }
         return null;
       },
-      setAttr: (attr: keyof ElementAttributes, value: ElementAttributes[keyof ElementAttributes]) => {
+      setAttr: (
+        attr: keyof ElementAttributes,
+        value: ElementAttributes[keyof ElementAttributes]
+      ) => {
         this.setState((prevState) => ({
           ...prevState,
           [attr]: value,
@@ -99,7 +107,7 @@ export class SelectIcon extends React.Component<SelectIconProps, SelectIconState
   render() {
     const {
       tag: Tag,
-      setIconFoundation, // eslint-disable-line no-unused-vars
+      setIconFoundation, // eslint-disable-line @typescript-eslint/no-unused-vars
       children,
       className,
       ...otherProps

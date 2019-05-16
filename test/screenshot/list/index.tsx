@@ -13,7 +13,7 @@ import List, {
 } from '../../../packages/list/index';
 import Checkbox from '../../../packages/checkbox/index';
 import Radio, {NativeRadioControl} from '../../../packages/radio/index';
-import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line no-unused-vars
+import {ListItemTextProps} from '../../../packages/list/ListItemText'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {MDCListIndex} from '@material/list/types';
 
 const groceryItems = ['Milk', 'Eggs', 'Barley'];
@@ -21,7 +21,7 @@ const groceryItems = ['Milk', 'Eggs', 'Barley'];
 interface SelectionListTestState {
   selectedIndex: number;
   listItems: string[];
-};
+}
 
 interface ListItemOptions extends ListItemTextProps {
   icon?: string;
@@ -30,20 +30,21 @@ interface ListItemOptions extends ListItemTextProps {
 }
 
 function renderListItem(options: ListItemOptions, key: string | number) {
-  const {primaryText, secondaryText, icon = 'info', onMetaClick = () => {}, disabled = false} = options;
+  const {
+    primaryText,
+    secondaryText,
+    icon = 'info',
+    onMetaClick = () => {},
+    disabled = false,
+  } = options;
   return (
     <ListItem key={key} disabled={disabled}>
       <ListItemGraphic graphic={<MaterialIcon icon='folder' />} />
       <ListItemText primaryText={primaryText} secondaryText={secondaryText} />
-      <ListItemMeta
-        meta={<MaterialIcon
-          onClick={onMetaClick}
-          icon={icon}
-        />}
-      />
+      <ListItemMeta meta={<MaterialIcon onClick={onMetaClick} icon={icon} />} />
     </ListItem>
   );
-};
+}
 
 class SelectionListTest extends React.Component<{}, SelectionListTestState> {
   state = {
@@ -53,13 +54,15 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
 
   insertListItem = () => {
     const {listItems, selectedIndex} = this.state;
-    listItems.splice(0, 0, `New list item ${(new Date()).getTime()}`);
+    listItems.splice(0, 0, `New list item ${new Date().getTime()}`);
     this.setState({listItems, selectedIndex: selectedIndex + 1});
   };
 
   removeListItem = (e: React.MouseEvent) => {
     const listItemElement = e.currentTarget!.parentElement;
-    const listItemElements = listItemElement!.parentElement!.querySelectorAll('.mdc-list-item');
+    const listItemElements = listItemElement!.parentElement!.querySelectorAll(
+      '.mdc-list-item'
+    );
     let interactionIndex = -1;
     listItemElements.forEach((item, index) => {
       if (item === listItemElement) {
@@ -85,11 +88,16 @@ class SelectionListTest extends React.Component<{}, SelectionListTestState> {
           selectedIndex={this.state.selectedIndex}
           handleSelect={(selectedIndex) => this.setState({selectedIndex})}
         >
-          {this.state.listItems.map((text) => renderListItem({
-            primaryText: text,
-            icon: 'delete',
-            onMetaClick: this.removeListItem,
-          }, text))}
+          {this.state.listItems.map((text) =>
+            renderListItem(
+              {
+                primaryText: text,
+                icon: 'delete',
+                onMetaClick: this.removeListItem,
+              },
+              text
+            )
+          )}
         </List>
       </React.Fragment>
     );
@@ -103,14 +111,12 @@ class CheckboxList extends React.Component<{}, {selectedIndex: MDCListIndex}> {
 
   handleSelect = (_selectedIndex: number, selected: MDCListIndex) => {
     this.setState({selectedIndex: selected});
-  }
+  };
 
   render() {
     return (
       <React.Fragment>
-        <h5>
-          Selected index: {this.state.selectedIndex}
-        </h5>
+        <h5>Selected index: {this.state.selectedIndex}</h5>
         <List
           checkboxList
           selectedIndex={this.state.selectedIndex}
@@ -135,18 +141,13 @@ class RadioList extends React.Component<{}, {selectedItem: string}> {
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({selectedItem: e.target.value});
-  }
+  };
 
   render() {
     return (
       <React.Fragment>
-        <h5>
-          Selected index: {this.state.selectedItem}
-        </h5>
-        <List
-          radioList
-          selectedIndex={0}
-        >
+        <h5>Selected index: {this.state.selectedItem}</h5>
+        <List radioList selectedIndex={0}>
           {groceryItems.map((item, index) => (
             <ListItem key={index}>
               <Radio key={index}>
@@ -175,12 +176,31 @@ const ListScreenshotTest = () => {
 
       <h2>Two-line List</h2>
       <List twoLine>
-        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'}, 1)}
-        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text', disabled: true}, 2)}
-        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'}, 3)}
+        {renderListItem(
+          {primaryText: 'List item', secondaryText: 'Secondary text'},
+          1
+        )}
+        {renderListItem(
+          {
+            primaryText: 'List item',
+            secondaryText: 'Secondary text',
+            disabled: true,
+          },
+          2
+        )}
+        {renderListItem(
+          {primaryText: 'List item', secondaryText: 'Secondary text'},
+          3
+        )}
         <ListDivider />
-        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'}, 4)}
-        {renderListItem({primaryText: 'List item', secondaryText: 'Secondary text'}, 5)}
+        {renderListItem(
+          {primaryText: 'List item', secondaryText: 'Secondary text'},
+          4
+        )}
+        {renderListItem(
+          {primaryText: 'List item', secondaryText: 'Secondary text'},
+          5
+        )}
       </List>
 
       <h2>List group</h2>

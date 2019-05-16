@@ -28,10 +28,10 @@ export interface ListItemMetaProps {
   tabIndex?: number;
   meta: string | React.ReactElement<any>;
   childrenTabIndex?: number;
-};
+}
 
-const ListItemMeta:React.FunctionComponent<ListItemMetaProps> = ({
-  tabIndex, // eslint-disable-line no-unused-vars
+const ListItemMeta: React.FunctionComponent<ListItemMetaProps> = ({
+  tabIndex, // eslint-disable-line @typescript-eslint/no-unused-vars
   meta,
   className = '',
   ...otherProps
@@ -43,7 +43,11 @@ const ListItemMeta:React.FunctionComponent<ListItemMetaProps> = ({
     metaElement = meta;
   }
   const metaProps = {
-    className: classnames('mdc-list-item__meta', className, metaElement.props.className),
+    className: classnames(
+      'mdc-list-item__meta',
+      className,
+      metaElement.props.className
+    ),
     tabIndex: tabIndex !== undefined ? tabIndex : -1,
     ...otherProps,
   };

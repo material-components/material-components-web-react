@@ -32,12 +32,15 @@ import Media from './Media';
 import {CSS_CLASSES} from './constant';
 
 export interface CardProps extends React.HTMLProps<HTMLDivElement> {
-  className?: string,
-  outlined?: boolean
+  className?: string;
+  outlined?: boolean;
 }
 
 const Card: React.FunctionComponent<CardProps> = ({
-  children, className = '', outlined = false, ...otherProps // eslint-disable-line react/prop-types
+  children,
+  className = '',
+  outlined = false,
+  ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.ROOT, className, {
     [CSS_CLASSES.OUTLINED]: outlined,

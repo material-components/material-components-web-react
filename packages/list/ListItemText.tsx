@@ -29,7 +29,7 @@ export interface ListItemTextProps {
   primaryText?: React.ReactNode;
   secondaryText?: React.ReactNode;
   childrenTabIndex?: number;
-};
+}
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14064
 function isReactElement(element: any): element is React.ReactElement<any> {
@@ -37,12 +37,10 @@ function isReactElement(element: any): element is React.ReactElement<any> {
 }
 
 const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
-  /* eslint-disable react/prop-types */
   primaryText = '',
   secondaryText = '',
   tabIndex = -1,
   className = '',
-  /* eslint-enable react/prop-types */
   ...otherProps
 }) => {
   const renderText = (text: React.ReactNode, className: string) => {

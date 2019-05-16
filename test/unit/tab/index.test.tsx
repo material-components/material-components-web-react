@@ -52,8 +52,10 @@ test('has a foundation after mount', () => {
 });
 
 test('if props.active updates to true, activate is called with previousIndicatorClientRect prop', () => {
-  const clientRect = {test: 1} as unknown as ClientRect;
-  const wrapper = shallow<Tab>(<Tab previousIndicatorClientRect={clientRect} />);
+  const clientRect = ({test: 1} as unknown) as ClientRect;
+  const wrapper = shallow<Tab>(
+    <Tab previousIndicatorClientRect={clientRect} />
+  );
   wrapper.instance().activate = td.func() as (c?: ClientRect) => void;
   wrapper.setProps({active: true});
   td.verify(wrapper.instance().activate(clientRect), {times: 1});
@@ -68,16 +70,22 @@ test('if props.active updates to false, foundation.deactivate is called', () => 
 
 test('calls foundation.setFocusOnActivate when props.focusOnActivate changes from false to true', () => {
   const wrapper = shallow<Tab>(<Tab focusOnActivate={false} />);
-  wrapper.instance().foundation.setFocusOnActivate = td.func<(focusOnActivate: boolean) => null>();
+  wrapper.instance().foundation.setFocusOnActivate = td.func<
+    (focusOnActivate: boolean) => null
+  >();
   wrapper.setProps({focusOnActivate: true});
   td.verify(wrapper.instance().foundation.setFocusOnActivate(true), {times: 1});
 });
 
 test('calls foundation.setFocusOnActivate when props.focusOnActivate changes from true to false', () => {
   const wrapper = shallow<Tab>(<Tab focusOnActivate />);
-  wrapper.instance().foundation.setFocusOnActivate = td.func<(focusOnActivate: boolean) => null>();
+  wrapper.instance().foundation.setFocusOnActivate = td.func<
+    (focusOnActivate: boolean) => null
+  >();
   wrapper.setProps({focusOnActivate: false});
-  td.verify(wrapper.instance().foundation.setFocusOnActivate(false), {times: 1});
+  td.verify(wrapper.instance().foundation.setFocusOnActivate(false), {
+    times: 1,
+  });
 });
 
 test('when props.focusOnActivate is true, an active tab should be focused on mount', () => {
@@ -101,7 +109,9 @@ test('when props.focusOnActivate is true and active is changed to true, the tab 
 test('when props.focusOnActivate is false, an active tab should not be focused on mount', () => {
   const div = document.createElement('div');
   document.body.append(div);
-  const wrapper = mount<Tab>(<Tab active focusOnActivate={false} />, {attachTo: div});
+  const wrapper = mount<Tab>(<Tab active focusOnActivate={false} />, {
+    attachTo: div,
+  });
   assert.notEqual(document.activeElement, wrapper.getDOMNode());
   div.remove();
 });
@@ -156,24 +166,34 @@ test('#adapter.setAttr sets aria-selected on state', () => {
 
 test('#adapter.getOffsetLeft returns tabRef.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab />);
-  assert.equal(wrapper.instance().adapter.getOffsetLeft(), wrapper.instance().tabRef.current!.offsetLeft);
+  assert.equal(
+    wrapper.instance().adapter.getOffsetLeft(),
+    wrapper.instance().tabRef.current!.offsetLeft
+  );
 });
 
 test('#adapter.getOffsetWidth returns tabRef.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getOffsetWidth(), wrapper.instance().tabRef.current!.offsetWidth);
+  assert.equal(
+    wrapper.instance().adapter.getOffsetWidth(),
+    wrapper.instance().tabRef.current!.offsetWidth
+  );
 });
 
 test('#adapter.getContentOffsetLeft returns tabContentRef.offsetLeft', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getContentOffsetLeft(),
-    wrapper.instance().tabContentRef.current!.offsetLeft);
+  assert.equal(
+    wrapper.instance().adapter.getContentOffsetLeft(),
+    wrapper.instance().tabContentRef.current!.offsetLeft
+  );
 });
 
 test('#adapter.getContentOffsetWidth returns tabContentRef.offsetWidth', () => {
   const wrapper = mount<Tab>(<Tab>Text</Tab>);
-  assert.equal(wrapper.instance().adapter.getContentOffsetWidth(),
-    wrapper.instance().tabContentRef.current!.offsetWidth);
+  assert.equal(
+    wrapper.instance().adapter.getContentOffsetWidth(),
+    wrapper.instance().tabContentRef.current!.offsetWidth
+  );
 });
 
 test('#adapter.focus focuses the tabRef', () => {
@@ -184,7 +204,7 @@ test('#adapter.focus focuses the tabRef', () => {
 });
 
 test('#adapter.activateIndicator sets state.activateIndicator and state.previousIndicatorClientRect', () => {
-  const clientRect = {test: 1} as unknown as ClientRect;
+  const clientRect = ({test: 1} as unknown) as ClientRect;
   const wrapper = shallow<Tab>(<Tab />);
   wrapper.instance().adapter.activateIndicator(clientRect);
   assert.equal(wrapper.state().activateIndicator, true);
@@ -198,9 +218,11 @@ test('#adapter.deactivateIndicator sets state.activateIndicator', () => {
 });
 
 test('#activate calls foundation.activate', () => {
-  const clientRect = {test: 1} as unknown as ClientRect; ;
+  const clientRect = ({test: 1} as unknown) as ClientRect;
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation.activate = td.func<(previousIndicatorClientRect?: ClientRect) => null>();
+  wrapper.instance().foundation.activate = td.func<
+    (previousIndicatorClientRect?: ClientRect) => null
+  >();
   wrapper.instance().activate(clientRect);
   td.verify(wrapper.instance().foundation.activate(clientRect), {times: 1});
 });
@@ -214,14 +236,21 @@ test('#deactivate calls foundation.deactivate', () => {
 
 test('#computeIndicatorClientRect returns the tabIndicatorRef clientRect', () => {
   const wrapper = mount<Tab>(<Tab />);
-  wrapper.instance().tabIndicatorRef.current!.computeContentClientRect = coerceForTesting<() => ClientRect>(td.func());
+  wrapper.instance().tabIndicatorRef.current!.computeContentClientRect = coerceForTesting<
+    () => ClientRect
+  >(td.func());
   wrapper.instance().computeIndicatorClientRect();
-  td.verify(wrapper.instance().tabIndicatorRef.current!.computeContentClientRect(), {times: 1});
+  td.verify(
+    wrapper.instance().tabIndicatorRef.current!.computeContentClientRect(),
+    {times: 1}
+  );
 });
 
 test('#computeDimensions calls foundation.computeDimensions', () => {
   const wrapper = shallow<Tab>(<Tab />);
-  wrapper.instance().foundation.computeDimensions = td.func<() => MDCTabDimensions>();
+  wrapper.instance().foundation.computeDimensions = td.func<
+    () => MDCTabDimensions
+  >();
   wrapper.instance().computeDimensions();
   td.verify(wrapper.instance().foundation.computeDimensions(), {times: 1});
 });
@@ -312,7 +341,7 @@ test('props.isFadingIndicator should render indicator with props.fade true', () 
 });
 
 test('props.previousIndicatorClientRect should render indicator with same props.previousIndicatorClientRect', () => {
-  const clientRect = {test: 1} as unknown as ClientRect;
+  const clientRect = ({test: 1} as unknown) as ClientRect;
   const wrapper = shallow(<Tab previousIndicatorClientRect={clientRect} />);
   const indicator = wrapper.childAt(1);
   assert.equal(indicator.props().previousIndicatorClientRect, clientRect);
@@ -335,7 +364,7 @@ test('props.indicatorContent should render indicator with props.active true if p
 });
 
 test('props.indicatorContent should render indicator with same props.previousIndicatorClientRect', () => {
-  const clientRect = {test: 1} as unknown as ClientRect;
+  const clientRect = ({test: 1} as unknown) as ClientRect;
   const wrapper = shallow(
     <Tab
       previousIndicatorClientRect={clientRect}
@@ -350,7 +379,10 @@ test('props.indicatorContent should render with a ref attached', () => {
   const wrapper = mount<Tab>(
     <Tab indicatorContent={<i className='icon'>icon</i>} />
   );
-  assert.instanceOf(wrapper.instance().tabIndicatorRef.current, TabIndicatorRef);
+  assert.instanceOf(
+    wrapper.instance().tabIndicatorRef.current,
+    TabIndicatorRef
+  );
 });
 
 test('props.isMinWidthIndicator renders indicator within the content element', () => {
@@ -371,7 +403,9 @@ test('#componentWillUnmount destroys foundation', () => {
 test('on focus event calls handleFocus on TabRippleRef', () => {
   const wrapper = mount<Tab>(<Tab />);
   const ripple = wrapper.instance().tabRippleRef.current;
-  ripple!.handleFocus = coerceForTesting<(e: React.FocusEvent<HTMLButtonElement>) => void>(td.func());
+  ripple!.handleFocus = coerceForTesting<
+    (e: React.FocusEvent<HTMLButtonElement>) => void
+  >(td.func());
   wrapper.simulate('focus');
   td.verify(ripple!.handleFocus(td.matchers.isA(Object)), {times: 1});
 });
@@ -379,8 +413,9 @@ test('on focus event calls handleFocus on TabRippleRef', () => {
 test('on blur event calls handleBlur on TabRippleRef', () => {
   const wrapper = mount<Tab>(<Tab />);
   const ripple = wrapper.instance().tabRippleRef.current;
-  ripple!.handleBlur = coerceForTesting<(e: React.FocusEvent<HTMLButtonElement>) => void>(td.func());
+  ripple!.handleBlur = coerceForTesting<
+    (e: React.FocusEvent<HTMLButtonElement>) => void
+  >(td.func());
   wrapper.simulate('blur');
   td.verify(ripple!.handleBlur(td.matchers.isA(Object)), {times: 1});
 });
-

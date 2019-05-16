@@ -41,7 +41,9 @@ test('#foundation.handleClick gets called onClick', () => {
 });
 
 test('props.onClick gets called onClick', () => {
-  const onClick = coerceForTesting<(event: React.MouseEvent) => void>(td.func());
+  const onClick = coerceForTesting<(event: React.MouseEvent) => void>(
+    td.func()
+  );
   const wrapper = shallow(<IconButton onClick={onClick} />);
   const evt = coerceForTesting<React.MouseEvent>({});
   wrapper.simulate('click', evt);
@@ -97,8 +99,12 @@ test('#adapter.setAttr sets aria-pressed', () => {
 });
 
 test('#adapter.notifyChange calls props.handleChange', () => {
-  const handleChange = td.func<(event: MDCIconButtonToggleEventDetail) => void>();
-  const wrapper = shallow<IconButton<HTMLButtonElement>>(<IconButton handleChange={handleChange} />);
+  const handleChange = td.func<
+    (event: MDCIconButtonToggleEventDetail) => void
+  >();
+  const wrapper = shallow<IconButton<HTMLButtonElement>>(
+    <IconButton handleChange={handleChange} />
+  );
   const event = {isOn: false};
   wrapper.instance().adapter.notifyChange(event);
   td.verify(handleChange(event), {times: 1});

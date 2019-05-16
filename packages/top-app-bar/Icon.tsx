@@ -24,7 +24,6 @@ import React from 'react';
 import classnames from 'classnames';
 import {cssClasses} from './constants';
 
-
 export interface IconProps<T> extends React.HTMLProps<T> {
   actionItem?: boolean;
   className?: string;
@@ -32,23 +31,21 @@ export interface IconProps<T> extends React.HTMLProps<T> {
   navIcon?: boolean;
 }
 
-
-const Icon: <T extends Element = HTMLElement>(props: IconProps<T> ) =>
-  React.ReactElement<HTMLElement> = ({
-    /* eslint-disable react/prop-types */
-    actionItem = false,
-    navIcon = false,
-    className,
-    children,
-    ...otherProps
-    /* eslint-enable react/prop-types */
-  }) =>
-    React.cloneElement(children, {
-      ...otherProps,
-      className: classnames(className, children.props.className, {
-        [cssClasses.ACTION_ITEM]: actionItem,
-        [cssClasses.NAV_ICON]: navIcon,
-      }),
-    });
+const Icon: <T extends Element = HTMLElement>(
+  props: IconProps<T>
+) => React.ReactElement<HTMLElement> = ({
+  actionItem = false,
+  navIcon = false,
+  className,
+  children,
+  ...otherProps
+}) =>
+  React.cloneElement(children, {
+    ...otherProps,
+    className: classnames(className, children.props.className, {
+      [cssClasses.ACTION_ITEM]: actionItem,
+      [cssClasses.NAV_ICON]: navIcon,
+    }),
+  });
 
 export default Icon;

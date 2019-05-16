@@ -16,7 +16,8 @@ const title: string = 'Miami, FL';
 class TopAppBarTwoRows extends React.Component<{}, {activeIndex: number}> {
   state = {activeIndex: 0};
 
-  handleActiveIndexUpdate = (activeIndex: number) => this.setState({activeIndex});
+  handleActiveIndexUpdate = (activeIndex: number) =>
+    this.setState({activeIndex});
 
   render() {
     return (
@@ -25,7 +26,7 @@ class TopAppBarTwoRows extends React.Component<{}, {activeIndex: number}> {
           <TopAppBarRow>
             <TopAppBarSection align='start'>
               <TopAppBarIcon navIcon tabIndex={0}>
-                <MaterialIcon hasRipple icon='menu'/>
+                <MaterialIcon hasRipple icon='menu' />
               </TopAppBarIcon>
               <TopAppBarTitle>{title}</TopAppBarTitle>
             </TopAppBarSection>
@@ -56,6 +57,6 @@ class TopAppBarTwoRows extends React.Component<{}, {activeIndex: number}> {
       </div>
     );
   }
-};
+}
 
 export default TopAppBarTwoRows;

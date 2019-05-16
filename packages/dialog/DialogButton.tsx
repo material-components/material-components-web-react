@@ -26,31 +26,35 @@ import Button, {ButtonProps} from '@material/react-button';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
-export interface DialogButtonProps<T extends ButtonTypes> extends Omit<ButtonProps<T>, 'initRipple'> {
-  action: string,
-  className?: string,
-  isDefault?: boolean,
-};
+export interface DialogButtonProps<T extends ButtonTypes>
+  extends Omit<ButtonProps<T>, 'initRipple'> {
+  action: string;
+  className?: string;
+  isDefault?: boolean;
+}
 
+const DialogButton: <T extends ButtonTypes>(
+  props: DialogButtonProps<T>
+) => React.ReactElement<any> = ({
+  action,
+  className = '',
+  children,
+  isDefault = false,
+  ...otherProps
+}) => (
+  // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
+  <Button
+    className={classnames(className, cssClasses.BUTTON, {
+      [cssClasses.DEFAULT_BUTTON]: isDefault,
+    })}
+    data-mdc-dialog-action={action}
+    {...otherProps}
+  >
+    {children}
+  </Button>
+);
 
-const DialogButton: <T extends ButtonTypes>(props: DialogButtonProps<T>) =>
-  React.ReactElement<any> = ({
-    /* eslint-disable react/prop-types */
-    action,
-    className = '',
-    children,
-    isDefault = false,
-    ...otherProps
-    /* eslint-enable react/prop-types */
-  }) => (
-    // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-    <Button
-      className={classnames(className, cssClasses.BUTTON, {
-        [cssClasses.DEFAULT_BUTTON]: isDefault})}
-      data-mdc-dialog-action={action}
-      {...otherProps}
-    >{children}</Button>
-  );
-
-type DialogButton<T extends ButtonTypes> = React.ReactElement<DialogButtonProps<T>>;
+type DialogButton<T extends ButtonTypes> = React.ReactElement<
+  DialogButtonProps<T>
+>;
 export default DialogButton;

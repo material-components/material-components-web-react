@@ -6,7 +6,6 @@ import {cssClasses} from '../../../packages/top-app-bar/constants';
 
 suite('TopAppBarTitle');
 
-
 test('renders a TopAppBarTitle with default tag', () => {
   const wrapper = shallow(<TopAppBarTitle>test</TopAppBarTitle>);
   assert.equal(wrapper.type(), 'span');
@@ -18,12 +17,12 @@ test('renders a TopAppBarTitle with custom tag', () => {
 });
 
 test('redners a TopAppBarTitle with the default className', () => {
-  const wrapper = shallow(<TopAppBarTitle/>);
+  const wrapper = shallow(<TopAppBarTitle />);
   assert.isTrue(wrapper.hasClass(cssClasses.TITLE));
 });
 
 test('props.className adds classes', () => {
-  const wrapper = shallow(<TopAppBarTitle className='test-class'/>);
+  const wrapper = shallow(<TopAppBarTitle className='test-class' />);
   assert.isTrue(wrapper.hasClass('test-class'));
   assert.isTrue(wrapper.hasClass(cssClasses.TITLE));
 });

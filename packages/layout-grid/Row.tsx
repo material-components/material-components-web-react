@@ -26,17 +26,17 @@ import classnames from 'classnames';
 import {CSS_CLASSES} from './constant';
 
 export interface RowProps<T> extends React.HTMLProps<T> {
-  className?: string,
-  tag?: string
-};
+  className?: string;
+  tag?: string;
+}
 
-const Row: <T extends {} = HTMLDivElement>(props: RowProps<T>) => React.ReactElement<any> = ({
-  /* eslint-disable react/prop-types */
+const Row: <T extends {} = HTMLDivElement>(
+  props: RowProps<T>
+) => React.ReactElement<any> = ({
   children = '',
   className,
   tag: Tag = 'div',
   ...otherProps
-  /* eslint-enable react/prop-types */
 }) => {
   const classes = classnames(CSS_CLASSES.INNER, className);
 
