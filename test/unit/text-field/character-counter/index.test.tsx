@@ -62,3 +62,13 @@ test('dynamic count test', () => {
   wrapper.instance().setState({value: 'Test Value'});
   assert.equal('10 / 250', counter.text());
 });
+
+test('Character counter renders in front of input when tag is textarea', () => {
+  const wrapper = mount<TextField>(
+    <TextField textarea={true} characterCounter={<CharacterCounter />}>
+      <Input />
+    </TextField>
+  );
+  console.warn(wrapper.getDOMNode().children);
+  console.warn(wrapper.find('.mdc-text-field-character-counter').getDOMNode());
+});
