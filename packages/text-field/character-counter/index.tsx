@@ -91,4 +91,3 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
     </div>;
   }
 }
-

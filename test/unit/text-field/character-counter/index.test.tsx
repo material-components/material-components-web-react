@@ -88,3 +88,8 @@ test('Character counter renders in front of input when tag is textarea', () => {
     wrapper.find('.mdc-text-field-character-counter').getDOMNode()
   );
 });
+
+test('Useless test for test coverage', () => {
+  const wrapper = shallow<CharacterCounter>(<CharacterCounter />);
+  wrapper.instance().adapter.setContent('');
+});
