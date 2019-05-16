@@ -633,6 +633,36 @@ test('renders input after foundation is created', () => {
   assert.equal(wrapper.find(Input).length, 1);
 });
 
+test('#inputProps.handleFocusChange updates state.isFocused', () => {
+  const wrapper = mount<TextField<HTMLInputElement>>(
+    <TextField label='my label'>
+      <Input />
+    </TextField>
+  );
+  wrapper.instance().inputProps.handleFocusChange(true);
+  assert.isTrue(wrapper.state().isFocused);
+});
+
+test('#inputProps.setDisabled updates state.disabled', () => {
+  const wrapper = mount<TextField<HTMLInputElement>>(
+    <TextField label='my label'>
+      <Input />
+    </TextField>
+  );
+  wrapper.instance().inputProps.setDisabled(true);
+  assert.isTrue(wrapper.state().disabled);
+});
+
+test('#inputProps.setInputId updates state.disabled', () => {
+  const wrapper = mount<TextField<HTMLInputElement>>(
+    <TextField label='my label'>
+      <Input />
+    </TextField>
+  );
+  wrapper.instance().inputProps.setInputId('my-id');
+  assert.equal(wrapper.state().inputId, 'my-id');
+});
+
 test('passing a ref to the <Input /> should return the instance of the Input', () => {
   let inputInstance;
   const inputRef = (input: any) => (inputInstance = input);
