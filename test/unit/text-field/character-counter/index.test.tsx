@@ -69,6 +69,8 @@ test('Character counter renders in front of input when tag is textarea', () => {
       <Input />
     </TextField>
   );
-  console.warn(wrapper.getDOMNode().children);
-  console.warn(wrapper.find('.mdc-text-field-character-counter').getDOMNode());
+  assert.equal(
+    wrapper.childAt(0).childAt(0).getDOMNode(),
+    wrapper.find('.mdc-text-field-character-counter').getDOMNode()
+  );
 });
