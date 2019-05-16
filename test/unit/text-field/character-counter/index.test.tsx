@@ -45,6 +45,20 @@ test('count test', () => {
   );
 });
 
+test('template test', () => {
+  const value = 'test value';
+  const maxLength = 100;
+  const wrapper = mount<TextField>(
+    <TextField characterCounter={<CharacterCounter template='${count}|${maxLength}' />}>
+      <Input value={value} maxLength={maxLength} />
+    </TextField>
+  );
+  assert.equal(
+    `${value.length}|${maxLength}`,
+    wrapper.find('.mdc-text-field-character-counter').text()
+  );
+});
+
 test('dynamic count test', () => {
   class TestComponent extends React.Component {
     state = {value: ''};
