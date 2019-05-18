@@ -1,8 +1,9 @@
 import React from 'react';
-import {HelperText} from '../../../packages/text-field';
+import {CharacterCounter, HelperText} from '../../../packages/text-field';
 import MaterialIcon from '../../../packages/material-icon/index';
 
 export declare type HelperTextMapType = {helperText: HelperText};
+export declare type CharacterCounterMapType = {characterCounter: CharacterCounter};
 
 const icon = <MaterialIcon icon='favorite' />;
 
@@ -22,6 +23,11 @@ const helperTextMap = [
   {},
   {helperText: <HelperText persistent>Help me</HelperText>},
   {helperText: <HelperText validation>Error message</HelperText>},
+];
+const characterCounterMap = [
+  {},
+  {characterCounter: <CharacterCounter />},
+  {characterCounter: <CharacterCounter template='현재(${count}) / 최대(${maxLength})' />},
 ];
 
 const getHelperKeyText = (
@@ -54,6 +60,7 @@ export {
   requiredMap,
   disabledMap,
   helperTextMap,
+  characterCounterMap,
   getHelperKeyText,
   isValidationMsg,
 };

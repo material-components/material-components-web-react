@@ -5,8 +5,10 @@ import {
   rtlMap,
   disabledMap,
   helperTextMap,
+  characterCounterMap,
   getHelperKeyText,
   HelperTextMapType,
+  CharacterCounterMapType,
   isValidationMsg,
 } from './attributesMap';
 import TestField from './TestTextField';
@@ -19,25 +21,28 @@ const textareaFields = textareaVariants.map((variant) => {
       return rtlMap.map((isRtl: {isRtl?: boolean}) => {
         return disabledMap.map((disabled: {disabled?: boolean}) => {
           return helperTextMap.map((helperText: HelperTextMapType | {}) => {
-            let helperTextKey = getHelperKeyText(
-              helperText,
-              isValidationMsg(helperText)
-            );
-            if (helperTextKey.length > 0) {
-              helperTextKey = `-${helperTextKey}`;
-            }
-            const props = Object.assign(
-              {},
-              variant,
-              dense,
-              disabled,
-              helperText,
-              isRtl
-            );
-            const key = `textarea-${JSON.stringify(props)}${helperTextKey}`;
-            return (
-              <TestField variant='textarea' {...props} key={key} id={key} />
-            );
+            return characterCounterMap.map((characterCounter: CharacterCounterMapType | {}) => {
+                let helperTextKey = getHelperKeyText(
+                  helperText,
+                  isValidationMsg(helperText)
+                );
+                if (helperTextKey.length > 0) {
+                  helperTextKey = `-${helperTextKey}`;
+                }
+                const props = Object.assign(
+                  {},
+                  variant,
+                  dense,
+                  disabled,
+                  helperText,
+                  characterCounter,
+                  isRtl
+                );
+                const key = `textarea-${JSON.stringify(props)}${helperTextKey}`;
+                return (
+                  <TestField variant='textarea' {...props} key={key} id={key} />
+                );
+            });
           });
         });
       });
