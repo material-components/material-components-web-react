@@ -1,0 +1,28 @@
+{
+  "name": "@material/react-slider",
+  "version": "0.0.0",
+  "description": "Material Components React Slider",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "mdc web react",
+    "material components react",
+    "material design",
+    "material slider",
+    "materialslider"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-react.git"
+  },
+  "dependencies": {
+    "@material/slider": "^1.1.0",
+    "@material/react-ripple": "^0.12.0",
+    "classnames": "^2.2.6",
+    "react": "^16.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
