@@ -85,7 +85,7 @@ export default class ChipSet extends React.Component<
   }
 
   componentWillUnmount() {
-    this.state.foundation!.destroy();
+    this.state.foundation && this.state.foundation.destroy();
   }
 
   get classes() {

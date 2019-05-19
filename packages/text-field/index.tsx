@@ -134,7 +134,7 @@ class TextField<
   }
 
   componentWillUnmount() {
-    this.state.foundation!.destroy();
+    this.state.foundation && this.state.foundation.destroy();
   }
   /**
    * getters
