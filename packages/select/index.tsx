@@ -324,6 +324,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
     const {
       selectClassName,
       /* eslint-disable */
+      className,
       floatingLabelClassName,
       lineRippleClassName,
       notchedOutlineClassName,
