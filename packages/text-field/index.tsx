@@ -286,7 +286,6 @@ class TextField<
       foundation: this.state.foundation,
       handleFocusChange: (isFocused: boolean) => {
         this.setState({isFocused});
-        console.log(this.state.foundation, isFocused)
         if (!this.state.foundation) return;
         if (isFocused) {
           this.state.foundation.activateFocus();

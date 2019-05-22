@@ -144,10 +144,10 @@ export default class Input<
       setDisabled,
     } = this.props;
 
-    if (!prevState.isMounted && this.state.isMounted && this.props.foundation ||
-      this.state.isMounted && !prevProps.foundation && this.props.foundation ||
-      !prevState.isMounted && this.state.isMounted && !prevProps.foundation && this.props.foundation) {
-        console.log('hello')
+    if (
+      (!prevState.isMounted && this.state.isMounted && this.props.foundation) ||
+      (this.state.isMounted && !prevProps.foundation && this.props.foundation)
+    ) {
       this.initializeComponentWithFoundation();
     }
 
@@ -190,22 +190,17 @@ export default class Input<
    * Any other initialization logic should belong in the componentDidMount.
    */
   private initializeComponentWithFoundation = () => {
-    const {
-      handleFocusChange,
-      foundation,
-      autoFocus,
-      isValid,
-    } = this.props;
-    if (autoFocus) { 
+    const {handleFocusChange, foundation, autoFocus, isValid} = this.props;
+    if (autoFocus) {
       handleFocusChange && handleFocusChange(true);
     }
     // there is no reason for this to be in Input.tsx
-  
+
     if (foundation && isValid !== undefined) {
       foundation.setUseNativeValidation(false);
       foundation.setValid(!!isValid);
     }
-  }
+  };
 
   valueToString(value?: string | string[] | number) {
     let str;
