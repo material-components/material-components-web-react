@@ -6,9 +6,11 @@ import {CardActionButtons} from '../../../packages/card/index';
 suite('CardActionButtons');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<CardActionButtons className='test-class-name'>
-    <div>test</div>
-  </CardActionButtons>);
+  const wrapper = shallow(
+    <CardActionButtons className='test-class-name'>
+      <div>test</div>
+    </CardActionButtons>
+  );
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-card__action-buttons'));
 });

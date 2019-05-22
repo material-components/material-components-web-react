@@ -2,28 +2,29 @@ import React from 'react';
 import './index.scss';
 import '../../../packages/chips/index.scss';
 import MaterialIcon from '../../../packages/material-icon';
-import {ChipProps, Chip, ChipSet} from '../../../packages/chips/index'; // eslint-disable-line no-unused-vars
+import {ChipProps, Chip, ChipSet} from '../../../packages/chips/index'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import uuidv1 from 'uuid/v1';
 
 interface ChipsTestProps {
   selectedChipIds: string[];
   variant: 'filter' | 'choice';
   children: React.ReactElement<ChipProps>[];
-};
+}
 
 interface ChipsTestState {
   selectedChipIds: string[];
-};
+}
 
 class ChipsTest extends React.Component<ChipsTestProps, ChipsTestState> {
   state = {
     selectedChipIds: this.props.selectedChipIds,
   };
 
-  handleSelect = (selectedChipIds: string[]) => this.setState({selectedChipIds});
+  handleSelect = (selectedChipIds: string[]) =>
+    this.setState({selectedChipIds});
 
   render() {
-    const {children, variant} = this.props; // eslint-disable-line react/prop-types
+    const {children, variant} = this.props;
     const isChoice = variant === 'choice';
     const isFilter = variant === 'filter';
     return (
@@ -46,23 +47,27 @@ class ChipsTest extends React.Component<ChipsTestProps, ChipsTestState> {
   }
 }
 type InputChipsTestProps = {
-  labels: string[],
+  labels: string[];
 };
 
 type InputChip = {
-  label: string,
-  id: string,
- };
-
-type InputChipsTestState = {
-  chips: InputChip[],
+  label: string;
+  id: string;
 };
 
-class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTestState> {
+type InputChipsTestState = {
+  chips: InputChip[];
+};
+
+class InputChipsTest extends React.Component<
+  InputChipsTestProps,
+  InputChipsTestState
+> {
   state = {
-    chips: this.props.labels.reduce((a, label) => (
-      [...a, {label, id: uuidv1()}]
-    ), [{label: 'Name Chips (dont remove)', id: uuidv1()}] ),
+    chips: this.props.labels.reduce(
+      (a, label) => [...a, {label, id: uuidv1()}],
+      [{label: 'Name Chips (dont remove)', id: uuidv1()}]
+    ),
   };
 
   addChip(label: string) {
@@ -78,23 +83,25 @@ class InputChipsTest extends React.Component<InputChipsTestProps, InputChipsTest
       this.addChip((e.target as HTMLInputElement).value);
       (e.target as HTMLInputElement).value = '';
     }
-  }
+  };
 
-  updateChips: (chips: Partial<ChipProps>[]) => void
-    = (chips) => this.setState((prevState) => Object.assign(prevState, {chips}));
+  updateChips: (chips: Partial<ChipProps>[]) => void = (chips) =>
+    this.setState((prevState) => Object.assign(prevState, {chips}));
 
   render() {
     return (
       <div>
         <input type='text' onKeyDown={this.handleKeyDown} />
         <ChipSet input updateChips={this.updateChips}>
-          {this.state.chips.map((chip, i: number ) => (
+          {this.state.chips.map((chip, i: number) => (
             <Chip
               id={chip.id}
               key={chip.id} // The chip s key cannot be its index, because its index may change
               label={chip.label}
               leadingIcon={i === 0 ? undefined : <MaterialIcon icon='face' />}
-              trailingIcon={<MaterialIcon icon={i === 0 ? 'announcement' : 'cancel'} />}
+              trailingIcon={
+                <MaterialIcon icon={i === 0 ? 'announcement' : 'cancel'} />
+              }
               shouldRemoveOnTrailingIconClick={i !== 0}
             />
           ))}
@@ -115,7 +122,9 @@ const renderChips = (list: string[], hasLeadingIcon: boolean = false) => {
       id={`${index}chip`}
       key={index}
       label={label}
-      leadingIcon={hasLeadingIcon ? <MaterialIcon icon='shopping_basket' /> : undefined}
+      leadingIcon={
+        hasLeadingIcon ? <MaterialIcon icon='shopping_basket' /> : undefined
+      }
     />
   ));
 };

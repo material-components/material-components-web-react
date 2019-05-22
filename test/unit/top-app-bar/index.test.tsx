@@ -31,19 +31,23 @@ class TopAppBarWithScroll extends React.Component<ScrollProps, ScrollState> {
     withRef: false,
   };
 
-
-  withRef = () => this.setState({withRef: !this.state.withRef})
+  withRef = () => this.setState({withRef: !this.state.withRef});
 
   render() {
     const {withRef, scrollRef} = this.state;
     return (
       <div>
-        <TopAppBar scrollTarget={(withRef) ? scrollRef : undefined} >
+        <TopAppBar scrollTarget={withRef ? scrollRef : undefined}>
           <TopAppBarRow>
-            <TopAppBarSection><TopAppBarTitle>Scroll</TopAppBarTitle></TopAppBarSection>
+            <TopAppBarSection>
+              <TopAppBarTitle>Scroll</TopAppBarTitle>
+            </TopAppBarSection>
           </TopAppBarRow>
         </TopAppBar>
-        <div ref={this.state.scrollRef} style={{height: '1000px', overflow: 'auto'}}>
+        <div
+          ref={this.state.scrollRef}
+          style={{height: '1000px', overflow: 'auto'}}
+        >
           <div style={{height: '3000px'}}>Scroll Target</div>
         </div>
       </div>
@@ -56,16 +60,17 @@ interface RippleProps<T> extends InjectedProps<T> {
   className: string;
 }
 
-type ActionItemRippleProps = RippleProps<HTMLAnchorElement> & React.HTMLProps<HTMLAnchorElement>;
+type ActionItemRippleProps = RippleProps<HTMLAnchorElement> &
+  React.HTMLProps<HTMLAnchorElement>;
 
 const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
-  /* eslint-disable react/prop-types */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   initRipple,
   hasRipple,
   unbounded,
   className,
   ref,
-  /* eslint-enable react/prop-types */
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   ...otherProps
 }) => (
   <a
@@ -76,7 +81,10 @@ const ActionItem: React.FunctionComponent<ActionItemRippleProps> = ({
   />
 );
 
-const RippledActionItem = withRipple<RippleProps<HTMLAnchorElement>, HTMLAnchorElement>(ActionItem);
+const RippledActionItem = withRipple<
+  RippleProps<HTMLAnchorElement>,
+  HTMLAnchorElement
+>(ActionItem);
 
 test('renders a TopAppBar with default tag', () => {
   const wrapper = shallow<TopAppBar>(<TopAppBar />);
@@ -135,30 +143,38 @@ test('has correct prominent dense class', () => {
 test('top app bar style should be set by state', () => {
   const wrapper = mount(<TopAppBar />);
   wrapper.setState({style: {color: 'blue'}});
-  assert.equal(coerceForTesting<HTMLElement>(wrapper.getDOMNode()).style.color, 'blue');
+  assert.equal(
+    coerceForTesting<HTMLElement>(wrapper.getDOMNode()).style.color,
+    'blue'
+  );
 });
 
 test('#componetDIdMount will set state scrollTarget if prop.scrollTarget exists', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
-  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(
+    wrapper.find('TopAppBar').instance()
+  );
 
   assert.isDefined(topAppBar.state.scrollTarget);
   assert.strictEqual(topAppBar.state.scrollTarget, wrapper.state().scrollRef);
 });
 
 test('Updating props.scrollTarget will set state scrollTarget', () => {
-  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
-  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll />);
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(
+    wrapper.find('TopAppBar').instance()
+  );
   assert.isUndefined(topAppBar.state.scrollTarget);
   wrapper.instance().withRef();
 
   assert.strictEqual(topAppBar.state.scrollTarget, wrapper.state().scrollRef);
 });
 
-
 test('Updating scrollTarget prop will call foundation method destroyScrollHandler', () => {
-  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
-  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll />);
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(
+    wrapper.find('TopAppBar').instance()
+  );
   const foundation = topAppBar.foundation;
   foundation.destroyScrollHandler = td.func<() => void>();
   wrapper.instance().withRef();
@@ -167,8 +183,10 @@ test('Updating scrollTarget prop will call foundation method destroyScrollHandle
 });
 
 test('Updating scrollTarget prop will call foundation method initScrollHandler', () => {
-  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll/>);
-  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll />);
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(
+    wrapper.find('TopAppBar').instance()
+  );
   const foundation = topAppBar.foundation;
   foundation.initScrollHandler = td.func<() => void>();
   wrapper.instance().withRef();
@@ -206,7 +224,9 @@ test('#adapter.registerScrollHandler triggers handler on window scroll', () => {
 
 test('#adapter.registerScrollHandler triggers handler on scrollTarget scroll', () => {
   const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
-  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(
+    wrapper.find('TopAppBar').instance()
+  );
   const testHandler = coerceForTesting<EventListener>(td.func());
   topAppBar.adapter.registerScrollHandler(testHandler);
   const event = new Event('scroll');
@@ -235,7 +255,9 @@ test(
     'after deregistering scroll handler on scrollTarget',
   () => {
     const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef />);
-    const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+    const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(
+      wrapper.find('TopAppBar').instance()
+    );
     const testHandler = coerceForTesting<EventListener>(td.func());
     topAppBar.adapter.registerScrollHandler(testHandler);
     const event = new Event('scroll');
@@ -251,8 +273,13 @@ test('#adapter.getViewportScrollY returns same value with scrollTarget.scrollTop
   const div = document.createElement('div');
   document.body.appendChild(div);
 
-  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={true} />, {attachTo: div});
-  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const wrapper = mount<TopAppBarWithScroll>(
+    <TopAppBarWithScroll withRef={true} />,
+    {attachTo: div}
+  );
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(
+    wrapper.find('TopAppBar').instance()
+  );
   const scrollTarget = topAppBar.state.scrollTarget!.current!;
   assert.equal(scrollTarget.scrollTop, topAppBar.adapter.getViewportScrollY());
 
@@ -269,8 +296,13 @@ test('#adapter.getViewportScrollY test for changing scrollTarget', () => {
   const div = document.createElement('div');
   document.body.appendChild(div);
 
-  const wrapper = mount<TopAppBarWithScroll>(<TopAppBarWithScroll withRef={false} />, {attachTo: div});
-  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(wrapper.find('TopAppBar').instance());
+  const wrapper = mount<TopAppBarWithScroll>(
+    <TopAppBarWithScroll withRef={false} />,
+    {attachTo: div}
+  );
+  const topAppBar: TopAppBar = coerceForTesting<TopAppBar>(
+    wrapper.find('TopAppBar').instance()
+  );
   assert.equal(window.pageYOffset, topAppBar.adapter.getViewportScrollY());
   wrapper.setState({withRef: true});
 
@@ -307,7 +339,9 @@ test('#adapter.getTotalActionItems returns one with one actionItem passed', () =
     <TopAppBar>
       <TopAppBarRow>
         <TopAppBarSection>
-          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+          <TopAppBarIcon actionItem>
+            <RippledActionItem />
+          </TopAppBarIcon>
         </TopAppBarSection>
       </TopAppBarRow>
     </TopAppBar>
@@ -320,9 +354,15 @@ test('#adapter.getTotalActionItems returns three with three actionItems passed',
     <TopAppBar>
       <TopAppBarRow>
         <TopAppBarSection>
-          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
-          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
-          <TopAppBarIcon actionItem><RippledActionItem/></TopAppBarIcon>
+          <TopAppBarIcon actionItem>
+            <RippledActionItem />
+          </TopAppBarIcon>
+          <TopAppBarIcon actionItem>
+            <RippledActionItem />
+          </TopAppBarIcon>
+          <TopAppBarIcon actionItem>
+            <RippledActionItem />
+          </TopAppBarIcon>
         </TopAppBarSection>
       </TopAppBarRow>
     </TopAppBar>
@@ -350,9 +390,13 @@ test('#adapter.getTopAppBarHeight should return clientHeight', () => {
   const wrapper = mount<TopAppBar>(
     <TopAppBar>
       <TopAppBarRow>
-        <TopAppBarSection><TopAppBarTitle>Test</TopAppBarTitle></TopAppBarSection>
+        <TopAppBarSection>
+          <TopAppBarTitle>Test</TopAppBarTitle>
+        </TopAppBarSection>
       </TopAppBarRow>
-    </TopAppBar>, options);
+    </TopAppBar>,
+    options
+  );
   const topAppBarHeight = wrapper.instance().adapter.getTopAppBarHeight();
   const realDOMHeight = wrapper.getDOMNode().clientHeight;
   assert.equal(topAppBarHeight, realDOMHeight);

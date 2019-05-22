@@ -8,7 +8,6 @@ import {coerceForTesting} from '../helpers/types';
 
 const {cssClasses} = MDCNotchedOutlineFoundation;
 
-
 const getFoundation = (instance: NotchedOutline) => {
   return coerceForTesting<MDCNotchedOutlineFoundation>(instance.foundation!);
 };
@@ -18,9 +17,7 @@ const getAdapter = (instance: NotchedOutline) => {
   return getFoundation(instance).adapter_;
 };
 
-const floatingLabel = () => (
-  <label className='mdc-floating-label'>test</label>
-);
+const floatingLabel = () => <label className='mdc-floating-label'>test</label>;
 
 suite('NotchedOutline');
 
@@ -84,7 +81,9 @@ test('should call foundation.notch if props.notch changes from false to true', (
 });
 
 test('should call foundation.closeNotch if props.notch changes from true to false', () => {
-  const wrapper = shallow<NotchedOutline>(<NotchedOutline notch notchWidth={50} />);
+  const wrapper = shallow<NotchedOutline>(
+    <NotchedOutline notch notchWidth={50} />
+  );
   getFoundation(wrapper.instance()).closeNotch = td.func<() => void>();
   wrapper.setProps({notch: false});
   td.verify(getFoundation(wrapper.instance()).closeNotch(), {times: 1});
@@ -116,24 +115,36 @@ test('#adapter.removeNotchWidthProperty should update state.foundationNotchWidth
 });
 
 test('renders __notch element if children exist', () => {
-  const wrapper = shallow<NotchedOutline>(<NotchedOutline>{floatingLabel()}</NotchedOutline>);
+  const wrapper = shallow<NotchedOutline>(
+    <NotchedOutline>{floatingLabel()}</NotchedOutline>
+  );
   assert.equal(wrapper.find('.mdc-notched-outline__notch').length, 1);
 });
 
 test('does not render __notch element if children do not exist', () => {
-  const wrapper = shallow<NotchedOutline>(<NotchedOutline></NotchedOutline>);
+  const wrapper = shallow<NotchedOutline>(<NotchedOutline />);
   assert.equal(wrapper.find('.mdc-notched-outline__notch').length, 0);
 });
 
 test('renders style.width on __notch element if state.foundationNotchWidth is set', () => {
-  const wrapper = shallow<NotchedOutline>(<NotchedOutline>{floatingLabel()}</NotchedOutline>);
+  const wrapper = shallow<NotchedOutline>(
+    <NotchedOutline>{floatingLabel()}</NotchedOutline>
+  );
   wrapper.setState({foundationNotchWidth: 10});
-  assert.equal(wrapper.find('.mdc-notched-outline__notch').props().style!.width, '10px');
+  assert.equal(
+    wrapper.find('.mdc-notched-outline__notch').props().style!.width,
+    '10px'
+  );
 });
 
 test('does not render style.width on __notch element if state.foundationNotchWidth is not set', () => {
-  const wrapper = shallow<NotchedOutline>(<NotchedOutline>{floatingLabel()}</NotchedOutline>);
-  assert.equal(wrapper.find('.mdc-notched-outline__notch').props().style!.width, undefined);
+  const wrapper = shallow<NotchedOutline>(
+    <NotchedOutline>{floatingLabel()}</NotchedOutline>
+  );
+  assert.equal(
+    wrapper.find('.mdc-notched-outline__notch').props().style!.width,
+    undefined
+  );
 });
 
 test('#componentWillUnmount destroys foundation', () => {

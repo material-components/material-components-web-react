@@ -20,58 +20,103 @@ const testEvt = {
 };
 
 test('#event.focus calls #props.onFocus', () => {
-  const onFocus = coerceForTesting<React.FocusEventHandler<HTMLDivElement>>(td.func());
+  const onFocus = coerceForTesting<React.FocusEventHandler<HTMLDivElement>>(
+    td.func()
+  );
   const wrapper = shallow(<EnhancedSelect onFocus={onFocus} />);
-  const selectedTextEl = wrapper.find(MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR);
+  const selectedTextEl = wrapper.find(
+    MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR
+  );
   selectedTextEl.simulate('focus', testEvt);
-  td.verify(onFocus(coerceForTesting<React.FocusEvent<HTMLDivElement>>(testEvt)), {times: 1});
+  td.verify(
+    onFocus(coerceForTesting<React.FocusEvent<HTMLDivElement>>(testEvt)),
+    {times: 1}
+  );
 });
 
 test('#event.click calls #props.onClick', () => {
-  const onClick = coerceForTesting<React.MouseEventHandler<HTMLDivElement>>(td.func());
+  const onClick = coerceForTesting<React.MouseEventHandler<HTMLDivElement>>(
+    td.func()
+  );
   const wrapper = shallow(<EnhancedSelect onClick={onClick} />);
-  const selectedTextEl = wrapper.find(MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR);
+  const selectedTextEl = wrapper.find(
+    MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR
+  );
   selectedTextEl.simulate('click', testEvt);
-  td.verify(onClick(coerceForTesting<React.MouseEvent<HTMLDivElement>>(testEvt)), {times: 1});
+  td.verify(
+    onClick(coerceForTesting<React.MouseEvent<HTMLDivElement>>(testEvt)),
+    {times: 1}
+  );
 });
 
-
 test('#event.blur calls #props.onBlur', () => {
-  const onBlur = coerceForTesting<React.FocusEventHandler<HTMLDivElement>>(td.func());
+  const onBlur = coerceForTesting<React.FocusEventHandler<HTMLDivElement>>(
+    td.func()
+  );
   const wrapper = shallow(<EnhancedSelect onBlur={onBlur} />);
-  const selectedTextEl = wrapper.find(MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR);
+  const selectedTextEl = wrapper.find(
+    MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR
+  );
   selectedTextEl.simulate('blur', testEvt);
-  td.verify(onBlur(coerceForTesting<React.FocusEvent<HTMLDivElement>>(testEvt)), {times: 1});
+  td.verify(
+    onBlur(coerceForTesting<React.FocusEvent<HTMLDivElement>>(testEvt)),
+    {times: 1}
+  );
 });
 
 test('#event.mousedown calls #props.onMouseDown', () => {
-  const onMouseDown = coerceForTesting<React.MouseEventHandler<HTMLDivElement>>(td.func());
+  const onMouseDown = coerceForTesting<React.MouseEventHandler<HTMLDivElement>>(
+    td.func()
+  );
   const wrapper = shallow(<EnhancedSelect onMouseDown={onMouseDown} />);
-  const selectedTextEl = wrapper.find(MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR);
+  const selectedTextEl = wrapper.find(
+    MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR
+  );
   selectedTextEl.simulate('mousedown', testEvt);
-  td.verify(onMouseDown(coerceForTesting<React.MouseEvent<HTMLDivElement>>(testEvt)), {times: 1});
+  td.verify(
+    onMouseDown(coerceForTesting<React.MouseEvent<HTMLDivElement>>(testEvt)),
+    {times: 1}
+  );
 });
 
 test('#event.touchstart calls #props.onTouchStart', () => {
-  const onTouchStart = coerceForTesting<React.TouchEventHandler<HTMLDivElement>>(td.func());
+  const onTouchStart = coerceForTesting<
+    React.TouchEventHandler<HTMLDivElement>
+  >(td.func());
   const wrapper = shallow(<EnhancedSelect onTouchStart={onTouchStart} />);
-  const selectedTextEl = wrapper.find(MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR);
+  const selectedTextEl = wrapper.find(
+    MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR
+  );
   selectedTextEl.simulate('touchstart', testEvt);
-  td.verify(onTouchStart(coerceForTesting<React.TouchEvent<HTMLDivElement>>(testEvt)), {times: 1});
+  td.verify(
+    onTouchStart(coerceForTesting<React.TouchEvent<HTMLDivElement>>(testEvt)),
+    {times: 1}
+  );
 });
 
 test('#event.keydown calls #props.onKeyDown', () => {
-  const onKeyDown = coerceForTesting<React.KeyboardEventHandler<HTMLDivElement>>(td.func());
+  const onKeyDown = coerceForTesting<
+    React.KeyboardEventHandler<HTMLDivElement>
+  >(td.func());
   const wrapper = shallow(<EnhancedSelect onKeyDown={onKeyDown} />);
-  const selectedTextEl = wrapper.find(MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR);
+  const selectedTextEl = wrapper.find(
+    MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR
+  );
   selectedTextEl.simulate('keydown', testEvt);
-  td.verify(onKeyDown(coerceForTesting<React.KeyboardEvent<HTMLDivElement>>(testEvt)), {times: 1});
+  td.verify(
+    onKeyDown(coerceForTesting<React.KeyboardEvent<HTMLDivElement>>(testEvt)),
+    {times: 1}
+  );
 });
 
 test('#event.touchstart calls #props.onTouchStart', () => {
-  const onTouchStart = coerceForTesting<React.TouchEventHandler<HTMLDivElement>>(td.func());
+  const onTouchStart = coerceForTesting<
+    React.TouchEventHandler<HTMLDivElement>
+  >(td.func());
   const wrapper = shallow(<EnhancedSelect onTouchStart={onTouchStart} />);
-  const selectedTextEl = wrapper.find(MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR);
+  const selectedTextEl = wrapper.find(
+    MDCSelectFoundation.strings.SELECTED_TEXT_SELECTOR
+  );
   const evt = coerceForTesting<React.TouchEvent<HTMLDivElement>>({
     test: 'test',
     touches: [{clientX: 20}],
@@ -107,9 +152,7 @@ test('state.selectedItem and state.selectedValue updates when props.value update
 });
 
 test('state.selectedItem and state.selectedValue do not update when props.value updates with no Options', () => {
-  const wrapper = mount<EnhancedSelect>(
-    <EnhancedSelect />
-  );
+  const wrapper = mount<EnhancedSelect>(<EnhancedSelect />);
   wrapper.setProps({value: 'test'});
   assert.equal(wrapper.state().selectedItem, null);
   assert.equal(wrapper.state().selectedValue, '');
@@ -122,7 +165,9 @@ test('listElements returns Option element', () => {
       <Option data-value='test'>test</Option>
     </EnhancedSelect>
   );
-  const listElement = coerceForTesting<Element[]>(wrapper.instance().listElements)[0];
+  const listElement = coerceForTesting<Element[]>(
+    wrapper.instance().listElements
+  )[0];
   assert.equal(listElement, wrapper.find('Option').getDOMNode());
   wrapper.unmount();
 });
@@ -132,10 +177,7 @@ test('Menu.onClose calls sets aria-expanded and calls props.closeMenu, foundatio
   const handleBlur = td.func<() => {}>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleBlur});
   const wrapper = mount<EnhancedSelect>(
-    <EnhancedSelect
-      closeMenu={closeMenu}
-      foundation={foundation}
-    >
+    <EnhancedSelect closeMenu={closeMenu} foundation={foundation}>
       <Option data-value='test'>test</Option>
     </EnhancedSelect>
   );

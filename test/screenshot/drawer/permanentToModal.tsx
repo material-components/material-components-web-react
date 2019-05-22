@@ -3,12 +3,12 @@ import DrawerTest from './DrawerTest';
 
 interface PermanentToModalDrawerScreenshotTestState {
   isPhone: boolean;
-};
+}
 
 class PermanentToModalDrawerScreenshotTest extends React.Component<
   {},
   PermanentToModalDrawerScreenshotTestState
-  > {
+> {
   state = {
     isPhone: window.innerWidth < 599,
   };
@@ -17,7 +17,10 @@ class PermanentToModalDrawerScreenshotTest extends React.Component<
     window.addEventListener('resize', this.updateDrawerVariant);
   }
 
-  shouldComponentUpdate(_: {}, nextState: PermanentToModalDrawerScreenshotTestState) {
+  shouldComponentUpdate(
+    _: {},
+    nextState: PermanentToModalDrawerScreenshotTestState
+  ) {
     if (nextState.isPhone === this.state.isPhone) {
       return false;
     }

@@ -42,7 +42,8 @@ test('initializes with role', () => {
       <i role='button' />
     </Icon>
   );
-  assert.equal(wrapper.state().role, 'button'); '';
+  assert.equal(wrapper.state().role, 'button');
+  '';
 });
 
 test('#componentDidMount creates foundation', () => {
@@ -77,7 +78,10 @@ test('#componentDidMount calls #foundation.setDisabled if disabled prop is true 
 test('#componentDidMount sets tabindex if prop not present but onSelect exists', () => {
   // w/out tabindex onSelect will never fire && cursor: pointer is not applied
   const wrapper = shallow<Icon>(
-    <Icon onSelect={() => {}}><MaterialIcon icon='favorite' /></Icon>);
+    <Icon onSelect={() => {}}>
+      <MaterialIcon icon='favorite' />
+    </Icon>
+  );
 
   assert.equal(wrapper.state().tabindex, 0);
 });
@@ -86,7 +90,11 @@ test(
   '#componentDidUpdate will set tabindex if prop not present but updates ' +
     'with onSelect',
   () => {
-    const wrapper = shallow<Icon>(<Icon><MaterialIcon icon='favorite' /></Icon>);
+    const wrapper = shallow<Icon>(
+      <Icon>
+        <MaterialIcon icon='favorite' />
+      </Icon>
+    );
 
     assert.equal(wrapper.state().tabindex, -1);
     wrapper.setProps({onSelect: () => {}});
@@ -103,7 +111,9 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
+    wrapper.instance().foundation.setDisabled = td.func<
+      (isDisabled: boolean) => void
+    >();
     wrapper.setProps({disabled: true});
     td.verify(wrapper.instance().foundation.setDisabled(true), {times: 1});
   }
@@ -118,14 +128,16 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
+    wrapper.instance().foundation.setDisabled = td.func<
+      (isDisabled: boolean) => void
+    >();
     wrapper.setProps({disabled: false});
     td.verify(wrapper.instance().foundation.setDisabled(false), {times: 1});
   }
 );
 
 test(
-  '#componentDidUpdate doesn\'t call #foundation.setDisabled if ' +
+  "#componentDidUpdate doesn't call #foundation.setDisabled if " +
     'props.disabled is not updated',
   () => {
     const wrapper = shallow<Icon>(
@@ -133,7 +145,9 @@ test(
         <i tabIndex={0} />
       </Icon>
     );
-    wrapper.instance().foundation.setDisabled = td.func<(isDisabled: boolean) => void>();
+    wrapper.instance().foundation.setDisabled = td.func<
+      (isDisabled: boolean) => void
+    >();
     wrapper.setProps({children: <i />});
     td.verify(
       wrapper.instance().foundation.setDisabled(td.matchers.isA(Boolean)),
@@ -260,7 +274,9 @@ test('onClick calls foundation.handleInteraction', () => {
     </Icon>
   );
   const evt = coerceForTesting<React.MouseEvent>({});
-  wrapper.instance().foundation.handleInteraction = td.func<(evt: MouseEvent | KeyboardEvent) => void>();
+  wrapper.instance().foundation.handleInteraction = td.func<
+    (evt: MouseEvent | KeyboardEvent) => void
+  >();
   wrapper.simulate('click', evt);
   td.verify(wrapper.instance().foundation.handleInteraction(evt.nativeEvent), {
     times: 1,
@@ -275,7 +291,9 @@ test('onKeyDown call foundation.handleInteraction', () => {
     </Icon>
   );
   const evt = coerceForTesting<React.KeyboardEvent>({});
-  wrapper.instance().foundation.handleInteraction = td.func<(evt: MouseEvent | KeyboardEvent) => void>();
+  wrapper.instance().foundation.handleInteraction = td.func<
+    (evt: MouseEvent | KeyboardEvent) => void
+  >();
   wrapper.simulate('keydown', evt);
   td.verify(wrapper.instance().foundation.handleInteraction(evt.nativeEvent), {
     times: 1,

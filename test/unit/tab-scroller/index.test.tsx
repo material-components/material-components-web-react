@@ -57,7 +57,12 @@ test('#setStyleToElement adds a dashed style property to scrollAreaStyleProperty
   wrapper
     .instance()
     .setStyleToElement('background-color', 'blue', 'scrollAreaStyleProperty');
-  assert.equal(coerceForTesting<React.CSSProperties>(wrapper.state().scrollAreaStyleProperty).backgroundColor, 'blue');
+  assert.equal(
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollAreaStyleProperty
+    ).backgroundColor,
+    'blue'
+  );
 });
 
 test('#setStyleToElement adds single word style property to scrollAreaStyleProperty', () => {
@@ -65,7 +70,12 @@ test('#setStyleToElement adds single word style property to scrollAreaStylePrope
   wrapper
     .instance()
     .setStyleToElement('margin', '24px', 'scrollAreaStyleProperty');
-  assert.equal(coerceForTesting<React.CSSProperties>(wrapper.state().scrollAreaStyleProperty).margin, '24px');
+  assert.equal(
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollAreaStyleProperty
+    ).margin,
+    '24px'
+  );
 });
 
 test('#setStyleToElement adds a dashed style property to scrollContentStyleProperty', () => {
@@ -78,7 +88,9 @@ test('#setStyleToElement adds a dashed style property to scrollContentStylePrope
       'scrollContentStyleProperty'
     );
   assert.equal(
-    coerceForTesting<React.CSSProperties>(wrapper.state().scrollContentStyleProperty).backgroundColor,
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollContentStyleProperty
+    ).backgroundColor,
     'blue'
   );
 });
@@ -88,7 +100,12 @@ test('#setStyleToElement adds single word style property to scrollContentStylePr
   wrapper
     .instance()
     .setStyleToElement('margin', '24px', 'scrollContentStyleProperty');
-  assert.equal(coerceForTesting<React.CSSProperties>(wrapper.state().scrollContentStyleProperty).margin, '24px');
+  assert.equal(
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollContentStyleProperty
+    ).margin,
+    '24px'
+  );
 });
 
 test('#setStyleToElement overrides a previous dashed style property to scrollContentStyleProperty', () => {
@@ -106,7 +123,9 @@ test('#setStyleToElement overrides a previous dashed style property to scrollCon
       'scrollContentStyleProperty'
     );
   assert.equal(
-    coerceForTesting<React.CSSProperties>(wrapper.state().scrollContentStyleProperty).backgroundColor,
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollContentStyleProperty
+    ).backgroundColor,
     'blue'
   );
 });
@@ -121,7 +140,12 @@ test('#setStyleToElement overrides a single word style property to scrollContent
   wrapper
     .instance()
     .setStyleToElement('margin', '24px', 'scrollContentStyleProperty');
-  assert.equal(coerceForTesting<React.CSSProperties>(wrapper.state().scrollContentStyleProperty).margin, '24px');
+  assert.equal(
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollContentStyleProperty
+    ).margin,
+    '24px'
+  );
 });
 
 test('#setStyleToElement does not override a different style property on scrollContentStyleProperty', () => {
@@ -134,9 +158,16 @@ test('#setStyleToElement does not override a different style property on scrollC
   wrapper
     .instance()
     .setStyleToElement('margin', '24px', 'scrollContentStyleProperty');
-  assert.equal(coerceForTesting<React.CSSProperties>(wrapper.state().scrollContentStyleProperty).margin, '24px');
   assert.equal(
-    coerceForTesting<React.CSSProperties>(wrapper.state().scrollContentStyleProperty).backgroundColor,
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollContentStyleProperty
+    ).margin,
+    '24px'
+  );
+  assert.equal(
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollContentStyleProperty
+    ).backgroundColor,
     'orange'
   );
 });
@@ -173,13 +204,23 @@ test('#adapter.addScrollAreaClass adds to state.areaClassList', () => {
 test('#adapter.setScrollAreaStyleProperty adds to state.scrollAreaStyleProperty', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
   wrapper.instance().adapter.setScrollAreaStyleProperty('margin', '24px');
-  assert.equal(coerceForTesting<React.CSSProperties>(wrapper.state().scrollAreaStyleProperty).margin, '24px');
+  assert.equal(
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollAreaStyleProperty
+    ).margin,
+    '24px'
+  );
 });
 
 test('#adapter.setScrollContentStyleProperty adds to state.scrollAreaStyleProperty', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
   wrapper.instance().adapter.setScrollContentStyleProperty('margin', '24px');
-  assert.equal(coerceForTesting<React.CSSProperties>(wrapper.state().scrollContentStyleProperty).margin, '24px');
+  assert.equal(
+    coerceForTesting<React.CSSProperties>(
+      wrapper.state().scrollContentStyleProperty
+    ).margin,
+    '24px'
+  );
 });
 
 test('#adapter.getScrollContentStyleValue adds to state.scrollAreaStyleProperty', () => {
@@ -190,7 +231,9 @@ test('#adapter.getScrollContentStyleValue adds to state.scrollAreaStyleProperty'
     .instance()
     .contentElement.current!.style.setProperty('color', 'lightblue');
   const content = document.querySelector('.mdc-tab-scroller__scroll-content');
-  const contentStyleValue = getAdapter(wrapper.instance()).getScrollContentStyleValue('color');
+  const contentStyleValue = getAdapter(
+    wrapper.instance()
+  ).getScrollContentStyleValue('color');
   assert.equal(
     contentStyleValue,
     window.getComputedStyle(content!).getPropertyValue('color')
@@ -229,10 +272,7 @@ test('#adapter.getScrollAreaScrollLeft returns the areaElement scrollLeft proper
   const {div, wrapper} = setupScrolling();
   const areaElement = div.querySelector(AREA_SELECTOR);
   areaElement!.scrollLeft = 20;
-  assert.equal(
-    getAdapter(wrapper.instance()).getScrollAreaScrollLeft(),
-    20
-  );
+  assert.equal(getAdapter(wrapper.instance()).getScrollAreaScrollLeft(), 20);
   div.remove();
 });
 
@@ -247,23 +287,24 @@ test('#adapter.getScrollContentOffsetWidth returns the contentElement offsetWidt
 
 test('#adapter.getScrollAreaOffsetWidth returns the areaElement offsetWidth property', () => {
   const {div, wrapper} = setupScrolling();
-  assert.isAbove(
-    getAdapter(wrapper.instance()).getScrollAreaOffsetWidth(),
-    0
-  );
+  assert.isAbove(getAdapter(wrapper.instance()).getScrollAreaOffsetWidth(), 0);
   div.remove();
 });
 
 test('#adapter.computeScrollAreaClientRect returns the areaElement clientRect', () => {
   const wrapper = mount<TabScroller>(<TabScroller />);
-  const clientRect = getAdapter(wrapper.instance()).computeScrollAreaClientRect();
+  const clientRect = getAdapter(
+    wrapper.instance()
+  ).computeScrollAreaClientRect();
   const jsonClientRect = JSON.parse(JSON.stringify(clientRect));
   assert.containsAllKeys(jsonClientRect, clientRectShape);
 });
 
 test('#adapter.computeScrollContentClientRect returns the contentElement clientRect', () => {
   const wrapper = mount<TabScroller>(<TabScroller />);
-  const clientRect = getAdapter(wrapper.instance()).computeScrollContentClientRect();
+  const clientRect = getAdapter(
+    wrapper.instance()
+  ).computeScrollContentClientRect();
   const jsonClientRect = JSON.parse(JSON.stringify(clientRect));
   assert.containsAllKeys(jsonClientRect, clientRectShape);
 });
@@ -284,7 +325,9 @@ test('#getScrollContentWidth returns the contentElement offsetWidth', () => {
 
 test('#incrementScroll calls foundation.incrementScroll', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.incrementScroll = td.func<(scrollXIncrement: number) => null>();
+  wrapper.instance().foundation.incrementScroll = td.func<
+    (scrollXIncrement: number) => null
+  >();
   wrapper.instance().incrementScroll(50);
   td.verify(wrapper.instance().foundation.incrementScroll(50), {times: 1});
 });
@@ -314,7 +357,9 @@ test('wheel event triggers foundation.handleInteraction', () => {
 });
 
 test('wheel event triggers props.onWheel', () => {
-  const onWheel = coerceForTesting<React.WheelEventHandler<HTMLDivElement>>(td.func());
+  const onWheel = coerceForTesting<React.WheelEventHandler<HTMLDivElement>>(
+    td.func()
+  );
   const wrapper = shallow<TabScroller>(<TabScroller onWheel={onWheel} />);
   const evt = coerceForTesting<React.WheelEvent<HTMLDivElement>>({});
   wrapper.simulate('wheel', evt);
@@ -332,7 +377,9 @@ test('touchstart event triggers foundation.handleInteraction', () => {
 });
 
 test('touchstart event triggers props.onTouchStart', () => {
-  const onTouchStart = coerceForTesting<React.TouchEventHandler<HTMLDivElement>>(td.func());
+  const onTouchStart = coerceForTesting<
+    React.TouchEventHandler<HTMLDivElement>
+  >(td.func());
   const wrapper = shallow(<TabScroller onTouchStart={onTouchStart} />);
   const evt = coerceForTesting<React.TouchEvent<HTMLDivElement>>({});
   wrapper.simulate('touchstart', evt);
@@ -350,7 +397,9 @@ test('pointerdown event triggers foundation.handleInteraction', () => {
 });
 
 test('pointerdown event triggers props.onPointerDown', () => {
-  const onPointerDown = coerceForTesting<React.PointerEventHandler<HTMLDivElement>>(td.func());
+  const onPointerDown = coerceForTesting<
+    React.PointerEventHandler<HTMLDivElement>
+  >(td.func());
   const wrapper = shallow(<TabScroller onPointerDown={onPointerDown} />);
   const evt = coerceForTesting<React.PointerEvent<HTMLDivElement>>({});
   wrapper.simulate('pointerDown', evt);
@@ -368,7 +417,9 @@ test('mousedown event triggers foundation.handleInteraction', () => {
 });
 
 test('mousedown event triggers props.onMouseDown', () => {
-  const onMouseDown = coerceForTesting<React.MouseEventHandler<HTMLDivElement>>(td.func());
+  const onMouseDown = coerceForTesting<React.MouseEventHandler<HTMLDivElement>>(
+    td.func()
+  );
   const wrapper = shallow(<TabScroller onMouseDown={onMouseDown} />);
   const evt = coerceForTesting<React.PointerEvent<HTMLDivElement>>({});
   wrapper.simulate('mousedown', evt);
@@ -386,7 +437,9 @@ test('keydown event triggers foundation.handleInteraction', () => {
 });
 
 test('keydown event triggers props.onKeyDown', () => {
-  const onKeyDown = coerceForTesting<React.KeyboardEventHandler<HTMLDivElement>>(td.func());
+  const onKeyDown = coerceForTesting<
+    React.KeyboardEventHandler<HTMLDivElement>
+  >(td.func());
   const wrapper = shallow(<TabScroller onKeyDown={onKeyDown} />);
   const evt = coerceForTesting<React.KeyboardEvent<HTMLDivElement>>({});
   wrapper.simulate('keydown', evt);
@@ -395,18 +448,25 @@ test('keydown event triggers props.onKeyDown', () => {
 
 test('transitionend event triggers foundation.handleTransitionEnd', () => {
   const wrapper = shallow<TabScroller>(<TabScroller />);
-  wrapper.instance().foundation.handleTransitionEnd = td.func<(evt: Event) => null>();
+  wrapper.instance().foundation.handleTransitionEnd = td.func<
+    (evt: Event) => null
+  >();
   const evt = coerceForTesting<React.TransitionEvent>({
     nativeEvent: {},
   });
   wrapper.simulate('transitionend', evt);
-  td.verify(wrapper.instance().foundation.handleTransitionEnd(evt.nativeEvent), {
-    times: 1,
-  });
+  td.verify(
+    wrapper.instance().foundation.handleTransitionEnd(evt.nativeEvent),
+    {
+      times: 1,
+    }
+  );
 });
 
 test('transitionend event triggers props.onTransitionEnd', () => {
-  const onTransitionEnd = coerceForTesting<React.TransitionEventHandler<HTMLDivElement>>(td.func());
+  const onTransitionEnd = coerceForTesting<
+    React.TransitionEventHandler<HTMLDivElement>
+  >(td.func());
   const wrapper = shallow(<TabScroller onTransitionEnd={onTransitionEnd} />);
   const evt = coerceForTesting<React.TransitionEvent<HTMLDivElement>>({
     nativeEvent: {},

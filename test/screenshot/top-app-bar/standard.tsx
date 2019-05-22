@@ -18,7 +18,7 @@ const TopAppBarStandardScreenshotTest: React.FunctionComponent = () => {
         <TopAppBarRow>
           <TopAppBarSection align='start'>
             <TopAppBarIcon navIcon tabIndex={0}>
-              <MaterialIcon hasRipple icon='menu'/>
+              <MaterialIcon hasRipple icon='menu' />
             </TopAppBarIcon>
             <TopAppBarTitle>{title}</TopAppBarTitle>
           </TopAppBarSection>

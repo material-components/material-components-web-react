@@ -24,12 +24,15 @@ import React from 'react';
 import classnames from 'classnames';
 
 export interface DrawerContentProps {
-  tag?: string,
-  className?: string
-};
+  tag?: string;
+  className?: string;
+}
 
 const DrawerContent: React.FunctionComponent<DrawerContentProps> = ({
-  tag: Tag = 'div', children, className = '', ...otherProps // eslint-disable-line react/prop-types
+  tag: Tag = 'div',
+  children,
+  className = '',
+  ...otherProps
 }) => {
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892

@@ -72,11 +72,11 @@ export default class Tab extends React.Component<TabProps, TabState> {
   };
 
   state: TabState = {
-    'classList': new Set(),
+    classList: new Set(),
     'aria-selected': 'false',
-    'activateIndicator': false,
-    'previousIndicatorClientRect': this.props.previousIndicatorClientRect,
-    'tabIndex': -1,
+    activateIndicator: false,
+    previousIndicatorClientRect: this.props.previousIndicatorClientRect,
+    tabIndex: -1,
   };
 
   componentDidMount() {
@@ -129,22 +129,20 @@ export default class Tab extends React.Component<TabProps, TabState> {
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
-      setAttr: (attr: keyof MDCTabElementAttributes, value?: string | boolean) => (
-        this.setState((prevState) => ({...prevState, [attr]: value}))
-      ),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
+      setAttr: (
+        attr: keyof MDCTabElementAttributes,
+        value?: string | boolean
+      ) => this.setState((prevState) => ({...prevState, [attr]: value})),
       getOffsetLeft: () =>
         Number(this.tabRef.current && this.tabRef.current.offsetLeft),
       getOffsetWidth: () =>
         Number(this.tabRef.current && this.tabRef.current.offsetWidth),
       getContentOffsetLeft: () =>
-        this.tabContentRef.current ?
-          this.tabContentRef.current.offsetLeft :
-          0,
+        this.tabContentRef.current ? this.tabContentRef.current.offsetLeft : 0,
       getContentOffsetWidth: () =>
-        this.tabContentRef.current ?
-          this.tabContentRef.current.offsetWidth :
-          0,
+        this.tabContentRef.current ? this.tabContentRef.current.offsetWidth : 0,
       focus: () => this.tabRef.current && this.tabRef.current.focus(),
       notifyInteracted: this.props.onInteraction!,
       activateIndicator: (previousIndicatorClientRect: ClientRect) =>
@@ -179,11 +177,11 @@ export default class Tab extends React.Component<TabProps, TabState> {
 
   onFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
     this.tabRippleRef.current && this.tabRippleRef.current.handleFocus(e);
-  }
+  };
 
   onBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
     this.tabRippleRef.current && this.tabRippleRef.current.handleBlur(e);
-  }
+  };
 
   render() {
     const {
@@ -202,10 +200,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
       isMinWidthIndicator,
       ...otherProps
     } = this.props;
-    const {
-      tabIndex,
-      ['aria-selected']: ariaSelected,
-    } = this.state;
+    const {tabIndex, ['aria-selected']: ariaSelected} = this.state;
 
     return (
       <button
@@ -245,8 +240,4 @@ export default class Tab extends React.Component<TabProps, TabState> {
   }
 }
 
-export {
-  TabRipple,
-  Tab,
-  TabRippleProps,
-};
+export {TabRipple, Tab, TabRippleProps};

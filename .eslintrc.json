@@ -1,39 +1,36 @@
 {
   "extends": [
     "google",
-    "plugin:react/recommended"
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:react/recommended",
+    "prettier/@typescript-eslint",
+    "prettier",
+    "prettier/react"
   ],
   "plugins": [
-    "react"
+    "@typescript-eslint",
+    "react",
+    "prettier"
   ],
   "rules": {
+    "prettier/prettier": "warn",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
     "strict": 0,
     "require-jsdoc": "off",
     "valid-jsdoc": "off",
     "switch-colon-spacing": 0,
-    "max-len": ["error", 120],
-    "indent":  ["error", 2, {"SwitchCase":1}],
+    "max-len": "off",
+    "indent": "off",
     "no-invalid-this": "off",
-    "object-curly-spacing": ["error", "never"]
+    "object-curly-spacing": "off",
+    "react/prop-types": ["error", { "skipUndeclared": true }]
   },
-  "overrides": [
-    {
-      "parser": "typescript-eslint-parser",
-      "parserOptions": {
-        "jsx": true
-      },
-      "plugins": [
-        "typescript"
-      ],
-      "rules": {
-        "typescript/no-unused-vars": "warn",
-        "quotes": ["error", "single"],
-        "jsx-quotes": ["error", "prefer-single"]
-      },
-      "files": ["**/*.+(tsx|ts)"]
-    }, {
-      "parser": "babel-eslint",
-      "files": ["**/*.jsx", "**/*.js"]
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
     }
-  ]
+  }
 }

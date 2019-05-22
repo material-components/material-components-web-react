@@ -39,7 +39,7 @@ const {cssClasses: listCssClasses} = MDCListFoundation;
 
 type RefCallback<T> = (node: T) => void;
 
-export interface DrawerProps extends React.HTMLProps<HTMLElement>{
+export interface DrawerProps extends React.HTMLProps<HTMLElement> {
   className?: string;
   open?: boolean;
   onOpen?: () => void;
@@ -48,13 +48,15 @@ export interface DrawerProps extends React.HTMLProps<HTMLElement>{
   dismissible?: boolean;
   modal?: boolean;
   innerRef?: RefCallback<HTMLElement> | React.RefObject<HTMLElement>;
-};
+}
 
 interface DrawerState {
   classList: Set<string>;
-};
+}
 
-const isRefObject = function(ref: DrawerProps['innerRef']): ref is React.RefObject<HTMLElement> {
+const isRefObject = function(
+  ref: DrawerProps['innerRef']
+): ref is React.RefObject<HTMLElement> {
   return typeof ref !== 'function';
 };
 
@@ -146,7 +148,8 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
         classList.delete(className);
         this.setState({classList});
       },
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
       elementHasClass: (element: HTMLElement, className: string) =>
         element.classList.contains(className),
       saveFocus: () => {
@@ -154,19 +157,21 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       },
       restoreFocus: () => {
         const drawerElement = this.drawerElement && this.drawerElement.current;
-        if (drawerElement &&
+        if (
+          drawerElement &&
           this.previousFocus &&
           this.previousFocus.focus &&
-          drawerElement.contains(document.activeElement)) {
+          drawerElement.contains(document.activeElement)
+        ) {
           this.previousFocus.focus();
         }
       },
       focusActiveNavigationItem: () => {
-        const drawerElement =
-          this.drawerElement && this.drawerElement.current;
+        const drawerElement = this.drawerElement && this.drawerElement.current;
         if (!drawerElement) return;
-        const activeNavItemEl
-          = drawerElement.querySelector(`.${listCssClasses.LIST_ITEM_ACTIVATED_CLASS}`) as HTMLElement | null;
+        const activeNavItemEl = drawerElement.querySelector(
+          `.${listCssClasses.LIST_ITEM_ACTIVATED_CLASS}`
+        ) as HTMLElement | null;
         if (activeNavItemEl) {
           activeNavItemEl.focus();
         }
@@ -215,11 +220,11 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     } else {
       innerRef(node);
     }
-  }
+  };
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       onClose,
       onOpen,
       onKeyDown,
@@ -229,7 +234,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
       className,
       innerRef,
       modal,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       tag: Tag,
       ...otherProps
     } = this.props;
@@ -256,7 +261,9 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
     return (
       <div
         className='mdc-drawer-scrim'
-        onClick={() => (this.foundation as MDCModalDrawerFoundation).handleScrimClick()}
+        onClick={() =>
+          (this.foundation as MDCModalDrawerFoundation).handleScrimClick()
+        }
       />
     );
   }

@@ -28,10 +28,13 @@ import {CSS_CLASSES} from './constant';
 export interface ActionsProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;
   fullBleed?: boolean;
-};
+}
 
 const Actions: React.FunctionComponent<ActionsProps> = ({
-  className = '', children, fullBleed = false, ...otherProps // eslint-disable-line react/prop-types
+  className = '',
+  children,
+  fullBleed = false,
+  ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.ACTIONS, className, {
     [CSS_CLASSES.ACTIONS_FULL_BLEED]: fullBleed,

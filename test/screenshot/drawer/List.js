@@ -1,48 +1,70 @@
 import React from 'react';
 
-const renderListItem = ({
-  title, icon, activated, // eslint-disable-line react/prop-types
-}, index) => {
+const renderListItem = ({title, icon, activated}, index) => {
   return (
     <a
       key={index}
       className={`mdc-list-item {activated ? 'mdc-list-item--activated' : ''}`}
-      aria-selected='{activated}' tabIndex={activated ? '0' : ''}>
+      aria-selected='{activated}'
+      tabIndex={activated ? '0' : ''}
+    >
       <i className='material-icons mdc-list-item__graphic' aria-hidden='true'>
         {icon}
       </i>
       <span className='mdc-list-item__text'>
         {title}
-        <i className='test-font--redact-prev-letter'></i>
+        <i className='test-font--redact-prev-letter' />
       </span>
     </a>
   );
 };
 
 export default () => {
-  const topItems = [{
-    title: 'Inbox', icon: 'inbox', activated: true,
-  }, {
-    title: 'Star', icon: 'star',
-  }, {
-    title: 'Sent Mail', icon: 'send',
-  }, {
-    title: 'Drafts', icon: 'drafts',
-  }];
+  const topItems = [
+    {
+      title: 'Inbox',
+      icon: 'inbox',
+      activated: true,
+    },
+    {
+      title: 'Star',
+      icon: 'star',
+    },
+    {
+      title: 'Sent Mail',
+      icon: 'send',
+    },
+    {
+      title: 'Drafts',
+      icon: 'drafts',
+    },
+  ];
 
-  const middleItems = [{
-    title: 'Family', icon: 'bookmark',
-  }, {
-    title: 'Friends', icon: 'bookmark',
-  }, {
-    title: 'Work', icon: 'bookmark',
-  }];
+  const middleItems = [
+    {
+      title: 'Family',
+      icon: 'bookmark',
+    },
+    {
+      title: 'Friends',
+      icon: 'bookmark',
+    },
+    {
+      title: 'Work',
+      icon: 'bookmark',
+    },
+  ];
 
-  const bottomItems = [{
-    title: 'Settings', icon: 'settings',
-  }, {
-    title: 'Help & feedback', icon: 'announcement',
-  }];
+  const bottomItems = [
+    {
+      title: 'Settings',
+      icon: 'settings',
+    },
+    {
+      title: 'Help & feedback',
+      icon: 'announcement',
+    },
+  ];
 
   return (
     <nav className='mdc-list'>

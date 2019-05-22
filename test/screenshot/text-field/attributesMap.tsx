@@ -24,7 +24,10 @@ const helperTextMap = [
   {helperText: <HelperText validation>Error message</HelperText>},
 ];
 
-const getHelperKeyText = (helperTextMap: HelperTextMapType | {}, isValidationMsg: boolean): string => {
+const getHelperKeyText = (
+  helperTextMap: HelperTextMapType | {},
+  isValidationMsg: boolean
+): string => {
   const hasHelperText = Object.keys(helperTextMap).length > 0;
   if (!hasHelperText) {
     return '';
@@ -35,7 +38,9 @@ const getHelperKeyText = (helperTextMap: HelperTextMapType | {}, isValidationMsg
   }
 };
 
-const isValidationMsg: (helperTextMap: HelperTextMapType | {}) => boolean = (helperTextMap) => {
+const isValidationMsg: (helperTextMap: HelperTextMapType | {}) => boolean = (
+  helperTextMap
+) => {
   const hasHelperText = Object.keys(helperTextMap).length > 0;
   if (!hasHelperText) return false;
   if (!(helperTextMap as HelperTextMapType).helperText) return false;

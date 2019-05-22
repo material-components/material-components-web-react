@@ -23,7 +23,7 @@ import React from 'react';
 import classnames from 'classnames';
 import {MDCChipSetFoundation} from '@material/chips/chip-set/foundation';
 import ChipCheckmark from './ChipCheckmark';
-import {ChipProps} from './Chip'; // eslint-disable-line no-unused-vars
+import {ChipProps} from './Chip'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type ChipType = React.ReactElement<ChipProps>;
 
@@ -36,15 +36,18 @@ export interface ChipSetProps {
   filter?: boolean;
   input?: boolean;
   children: ChipType | ChipType[];
-};
+}
 
 interface ChipSetState {
   foundation: MDCChipSetFoundation | null;
   selectedChipIds: string[];
   hasInitialized: boolean;
-};
+}
 
-export default class ChipSet extends React.Component<ChipSetProps, ChipSetState> {
+export default class ChipSet extends React.Component<
+  ChipSetProps,
+  ChipSetState
+> {
   checkmarkWidth = 0;
   constructor(props: ChipSetProps) {
     super(props);
@@ -82,7 +85,7 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   }
 
   componentWillUnmount() {
-    this.state.foundation!.destroy();
+    this.state.foundation && this.state.foundation.destroy();
   }
 
   get classes() {
@@ -96,9 +99,12 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
 
   get adapter() {
     return {
-      hasClass: (className: string) => this.classes.split(' ').includes(className),
+      hasClass: (className: string) =>
+        this.classes.split(' ').includes(className),
       setSelected: () => {
-        const selectedChipIds = this.state.foundation!.getSelectedChipIds().slice();
+        const selectedChipIds = this.state
+          .foundation!.getSelectedChipIds()
+          .slice();
         this.setState({selectedChipIds}, () => {
           this.props.handleSelect!(selectedChipIds);
         });
@@ -108,13 +114,16 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   }
 
   initChipSelection() {
-    React.Children.forEach((this.props.children as ChipType | ChipType[]), (child) => {
-      const {id} = (child as ChipType).props;
-      const selected = this.state.selectedChipIds.indexOf(id!) > -1;
-      if (selected) {
-        this.state.foundation!.select(id!);
+    React.Children.forEach(
+      this.props.children as ChipType | ChipType[],
+      (child) => {
+        const {id} = (child as ChipType).props;
+        const selected = this.state.selectedChipIds.indexOf(id!) > -1;
+        if (selected) {
+          this.state.foundation!.select(id!);
+        }
       }
-    });
+    );
     this.setState({hasInitialized: true});
   }
 
@@ -133,7 +142,9 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
   removeChip = (chipId: string) => {
     const {updateChips, children} = this.props;
     if (!children) return;
-    const chips = React.Children.toArray(children).slice() as React.ReactElement<ChipProps>[];
+    const chips = React.Children.toArray(
+      children
+    ).slice() as React.ReactElement<ChipProps>[];
     for (let i = 0; i < chips.length; i++) {
       const chip = chips[i];
       if (chip.props.id === chipId) {
@@ -166,30 +177,31 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
 
     const {selectedChipIds} = this.state;
     const selected = selectedChipIds.indexOf(chip.props.id) > -1;
-    const {handleInteraction, handleSelect, handleRemove, ...chipProps} = chip.props;
-    const props = Object.assign(
-      {},
-      ...chipProps,
-      {
-        selected,
-        handleSelect: (id: string, selected: boolean): void => {
-          handleSelect!(id, selected);
-          this.handleSelect(id, selected);
-        },
-        handleInteraction: (id: string): void => {
-          handleInteraction!(id);
-          this.handleInteraction(id);
-        },
-        handleRemove: (id: string): void => {
-          handleRemove!(id);
-          this.handleRemove(id);
-        },
-        chipCheckmark: filter ? (
-          <ChipCheckmark ref={this.setCheckmarkWidth} />
-        ) : null,
-        computeBoundingRect: filter ? this.computeBoundingRect : null,
+    const {
+      handleInteraction,
+      handleSelect,
+      handleRemove,
+      ...chipProps
+    } = chip.props;
+    const props = Object.assign({}, ...chipProps, {
+      selected,
+      handleSelect: (id: string, selected: boolean): void => {
+        handleSelect!(id, selected);
+        this.handleSelect(id, selected);
       },
-    );
+      handleInteraction: (id: string): void => {
+        handleInteraction!(id);
+        this.handleInteraction(id);
+      },
+      handleRemove: (id: string): void => {
+        handleRemove!(id);
+        this.handleRemove(id);
+      },
+      chipCheckmark: filter ? (
+        <ChipCheckmark ref={this.setCheckmarkWidth} />
+      ) : null,
+      computeBoundingRect: filter ? this.computeBoundingRect : null,
+    });
     return React.cloneElement(chip, props);
   };
 
@@ -199,9 +211,11 @@ export default class ChipSet extends React.Component<ChipSetProps, ChipSetState>
     if (!this.state.hasInitialized) return null;
     return (
       <div className={this.classes}>
-        {React.Children.map((this.props.children as ChipType | ChipType[]), this.renderChip)}
+        {React.Children.map(
+          this.props.children as ChipType | ChipType[],
+          this.renderChip
+        )}
       </div>
     );
   }
 }
-

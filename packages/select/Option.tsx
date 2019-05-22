@@ -23,41 +23,35 @@
 import React from 'react';
 import {MenuListItem, MenuListItemProps} from '@material/react-menu'; // eslint-disable-line no-unused-vars
 
-export type OptionProps<T extends HTMLElement = HTMLElement>
-  = BaseOptionProps & (T extends HTMLOptionElement ? React.HTMLProps<HTMLOptionElement> : MenuListItemProps<T>);
+export type OptionProps<T extends HTMLElement = HTMLElement> = BaseOptionProps &
+  (T extends HTMLOptionElement
+    ? React.HTMLProps<HTMLOptionElement>
+    : MenuListItemProps<T>);
 
 interface BaseOptionProps {
   enhanced?: boolean;
 }
 
-class Option<T extends HTMLElement = HTMLElement> extends React.Component<OptionProps<T>, {}> {
+class Option<T extends HTMLElement = HTMLElement> extends React.Component<
+  OptionProps<T>,
+  {}
+> {
   static defaultProps = {
     enhanced: false,
   };
 
   render() {
-    const {
-      value,
-      enhanced,
-      children,
-      ...otherProps
-    } = this.props;
+    const {value, enhanced, children, ...otherProps} = this.props;
 
     if (enhanced) {
       return (
-        <MenuListItem
-          data-value={value}
-          {...otherProps}
-        >
+        <MenuListItem data-value={value} {...otherProps}>
           {children}
         </MenuListItem>
       );
     }
     return (
-      <option
-        value={value}
-        {...otherProps}
-      >
+      <option value={value} {...otherProps}>
         {children}
       </option>
     );
