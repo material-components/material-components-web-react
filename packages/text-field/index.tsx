@@ -284,7 +284,16 @@ class TextField<
     const {props} = child;
     return Object.assign({}, props, {
       foundation: this.state.foundation,
-      handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
+      handleFocusChange: (isFocused: boolean) => {
+        this.setState({isFocused});
+        console.log(this.state.foundation, isFocused)
+        if (!this.state.foundation) return;
+        if (isFocused) {
+          this.state.foundation.activateFocus();
+        } else {
+          this.state.foundation.deactivateFocus();
+        }
+      },
       setDisabled: (disabled: boolean) => this.setState({disabled}),
       setInputId: (id: string) => this.setState({inputId: id}),
       syncInput: (input: Input<T>) => (this.inputComponent_ = input),

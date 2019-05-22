@@ -22,6 +22,7 @@ class OutlinedTextField extends React.Component<{}, {value: string}> {
       <div>
         <TextField label='Dog' outlined>
           <Input
+            autoFocus
             ref={this.init}
             value={this.state.value}
             onChange={this.onChange}
