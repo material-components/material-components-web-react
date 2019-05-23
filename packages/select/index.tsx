@@ -343,6 +343,7 @@ export default class Select<
     const {
       selectClassName,
       /* eslint-disable */
+      className,
       floatingLabelClassName,
       lineRippleClassName,
       notchedOutlineClassName,

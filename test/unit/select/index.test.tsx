@@ -403,6 +403,16 @@ test('renders BaseSelect for select', () => {
   );
 });
 
+test('does not pass className to BaseSelect', () => {
+  const wrapper = shallow(<Select label='my label' className="container-class" />);
+  assert.equal(wrapper.childAt(0).childAt(1).prop('className'), "");
+});
+
+test('pass selectClassName to BaseSelect', () => {
+  const wrapper = shallow(<Select label='my label' selectClassName="select-class" />);
+  assert.equal(wrapper.childAt(0).childAt(1).prop('className'), "select-class");
+});
+
 test('renders FloatingLabel after BaseSelect if props.label exists', () => {
   const wrapper = shallow(<Select label='my label' />);
   assert.equal(
