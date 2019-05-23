@@ -52,15 +52,11 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
   }
 
   renderTemplate(template: string) {
-    const {
-      count = 0,
-      maxLength = 0,
-    } = this.props;
+    const {count = 0, maxLength = 0} = this.props;
 
     return template
       .replace(TEMPLATE.COUNT, count.toString())
-      .replace(TEMPLATE.MAX_LENGTH, maxLength.toString())
-    ;
+      .replace(TEMPLATE.MAX_LENGTH, maxLength.toString());
   }
 
   get classes() {
@@ -82,12 +78,14 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
   }
 
   render() {
-    const {
-      template,
-    } = this.props;
+    const {template} = this.props;
 
-    return <div className={this.classes} {...this.otherProps}>
-      {this.renderTemplate(template ? template : `${TEMPLATE.COUNT} / ${TEMPLATE.MAX_LENGTH}`)}
-    </div>;
+    return (
+      <div className={this.classes} {...this.otherProps}>
+        {this.renderTemplate(
+          template ? template : `${TEMPLATE.COUNT} / ${TEMPLATE.MAX_LENGTH}`
+        )}
+      </div>
+    );
   }
 }
