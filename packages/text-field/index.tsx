@@ -83,6 +83,7 @@ interface TextFieldState {
 class TextField<
   T extends HTMLElement = HTMLInputElement
 > extends React.Component<TextFieldProps<T>, TextFieldState> {
+  textFieldElement: React.RefObject<HTMLDivElement> = React.createRef();
   floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
   inputComponent_: null | Input<T> = null;
 
@@ -330,6 +331,7 @@ class TextField<
           className={this.classes}
           onClick={() => foundation!.handleTextFieldInteraction()}
           onKeyDown={() => foundation!.handleTextFieldInteraction()}
+          ref={this.textFieldElement}
           key='text-field-container'
         >
           {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
@@ -407,10 +409,13 @@ class TextField<
     helperText?: React.ReactElement<HelperTextProps>,
     characterCounter?: React.ReactElement<CharacterCounterProps>
   ) {
-    return <div className={cssClasses.HELPER_LINE}>
-      {helperText && this.renderHelperText(helperText)}
-      {characterCounter && !this.props.textarea && this.renderCharacterCounter(characterCounter)}
-    </div>;
+    const el = this.textFieldElement.current;
+    return (
+      <div className={cssClasses.HELPER_LINE} style={{width: el ? `${el.clientWidth}px` : 'auto'}}>
+        {helperText && this.renderHelperText(helperText)}
+        {characterCounter && !this.props.textarea && this.renderCharacterCounter(characterCounter)}
+      </div>
+    );
   }
 
   renderHelperText(helperText: React.ReactElement<HelperTextProps>) {
