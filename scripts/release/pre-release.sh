@@ -54,6 +54,8 @@ echo ""
 
 log "Moving built assets to package directories..."
 node scripts/release/cp-pkgs.js
+log "Generating flow types"
+node scripts/release/generate-flow.js
 echo ""
 
 log "Verifying that all packages are correctly pointing main to dist..."
