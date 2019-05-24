@@ -53,6 +53,16 @@ test('state.value updates when props.value changes', () => {
   assert.equal(wrapper.state().value, updatedValue);
 });
 
+test('#foundation.setDisabled gets called when props.disabled changes', () => {
+  const wrapper = shallow<Select>(<Select label='my label' disabled={false} />);
+  const setDisabled = td.func<() => void>();
+  wrapper.setState({
+    foundation: coerceForTesting<MDCSelectFoundation>({setDisabled}),
+  });
+  wrapper.setProps({disabled: true});
+  td.verify(wrapper.state().foundation!.setDisabled(true), {times: 1});
+});
+
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
   const foundation = wrapper.state().foundation!;
