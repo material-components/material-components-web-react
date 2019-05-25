@@ -1,1 +1,1 @@
-export default ['standard', 'fullWidth', 'outlined', 'textArea', 'refTest'];
+export default ['standard', 'fullWidth', 'outlined', 'textArea', 'refTest', 'characterCounter'];
