@@ -69,7 +69,7 @@
     "@google-cloud/storage": "^1.6.0",
     "@material/base": "^1.0.0",
     "@material/button": "^1.1.0",
-    "@material/card": "^1.1.0",
+    "@material/card": "^2.1.1",
     "@material/checkbox": "^1.0.0",
     "@material/chips": "^1.1.1",
     "@material/dialog": "^1.1.0",
