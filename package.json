@@ -70,7 +70,7 @@
     "@material/base": "^1.0.0",
     "@material/button": "^1.1.0",
     "@material/card": "^1.1.0",
-    "@material/checkbox": "^1.0.0",
+    "@material/checkbox": "^2.1.1",
     "@material/chips": "^1.1.1",
     "@material/dialog": "^1.1.0",
     "@material/drawer": "^1.0.1",
