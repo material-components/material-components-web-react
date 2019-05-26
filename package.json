@@ -74,6 +74,7 @@
     "@material/chips": "^1.1.1",
     "@material/dialog": "^1.1.0",
     "@material/drawer": "^1.0.1",
+    "@material/fab": "^2.1.1",
     "@material/floating-label": "^1.1.0",
     "@material/icon-button": "^1.1.0",
     "@material/line-ripple": "^1.0.0",
