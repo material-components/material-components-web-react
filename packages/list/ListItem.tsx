@@ -82,7 +82,9 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
 
   componentDidMount() {
     this.initializeTabIndex();
-    (this.props.initRipple as any)(this.listItemElement.current);
+    if (this.props.initRipple) {
+      (this.props.initRipple as any)(this.listItemElement.current);
+    }
   }
 
   componentDidUpdate(prevProps: ListItemProps<T>) {
