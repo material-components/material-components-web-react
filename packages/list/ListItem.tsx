@@ -22,18 +22,21 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import {MDCListFoundation} from '@material/list/foundation';
-import {ListItemContext, ListItemContextShape} from './index';
 import {closest} from '@material/dom/ponyfill';
+import {withRipple, InjectedProps} from '@material/react-ripple';
+import {MDCListFoundation} from '@material/list/foundation';
 
-export interface ListItemProps<T extends HTMLElement = HTMLElement> extends React.HTMLProps<T>, ListItemContextShape {
+import {ListItemContext, ListItemContextShape} from './index';
+
+export interface ListItemProps<T extends HTMLElement = HTMLElement>
+  extends React.HTMLProps<T>, ListItemContextShape, InjectedProps<T> {
   checkboxList?: boolean;
   radioList?: boolean;
   tag?: string;
   activated?: boolean;
   selected?: boolean;
   ref?: React.Ref<any>;
-};
+}
 
 export interface ListItemState {
   tabIndex?: number;
@@ -79,9 +82,10 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
 
   componentDidMount() {
     this.initializeTabIndex();
+    (this.props.initRipple as any)(this.listItemElement.current);
   }
 
-  componentDidUpdate(prevProps: ListItemProps) {
+  componentDidUpdate(prevProps: ListItemProps<T>) {
     if (prevProps.tabIndex !== this.props.tabIndex) {
       this.setState({tabIndex: this.props.tabIndex});
     }
@@ -126,35 +130,35 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
       const tabIndex = this.props.getListItemInitialTabIndex!(index);
       this.setState({tabIndex});
     }
-  }
+  };
 
   getIndex = (listElement: Element) => {
     return this.listElements.indexOf(listElement);
-  }
+  };
 
   handleClick = (e: React.MouseEvent<any>) => {
     const {onClick} = this.props;
     onClick!(e);
     this.props.handleClick!(e, this.getIndex(e.currentTarget));
-  }
+  };
 
   handleKeyDown = (e: React.KeyboardEvent<any>) => {
     const {onKeyDown} = this.props;
     onKeyDown!(e);
     this.props.handleKeyDown!(e, this.getIndex(e.currentTarget));
-  }
+  };
 
   handleFocus = (e: React.FocusEvent<any>) => {
     const {onFocus} = this.props;
     onFocus!(e);
     this.props.handleFocus!(e, this.getIndex(e.currentTarget));
-  }
+  };
 
   handleBlur = (e: React.FocusEvent<any>) => {
     const {onBlur} = this.props;
     onBlur!(e);
     this.props.handleBlur!(e, this.getIndex(e.currentTarget));
-  }
+  };
 
   render() {
     const {
@@ -162,6 +166,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
       className,
       children,
       role,
+      initRipple,
       checkboxList,
       radioList,
       onDestroy,
@@ -212,4 +217,5 @@ const ListItem: React.FunctionComponent<ListItemProps> = (props) => {
   );
 };
 
-export default ListItem;
+// export default ListItem;
+export default withRipple<ListItemProps, any>(ListItem);
