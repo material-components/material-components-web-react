@@ -198,7 +198,7 @@ export default class Input<
 
     if (foundation && isValid !== undefined) {
       foundation.setUseNativeValidation(false);
-      foundation.setValid(!!isValid);
+      foundation.setValid(isValid as boolean);
     }
   };
 
