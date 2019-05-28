@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import NativeSelect, {
   NativeSelectProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from './NativeSelect';
