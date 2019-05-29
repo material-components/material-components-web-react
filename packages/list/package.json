@@ -29,6 +29,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/memoize-one": "^4.1.1"
+    "@types/memoize-one": "^4.1.1",
+    "@types/react": "^16.8.19"
   }
 }
