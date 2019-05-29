@@ -63,7 +63,7 @@ dense | Boolean | Enables dense variant.
 floatingLabelClassName | String | An optional class added to the floating label element of the text field.
 fullWidth | Boolean | Enables fullWidth variant.
 helperText | Element | Helper text that appears below the text field. Use the `<HelperText>` component that comes with this package.
-label | String | Mandatory. Label text that appears as the floating label or placeholder.
+label | String | An optional label text that appears as the floating label or placeholder.
 leadingIcon | Element | An icon element that appears as the leading icon.
 lineRippleClassName | String | An optional class added to the line ripple element.
 notchedOutlineClassName | String | An optional class added to the notched outline element.
