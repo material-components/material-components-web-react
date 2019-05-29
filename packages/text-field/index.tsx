@@ -31,8 +31,9 @@ import {
 } from '@material/textfield/adapter';
 import {MDCTextFieldFoundation} from '@material/textfield/foundation';
 import Input, {InputProps} from './Input';
-import Icon, {IconProps} from './icon/index';
-import HelperText, {HelperTextProps} from './helper-text/index';
+import Icon, {IconProps} from './icon';
+import HelperText, {HelperTextProps} from './helper-text';
+import CharacterCounter, {CharacterCounterProps} from './character-counter';
 import FloatingLabel from '@material/react-floating-label';
 import LineRipple from '@material/react-line-ripple';
 import NotchedOutline from '@material/react-notched-outline';
@@ -48,7 +49,7 @@ export interface Props<T extends HTMLElement = HTMLInputElement> {
   floatingLabelClassName?: string;
   fullWidth?: boolean;
   helperText?: React.ReactElement<HelperTextProps>;
-  characterCounter?: React.ReactElement<any>;
+  characterCounter?: React.ReactElement<CharacterCounterProps>;
   label?: React.ReactNode;
   leadingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   lineRippleClassName?: string;
@@ -82,6 +83,7 @@ interface TextFieldState {
 class TextField<
   T extends HTMLElement = HTMLInputElement
 > extends React.Component<TextFieldProps<T>, TextFieldState> {
+  textFieldElement: React.RefObject<HTMLDivElement> = React.createRef();
   floatingLabelElement: React.RefObject<FloatingLabel> = React.createRef();
   inputComponent_: null | Input<T> = null;
 
@@ -175,6 +177,7 @@ class TextField<
       floatingLabelClassName,
       fullWidth,
       helperText,
+      characterCounter,
       label,
       leadingIcon,
       lineRippleClassName,
@@ -278,10 +281,11 @@ class TextField<
     };
   }
 
-  inputProps(child: React.ReactElement<InputProps<T>>) {
+  get inputProps() {
     // ref does exist on React.ReactElement<InputProps<T>>
     // @ts-ignore
-    const {props} = child;
+    const {props} = React.Children.only(this.props.children);
+
     return Object.assign({}, props, {
       foundation: this.state.foundation,
       handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
@@ -290,6 +294,18 @@ class TextField<
       syncInput: (input: Input<T>) => (this.inputComponent_ = input),
       inputType: this.props.textarea ? 'textarea' : 'input',
     });
+  }
+
+  get characterCounterProps() {
+    const {
+      value,
+      maxLength,
+    } = this.inputProps;
+
+    return {
+      count: value ? value.length : 0,
+      maxLength: maxLength ? parseInt(maxLength) : 0,
+    };
   }
 
   /**
@@ -315,11 +331,11 @@ class TextField<
           className={this.classes}
           onClick={() => foundation!.handleTextFieldInteraction()}
           onKeyDown={() => foundation!.handleTextFieldInteraction()}
+          ref={this.textFieldElement}
           key='text-field-container'
         >
-          {leadingIcon
-            ? this.renderIcon(leadingIcon, onLeadingIconSelect)
-            : null}
+          {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
+          {textarea && characterCounter && this.renderCharacterCounter(characterCounter)}
           {this.renderInput()}
           {this.notchedOutlineAdapter.hasOutline() ? (
             this.renderNotchedOutline()
@@ -341,11 +357,8 @@ class TextField<
   }
 
   renderInput() {
-    const child: React.ReactElement<InputProps<T>> = React.Children.only(
-      this.props.children
-    );
-    const props = this.inputProps(child);
-    return React.cloneElement(child, props);
+    const child: React.ReactElement<InputProps<T>> = React.Children.only(this.props.children);
+    return React.cloneElement(child, this.inputProps);
   }
 
   renderLabel() {
@@ -394,12 +407,12 @@ class TextField<
 
   renderHelperLine(
     helperText?: React.ReactElement<HelperTextProps>,
-    characterCounter?: React.ReactElement<any>
+    characterCounter?: React.ReactElement<CharacterCounterProps>
   ) {
     return (
       <div className={cssClasses.HELPER_LINE}>
         {helperText && this.renderHelperText(helperText)}
-        {characterCounter}
+        {characterCounter && !this.props.textarea && this.renderCharacterCounter(characterCounter)}
       </div>
     );
   }
@@ -428,7 +441,14 @@ class TextField<
       </Icon>
     );
   }
+
+  renderCharacterCounter(characterCounter: React.ReactElement<CharacterCounterProps>) {
+    return React.cloneElement(characterCounter, Object.assign(
+      this.characterCounterProps,
+      characterCounter.props,
+    ));
+  }
 }
 
-export {Icon, HelperText, Input, IconProps, HelperTextProps, InputProps};
+export {Icon, HelperText, CharacterCounter, Input, IconProps, HelperTextProps, CharacterCounterProps, InputProps};
 export default TextField;
