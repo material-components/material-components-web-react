@@ -32,6 +32,9 @@ class MenuListItem<T extends HTMLElement = HTMLElement> extends React.Component<
     const {
       role = 'menuitem',
       children,
+      /* eslint-disable no-unused-vars */
+      computeBoundingRect,
+      /* eslint-disable no-unused-vars */
       ...otherProps
     } = this.props;
 

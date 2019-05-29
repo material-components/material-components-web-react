@@ -36,6 +36,7 @@ export interface ListItemProps<T extends HTMLElement = HTMLElement>
   activated?: boolean;
   selected?: boolean;
   ref?: React.Ref<any>;
+  initRipple?: (surface: T) => void;
 }
 
 export interface ListItemState {
@@ -83,7 +84,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
   componentDidMount() {
     this.initializeTabIndex();
     if (this.props.initRipple) {
-      (this.props.initRipple as any)(this.listItemElement.current);
+      this.props.initRipple(this.listItemElement.current as T);
     }
   }
 
@@ -220,4 +221,4 @@ const ListItem: React.FunctionComponent<ListItemProps> = (props) => {
 };
 
 // export default ListItem;
-export default withRipple<ListItemProps, any>(ListItem);
+export default withRipple<ListItemProps, HTMLElement>(ListItem);
