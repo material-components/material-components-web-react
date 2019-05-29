@@ -29,6 +29,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/react": "^16.8.19",
     "@types/react-is": "^16.7.1"
   }
 }
