@@ -163,7 +163,13 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       },
       getCheckmarkBoundingClientRect: () => {
         const {chipCheckmark} = this.props;
-        if (!(chipCheckmark && chipCheckmark.props && chipCheckmark.props.getBoundingClientRect)) {
+        if (
+          !(
+            chipCheckmark &&
+            chipCheckmark.props &&
+            chipCheckmark.props.getBoundingClientRect
+          )
+        ) {
           // new DOMRect is not IE11 compatible
           const defaultDOMRect = {
             bottom: 0,

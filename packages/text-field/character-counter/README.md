@@ -1,6 +1,6 @@
 # React Text Field Character Counter
 
-MDC React Text Field Character Counter is a React Component which uses [MDC Text Field Character Counter](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/character-counter)'s CSS and foundation JavaScript.
+MDC React Text Field Character Counter is a React Component which uses [MDC Text Field Character Counter](https://github.com/material-components/material-components-web/tree/master/packages/mdc-textfield/character-counter)'s Sass and Foundational JavaScript logic.
 
 ## Usage
 
@@ -19,15 +19,14 @@ const MyComponent = () => {
 Prop Name | Type | Description
 --- | --- | ---
 className | String | CSS classes for element.
-template | String | You can set custom template. See below
+template | String | You can set custom template. [See below](#custom-template)
 
 ## Custom Template
 
-CharacterCounter provides customizing by setting the `template` prop in CharacterCounter.  
-If you contain `${count}` and `${maxLength}` in template, it will replace each value.  
-(${count} is replaced length of Input's value, ${maxLength} is replaced Input's maxLength)  
-For example, default template is `${count} / ${maxLength}`, so it appears `0 / 140`.  
-If you set template as `${count} : ${maxLength}`, it appears `0 : 140`.  
+CharacterCounter provides customization with the `template` prop in CharacterCounter.
+The `template` prop accepts the `${count}` and `${maxLength}` arguments.  
+The default template is `${count} / ${maxLength}`, so it appears `0 / 140`.  
+If you set template as `${count} : ${maxLength}`, it appears as `0 : 140`.  
 
 ### Sample
 
@@ -36,10 +35,16 @@ import React from 'react';
 import TextField, {CharacterCounter, Input} from '@material/react-text-field';
 
 class MyApp extends React.Component {
+  state = {value: 'Happy Coding!'};
+
   render() {
     return (
       <TextField characterCounter={<CharacterCounter template='${count} : ${maxLength}' />}>
-        <Input value={'Happy Coding!'} maxLength={140} />
+        <Input
+          maxLength={140}
+          value={this.state.value}
+          onChange={(e) => this.setState({value: e.target.value})}
+        />
       </TextField>
     );
   }

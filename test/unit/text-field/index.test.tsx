@@ -710,7 +710,7 @@ test('#adapter.getNativeInput throws error when no inputComponent', () => {
   }
 });
 
-test('Useless test for code coverage', () => {
+test('MDC React doesn\'t need to implement this', () => {
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField>
       <Input />

@@ -89,7 +89,7 @@ test('Character counter renders in front of input when tag is textarea', () => {
   );
 });
 
-test('Useless test for test coverage', () => {
+test('MDC React doesn\'t need to implement this', () => {
   const wrapper = shallow<CharacterCounter>(<CharacterCounter />);
   wrapper.instance().adapter.setContent('');
   wrapper.unmount();
