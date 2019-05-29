@@ -409,9 +409,8 @@ class TextField<
     helperText?: React.ReactElement<HelperTextProps>,
     characterCounter?: React.ReactElement<CharacterCounterProps>
   ) {
-    const el = this.textFieldElement.current;
     return (
-      <div className={cssClasses.HELPER_LINE} style={{width: el ? `${el.clientWidth}px` : 'auto'}}>
+      <div className={cssClasses.HELPER_LINE}>
         {helperText && this.renderHelperText(helperText)}
         {characterCounter && !this.props.textarea && this.renderCharacterCounter(characterCounter)}
       </div>
