@@ -4,5 +4,5 @@ export default [
   'outlined',
   'textArea',
   'refTest',
-  'autofocusTest',
+  'autoFocus',
 ];
