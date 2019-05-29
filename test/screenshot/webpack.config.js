@@ -14,35 +14,37 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      loader: 'babel-loader',
-      query: {compact: true},
-    }, {
-      test: /\.tsx?$/,
-      loader: 'ts-loader',
-    }, {
-      test: /\.scss$/,
-      use: ExtractTextPlugin.extract({
-        use: [
-          {
-            loader: 'css-loader',
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [
-                require('autoprefixer')(),
-              ],
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {compact: true},
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+      },
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader',
             },
-          },
-          {
-            loader: 'sass-loader',
-            options: {importer},
-          },
-        ],
-      }),
-    }],
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [require('autoprefixer')()],
+              },
+            },
+            {
+              loader: 'sass-loader',
+              options: {importer},
+            },
+          ],
+        }),
+      },
+    ],
   },
   plugins: [
     new ExtractTextPlugin('bundle.css'),

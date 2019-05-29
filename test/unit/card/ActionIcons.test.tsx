@@ -6,9 +6,11 @@ import {CardActionIcons} from '../../../packages/card/index';
 suite('CardActionIcons');
 
 test('classNames adds classes', () => {
-  const wrapper = shallow(<CardActionIcons className='test-class-name'>
-    <div>test</div>
-  </CardActionIcons>);
+  const wrapper = shallow(
+    <CardActionIcons className='test-class-name'>
+      <div>test</div>
+    </CardActionIcons>
+  );
   assert.isTrue(wrapper.hasClass('test-class-name'));
   assert.isTrue(wrapper.hasClass('mdc-card__action-icons'));
 });

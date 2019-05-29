@@ -26,18 +26,20 @@ import {withRipple, InjectedProps} from '@material/react-ripple';
 
 import {CSS_CLASSES} from './constant';
 
-export interface PrimaryContentBaseProps extends React.HTMLProps<HTMLDivElement>, InjectedProps<HTMLDivElement>{
+export interface PrimaryContentBaseProps
+  extends React.HTMLProps<HTMLDivElement>,
+    InjectedProps<HTMLDivElement> {
   className: string;
   unbounded?: boolean;
-};
+}
 
-export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps> = ({
-  /* eslint-disable react/prop-types */
+export const PrimaryContentBase: React.FunctionComponent<
+  PrimaryContentBaseProps
+> = ({
   className = '',
   initRipple,
   children,
-  unbounded, // eslint-disable-line no-unused-vars
-  /* eslint-enable react/prop-types */
+  unbounded, // eslint-disable-line @typescript-eslint/no-unused-vars
   ...otherProps
 }) => {
   const classes = classnames(CSS_CLASSES.PRIMARY_ACTION, className);
@@ -49,4 +51,6 @@ export const PrimaryContentBase: React.FunctionComponent<PrimaryContentBaseProps
   );
 };
 
-export default withRipple<PrimaryContentBaseProps, HTMLDivElement>(PrimaryContentBase);
+export default withRipple<PrimaryContentBaseProps, HTMLDivElement>(
+  PrimaryContentBase
+);

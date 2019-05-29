@@ -17,7 +17,7 @@ import Drawer, {
 // not converted because of issue #432
 // @ts-ignore
 import List from './List.js';
-import {MaterialIconProps} from '../../../packages/material-icon/index'; // eslint-disable-line no-unused-vars
+import {MaterialIconProps} from '../../../packages/material-icon/index'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 interface DrawerScreenshotTestProps {
   onClose: () => void;
@@ -27,10 +27,11 @@ interface DrawerScreenshotTestProps {
   dismissible: boolean;
   renderLoremIpsum: (section: number) => JSX.Element;
   renderNavigationIcon: () => React.ReactElement<MaterialIconProps> | undefined;
-};
+}
 
-const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({
-  /* eslint-disable react/prop-types */
+const DrawerScreenshotTest: React.FunctionComponent<
+  DrawerScreenshotTestProps
+> = ({
   onClose,
   open,
   title,

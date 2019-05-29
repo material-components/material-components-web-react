@@ -14,16 +14,16 @@ interface DrawerScreenshotTestProps {
   modal?: boolean;
   isBelow?: boolean;
   hideNavigationIcon?: boolean;
-};
+}
 
 interface DrawerScreenshotTestState {
   open: boolean;
-};
+}
 
 class DrawerScreenshotTest extends React.Component<
   DrawerScreenshotTestProps,
   DrawerScreenshotTestState
-  > {
+> {
   constructor(props: DrawerScreenshotTestProps) {
     super(props);
     this.state = {
@@ -35,7 +35,7 @@ class DrawerScreenshotTest extends React.Component<
 
   render() {
     const {open} = this.state;
-    const {title, dismissible = false, modal = false, isBelow} = this.props; // eslint-disable-line react/prop-types
+    const {title, dismissible = false, modal = false, isBelow} = this.props;
     const Tag = isBelow ? DrawerBelowTopAppBar : DrawerAboveTopAppBar;
 
     return (
@@ -46,13 +46,15 @@ class DrawerScreenshotTest extends React.Component<
         open={open}
         onClose={this.onClose}
         renderLoremIpsum={this.renderLoremIpsum}
-        renderNavigationIcon={dismissible || modal ? this.renderNavigationIcon : noop}
+        renderNavigationIcon={
+          dismissible || modal ? this.renderNavigationIcon : noop
+        }
       />
     );
   }
 
   renderNavigationIcon = () => {
-    if (this.props.hideNavigationIcon) return; // eslint-disable-line react/prop-types
+    if (this.props.hideNavigationIcon) return;
     return (
       <MaterialIcon
         className='mdc-top-app-bar__navigation-icon'

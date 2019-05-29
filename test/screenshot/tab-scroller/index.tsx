@@ -3,9 +3,7 @@ import TabScroller from '../../../packages/tab-scroller';
 import '../../../packages/tab-scroller/index.scss';
 import './index.scss';
 
-const Tab: React.FunctionComponent<{number: number}> = ({
-  number, // eslint-disable-line react/prop-types
-}) => {
+const Tab: React.FunctionComponent<{number: number}> = ({number}) => {
   return <div className='tab'>Tab {number}</div>;
 };
 

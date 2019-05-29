@@ -25,7 +25,9 @@ test('NativeSelect onFocus calls handleFocus', () => {
   const handleFocus = td.func();
   const onFocus = td.func<(evt: React.FocusEvent<HTMLSelectElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleFocus});
-  const wrapper = shallow(<BaseSelect foundation={foundation} onFocus={onFocus} />);
+  const wrapper = shallow(
+    <BaseSelect foundation={foundation} onFocus={onFocus} />
+  );
   const nativeSelect = wrapper.find(NativeSelect);
   const evt = coerceForTesting<React.FocusEvent<HTMLSelectElement>>({});
   nativeSelect.simulate('focus', evt);
@@ -37,7 +39,9 @@ test('EnhancedSelect onFocus calls handleFocus', () => {
   const handleFocus = td.func();
   const onFocus = td.func<(evt: React.FocusEvent<HTMLElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleFocus});
-  const wrapper = shallow(<BaseSelect enhanced foundation={foundation} onFocus={onFocus} />);
+  const wrapper = shallow(
+    <BaseSelect enhanced foundation={foundation} onFocus={onFocus} />
+  );
   const enhancedSelect = wrapper.find(EnhancedSelect);
   const evt = coerceForTesting<React.FocusEvent<HTMLElement>>({});
   enhancedSelect.simulate('focus', evt);
@@ -49,7 +53,9 @@ test('NativeSelect onBlur calls handleBlur', () => {
   const handleBlur = td.func();
   const onBlur = td.func<(evt: React.FocusEvent<HTMLSelectElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleBlur});
-  const wrapper = shallow(<BaseSelect foundation={foundation} onBlur={onBlur} />);
+  const wrapper = shallow(
+    <BaseSelect foundation={foundation} onBlur={onBlur} />
+  );
   const nativeSelect = wrapper.find(NativeSelect);
   const evt = coerceForTesting<React.FocusEvent<HTMLSelectElement>>({});
   nativeSelect.simulate('blur', evt);
@@ -61,7 +67,9 @@ test('EnhancedSelect onBlur calls handleBlur', () => {
   const handleBlur = td.func();
   const onBlur = td.func<(evt: React.FocusEvent<HTMLElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleBlur});
-  const wrapper = shallow(<BaseSelect enhanced foundation={foundation} onBlur={onBlur} />);
+  const wrapper = shallow(
+    <BaseSelect enhanced foundation={foundation} onBlur={onBlur} />
+  );
   const enhancedSelect = wrapper.find(EnhancedSelect);
   const evt = coerceForTesting<React.FocusEvent<HTMLElement>>({});
   enhancedSelect.simulate('blur', evt);
@@ -71,9 +79,13 @@ test('EnhancedSelect onBlur calls handleBlur', () => {
 
 test('NativeSelect onTouchStart calls handleClick', () => {
   const handleClick = td.func();
-  const onTouchStart = td.func<(evt: React.TouchEvent<HTMLSelectElement>) => void>();
+  const onTouchStart = td.func<
+    (evt: React.TouchEvent<HTMLSelectElement>) => void
+  >();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleClick});
-  const wrapper = shallow(<BaseSelect foundation={foundation} onTouchStart={onTouchStart} />);
+  const wrapper = shallow(
+    <BaseSelect foundation={foundation} onTouchStart={onTouchStart} />
+  );
   const nativeSelect = wrapper.find(NativeSelect);
   const clientX = 100;
   const left = 10;
@@ -96,7 +108,9 @@ test('EnhancedSelect onTouchStart calls handleClick', () => {
   const handleClick = td.func();
   const onTouchStart = td.func<(evt: React.TouchEvent<HTMLElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleClick});
-  const wrapper = shallow(<BaseSelect enhanced foundation={foundation} onTouchStart={onTouchStart} />);
+  const wrapper = shallow(
+    <BaseSelect enhanced foundation={foundation} onTouchStart={onTouchStart} />
+  );
   const enhancedSelect = wrapper.find(EnhancedSelect);
   const clientX = 100;
   const left = 10;
@@ -117,9 +131,13 @@ test('EnhancedSelect onTouchStart calls handleClick', () => {
 
 test('NativeSelect onMouseDown calls handleClick', () => {
   const handleClick = td.func();
-  const onMouseDown = td.func<(evt: React.MouseEvent<HTMLSelectElement>) => void>();
+  const onMouseDown = td.func<
+    (evt: React.MouseEvent<HTMLSelectElement>) => void
+  >();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleClick});
-  const wrapper = shallow(<BaseSelect foundation={foundation} onMouseDown={onMouseDown} />);
+  const wrapper = shallow(
+    <BaseSelect foundation={foundation} onMouseDown={onMouseDown} />
+  );
   const nativeSelect = wrapper.find(NativeSelect);
   const clientX = 100;
   const left = 10;
@@ -140,7 +158,9 @@ test('EnhancedSelect onMouseDown calls handleClick', () => {
   const handleClick = td.func();
   const onMouseDown = td.func<(evt: React.MouseEvent<HTMLElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleClick});
-  const wrapper = shallow(<BaseSelect enhanced foundation={foundation} onMouseDown={onMouseDown} />);
+  const wrapper = shallow(
+    <BaseSelect enhanced foundation={foundation} onMouseDown={onMouseDown} />
+  );
   const enhancedSelect = wrapper.find(EnhancedSelect);
   const clientX = 100;
   const left = 10;
@@ -161,7 +181,9 @@ test('NativeSelect onClick calls handleClick', () => {
   const handleClick = td.func();
   const onClick = td.func<(evt: React.MouseEvent<HTMLSelectElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleClick});
-  const wrapper = shallow(<BaseSelect foundation={foundation} onClick={onClick} />);
+  const wrapper = shallow(
+    <BaseSelect foundation={foundation} onClick={onClick} />
+  );
   const nativeSelect = wrapper.find(NativeSelect);
   const clientX = 100;
   const left = 10;
@@ -182,7 +204,9 @@ test('EnhancedSelect onClick calls handleClick', () => {
   const handleClick = td.func();
   const onClick = td.func<(evt: React.MouseEvent<HTMLElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleClick});
-  const wrapper = shallow(<BaseSelect enhanced foundation={foundation} onClick={onClick} />);
+  const wrapper = shallow(
+    <BaseSelect enhanced foundation={foundation} onClick={onClick} />
+  );
   const enhancedSelect = wrapper.find(EnhancedSelect);
   const clientX = 100;
   const left = 10;
@@ -200,7 +224,9 @@ test('EnhancedSelect onClick calls handleClick', () => {
 });
 
 test('NativeSelect onKeyDown calls props.onKeyDown', () => {
-  const onKeyDown = td.func<(evt: React.KeyboardEvent<HTMLSelectElement>) => void>();
+  const onKeyDown = td.func<
+    (evt: React.KeyboardEvent<HTMLSelectElement>) => void
+  >();
   const wrapper = shallow(<BaseSelect onKeyDown={onKeyDown} />);
   const nativeSelect = wrapper.find(NativeSelect);
   const clientX = 100;
@@ -221,7 +247,9 @@ test('EnhancedSelect onKeyDown calls handleKeydown', () => {
   const handleKeydown = td.func();
   const onKeyDown = td.func<(evt: React.KeyboardEvent<HTMLElement>) => void>();
   const foundation = coerceForTesting<MDCSelectFoundation>({handleKeydown});
-  const wrapper = shallow(<BaseSelect enhanced foundation={foundation} onKeyDown={onKeyDown} />);
+  const wrapper = shallow(
+    <BaseSelect enhanced foundation={foundation} onKeyDown={onKeyDown} />
+  );
   const enhancedSelect = wrapper.find(EnhancedSelect);
   const clientX = 100;
   const left = 10;
@@ -244,6 +272,11 @@ test('props.selectClassName gets passed to props.className of NativeSelect', () 
 });
 
 test('props.selectClassName gets passed to props.className of EnhancedSelect', () => {
-  const wrapper = shallow(<BaseSelect enhanced selectClassName='test-class-name' />);
-  assert.equal(wrapper.find(EnhancedSelect).props().className, 'test-class-name');
+  const wrapper = shallow(
+    <BaseSelect enhanced selectClassName='test-class-name' />
+  );
+  assert.equal(
+    wrapper.find(EnhancedSelect).props().className,
+    'test-class-name'
+  );
 });

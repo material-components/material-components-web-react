@@ -3,10 +3,10 @@ import {withRipple, InjectedProps} from '../../../packages/ripple';
 import './index.scss';
 
 interface DivProps extends InjectedProps<HTMLDivElement> {
-  children: React.ReactNode,
-  className: string,
-  initRipple: (surface: HTMLDivElement) => void,
-  unbounded: boolean,
+  children: React.ReactNode;
+  className: string;
+  initRipple: (surface: HTMLDivElement) => void;
+  unbounded: boolean;
 }
 
 /*eslint-disable */

@@ -6,7 +6,6 @@ import {cssClasses} from '../../../packages/top-app-bar/constants';
 
 suite('TopAppBarSection');
 
-
 test('renders a TopAppBarSection with default tag', () => {
   const wrapper = shallow(<TopAppBarSection>test</TopAppBarSection>);
   assert.equal(wrapper.type(), 'section');
@@ -18,12 +17,12 @@ test('renders a TopAppBarSection with custom tag', () => {
 });
 
 test('redners a TopAppBarSection with the default className', () => {
-  const wrapper = shallow(<TopAppBarSection/>);
+  const wrapper = shallow(<TopAppBarSection />);
   assert.isTrue(wrapper.hasClass(cssClasses.SECTION));
 });
 
 test('props.className adds classes', () => {
-  const wrapper = shallow(<TopAppBarSection className='test-class'/>);
+  const wrapper = shallow(<TopAppBarSection className='test-class' />);
   assert.isTrue(wrapper.hasClass('test-class'));
   assert.isTrue(wrapper.hasClass(cssClasses.SECTION));
 });

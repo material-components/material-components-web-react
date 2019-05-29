@@ -1,6 +1,8 @@
 export const dialogVariants: string[] = [
-  'alert', 'simple', 'confirmation', 'scrollable',
+  'alert',
+  'simple',
+  'confirmation',
+  'scrollable',
 ];
 
 export default dialogVariants;
-

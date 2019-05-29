@@ -25,14 +25,18 @@ import classnames from 'classnames';
 import {MDCRadioFoundation} from '@material/radio/foundation';
 import {MDCRadioAdapter} from '@material/radio/adapter';
 import {withRipple, InjectedProps} from '@material/react-ripple';
-import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line no-unused-vars
+import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface RadioProps
-  extends InjectedProps<HTMLDivElement, HTMLInputElement>, React.HTMLProps<HTMLDivElement> {
-    label?: string;
-    initRipple: (surface: HTMLDivElement, rippleActivatorRef?: HTMLInputElement) => void;
-    wrapperClasses?: string;
-    children: React.ReactElement<NativeControlProps>;
+  extends InjectedProps<HTMLDivElement, HTMLInputElement>,
+    React.HTMLProps<HTMLDivElement> {
+  label?: string;
+  initRipple: (
+    surface: HTMLDivElement,
+    rippleActivatorRef?: HTMLInputElement
+  ) => void;
+  wrapperClasses?: string;
+  children: React.ReactElement<NativeControlProps>;
 }
 
 interface RadioState {
@@ -121,19 +125,20 @@ class Radio extends React.Component<RadioProps, RadioState> {
         classList.delete(className);
         this.setState({classList});
       },
-      setNativeControlDisabled: (disabled: boolean) => this.setState({disabled}),
+      setNativeControlDisabled: (disabled: boolean) =>
+        this.setState({disabled}),
     };
   }
 
   render() {
     const {nativeControlId} = this.state;
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       label,
       initRipple,
       unbounded,
       className,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       wrapperClasses,
       ...otherProps
     } = this.props;

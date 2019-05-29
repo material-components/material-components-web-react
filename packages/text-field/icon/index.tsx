@@ -28,7 +28,7 @@ export interface IconProps extends React.HTMLProps<HTMLOrSVGElement> {
   disabled?: boolean;
   children: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
   onSelect?: () => void;
-};
+}
 
 interface IconState {
   tabindex?: number;
@@ -44,9 +44,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
 
   constructor(props: IconProps) {
     super(props);
-    const {
-      role,
-    } = props.children.props;
+    const {role} = props.children.props;
 
     this.state = {
       tabindex: this.tabindex,
@@ -97,14 +95,15 @@ export default class Icon extends React.Component<IconProps, IconState> {
         }
         return '';
       },
-      setAttr: (attr: keyof IconState, value: string) => (
+      setAttr: (attr: keyof IconState, value: string) =>
         this.setState((prevState) => {
-          return {...prevState, [attr]: attr === 'tabindex' ? Number(value) : value};
-        })
-      ),
-      removeAttr: (attr: keyof IconState) => (
-        this.setState((prevState) => ({...prevState, [attr]: null}))
-      ),
+          return {
+            ...prevState,
+            [attr]: attr === 'tabindex' ? Number(value) : value,
+          };
+        }),
+      removeAttr: (attr: keyof IconState) =>
+        this.setState((prevState) => ({...prevState, [attr]: null})),
       notifyIconAction: () => this.props.onSelect && this.props.onSelect(),
       // Please manage content and register through JSX
       setContent: () => undefined,
@@ -138,4 +137,3 @@ export default class Icon extends React.Component<IconProps, IconState> {
     return this.addIconAttrsToChildren();
   }
 }
-

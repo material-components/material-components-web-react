@@ -43,8 +43,9 @@ export interface ListItemState {
   tabIndex?: number;
 }
 
-export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Component<
-  ListItemProps<T>, ListItemState> {
+export class ListItemBase<
+  T extends HTMLElement = HTMLElement
+> extends React.Component<ListItemProps<T>, ListItemState> {
   private listItemElement = React.createRef<T>();
 
   static defaultProps: Partial<ListItemProps<HTMLElement>> = {
@@ -72,10 +73,15 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
 
   get listElements(): Element[] {
     if (this.listItemElement.current) {
-      const listElement = closest(this.listItemElement.current, `.${MDCListFoundation.cssClasses.ROOT}`);
+      const listElement = closest(
+        this.listItemElement.current,
+        `.${MDCListFoundation.cssClasses.ROOT}`
+      );
       if (!listElement) return [];
       return [].slice.call(
-        listElement.querySelectorAll(MDCListFoundation.strings.ENABLED_ITEMS_SELECTOR)
+        listElement.querySelectorAll(
+          MDCListFoundation.strings.ENABLED_ITEMS_SELECTOR
+        )
       );
     }
     return [];
@@ -102,7 +108,13 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
   }
 
   get classes() {
-    const {className, activated, disabled, selected, getClassNamesFromList} = this.props;
+    const {
+      className,
+      activated,
+      disabled,
+      selected,
+      getClassNamesFromList,
+    } = this.props;
     let classesFromList = [''];
     if (this.listItemElement.current) {
       const index = this.getIndex(this.listItemElement.current);
@@ -165,7 +177,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       children,
       role,
@@ -184,7 +196,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
       getListItemInitialTabIndex,
       getClassNamesFromList,
       tabIndex,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       tag: Tag,
       ...otherProps
     } = this.props;
@@ -213,9 +225,7 @@ export class ListItemBase<T extends HTMLElement = HTMLElement> extends React.Com
 const ListItem: React.FunctionComponent<ListItemProps> = (props) => {
   return (
     <ListItemContext.Consumer>
-      {(context) => (
-        <ListItemBase {...context} {...props}/>
-      )}
+      {(context) => <ListItemBase {...context} {...props} />}
     </ListItemContext.Consumer>
   );
 };

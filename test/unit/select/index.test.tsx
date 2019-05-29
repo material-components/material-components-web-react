@@ -38,7 +38,9 @@ test('creates foundation', () => {
 test('#foundation.handleChange gets called when state.value updates', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
   const handleChange = td.func<() => void>();
-  wrapper.setState({foundation: coerceForTesting<MDCSelectFoundation>({handleChange})});
+  wrapper.setState({
+    foundation: coerceForTesting<MDCSelectFoundation>({handleChange}),
+  });
   const value = 'value';
   wrapper.setState({value});
   td.verify(wrapper.state().foundation!.handleChange(true), {times: 1});
@@ -49,6 +51,16 @@ test('state.value updates when props.value changes', () => {
   const updatedValue = 'new test value';
   wrapper.setProps({value: updatedValue});
   assert.equal(wrapper.state().value, updatedValue);
+});
+
+test('#foundation.setDisabled gets called when props.disabled changes', () => {
+  const wrapper = shallow<Select>(<Select label='my label' disabled={false} />);
+  const setDisabled = td.func<() => void>();
+  wrapper.setState({
+    foundation: coerceForTesting<MDCSelectFoundation>({setDisabled}),
+  });
+  wrapper.setProps({disabled: true});
+  td.verify(wrapper.state().foundation!.setDisabled(true), {times: 1});
 });
 
 test('#componentWillUnmount destroys foundation', () => {
@@ -207,14 +219,20 @@ test('#adapter.checkValidity for nativeSelect returns false if there is not nati
 test('#adapter.setValid for nativeSelect adds invalid class when isValid = false', () => {
   const wrapper = shallow<Select>(<Select />);
   wrapper.instance().adapter.setValid(false);
-  assert.isTrue(wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID));
+  assert.isTrue(
+    wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID)
+  );
 });
 
 test('#adapter.setValid for nativeSelect removes invalid class when isValid = true', () => {
   const wrapper = shallow<Select>(<Select />);
-  wrapper.setState({classList: new Set([MDCSelectFoundation.cssClasses.INVALID])});
+  wrapper.setState({
+    classList: new Set([MDCSelectFoundation.cssClasses.INVALID]),
+  });
   wrapper.instance().adapter.setValid(true);
-  assert.isFalse(wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID));
+  assert.isFalse(
+    wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID)
+  );
 });
 
 test('#adapter.isMenuOpen for enhancedSelect returns true when state.open = true', () => {
@@ -229,12 +247,12 @@ test('#adapter.isMenuOpen for enhancedSelect returns false when state.open = fal
 });
 
 test('#adapter.checkValidity for enhancedSelect returns true if state.value exists & props.required=true', () => {
-  const wrapper = shallow<Select>(<Select enhanced value='meow' required/>);
+  const wrapper = shallow<Select>(<Select enhanced value='meow' required />);
   assert.isTrue(wrapper.instance().adapter.checkValidity());
 });
 
 test('#adapter.checkValidity for enhancedSelect returns false if no state.value & props.required=true', () => {
-  const wrapper = shallow<Select>(<Select enhanced required/>);
+  const wrapper = shallow<Select>(<Select enhanced required />);
   assert.isFalse(wrapper.instance().adapter.checkValidity());
 });
 
@@ -244,26 +262,38 @@ test('#adapter.checkValidity for enhancedSelect returns true props.disabled=true
 });
 
 test('#adapter.checkValidity for enhancedSelect returns false if no state.value & props.required=true', () => {
-  const wrapper = shallow<Select>(<Select enhanced required/>);
+  const wrapper = shallow<Select>(<Select enhanced required />);
   assert.isFalse(wrapper.instance().adapter.checkValidity());
 });
 
-test('#adapter.setValid for enhancedSelect sets state.isInvalid to false and ' +
-'removes invalid class when isValid=true', () => {
-  const wrapper = shallow<Select>(<Select enhanced/>);
-  wrapper.setState({classList: new Set([MDCSelectFoundation.cssClasses.INVALID])});
-  wrapper.instance().adapter.setValid(true);
-  assert.isFalse(wrapper.state().isInvalid);
-  assert.isFalse(wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID));
-});
+test(
+  '#adapter.setValid for enhancedSelect sets state.isInvalid to false and ' +
+    'removes invalid class when isValid=true',
+  () => {
+    const wrapper = shallow<Select>(<Select enhanced />);
+    wrapper.setState({
+      classList: new Set([MDCSelectFoundation.cssClasses.INVALID]),
+    });
+    wrapper.instance().adapter.setValid(true);
+    assert.isFalse(wrapper.state().isInvalid);
+    assert.isFalse(
+      wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID)
+    );
+  }
+);
 
-test('#adapter.setValid for enhancedSelect sets state.isInvalid to true and ' +
-'adds invalid class when isValid=false', () => {
-  const wrapper = shallow<Select>(<Select enhanced/>);
-  wrapper.instance().adapter.setValid(false);
-  assert.isTrue(wrapper.state().isInvalid);
-  assert.isTrue(wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID));
-});
+test(
+  '#adapter.setValid for enhancedSelect sets state.isInvalid to true and ' +
+    'adds invalid class when isValid=false',
+  () => {
+    const wrapper = shallow<Select>(<Select enhanced />);
+    wrapper.instance().adapter.setValid(false);
+    assert.isTrue(wrapper.state().isInvalid);
+    assert.isTrue(
+      wrapper.state().classList.has(MDCSelectFoundation.cssClasses.INVALID)
+    );
+  }
+);
 
 test('#adapter.floatLabel set state.labelIsFloated', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
@@ -323,38 +353,96 @@ test('#adapter.hasOutline returns false if props.outlined is false', () => {
 
 test('renders dropdown icon', () => {
   const wrapper = shallow(<Select label='my label' />);
-  assert.equal(wrapper.childAt(0).childAt(0).type(), 'i');
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(0)
+      .type(),
+    'i'
+  );
 });
 
 test('renders leadingIcon if props.leadingIcon is set', () => {
   const wrapper = shallow(<Select leadingIcon={<i>favorite</i>} />);
-  assert.equal(wrapper.childAt(0).childAt(0).type(), 'i');
-  assert.equal(wrapper.childAt(0).childAt(1).type(), 'i');
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(0)
+      .type(),
+    'i'
+  );
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(1)
+      .type(),
+    'i'
+  );
 });
 
 test('renders notchedOutline if props.outlined is true', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
-  assert.equal(wrapper.childAt(0).childAt(2).type(), NotchedOutline);
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(2)
+      .type(),
+    NotchedOutline
+  );
 });
 
 test('renders lineRipple if props.outlined is false', () => {
   const wrapper = shallow(<Select label='my label' />);
-  assert.equal(wrapper.childAt(0).childAt(3).type(), LineRipple);
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(3)
+      .type(),
+    LineRipple
+  );
 });
 
 test('renders BaseSelect for select', () => {
   const wrapper = shallow(<Select label='my label' />);
-  assert.equal(wrapper.childAt(0).childAt(1).type(), BaseSelect);
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(1)
+      .type(),
+    BaseSelect
+  );
+});
+
+test('does not pass className to BaseSelect', () => {
+  const wrapper = shallow(<Select label='my label' className="container-class" />);
+  assert.equal(wrapper.childAt(0).childAt(1).prop('className'), "");
+});
+
+test('pass selectClassName to BaseSelect', () => {
+  const wrapper = shallow(<Select label='my label' selectClassName="select-class" />);
+  assert.equal(wrapper.childAt(0).childAt(1).prop('className'), "select-class");
 });
 
 test('renders FloatingLabel after BaseSelect if props.label exists', () => {
   const wrapper = shallow(<Select label='my label' />);
-  assert.equal(wrapper.childAt(0).childAt(2).type(), FloatingLabel);
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(2)
+      .type(),
+    FloatingLabel
+  );
 });
 
 test('renders no FloatingLabel if props.label does not exists', () => {
   const wrapper = shallow(<Select />);
-  assert.notEqual(wrapper.childAt(0).childAt(2).type(), FloatingLabel);
+  assert.notEqual(
+    wrapper
+      .childAt(0)
+      .childAt(2)
+      .type(),
+    FloatingLabel
+  );
 });
 
 test('passes classNames to NativeSelect through props.selectClassName', () => {
@@ -362,7 +450,14 @@ test('passes classNames to NativeSelect through props.selectClassName', () => {
   const wrapper = mount(
     <Select label='my label' selectClassName={className} />
   );
-  assert.isTrue(wrapper.childAt(0).childAt(1).childAt(0).getDOMNode().classList.contains('mdc-select__native-control'));
+  assert.isTrue(
+    wrapper
+      .childAt(0)
+      .childAt(1)
+      .childAt(0)
+      .getDOMNode()
+      .classList.contains('mdc-select__native-control')
+  );
 });
 
 test('#NativeSelect.value will update with Select.state.value', () => {
@@ -371,7 +466,14 @@ test('#NativeSelect.value will update with Select.state.value', () => {
   wrapper.setState({value});
 
   assert.equal(wrapper.state().value, value);
-  assert.equal(wrapper.childAt(0).childAt(1).childAt(0).props().value, value);
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(1)
+      .childAt(0)
+      .props().value,
+    value
+  );
 });
 
 test('passes foundation to BaseSelect', () => {
@@ -452,13 +554,23 @@ test('passes classNames to FloatingLabel through props.floatingLabelClassName', 
   const wrapper = shallow(
     <Select label='my label' floatingLabelClassName={className} />
   );
-  assert.isTrue(wrapper.childAt(0).childAt(2).hasClass(className));
+  assert.isTrue(
+    wrapper
+      .childAt(0)
+      .childAt(2)
+      .hasClass(className)
+  );
 });
 
 test('updates float prop with state.labelIsFloated', () => {
   const wrapper = shallow(<Select label='my label' />);
   wrapper.setState({labelIsFloated: true});
-  assert.isTrue(wrapper.childAt(0).childAt(2).props().float);
+  assert.isTrue(
+    wrapper
+      .childAt(0)
+      .childAt(2)
+      .props().float
+  );
 });
 
 test('#floatingLabel.handleWidthChange updates state.labelWidth', () => {
@@ -472,13 +584,23 @@ test('passes classNames to LineRipple through props.lineRippleClassName', () => 
   const wrapper = shallow(
     <Select label='my label' lineRippleClassName={className} />
   );
-  assert.isTrue(wrapper.childAt(0).childAt(3).hasClass(className));
+  assert.isTrue(
+    wrapper
+      .childAt(0)
+      .childAt(3)
+      .hasClass(className)
+  );
 });
 
 test('updates active prop with state.activeLineRipple', () => {
   const wrapper = shallow(<Select label='my label' />);
   wrapper.setState({activeLineRipple: true});
-  assert.isTrue(wrapper.childAt(0).childAt(3).props().active);
+  assert.isTrue(
+    wrapper
+      .childAt(0)
+      .childAt(3)
+      .props().active
+  );
 });
 
 test('passes classNames to NotchedOutline through props.notchedOutlineClassName', () => {
@@ -486,19 +608,35 @@ test('passes classNames to NotchedOutline through props.notchedOutlineClassName'
   const wrapper = shallow(
     <Select label='my label' outlined notchedOutlineClassName={className} />
   );
-  assert.isTrue(wrapper.childAt(0).childAt(2).hasClass(className));
+  assert.isTrue(
+    wrapper
+      .childAt(0)
+      .childAt(2)
+      .hasClass(className)
+  );
 });
 
 test('updates notch prop with state.outlineIsNotched', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
   wrapper.setState({outlineIsNotched: true});
-  assert.isTrue(wrapper.childAt(0).childAt(2).props().notch);
+  assert.isTrue(
+    wrapper
+      .childAt(0)
+      .childAt(2)
+      .props().notch
+  );
 });
 
 test('updates notchWidth prop with state.labelWidth', () => {
   const wrapper = shallow(<Select label='my label' outlined />);
   wrapper.setState({labelWidth: 55});
-  assert.equal(wrapper.childAt(0).childAt(2).props().notchWidth, 55);
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(2)
+      .props().notchWidth,
+    55
+  );
 });
 
 test('createFoundation instantiates a new foundation', () => {
@@ -510,30 +648,41 @@ test('createFoundation instantiates a new foundation', () => {
 
 test('update to state.helperTextFoundation creates a new foundation', () => {
   const wrapper = shallow<Select>(<Select label='my label' outlined />);
-  const destroy = wrapper.state().foundation!.destroy = td.func<() => {}>();
-  wrapper.setState({helperTextFoundation: coerceForTesting<MDCSelectHelperTextFoundation>({})});
+  const destroy = (wrapper.state().foundation!.destroy = td.func<() => {}>());
+  wrapper.setState({
+    helperTextFoundation: coerceForTesting<MDCSelectHelperTextFoundation>({}),
+  });
   assert.exists(wrapper.state().foundation);
   td.verify(destroy(), {times: 1});
 });
 
 test('update to state.iconFoundation creates a new foundation', () => {
   const wrapper = shallow<Select>(<Select label='my label' outlined />);
-  const destroy = wrapper.state().foundation!.destroy = td.func<() => {}>();
-  wrapper.setState({iconFoundation: coerceForTesting<MDCSelectIconFoundation>({})});
+  const destroy = (wrapper.state().foundation!.destroy = td.func<() => {}>());
+  wrapper.setState({
+    iconFoundation: coerceForTesting<MDCSelectIconFoundation>({}),
+  });
   assert.exists(wrapper.state().foundation);
   td.verify(destroy(), {times: 1});
 });
 
 test('leadingIcon.props.setIconFoundation() updates state.iconFoundation', () => {
-  const wrapper = mount<Select>(<Select label='my label' leadingIcon={<SelectIcon />} />);
+  const wrapper = mount<Select>(
+    <Select label='my label' leadingIcon={<SelectIcon />} />
+  );
   const foundation = coerceForTesting<MDCSelectIconFoundation>({});
-  wrapper.childAt(0).childAt(0).props().setIconFoundation!(foundation);
+  wrapper
+    .childAt(0)
+    .childAt(0)
+    .props().setIconFoundation!(foundation);
   assert.equal(wrapper.state().iconFoundation, foundation);
 });
 
 test('leadingIcon.props.setHelperTextFoundation() updates state.helperTextFoundation', () => {
   const wrapper = mount<Select>(<Select helperText={<SelectHelperText />} />);
   const foundation = coerceForTesting<MDCSelectHelperTextFoundation>({});
-  wrapper.childAt(1).props().setHelperTextFoundation!(coerceForTesting<MDCSelectHelperTextFoundation>(foundation));
+  wrapper.childAt(1).props().setHelperTextFoundation!(
+    coerceForTesting<MDCSelectHelperTextFoundation>(foundation)
+  );
   assert.equal(wrapper.state().helperTextFoundation, foundation);
 });

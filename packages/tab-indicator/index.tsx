@@ -26,7 +26,8 @@ import {MDCSlidingTabIndicatorFoundation} from '@material/tab-indicator/sliding-
 import {MDCFadingTabIndicatorFoundation} from '@material/tab-indicator/fading-foundation';
 import {MDCTabIndicatorAdapter} from '@material/tab-indicator/adapter';
 
-export interface TabIndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface TabIndicatorProps
+  extends React.HTMLAttributes<HTMLSpanElement> {
   active?: boolean;
   className?: string;
   fade?: boolean;
@@ -34,9 +35,16 @@ export interface TabIndicatorProps extends React.HTMLAttributes<HTMLSpanElement>
   previousIndicatorClientRect?: ClientRect;
 }
 
-export default class TabIndicator extends React.Component<TabIndicatorProps, {}> {
-  private tabIndicatorElement: React.RefObject<HTMLSpanElement> = React.createRef();
-  foundation!: MDCFadingTabIndicatorFoundation | MDCSlidingTabIndicatorFoundation;
+export default class TabIndicator extends React.Component<
+  TabIndicatorProps,
+  {}
+> {
+  private tabIndicatorElement: React.RefObject<
+    HTMLSpanElement
+  > = React.createRef();
+  foundation!:
+    | MDCFadingTabIndicatorFoundation
+    | MDCSlidingTabIndicatorFoundation;
 
   static defaultProps: Partial<TabIndicatorProps> = {
     active: false,
@@ -113,7 +121,11 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
         const typedProp = prop as keyof CSSStyleDeclaration;
         // length and parentRule are readonly properties of CSSStyleDeclaration that
         // cannot be set
-        if (!contentElement || typedProp === 'length' || typedProp === 'parentRule') {
+        if (
+          !contentElement ||
+          typedProp === 'length' ||
+          typedProp === 'parentRule'
+        ) {
           return;
         }
         // https://github.com/Microsoft/TypeScript/issues/11914
@@ -127,12 +139,27 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
     // need to use getElementsByClassName since tabIndicator could be
     // a non-semantic element (span, i, etc.). This is a problem since refs to a non semantic elements
     // return the instance of the component.
-    return this.tabIndicatorElement.current.getElementsByClassName('mdc-tab-indicator__content')[0];
+    return this.tabIndicatorElement.current.getElementsByClassName(
+      'mdc-tab-indicator__content'
+    )[0];
   };
 
   computeContentClientRect = () => {
     const contentElement = this.getNativeContentElement();
-    if (!(contentElement && contentElement.getBoundingClientRect)) return new ClientRect();
+    if (!(contentElement && contentElement.getBoundingClientRect)) {
+      // new DOMRect is not IE11 compatible
+      const defaultDOMRect = {
+        bottom: 0,
+        height: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        width: 0,
+        x: 0,
+        y: 0,
+      };
+      return defaultDOMRect;
+    }
     return contentElement.getBoundingClientRect();
   };
 
@@ -173,4 +200,3 @@ export default class TabIndicator extends React.Component<TabIndicatorProps, {}>
     return <span className={this.contentClasses} />;
   }
 }
-

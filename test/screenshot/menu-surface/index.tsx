@@ -6,19 +6,22 @@ import MenuSurface, {Corner} from '../../../packages/menu-surface/index';
 import Button from '../../../packages/button/index';
 
 type MenuSurfaceButtonProps = {
-  contextmenu: boolean,
-  open: boolean,
-  anchorCorner?: Corner,
-  anchorMargin?: object,
+  contextmenu: boolean;
+  open: boolean;
+  anchorCorner?: Corner;
+  anchorMargin?: object;
 };
 
 type MenuSurfaceButtonState = {
-  open: boolean,
-  coordinates?: { x: number, y: number },
-  anchorElement: HTMLElement,
+  open: boolean;
+  coordinates?: {x: number; y: number};
+  anchorElement: HTMLElement;
 };
 
-class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurfaceButtonState> {
+class MenuSurfaceButton extends React.Component<
+  MenuSurfaceButtonProps,
+  MenuSurfaceButtonState
+> {
   rightClickCallback_: React.MouseEventHandler = (event: React.MouseEvent) => {
     this.setState({
       open: true,
@@ -37,7 +40,7 @@ class MenuSurfaceButton extends React.Component<MenuSurfaceButtonProps, MenuSurf
   static defaultProps = {
     contextmenu: false,
     open: false,
-  }
+  };
 
   componentDidMount() {
     if (this.props.contextmenu) {

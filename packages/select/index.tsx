@@ -31,8 +31,8 @@ import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundati
 import MDCSelectIconFoundation from '@material/select/icon/foundation';
 
 import {BaseSelect, BaseSelectProps} from './BaseSelect';
-import {EnhancedChild} from './EnhancedSelect'; // eslint-disable-line no-unused-vars
-import Option, {OptionProps} from './Option'; // eslint-disable-line no-unused-vars
+import {EnhancedChild} from './EnhancedSelect'; // eslint-disable-line @typescript-eslint/no-unused-vars
+import Option, {OptionProps} from './Option'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {SelectHelperTextProps} from './helper-text/index';
 import {SelectIconProps} from './icon/index';
 
@@ -40,7 +40,11 @@ const {cssClasses} = MDCSelectFoundation;
 
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
 type NativeChild = React.ReactElement<OptionProps<HTMLElement>>;
-type SelectChildren<T extends HTMLElement> = EnhancedChild<T> | EnhancedChild<T>[] | NativeChild | NativeChild[];
+type SelectChildren<T extends HTMLElement> =
+  | EnhancedChild<T>
+  | EnhancedChild<T>[]
+  | NativeChild
+  | NativeChild[];
 
 export interface SelectProps<T extends HTMLElement = HTMLElement>
   extends React.HTMLProps<HTMLSelectElement> {
@@ -77,10 +81,11 @@ interface SelectState {
   helperTextFoundation?: MDCSelectHelperTextFoundation;
   iconFoundation?: MDCSelectIconFoundation;
   foundation?: MDCSelectFoundation;
-};
+}
 
-export default class Select<T extends HTMLElement = HTMLSelectElement>
-  extends React.Component<SelectProps<T>, SelectState> {
+export default class Select<
+  T extends HTMLElement = HTMLSelectElement
+> extends React.Component<SelectProps<T>, SelectState> {
   nativeControl = React.createRef<HTMLSelectElement>();
 
   // These Sets are needed because setState({classList}) is asynchronous.
@@ -143,8 +148,13 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
     if (this.state.foundation && this.state.value !== prevState.value) {
       this.state.foundation.handleChange(true);
     }
-    if (this.state.helperTextFoundation !== prevState.helperTextFoundation
-      || this.state.iconFoundation !== prevState.iconFoundation) {
+    if (this.state.foundation && this.props.disabled !== prevProps.disabled) {
+      this.state.foundation.setDisabled(this.props.disabled!);
+    }
+    if (
+      this.state.helperTextFoundation !== prevState.helperTextFoundation ||
+      this.state.iconFoundation !== prevState.iconFoundation
+    ) {
       this.destroyFoundation();
       this.createFoundation();
     }
@@ -181,7 +191,8 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
         const isBeingRemoved = this.classesBeingRemoved.has(className);
         return (hasClass || isBeingAdded) && !isBeingRemoved;
       },
-      setRippleCenter: (lineRippleCenter: number) => this.setState({lineRippleCenter}),
+      setRippleCenter: (lineRippleCenter: number) =>
+        this.setState({lineRippleCenter}),
       getValue: () => this.state.value,
       setValue: (value: string) => this.setState({value}),
       setDisabled: (disabled: boolean) => this.setState({disabled}),
@@ -249,38 +260,47 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
   }
 
   createFoundation = (callback?: () => void) => {
-    const foundation = new MDCSelectFoundation(this.adapter, this.foundationMap);
+    const foundation = new MDCSelectFoundation(
+      this.adapter,
+      this.foundationMap
+    );
     foundation.init();
     this.setState({foundation}, callback);
-  }
+  };
 
   destroyFoundation = () => {
     if (this.state.foundation) {
       this.state.foundation.destroy();
     }
-  }
+  };
 
   addClass = (className: string) => {
     // See comment above about classesBeingAdded/classesBeingRemoved
     this.classesBeingAdded.add(className);
-    this.setState((prevState) => {
-      const classList = new Set(prevState.classList);
-      classList.add(className);
-      return {classList};
-    }, () => {
-      this.classesBeingAdded.delete(className);
-    });
+    this.setState(
+      (prevState) => {
+        const classList = new Set(prevState.classList);
+        classList.add(className);
+        return {classList};
+      },
+      () => {
+        this.classesBeingAdded.delete(className);
+      }
+    );
   };
   removeClass = (className: string) => {
     // See comment above about classesBeingAdded/classesBeingRemoved
     this.classesBeingRemoved.add(className);
-    this.setState((prevState) => {
-      const classList = new Set(prevState.classList);
-      classList.delete(className);
-      return {classList};
-    }, () => {
-      this.classesBeingRemoved.delete(className);
-    });
+    this.setState(
+      (prevState) => {
+        const classList = new Set(prevState.classList);
+        classList.delete(className);
+        return {classList};
+      },
+      () => {
+        this.classesBeingRemoved.delete(className);
+      }
+    );
   };
   closeMenu = () => this.setState({open: false});
 
@@ -290,15 +310,17 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
     } else {
       this.addClass(cssClasses.INVALID);
     }
-  }
+  };
 
-  setHelperTextFoundation = (helperTextFoundation: MDCSelectHelperTextFoundation) => {
+  setHelperTextFoundation = (
+    helperTextFoundation: MDCSelectHelperTextFoundation
+  ) => {
     this.setState({helperTextFoundation});
-  }
+  };
 
   setIconFoundation = (iconFoundation: MDCSelectIconFoundation) => {
     this.setState({iconFoundation});
-  }
+  };
 
   /**
    * render methods
@@ -308,7 +330,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
       <React.Fragment>
         <div className={this.classes} ref={this.state.selectElement}>
           {this.renderIcon()}
-          <i className='mdc-select__dropdown-icon'></i>
+          <i className='mdc-select__dropdown-icon' />
           {this.renderSelect()}
           {this.props.outlined ? null : this.renderLabel()}
           {this.props.outlined
@@ -324,6 +346,7 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
     const {
       selectClassName,
       /* eslint-disable */
+      className,
       floatingLabelClassName,
       lineRippleClassName,
       notchedOutlineClassName,
@@ -453,14 +476,8 @@ export default class Select<T extends HTMLElement = HTMLSelectElement>
   }
 }
 
-export {
-  SelectHelperText,
-  SelectHelperTextProps,
-} from './helper-text';
-export {
-  SelectIcon,
-  SelectIconProps,
-} from './icon';
+export {SelectHelperText, SelectHelperTextProps} from './helper-text';
+export {SelectIcon, SelectIconProps} from './icon';
 
 export {Option};
 export {

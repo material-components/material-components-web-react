@@ -20,10 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
+import React from 'react';
 import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import Menu, {MenuList} from '@material/react-menu';
-import {OptionProps} from './Option'; // eslint-disable-line no-unused-vars
+import {OptionProps} from './Option'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {CommonSelectProps} from './BaseSelect';
 import MDCSelectFoundation from '@material/select/foundation';
 
@@ -31,9 +31,13 @@ const {Corner} = MDCMenuSurfaceFoundation;
 const TRUE = 'true';
 const FALSE = 'false';
 
-export type EnhancedChild<T extends HTMLElement> = React.ReactElement<OptionProps<T>>;
+export type EnhancedChild<T extends HTMLElement> = React.ReactElement<
+  OptionProps<T>
+>;
 
-export interface EnhancedSelectProps extends CommonSelectProps, React.HTMLProps<HTMLElement> {
+export interface EnhancedSelectProps
+  extends CommonSelectProps,
+    React.HTMLProps<HTMLElement> {
   closeMenu?: () => void;
   onEnhancedChange?: (index: number, item: Element) => void;
   anchorElement: HTMLElement | null;
@@ -51,7 +55,7 @@ interface EnhancedSelectState {
 export default class EnhancedSelect extends React.Component<
   EnhancedSelectProps,
   EnhancedSelectState
-  > {
+> {
   nativeControl: React.RefObject<HTMLSelectElement> = React.createRef();
   private selectedTextEl = React.createRef<HTMLDivElement>();
   menuEl = React.createRef<Menu>();
@@ -67,9 +71,9 @@ export default class EnhancedSelect extends React.Component<
 
   state: EnhancedSelectState = {
     'aria-expanded': undefined,
-    'selectedItem': null,
-    'selectedValue': '',
-  }
+    selectedItem: null,
+    selectedValue: '',
+  };
 
   componentDidUpdate(prevProps: EnhancedSelectProps) {
     if (this.props.value !== prevProps.value) {
@@ -82,22 +86,31 @@ export default class EnhancedSelect extends React.Component<
   }
 
   setSelected = () => {
-    const listElements = this.menuEl.current !== null && this.menuEl.current!.listElements;
+    const listElements =
+      this.menuEl.current !== null && this.menuEl.current!.listElements;
     if (!listElements || !listElements.length) return;
 
     const index = this.getIndexByValue(listElements);
     const selectedItem = listElements[index];
-    const selectedValue
-      = selectedItem && selectedItem.getAttribute(MDCSelectFoundation.strings.ENHANCED_VALUE_ATTR) || '';
+    const selectedValue =
+      (selectedItem &&
+        selectedItem.getAttribute(
+          MDCSelectFoundation.strings.ENHANCED_VALUE_ATTR
+        )) ||
+      '';
     this.setState({selectedItem, selectedValue});
-  }
+  };
 
   private getIndexByValue = (listElements: Element[]) => {
     const {value} = this.props;
     let index = -1;
     if (index < 0 && value) {
       listElements.some((element: Element, elementIndex: number) => {
-        if (element.getAttribute(MDCSelectFoundation.strings.ENHANCED_VALUE_ATTR) === value) {
+        if (
+          element.getAttribute(
+            MDCSelectFoundation.strings.ENHANCED_VALUE_ATTR
+          ) === value
+        ) {
           index = elementIndex;
           return true;
         }
@@ -105,7 +118,7 @@ export default class EnhancedSelect extends React.Component<
       });
     }
     return index;
-  }
+  };
 
   private handleMenuClose = () => {
     const {closeMenu, foundation} = this.props;
@@ -114,7 +127,7 @@ export default class EnhancedSelect extends React.Component<
     if (foundation && document.activeElement !== this.selectedTextEl.current) {
       foundation.handleBlur();
     }
-  }
+  };
 
   private handleMenuOpen = () => {
     this.setState({'aria-expanded': true});
@@ -124,7 +137,7 @@ export default class EnhancedSelect extends React.Component<
       const listItem = this.listElements[index];
       (listItem as HTMLElement).focus();
     }
-  }
+  };
 
   render() {
     const {
@@ -143,7 +156,11 @@ export default class EnhancedSelect extends React.Component<
       isInvalid,
     } = this.props;
 
-    const {'aria-expanded': ariaExpanded, selectedValue, selectedItem} = this.state;
+    const {
+      'aria-expanded': ariaExpanded,
+      selectedValue,
+      selectedItem,
+    } = this.state;
 
     const selectedTextAttrs: {[key: string]: string} = {};
     if (required) {

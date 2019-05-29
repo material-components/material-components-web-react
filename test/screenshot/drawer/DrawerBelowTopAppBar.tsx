@@ -16,7 +16,7 @@ import Drawer, {
 } from '../../../packages/drawer/index';
 // @ts-ignore
 import List from './List.js';
-import {MaterialIconProps} from '../../../packages/material-icon/index'; // eslint-disable-line no-unused-vars
+import {MaterialIconProps} from '../../../packages/material-icon/index'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 interface DrawerScreenshotTestProps {
   onClose: () => void;
@@ -26,10 +26,11 @@ interface DrawerScreenshotTestProps {
   dismissible: boolean;
   renderLoremIpsum: (section: number) => JSX.Element;
   renderNavigationIcon: () => React.ReactElement<MaterialIconProps> | undefined;
-};
+}
 
-const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> = ({
-  /* eslint-disable react/prop-types */
+const DrawerScreenshotTest: React.FunctionComponent<
+  DrawerScreenshotTestProps
+> = ({
   onClose,
   open,
   title,
@@ -49,7 +50,12 @@ const DrawerScreenshotTest: React.FunctionComponent<DrawerScreenshotTestProps> =
         </TopAppBarRow>
       </TopAppBar>
       <TopAppBarFixedAdjust className='drawer-screenshot-test drawer-screenshot-test--is-below'>
-        <Drawer open={open} onClose={onClose} dismissible={dismissible} modal={modal}>
+        <Drawer
+          open={open}
+          onClose={onClose}
+          dismissible={dismissible}
+          modal={modal}
+        >
           <DrawerHeader>
             <DrawerTitle>Inbox</DrawerTitle>
             <DrawerSubtitle>ralph@gmail.com</DrawerSubtitle>

@@ -53,14 +53,18 @@ test('has checked class when props.checked is true', () => {
 
 test('#foundation.setChecked gets called when prop.checked updates', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  wrapper.instance().foundation.setChecked = td.func<(setChecked: boolean) => null>();
+  wrapper.instance().foundation.setChecked = td.func<
+    (setChecked: boolean) => null
+  >();
   wrapper.setProps({checked: true});
   td.verify(wrapper.instance().foundation.setChecked(true), {times: 1});
 });
 
 test('#foundation.setDisabled gets called when prop.disabled updates', () => {
   const wrapper = shallow<Switch>(<Switch />);
-  wrapper.instance().foundation.setDisabled = td.func<(disabled: boolean) => null>();
+  wrapper.instance().foundation.setDisabled = td.func<
+    (disabled: boolean) => null
+  >();
   wrapper.setProps({disabled: true});
   td.verify(wrapper.instance().foundation.setDisabled(true), {times: 1});
 });
@@ -134,5 +138,7 @@ test('calls foundation.handleChange in NativeControl props.onChange', () => {
   });
   wrapper.instance().foundation.handleChange = td.func<(evt: Event) => null>();
   nativeControl.props().onChange!(mockEvt);
-  td.verify(wrapper.instance().foundation.handleChange(mockEvt.nativeEvent), {times: 1});
+  td.verify(wrapper.instance().foundation.handleChange(mockEvt.nativeEvent), {
+    times: 1,
+  });
 });
