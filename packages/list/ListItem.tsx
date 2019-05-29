@@ -22,19 +22,21 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import {MDCListFoundation} from '@material/list/foundation';
-import {ListItemContext, ListItemContextShape} from './index';
 import {closest} from '@material/dom/ponyfill';
+import {withRipple, InjectedProps} from '@material/react-ripple';
+import {MDCListFoundation} from '@material/list/foundation';
+
+import {ListItemContext, ListItemContextShape} from './index';
 
 export interface ListItemProps<T extends HTMLElement = HTMLElement>
-  extends React.HTMLProps<T>,
-    ListItemContextShape {
+  extends React.HTMLProps<T>, ListItemContextShape, InjectedProps<T> {
   checkboxList?: boolean;
   radioList?: boolean;
   tag?: string;
   activated?: boolean;
   selected?: boolean;
   ref?: React.Ref<any>;
+  initRipple?: (surface: T) => void;
 }
 
 export interface ListItemState {
@@ -87,9 +89,12 @@ export class ListItemBase<
 
   componentDidMount() {
     this.initializeTabIndex();
+    if (this.props.initRipple) {
+      this.props.initRipple(this.listItemElement.current as T);
+    }
   }
 
-  componentDidUpdate(prevProps: ListItemProps) {
+  componentDidUpdate(prevProps: ListItemProps<T>) {
     if (prevProps.tabIndex !== this.props.tabIndex) {
       this.setState({tabIndex: this.props.tabIndex});
     }
@@ -176,6 +181,7 @@ export class ListItemBase<
       className,
       children,
       role,
+      initRipple,
       checkboxList,
       radioList,
       onDestroy,
@@ -224,4 +230,5 @@ const ListItem: React.FunctionComponent<ListItemProps> = (props) => {
   );
 };
 
-export default ListItem;
+// export default ListItem;
+export default withRipple<ListItemProps, HTMLElement>(ListItem);
