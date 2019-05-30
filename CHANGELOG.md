@@ -1,3 +1,23 @@
+<a name=""></a>
+# [](https://github.com/material-components/material-components-web-react/compare/v0.12.1...v) (2019-05-30)
+
+
+### Bug Fixes
+
+* **chips:** ClientRect/DOMRect is not IE11 compatible ([#855](https://github.com/material-components/material-components-web-react/issues/855)) ([88697da](https://github.com/material-components/material-components-web-react/commit/88697da))
+* **chips:** error with undefined or null children ([#883](https://github.com/material-components/material-components-web-react/issues/883)) ([d733c29](https://github.com/material-components/material-components-web-react/commit/d733c29))
+* **chips, text-field:** add null check for foundation ([#675](https://github.com/material-components/material-components-web-react/issues/675)) ([#870](https://github.com/material-components/material-components-web-react/issues/870)) ([40ca635](https://github.com/material-components/material-components-web-react/commit/40ca635))
+* **select:** className option is passed to select and overrides selectClassName ([#872](https://github.com/material-components/material-components-web-react/issues/872)) ([6e2aac1](https://github.com/material-components/material-components-web-react/commit/6e2aac1))
+* **select:** componentDidUpdate handles disabled prop change ([#877](https://github.com/material-components/material-components-web-react/issues/877)) ([db7f0ce](https://github.com/material-components/material-components-web-react/commit/db7f0ce))
+* **select:** edit * imports ([#874](https://github.com/material-components/material-components-web-react/issues/874)) ([33eb962](https://github.com/material-components/material-components-web-react/commit/33eb962))
+
+
+### Features
+
+* **list:** add ripple to list-item ([#894](https://github.com/material-components/material-components-web-react/issues/894)) ([c0dfb94](https://github.com/material-components/material-components-web-react/commit/c0dfb94))
+
+
+
 <a name="0.12.1"></a>
 # [0.12.1](https://github.com/material-components/material-components-web-react/compare/v0.12.0...v0.12.1) (2019-05-08)
 
