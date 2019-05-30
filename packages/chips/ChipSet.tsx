@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import React from 'react';
+import {isElement} from 'react-is';
 import classnames from 'classnames';
 import {MDCChipSetFoundation} from '@material/chips/chip-set/foundation';
 import ChipCheckmark from './ChipCheckmark';
@@ -35,7 +36,7 @@ export interface ChipSetProps {
   choice?: boolean;
   filter?: boolean;
   input?: boolean;
-  children: ChipType | ChipType[];
+  children: ChipType | ChipType[] | React.ReactNode;
 }
 
 interface ChipSetState {
@@ -85,7 +86,7 @@ export default class ChipSet extends React.Component<
   }
 
   componentWillUnmount() {
-    this.state.foundation!.destroy();
+    this.state.foundation && this.state.foundation.destroy();
   }
 
   get classes() {
@@ -114,16 +115,17 @@ export default class ChipSet extends React.Component<
   }
 
   initChipSelection() {
-    React.Children.forEach(
-      this.props.children as ChipType | ChipType[],
-      (child) => {
-        const {id} = (child as ChipType).props;
-        const selected = this.state.selectedChipIds.indexOf(id!) > -1;
-        if (selected) {
-          this.state.foundation!.select(id!);
-        }
+    React.Children.forEach(this.props.children, (child) => {
+      if (!child || !isElement(child)) {
+        return;
       }
-    );
+
+      const {id} = child.props as ChipProps;
+      const selected = this.state.selectedChipIds.indexOf(id!) > -1;
+      if (selected) {
+        this.state.foundation!.select(id!);
+      }
+    });
     this.setState({hasInitialized: true});
   }
 
@@ -141,10 +143,13 @@ export default class ChipSet extends React.Component<
 
   removeChip = (chipId: string) => {
     const {updateChips, children} = this.props;
+
     if (!children) return;
-    const chips = React.Children.toArray(
-      children
-    ).slice() as React.ReactElement<ChipProps>[];
+
+    const chips = React.Children.toArray(children)
+      .filter(isElement)
+      .slice() as React.ReactElement<ChipProps>[];
+
     for (let i = 0; i < chips.length; i++) {
       const chip = chips[i];
       if (chip.props.id === chipId) {
@@ -152,6 +157,7 @@ export default class ChipSet extends React.Component<
         break;
       }
     }
+
     const chipsArray = chips.length ? chips.map((chip) => chip.props) : [];
     updateChips!(chipsArray);
   };
@@ -169,7 +175,9 @@ export default class ChipSet extends React.Component<
     return {height, width};
   };
 
-  renderChip = (chip: any) => {
+  renderChip = (chip?: React.ReactNode) => {
+    if (!chip || !isElement(chip)) return;
+
     const {choice, filter, input} = this.props;
     if ((choice || filter || input) && !chip.props.id) {
       throw new Error('Chip variant missing required property: id.');

@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
-import {MenuListItem, MenuListItemProps} from '@material/react-menu'; // eslint-disable-line @typescript-eslint/no-unused-vars
+import React from 'react';
+import {MenuListItem, MenuListItemProps} from '@material/react-menu'; // eslint-disable-line no-unused-vars
 
 export type OptionProps<T extends HTMLElement = HTMLElement> = BaseOptionProps &
   (T extends HTMLOptionElement

@@ -198,6 +198,39 @@ test('#componentDidMount does not call props.handleValueChange when there is no 
   );
 });
 
+test(
+  '#props.handleFocusChange is called when props.autoFocus is true' +
+    ', there is a props.foundation, and component has mounted',
+  () => {
+    const handleFocusChange = td.func();
+    const props: any = {handleFocusChange, autoFocus: true, foundation: {}};
+    mount(<Input {...props} />);
+    td.verify(handleFocusChange(true), {times: 1});
+  }
+);
+
+test(
+  '#props.handleFocusChange is not called when props.autoFocus is undefined' +
+    ', there is a props.foundation, and component has mounted',
+  () => {
+    const handleFocusChange = td.func();
+    const props: any = {handleFocusChange, foundation: {}};
+    mount(<Input {...props} />);
+    td.verify(handleFocusChange(td.matchers.isA(Boolean)), {times: 0});
+  }
+);
+
+test(
+  '#props.handleFocusChange is not called when props.autoFocus is true' +
+    ', there is no props.foundation, and component has mounted',
+  () => {
+    const handleFocusChange = td.func();
+    const props: any = {handleFocusChange, autoFocus: true};
+    mount(<Input {...props} />);
+    td.verify(handleFocusChange(td.matchers.isA(Boolean)), {times: 0});
+  }
+);
+
 test('change to minLength calls handleValidationAttributeChange', () => {
   const foundation: any = buildFoundation({
     handleValidationAttributeChange: td.func(),
@@ -354,13 +387,6 @@ test('#event.onFocus calls props.handleFocusChange(true)', () => {
   td.verify(handleFocusChange(true), {times: 1});
 });
 
-test('#event.onFocus calls foundation.activateFocus()', () => {
-  const foundation = buildFoundation({activateFocus: td.func()});
-  const wrapper = shallow(<Input foundation={foundation} />);
-  wrapper.simulate('focus');
-  td.verify(foundation.activateFocus(), {times: 1});
-});
-
 test('#event.onFocus calls props.onFocus()', () => {
   const onFocus = td.func();
   const props: any = {onFocus, foundation: buildFoundation()};
@@ -376,13 +402,6 @@ test('#event.onBlur calls props.handleFocusChange(false)', () => {
   const wrapper = shallow(<Input {...props} />);
   wrapper.simulate('blur');
   td.verify(handleFocusChange(false), {times: 1});
-});
-
-test('#event.onBlur calls foundation.deactivateFocus()', () => {
-  const foundation = buildFoundation({deactivateFocus: td.func()});
-  const wrapper = shallow(<Input foundation={foundation} />);
-  wrapper.simulate('blur');
-  td.verify(foundation.deactivateFocus(), {times: 1});
 });
 
 test('#event.onBlur calls props.onBlur()', () => {

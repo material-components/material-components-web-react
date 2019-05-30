@@ -53,6 +53,16 @@ test('state.value updates when props.value changes', () => {
   assert.equal(wrapper.state().value, updatedValue);
 });
 
+test('#foundation.setDisabled gets called when props.disabled changes', () => {
+  const wrapper = shallow<Select>(<Select label='my label' disabled={false} />);
+  const setDisabled = td.func<() => void>();
+  wrapper.setState({
+    foundation: coerceForTesting<MDCSelectFoundation>({setDisabled}),
+  });
+  wrapper.setProps({disabled: true});
+  td.verify(wrapper.state().foundation!.setDisabled(true), {times: 1});
+});
+
 test('#componentWillUnmount destroys foundation', () => {
   const wrapper = shallow<Select>(<Select label='my label' />);
   const foundation = wrapper.state().foundation!;
@@ -401,6 +411,16 @@ test('renders BaseSelect for select', () => {
       .type(),
     BaseSelect
   );
+});
+
+test('does not pass className to BaseSelect', () => {
+  const wrapper = shallow(<Select label='my label' className="container-class" />);
+  assert.equal(wrapper.childAt(0).childAt(1).prop('className'), "");
+});
+
+test('pass selectClassName to BaseSelect', () => {
+  const wrapper = shallow(<Select label='my label' selectClassName="select-class" />);
+  assert.equal(wrapper.childAt(0).childAt(1).prop('className'), "select-class");
 });
 
 test('renders FloatingLabel after BaseSelect if props.label exists', () => {

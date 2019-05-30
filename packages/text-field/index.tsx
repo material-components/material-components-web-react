@@ -136,7 +136,7 @@ class TextField<
   }
 
   componentWillUnmount() {
-    this.state.foundation!.destroy();
+    this.state.foundation && this.state.foundation.destroy();
   }
   /**
    * getters
@@ -288,7 +288,15 @@ class TextField<
 
     return Object.assign({}, props, {
       foundation: this.state.foundation,
-      handleFocusChange: (isFocused: boolean) => this.setState({isFocused}),
+      handleFocusChange: (isFocused: boolean) => {
+        this.setState({isFocused});
+        if (!this.state.foundation) return;
+        if (isFocused) {
+          this.state.foundation.activateFocus();
+        } else {
+          this.state.foundation.deactivateFocus();
+        }
+      },
       setDisabled: (disabled: boolean) => this.setState({disabled}),
       setInputId: (id: string) => this.setState({inputId: id}),
       syncInput: (input: Input<T>) => (this.inputComponent_ = input),

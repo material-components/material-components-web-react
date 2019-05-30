@@ -643,6 +643,42 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
   assert.isTrue(wrapper.state().isFocused);
 });
 
+test('#inputProps.handleFocusChange calls foundation.activateFocus if isFocused is true', () => {
+  const wrapper = mount<TextField<HTMLInputElement>>(
+    <TextField label='my label'>
+      <Input />
+    </TextField>
+  );
+  const activateFocus = td.func();
+  const foundation = {activateFocus} as any;
+  wrapper.setState({foundation});
+  wrapper
+    .instance()
+    .inputProps(
+      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
+    )
+    .handleFocusChange(true);
+  td.verify(activateFocus(), {times: 1});
+});
+
+test('#inputProps.handleFocusChange calls foundation.deactivateFocus if isFocused is false', () => {
+  const wrapper = mount<TextField<HTMLInputElement>>(
+    <TextField label='my label'>
+      <Input />
+    </TextField>
+  );
+  const deactivateFocus = td.func();
+  const foundation = {deactivateFocus} as any;
+  wrapper.setState({foundation});
+  wrapper
+    .instance()
+    .inputProps(
+      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
+    )
+    .handleFocusChange(false);
+  td.verify(deactivateFocus(), {times: 1});
+});
+
 test('#inputProps.setDisabled updates state.disabled', () => {
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField label='my label'>

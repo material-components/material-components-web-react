@@ -53,6 +53,7 @@ type Props<T extends HTMLElement = HTMLInputElement> = InputProps<T> &
 
 interface InputState {
   wasUserTriggeredChange: boolean;
+  isMounted: boolean;
 }
 
 declare type ValidationAttrWhiteList =
@@ -97,7 +98,10 @@ export default class Input<
     value: '',
   };
 
-  state = {wasUserTriggeredChange: false};
+  state = {
+    wasUserTriggeredChange: false,
+    isMounted: false,
+  };
 
   componentDidMount() {
     const {
@@ -109,7 +113,6 @@ export default class Input<
       setDisabled,
       handleValueChange,
       foundation,
-      isValid,
     } = this.props;
     if (syncInput) {
       syncInput(this);
@@ -126,13 +129,10 @@ export default class Input<
         () => foundation && foundation.setValue(this.valueToString(value))
       );
     }
-    if (foundation && isValid !== undefined) {
-      foundation.setUseNativeValidation(false);
-      foundation.setValid(!!isValid);
-    }
+    this.setState({isMounted: true});
   }
 
-  componentDidUpdate(prevProps: Props<T>) {
+  componentDidUpdate(prevProps: Props<T>, prevState: InputState) {
     const {
       id,
       foundation,
@@ -143,6 +143,13 @@ export default class Input<
       setInputId,
       setDisabled,
     } = this.props;
+
+    if (
+      (!prevState.isMounted && this.state.isMounted && this.props.foundation) ||
+      (this.state.isMounted && !prevProps.foundation && this.props.foundation)
+    ) {
+      this.initializeComponentWithFoundation();
+    }
 
     this.handleValidationAttributeUpdate(prevProps);
 
@@ -178,6 +185,23 @@ export default class Input<
     }
   }
 
+  /**
+   * This method is for any initialization logic the depends on the foundation.
+   * Any other initialization logic should belong in the componentDidMount.
+   */
+  private initializeComponentWithFoundation = () => {
+    const {handleFocusChange, foundation, autoFocus, isValid} = this.props;
+    if (autoFocus) {
+      handleFocusChange && handleFocusChange(true);
+    }
+    // there is no reason for this to be in Input.tsx
+
+    if (foundation && isValid !== undefined) {
+      foundation.setUseNativeValidation(false);
+      foundation.setValid(isValid as boolean);
+    }
+  };
+
   valueToString(value?: string | string[] | number) {
     let str;
     if (typeof value === 'object') {
@@ -204,8 +228,7 @@ export default class Input<
       T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement
     >
   ) => {
-    const {foundation, handleFocusChange, onFocus = () => {}} = this.props;
-    foundation && foundation.activateFocus();
+    const {handleFocusChange, onFocus = () => {}} = this.props;
     handleFocusChange && handleFocusChange(true);
     onFocus(evt);
   };
@@ -215,8 +238,7 @@ export default class Input<
       T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement
     >
   ) => {
-    const {foundation, handleFocusChange, onBlur = () => {}} = this.props;
-    foundation && foundation.deactivateFocus();
+    const {handleFocusChange, onBlur = () => {}} = this.props;
     handleFocusChange && handleFocusChange(false);
     onBlur(evt);
   };

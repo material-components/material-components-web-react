@@ -33,7 +33,14 @@ class MenuListItem<T extends HTMLElement = HTMLElement> extends React.Component<
   {}
 > {
   render() {
-    const {role = 'menuitem', children, ...otherProps} = this.props;
+    const {
+      role = 'menuitem',
+      children,
+      /* eslint-disable no-unused-vars */
+      computeBoundingRect,
+      /* eslint-disable no-unused-vars */
+      ...otherProps
+    } = this.props;
 
     return (
       <ListItem role={role} {...otherProps}>
