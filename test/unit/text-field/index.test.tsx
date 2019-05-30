@@ -654,9 +654,7 @@ test('#inputProps.handleFocusChange calls foundation.activateFocus if isFocused 
   wrapper.setState({foundation});
   wrapper
     .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
+    .inputProps
     .handleFocusChange(true);
   td.verify(activateFocus(), {times: 1});
 });
@@ -672,9 +670,7 @@ test('#inputProps.handleFocusChange calls foundation.deactivateFocus if isFocuse
   wrapper.setState({foundation});
   wrapper
     .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
+    .inputProps
     .handleFocusChange(false);
   td.verify(deactivateFocus(), {times: 1});
 });
