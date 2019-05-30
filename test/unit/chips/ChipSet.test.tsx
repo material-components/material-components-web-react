@@ -538,3 +538,15 @@ test('#componentWillUnmount destroys foundation', () => {
   wrapper.unmount();
   td.verify(foundation.destroy());
 });
+
+test('should not throw with falsy-value children', () => {
+  assert.doesNotThrow(() =>
+    shallow<ChipSet>(
+      <ChipSet>
+        {null}
+        {undefined}
+        {0}
+      </ChipSet>
+    )
+  );
+});
