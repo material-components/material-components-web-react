@@ -1,6 +1,6 @@
 {
   "name": "@material/react-ripple",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Material Components React Ripple",
   "license": "MIT",
   "main": "dist/index.js",
