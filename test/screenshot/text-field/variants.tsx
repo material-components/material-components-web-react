@@ -5,5 +5,4 @@ export default [
   'textArea',
   'refTest',
   'autoFocus',
-  'characterCounter'
 ];
