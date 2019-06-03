@@ -18,10 +18,8 @@
  THE SOFTWARE.
 */
 
-import {
- GlobSync,
-} from 'glob';
+import glob from 'glob';
 
-GlobSync('build/types/packages/*/index.d.ts').forEach((typePath) => {
+glob.sync('build/types/packages/*/index.d.ts').forEach((typePath) => {
   console.log('TODO: Check types on ' + typePath);
 });
