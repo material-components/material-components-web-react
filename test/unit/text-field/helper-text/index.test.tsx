@@ -191,7 +191,7 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy());
 });
 
-test('MDC React doesn\'t need to implement this', () => {
+test(`MDC React doesn't need to implement this`, () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
   wrapper.instance().adapter.setContent('');
 });

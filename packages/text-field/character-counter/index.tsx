@@ -37,7 +37,9 @@ export interface CharacterCounterProps extends React.HTMLProps<HTMLDivElement> {
   template?: string;
 }
 
-export default class CharacterCounter extends React.Component<CharacterCounterProps> {
+export default class CharacterCounter extends React.Component<
+  CharacterCounterProps
+> {
   foundation = new MDCTextFieldCharacterCounterFoundation(this.adapter);
 
   componentWillUnmount() {
@@ -65,12 +67,12 @@ export default class CharacterCounter extends React.Component<CharacterCounterPr
 
   get otherProps() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       className,
       count,
       maxLength,
       template,
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
 

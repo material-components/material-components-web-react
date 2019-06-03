@@ -1,15 +1,21 @@
 import React from 'react';
-import TextField, {CharacterCounter, Input} from '../../../../packages/text-field';
-
-const Container = (props: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (
-  <div>
-    <div style={{display: 'inline-block'}}>
-      {props.children}
-    </div>
-  </div>
-);
+import TextField, {
+  CharacterCounter,
+  Input,
+} from '../../../../packages/text-field';
 
 import '../../../../packages/text-field/character-counter/index.scss';
+
+const Container = (
+  props: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  >
+) => (
+  <div>
+    <div style={{display: 'inline-block'}}>{props.children}</div>
+  </div>
+);
 
 const TextFieldCharacterCounterScreenshotTest = () => {
   return (
@@ -29,7 +35,9 @@ const TextFieldCharacterCounterScreenshotTest = () => {
       <Container>
         <TextField
           label='HaHa'
-          characterCounter={<CharacterCounter template='현재(${count}) / 최대(${maxLength})' />}
+          characterCounter={
+            <CharacterCounter template='현재(${count}) / 최대(${maxLength})' />
+          }
         >
           <Input value='Happy Coding' maxLength={150} />
         </TextField>
@@ -38,7 +46,10 @@ const TextFieldCharacterCounterScreenshotTest = () => {
         <TextField
           textarea
           label='HaHa'
-          characterCounter={<CharacterCounter template='현재(${count}) / 최대(${maxLength})' />}>
+          characterCounter={
+            <CharacterCounter template='현재(${count}) / 최대(${maxLength})' />
+          }
+        >
           <Input value='Happy Coding' maxLength={150} />
         </TextField>
       </Container>

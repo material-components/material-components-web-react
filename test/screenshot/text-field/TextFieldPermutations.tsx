@@ -50,7 +50,8 @@ const textFields = (variantProps: {variant?: string}) => {
                   value
                 );
                 const key = `${iconKey}-${denseKey}-${disabledKey}-${helperTextKey}-${isRequiredKey}--${rtlKey}`;
-                const hasIcon = iconKey === 'leadingIcon' || iconKey === 'trailingIcon';
+                const hasIcon =
+                  iconKey === 'leadingIcon' || iconKey === 'trailingIcon';
                 if (hasIcon && variantProps.variant === 'fullWidth') {
                   return;
                 }

@@ -305,11 +305,7 @@ class TextField<
   }
 
   get characterCounterProps() {
-    const {
-      value,
-      maxLength,
-    } = this.inputProps;
-
+    const {value, maxLength} = this.inputProps;
     return {
       count: value ? value.length : 0,
       maxLength: maxLength ? parseInt(maxLength) : 0,
@@ -342,8 +338,12 @@ class TextField<
           ref={this.textFieldElement}
           key='text-field-container'
         >
-          {leadingIcon ? this.renderIcon(leadingIcon, onLeadingIconSelect) : null}
-          {textarea && characterCounter && this.renderCharacterCounter(characterCounter)}
+          {leadingIcon
+            ? this.renderIcon(leadingIcon, onLeadingIconSelect)
+            : null}
+          {textarea &&
+            characterCounter &&
+            this.renderCharacterCounter(characterCounter)}
           {this.renderInput()}
           {this.notchedOutlineAdapter.hasOutline() ? (
             this.renderNotchedOutline()
@@ -365,7 +365,9 @@ class TextField<
   }
 
   renderInput() {
-    const child: React.ReactElement<InputProps<T>> = React.Children.only(this.props.children);
+    const child: React.ReactElement<InputProps<T>> = React.Children.only(
+      this.props.children
+    );
     return React.cloneElement(child, this.inputProps);
   }
 
@@ -420,7 +422,9 @@ class TextField<
     return (
       <div className={cssClasses.HELPER_LINE}>
         {helperText && this.renderHelperText(helperText)}
-        {characterCounter && !this.props.textarea && this.renderCharacterCounter(characterCounter)}
+        {characterCounter &&
+          !this.props.textarea &&
+          this.renderCharacterCounter(characterCounter)}
       </div>
     );
   }
@@ -450,13 +454,24 @@ class TextField<
     );
   }
 
-  renderCharacterCounter(characterCounter: React.ReactElement<CharacterCounterProps>) {
-    return React.cloneElement(characterCounter, Object.assign(
-      this.characterCounterProps,
-      characterCounter.props,
-    ));
+  renderCharacterCounter(
+    characterCounter: React.ReactElement<CharacterCounterProps>
+  ) {
+    return React.cloneElement(
+      characterCounter,
+      Object.assign(this.characterCounterProps, characterCounter.props)
+    );
   }
 }
 
-export {Icon, HelperText, CharacterCounter, Input, IconProps, HelperTextProps, CharacterCounterProps, InputProps};
+export {
+  Icon,
+  HelperText,
+  CharacterCounter,
+  Input,
+  IconProps,
+  HelperTextProps,
+  CharacterCounterProps,
+  InputProps,
+};
 export default TextField;

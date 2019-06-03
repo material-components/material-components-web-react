@@ -652,10 +652,7 @@ test('#inputProps.handleFocusChange calls foundation.activateFocus if isFocused 
   const activateFocus = td.func();
   const foundation = {activateFocus} as any;
   wrapper.setState({foundation});
-  wrapper
-    .instance()
-    .inputProps
-    .handleFocusChange(true);
+  wrapper.instance().inputProps.handleFocusChange(true);
   td.verify(activateFocus(), {times: 1});
 });
 
@@ -668,10 +665,7 @@ test('#inputProps.handleFocusChange calls foundation.deactivateFocus if isFocuse
   const deactivateFocus = td.func();
   const foundation = {deactivateFocus} as any;
   wrapper.setState({foundation});
-  wrapper
-    .instance()
-    .inputProps
-    .handleFocusChange(false);
+  wrapper.instance().inputProps.handleFocusChange(false);
   td.verify(deactivateFocus(), {times: 1});
 });
 
@@ -742,7 +736,7 @@ test('#adapter.getNativeInput throws error when no inputComponent', () => {
   }
 });
 
-test('MDC React doesn\'t need to implement this', () => {
+test(`MDC React doesn't need to implement this`, () => {
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField>
       <Input />

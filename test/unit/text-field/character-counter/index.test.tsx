@@ -49,7 +49,9 @@ test('template test', () => {
   const value = 'test value';
   const maxLength = 100;
   const wrapper = mount<TextField>(
-    <TextField characterCounter={<CharacterCounter template='${count}|${maxLength}' />}>
+    <TextField
+      characterCounter={<CharacterCounter template='${count}|${maxLength}' />}
+    >
       <Input value={value} maxLength={maxLength} />
     </TextField>
   );
@@ -84,12 +86,15 @@ test('Character counter renders in front of input when tag is textarea', () => {
     </TextField>
   );
   assert.equal(
-    wrapper.childAt(0).childAt(0).getDOMNode(),
+    wrapper
+      .childAt(0)
+      .childAt(0)
+      .getDOMNode(),
     wrapper.find('.mdc-text-field-character-counter').getDOMNode()
   );
 });
 
-test('MDC React doesn\'t need to implement this', () => {
+test(`MDC React doesn't need to implement this`, () => {
   const wrapper = shallow<CharacterCounter>(<CharacterCounter />);
   wrapper.instance().adapter.setContent('');
   wrapper.unmount();
