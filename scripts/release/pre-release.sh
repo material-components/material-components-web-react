@@ -52,16 +52,16 @@ log "Building packages..."
 npm run build
 echo ""
 
+log "Verifying that all types are correctly exported..."
+node scripts/release/verify-types-main.js
+echo ""
+
 log "Moving built assets to package directories..."
 node scripts/release/cp-pkgs.js
 echo ""
 
 log "Verifying that all packages are correctly pointing main to dist..."
 node scripts/release/verify-pkg-main.js
-echo ""
-
-log "Verifying that all types are correctly exported..."
-node scripts/release/verify-types-main.js
 echo ""
 
 log "Pre-release steps done! Next, you should run:" \
