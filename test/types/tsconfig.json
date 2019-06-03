@@ -1,0 +1,3 @@
+{
+  "extends": "gts/tsconfig-google.json"
+}
