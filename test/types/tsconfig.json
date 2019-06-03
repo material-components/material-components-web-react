@@ -1,5 +1,11 @@
 {
   "extends": "gts/tsconfig-google.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["es2015", "es2017", "dom"],
+    "jsx": "react",
+    "target": "es5",
+  },
   "files": [
     "index.ts"
   ]
