@@ -29,7 +29,9 @@ import {MDCListFoundation} from '@material/list/foundation';
 import {ListItemContext, ListItemContextShape} from './index';
 
 export interface ListItemProps<T extends HTMLElement = HTMLElement>
-  extends React.HTMLProps<T>, ListItemContextShape, InjectedProps<T> {
+  extends React.HTMLProps<T>,
+    ListItemContextShape,
+    InjectedProps<T> {
   checkboxList?: boolean;
   radioList?: boolean;
   tag?: string;
