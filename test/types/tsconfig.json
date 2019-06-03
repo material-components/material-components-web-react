@@ -2,5 +2,8 @@
   "extends": "gts/tsconfig-google.json",
   "compilerOptions": {
     "typeRoots" : ["./packages"]
-  }
+  },
+  "files": [
+    "index.ts"
+  ]
 }
