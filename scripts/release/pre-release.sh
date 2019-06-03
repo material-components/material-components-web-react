@@ -53,7 +53,7 @@ npm run build
 echo ""
 
 log "Verifying that all types are correctly exported..."
-node scripts/release/verify-types-main.js
+npx ts-node scripts/release/verify-types-main.ts
 echo ""
 
 log "Moving built assets to package directories..."
