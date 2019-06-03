@@ -1,3 +1,6 @@
 {
-  "extends": "gts/tsconfig-google.json"
+  "extends": "gts/tsconfig-google.json",
+  "compilerOptions": {
+    "typeRoots" : ["./packages"]
+  }
 }
