@@ -19,9 +19,9 @@
 */
 
 import {
- globSync,
+ GlobSync,
 } from 'glob';
 
-globSync('build/types/packages/*/index.d.ts').forEach((typePath) => {
+GlobSync('build/types/packages/*/index.d.ts').forEach((typePath) => {
   console.log('TODO: Check types on ' + typePath);
 });
