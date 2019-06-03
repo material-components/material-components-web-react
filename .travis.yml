@@ -27,7 +27,8 @@ matrix:
       install: npm i
       script:
         - npm run build
-        - npx ts-node scripts/release/verify-types-main.ts
+        - node scripts/release/cp-pkgs.js
+        - echo 'TODO: test build against prod packages'
 
     - node_js: 10
       install: npm i
