@@ -27,5 +27,6 @@ glob.sync('build/types/packages/*/index.d.ts').forEach((typePath) => {
     console.log('SUCCESS: ' + typePath);
   } catch (err) {
     console.log('FAILURE: ' + typePath);
+    console.error(err);
   }
 });
