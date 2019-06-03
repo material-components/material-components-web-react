@@ -28,7 +28,7 @@ matrix:
       script:
         - npm run build
         - node scripts/release/cp-pkgs.js
-        - npx lerna bootstrap --hoist
+        - npx lerna link --force-local
         - tsc --project test/types
 
     - node_js: 10
