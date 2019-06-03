@@ -21,5 +21,11 @@
 import glob from 'glob';
 
 glob.sync('build/types/packages/*/index.d.ts').forEach((typePath) => {
-  console.log('TODO: Check types on ' + typePath);
+  try {
+    // @ts-ignore
+    require('./' + typePath);
+    console.log('SUCCESS: ' + typePath);
+  } catch (err) {
+    console.log('FAILURE: ' + typePath);
+  }
 });
