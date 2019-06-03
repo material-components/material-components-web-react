@@ -23,7 +23,7 @@ import glob from 'glob';
 glob.sync('build/types/packages/*/index.d.ts').forEach((typePath) => {
   try {
     // @ts-ignore
-    require('./' + typePath);
+    require('../../' + typePath);
     console.log('SUCCESS: ' + typePath);
   } catch (err) {
     console.log('FAILURE: ' + typePath);
