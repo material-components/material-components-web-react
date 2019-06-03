@@ -18,7 +18,9 @@
  THE SOFTWARE.
 */
 
-const {sync: globSync} = require('glob');
+import {
+ globSync,
+} from 'glob';
 
 globSync('build/types/packages/*/index.d.ts').forEach((typePath) => {
   console.log('TODO: Check types on ' + typePath);
