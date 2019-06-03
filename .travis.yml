@@ -28,7 +28,7 @@ matrix:
       script:
         - npm run build
         - node scripts/release/cp-pkgs.js
-        - tsc --config test/types/tsconfig.json
+        - tsc --project test/types
 
     - node_js: 10
       install: npm i
