@@ -52,10 +52,6 @@ log "Building packages..."
 npm run build
 echo ""
 
-log "Verifying that all types are correctly exported..."
-npx ts-node scripts/release/verify-types-main.ts
-echo ""
-
 log "Moving built assets to package directories..."
 node scripts/release/cp-pkgs.js
 echo ""
