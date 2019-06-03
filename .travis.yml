@@ -28,7 +28,7 @@ matrix:
       script:
         - npm run build
         - node scripts/release/cp-pkgs.js
-        - node scripts/release/verify-pkg-main.js
+        - node scripts/release/verify-types-main.js
 
     - node_js: 10
       install: npm i
