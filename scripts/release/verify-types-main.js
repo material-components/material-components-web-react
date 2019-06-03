@@ -1,6 +1,6 @@
 /*
  The MIT License
- Copyright (c) 2018 Google, Inc.
+ Copyright (c) 2019 Google, Inc.
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
@@ -18,4 +18,8 @@
  THE SOFTWARE.
 */
 
-// TODO
+const {sync: globSync} = require('glob');
+
+globSync('build/types/packages/*/index.d.ts').forEach((typePath) => {
+  console.log('TODO: Check types on ' + typePath);
+});
