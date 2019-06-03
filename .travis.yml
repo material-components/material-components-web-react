@@ -23,6 +23,14 @@ matrix:
       script: npm run lint
 
     - node_js: 10
+      env: TEST_SUITE=types
+      install: npm i
+      script:
+        - npm run build
+        - node scripts/release/cp-pkgs.js
+        - node scripts/release/verify-pkg-main.js
+
+    - node_js: 10
       install: npm i
       services:
         - docker
