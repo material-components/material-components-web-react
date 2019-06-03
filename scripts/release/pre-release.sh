@@ -60,6 +60,10 @@ log "Verifying that all packages are correctly pointing main to dist..."
 node scripts/release/verify-pkg-main.js
 echo ""
 
+log "Verifying that all types are correctly exported..."
+node scripts/release/verify-types-main.js
+echo ""
+
 log "Pre-release steps done! Next, you should run:" \
   "\$(npm bin)/lerna publish --skip-git"
 echo ""
