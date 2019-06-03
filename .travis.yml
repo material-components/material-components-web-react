@@ -28,7 +28,7 @@ matrix:
       script:
         - npm run build
         - node scripts/release/cp-pkgs.js
-        - echo 'TODO: test build against prod packages'
+        - tsc --config test/types/tsconfig.json
 
     - node_js: 10
       install: npm i
