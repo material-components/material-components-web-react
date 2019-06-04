@@ -30,6 +30,7 @@ matrix:
         - node scripts/release/cp-pkgs.js
         - rm -rf package-lock.json node_modules packages/*/node_modules
         - npm cache clean --force
+        - npm install packages/ripple
         - ls -d ./packages/*/ | xargs -n1 -I{} npm install {}
         - npm install typescript -g
         - tsc --project test/types
