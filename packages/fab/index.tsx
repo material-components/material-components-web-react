@@ -34,7 +34,7 @@ export interface FabProps
   icon?: React.ReactElement<HTMLElement>;
   textLabel?: string;
   className?: string;
-  iconFirst: boolean;
+  iconFirst?: boolean;
   initRipple?: React.Ref<HTMLButtonElement>;
   unbounded?: boolean;
 }

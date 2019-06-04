@@ -51,6 +51,7 @@ exited | Boolean | When true animates the FAB out of view. When this false, the 
 mini | Boolean |  Enables the mini variant. 
 icon | Element | The icon.
 textLabel | String | The label, which makes the FAB extended.
+iconFirst | Boolean | When false, the text label is rendered in front of the icon. Defaults to true.
 
 ## Sass Mixins
 
