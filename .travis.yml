@@ -29,6 +29,7 @@ matrix:
         - npm run build
         - node scripts/release/cp-pkgs.js
         - rm -rf package-lock.json node_modules packages/*/node_modules
+        - npm cache clean --force
         - ls -d ./packages/*/ | xargs -n1 -I{} npm install --no-audit {}
         - tsc --project test/types
 
