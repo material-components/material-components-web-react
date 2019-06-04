@@ -51,6 +51,27 @@ test('text label is rendered', () => {
   const icon = <i className='test-action-icon-1' />;
   const wrapper = mount(<Fab icon={icon} textLabel='Text Label' />);
   assert.isTrue(wrapper.find('.mdc-fab__label').length === 1);
+  assert.isTrue(
+    wrapper
+      .find('.mdc-fab')
+      .childAt(0)
+      .childAt(0)
+      .hasClass('mdc-fab__icon')
+  );
+});
+
+test('text label is rendered before icon', () => {
+  const icon = <i className='test-action-icon-1' />;
+  const wrapper = mount(
+    <Fab icon={icon} textLabel='Text Label' iconFirst={false} />
+  );
+  assert.isTrue(
+    wrapper
+      .find('.mdc-fab')
+      .childAt(0)
+      .childAt(0)
+      .hasClass('mdc-fab__label')
+  );
 });
 
 test('i tag is rendered', () => {
