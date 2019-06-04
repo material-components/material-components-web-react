@@ -152,6 +152,7 @@ function getCssWebpackConfig(shouldMinify) {
                 loader: 'css-loader',
                 options: {
                   minimize: shouldMinify,
+                  modules: 'global',
                 },
               },
               {
