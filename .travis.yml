@@ -34,6 +34,7 @@ matrix:
         - ls -d ./packages/*/ | xargs -n1 -I{} npm install {}
         - npm install typescript -g
         - npm install @types/react
+        - npm install react
         - tsc --project test/types
 
     - node_js: 10
