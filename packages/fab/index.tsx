@@ -80,18 +80,11 @@ export const Fab: React.FunctionComponent<
     [CSS_CLASSES.EXITED]: exited,
   });
 
-  const children = [
-    <Icon icon={icon} />,
-    <TextLabel textLabel={textLabel} />
-  ];
-
-  if (iconFirst === false) {
-    children.reverse();
-  }
-
   return (
     <button className={classes} ref={initRipple} {...otherProps}>
-      {children}
+      {iconFirst === true && <Icon icon={icon} />}
+      <TextLabel textLabel={textLabel} />
+      {iconFirst === false && <Icon icon={icon} />}
     </button>
   );
 };
