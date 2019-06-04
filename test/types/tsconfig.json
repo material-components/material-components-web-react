@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "lib": ["es2015", "es2017", "dom"],
+    "esModuleInterop": true,
     "jsx": "react",
+    "lib": ["es2015", "es2017", "dom"],
+    "module": "commonjs",
     "target": "es5",
   },
   "files": [
