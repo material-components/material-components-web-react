@@ -30,7 +30,7 @@ const { readdirSync, statSync, writeFileSync } = require('fs');
 let out = "import * as React from 'react';\n";
 const dir = 'packages';
 for (const subdir of readdirSync(dir)) {
-  if (statSync(join(dir, subdir)).isDirectory()) {
+  if (!statSync(join(dir, subdir)).isDirectory()) {
     continue;
   }
   out += "import * as " + subdir + " from '@material/react-" + subdir + "';\n";
