@@ -1,5 +1,3 @@
-import * as React from "react";
+import * as React from 'react';
 
-import {
-  withRipple,
-} from '@material/react-ripple';
+import * as ripple from '@material/react-ripple';
