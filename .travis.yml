@@ -28,10 +28,10 @@ matrix:
       script:
         - npm run build
         - node scripts/release/cp-pkgs.js
-        - node test/types/gen-index.js
         - rm -rf packages/*/node_modules # Prevent inconsistent simlinks from being hoisted
         - npm install packages/ripple # Installed first as other packages depend on it
         - ls -d ./packages/*/ | xargs -n1 -I{} npm install {}
+        - node test/types/gen-index.js
         - tsc --project test/types || true # TODO(issues/857): Fix errors so failure here can be loud
 
     - node_js: 10
