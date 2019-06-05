@@ -14,7 +14,6 @@
   "compileOnSave": true,
   "exclude": [
     "node_modules",
-    "build",
-    "test/types"
+    "build"
   ]
 }
