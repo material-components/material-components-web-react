@@ -27,7 +27,7 @@
 const { join } = require('path');
 const { readdirSync, statSync, writeFileSync } = require('fs');
 
-const out = "import * as React from 'react';\n";
+let out = "import * as React from 'react';\n";
 const dir = 'packages';
 for (const subdir of readdirSync(dir)) {
   if (statSync(join(dir, subdir)).isDirectory()) {
