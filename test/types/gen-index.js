@@ -33,6 +33,6 @@ for (const subdir of readdirSync(dir)) {
   if (!statSync(join(dir, subdir)).isDirectory()) {
     continue;
   }
-  out += "import * as " + subdir + " from '@material/react-" + subdir + "';\n";
+  out += "import * as " + subdir.replace('-', '') + " from '@material/react-" + subdir + "';\n";
 }
 writeFileSync('test/types/index.ts', out, 'ascii');
