@@ -84,17 +84,6 @@ scrollTarget | React.RefObject | Sets scroll target to different DOM node (defau
 tag | String | Customizes the `TopAppBar` HTML tag.  (default: `<header>`)
 > NOTES: As per design guidelines, prominent and dense variants should not be used with short or short collapsed. Additionally, dense variants should only be used on desktop. Additionally short top-app-bars should be used with no more than 1 action item.
 
-#### Deprecated TopAppBar Props
-
-The following props are deprecated since v0.11.0 and are scheduled for removal in v0.13.0.
-They will still render as expected until v0.13.0, but will output a warning to the console.
-
-Prop Name | Type | Description
---- | --- | ---
-actionItems | Array | Accepts an array of elements that should be rendered to the opposite side of the title. Note that a single action item should also be passed as an array.
-navigationIcon | Element | Appears adjacent to the title. This acts as the main action of the Top App Bar.
-title | String | The Title of the Top App Bar.
-
 ### TopAppBarRow
 Prop Name | Type | Description
 --- | --- | ---
