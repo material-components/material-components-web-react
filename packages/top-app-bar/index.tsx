@@ -244,9 +244,6 @@ class TopAppBar<
       prominent,
       scrollTarget,
       tag: Tag,
-      actionItems,
-      navigationIcon,
-      title,
       ...otherProps
       /* eslint-enable @typescript-eslint/no-unused-vars */
     } = this.props;
