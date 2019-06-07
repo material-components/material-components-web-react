@@ -17,8 +17,8 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/slider": "^1.1.0",
-    "@material/react-ripple": "^0.12.0",
+    "@material/react-ripple": "^0.13.0",
+    "@material/slider": "^2.3.0",
     "classnames": "^2.2.6",
     "react": "^16.4.2"
   },

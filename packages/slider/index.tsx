@@ -1,38 +1,13 @@
-import {EventType as K, SpecificEventListener} from '@material/base/types';
+import {getCorrectEventName} from '@material/animation/util';
+import {EventType, SpecificEventListener} from '@material/base/types';
 import {MDCSliderAdapter, MDCSliderFoundation} from '@material/slider';
-import {cssClasses, numbers} from '@material/slider/constants';
 import classnames from 'classnames';
 import React from 'react';
 
-const KEY_IDS = {
-  ARROW_DOWN: 'ArrowDown',
-  ARROW_LEFT: 'ArrowLeft',
-  ARROW_RIGHT: 'ArrowRight',
-  ARROW_UP: 'ArrowUp',
-  END: 'End',
-  HOME: 'Home',
-  PAGE_DOWN: 'PageDown',
-  PAGE_UP: 'PageUp',
-};
+const convertDashToCamelCase = (propName: string) =>
+  propName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
 
-type UpEventType = 'mouseup' | 'pointerup' | 'touchend';
-type DownEventType = 'mousedown' | 'pointerdown' | 'touchstart';
-type MoveEventType = 'mousemove' | 'pointermove' | 'touchmove';
-type MouseLikeEvent = MouseEvent | PointerEvent | TouchEvent;
-type ReactMouseLikeEvent =
-  | React.MouseEvent
-  | React.PointerEvent
-  | React.TouchEvent;
-
-type MoveEventMap = {readonly [K in DownEventType]: MoveEventType};
-
-const UP_EVENTS: UpEventType[] = ['mouseup', 'pointerup', 'touchend'];
-
-const MOVE_EVENT_MAP: MoveEventMap = {
-  mousedown: 'mousemove',
-  pointerdown: 'pointermove',
-  touchstart: 'touchmove',
-};
+type MouseLikeEvent = React.MouseEvent | React.PointerEvent | React.TouchEvent;
 
 export interface SliderProps extends React.HTMLProps<HTMLDivElement> {
   value: number;
@@ -42,8 +17,7 @@ export interface SliderProps extends React.HTMLProps<HTMLDivElement> {
   max: number;
   step?: number;
   disabled?: boolean;
-  className?: string;
-  tabIndex?: number;
+  ariaLabel: string;
   isRtl?: boolean;
   onValueChange?: (value: number) => void;
   onValueInput?: (value: number) => void;
@@ -53,7 +27,11 @@ interface SliderState {
   classList: Set<string>;
   markerValue?: number;
   markerStyles: React.CSSProperties[];
+  trackStyleProperty: React.CSSProperties;
+  thumbContainerStyleProperty: React.CSSProperties;
 }
+
+type SliderElementNames = 'trackStyleProperty' | 'thumbContainerStyleProperty';
 
 class Slider extends React.Component<SliderProps, SliderState> {
   get classes() {
@@ -98,37 +76,50 @@ class Slider extends React.Component<SliderProps, SliderState> {
         this.sliderElement.current.removeAttribute(name);
       },
       computeBoundingRect: (): ClientRect | DOMRect => {
-        // new DOMRect is not IE11 compatible
-        this.rect = !this.sliderElement.current
-          ? {
-              bottom: 0,
-              height: 0,
-              left: 0,
-              right: 0,
-              top: 0,
-              width: 0,
-              x: 0,
-              y: 0,
-            }
-          : this.sliderElement.current.getBoundingClientRect();
-
-        return this.rect;
+        if (!this.sliderElement.current) {
+          // new DOMRect is not IE11 compatible
+          const defaultDOMRect = {
+            bottom: 0,
+            height: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+            width: 0,
+            x: 0,
+            y: 0,
+          };
+          return defaultDOMRect;
+        }
+        return this.sliderElement.current.getBoundingClientRect();
       },
       getTabIndex: (): number => this.props.tabIndex || 0,
       // React handles events differently:
       registerInteractionHandler: () => undefined,
       deregisterInteractionHandler: () => undefined,
-      registerThumbContainerInteractionHandler: () => undefined,
-      deregisterThumbContainerInteractionHandler: () => undefined,
+      registerThumbContainerInteractionHandler: (
+        evtType: EventType,
+        handler: SpecificEventListener<EventType>
+      ): void => {
+        if (evtType === this.transitionendEvtName) {
+          this.onThumbEnd = handler as any;
+        }
+      },
+      deregisterThumbContainerInteractionHandler: (
+        evtType: EventType
+      ): void => {
+        if (evtType === this.transitionendEvtName) {
+          this.onThumbEnd = undefined;
+        }
+      },
       registerBodyInteractionHandler: (
-        evtType: K,
-        handler: SpecificEventListener<K>
+        evtType: EventType,
+        handler: SpecificEventListener<EventType>
       ): void => {
         document.body.addEventListener(evtType, handler);
       },
       deregisterBodyInteractionHandler: (
-        evtType: K,
-        handler: SpecificEventListener<K>
+        evtType: EventType,
+        handler: SpecificEventListener<EventType>
       ): void => {
         document.body.removeEventListener(evtType, handler);
       },
@@ -154,19 +145,10 @@ class Slider extends React.Component<SliderProps, SliderState> {
           callback(this.foundation.getValue());
         }
       },
-      setThumbContainerStyleProperty: (
-        propertyName: string,
-        value: string
-      ): void => {
-        this.setStylePropertyOn(
-          this.thumbContainerElement.current,
-          propertyName,
-          value
-        );
-      },
-      setTrackStyleProperty: (propertyName: string, value: string): void => {
-        this.setStylePropertyOn(this.trackElement.current, propertyName, value);
-      },
+      setThumbContainerStyleProperty: (prop: string, value: string): void =>
+        this.setStyleToElement(prop, value, 'thumbContainerStyleProperty'),
+      setTrackStyleProperty: (prop: string, value: string): void =>
+        this.setStyleToElement(prop, value, 'trackStyleProperty'),
       setMarkerValue: (value: number): void =>
         this.setState({markerValue: value}),
       appendTrackMarkers: (numMarkers: number): void => {
@@ -204,13 +186,8 @@ class Slider extends React.Component<SliderProps, SliderState> {
     };
   }
 
-  private preventFocusState = false;
-  private active = false;
-  private inTransit = false;
-  private handlingThumbTargetEvt = false;
-  private rect!: ClientRect | DOMRect; // assigned in foundation.layout()
-
   static defaultProps: Partial<SliderProps> = {
+    ariaLabel: 'Select Value',
     className: '',
     open: false,
     min: 0,
@@ -226,12 +203,42 @@ class Slider extends React.Component<SliderProps, SliderState> {
   };
   foundation!: MDCSliderFoundation;
   sliderElement: React.RefObject<HTMLDivElement> = React.createRef();
-  trackElement: React.RefObject<HTMLDivElement> = React.createRef();
-  thumbContainerElement: React.RefObject<HTMLDivElement> = React.createRef();
 
   state: SliderState = {
     classList: new Set(),
     markerStyles: [],
+    trackStyleProperty: {},
+    thumbContainerStyleProperty: {},
+  };
+
+  onDown?: (downEvent: MouseLikeEvent) => void;
+  onThumbDown?: () => void;
+  onThumbEnd?: () => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  onKeyDown?: (evt: React.KeyboardEvent) => void;
+
+  private transitionendEvtName = getCorrectEventName(
+    window,
+    'transitionend'
+  ) as EventType;
+
+  setStyleToElement = (
+    prop: string,
+    value: string | boolean,
+    elementStyleProperty: SliderElementNames
+  ) => {
+    const styleName = convertDashToCamelCase(prop);
+    const updateElementStyleProperty = Object.assign(
+      {},
+      this.state[elementStyleProperty],
+      {[styleName]: value}
+    );
+    this.setState((prevState) => {
+      return Object.assign(prevState, {
+        [elementStyleProperty]: updateElementStyleProperty,
+      });
+    });
   };
 
   componentDidMount() {
@@ -264,245 +271,9 @@ class Slider extends React.Component<SliderProps, SliderState> {
     this.foundation.destroy();
   }
 
-  onThumbEnd?: () => void;
-
-  /**
-   * Sets the value of the slider
-   */
-  private setValue(value: number, shouldFireInput: boolean) {
-    const {discrete} = this.props;
-    this.foundation.setValue(value);
-
-    if (this.inTransit) {
-      this.onThumbEnd = () => {
-        this.setInTransit(false);
-        this.onThumbEnd = undefined;
-      };
-    }
-
-    if (shouldFireInput) {
-      this.adapter.notifyInput();
-      if (discrete) {
-        this.adapter.setMarkerValue(value);
-      }
-    }
-  }
-
-  /**
-   * Toggles the active state of the slider
-   */
-  private setActive(active: boolean) {
-    this.active = active;
-    this.toggleClass(cssClasses.ACTIVE, this.active);
-  }
-
-  /**
-   * Toggles the inTransit state of the slider
-   */
-  private setInTransit(inTransit: boolean) {
-    this.inTransit = inTransit;
-    this.toggleClass(cssClasses.IN_TRANSIT, this.inTransit);
-  }
-
-  /**
-   * Conditionally adds or removes a class based on shouldBePresent
-   */
-  private toggleClass(className: string, shouldBePresent: boolean) {
-    if (shouldBePresent) {
-      this.adapter.addClass(className);
-    } else {
-      this.adapter.removeClass(className);
-    }
-  }
-
-  /**
-   * Called when the user starts interacting with the slider
-   */
-  onDown = (downEvent: ReactMouseLikeEvent) => {
-    const {disabled} = this.props;
-    if (disabled) {
-      return;
-    }
-
-    this.preventFocusState = true;
-    this.setInTransit(!this.handlingThumbTargetEvt);
-    this.handlingThumbTargetEvt = false;
-    this.setActive(true);
-
-    const moveHandler = (moveEvent: MouseLikeEvent) => {
-      this.handleMove(moveEvent);
-    };
-
-    const moveEventType = MOVE_EVENT_MAP[downEvent.type as DownEventType];
-
-    // Note: upHandler is [de]registered on ALL potential pointer-related release event types, since some browsers
-    // do not always fire these consistently in pairs.
-    // (See https://github.com/material-components/material-components-web/issues/1192)
-    const upHandler = () => {
-      this.handleUp();
-      this.adapter.deregisterBodyInteractionHandler(moveEventType, moveHandler);
-      UP_EVENTS.forEach((evtName) =>
-        this.adapter.deregisterBodyInteractionHandler(evtName, upHandler)
-      );
-    };
-
-    this.adapter.registerBodyInteractionHandler(moveEventType, moveHandler);
-    UP_EVENTS.forEach((evtName) =>
-      this.adapter.registerBodyInteractionHandler(evtName, upHandler)
-    );
-    this.setValueFromEvt(downEvent);
-  };
-
-  /**
-   * Called when the user's interaction with the slider ends
-   */
-  private handleUp() {
-    this.setActive(false);
-    this.adapter.notifyChange();
-  }
-
-  /**
-   * Called when the user moves the slider
-   */
-  private handleMove(evt: MouseLikeEvent) {
-    evt.preventDefault();
-    this.setValueFromEvt(evt);
-  }
-
-  /**
-   * Returns the pageX of the event
-   */
-  private getPageX(evt: MouseLikeEvent | ReactMouseLikeEvent): number {
-    if (
-      (evt as TouchEvent).targetTouches &&
-      (evt as TouchEvent).targetTouches.length > 0
-    ) {
-      return (evt as TouchEvent).targetTouches[0].pageX;
-    }
-    return (evt as MouseEvent).pageX;
-  }
-
-  /**
-   * Sets the slider value from an event
-   */
-  private setValueFromEvt(evt: MouseLikeEvent | ReactMouseLikeEvent) {
-    const pageX = this.getPageX(evt);
-    const value = this.computeValueFromPageX(pageX);
-    this.setValue(value, true);
-  }
-
-  /**
-   * Computes the new value from the pageX position
-   */
-  private computeValueFromPageX(pageX: number): number {
-    const {max, min} = this.props;
-    const xPos = pageX - this.rect.left;
-    let pctComplete = xPos / this.rect.width;
-    if (this.adapter.isRTL()) {
-      pctComplete = 1 - pctComplete;
-    }
-    // Fit the percentage complete between the range [min,max]
-    // by remapping from [0, 1] to [min, min+(max-min)].
-    return min + pctComplete * (max - min);
-  }
-
-  /**
-   * Handles keydown events
-   */
-  onKeyDown = (evt: React.KeyboardEvent) => {
-    const keyId = this.getKeyId(evt);
-    const value = this.getValueForKeyId(keyId);
-    if (isNaN(value)) {
-      return;
-    }
-
-    // Prevent page from scrolling due to key presses that would normally scroll the page
-    evt.preventDefault();
-    this.adapter.addClass(cssClasses.FOCUS);
-    this.setValue(value, true);
-    this.adapter.notifyChange();
-  };
-
-  /**
-   * Returns the computed name of the event
-   */
-  private getKeyId(kbdEvt: React.KeyboardEvent): string {
-    if (kbdEvt.key === KEY_IDS.ARROW_LEFT || kbdEvt.keyCode === 37) {
-      return KEY_IDS.ARROW_LEFT;
-    }
-    if (kbdEvt.key === KEY_IDS.ARROW_RIGHT || kbdEvt.keyCode === 39) {
-      return KEY_IDS.ARROW_RIGHT;
-    }
-    if (kbdEvt.key === KEY_IDS.ARROW_UP || kbdEvt.keyCode === 38) {
-      return KEY_IDS.ARROW_UP;
-    }
-    if (kbdEvt.key === KEY_IDS.ARROW_DOWN || kbdEvt.keyCode === 40) {
-      return KEY_IDS.ARROW_DOWN;
-    }
-    if (kbdEvt.key === KEY_IDS.HOME || kbdEvt.keyCode === 36) {
-      return KEY_IDS.HOME;
-    }
-    if (kbdEvt.key === KEY_IDS.END || kbdEvt.keyCode === 35) {
-      return KEY_IDS.END;
-    }
-    if (kbdEvt.key === KEY_IDS.PAGE_UP || kbdEvt.keyCode === 33) {
-      return KEY_IDS.PAGE_UP;
-    }
-    if (kbdEvt.key === KEY_IDS.PAGE_DOWN || kbdEvt.keyCode === 34) {
-      return KEY_IDS.PAGE_DOWN;
-    }
-    return '';
-  }
-
-  /**
-   * Computes the value given a keyboard key ID
-   */
-  private getValueForKeyId(keyId: string): number {
-    const {max, min, step} = this.props;
-    let delta = step || (max - min) / 100;
-    const valueNeedsToBeFlipped =
-      this.adapter.isRTL() &&
-      (keyId === KEY_IDS.ARROW_LEFT || keyId === KEY_IDS.ARROW_RIGHT);
-    if (valueNeedsToBeFlipped) {
-      delta = -delta;
-    }
-
-    switch (keyId) {
-      case KEY_IDS.ARROW_LEFT:
-      case KEY_IDS.ARROW_DOWN:
-        return this.foundation.getValue() - delta;
-      case KEY_IDS.ARROW_RIGHT:
-      case KEY_IDS.ARROW_UP:
-        return this.foundation.getValue() + delta;
-      case KEY_IDS.HOME:
-        return min;
-      case KEY_IDS.END:
-        return max;
-      case KEY_IDS.PAGE_UP:
-        return this.foundation.getValue() + delta * numbers.PAGE_FACTOR;
-      case KEY_IDS.PAGE_DOWN:
-        return this.foundation.getValue() - delta * numbers.PAGE_FACTOR;
-      default:
-        return NaN;
-    }
-  }
-
-  onFocus = () => {
-    if (this.preventFocusState) {
-      return;
-    }
-    this.adapter.addClass(cssClasses.FOCUS);
-  };
-
-  onBlur = () => {
-    this.preventFocusState = false;
-    this.adapter.removeClass(cssClasses.FOCUS);
-  };
-
-  onThumbDown = () => (this.handlingThumbTargetEvt = true);
-
   render() {
     const {
+      ariaLabel,
       discrete,
       displayMarkers,
       value,
@@ -518,7 +289,13 @@ class Slider extends React.Component<SliderProps, SliderState> {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
-    const {markerValue, markerStyles} = this.state;
+
+    const {
+      markerValue,
+      markerStyles,
+      trackStyleProperty,
+      thumbContainerStyleProperty,
+    } = this.state;
 
     return (
       <div
@@ -528,7 +305,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
         aria-valuemax={max}
         aria-valuenow={value}
         data-step={step}
-        aria-label='Select Value'
+        aria-label={ariaLabel}
         aria-disabled={disabled}
         ref={this.sliderElement}
         onBlur={this.onBlur}
@@ -540,7 +317,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
         {...otherProps as React.HTMLProps<HTMLDivElement>}
       >
         <div className='mdc-slider__track-container'>
-          <div className='mdc-slider__track' ref={this.trackElement} />
+          <div className='mdc-slider__track' style={trackStyleProperty} />
           {discrete && displayMarkers && (
             <div className='mdc-slider__track-marker-container'>
               {markerStyles.map((styles, index) => (
@@ -555,7 +332,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
         </div>
         <div
           className='mdc-slider__thumb-container'
-          ref={this.thumbContainerElement}
+          style={thumbContainerStyleProperty}
           onMouseDown={this.onThumbDown}
           onPointerDown={this.onThumbDown}
           onTouchStart={this.onThumbDown}
@@ -577,22 +354,6 @@ class Slider extends React.Component<SliderProps, SliderState> {
     );
   }
 
-  private setStylePropertyOn(
-    element: HTMLElement | null,
-    propertyName: string,
-    value: string
-  ): void {
-    // we need to cast prop from string (interface requirement) to CSSStyleDeclaration;
-    const typedProp = propertyName as keyof CSSStyleDeclaration;
-    // length and parentRule are readonly properties of CSSStyleDeclaration that
-    // cannot be set
-    if (!element || typedProp === 'length' || typedProp === 'parentRule') {
-      return;
-    }
-    // https://github.com/Microsoft/TypeScript/issues/11914
-    element.style[typedProp] = value;
-  }
-
   private initFoundation() {
     if (this.foundation) {
       this.foundation.destroy();
@@ -608,6 +369,12 @@ class Slider extends React.Component<SliderProps, SliderState> {
     this.foundation.setMax(max!);
     this.foundation.layout();
     this.foundation.setupTrackMarker();
+
+    this.onDown = (evt) => (this.foundation as any).handleDown_(evt);
+    this.onThumbDown = (this.foundation as any).thumbContainerPointerHandler_;
+    this.onFocus = () => (this.foundation as any).handleFocus_();
+    this.onBlur = () => (this.foundation as any).handleBlur_();
+    this.onKeyDown = (evt) => (this.foundation as any).handleKeydown_(evt);
   }
 }
 
