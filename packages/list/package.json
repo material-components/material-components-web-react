@@ -18,8 +18,8 @@
   "dependencies": {
     "@material/dom": "^1.1.0",
     "@material/list": "^1.0.0",
-    "@material/react-checkbox": "^0.10.0",
-    "@material/react-radio": "^0.10.0",
+    "@material/react-checkbox": "^0.13.0",
+    "@material/react-radio": "^0.13.0",
     "@material/react-ripple": "^0.13.0",
     "classnames": "^2.2.6",
     "memoize-one": "^5.0.4",
