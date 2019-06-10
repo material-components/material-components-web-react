@@ -24,8 +24,8 @@
  * @fileoverview Generates index.ts file with imports for all repo packages.
  */
 
-const { join } = require('path');
-const { readdirSync, statSync, writeFileSync } = require('fs');
+const {join} = require('path');
+const {readdirSync, statSync, writeFileSync} = require('fs');
 
 let out = "import * as React from 'react';\n";
 const dir = 'packages';
@@ -33,6 +33,11 @@ for (const subdir of readdirSync(dir)) {
   if (!statSync(join(dir, subdir)).isDirectory()) {
     continue;
   }
-  out += "import * as " + subdir.replace(/\-/g, '') + "temp from '@material/react-" + subdir + "';\n";
+  out +=
+    "import * as " +
+    subdir.replace(/\-/g, '') +
+    "temp from '@material/react-" +
+    subdir +
+    "';\n";
 }
 writeFileSync('test/types/index.ts', out, 'ascii');
