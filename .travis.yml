@@ -25,14 +25,7 @@ matrix:
     - node_js: 10
       env: TEST_SUITE=types
       install: npm i
-      script:
-        - npm run build
-        - node scripts/release/cp-pkgs.js
-        - rm -rf packages/*/node_modules # Prevent inconsistent simlinks from being hoisted
-        - npm install packages/ripple # Installed first as other packages depend on it
-        - ls -d ./packages/*/ | xargs -n1 -I{} npm install {}
-        - node test/types/gen-index.js
-        - tsc --project test/types || true # TODO(issues/857): Fix existing errors before requiring this to pass
+      script: npm run test:types
 
     - node_js: 10
       install: npm i
