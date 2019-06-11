@@ -57,7 +57,6 @@ function getWebpackConfigs() {
     const tsxPath = getAbsolutePath(`${chunk}/index.tsx`);
     const cssPath = getAbsolutePath(`${chunk}/index.scss`);
     webpackEntries[chunk] = tsxPath;
-    webpackEntries[`${chunk}.min`] = tsxPath;
     cssWebpackEntries[chunk] = cssPath;
     cssWebpackEntriesMin[`${chunk}.min`] = cssPath;
   });
@@ -148,20 +147,19 @@ function getCssWebpackConfig(shouldMinify) {
         {
           test: /\.scss$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
+            MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
-                minimize: shouldMinify,
                 modules: 'global',
+                localIdentName: '[local]',
               },
             },
             {
               loader: 'postcss-loader',
               options: {
-                plugins: () => [require('autoprefixer')()],
+                plugins: () =>
+                  [require('autoprefixer')()].concat(shouldMinify ? require('cssnano')() : [])
               },
             },
             {
