@@ -159,7 +159,9 @@ function getCssWebpackConfig(shouldMinify) {
               loader: 'postcss-loader',
               options: {
                 plugins: () =>
-                  [require('autoprefixer')()].concat(shouldMinify ? require('cssnano')() : [])
+                  [require('autoprefixer')()].concat(
+                    shouldMinify ? require('cssnano')() : []
+                  ),
               },
             },
             {
