@@ -54,6 +54,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
             required={required}
             disabled={disabled}
             onChange={this.onChange}
+            maxLength={140}
           />
         </TextField>
       </div>

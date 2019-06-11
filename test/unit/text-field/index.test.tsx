@@ -4,7 +4,6 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import TextField, {HelperText, Input} from '../../../packages/text-field';
 import {coerceForTesting} from '../helpers/types';
-import {InputProps} from '../../../packages/text-field/Input'; // eslint-disable-line @typescript-eslint/no-unused-vars
 /* eslint-disable */
 import FloatingLabel from '../../../packages/floating-label';
 /* eslint-enable */
@@ -640,12 +639,7 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
       <Input />
     </TextField>
   );
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .handleFocusChange(true);
+  wrapper.instance().inputProps.handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
 });
 
@@ -658,12 +652,7 @@ test('#inputProps.handleFocusChange calls foundation.activateFocus if isFocused 
   const activateFocus = td.func();
   const foundation = {activateFocus} as any;
   wrapper.setState({foundation});
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .handleFocusChange(true);
+  wrapper.instance().inputProps.handleFocusChange(true);
   td.verify(activateFocus(), {times: 1});
 });
 
@@ -676,12 +665,7 @@ test('#inputProps.handleFocusChange calls foundation.deactivateFocus if isFocuse
   const deactivateFocus = td.func();
   const foundation = {deactivateFocus} as any;
   wrapper.setState({foundation});
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .handleFocusChange(false);
+  wrapper.instance().inputProps.handleFocusChange(false);
   td.verify(deactivateFocus(), {times: 1});
 });
 
@@ -691,12 +675,7 @@ test('#inputProps.setDisabled updates state.disabled', () => {
       <Input />
     </TextField>
   );
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .setDisabled(true);
+  wrapper.instance().inputProps.setDisabled(true);
   assert.isTrue(wrapper.state().disabled);
 });
 
@@ -706,12 +685,7 @@ test('#inputProps.setInputId updates state.disabled', () => {
       <Input />
     </TextField>
   );
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .setInputId('my-id');
+  wrapper.instance().inputProps.setInputId('my-id');
   assert.equal(wrapper.state().inputId, 'my-id');
 });
 
@@ -762,7 +736,7 @@ test('#adapter.getNativeInput throws error when no inputComponent', () => {
   }
 });
 
-test('Useless test for code coverage', () => {
+test(`MDC React doesn't need to implement this`, () => {
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField>
       <Input />

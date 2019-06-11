@@ -25,6 +25,7 @@ const urls = [
   'tab-bar',
   'tab-indicator',
   'tab-scroller',
+  'text-field/character-counter',
   'text-field/helper-text',
   'text-field/icon',
   'typography',
