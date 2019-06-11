@@ -176,4 +176,5 @@ function getCssWebpackConfig(shouldMinify) {
   });
 }
 
+console.log(getWebpackConfigs());
 module.exports = getWebpackConfigs();
