@@ -71,6 +71,7 @@ function getWebpackConfigs() {
 
 function getCommonWebpackParams({isCss} = {}) {
   return {
+    mode: 'production',
     output: {
       path: getAbsolutePath('../build'),
       filename: `${filename}${isCss ? '.css' : ''}.js`,
@@ -174,4 +175,5 @@ function getCssWebpackConfig(shouldMinify) {
   });
 }
 
+console.log(getWebpackConfigs());
 module.exports = getWebpackConfigs();
