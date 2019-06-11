@@ -2,7 +2,7 @@ import React from 'react';
 import TextField, {Input} from '../../../packages/text-field';
 import Button from '../../../packages/button/index';
 
-class OutlinedTextField extends React.Component<{}, {value: string}> {
+class TextFieldRefTest extends React.Component<{}, {value: string}> {
   inputEl: Input<HTMLInputElement> | null = null;
   state = {value: ''};
 
@@ -36,4 +36,4 @@ class OutlinedTextField extends React.Component<{}, {value: string}> {
     );
   }
 }
-export default OutlinedTextField;
+export default TextFieldRefTest;

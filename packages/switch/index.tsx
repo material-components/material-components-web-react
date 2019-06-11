@@ -122,6 +122,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
       checked,
       disabled,
       /* eslint-enable */
+      form,
       nativeControlId,
       ...otherProps
     } = this.props;
@@ -131,6 +132,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
         <ThumbUnderlay rippleActivator={this.rippleActivator}>
           <NativeControl
             id={nativeControlId}
+            form={form}
             checked={this.state.nativeControlChecked}
             disabled={this.state.nativeControlDisabled}
             onChange={this.onChange}

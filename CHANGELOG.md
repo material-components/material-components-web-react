@@ -1,5 +1,15 @@
-<a name=""></a>
-# [](https://github.com/material-components/material-components-web-react/compare/v0.12.1...v) (2019-05-30)
+<a name="0.13.2"></a>
+# [0.13.2](https://github.com/material-components/material-components-web-react/compare/v0.13.0...v0.13.2) (2019-06-11)
+
+
+### Bug Fixes
+
+* **list:** update checkbox and radio deps ([#919](https://github.com/material-components/material-components-web-react/issues/919)) ([685b23b](https://github.com/material-components/material-components-web-react/commit/685b23b))
+
+
+
+<a name="0.13.0"></a>
+# [0.13.0](https://github.com/material-components/material-components-web-react/compare/v0.12.1...v0.13.0) (2019-05-30)
 
 
 ### Bug Fixes

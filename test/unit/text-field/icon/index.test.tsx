@@ -332,7 +332,7 @@ test('#componentWillUnmount destroys foundation', () => {
   td.verify(foundation.destroy());
 });
 
-test('Useless test for code coverage', () => {
+test(`MDC React doesn't need to implement this`, () => {
   const wrapper = shallow<Icon>(
     <Icon>
       <MaterialIcon icon='favorite' role='button' />
