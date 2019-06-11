@@ -22,7 +22,7 @@
 
 const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {readMaterialPackages} = require('../scripts/package-json-reader');
 const {
   convertToImportMDCWebPaths,
@@ -147,33 +147,33 @@ function getCssWebpackConfig(shouldMinify) {
       rules: [
         {
           test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  minimize: shouldMinify,
-                  modules: 'global',
-                },
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: shouldMinify,
+                modules: 'global',
               },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  plugins: () => [require('autoprefixer')()],
-                },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [require('autoprefixer')()],
               },
-              {
-                loader: 'sass-loader',
-                options: {importer},
-              },
-            ],
-          }),
+            },
+            {
+              loader: 'sass-loader',
+              options: {importer},
+            },
+          ],
         },
       ],
     },
-    plugins: [new ExtractTextPlugin(`${filename}.css`)],
+    plugins: [new MiniCssExtractPlugin({filename: `${filename}.css`})],
   });
 }
 
-console.log(getWebpackConfigs());
 module.exports = getWebpackConfigs();
