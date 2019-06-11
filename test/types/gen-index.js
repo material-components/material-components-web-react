@@ -27,16 +27,14 @@
 const {join} = require('path');
 const {readdirSync, statSync, writeFileSync} = require('fs');
 
-let out = 'import * as React from "react";\n';
+let out = 'import "react";\n';
 const dir = 'packages';
 for (const subdir of readdirSync(dir)) {
   if (!statSync(join(dir, subdir)).isDirectory()) {
     continue;
   }
   out +=
-    'import * as ' +
-    subdir.replace(/\-/g, '') +
-    'temp from "@material/react-' +
+    'import "@material/react-' +
     subdir +
     '";\n';
 }
