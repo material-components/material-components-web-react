@@ -103,7 +103,7 @@ You may need to update the Docker image. Follow these steps:
 From the project's root directory run the following command:
 
 ```
-docker build -t screenshots .
+docker build --no-cache -t screenshots .
 ```
 
 This command builds a Docker image named `screenshots` based off the `Dockerfile` found in the root directory. Next push this to the Docker Hub for Travis tests. If you are testing you may want to use a different [tag](https://hub.docker.com/r/mdcreact/screenshots/tags/) in the interim.
