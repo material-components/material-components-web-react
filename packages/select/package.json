@@ -1,6 +1,6 @@
 {
   "name": "@material/react-select",
-  "version": "0.13.0",
+  "version": "0.13.2",
   "description": "Material Components React Select",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@material/react-floating-label": "^0.13.0",
     "@material/react-line-ripple": "^0.13.0",
-    "@material/react-menu": "^0.13.0",
+    "@material/react-menu": "^0.13.2",
     "@material/react-menu-surface": "^0.13.0",
     "@material/react-notched-outline": "^0.13.0",
     "@material/select": "^1.1.1",
