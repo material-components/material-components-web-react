@@ -72,7 +72,7 @@
     "@material/button": "^1.1.0",
     "@material/card": "^2.1.1",
     "@material/checkbox": "^2.1.1",
-    "@material/chips": "^1.1.1",
+    "@material/chips": "^2.3.0",
     "@material/dialog": "^2.2.0",
     "@material/drawer": "^2.3.0",
     "@material/fab": "^2.1.1",
