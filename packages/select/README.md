@@ -116,7 +116,7 @@ class MyApp extends React.Component {
 }
 ```
 
-> NOTE: If you want a the floating label to act as a placeholder, you will need an empty option as documented in the [MDC Web Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/#using-the-floating-label-as-the-placeholder).
+> NOTE: If you want a floating label to act as a placeholder, you will need an empty option as documented in the [MDC Web Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/#using-the-floating-label-as-the-placeholder).
 
 ## Props
 
