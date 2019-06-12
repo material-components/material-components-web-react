@@ -24,6 +24,35 @@ const svgIcon = (
     />
   </svg>
 );
+
+class CounterTest extends React.Component {
+  state = {count: 0};
+
+  render() {
+    const count = this.state.count;
+
+    return (
+      <div>
+        <Button
+          outlined
+          disabled={count < -2}
+          onClick={() => this.setState({count: count - 1})}
+        >
+          -
+        </Button>
+        <span style={{padding: '0 15px'}}>{count}</span>
+        <Button
+          outlined
+          disabled={2 < count}
+          onClick={() => this.setState({count: count + 1})}
+        >
+          +
+        </Button>
+      </div>
+    );
+  }
+}
+
 const ButtonScreenshotTest = () => {
   return (
     <div>
@@ -79,6 +108,8 @@ const ButtonScreenshotTest = () => {
           Svg Icon
         </Button>
       </div>
+
+      <CounterTest />
     </div>
   );
 };
