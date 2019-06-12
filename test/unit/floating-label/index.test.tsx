@@ -1,6 +1,5 @@
 import React from 'react';
 import td from 'testdouble';
-import {suite, test} from 'mocha';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import FloatingLabel from '../../../packages/floating-label/index';
