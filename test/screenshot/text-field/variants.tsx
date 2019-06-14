@@ -5,4 +5,5 @@ export default [
   'textArea',
   'refTest',
   'autoFocus',
+  'noLabel',
 ];

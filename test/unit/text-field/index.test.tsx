@@ -91,6 +91,16 @@ test('classNames get dense class when prop.dense is true', () => {
   assert.equal(textField.length, 1);
 });
 
+test('classNames get noLabel class when prop.noLabel is true', () => {
+  const wrapper = mount(
+    <TextField label='my label' noLabel>
+      <Input />
+    </TextField>
+  );
+  const textField = wrapper.find('.mdc-text-field--no-label');
+  assert.equal(textField.length, 1);
+});
+
 test('style prop adds style attribute', () => {
   const wrapper = mount(
     <TextField label='my label' style={{backgroundColor: 'red'}}>
