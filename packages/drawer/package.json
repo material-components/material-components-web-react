@@ -17,7 +17,7 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/drawer": "^2.1.1",
+    "@material/drawer": "^2.3.0",
     "@material/list": "^2.3.0",
     "classnames": "^2.2.6",
     "focus-trap": "^4.0.2",
