@@ -11,16 +11,16 @@ type MouseLikeEvent = React.MouseEvent | React.PointerEvent | React.TouchEvent;
 
 export interface SliderProps extends React.HTMLProps<HTMLDivElement> {
   value: number;
-  discrete?: boolean;
-  displayMarkers?: boolean;
+  discrete: boolean;
+  displayMarkers: boolean;
   min: number;
   max: number;
-  step?: number;
-  disabled?: boolean;
+  step: number;
+  disabled: boolean;
   ariaLabel: string;
-  isRtl?: boolean;
-  onValueChange?: (value: number) => void;
-  onValueInput?: (value: number) => void;
+  isRtl: boolean;
+  onValueChange: (value: number) => void;
+  onValueInput: (value: number) => void;
 }
 
 interface SliderState {
@@ -34,6 +34,33 @@ interface SliderState {
 type SliderElementNames = 'trackStyleProperty' | 'thumbContainerStyleProperty';
 
 class Slider extends React.Component<SliderProps, SliderState> {
+  foundation!: MDCSliderFoundation;
+  sliderElement: React.RefObject<HTMLDivElement> = React.createRef();
+
+  static defaultProps: Partial<SliderProps> = {
+    ariaLabel: 'Select Value',
+    className: '',
+    open: false,
+    min: 0,
+    max: 100,
+    value: 0,
+    step: 0,
+    discrete: false,
+    displayMarkers: false,
+    disabled: false,
+    tabIndex: 0,
+    isRtl: false,
+    onValueChange: () => {},
+    onValueInput: () => {},
+  };
+
+  state: SliderState = {
+    classList: new Set(),
+    markerStyles: [],
+    trackStyleProperty: {},
+    thumbContainerStyleProperty: {},
+  };
+
   get classes() {
     const {classList} = this.state;
     const {className, discrete, displayMarkers} = this.props;
@@ -47,12 +74,12 @@ class Slider extends React.Component<SliderProps, SliderState> {
     return {
       hasClass: (className: string): boolean =>
         this.classes.split(' ').includes(className),
-      addClass: (className: string): void => {
+      addClass: (className: string) => {
         const {classList} = this.state;
         classList.add(className);
         this.setState({classList});
       },
-      removeClass: (className: string): void => {
+      removeClass: (className: string) => {
         const {classList} = this.state;
         classList.delete(className);
         this.setState({classList});
@@ -63,13 +90,13 @@ class Slider extends React.Component<SliderProps, SliderState> {
         }
         return this.sliderElement.current.getAttribute(name);
       },
-      setAttribute: (name: string, value: string): void => {
+      setAttribute: (name: string, value: string) => {
         if (!this.sliderElement.current) {
           return;
         }
         this.sliderElement.current.setAttribute(name, value);
       },
-      removeAttribute: (name: string): void => {
+      removeAttribute: (name: string) => {
         if (!this.sliderElement.current) {
           return;
         }
@@ -92,21 +119,19 @@ class Slider extends React.Component<SliderProps, SliderState> {
         }
         return this.sliderElement.current.getBoundingClientRect();
       },
-      getTabIndex: (): number => this.props.tabIndex || 0,
+      getTabIndex: (): number => this.props.tabIndex!,
       // React handles events differently:
       registerInteractionHandler: () => undefined,
       deregisterInteractionHandler: () => undefined,
       registerThumbContainerInteractionHandler: (
         evtType: EventType,
         handler: SpecificEventListener<EventType>
-      ): void => {
+      ) => {
         if (evtType === this.transitionendEvtName) {
           this.onThumbEnd = handler as any;
         }
       },
-      deregisterThumbContainerInteractionHandler: (
-        evtType: EventType
-      ): void => {
+      deregisterThumbContainerInteractionHandler: (evtType: EventType) => {
         if (evtType === this.transitionendEvtName) {
           this.onThumbEnd = undefined;
         }
@@ -114,44 +139,39 @@ class Slider extends React.Component<SliderProps, SliderState> {
       registerBodyInteractionHandler: (
         evtType: EventType,
         handler: SpecificEventListener<EventType>
-      ): void => {
+      ) => {
         document.body.addEventListener(evtType, handler);
       },
       deregisterBodyInteractionHandler: (
         evtType: EventType,
         handler: SpecificEventListener<EventType>
-      ): void => {
+      ) => {
         document.body.removeEventListener(evtType, handler);
       },
-      registerResizeHandler: (
-        handler: SpecificEventListener<'resize'>
-      ): void => {
+      registerResizeHandler: (handler: SpecificEventListener<'resize'>) => {
         window.addEventListener('resize', handler);
       },
-      deregisterResizeHandler: (
-        handler: SpecificEventListener<'resize'>
-      ): void => {
+      deregisterResizeHandler: (handler: SpecificEventListener<'resize'>) => {
         window.removeEventListener('resize', handler);
       },
-      notifyInput: (): void => {
+      notifyInput: () => {
         const callback = this.props.onValueInput;
         if (typeof callback === 'function') {
           callback(this.foundation.getValue());
         }
       },
-      notifyChange: (): void => {
+      notifyChange: () => {
         const callback = this.props.onValueChange;
         if (typeof callback === 'function') {
           callback(this.foundation.getValue());
         }
       },
-      setThumbContainerStyleProperty: (prop: string, value: string): void =>
+      setThumbContainerStyleProperty: (prop: string, value: string) =>
         this.setStyleToElement(prop, value, 'thumbContainerStyleProperty'),
-      setTrackStyleProperty: (prop: string, value: string): void =>
+      setTrackStyleProperty: (prop: string, value: string) =>
         this.setStyleToElement(prop, value, 'trackStyleProperty'),
-      setMarkerValue: (value: number): void =>
-        this.setState({markerValue: value}),
-      appendTrackMarkers: (numMarkers: number): void => {
+      setMarkerValue: (value: number) => this.setState({markerValue: value}),
+      appendTrackMarkers: (numMarkers: number) => {
         this.setState((prevState) => {
           let {markerStyles} = prevState;
           // Shallow copy of array:
@@ -162,13 +182,13 @@ class Slider extends React.Component<SliderProps, SliderState> {
           return {markerStyles};
         });
       },
-      removeTrackMarkers: (): void => {
+      removeTrackMarkers: () => {
         this.setState({markerStyles: []});
       },
       setLastTrackMarkersStyleProperty: (
         propertyName: string,
         value: string
-      ): void => {
+      ) => {
         this.setState((prevState) => {
           let {markerStyles} = prevState;
           const last = markerStyles.length - 1;
@@ -182,34 +202,9 @@ class Slider extends React.Component<SliderProps, SliderState> {
           return {markerStyles};
         });
       },
-      isRTL: (): boolean => this.props.isRtl || false,
+      isRTL: (): boolean => this.props.isRtl,
     };
   }
-
-  static defaultProps: Partial<SliderProps> = {
-    ariaLabel: 'Select Value',
-    className: '',
-    open: false,
-    min: 0,
-    max: 100,
-    value: 0,
-    step: 0,
-    discrete: false,
-    displayMarkers: false,
-    disabled: false,
-    tabIndex: 0,
-    isRtl: false,
-    onValueChange: () => {},
-  };
-  foundation!: MDCSliderFoundation;
-  sliderElement: React.RefObject<HTMLDivElement> = React.createRef();
-
-  state: SliderState = {
-    classList: new Set(),
-    markerStyles: [],
-    trackStyleProperty: {},
-    thumbContainerStyleProperty: {},
-  };
 
   onDown?: (downEvent: MouseLikeEvent) => void;
   onThumbDown?: () => void;
