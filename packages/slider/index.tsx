@@ -1,13 +1,20 @@
 import {getCorrectEventName} from '@material/animation/util';
 import {EventType, SpecificEventListener} from '@material/base/types';
-import {MDCSliderAdapter, MDCSliderFoundation} from '@material/slider';
+import {
+  MDCSliderAdapter,
+  MDCSliderFoundation,
+  cssClasses,
+} from '@material/slider';
 import classnames from 'classnames';
 import React from 'react';
 
 const convertDashToCamelCase = (propName: string) =>
   propName.replace(/-(\w)/g, (_, v) => v.toUpperCase());
 
-type MouseLikeEvent = React.MouseEvent | React.PointerEvent | React.TouchEvent;
+type InteractionEvent =
+  | React.MouseEvent
+  | React.PointerEvent
+  | React.TouchEvent;
 
 export interface SliderProps extends React.HTMLProps<HTMLDivElement> {
   value: number;
@@ -31,7 +38,7 @@ interface SliderState {
   thumbContainerStyleProperty: React.CSSProperties;
 }
 
-type SliderElementNames = 'trackStyleProperty' | 'thumbContainerStyleProperty';
+type ElementStyleNames = 'trackStyleProperty' | 'thumbContainerStyleProperty';
 
 class Slider extends React.Component<SliderProps, SliderState> {
   foundation!: MDCSliderFoundation;
@@ -65,8 +72,8 @@ class Slider extends React.Component<SliderProps, SliderState> {
     const {classList} = this.state;
     const {className, discrete, displayMarkers} = this.props;
     return classnames('mdc-slider', Array.from(classList), className, {
-      'mdc-slider--discrete': discrete,
-      'mdc-slider--display-markers': discrete && displayMarkers,
+      [cssClasses.DISCRETE]: discrete,
+      [cssClasses.HAS_TRACK_MARKER]: discrete && displayMarkers,
     });
   }
 
@@ -128,7 +135,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
         handler: SpecificEventListener<EventType>
       ) => {
         if (evtType === this.transitionendEvtName) {
-          this.onThumbEnd = handler as any;
+          this.onThumbEnd = handler as () => void;
         }
       },
       deregisterThumbContainerInteractionHandler: (evtType: EventType) => {
@@ -206,22 +213,22 @@ class Slider extends React.Component<SliderProps, SliderState> {
     };
   }
 
-  onDown?: (downEvent: MouseLikeEvent) => void;
+  onDown?: (downEvent: InteractionEvent) => void;
   onThumbDown?: () => void;
   onThumbEnd?: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
   onKeyDown?: (evt: React.KeyboardEvent) => void;
 
-  private transitionendEvtName = getCorrectEventName(
-    window,
-    'transitionend'
-  ) as EventType;
+  private transitionendEvtName =
+    typeof window !== 'undefined'
+      ? (getCorrectEventName(window, 'transitionend') as EventType)
+      : 'transitionend';
 
   setStyleToElement = (
     prop: string,
     value: string | boolean,
-    elementStyleProperty: SliderElementNames
+    elementStyleProperty: ElementStyleNames
   ) => {
     const styleName = convertDashToCamelCase(prop);
     const updateElementStyleProperty = Object.assign(
