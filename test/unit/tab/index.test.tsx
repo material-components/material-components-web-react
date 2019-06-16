@@ -25,6 +25,13 @@ test('adds the stacked class if props.stacked is true', () => {
   assert.isTrue(wrapper.hasClass('mdc-tab--stacked'));
 });
 
+test('renders as anchor if props.tag is a and href is set', () => {
+  const wrapper = mount(<Tab tag='a' href='/foobar' />);
+  const node = wrapper.getDOMNode();
+  assert.equal(node.tagName.toLowerCase(), 'a');
+  assert.equal(node.getAttribute('href'), '/foobar');
+});
+
 test('adds the active class if props.active is true on mount', () => {
   const wrapper = shallow(<Tab active />);
   assert.isTrue(wrapper.hasClass('mdc-tab--active'));
