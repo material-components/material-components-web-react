@@ -14,11 +14,15 @@ npm install @material/react-menu
 
 with Sass:
 ```js
+import '@material/react-list/index.scss';
+import '@material/react-menu-surface/index.scss';
 import '@material/react-menu/index.scss';
 ```
 
 with CSS:
 ```js
+import '@material/react-list/dist/menu.css';
+import '@material/react-menu-surface/dist/menu.css';
 import '@material/react-menu/dist/menu.css';
 ```
 

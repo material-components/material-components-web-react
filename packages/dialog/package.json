@@ -15,7 +15,7 @@
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
   "dependencies": {
-    "@material/dialog": "1.1.0",
+    "@material/dialog": "^2.2.0",
     "@material/dom": "^1.0.0",
     "@material/react-button": "^0.13.0",
     "classnames": "^2.2.6",
