@@ -23,7 +23,7 @@
     "@material/react-ripple": "^0.13.0",
     "classnames": "^2.2.6",
     "react": "^16.4.2",
-    "react-is": "^16.8.6"
+    "react-is": "^16.4.2"
   },
   "publishConfig": {
     "access": "public"
