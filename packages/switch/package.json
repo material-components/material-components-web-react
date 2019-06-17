@@ -19,7 +19,7 @@
     "@material/react-ripple": "^0.13.0",
     "@material/switch": "^1.0.0",
     "classnames": "^2.2.6",
-    "react": "^16.3.2"
+    "react": "^16.4.2"
   },
   "publishConfig": {
     "access": "public"
