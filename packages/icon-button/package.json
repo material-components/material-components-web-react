@@ -20,7 +20,7 @@
     "@material/icon-button": "^1.1.0",
     "@material/react-ripple": "^0.13.0",
     "classnames": "^2.2.6",
-    "react": "^16.3.2"
+    "react": "^16.4.2"
   },
   "publishConfig": {
     "access": "public"
