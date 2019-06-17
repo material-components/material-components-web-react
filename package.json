@@ -19,6 +19,7 @@
     "test:unit-ci": "karma start karma.ci.js --single-run",
     "test:image-diff": "MDC_COMMIT_HASH=$(git rev-parse --short HEAD) MDC_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) mocha --require ts-node/register --require babel-core/register --ui tdd --timeout 60000 test/screenshot/diff-suite.tsx",
     "test:screenshots": "docker run -it --rm --cap-add=SYS_ADMIN -e MDC_GCLOUD_SERVICE_ACCOUNT_KEY=\"${MDC_GCLOUD_SERVICE_ACCOUNT_KEY}\" mdcreact/screenshots /bin/sh -c 'git checkout .; git checkout master; git pull; npm i; /home/pptruser/material-components-web-react/test/screenshot/start.sh; sleep 40s; npm run test:image-diff'",
+    "test:types": "npm run build && node scripts/release/cp-pkgs.js && rm -rf packages/*/node_modules && npm install packages/ripple && ls -d ./packages/*/ | xargs -n1 -I{} npm install {} && node test/types/gen-index.js && cp tsconfig.json test/types/tsconfig.json && tsc --project test/types",
     "upload:screenshots": "node ./test/screenshot/upload-screenshots.js"
   },
   "config": {
