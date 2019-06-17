@@ -5,7 +5,7 @@ import {mount, shallow} from 'enzyme';
 import Select, {SelectHelperText} from '../../../packages/select/index';
 import {MDCSelectFoundation} from '@material/select/foundation';
 import {BaseSelect} from '../../../packages/select/BaseSelect';
-import {SelectIcon} from '../../../packages/select/index';
+import {SelectIcon} from '../../../packages/select';
 import {coerceForTesting} from '../helpers/types';
 import FloatingLabel from '../../../packages/floating-label/index';
 import LineRipple from '../../../packages/line-ripple/index';
@@ -414,13 +414,29 @@ test('renders BaseSelect for select', () => {
 });
 
 test('does not pass className to BaseSelect', () => {
-  const wrapper = shallow(<Select label='my label' className="container-class" />);
-  assert.equal(wrapper.childAt(0).childAt(1).prop('className'), "");
+  const wrapper = shallow(
+    <Select label='my label' className='container-class' />
+  );
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(1)
+      .prop('className'),
+    ''
+  );
 });
 
 test('pass selectClassName to BaseSelect', () => {
-  const wrapper = shallow(<Select label='my label' selectClassName="select-class" />);
-  assert.equal(wrapper.childAt(0).childAt(1).prop('className'), "select-class");
+  const wrapper = shallow(
+    <Select label='my label' selectClassName='select-class' />
+  );
+  assert.equal(
+    wrapper
+      .childAt(0)
+      .childAt(1)
+      .prop('className'),
+    'select-class'
+  );
 });
 
 test('renders FloatingLabel after BaseSelect if props.label exists', () => {

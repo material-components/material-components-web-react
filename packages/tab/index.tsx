@@ -29,7 +29,8 @@ import {MDCTabAdapter} from '@material/tab/adapter';
 
 import TabRipple, {TabRippleProps} from './TabRipple';
 
-export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
+export interface TabProps
+  extends React.HTMLProps<HTMLButtonElement | HTMLAnchorElement> {
   active?: boolean;
   focusOnActivate?: boolean;
   isFadingIndicator?: boolean;
@@ -37,6 +38,7 @@ export interface TabProps extends React.HTMLProps<HTMLButtonElement> {
   minWidth?: boolean;
   isMinWidthIndicator?: boolean;
   stacked?: boolean;
+  tag?: 'button' | 'a';
   previousIndicatorClientRect?: ClientRect;
   onInteraction?: () => void;
 }
@@ -68,6 +70,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
     minWidth: false,
     isMinWidthIndicator: false,
     stacked: false,
+    tag: 'button',
     onInteraction: () => null,
   };
 
@@ -195,6 +198,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
       minWidth,
       onInteraction,
       stacked,
+      tag: Tag,
       /* eslint-enable */
       children,
       isMinWidthIndicator,
@@ -203,7 +207,9 @@ export default class Tab extends React.Component<TabProps, TabState> {
     const {tabIndex, ['aria-selected']: ariaSelected} = this.state;
 
     return (
-      <button
+      // https://github.com/Microsoft/TypeScript/issues/28892
+      // @ts-ignore
+      <Tag
         className={this.classes}
         role='tab'
         aria-selected={ariaSelected}
@@ -219,7 +225,7 @@ export default class Tab extends React.Component<TabProps, TabState> {
         </span>
         {isMinWidthIndicator ? null : this.renderIndicator()}
         <TabRipple ref={this.tabRippleRef} />
-      </button>
+      </Tag>
     );
   }
 
