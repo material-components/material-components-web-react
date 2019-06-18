@@ -316,7 +316,7 @@ export function withRipple<
         if (value === null) {
           delete updatedStyle[varName as keyof React.CSSProperties];
         } else {
-          // @ts-ignore CSS values now strongly 
+          // @ts-ignore CSS values now strongly typed
           updatedStyle[varName as keyof React.CSSProperties] = value;
         }
 
