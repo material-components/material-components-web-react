@@ -169,7 +169,6 @@ export default class Input<
       if (notTriggeredChange) {
         foundation && foundation.setValue(inputValue);
       }
-
       this.setState({wasUserTriggeredChange: false});
     }
 

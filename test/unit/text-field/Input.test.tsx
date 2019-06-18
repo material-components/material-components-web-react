@@ -354,14 +354,6 @@ test('#componentDidUpdate calls setValid when isValid changes', () => {
   td.verify(foundation.setValid(true), {times: 1});
 });
 
-test('props.handleValueChange() is called if this.props.value updates', () => {
-  const handleValueChange = td.func();
-  const props: any = {handleValueChange};
-  const wrapper = shallow(<Input {...props} />);
-  wrapper.setProps({value: 'meow'});
-  td.verify(handleValueChange('meow', td.matchers.isA(Function)), {times: 1});
-});
-
 test('foundation.setValue() is called if this.props.value updates', () => {
   const foundation: any = buildFoundation({setValue: td.func()});
   const handleValueChange: (

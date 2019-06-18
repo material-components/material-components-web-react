@@ -420,6 +420,25 @@ test('#events.onKeyDown triggers #foundation.handleTextFieldInteraction', () => 
   });
 });
 
+test('#foundation.setValue is triggered when value is changed programmatically', () => {
+  class TestComponent extends React.Component {
+    state = {value: ''};
+    render() {
+      return (
+        <TextField label='my label'>
+          <Input value={this.state.value} />
+        </TextField>
+      );
+    }
+  }
+  const wrapper = mount<TestComponent>(<TestComponent />);
+  const label = wrapper.find('.mdc-floating-label').getDOMNode();
+  const floatClass = 'mdc-floating-label--float-above';
+  assert.isFalse(label.className.includes(floatClass));
+  wrapper.setState({value: 'Test!'});
+  assert.isTrue(label.className.includes(floatClass));
+});
+
 test('renders leadingIcon if passed as prop', () => {
   const wrapper = mount(
     <TextField
