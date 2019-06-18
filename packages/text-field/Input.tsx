@@ -21,14 +21,12 @@
 // THE SOFTWARE.
 import React from 'react';
 import classnames from 'classnames';
-import {MDCTextFieldAdapter} from '@material/textfield/adapter';
 import {MDCTextFieldFoundation} from '@material/textfield/foundation';
 
 export interface InputProps<T extends HTMLElement = HTMLInputElement> {
   className?: string;
   inputType?: 'input' | 'textarea';
   isValid?: boolean;
-  adapter?: MDCTextFieldAdapter;
   foundation?: MDCTextFieldFoundation;
   handleValueChange?: (
     value: string | number | string[] | undefined,
@@ -137,12 +135,10 @@ export default class Input<
   componentDidUpdate(prevProps: Props<T>, prevState: InputState) {
     const {
       id,
-      adapter,
       foundation,
       value,
       disabled,
       isValid,
-      handleValueChange,
       setInputId,
       setDisabled,
     } = this.props;
@@ -168,19 +164,10 @@ export default class Input<
     if (value !== prevProps.value) {
       const inputValue = this.valueToString(value);
       const notTriggeredChange = !this.state.wasUserTriggeredChange;
-
-      if (handleValueChange) {
-        handleValueChange(value, () => {
-          // only call #foundation.setValue on programatic changes;
-          // not changes by the user.
-          if (notTriggeredChange) {
-            foundation && foundation.setValue(inputValue);
-          }
-        });
-      }
-
-      if (adapter && notTriggeredChange) {
-        adapter.floatLabel(0 < inputValue.length);
+      // only call #foundation.setValue on programatic changes;
+      // not changes by the user.
+      if (notTriggeredChange) {
+        foundation && foundation.setValue(inputValue);
       }
 
       this.setState({wasUserTriggeredChange: false});

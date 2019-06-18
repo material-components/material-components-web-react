@@ -287,7 +287,6 @@ class TextField<
     const {props} = React.Children.only(this.props.children);
 
     return Object.assign({}, props, {
-      adapter: this.adapter,
       foundation: this.state.foundation,
       handleFocusChange: (isFocused: boolean) => {
         this.setState({isFocused});
