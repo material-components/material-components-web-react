@@ -134,10 +134,12 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
       ...otherProps,
     };
     if (isLink) {
-      return <a {...props as IconButtonProps<HTMLAnchorElement>}>{children}</a>;
+      return (
+        <a {...(props as IconButtonProps<HTMLAnchorElement>)}>{children}</a>
+      );
     }
     return (
-      <button {...props as IconButtonProps<HTMLButtonElement>}>
+      <button {...(props as IconButtonProps<HTMLButtonElement>)}>
         {children}
       </button>
     );
