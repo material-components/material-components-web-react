@@ -17,12 +17,14 @@
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
+  "peerDependencies": {
+    "react": "^16.4.2"
+  },
   "dependencies": {
     "@material/react-tab": "^0.13.0",
     "@material/react-tab-scroller": "^0.13.0",
     "@material/tab-bar": "^1.0.0",
-    "classnames": "^2.2.6",
-    "react": "^16.3.2"
+    "classnames": "^2.2.6"
   },
   "publishConfig": {
     "access": "public"
