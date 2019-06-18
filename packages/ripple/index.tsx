@@ -312,15 +312,17 @@ export function withRipple<
           {},
           this.state.style,
           prevState.style
-        );
+        ) as React.CSSProperties;
         if (value === null) {
           delete updatedStyle[varName as keyof React.CSSProperties];
         } else {
-          updatedStyle[varName as keyof React.CSSProperties] = value;
+          updatedStyle[
+            varName as keyof React.CSSProperties
+          ] = value as React.CSSProperties[keyof React.CSSProperties];
         }
 
         return Object.assign(prevState, {
-          style: updatedStyle as React.CSSProperties,
+          style: updatedStyle,
         });
       });
     };
