@@ -187,7 +187,9 @@ export default class TabIndicator extends React.Component<
   }
 
   addContentClassesToChildren = () => {
-    const child = React.Children.only(this.props.children);
+    const child = (
+      <React.Fragment>React.Children.only(this.props.children)</React.Fragment>
+    );
     const className = classnames(child.props.className, this.contentClasses);
     const props = Object.assign({}, child.props, {className});
     return React.cloneElement(child, props);
