@@ -174,7 +174,7 @@ class TopAppBar<
           {},
           this.state.style
         ) as React.CSSProperties;
-        updatedStyle[varName] = value;
+        updatedStyle[varName] = value as React.CSSProperties[keyof React.CSSProperties];
         this.setState({style: updatedStyle});
       },
       getTopAppBarHeight: () => {
