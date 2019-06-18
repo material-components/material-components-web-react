@@ -365,7 +365,9 @@ class TextField<
   }
 
   renderInput() {
-    const child = React.Children.only(this.props.children) as React.ReactElement<InputProps<T>>;
+    const child = React.Children.only(
+      this.props.children
+    ) as React.ReactElement<InputProps<T>>;
     return React.cloneElement(child, this.inputProps);
   }
 
