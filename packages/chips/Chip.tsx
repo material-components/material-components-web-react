@@ -70,8 +70,8 @@ export class Chip extends React.Component<ChipProps, ChipState> {
   };
 
   state = {
-    classList: new Set(),
-    leadingIconClassList: new Set(),
+    classList: new Set<string>(),
+    leadingIconClassList: new Set<string>(),
   };
 
   componentDidMount() {
