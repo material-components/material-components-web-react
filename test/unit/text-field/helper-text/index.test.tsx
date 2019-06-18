@@ -140,7 +140,7 @@ test('#adapter.addClass updates state.classList', () => {
 
 test('#adapter.removeClass updates state.classList', () => {
   const wrapper = shallow<HelperText>(<HelperText>Helper Text</HelperText>);
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('test-class-name');
   wrapper.setState({classList});
   wrapper.instance().adapter.removeClass('test-class-name');
