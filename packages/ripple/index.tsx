@@ -314,9 +314,9 @@ export function withRipple<
           prevState.style
         );
         if (value === null) {
-          delete updatedStyle[varName];
+          delete updatedStyle[varName as keyof React.CSSProperties];
         } else {
-          updatedStyle[varName] = value;
+          updatedStyle[varName as keyof React.CSSProperties] = value;
         }
 
         return Object.assign(prevState, {
