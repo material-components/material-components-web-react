@@ -26,7 +26,7 @@ import {Subtract} from 'utility-types'; // eslint-disable-line @typescript-eslin
 import {MDCRippleFoundation} from '@material/ripple/foundation';
 import {MDCRippleAdapter} from '@material/ripple/adapter';
 import {supportsCssVariables, applyPassive} from '@material/ripple/util';
-import {SpecificEventListener} from '@material/base/types';
+import {EventType, SpecificEventListener} from '@material/base/types';
 import {matches} from '@material/dom/ponyfill';
 
 export interface RippledComponentProps<T> {
@@ -191,18 +191,18 @@ export function withRipple<
           classList.delete(className);
           this.setState({classList});
         },
-        registerDocumentInteractionHandler: (
-          evtType: string,
-          handler: EventListener
+        registerDocumentInteractionHandler: <K extends EventType>(
+          evtType: K,
+          handler: SpecificEventListener<K>
         ) =>
           document.documentElement.addEventListener(
             evtType,
             handler,
             applyPassive()
           ),
-        deregisterDocumentInteractionHandler: (
-          evtType: string,
-          handler: EventListener
+        deregisterDocumentInteractionHandler: <K extends EventType>(
+          evtType: K,
+          handler: SpecificEventListener<K>
         ) =>
           document.documentElement.removeEventListener(
             evtType,
@@ -316,7 +316,7 @@ export function withRipple<
         if (value === null) {
           delete updatedStyle[varName as keyof React.CSSProperties];
         } else {
-          updatedStyle[varName as keyof React.CSSProperties] = value;
+          updatedStyle[varName as keyof React.CSSProperties] = value as React.CSSWideKeyword;
         }
 
         return Object.assign(prevState, {
