@@ -14,13 +14,15 @@
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
+  "peerDependencies": {
+    "react": "^16.4.2"
+  },
   "dependencies": {
     "@material/dialog": "1.1.0",
     "@material/dom": "^1.0.0",
     "@material/react-button": "^0.13.0",
     "classnames": "^2.2.6",
-    "focus-trap": "^4.0.2",
-    "react": "^16.4.2"
+    "focus-trap": "^4.0.2"
   },
   "publishConfig": {
     "access": "public"
