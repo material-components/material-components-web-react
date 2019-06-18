@@ -381,7 +381,7 @@ test('#adapter.deregisterDocumentInteractionHandler does not trigger handler on 
 
 test('#adapter.registerResizeHandler triggers handler on window resize', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  const testHandler = td.func<SpecificEventListener<'scroll'>>();
+  const testHandler = td.func<SpecificEventListener<'resize'>>();
   getAdapter(
     coerceForTesting<RippledComponent>(wrapper.instance()).foundation
   ).registerResizeHandler(testHandler);
@@ -394,7 +394,7 @@ test(
     'after registering resize handler',
   () => {
     const wrapper = mount<DivProps>(<DivRipple />);
-    const testHandler = td.func<SpecificEventListener<'scroll'>>();
+    const testHandler = td.func<SpecificEventListener<'resize'>>();
     getAdapter(
       coerceForTesting<RippledComponent>(wrapper.instance()).foundation
     ).registerResizeHandler(testHandler);
