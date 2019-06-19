@@ -770,3 +770,22 @@ test('Input component sync test in TextField', () => {
   // and throw error because there is no inputComponent
   assert.doesNotThrow(() => wrapper.instance().setState({disabled: true}));
 });
+
+test('FloatingLabel is floated even if value is changed programmatically', () => {
+  class TestComponent extends React.Component {
+    state = {value: ''};
+    render() {
+      return (
+        <TextField label='my label'>
+          <Input value={this.state.value} />
+        </TextField>
+      );
+    }
+  }
+  const wrapper = mount<TestComponent>(<TestComponent />);
+  const label = wrapper.find('.mdc-floating-label').getDOMNode();
+  const floatClass = 'mdc-floating-label--float-above';
+  assert.isFalse(label.className.includes(floatClass));
+  wrapper.setState({value: 'Test!'});
+  assert.isTrue(label.className.includes(floatClass));
+});
