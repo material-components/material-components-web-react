@@ -29,6 +29,8 @@ import {supportsCssVariables, applyPassive} from '@material/ripple/util';
 import {SpecificEventListener} from '@material/base/types';
 import {matches} from '@material/dom/ponyfill';
 
+const cssClasses = MDCRippleFoundation.cssClasses;
+
 export interface RippledComponentProps<T> {
   unbounded?: boolean;
   disabled?: boolean;
@@ -110,6 +112,7 @@ export function withRipple<
       RippledComponentState
     >
     implements RippledComponentInterface<Surface, Activator> {
+    adapter!: MDCRippleAdapter;
     foundation!: MDCRippleFoundation;
     isComponentMounted: boolean = true;
     isTouched: boolean = false;
@@ -146,6 +149,12 @@ export function withRipple<
       }
     }
 
+    componentDidUpdate(prevProps: P) {
+      if (this.props.disabled !== prevProps.disabled && this.props.disabled) {
+        this.disabledRipplePostProcessor();
+      }
+    }
+
     componentWillUnmount() {
       if (this.foundation) {
         this.isComponentMounted = false;
@@ -157,8 +166,8 @@ export function withRipple<
     // activator: This element is used to detect whether to activate the ripple. If this is not
     // provided, the ripple surface will be used to detect activation.
     initializeFoundation = (surface: Surface, activator?: Activator) => {
-      const adapter = this.createAdapter(surface, activator);
-      this.foundation = new MDCRippleFoundation(adapter);
+      this.adapter = this.createAdapter(surface, activator);
+      this.foundation = new MDCRippleFoundation(this.adapter);
       this.foundation.init();
     };
 
@@ -323,6 +332,10 @@ export function withRipple<
           style: updatedStyle,
         });
       });
+    };
+
+    disabledRipplePostProcessor = () => {
+      this.adapter.removeClass(cssClasses.BG_FOCUSED);
     };
 
     get classes() {
