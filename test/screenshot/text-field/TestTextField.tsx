@@ -44,6 +44,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
           outlined={variant === 'outlined'}
           fullWidth={variant === 'fullWidth'}
           textarea={variant === 'textarea'}
+          noLabel={variant === 'noLabel'}
           {...otherProps}
           className='text-field'
         >
