@@ -151,6 +151,12 @@ export function withRipple<
 
     componentDidUpdate(prevProps: P) {
       if (this.props.disabled !== prevProps.disabled && this.props.disabled) {
+        this.foundation.handleBlur();
+      }
+    }
+
+    componentDidUpdate(prevProps: P) {
+      if (this.props.disabled !== prevProps.disabled && this.props.disabled) {
         this.disabledRipplePostProcessor();
       }
     }
