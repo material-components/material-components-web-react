@@ -59,6 +59,7 @@ export interface Props<T extends HTMLElement = HTMLInputElement> {
   onTrailingIconSelect?: () => void;
   textarea?: boolean;
   trailingIcon?: React.ReactElement<React.HTMLProps<HTMLOrSVGElement>>;
+  noLabel?: boolean;
 }
 
 type TextFieldProps<T extends HTMLElement = HTMLInputElement> = Props<T> &
@@ -96,6 +97,7 @@ class TextField<
     notchedOutlineClassName: '',
     outlined: false,
     textarea: false,
+    noLabel: false,
   };
 
   constructor(props: TextFieldProps<T>) {
@@ -150,6 +152,7 @@ class TextField<
       textarea,
       trailingIcon,
       leadingIcon,
+      noLabel,
     } = this.props;
 
     return classnames(cssClasses.ROOT, Array.from(classList), className, {
@@ -164,7 +167,7 @@ class TextField<
       // TODO change literal to constant
       'mdc-text-field--fullwidth': fullWidth,
       'mdc-text-field--with-trailing-icon': trailingIcon,
-      'mdc-text-field--no-label': !this.labelAdapter.hasLabel(),
+      'mdc-text-field--no-label': !this.labelAdapter.hasLabel() || noLabel,
     });
   }
 
@@ -187,6 +190,7 @@ class TextField<
       outlined,
       textarea,
       trailingIcon,
+      noLabel,
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...otherProps
     } = this.props;
@@ -301,6 +305,7 @@ class TextField<
       setInputId: (id: string) => this.setState({inputId: id}),
       syncInput: (input: Input<T>) => (this.inputComponent_ = input),
       inputType: this.props.textarea ? 'textarea' : 'input',
+      placeholder: this.props.noLabel ? this.props.label : null,
     });
   }
 
@@ -325,6 +330,7 @@ class TextField<
       leadingIcon,
       trailingIcon,
       textarea,
+      noLabel,
     } = this.props;
     const {foundation} = this.state;
 
@@ -349,7 +355,9 @@ class TextField<
             this.renderNotchedOutline()
           ) : (
             <React.Fragment>
-              {this.labelAdapter.hasLabel() ? this.renderLabel() : null}
+              {this.labelAdapter.hasLabel() && !noLabel
+                ? this.renderLabel()
+                : null}
               {!textarea && !fullWidth ? this.renderLineRipple() : null}
             </React.Fragment>
           )}

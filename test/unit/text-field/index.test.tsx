@@ -91,6 +91,16 @@ test('classNames get dense class when prop.dense is true', () => {
   assert.equal(textField.length, 1);
 });
 
+test('classNames get noLabel class when prop.noLabel is true', () => {
+  const wrapper = mount(
+    <TextField label='my label' noLabel>
+      <Input />
+    </TextField>
+  );
+  const textField = wrapper.find('.mdc-text-field--no-label');
+  assert.equal(textField.length, 1);
+});
+
 test('style prop adds style attribute', () => {
   const wrapper = mount(
     <TextField label='my label' style={{backgroundColor: 'red'}}>
@@ -769,4 +779,23 @@ test('Input component sync test in TextField', () => {
   // setDisabled called #inputAdapter.getNativeInput
   // and throw error because there is no inputComponent
   assert.doesNotThrow(() => wrapper.instance().setState({disabled: true}));
+});
+
+test('FloatingLabel is floated even if value is changed programmatically', () => {
+  class TestComponent extends React.Component {
+    state = {value: ''};
+    render() {
+      return (
+        <TextField label='my label'>
+          <Input value={this.state.value} />
+        </TextField>
+      );
+    }
+  }
+  const wrapper = mount<TestComponent>(<TestComponent />);
+  const label = wrapper.find('.mdc-floating-label').getDOMNode();
+  const floatClass = 'mdc-floating-label--float-above';
+  assert.isFalse(label.className.includes(floatClass));
+  wrapper.setState({value: 'Test!'});
+  assert.isTrue(label.className.includes(floatClass));
 });
