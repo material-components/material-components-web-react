@@ -180,24 +180,6 @@ test('#componentDidMount should not call any method if disabled and id do not ex
   td.verify(setDisabled(td.matchers.isA(Boolean)), {times: 0});
 });
 
-test('#componentDidMount calls props.handleValueChange when the foundation initializes with a value', () => {
-  const handleValueChange = td.func();
-  const value = 'test value';
-  const props: any = {handleValueChange, value};
-  shallow(<Input {...props} />);
-  td.verify(handleValueChange(value, td.matchers.isA(Function)), {times: 1});
-});
-
-test('#componentDidMount does not call props.handleValueChange when there is no props.value', () => {
-  const handleValueChange = td.func();
-  const props: any = {handleValueChange};
-  shallow(<Input {...props} />);
-  td.verify(
-    handleValueChange(td.matchers.anything(), td.matchers.isA(Function)),
-    {times: 0}
-  );
-});
-
 test(
   '#props.handleFocusChange is called when props.autoFocus is true' +
     ', there is a props.foundation, and component has mounted',
@@ -317,17 +299,6 @@ test(
   }
 );
 
-test('#componentDidUpdate calls handleValueChange when the foundation initializes with a value', () => {
-  const setValue = td.func();
-  const handleValueChange = td.func();
-  const props: any = {handleValueChange};
-  const wrapper = shallow(<Input value='test value' {...props} />);
-  wrapper.setProps({foundation: buildFoundation({setValue})});
-  td.verify(handleValueChange('test value', td.matchers.isA(Function)), {
-    times: 1,
-  });
-});
-
 test('#componentDidUpdate calls setUseNativeValidation when isValid changes to undefined', () => {
   const foundation: any = buildFoundation({setUseNativeValidation: td.func()});
   const wrapper = shallow(
@@ -354,27 +325,9 @@ test('#componentDidUpdate calls setValid when isValid changes', () => {
   td.verify(foundation.setValid(true), {times: 1});
 });
 
-test('props.handleValueChange() is called if this.props.value updates', () => {
-  const handleValueChange = td.func();
-  const props: any = {handleValueChange};
-  const wrapper = shallow(<Input {...props} />);
-  wrapper.setProps({value: 'meow'});
-  td.verify(handleValueChange('meow', td.matchers.isA(Function)), {times: 1});
-});
-
 test('foundation.setValue() is called if this.props.value updates', () => {
   const foundation: any = buildFoundation({setValue: td.func()});
-  const handleValueChange: (
-    value: string | number | string[] | undefined,
-    cb: () => void
-  ) => void = (value, cb) => value && cb();
-  const wrapper = shallow(
-    <Input
-      value='test value'
-      foundation={foundation}
-      handleValueChange={handleValueChange}
-    />
-  );
+  const wrapper = shallow(<Input value='test value' foundation={foundation} />);
   wrapper.setProps({value: 'meow'});
   td.verify(foundation.setValue('meow'), {times: 1});
 });
@@ -466,16 +419,8 @@ test('#event.onChange calls props.onChange()', () => {
 
 test('wasUserTriggeredChange test', () => {
   const foundation: any = buildFoundation();
-  const handleValueChange = (
-    value: string | number | string[] | undefined,
-    cb: () => void
-  ) => value && cb();
   const wrapper = mount<Input<HTMLInputElement>>(
-    <Input
-      value='test value'
-      foundation={foundation}
-      handleValueChange={handleValueChange}
-    />
+    <Input value='test value' foundation={foundation} />
   );
   wrapper.simulate('change');
   assert.isTrue(wrapper.instance().state.wasUserTriggeredChange);

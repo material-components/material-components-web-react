@@ -28,10 +28,6 @@ export interface InputProps<T extends HTMLElement = HTMLInputElement> {
   inputType?: 'input' | 'textarea';
   isValid?: boolean;
   foundation?: MDCTextFieldFoundation;
-  handleValueChange?: (
-    value: string | number | string[] | undefined,
-    cb: () => void
-  ) => void;
   syncInput?: (inputInstance: Input<T>) => void;
   onBlur?: Pick<React.HTMLProps<T>, 'onBlur'>;
   onChange?: Pick<React.HTMLProps<T>, 'onChange'>;
@@ -91,7 +87,6 @@ export default class Input<
     inputType: 'input',
     disabled: false,
     id: '',
-    handleValueChange: () => {},
     setDisabled: () => {},
     setInputId: () => {},
     handleFocusChange: () => {},
@@ -111,7 +106,6 @@ export default class Input<
       value,
       setInputId,
       setDisabled,
-      handleValueChange,
       foundation,
     } = this.props;
     if (syncInput) {
@@ -123,11 +117,8 @@ export default class Input<
     if (setDisabled && disabled) {
       setDisabled(true);
     }
-    if (handleValueChange && value) {
-      handleValueChange(
-        value,
-        () => foundation && foundation.setValue(this.valueToString(value))
-      );
+    if (value && foundation) {
+      foundation.setValue(this.valueToString(value));
     }
     this.setState({isMounted: true});
   }
@@ -139,7 +130,6 @@ export default class Input<
       value,
       disabled,
       isValid,
-      handleValueChange,
       setInputId,
       setDisabled,
     } = this.props;
@@ -163,16 +153,14 @@ export default class Input<
     }
 
     if (value !== prevProps.value) {
-      handleValueChange &&
-        handleValueChange(value, () => {
-          // only call #foundation.setValue on programatic changes;
-          // not changes by the user.
-          if (this.state.wasUserTriggeredChange) {
-            this.setState({wasUserTriggeredChange: false});
-          } else {
-            foundation && foundation.setValue(this.valueToString(value));
-          }
-        });
+      const inputValue = this.valueToString(value);
+      const notTriggeredChange = !this.state.wasUserTriggeredChange;
+      // only call #foundation.setValue on programatic changes;
+      // not changes by the user.
+      if (notTriggeredChange) {
+        foundation && foundation.setValue(inputValue);
+      }
+      this.setState({wasUserTriggeredChange: false});
     }
 
     if (isValid !== prevProps.isValid && foundation) {
@@ -263,10 +251,8 @@ export default class Input<
     onTouchStart(evt);
   };
 
-  // To stay in sync with the MDC React Text Field Component, handleValueChange()
-  // is called to update MDC React Text Field's state. That state variable
-  // is used to let other subcomponents and the foundation know what the current
-  // value of the input is.
+  // That state variable is used to let other subcomponents and
+  // the foundation know what the current value of the input is.
   handleChange = (
     evt: React.FormEvent<
       T extends HTMLInputElement ? HTMLInputElement : HTMLTextAreaElement
@@ -332,7 +318,6 @@ export default class Input<
       isValid,
       value,
       handleFocusChange,
-      handleValueChange,
       setDisabled,
       setInputId,
       onFocus,

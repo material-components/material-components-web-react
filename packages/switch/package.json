@@ -15,11 +15,13 @@
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
+  "peerDependencies": {
+    "react": "^16.4.2"
+  },
   "dependencies": {
     "@material/react-ripple": "^0.13.0",
     "@material/switch": "^1.0.0",
-    "classnames": "^2.2.6",
-    "react": "^16.3.2"
+    "classnames": "^2.2.6"
   },
   "publishConfig": {
     "access": "public"

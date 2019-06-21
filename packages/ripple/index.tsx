@@ -264,6 +264,8 @@ export function withRipple<
       this.props.onMouseDown && this.props.onMouseDown(e);
       if (!this.isTouched) {
         this.activateRipple(e);
+      } else {
+        this.isTouched = false;
       }
     };
 
