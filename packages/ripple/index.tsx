@@ -146,6 +146,12 @@ export function withRipple<
       }
     }
 
+    componentDidUpdate(prevProps: P) {
+      if (this.props.disabled !== prevProps.disabled && this.props.disabled) {
+        this.foundation.handleBlur();
+      }
+    }
+
     componentWillUnmount() {
       if (this.foundation) {
         this.isComponentMounted = false;

@@ -5,7 +5,9 @@ import {MDCRippleFoundation} from '@material/ripple/foundation';
 import {MDCRippleAdapter} from '@material/ripple/adapter';
 import {SpecificEventListener} from '@material/base/types';
 import {mount} from 'enzyme';
-import {withRipple, InjectedProps} from '../../../packages/ripple/index';
+
+import Button from '../../../packages/button';
+import {withRipple, InjectedProps} from '../../../packages/ripple';
 import {createMockRaf} from '../helpers/raf';
 import {coerceForTesting} from '../helpers/types';
 
@@ -495,4 +497,13 @@ test('unmounting component does not throw errors', (done) => {
     );
     done();
   });
+});
+
+test('handleBlur is called when disabled is being true', () => {
+  const wrapper = mount(<Button />);
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
+  foundation.handleBlur = td.func<() => void>();
+  wrapper.setProps({disabled: true});
+  td.verify(foundation.handleBlur(), {times: 1});
 });
