@@ -75,6 +75,22 @@ test('mouseDown event triggers activateRipple', () => {
   mockRaf.restore();
 });
 
+test('mouseDown sets isTouched to false if isTouched is true', () => {
+  const mockRaf = createMockRaf();
+  const mouseDownHandler = coerceForTesting<React.MouseEventHandler>(td.func());
+  const wrapper = mount<DivProps>(<DivRipple onMouseDown={mouseDownHandler} />);
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
+  foundation.activate = td.func<(evt?: Event) => void>();
+  (wrapper.instance() as any).isTouched = true;
+  wrapper.simulate('mouseDown');
+
+  mockRaf.flush();
+  td.verify(foundation.activate(td.matchers.isA(Object)), {times: 0});
+  assert.isFalse((wrapper.instance() as any).isTouched);
+  mockRaf.restore();
+});
+
 test('mouseUp event triggers deactivateRipple', () => {
   const mouseUpHandler = coerceForTesting<React.MouseEventHandler>(td.func());
   const wrapper = mount<DivProps>(<DivRipple onMouseUp={mouseUpHandler} />);
