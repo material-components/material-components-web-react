@@ -421,6 +421,7 @@ export default class List extends React.Component<ListProps, ListState> {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       children,
       tag: Tag,
+      'aria-orientation': ariaOrientation,
       ...otherProps
     } = this.props;
 
@@ -431,6 +432,9 @@ export default class List extends React.Component<ListProps, ListState> {
         className={this.classes}
         ref={this.listElement}
         role={this.role}
+        // Only apply orientation if role is specified.
+        // https://github.com/material-components/material-components-web/tree/master/packages/mdc-list#accessibility
+        aria-orientation={this.role && ariaOrientation}
         {...otherProps}
       >
         <ListItemContext.Provider

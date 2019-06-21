@@ -434,6 +434,16 @@ test('renders with role=menu if props.role=menu and props.checkboxList', () => {
   assert.equal(wrapper.props().role, 'menu');
 });
 
+test('renders without aria-orientation if no props.role', () => {
+  const wrapper = shallow<List>(<List>{children}</List>);
+  assert.equal(wrapper.props()['aria-orientation'], undefined);
+});
+
+test('renders with aria-orientation=vertical if props.role', () => {
+  const wrapper = shallow<List>(<List role='menu'>{children}</List>);
+  assert.equal(wrapper.props()['aria-orientation'], 'vertical');
+});
+
 test('#onDestroy removes item from state.listItemClassNames', () => {
   const wrapper = mount<List>(
     <List>
