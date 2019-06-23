@@ -217,15 +217,16 @@ export default class List extends React.Component<ListProps, ListState> {
       getListItemCount: () => this.listElements.length,
       getFocusedElementIndex: () =>
         this.listElements.indexOf(document.activeElement as HTMLLIElement),
+      getAttributeForElementIndex: (index, attr) => {
+        const listItem = this.listElements[index];
+        return listItem.getAttribute(attr);
+      },
       setAttributeForElementIndex: (index, attr, value) => {
         const listItem = this.listElements[index];
         if (listItem) {
           listItem.setAttribute(attr, value);
         }
       },
-      // TODO: implement
-      // https://github.com/material-components/material-components-web-react/issues/822
-      getAttributeForElementIndex: () => '',
       /**
        * Pushes class name to state.listItemClassNames[listItemIndex] if it doesn't yet exist.
        */
