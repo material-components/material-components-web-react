@@ -379,7 +379,7 @@ export default class Select<
         foundation={this.state.foundation}
         className={selectClassName}
         {...(enhanced ? enhancedProps : {})}
-        {...otherProps as BaseSelectProps<T>}
+        {...(otherProps as BaseSelectProps<T>)}
       >
         {this.renderOptions()}
       </BaseSelect>

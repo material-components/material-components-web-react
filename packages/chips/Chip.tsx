@@ -69,7 +69,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     shouldRemoveOnTrailingIconClick: true,
   };
 
-  state = {
+  state: ChipState = {
     classList: new Set(),
     leadingIconClassList: new Set(),
   };

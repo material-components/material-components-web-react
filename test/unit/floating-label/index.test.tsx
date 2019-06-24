@@ -105,7 +105,7 @@ test(
 
 test('on animationend should remove the shake class', () => {
   const wrapper = mount(<FloatingLabel />);
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('mdc-floating-label--shake');
   wrapper.setState({classList});
   wrapper.simulate('animationEnd');
@@ -120,7 +120,7 @@ test('#adapter.addClass', () => {
 
 test('#adapter.removeClass', () => {
   const wrapper = mount<FloatingLabel>(<FloatingLabel />);
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('test-class-name');
   wrapper.setState({classList});
   assert.isTrue(wrapper.state().classList.has('test-class-name'));

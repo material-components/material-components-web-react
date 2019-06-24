@@ -174,6 +174,7 @@ class TopAppBar<
           {},
           this.state.style
         ) as React.CSSProperties;
+        // @ts-ignore CSS values now strongly typed
         updatedStyle[varName] = value;
         this.setState({style: updatedStyle});
       },

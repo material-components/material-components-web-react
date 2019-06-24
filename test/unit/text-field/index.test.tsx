@@ -149,7 +149,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
       <Input />
     </TextField>
   );
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('test-class-name');
   wrapper.setState({classList});
   wrapper.instance().adapter.removeClass('test-class-name');
@@ -162,7 +162,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
       <Input />
     </TextField>
   );
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('test-class-name');
   wrapper.setState({classList});
   assert.isTrue(wrapper.instance().adapter.hasClass('test-class-name'));

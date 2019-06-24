@@ -344,9 +344,7 @@ test('#adapter.getActionFromEvent returns null when attribute is not present', (
   assert.isNull(action);
 });
 
-test(`#adapter.clickDefaultButton invokes click() on button matching ${
-  cssClasses.DEFAULT_BUTTON
-}`, () => {
+test(`#adapter.clickDefaultButton invokes click() on button matching ${cssClasses.DEFAULT_BUTTON}`, () => {
   const wrapper = mount<Dialog>(
     <Dialog>
       <DialogContent>
@@ -367,9 +365,7 @@ test(`#adapter.clickDefaultButton invokes click() on button matching ${
   td.verify(defaultButton.click(), {times: 1});
 });
 
-test(`#adapter.clickDefaultButton does nothing if no button matches ${
-  cssClasses.DEFAULT_BUTTON
-}`, () => {
+test(`#adapter.clickDefaultButton does nothing if no button matches ${cssClasses.DEFAULT_BUTTON}`, () => {
   const wrapper = mount<Dialog>(DialogStub);
   const buttons = wrapper.instance().buttons!;
   buttons.map(
