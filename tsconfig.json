@@ -1,9 +1,8 @@
 {
   "extends": "gts/tsconfig-google.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": ".",
-    "outDir": "./build/types",
+    "outDir": "./build",
+    "declarationDir": "./build/types",
     "sourceMap": true,
     "module": "commonjs",
     "lib": ["es2015", "es2017", "dom"],
