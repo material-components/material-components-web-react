@@ -23,7 +23,7 @@
     "@material/drawer": "^2.3.0",
     "@material/list": "^2.3.0",
     "classnames": "^2.2.6",
-    "focus-trap": "^4.0.2"
+    "focus-trap": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
