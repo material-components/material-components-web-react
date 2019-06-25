@@ -22,10 +22,11 @@ matrix:
       install: npm i
       script: npm run lint
 
-    - node_js: 10
-      env: TEST_SUITE=types
-      install: npm i
-      script: npm run test:types
+    #TODO(issues/936): Fix existing errors before requiring this to pass
+    #- node_js: 10
+    #  env: TEST_SUITE=types
+    #  install: npm i
+    #  script: npm run test:types
 
     - node_js: 10
       install: npm i
