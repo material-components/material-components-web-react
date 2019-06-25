@@ -31,7 +31,7 @@ const isValidCwd = fs.existsSync('packages');
 if (!isValidCwd) {
   console.error(
     'Invalid CWD. Please ensure you are running this from the root of the repo, and that you have run ' +
-    '`npm run dist` and `node scripts/cp-pkgs.js`'
+      '`npm run dist` and `node scripts/cp-pkgs.js`'
   );
   process.exit(1);
 }
@@ -47,11 +47,15 @@ globSync('packages/*/package.json').forEach((jsonPath) => {
   let isInvalid = false;
   if (mainPath.indexOf('dist') < 0) {
     isInvalid = true;
-    console.error(`${jsonPath} main property does not reference a file under dist`);
+    console.error(
+      `${jsonPath} main property does not reference a file under dist`
+    );
   }
   if (!fs.existsSync(mainPath)) {
     isInvalid = true;
-    console.error(`${jsonPath} main property points to nonexistent ${mainPath}`);
+    console.error(
+      `${jsonPath} main property points to nonexistent ${mainPath}`
+    );
   }
 
   if (isInvalid) {
@@ -61,7 +65,11 @@ globSync('packages/*/package.json').forEach((jsonPath) => {
 });
 
 if (invalidMains > 0) {
-  console.error(`${invalidMains} incorrect main property values found; please fix.`);
+  console.error(
+    `${invalidMains} incorrect main property values found; please fix.`
+  );
 } else {
-  console.log('Success: All packages with main properties reference valid files under dist!');
+  console.log(
+    'Success: All packages with main properties reference valid files under dist!'
+  );
 }
