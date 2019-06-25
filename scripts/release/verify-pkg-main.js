@@ -43,8 +43,9 @@ globSync('packages/*/package.json').forEach((jsonPath) => {
     return;
   }
 
-  const mainPath = path.join(path.dirname(jsonPath), packageInfo.main);
   let isInvalid = false;
+
+  const mainPath = path.join(path.dirname(jsonPath), packageInfo.main);
   if (mainPath.indexOf('dist') < 0) {
     isInvalid = true;
     console.error(
@@ -55,6 +56,20 @@ globSync('packages/*/package.json').forEach((jsonPath) => {
     isInvalid = true;
     console.error(
       `${jsonPath} main property points to nonexistent ${mainPath}`
+    );
+  }
+
+  const typesPath = path.join(path.dirname(jsonPath), packageInfo.types);
+  if (typesPath.indexOf('dist') < 0) {
+    isInvalid = true;
+    console.error(
+      `${jsonPath} types property does not reference a file under dist`
+    );
+  }
+  if (!fs.existsSync(typesPath)) {
+    isInvalid = true;
+    console.error(
+      `${jsonPath} types property points to nonexistent ${typesPath}`
     );
   }
 
@@ -70,6 +85,6 @@ if (invalidMains > 0) {
   );
 } else {
   console.log(
-    'Success: All packages with main properties reference valid files under dist!'
+    'Success: All packages with main/types properties reference valid files under dist!'
   );
 }
