@@ -1,7 +1,8 @@
 const fs = require('fs');
 const {resolve, join} = require('path');
-const packageJson = JSON.parse(fs.readFileSync(resolve(__dirname, '../package.json'), 'utf8'));
-
+const packageJson = JSON.parse(
+  fs.readFileSync(resolve(__dirname, '../package.json'), 'utf8')
+);
 
 const readMaterialPackages = () => {
   const dependencies = [
@@ -16,6 +17,5 @@ const readMaterialPackages = () => {
   }
   return dependencies;
 };
-
 
 module.exports = {readMaterialPackages};

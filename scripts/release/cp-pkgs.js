@@ -32,16 +32,15 @@ const {sync: globSync} = require('glob');
 
 const PKG_RE = /^(([a-z]*\-?)*)/;
 
-const isValidCwd = (
+const isValidCwd =
   path.basename(process.cwd()) === 'material-components-web-react' &&
   fs.existsSync('packages') &&
-  fs.existsSync('build')
-);
+  fs.existsSync('build');
 
 if (!isValidCwd) {
   console.error(
     'Invalid CWD. Please ensure you are running this from the root of the repo, ' +
-    'and that you have run `npm run build`'
+      'and that you have run `npm run build`'
   );
   process.exit(0);
 }
@@ -54,7 +53,9 @@ function getAssetEntry(asset) {
 function cpAsset(asset) {
   const assetPkg = path.join('packages', getAssetEntry(asset));
   if (!fs.existsSync(assetPkg)) {
-    Promise.reject(new Error(`Non-existent asset package path ${assetPkg} for ${asset}`));
+    Promise.reject(
+      new Error(`Non-existent asset package path ${assetPkg} for ${asset}`)
+    );
   }
 
   let basename = path.basename(asset);
@@ -71,8 +72,9 @@ function cpAsset(asset) {
   }
 
   const destDir = path.join(assetPkg, 'dist', basename);
-  return cpFile(asset, destDir)
-    .then(() => console.log(`cp ${asset} -> ${destDir}`));
+  return cpFile(asset, destDir).then(() =>
+    console.log(`cp ${asset} -> ${destDir}`)
+  );
 }
 
 // this takes a file path to an index.d.ts file and adds an //@ts-ignore comment
@@ -80,7 +82,10 @@ function cpAsset(asset) {
 // these lines since MDC Web does not have typing files
 // TODO: https://github.com/material-components/material-components-web-react/issues/574
 function addTsIgnore(filePath) {
-  const data = fs.readFileSync(filePath).toString().split('\n');
+  const data = fs
+    .readFileSync(filePath)
+    .toString()
+    .split('\n');
   const lineNumber = data.findIndex((lineText) => lineText.includes('/dist/'));
   if (lineNumber <= -1) return;
 
@@ -100,8 +105,9 @@ function cpTypes(typeAsset) {
   destDir.splice(2, 0, 'dist');
   destDir = `${destDir.join('/')}/${base}`;
   addTsIgnore(typeAsset);
-  return cpFile(typeAsset, destDir)
-    .then(() => console.log(`cp ${typeAsset} -> ${destDir}`));
+  return cpFile(typeAsset, destDir).then(() =>
+    console.log(`cp ${typeAsset} -> ${destDir}`)
+  );
 }
 
 async function copyPackages() {
@@ -117,4 +123,3 @@ async function copyPackages() {
 }
 
 copyPackages();
-
