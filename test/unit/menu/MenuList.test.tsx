@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import * as td from 'testdouble';
 import {shallow, mount} from 'enzyme';
 import {MenuList} from '../../../packages/menu/index';
-import List from '../../../packages/list/index';
+import List from '../../../packages/list';
 import {MDCListIndex} from '@material/list/types';
 import {coerceForTesting} from '../helpers/types';
 
