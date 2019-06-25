@@ -37,15 +37,13 @@ if (!isValidCwd) {
 }
 
 let invalidMains = 0;
+let invalidTypes = 0;
 globSync('packages/*/package.json').forEach((jsonPath) => {
   const packageInfo = JSON.parse(fs.readFileSync(jsonPath));
-  if (!packageInfo.main) {
-    return;
-  }
-
   let isInvalid = false;
+  let isTypesInvalid = false;
 
-  const mainPath = path.join(path.dirname(jsonPath), packageInfo.main);
+  const mainPath = path.join(path.dirname(jsonPath), packageInfo.main || '');
   if (mainPath.indexOf('dist') < 0) {
     isInvalid = true;
     console.error(
@@ -58,16 +56,15 @@ globSync('packages/*/package.json').forEach((jsonPath) => {
       `${jsonPath} main property points to nonexistent ${mainPath}`
     );
   }
-
-  const typesPath = path.join(path.dirname(jsonPath), packageInfo.types);
+  const typesPath = path.join(path.dirname(jsonPath), packageInfo.types || '');
   if (typesPath.indexOf('dist') < 0) {
-    isInvalid = true;
+    isTypesInvalid = true;
     console.error(
       `${jsonPath} types property does not reference a file under dist`
     );
   }
   if (!fs.existsSync(typesPath)) {
-    isInvalid = true;
+    isTypesInvalid = true;
     console.error(
       `${jsonPath} types property points to nonexistent ${typesPath}`
     );
@@ -77,12 +74,21 @@ globSync('packages/*/package.json').forEach((jsonPath) => {
     // Multiple checks could have failed, but only increment the counter once for one package.
     invalidMains++;
   }
+  if (isTypesInvalid) {
+    invalidTypes++;
+  }
 });
-
-if (invalidMains > 0) {
-  console.error(
-    `${invalidMains} incorrect main property values found; please fix.`
-  );
+if (invalidMains > 0 || invalidTypes > 0) {
+  if (invalidMains > 0) {
+    console.error(
+      `${invalidMains} incorrect main property values found; please fix.`
+    );
+  }
+  if (invalidTypes > 0) {
+    console.error(
+      `${invalidTypes} incorrect types property values found; please fix.`
+    );
+  }
 } else {
   console.log(
     'Success: All packages with main/types properties reference valid files under dist!'
