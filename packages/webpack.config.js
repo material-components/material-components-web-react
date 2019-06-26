@@ -121,6 +121,7 @@ function getJavaScriptWebpackConfig() {
         {
           test: /\.ts(x)?$/,
           loader: 'ts-loader',
+          exclude: [/node_modules/, /build/, /dist/]
         },
         {
           test: /\.js$/,
