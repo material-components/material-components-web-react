@@ -15,7 +15,6 @@
   "compileOnSave": true,
   "exclude": [
     "node_modules",
-    "build",
-    "dist"
+    "build"
   ]
 }
