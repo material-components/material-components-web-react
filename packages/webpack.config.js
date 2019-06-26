@@ -97,7 +97,7 @@ function getMaterialExternals() {
   });
 
   getReactMaterialExternals().forEach((path) => {
-    externals[`@material/${path}`] = `@material/${path}/dist/index.js`;
+    externals[`@material/${path}`] = `@material/${path}`;
   });
   console.log(externals);
   return externals;
