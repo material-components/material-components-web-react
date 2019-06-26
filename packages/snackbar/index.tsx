@@ -59,7 +59,7 @@ export class Snackbar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const {timeoutMs, closeOnEscape, leading, stacked} = this.props;
-    const classes = new Set();
+    const classes = new Set<string>();
     if (leading) {
       classes.add('mdc-snackbar--leading');
     }

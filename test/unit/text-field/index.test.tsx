@@ -4,7 +4,6 @@ import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import TextField, {HelperText, Input} from '../../../packages/text-field';
 import {coerceForTesting} from '../helpers/types';
-import {InputProps} from '../../../packages/text-field/Input'; // eslint-disable-line @typescript-eslint/no-unused-vars
 /* eslint-disable */
 import FloatingLabel from '../../../packages/floating-label';
 /* eslint-enable */
@@ -92,6 +91,16 @@ test('classNames get dense class when prop.dense is true', () => {
   assert.equal(textField.length, 1);
 });
 
+test('classNames get noLabel class when prop.noLabel is true', () => {
+  const wrapper = mount(
+    <TextField label='my label' noLabel>
+      <Input />
+    </TextField>
+  );
+  const textField = wrapper.find('.mdc-text-field--no-label');
+  assert.equal(textField.length, 1);
+});
+
 test('style prop adds style attribute', () => {
   const wrapper = mount(
     <TextField label='my label' style={{backgroundColor: 'red'}}>
@@ -140,7 +149,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
       <Input />
     </TextField>
   );
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('test-class-name');
   wrapper.setState({classList});
   wrapper.instance().adapter.removeClass('test-class-name');
@@ -153,7 +162,7 @@ test('#adapter.removeClass removes class from state.classList', () => {
       <Input />
     </TextField>
   );
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('test-class-name');
   wrapper.setState({classList});
   assert.isTrue(wrapper.instance().adapter.hasClass('test-class-name'));
@@ -640,12 +649,7 @@ test('#inputProps.handleFocusChange updates state.isFocused', () => {
       <Input />
     </TextField>
   );
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .handleFocusChange(true);
+  wrapper.instance().inputProps.handleFocusChange(true);
   assert.isTrue(wrapper.state().isFocused);
 });
 
@@ -658,12 +662,7 @@ test('#inputProps.handleFocusChange calls foundation.activateFocus if isFocused 
   const activateFocus = td.func();
   const foundation = {activateFocus} as any;
   wrapper.setState({foundation});
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .handleFocusChange(true);
+  wrapper.instance().inputProps.handleFocusChange(true);
   td.verify(activateFocus(), {times: 1});
 });
 
@@ -676,12 +675,7 @@ test('#inputProps.handleFocusChange calls foundation.deactivateFocus if isFocuse
   const deactivateFocus = td.func();
   const foundation = {deactivateFocus} as any;
   wrapper.setState({foundation});
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .handleFocusChange(false);
+  wrapper.instance().inputProps.handleFocusChange(false);
   td.verify(deactivateFocus(), {times: 1});
 });
 
@@ -691,12 +685,7 @@ test('#inputProps.setDisabled updates state.disabled', () => {
       <Input />
     </TextField>
   );
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .setDisabled(true);
+  wrapper.instance().inputProps.setDisabled(true);
   assert.isTrue(wrapper.state().disabled);
 });
 
@@ -706,12 +695,7 @@ test('#inputProps.setInputId updates state.disabled', () => {
       <Input />
     </TextField>
   );
-  wrapper
-    .instance()
-    .inputProps(
-      coerceForTesting<React.ReactElement<InputProps<HTMLInputElement>>>({})
-    )
-    .setInputId('my-id');
+  wrapper.instance().inputProps.setInputId('my-id');
   assert.equal(wrapper.state().inputId, 'my-id');
 });
 
@@ -762,7 +746,7 @@ test('#adapter.getNativeInput throws error when no inputComponent', () => {
   }
 });
 
-test('Useless test for code coverage', () => {
+test(`MDC React doesn't need to implement this`, () => {
   const wrapper = mount<TextField<HTMLInputElement>>(
     <TextField>
       <Input />
@@ -795,4 +779,23 @@ test('Input component sync test in TextField', () => {
   // setDisabled called #inputAdapter.getNativeInput
   // and throw error because there is no inputComponent
   assert.doesNotThrow(() => wrapper.instance().setState({disabled: true}));
+});
+
+test('FloatingLabel is floated even if value is changed programmatically', () => {
+  class TestComponent extends React.Component {
+    state = {value: ''};
+    render() {
+      return (
+        <TextField label='my label'>
+          <Input value={this.state.value} />
+        </TextField>
+      );
+    }
+  }
+  const wrapper = mount<TestComponent>(<TestComponent />);
+  const label = wrapper.find('.mdc-floating-label').getDOMNode();
+  const floatClass = 'mdc-floating-label--float-above';
+  assert.isFalse(label.className.includes(floatClass));
+  wrapper.setState({value: 'Test!'});
+  assert.isTrue(label.className.includes(floatClass));
 });

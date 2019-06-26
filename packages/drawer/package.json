@@ -16,12 +16,14 @@
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
-  "dependencies": {
-    "@material/drawer": "^1.0.1",
-    "@material/list": "^1.0.0",
-    "classnames": "^2.2.6",
-    "focus-trap": "^4.0.2",
+  "peerDependencies": {
     "react": "^16.4.2"
+  },
+  "dependencies": {
+    "@material/drawer": "^2.3.0",
+    "@material/list": "^2.3.0",
+    "classnames": "^2.2.6",
+    "focus-trap": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"

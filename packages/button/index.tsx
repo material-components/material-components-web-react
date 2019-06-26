@@ -76,7 +76,7 @@ export const Button = <T extends ButtonTypes>({
 
   if (href) {
     return (
-      <a {...props as React.HTMLProps<HTMLAnchorElement>} href={href}>
+      <a {...(props as React.HTMLProps<HTMLAnchorElement>)} href={href}>
         {!trailingIcon ? renderIcon(icon) : null}
         <span className={CSS_CLASSES.LABEL}>{children}</span>
         {trailingIcon ? renderIcon(trailingIcon) : null}
@@ -85,7 +85,7 @@ export const Button = <T extends ButtonTypes>({
   }
 
   return (
-    <button {...props as React.HTMLProps<HTMLButtonElement>}>
+    <button {...(props as React.HTMLProps<HTMLButtonElement>)}>
       {!trailingIcon ? renderIcon(icon) : null}
       <span className={CSS_CLASSES.LABEL}>{children}</span>
       {trailingIcon ? renderIcon(trailingIcon) : null}

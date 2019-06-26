@@ -3,9 +3,11 @@ const {basename, join, resolve} = require('path');
 
 const denyList = ['images'];
 
-const isDirectory = source => lstatSync(source).isDirectory();
-const getDirectories = source =>
-  readdirSync(source).map(name => join(source, name)).filter(isDirectory);
+const isDirectory = (source) => lstatSync(source).isDirectory();
+const getDirectories = (source) =>
+  readdirSync(source)
+    .map((name) => join(source, name))
+    .filter(isDirectory);
 
 function readScreenshotDirectory(
   components = [],
@@ -20,9 +22,15 @@ function readScreenshotDirectory(
     // recursively get sub directories
     const subDirectories = getDirectories(resolve(path, packageName));
     if (subDirectories.length > 0) {
-      readScreenshotDirectory(components, resolve(path, packageName), packageName);
+      readScreenshotDirectory(
+        components,
+        resolve(path, packageName),
+        packageName
+      );
     }
-    components.push(`${parentDirectory ? parentDirectory + '/' : ''}${packageName}`);
+    components.push(
+      `${parentDirectory ? parentDirectory + '/' : ''}${packageName}`
+    );
   });
 
   return components;

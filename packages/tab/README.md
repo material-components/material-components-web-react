@@ -87,6 +87,7 @@ isMinWidthIndicator | boolean | If true will display the `<TabIndicator />` to t
 previousIndicatorClientRect | ClientRect | The indicator's clientRect that was previously activated.
 onInteraction | Function | The function is called if the tab receives any interaction
 stacked | boolean | If true will display the tab icon and label to flow vertically instead of horizontally.
+tag | String | Customizes the tab tag (defaults to `'button'`). The only available options are 'button' or 'a'.
 
 ## Sass Mixins
 

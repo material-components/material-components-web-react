@@ -44,6 +44,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
           outlined={variant === 'outlined'}
           fullWidth={variant === 'fullWidth'}
           textarea={variant === 'textarea'}
+          noLabel={variant === 'noLabel'}
           {...otherProps}
           className='text-field'
         >
@@ -54,6 +55,7 @@ class TestField extends React.Component<TestFieldProps, TestFieldState> {
             required={required}
             disabled={disabled}
             onChange={this.onChange}
+            maxLength={140}
           />
         </TextField>
       </div>

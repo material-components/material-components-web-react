@@ -34,6 +34,7 @@ Component | Spec | MDC Web
 [Radio](./packages/radio) | [Radio Design Page](https://material.io/design/components/selection-controls.html#radio-buttons) | [MDC Radio](https://github.com/material-components/material-components-web/tree/master/packages/mdc-radio)
 [Ripple](./packages/ripple) | [Ripple Design Page](https://material.io/design/interaction/states.html) | [MDC Ripple](https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple)
 [Select](./packages/select) | [Select Design Page](https://material.io/design/components/menus.html#) | [MDC Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select)
+[Snackbar](./packages/snackbar) | [Snackbar Design Page](https://material.io/design/components/snackbars.html) | [MDC Snackbar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-snackbar)
 [Switch](./packages/switch) | [Switch Design Page](https://material.io/design/components/selection-controls.html#switches) | [MDC Switch](https://github.com/material-components/material-components-web/tree/master/packages/mdc-switch)
 [Tab](./packages/tab) | [Tabs Design Page](https://material.io/design/components/tabs.html) | [MDC Tab](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab)
 [Tab Bar](./packages/tab-bar) | [Tabs Design Page](https://material.io/design/components/tabs.html) | [MDC Tab Bar](https://github.com/material-components/material-components-web/tree/master/packages/mdc-tab-bar)

@@ -5,7 +5,9 @@ import {MDCRippleFoundation} from '@material/ripple/foundation';
 import {MDCRippleAdapter} from '@material/ripple/adapter';
 import {SpecificEventListener} from '@material/base/types';
 import {mount} from 'enzyme';
-import {withRipple, InjectedProps} from '../../../packages/ripple/index';
+
+import Button from '../../../packages/button';
+import {withRipple, InjectedProps} from '../../../packages/ripple';
 import {createMockRaf} from '../helpers/raf';
 import {coerceForTesting} from '../helpers/types';
 
@@ -72,6 +74,22 @@ test('mouseDown event triggers activateRipple', () => {
   mockRaf.flush();
   td.verify(foundation.activate(td.matchers.isA(Object)), {times: 1});
   td.verify(mouseDownHandler(td.matchers.isA(Object)), {times: 1});
+  mockRaf.restore();
+});
+
+test('mouseDown sets isTouched to false if isTouched is true', () => {
+  const mockRaf = createMockRaf();
+  const mouseDownHandler = coerceForTesting<React.MouseEventHandler>(td.func());
+  const wrapper = mount<DivProps>(<DivRipple onMouseDown={mouseDownHandler} />);
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
+  foundation.activate = td.func<(evt?: Event) => void>();
+  (wrapper.instance() as any).isTouched = true;
+  wrapper.simulate('mouseDown');
+
+  mockRaf.flush();
+  td.verify(foundation.activate(td.matchers.isA(Object)), {times: 0});
+  assert.isFalse((wrapper.instance() as any).isTouched);
   mockRaf.restore();
 });
 
@@ -381,7 +399,7 @@ test('#adapter.deregisterDocumentInteractionHandler does not trigger handler on 
 
 test('#adapter.registerResizeHandler triggers handler on window resize', () => {
   const wrapper = mount<DivProps>(<DivRipple />);
-  const testHandler = td.func<SpecificEventListener<'scroll'>>();
+  const testHandler = td.func<SpecificEventListener<'resize'>>();
   getAdapter(
     coerceForTesting<RippledComponent>(wrapper.instance()).foundation
   ).registerResizeHandler(testHandler);
@@ -394,7 +412,7 @@ test(
     'after registering resize handler',
   () => {
     const wrapper = mount<DivProps>(<DivRipple />);
-    const testHandler = td.func<SpecificEventListener<'scroll'>>();
+    const testHandler = td.func<SpecificEventListener<'resize'>>();
     getAdapter(
       coerceForTesting<RippledComponent>(wrapper.instance()).foundation
     ).registerResizeHandler(testHandler);
@@ -479,4 +497,13 @@ test('unmounting component does not throw errors', (done) => {
     );
     done();
   });
+});
+
+test('handleBlur is called when disabled is being true', () => {
+  const wrapper = mount(<Button />);
+  const foundation = coerceForTesting<RippledComponent>(wrapper.instance())
+    .foundation;
+  foundation.handleBlur = td.func<() => void>();
+  wrapper.setProps({disabled: true});
+  td.verify(foundation.handleBlur(), {times: 1});
 });
