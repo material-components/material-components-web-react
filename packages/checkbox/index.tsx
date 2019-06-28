@@ -28,7 +28,8 @@ import {cssClasses} from '@material/checkbox/constants';
 import {
   withRipple,
   InjectedProps,
-  RippledComponentProps, // @ts-ignore TODO(issues/955) Remove once possible
+  // @ts-ignore TODO(issues/955) Remove once possible
+  RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
 
 import NativeControl from './NativeControl';
