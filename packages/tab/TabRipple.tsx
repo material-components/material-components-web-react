@@ -27,7 +27,8 @@ import {
   withRipple,
   InjectedProps,
   RippledComponentInterface,
-  RippledComponentProps, // @ts-ignore TODO(issues/955) Remove once possible
+  // @ts-ignore TODO(issues/955) Remove once possible
+  RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
   RippledComponentState,
 } from '@material/react-ripple';
 
