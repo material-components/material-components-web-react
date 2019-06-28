@@ -24,7 +24,11 @@ import React from 'react';
 import classnames from 'classnames';
 import {MDCRadioFoundation} from '@material/radio/foundation';
 import {MDCRadioAdapter} from '@material/radio/adapter';
-import {withRipple, InjectedProps} from '@material/react-ripple';
+import {
+  withRipple,
+  InjectedProps,
+  RippledComponentProps, // @ts-ignore TODO(issues/955) Remove once possible
+} from '@material/react-ripple';
 import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface RadioProps
