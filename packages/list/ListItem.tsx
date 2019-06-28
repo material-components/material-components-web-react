@@ -23,7 +23,11 @@
 import React from 'react';
 import classnames from 'classnames';
 import {closest} from '@material/dom/ponyfill';
-import {withRipple, InjectedProps} from '@material/react-ripple';
+import {
+  withRipple,
+  InjectedProps,
+  RippledComponentProps, // @ts-ignore TODO(issues/955) Remove once possible
+} from '@material/react-ripple';
 import {MDCListFoundation} from '@material/list/foundation';
 
 import {ListItemContext, ListItemContextShape} from './index';
