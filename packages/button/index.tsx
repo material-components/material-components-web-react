@@ -22,10 +22,11 @@
 
 import React from 'react';
 import classnames from 'classnames';
+// @ts-ignore TODO(issues/955) Remove once possible
 import {
   withRipple,
   InjectedProps,
-  RippledComponentProps, // @ts-ignore TODO(issues/955) Remove once possible
+  RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
 
 import {CSS_CLASSES} from './constant';
