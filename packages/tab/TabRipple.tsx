@@ -27,7 +27,8 @@ import {
   withRipple,
   InjectedProps,
   RippledComponentInterface,
-  RippledComponentState, // eslint-disable-line @typescript-eslint/no-unused-vars
+  RippledComponentProps,
+  RippledComponentState,
 } from '@material/react-ripple';
 
 export interface TabRippleProps
@@ -36,6 +37,9 @@ export interface TabRippleProps
   className: string;
   ref?: React.RefObject<TabRipple>;
 }
+
+// TODO(issues/955) Remove once possible
+export type TemporaryTypescriptFix = RippledComponentProps<HTMLDivElement>;
 
 class TabRippleBase extends React.Component<TabRippleProps, {}> {
   get classes() {
