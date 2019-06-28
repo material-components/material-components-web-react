@@ -25,15 +25,12 @@ import classnames from 'classnames';
 import {
   withRipple,
   InjectedProps,
-  RippledComponentProps,
+  RippledComponentProps, // @ts-ignore TODO(issues/955) Remove once possible
 } from '@material/react-ripple';
 
 import {CSS_CLASSES} from './constant';
 
 type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
-
-// TODO(issues/955) Remove once possible
-export type TemporaryTypescriptFix = RippledComponentProps<ButtonTypes>;
 
 export interface ButtonProps<T extends ButtonTypes>
   extends InjectedProps<T>,
