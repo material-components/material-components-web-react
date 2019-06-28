@@ -25,7 +25,11 @@ import classnames from 'classnames';
 import {MDCCheckboxFoundation} from '@material/checkbox/foundation';
 import {MDCCheckboxAdapter} from '@material/checkbox/adapter';
 import {cssClasses} from '@material/checkbox/constants';
-import {withRipple, InjectedProps} from '@material/react-ripple';
+import {
+  withRipple,
+  InjectedProps,
+  RippledComponentProps, // @ts-ignore TODO(issues/955) Remove once possible
+} from '@material/react-ripple';
 
 import NativeControl from './NativeControl';
 
