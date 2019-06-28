@@ -75,6 +75,7 @@ function getCommonWebpackParams({isCss} = {}) {
       path: getAbsolutePath('../build'),
       filename: `${filename}${isCss ? '.css' : ''}.js`,
       libraryTarget: 'umd',
+      globalObject: `typeof self !== 'undefined' ? self : this`,
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
