@@ -22,13 +22,18 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import {withRipple, InjectedProps, RippledComponentProps} from '@material/react-ripple';
+import {
+  withRipple,
+  InjectedProps,
+  RippledComponentProps,
+} from '@material/react-ripple';
 
 import {CSS_CLASSES} from './constant';
 
 type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
-// TODO(https://github.com/material-components/material-components-web-react/pull/953)
-export type removeOnceTypeResolutionIsFixed = RippledComponentProps<ButtonTypes>;
+
+// TODO(issues/955) Remove once possible
+export type TemporaryTypescriptFix = RippledComponentProps<ButtonTypes>;
 
 export interface ButtonProps<T extends ButtonTypes>
   extends InjectedProps<T>,
