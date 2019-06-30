@@ -1,6 +1,6 @@
 {
   "name": "@material/react-tab-bar",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Material Components React Tab Bar",
   "license": "Apache-2.0",
   "main": "dist/index.js",
@@ -21,8 +21,8 @@
     "react": "^16.4.2"
   },
   "dependencies": {
-    "@material/react-tab": "^0.13.0",
-    "@material/react-tab-scroller": "^0.13.0",
+    "@material/react-tab": "^0.14.0",
+    "@material/react-tab-scroller": "^0.14.0",
     "@material/tab-bar": "^1.0.0",
     "classnames": "^2.2.6"
   },

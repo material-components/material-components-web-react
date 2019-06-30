@@ -161,6 +161,14 @@ test('#adapter.getListItemCount returns correct number of list items if List has
   assert.equal(wrapper.instance().adapter.getListItemCount(), 3);
 });
 
+test('#adapter.getAttributeForElementIndex can get value of attribute', () => {
+  const wrapper = mount<List>(<List>{children()}</List>);
+  const adapter = wrapper.instance().adapter;
+  assert.equal(null, adapter.getAttributeForElementIndex(0, 'role'));
+  adapter.setAttributeForElementIndex(0, 'role', 'menu');
+  assert.equal('menu', adapter.getAttributeForElementIndex(0, 'role'));
+});
+
 test('#adapter.setAttributeForElementIndex calls setAttribute on listItem', () => {
   const wrapper = mount<List>(<List>{children()}</List>);
   wrapper.instance().listElements[0].setAttribute = coerceForTesting<

@@ -1,3 +1,37 @@
+# [](https://github.com/material-components/material-components-web-react/compare/v0.13.2...v) (2019-06-25)
+
+
+### Bug Fixes
+
+* master on travis.yml ([#922](https://github.com/material-components/material-components-web-react/issues/922)) ([407de75](https://github.com/material-components/material-components-web-react/commit/407de75))
+* **infrastructure:** update docker command to run new image ([#923](https://github.com/material-components/material-components-web-react/issues/923)) ([10a68f6](https://github.com/material-components/material-components-web-react/commit/10a68f6))
+* npm vulnerabilities ([#903](https://github.com/material-components/material-components-web-react/issues/903)) ([92a1840](https://github.com/material-components/material-components-web-react/commit/92a1840))
+* switch react to peerDependency for all packages ([#940](https://github.com/material-components/material-components-web-react/issues/940)) ([cc06add](https://github.com/material-components/material-components-web-react/commit/cc06add))
+* **ripple:** focus style alive when disabled ([#943](https://github.com/material-components/material-components-web-react/issues/943)) ([e222e94](https://github.com/material-components/material-components-web-react/commit/e222e94))
+* **ripple:** not activating when clicked after touch ([#932](https://github.com/material-components/material-components-web-react/issues/932)) ([b2f7855](https://github.com/material-components/material-components-web-react/commit/b2f7855))
+* **text-field:** label isn't float when set value with setState ([#934](https://github.com/material-components/material-components-web-react/issues/934)) ([f829e12](https://github.com/material-components/material-components-web-react/commit/f829e12))
+
+
+### chore
+
+* **top-app-bar:** deprecate render props ([#915](https://github.com/material-components/material-components-web-react/issues/915)) ([2541ce2](https://github.com/material-components/material-components-web-react/commit/2541ce2))
+
+
+### Features
+
+* **infrastructure:** add typescript production typings test ([#900](https://github.com/material-components/material-components-web-react/issues/900)) ([1f7f872](https://github.com/material-components/material-components-web-react/commit/1f7f872))
+* **select:** add 'form' attribute to NativeControl component ([#907](https://github.com/material-components/material-components-web-react/issues/907)) ([044117f](https://github.com/material-components/material-components-web-react/commit/044117f))
+* **tab:** Allow to render Tab as an anchor node ([#928](https://github.com/material-components/material-components-web-react/issues/928)) ([5108e76](https://github.com/material-components/material-components-web-react/commit/5108e76))
+* **text-field:** add placeholder property ([#930](https://github.com/material-components/material-components-web-react/issues/930)) ([0818061](https://github.com/material-components/material-components-web-react/commit/0818061))
+
+
+### BREAKING CHANGES
+
+* **text-field:** handleValueChange is removed from Input's props.
+* **top-app-bar:** Top App Bar render props removed
+
+
+
 <a name="0.13.2"></a>
 # [0.13.2](https://github.com/material-components/material-components-web-react/compare/v0.13.0...v0.13.2) (2019-06-11)
 
