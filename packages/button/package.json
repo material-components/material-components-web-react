@@ -1,6 +1,6 @@
 {
   "name": "@material/react-button",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Material Components React Button",
   "license": "MIT",
   "main": "dist/index.js",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@material/button": "^1.1.0",
-    "@material/react-ripple": "^0.13.0",
+    "@material/react-ripple": "^0.14.0",
     "classnames": "^2.2.6"
   },
   "publishConfig": {
