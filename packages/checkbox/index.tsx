@@ -25,7 +25,12 @@ import classnames from 'classnames';
 import {MDCCheckboxFoundation} from '@material/checkbox/foundation';
 import {MDCCheckboxAdapter} from '@material/checkbox/adapter';
 import {cssClasses} from '@material/checkbox/constants';
-import {withRipple, InjectedProps} from '@material/react-ripple';
+import {
+  withRipple,
+  InjectedProps,
+  // @ts-ignore TODO(issues/955) Remove once possible
+  RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
+} from '@material/react-ripple';
 
 import NativeControl from './NativeControl';
 

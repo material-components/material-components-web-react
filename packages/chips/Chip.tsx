@@ -21,7 +21,12 @@
 // THE SOFTWARE.
 import React from 'react';
 import classnames from 'classnames';
-import {withRipple, InjectedProps} from '@material/react-ripple';
+import {
+  withRipple,
+  InjectedProps,
+  // @ts-ignore TODO(issues/955) Remove once possible
+  RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
+} from '@material/react-ripple';
 import {MDCChipFoundation} from '@material/chips/chip/foundation';
 import {MDCChipAdapter} from '@material/chips/chip/adapter';
 

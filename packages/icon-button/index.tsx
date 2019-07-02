@@ -22,7 +22,12 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import {withRipple, InjectedProps} from '@material/react-ripple';
+import {
+  withRipple,
+  InjectedProps,
+  // @ts-ignore TODO(issues/955) Remove once possible
+  RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
+} from '@material/react-ripple';
 import {MDCIconButtonToggleAdapter} from '@material/icon-button/adapter';
 import {MDCIconButtonToggleFoundation} from '@material/icon-button/foundation';
 import {MDCIconButtonToggleEventDetail} from '@material/icon-button/types';
