@@ -106,8 +106,8 @@ Input chips are a variant of chips which enable user input by converting text in
 class MyInputChips extends React.Component {
   state = {
     chips: [
-      {label: 'Jane Smith', id: 'janesmith'},
-      {label: 'John Doe', id: 'johndoe'}
+      {label: 'Jane Smith', id: 'JaneSmith'},
+      {label: 'John Doe', id: 'JohnDoe'},
     ],
   };
 
@@ -119,11 +119,15 @@ class MyInputChips extends React.Component {
       // Create a new chips array to ensure that a re-render occurs.
       // See: https://reactjs.org/docs/state-and-lifecycle.html#do-not-modify-state-directly
       const chips = [...this.state.chips];
-      chips.push({label, id});
-      this.setState({chips});
-      e.target.value = '';
+      if (chips.some((v) => v.id === id)) {
+        console.error('There is already a chip which has same key.');
+      } else {
+        chips.push({label, id});
+        this.setState({chips});
+        e.target.value = '';
+      }
     }
-  }
+  };
 
   render() {
     return (
@@ -135,6 +139,7 @@ class MyInputChips extends React.Component {
         >
           {this.state.chips.map((chip) =>
             <Chip
+              id={chip.id}
               key={chip.id} // The chip's key cannot be its index, because its index may change.
               label={chip.label}
               trailingIcon={<MaterialIcon icon='cancel' />}
