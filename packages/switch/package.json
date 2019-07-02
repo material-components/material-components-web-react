@@ -1,6 +1,6 @@
 {
   "name": "@material/react-switch",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Material Components React Switch",
   "license": "MIT",
   "main": "dist/index.js",
@@ -19,7 +19,7 @@
     "react": "^16.4.2"
   },
   "dependencies": {
-    "@material/react-ripple": "^0.14.0",
+    "@material/react-ripple": "^0.14.1",
     "@material/switch": "^1.0.0",
     "classnames": "^2.2.6"
   },

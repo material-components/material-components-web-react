@@ -1,6 +1,6 @@
 {
   "name": "@material/react-chips",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Material Components React Chips",
   "license": "MIT",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@material/chips": "^2.3.0",
-    "@material/react-ripple": "^0.14.0",
+    "@material/react-ripple": "^0.14.1",
     "classnames": "^2.2.6",
     "react-is": "^16.8.6"
   },

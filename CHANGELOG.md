@@ -1,4 +1,13 @@
-# [](https://github.com/material-components/material-components-web-react/compare/v0.13.2...v) (2019-06-25)
+# [0.14.1](https://github.com/material-components/material-components-web-react/compare/v0.14.0...v0.14.1) (2019-07-02)
+
+
+### Bug Fixes
+
+* **infrastructure:** fix SSR support for webpack4 update ([#956](https://github.com/material-components/material-components-web-react/issues/956)) ([5d3a89d](https://github.com/material-components/material-components-web-react/commit/5d3a89d))
+
+
+
+# [0.14.0](https://github.com/material-components/material-components-web-react/compare/v0.13.2...v0.14.0) (2019-06-25)
 
 
 ### Bug Fixes

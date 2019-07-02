@@ -1,6 +1,6 @@
 {
   "name": "@material/react-tab-scroller",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Material Components React Tab Scroller",
   "license": "MIT",
   "main": "dist/index.js",
