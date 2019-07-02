@@ -12,3 +12,5 @@ build
 dist
 packages/**/CHANGELOG.md
 .vscode/
+test/types/index.ts
+test/types/tsconfig.json
