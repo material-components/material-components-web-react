@@ -45,4 +45,4 @@ export const Menus = [
 ];
 
 export const Repository =
-  'https://github.com/TroyTae/material-components-web-react-example';
+  'https://github.com/material-components/material-components-web-react';

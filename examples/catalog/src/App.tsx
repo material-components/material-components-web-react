@@ -7,6 +7,7 @@ import MaterialIcon from '@material/react-material-icon';
 import {Snackbar} from '@material/react-snackbar';
 
 import {MenuContext, UserContext} from './Context';
+import {Repository} from './Router';
 import {Menu} from './menu/Menu';
 import {TopBar} from './top-bar/TopBar';
 import {Content} from './content/Content';
@@ -68,7 +69,7 @@ class App extends React.Component {
           <a
             rel='noopener noreferrer'
             target='_blank'
-            href='https://github.com/TroyTae/material-components-web-react-example/issues'
+            href={Repository.concat('/issues')}
             style={{
               position: 'fixed',
               right: '20px',
