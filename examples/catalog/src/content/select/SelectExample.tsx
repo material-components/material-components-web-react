@@ -36,7 +36,7 @@ class DefaultSelect extends React.Component<any> {
 class EnhancedSelect extends React.Component<any> {
   state = {value: 'Korea'};
 
-  onEnhancedChange = (index: number, item: Element) =>
+  onEnhancedChange = (_: number, item: Element) =>
     this.setState({value: item.getAttribute('data-value')});
 
   render() {

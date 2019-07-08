@@ -19,7 +19,7 @@ export const CardExample = () => (
     <Row>
       {Array(12)
         .fill(0)
-        .map((v, i) => i + 1)
+        .map((_, i) => i + 1)
         .map((key) => (
           <Cell key={key} desktopColumns={3}>
             <Card>
