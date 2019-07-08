@@ -46,16 +46,16 @@ class App extends React.Component {
     return (
       <MenuContext.Provider
         value={{
-          isOpen: isOpen,
-          selectedIndex: selectedIndex,
+          isOpen,
+          selectedIndex,
           setOpen: this.setOpen,
           setSelectedIndex: this.setSelectedIndex,
         }}
       >
         <UserContext.Provider
           value={{
-            name: 'Troy Tae',
-            account: 'tjy970721@gmail.com',
+            name: 'Anonymous',
+            account: 'unknown@example.com',
           }}
         >
           <Menu />
@@ -63,7 +63,7 @@ class App extends React.Component {
           <Content />
           <Snackbar
             timeoutMs={10000}
-            message='You became a frogrammer!'
+            message='You became a programmer!'
             actionText='dismiss'
           />
           <a

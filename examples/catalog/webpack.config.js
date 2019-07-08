@@ -10,7 +10,7 @@ module.exports = (env, arg) => {
     output: {
       path: Path.join(process.cwd(), 'dist'),
       filename: '[name].[chunkhash].js',
-      crossOriginLoading: false
+      crossOriginLoading: false,
     },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -24,7 +24,12 @@ module.exports = (env, arg) => {
             {
               loader: 'css-loader',
               options: {
-                modules: 'global',
+                modules: {
+                  mode: 'global',
+                  localIdentName: isProd
+                    ? '[hash:base64:5]'
+                    : '[path][name]__[local]--[hash:base64:5]',
+                },
               },
             },
             {
@@ -47,7 +52,7 @@ module.exports = (env, arg) => {
         chunkFilename: '[id].[hash].css',
       }),
       new HtmlWebpackPlugin({
-        template: './src/Template.html',
+        template: './src/template.html',
         hash: true,
         minify: isProd,
       }),

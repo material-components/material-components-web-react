@@ -11,16 +11,18 @@ import MaterialIcon from '@material/react-material-icon';
 class DefaultSelect extends React.Component<any> {
   state = {value: 'TurkishAir'};
 
+  setValue(value: string) {
+    this.setState({value});
+  }
+
   render() {
     return (
       <Select
         {...this.props}
         label='Choose Airplane'
         value={this.state.value}
-        onChange={(evt) =>
-          this.setState({
-            value: (evt.target as HTMLSelectElement).value,
-          })
+        onChange={({target}) =>
+          this.setValue((target as HTMLSelectElement).value)
         }
       >
         <Option value='KoreanAir'>KoreanAir</Option>

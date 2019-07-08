@@ -11,27 +11,27 @@ export const ButtonExample = () => (
         <Button>default</Button>
       </Cell>
       <Cell>
-        <Button raised={true}>raised</Button>
+        <Button raised>raised</Button>
       </Cell>
       <Cell>
-        <Button unelevated={true}>unelevated</Button>
+        <Button unelevated>unelevated</Button>
       </Cell>
       <Cell>
-        <Button outlined={true}>outlined</Button>
+        <Button outlined>outlined</Button>
       </Cell>
       <Cell>
-        <Button dense={true}>dense</Button>
+        <Button dense>dense</Button>
       </Cell>
       <Cell>
-        <Button icon={<MaterialIcon icon={'stars'} />}>icon</Button>
+        <Button icon={<MaterialIcon icon='stars' />}>icon</Button>
       </Cell>
       <Cell>
-        <Button trailingIcon={<MaterialIcon icon={'cached'} />}>
+        <Button trailingIcon={<MaterialIcon icon='cached' />}>
           trailing-icon
         </Button>
       </Cell>
       <Cell>
-        <Button disabled={true}>disabled</Button>
+        <Button disabled>disabled</Button>
       </Cell>
     </Row>
   </Grid>

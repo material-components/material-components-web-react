@@ -24,7 +24,7 @@ export const RadioExample = () => (
       <Cell>
         <Radio label='Disabled' key='disabled'>
           <NativeRadioControl
-            disabled={true}
+            disabled
             name='framework'
             value='disabled'
             id='disabled'

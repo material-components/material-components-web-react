@@ -12,7 +12,7 @@ import {Cell, Grid, Row} from '@material/react-layout-grid';
 import MaterialIcon from '@material/react-material-icon';
 
 const styles = require('./CardExample.scss');
-const avatar = 'https://avatars3.githubusercontent.com/u/20078201?s=460&v=4';
+const avatar = 'https://avatars3.githubusercontent.com/u/19478152?s=200&v=4';
 
 export const CardExample = () => (
   <Grid className={styles.container}>

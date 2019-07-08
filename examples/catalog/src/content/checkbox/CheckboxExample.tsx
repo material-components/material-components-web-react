@@ -18,7 +18,7 @@ export const CheckboxExample = () => (
         <Checkbox
           nativeControlId='checkbox2'
           className={styles.check}
-          checked={true}
+          checked
         />
         <label htmlFor='checkbox2' className={styles.label}>
           checked
@@ -28,7 +28,7 @@ export const CheckboxExample = () => (
         <Checkbox
           nativeControlId='checkbox2'
           className={styles.check}
-          indeterminate={true}
+          indeterminate
         />
         <label htmlFor='checkbox2' className={styles.label}>
           indeterminate
@@ -38,7 +38,7 @@ export const CheckboxExample = () => (
         <Checkbox
           nativeControlId='checkbox3'
           className={styles.check}
-          disabled={true}
+          disabled
         />
         <label htmlFor='checkbox3' className={styles.label}>
           disabled
