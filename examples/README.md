@@ -5,4 +5,4 @@ A collection of small apps or pages using MDC React components.
 Example | Link
 --- | ---
 Roses | [./roses](./roses)
-Roses | [./catalog](./catalog)
+Catalog | [./catalog](./catalog)
