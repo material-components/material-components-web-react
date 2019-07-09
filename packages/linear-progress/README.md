@@ -44,7 +44,7 @@ class MyApp extends React.Component {
 Prop Name | Type | Description
 --- | --- | ---
 buffer | Number | Decimal value between 0 and 1, sets the buffer bar width
-bufferingDots | Boolean | Default `false`. Whether to show the buffer dots in the un-progressed section
+bufferingDots | Boolean | Default `true`. Whether to show the buffer dots in the un-progressed section
 className | String | Optional. Additional class names to add to the root component
 closed | Boolean | Default `false`. When changed to `true`, closes the component
 indeterminate | Boolean | Default `false`. When set to `true`, renders the indeterminate variant
