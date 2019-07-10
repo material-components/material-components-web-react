@@ -1,15 +1,8 @@
 {
+  "extends": "../../tsconfig",
   "compilerOptions": {
-    "sourceMap": true,
-    "module": "commonjs",
-    "lib": ["es2015", "es2017", "dom"],
-    "jsx": "react",
-    "target": "es5",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "esModuleInterop": true
+    "outDir": "./dist",
+    "declarationDir": "./dist/types"
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"],
   "compileOnSave": false
 }
