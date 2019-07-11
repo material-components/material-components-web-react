@@ -63,3 +63,13 @@ npm run lint
 ```
 
 This will print any lines that do not follow the eslint standards, which you will need to fix before opeing a PR.
+
+## Type Tests
+
+Due to [multiple issues in production type files](https://github.com/material-components/material-components-web-react/issues/936) an easy way to [validate production type files has been added](https://github.com/material-components/material-components-web-react/pull/900):
+
+```bash
+npm run test:types
+```
+
+This command will perform a full production build, install the locally built versions, [generate a file that imports them all](../../test/types/gen-index.js), and then build it to expose any issues in the locally built `.d.ts` files.

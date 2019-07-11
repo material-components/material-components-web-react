@@ -59,15 +59,9 @@ const Cell: <T extends {} = HTMLDivElement>(
     [`${CSS_CLASSES.CELL_ALIGN}-${align}`]: !!align,
     [`${CSS_CLASSES.CELL_ORDER}-${order}`]: !!order,
     [`${CSS_CLASSES.CELL_SPAN}-${columns}`]: !!columns,
-    [`${CSS_CLASSES.CELL_SPAN}-${desktopColumns}-${
-      DEVICE_TYPE.DESKTOP
-    }`]: !!desktopColumns,
-    [`${CSS_CLASSES.CELL_SPAN}-${phoneColumns}-${
-      DEVICE_TYPE.PHONE
-    }`]: !!phoneColumns,
-    [`${CSS_CLASSES.CELL_SPAN}-${tabletColumns}-${
-      DEVICE_TYPE.TABLET
-    }`]: !!tabletColumns,
+    [`${CSS_CLASSES.CELL_SPAN}-${desktopColumns}-${DEVICE_TYPE.DESKTOP}`]: !!desktopColumns,
+    [`${CSS_CLASSES.CELL_SPAN}-${phoneColumns}-${DEVICE_TYPE.PHONE}`]: !!phoneColumns,
+    [`${CSS_CLASSES.CELL_SPAN}-${tabletColumns}-${DEVICE_TYPE.TABLET}`]: !!tabletColumns,
   });
 
   return (

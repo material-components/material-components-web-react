@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const {read: readComponents} = require('../../scripts/directory-reader');
 const {importer} = require('../../packages/webpack.util');
@@ -26,28 +26,29 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader',
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [require('autoprefixer')()],
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => [require('autoprefixer')()],
-              },
-            },
-            {
-              loader: 'sass-loader',
-              options: {importer},
-            },
-          ],
-        }),
+          },
+          {
+            loader: 'sass-loader',
+            options: {importer},
+          },
+        ],
       },
     ],
   },
   plugins: [
-    new ExtractTextPlugin('bundle.css'),
+    new MiniCssExtractPlugin({filename: 'bundle.css'}),
     new OptimizeCssAssetsPlugin(),
     new webpack.DefinePlugin({
       COMPONENTS: JSON.stringify(readComponents()),

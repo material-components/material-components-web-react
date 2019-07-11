@@ -14,11 +14,17 @@ npm install @material/react-select
 
 with Sass:
 ```js
+import '@material/react-list/index.scss';
+import '@material/react-menu-surface/index.scss';
+import '@material/react-menu/index.scss';
 import '@material/react-select/index.scss';
 ```
 
 with CSS:
 ```js
+import '@material/react-list/dist/menu.css';
+import '@material/react-menu-surface/dist/menu.css';
+import '@material/react-menu/dist/menu.css';
 import '@material/react-select/dist/select.css';
 ```
 
@@ -62,7 +68,7 @@ class MyApp extends React.Component {
   state = {value: 'pomsky'};
 
   onEnhancedChange = (index, item) => (
-    this.setState({value: item.getAttribute('data-value')});
+    this.setState({value: item.getAttribute('data-value')})
   );
 
   render() {
@@ -116,7 +122,7 @@ class MyApp extends React.Component {
 }
 ```
 
-> NOTE: If you want a the floating label to act as a placeholder, you will need an empty option as documented in the [MDC Web Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/#using-the-floating-label-as-the-placeholder).
+> NOTE: If you want a floating label to act as a placeholder, you will need an empty option as documented in the [MDC Web Select](https://github.com/material-components/material-components-web/tree/master/packages/mdc-select/#using-the-floating-label-as-the-placeholder).
 
 ## Props
 

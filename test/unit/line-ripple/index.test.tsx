@@ -88,7 +88,7 @@ test('#adapter.addClass updates state.classList', () => {
 
 test('#adapter.removeClass updates state.classList', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('test-color-class');
   wrapper.setState({classList});
   getAdapter(wrapper.instance()).removeClass('test-color-class');
@@ -97,7 +97,7 @@ test('#adapter.removeClass updates state.classList', () => {
 
 test('#adapter.hasClass returns true if exists in classList', () => {
   const wrapper = shallow<LineRipple>(<LineRipple />);
-  const classList = new Set();
+  const classList = new Set<string>();
   classList.add('test-color-class');
   wrapper.setState({classList});
   const hasClass = getAdapter(wrapper.instance()).hasClass('test-color-class');

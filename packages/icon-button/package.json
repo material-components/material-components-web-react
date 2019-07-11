@@ -1,6 +1,6 @@
 {
   "name": "@material/react-icon-button",
-  "version": "0.13.0",
+  "version": "0.14.1",
   "description": "Material Components React Icon Button",
   "license": "Apache-2.0",
   "main": "dist/index.js",
@@ -16,11 +16,13 @@
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
+  "peerDependencies": {
+    "react": "^16.4.2"
+  },
   "dependencies": {
-    "@material/icon-button": "^1.1.0",
-    "@material/react-ripple": "^0.13.0",
-    "classnames": "^2.2.6",
-    "react": "^16.3.2"
+    "@material/icon-button": "^2.1.1",
+    "@material/react-ripple": "^0.14.1",
+    "classnames": "^2.2.6"
   },
   "publishConfig": {
     "access": "public"

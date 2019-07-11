@@ -31,37 +31,66 @@ const isValidCwd = fs.existsSync('packages');
 if (!isValidCwd) {
   console.error(
     'Invalid CWD. Please ensure you are running this from the root of the repo, and that you have run ' +
-    '`npm run dist` and `node scripts/cp-pkgs.js`'
+      '`npm run dist` and `node scripts/cp-pkgs.js`'
   );
   process.exit(1);
 }
 
 let invalidMains = 0;
+let invalidTypes = 0;
 globSync('packages/*/package.json').forEach((jsonPath) => {
   const packageInfo = JSON.parse(fs.readFileSync(jsonPath));
-  if (!packageInfo.main) {
-    return;
-  }
-
-  const mainPath = path.join(path.dirname(jsonPath), packageInfo.main);
   let isInvalid = false;
+  let isTypesInvalid = false;
+
+  const mainPath = path.join(path.dirname(jsonPath), packageInfo.main || '');
   if (mainPath.indexOf('dist') < 0) {
     isInvalid = true;
-    console.error(`${jsonPath} main property does not reference a file under dist`);
+    console.error(
+      `${jsonPath} main property does not reference a file under dist`
+    );
   }
   if (!fs.existsSync(mainPath)) {
     isInvalid = true;
-    console.error(`${jsonPath} main property points to nonexistent ${mainPath}`);
+    console.error(
+      `${jsonPath} main property points to nonexistent ${mainPath}`
+    );
+  }
+  const typesPath = path.join(path.dirname(jsonPath), packageInfo.types || '');
+  if (typesPath.indexOf('dist') < 0) {
+    isTypesInvalid = true;
+    console.error(
+      `${jsonPath} types property does not reference a file under dist`
+    );
+  }
+  if (!fs.existsSync(typesPath)) {
+    isTypesInvalid = true;
+    console.error(
+      `${jsonPath} types property points to nonexistent ${typesPath}`
+    );
   }
 
   if (isInvalid) {
     // Multiple checks could have failed, but only increment the counter once for one package.
     invalidMains++;
   }
+  if (isTypesInvalid) {
+    invalidTypes++;
+  }
 });
-
-if (invalidMains > 0) {
-  console.error(`${invalidMains} incorrect main property values found; please fix.`);
+if (invalidMains > 0 || invalidTypes > 0) {
+  if (invalidMains > 0) {
+    console.error(
+      `${invalidMains} incorrect main property values found; please fix.`
+    );
+  }
+  if (invalidTypes > 0) {
+    console.error(
+      `${invalidTypes} incorrect types property values found; please fix.`
+    );
+  }
 } else {
-  console.log('Success: All packages with main properties reference valid files under dist!');
+  console.log(
+    'Success: All packages with main/types properties reference valid files under dist!'
+  );
 }

@@ -20,34 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import * as React from 'react';
-import {ListItem, ListItemProps} from '@material/react-list';
+/**
+ * @fileoverview Generates index.ts file with imports for all repo packages.
+ */
 
-export interface MenuListItemProps<T extends HTMLElement = HTMLElement>
-  extends ListItemProps<T> {
-  children?: React.ReactNode;
-}
+const {join} = require('path');
+const {readdirSync, statSync, writeFileSync} = require('fs');
 
-class MenuListItem<T extends HTMLElement = HTMLElement> extends React.Component<
-  MenuListItemProps<T>,
-  {}
-> {
-  render() {
-    const {
-      role = 'menuitem',
-      children,
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      computeBoundingRect,
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      ...otherProps
-    } = this.props;
-
-    return (
-      <ListItem role={role} {...otherProps}>
-        {children}
-      </ListItem>
-    );
+let out = 'import "react";\n';
+const dir = 'packages';
+for (const subdir of readdirSync(dir)) {
+  if (!statSync(join(dir, subdir)).isDirectory()) {
+    continue;
   }
+  out += 'import "@material/react-' + subdir + '";\n';
 }
-
-export default MenuListItem;
+writeFileSync('test/types/index.ts', out, 'ascii');

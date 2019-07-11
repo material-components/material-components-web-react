@@ -1,6 +1,6 @@
 {
   "name": "@material/react-select",
-  "version": "0.13.2",
+  "version": "0.14.1",
   "description": "Material Components React Select",
   "license": "MIT",
   "main": "dist/index.js",
@@ -15,15 +15,17 @@
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
-  "dependencies": {
-    "@material/react-floating-label": "^0.13.0",
-    "@material/react-line-ripple": "^0.13.0",
-    "@material/react-menu": "^0.13.2",
-    "@material/react-menu-surface": "^0.13.0",
-    "@material/react-notched-outline": "^0.13.0",
-    "@material/select": "^1.1.1",
-    "classnames": "^2.2.6",
+  "peerDependencies": {
     "react": "^16.4.2"
+  },
+  "dependencies": {
+    "@material/react-floating-label": "^0.14.1",
+    "@material/react-line-ripple": "^0.14.1",
+    "@material/react-menu": "^0.14.1",
+    "@material/react-menu-surface": "^0.14.1",
+    "@material/react-notched-outline": "^0.14.1",
+    "@material/select": "^1.1.1",
+    "classnames": "^2.2.6"
   },
   "publishConfig": {
     "access": "public"

@@ -20,10 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-const webpack = require('webpack');
 const {readdirSync, lstatSync} = require('fs');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {readMaterialPackages} = require('../scripts/package-json-reader');
 const {
   convertToImportMDCWebPaths,
@@ -58,7 +57,6 @@ function getWebpackConfigs() {
     const tsxPath = getAbsolutePath(`${chunk}/index.tsx`);
     const cssPath = getAbsolutePath(`${chunk}/index.scss`);
     webpackEntries[chunk] = tsxPath;
-    webpackEntries[`${chunk}.min`] = tsxPath;
     cssWebpackEntries[chunk] = cssPath;
     cssWebpackEntriesMin[`${chunk}.min`] = cssPath;
   });
@@ -72,10 +70,12 @@ function getWebpackConfigs() {
 
 function getCommonWebpackParams({isCss} = {}) {
   return {
+    mode: 'production',
     output: {
       path: getAbsolutePath('../build'),
       filename: `${filename}${isCss ? '.css' : ''}.js`,
       libraryTarget: 'umd',
+      globalObject: `typeof self !== 'undefined' ? self : this`,
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -138,11 +138,6 @@ function getJavaScriptWebpackConfig() {
         },
       ],
     },
-    plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-        include: /\.min\.js$/,
-      }),
-    ],
   });
 }
 
@@ -152,30 +147,33 @@ function getCssWebpackConfig(shouldMinify) {
       rules: [
         {
           test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  minimize: shouldMinify,
-                },
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: 'global',
+                localIdentName: '[local]',
               },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  plugins: () => [require('autoprefixer')()],
-                },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () =>
+                  [require('autoprefixer')()].concat(
+                    shouldMinify ? require('cssnano')() : []
+                  ),
               },
-              {
-                loader: 'sass-loader',
-                options: {importer},
-              },
-            ],
-          }),
+            },
+            {
+              loader: 'sass-loader',
+              options: {importer},
+            },
+          ],
         },
       ],
     },
-    plugins: [new ExtractTextPlugin(`${filename}.css`)],
+    plugins: [new MiniCssExtractPlugin({filename: `${filename}.css`})],
   });
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@material/react-radio",
-  "version": "0.13.0",
+  "version": "0.14.1",
   "description": "Material Componens React Radio",
   "license": "MIT",
   "main": "dist/index.js",
@@ -15,12 +15,14 @@
     "type": "git",
     "url": "https://github.com/material-components/material-components-web-react.git"
   },
+  "peerDependencies": {
+    "react": "^16.4.2"
+  },
   "dependencies": {
     "@material/form-field": "^0.41.0",
     "@material/radio": "^1.1.0",
-    "@material/react-ripple": "^0.13.0",
-    "classnames": "^2.2.6",
-    "react": "^16.4.2"
+    "@material/react-ripple": "^0.14.1",
+    "classnames": "^2.2.6"
   },
   "publishConfig": {
     "access": "public"
