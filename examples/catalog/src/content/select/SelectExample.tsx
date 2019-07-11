@@ -8,31 +8,6 @@ import Select, {
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 import MaterialIcon from '@material/react-material-icon';
 
-class DefaultSelect extends React.Component<any> {
-  state = {value: 'TurkishAir'};
-
-  setValue(value: string) {
-    this.setState({value});
-  }
-
-  render() {
-    return (
-      <Select
-        {...this.props}
-        label='Choose Airplane'
-        value={this.state.value}
-        onChange={({target}) =>
-          this.setValue((target as HTMLSelectElement).value)
-        }
-      >
-        <Option value='KoreanAir'>KoreanAir</Option>
-        <Option value='JejuAir'>JejuAir</Option>
-        <Option value='TurkishAir'>TurkishAir</Option>
-      </Select>
-    );
-  }
-}
-
 class EnhancedSelect extends React.Component<any> {
   state = {value: 'Korea'};
 
@@ -59,29 +34,6 @@ class EnhancedSelect extends React.Component<any> {
 export const SelectExample = () => (
   <Grid>
     <Row>
-      <Cell>
-        <DefaultSelect />
-      </Cell>
-      <Cell>
-        <DefaultSelect disabled />
-      </Cell>
-      <Cell>
-        <DefaultSelect outlined />
-      </Cell>
-      <Cell>
-        <DefaultSelect
-          helperText={<SelectHelperText>Help me!</SelectHelperText>}
-        />
-      </Cell>
-      <Cell>
-        <DefaultSelect
-          leadingIcon={
-            <SelectIcon>
-              <MaterialIcon icon='flight' />
-            </SelectIcon>
-          }
-        />
-      </Cell>
       <Cell>
         <EnhancedSelect />
       </Cell>
