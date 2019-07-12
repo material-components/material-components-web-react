@@ -451,6 +451,15 @@ test('renders with aria-orientation when checkboxList and orientation=horizontal
   assert.equal(wrapper.props()['aria-orientation'], 'horizontal');
 });
 
+test('renders with aria-orientation when radioList and orientation=horizontal', () => {
+  const wrapper = shallow<List>(
+    <List radioList orientation='horizontal'>
+      {children}
+    </List>
+  );
+  assert.equal(wrapper.props()['aria-orientation'], 'horizontal');
+});
+
 test('renders with overridden aria-orientation when checkboxList, orientation=horizontal and aria-orientation=vertical', () => {
   const wrapper = shallow<List>(
     <List checkboxList orientation='horizontal' aria-orientation='vertical'>

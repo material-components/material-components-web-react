@@ -128,6 +128,7 @@ export default class List extends React.Component<ListProps, ListState> {
       this.foundation.setSelectedIndex(selectedIndex);
     }
     this.foundation.setWrapFocus(wrapFocus!);
+    // Vertical is the default so true unless explicitly horizontal.
     this.foundation.setVerticalOrientation(
       this.props.orientation !== HORIZONTAL
     );
