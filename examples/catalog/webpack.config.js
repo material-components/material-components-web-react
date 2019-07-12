@@ -1,14 +1,14 @@
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Path = require('path');
+const path = require('path');
 
 module.exports = (env, arg) => {
   const isProd = arg.mode === 'production';
   const config = {
     entry: './src/App.tsx',
     output: {
-      path: Path.join(process.cwd(), 'dist'),
+      path: path.join(process.cwd(), 'dist'),
       filename: '[name].[chunkhash].js',
       crossOriginLoading: false,
     },
