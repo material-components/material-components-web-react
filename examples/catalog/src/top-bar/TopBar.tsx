@@ -15,30 +15,29 @@ const styles = require('./TopBar.scss');
 
 export const TopBar = () => (
   <MenuContext.Consumer>
-    {({setOpen}) => (
-      <TopAppBar>
-        <TopAppBarRow>
-          <TopAppBarSection align='start'>
-            <TopAppBarIcon navIcon tabIndex={0}>
-              <MaterialIcon
-                hasRipple
-                icon='menu'
-                onClick={() => setOpen(true)}
-              />
-            </TopAppBarIcon>
-            <TopAppBarTitle className={styles.title}>
-              Material Components React
-            </TopAppBarTitle>
-          </TopAppBarSection>
-          <TopAppBarSection align='end'>
-            <a rel='noopener noreferrer' target='_blank' href={Repository}>
-              <TopAppBarIcon actionItem tabIndex={0}>
-                <MaterialIcon aria-label='code' hasRipple icon='code' />
+    {({setOpen}) => {
+      const click = () => setOpen(true);
+      return (
+        <TopAppBar>
+          <TopAppBarRow>
+            <TopAppBarSection align='start'>
+              <TopAppBarIcon navIcon tabIndex={0}>
+                <MaterialIcon hasRipple icon='menu' onClick={click} />
               </TopAppBarIcon>
-            </a>
-          </TopAppBarSection>
-        </TopAppBarRow>
-      </TopAppBar>
-    )}
+              <TopAppBarTitle className={styles.title}>
+                Material Components React
+              </TopAppBarTitle>
+            </TopAppBarSection>
+            <TopAppBarSection align='end'>
+              <a rel='noopener noreferrer' target='_blank' href={Repository}>
+                <TopAppBarIcon actionItem tabIndex={0}>
+                  <MaterialIcon aria-label='code' hasRipple icon='code' />
+                </TopAppBarIcon>
+              </a>
+            </TopAppBarSection>
+          </TopAppBarRow>
+        </TopAppBar>
+      );
+    }}
   </MenuContext.Consumer>
 );
