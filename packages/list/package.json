@@ -1,6 +1,6 @@
 {
   "name": "@material/react-list",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Material Components React List",
   "license": "MIT",
   "main": "dist/index.js",
@@ -21,9 +21,9 @@
   "dependencies": {
     "@material/dom": "^1.1.0",
     "@material/list": "^1.0.0",
-    "@material/react-checkbox": "^0.14.0",
-    "@material/react-radio": "^0.14.0",
-    "@material/react-ripple": "^0.14.0",
+    "@material/react-checkbox": "^0.14.1",
+    "@material/react-radio": "^0.14.1",
+    "@material/react-ripple": "^0.14.1",
     "classnames": "^2.2.6",
     "memoize-one": "^5.0.4"
   },

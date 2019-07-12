@@ -86,27 +86,25 @@ test('calls foundation.setSelectedIndex when props.selectedIndex changes', () =>
   td.verify(wrapper.instance().foundation.setSelectedIndex(1), {times: 1});
 });
 
-test("calls foundation.setVerticalOrientation when 'aria-orientation' changes from vertical to horizontal", () => {
-  const wrapper = mount<List>(
-    <List aria-orientation='vertical'>{children()}</List>
-  );
+test('calls foundation.setVerticalOrientation when orientation changes from vertical to horizontal', () => {
+  const wrapper = mount<List>(<List orientation='vertical'>{children()}</List>);
   wrapper.instance().foundation.setVerticalOrientation = coerceForTesting<
     (arg: boolean) => void
   >(td.func());
-  wrapper.setProps({'aria-orientation': 'horizontal'});
+  wrapper.setProps({orientation: 'horizontal'});
   td.verify(wrapper.instance().foundation.setVerticalOrientation(false), {
     times: 1,
   });
 });
 
-test("calls foundation.setVerticalOrientation when 'aria-orientation' changes from horizontal to vertical", () => {
+test('calls foundation.setVerticalOrientation when orientation changes from horizontal to vertical', () => {
   const wrapper = mount<List>(
-    <List aria-orientation='horizontal'>{children()}</List>
+    <List orientation='horizontal'>{children()}</List>
   );
   wrapper.instance().foundation.setVerticalOrientation = coerceForTesting<
     (arg: boolean) => void
   >(td.func());
-  wrapper.setProps({'aria-orientation': 'vertical'});
+  wrapper.setProps({orientation: 'vertical'});
   td.verify(wrapper.instance().foundation.setVerticalOrientation(true), {
     times: 1,
   });
@@ -440,6 +438,52 @@ test('renders with role=menu if props.role=menu and props.checkboxList', () => {
     </List>
   );
   assert.equal(wrapper.props().role, 'menu');
+});
+
+test('renders without aria-orientation by default', () => {
+  const wrapper = shallow<List>(<List>{children}</List>);
+  assert.equal(wrapper.props()['aria-orientation'], undefined);
+});
+
+test('renders without aria-orientation when checkboxList and orientation=vertical (default)', () => {
+  const wrapper = shallow<List>(<List checkboxList>{children}</List>);
+  assert.equal(wrapper.props()['aria-orientation'], undefined);
+});
+
+test('renders with aria-orientation when checkboxList and orientation=horizontal', () => {
+  const wrapper = shallow<List>(
+    <List checkboxList orientation='horizontal'>
+      {children}
+    </List>
+  );
+  assert.equal(wrapper.props()['aria-orientation'], 'horizontal');
+});
+
+test('renders with aria-orientation when radioList and orientation=horizontal', () => {
+  const wrapper = shallow<List>(
+    <List radioList orientation='horizontal'>
+      {children}
+    </List>
+  );
+  assert.equal(wrapper.props()['aria-orientation'], 'horizontal');
+});
+
+test('renders with overridden aria-orientation when checkboxList, orientation=horizontal and aria-orientation=vertical', () => {
+  const wrapper = shallow<List>(
+    <List checkboxList orientation='horizontal' aria-orientation='vertical'>
+      {children}
+    </List>
+  );
+  assert.equal(wrapper.props()['aria-orientation'], 'vertical');
+});
+
+test('renders without aria-orientation when checkboxList, orientation=horizontal and role is overridden', () => {
+  const wrapper = shallow<List>(
+    <List checkboxList orientation='horizontal' role='menu'>
+      {children}
+    </List>
+  );
+  assert.equal(wrapper.props()['aria-orientation'], undefined);
 });
 
 test('#onDestroy removes item from state.listItemClassNames', () => {

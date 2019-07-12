@@ -35,8 +35,8 @@ import ListItemMeta from './ListItemMeta';
 import ListDivider from './ListDivider';
 import ListGroup from './ListGroup';
 import ListGroupSubheader from './ListGroupSubheader';
-const ARIA_ORIENTATION = 'aria-orientation';
-const VERTICAL = 'vertical';
+
+const HORIZONTAL = 'horizontal';
 
 export interface ListProps extends React.HTMLProps<HTMLElement> {
   className?: string;
@@ -52,6 +52,7 @@ export interface ListProps extends React.HTMLProps<HTMLElement> {
   wrapFocus?: boolean;
   tag?: string;
   ref?: React.Ref<any>;
+  orientation?: 'vertical' | 'horizontal';
 }
 
 interface ListState {
@@ -114,7 +115,6 @@ export default class List extends React.Component<ListProps, ListState> {
     selectedIndex: -1,
     handleSelect: () => {},
     wrapFocus: true,
-    'aria-orientation': VERTICAL,
     tag: 'ul',
   };
 
@@ -128,8 +128,9 @@ export default class List extends React.Component<ListProps, ListState> {
       this.foundation.setSelectedIndex(selectedIndex);
     }
     this.foundation.setWrapFocus(wrapFocus!);
+    // Vertical is the default so true unless explicitly horizontal.
     this.foundation.setVerticalOrientation(
-      this.props[ARIA_ORIENTATION] === VERTICAL
+      this.props.orientation !== HORIZONTAL
     );
     this.initializeListType();
   }
@@ -146,9 +147,9 @@ export default class List extends React.Component<ListProps, ListState> {
     if (wrapFocus !== prevProps.wrapFocus) {
       this.foundation.setWrapFocus(wrapFocus!);
     }
-    if (this.props[ARIA_ORIENTATION] !== prevProps[ARIA_ORIENTATION]) {
+    if (this.props.orientation !== prevProps.orientation) {
       this.foundation.setVerticalOrientation(
-        this.props[ARIA_ORIENTATION] === VERTICAL
+        this.props.orientation !== HORIZONTAL
       );
     }
   }
@@ -422,6 +423,7 @@ export default class List extends React.Component<ListProps, ListState> {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       children,
       tag: Tag,
+      orientation,
       ...otherProps
     } = this.props;
 
@@ -432,6 +434,16 @@ export default class List extends React.Component<ListProps, ListState> {
         className={this.classes}
         ref={this.listElement}
         role={this.role}
+        // Only specify aria-orientation if:
+        // - orientation is horizontal (vertical is implicit)
+        // - props.role is falsy (not overridden)
+        // - this.role is truthy (we are applying role for checkboxList/radiogroup that supports aria-orientation)
+        // https://github.com/material-components/material-components-web/tree/master/packages/mdc-list#accessibility
+        aria-orientation={
+          orientation === HORIZONTAL && !role && this.role
+            ? HORIZONTAL
+            : undefined
+        }
         {...otherProps}
       >
         <ListItemContext.Provider

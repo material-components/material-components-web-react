@@ -1,6 +1,6 @@
 {
   "name": "@material/react-icon-button",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Material Components React Icon Button",
   "license": "Apache-2.0",
   "main": "dist/index.js",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@material/icon-button": "^2.1.1",
-    "@material/react-ripple": "^0.14.0",
+    "@material/react-ripple": "^0.14.1",
     "classnames": "^2.2.6"
   },
   "publishConfig": {
