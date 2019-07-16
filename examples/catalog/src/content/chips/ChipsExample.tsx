@@ -7,12 +7,16 @@ class ChoiceChips extends React.Component {
     selectedChipIds: ['choice2'],
   };
 
+  setSelectedChipIds = (selectedChipIds: string[]) => {
+    this.setState({selectedChipIds});
+  };
+
   render() {
     return (
       <ChipSet
         choice
         selectedChipIds={this.state.selectedChipIds}
-        handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
+        handleSelect={this.setSelectedChipIds}
       >
         <Chip id='choice1' label='choice1' />
         <Chip id='choice2' label='choice2' />
@@ -27,12 +31,16 @@ class FilterChips extends React.Component {
     selectedChipIds: ['filter1', 'filter2'],
   };
 
+  setSelectedChipIds = (selectedChipIds: string[]) => {
+    this.setState({selectedChipIds});
+  };
+
   render() {
     return (
       <ChipSet
         filter
         selectedChipIds={this.state.selectedChipIds}
-        handleSelect={(selectedChipIds) => this.setState({selectedChipIds})}
+        handleSelect={this.setSelectedChipIds}
       >
         <Chip id='filter1' label='filter1' />
         <Chip id='filter2' label='filter2' />
