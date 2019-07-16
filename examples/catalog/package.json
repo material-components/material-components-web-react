@@ -1,0 +1,41 @@
+{
+  "private": true,
+  "devDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3",
+    "css-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "mini-css-extract-plugin": "^0.7.0",
+    "node-sass": "^4.12.0",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
+    "@material/theme": "^3.0.0",
+    "@material/react-button": "^0.14.1",
+    "@material/react-card": "^0.14.1",
+    "@material/react-chips": "^0.14.1",
+    "@material/react-checkbox": "^0.14.1",
+    "@material/react-drawer": "^0.14.1",
+    "@material/react-fab": "^0.14.1",
+    "@material/react-linear-progress": "^0.14.1",
+    "@material/react-list": "^0.14.1",
+    "@material/react-radio": "^0.14.1",
+    "@material/react-select": "^0.14.1",
+    "@material/react-snackbar": "^0.14.1",
+    "@material/react-menu": "^0.14.1",
+    "@material/react-menu-surface": "^0.14.1",
+    "@material/react-layout-grid": "^0.14.1",
+    "@material/react-material-icon": "^0.14.1",
+    "@material/react-top-app-bar": "^0.14.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack --mode=production"
+  }
+}
