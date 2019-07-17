@@ -1,3 +1,5 @@
 **/node_modules
 **/dist/*.js
 **/dist/**/*.ts
+test/types/build/**/*
+test/types/build/index*
