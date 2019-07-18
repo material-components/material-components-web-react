@@ -53,10 +53,17 @@ class FilterChips extends React.Component {
 class InputChips extends React.Component {
   state = {
     chips: [
-      {label: 'Jane Smith', id: Math.random()},
-      {label: 'John Doe', id: Math.random()},
+      {label: 'Jane Smith', id: this.getUUID('Jane Smith')},
+      {label: 'John Doe', id: this.getUUID('John Doe')},
     ],
   };
+
+  getUUID(label: string) {
+    return (
+      label.replace(/\s/g, '') +
+      Math.random().toString().slice(2)
+    );
+  }
 
   handleKeyDown = (e: any) => {
     const input = e.target;
@@ -65,7 +72,7 @@ class InputChips extends React.Component {
       this.setState({
         chips: this.state.chips.concat({
           label,
-          id: Math.random(),
+          id: this.getUUID(label),
         }),
       });
       input.value = '';
@@ -80,10 +87,10 @@ class InputChips extends React.Component {
           <span>type & enter & add</span>
         </label>
         <ChipSet input updateChips={(chips) => this.setState({chips})}>
-          {this.state.chips.map((chip, index) => (
+          {this.state.chips.map((chip) => (
             <Chip
-              id={chip.id + index}
-              key={chip.id + index}
+              id={chip.id}
+              key={chip.id}
               label={chip.label}
               trailingIcon={<MaterialIcon icon='cancel' />}
             />
