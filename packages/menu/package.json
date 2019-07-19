@@ -13,7 +13,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/material-components/material-components-web-react.git"
+    "url": "https://github.com/material-components/material-components-web-react.git",
+    "directory": "packages/menu"
   },
   "peerDependencies": {
     "react": "^16.4.2"
