@@ -1,3 +1,27 @@
+# [0.15.0](https://github.com/material-components/material-components-web-react/compare/v0.14.0...v0.15.0) (2019-07-22)
+
+
+### Bug Fixes
+
+* **infrastructure:** chips need unique key ([#974](https://github.com/material-components/material-components-web-react/issues/974)) ([58408c8](https://github.com/material-components/material-components-web-react/commit/58408c8))
+* **infrastructure:** add eslint ignore lines ([#973](https://github.com/material-components/material-components-web-react/issues/973)) ([7172019](https://github.com/material-components/material-components-web-react/commit/7172019))
+* **list:** Only apply aria-orientation with role ([#945](https://github.com/material-components/material-components-web-react/issues/945)) ([beab319](https://github.com/material-components/material-components-web-react/commit/beab319))
+* **list:** Remove selected & activated from prop spread ([#977](https://github.com/material-components/material-components-web-react/issues/977)) ([4f36078](https://github.com/material-components/material-components-web-react/commit/4f36078))
+* **ripple:** broken relative imports ([#953](https://github.com/material-components/material-components-web-react/issues/953)) ([aabe0c1](https://github.com/material-components/material-components-web-react/commit/aabe0c1))
+
+
+### Features
+
+* **list:** Implement getAttributeForElementIndex ([#948](https://github.com/material-components/material-components-web-react/issues/948)) ([00f2ef1](https://github.com/material-components/material-components-web-react/commit/00f2ef1))
+
+
+### BREAKING CHANGES
+
+* **list:** 'orientation` is now used instead of 'aria-orientation' to specify list orientation.
+This allows smarter aria defaults that can be overridden if needed.
+
+
+
 # [0.14.1](https://github.com/material-components/material-components-web-react/compare/v0.14.0...v0.14.1) (2019-07-02)
 
 
