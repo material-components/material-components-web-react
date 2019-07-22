@@ -1,6 +1,6 @@
 {
   "name": "@material/react-material-icon",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "description": "Material Components React Material Icon",
   "license": "MIT",
   "main": "dist/index.js",
@@ -21,7 +21,7 @@
     "react": "^16.4.2"
   },
   "dependencies": {
-    "@material/react-ripple": "^0.14.1",
+    "@material/react-ripple": "^0.15.0",
     "classnames": "^2.2.6"
   },
   "publishConfig": {

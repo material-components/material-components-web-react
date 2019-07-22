@@ -1,6 +1,6 @@
 {
   "name": "@material/react-menu-surface",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "description": "Material Components React Menu Surface",
   "license": "MIT",
   "main": "dist/index.js",
