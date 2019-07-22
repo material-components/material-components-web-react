@@ -191,6 +191,8 @@ export class ListItemBase<
       initRipple,
       checkboxList,
       radioList,
+      selected,
+      activated,
       onDestroy,
       onClick,
       onKeyDown,
