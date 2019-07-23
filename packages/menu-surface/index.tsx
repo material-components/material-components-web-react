@@ -29,7 +29,7 @@ import {Corner} from '@material/menu-surface/index';
 import {MDCMenuDistance} from '@material/menu-surface/types';
 
 export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
-  anchorElement?: HTMLElement;
+  anchorElement?: HTMLElement | null;
   anchorCorner?: number;
   anchorMargin?: {
     top?: number;
