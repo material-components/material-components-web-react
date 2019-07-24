@@ -1,0 +1,42 @@
+@keyframes vibrate {
+  0%, 2%, 4%, 6%, 8%, 10%, 12%, 14%, 16%, 18% {
+    transform: translateX(-3px);
+  }
+  1%, 3%, 5%, 7%, 9%, 11%, 13%, 15%, 17%, 19% {
+    transform: translateX(3px);
+  }
+  20%, 100% {
+    transform: translateX(0);
+  }
+}
+
+.search {
+  position: relative;
+  height: 100vh;
+}
+
+.search__middle {
+  position: relative;
+  text-align: center;
+  padding-top: calc(50vh - 180px);
+}
+
+.search__middle__text-field-wrapper {
+  margin-top: 25px;
+}
+
+.search__middle__text-field-wrapper__text-field {
+  width: 585px;
+}
+
+.search__middle__text-field-wrapper__text-field.notify-empty {
+  animation: vibrate 2s ease-out;
+}
+
+.search__middle__button-wrapper {
+  margin-top: 30px;
+}
+
+.search__middle__button-wrapper__search-button {
+  margin-right: 10px;
+}

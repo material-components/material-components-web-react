@@ -6,3 +6,4 @@ Example | Link
 --- | ---
 Roses | [./roses](./roses)
 Catalog | [./catalog](./catalog)
+NextJS | [./nextjs](./nextjs)
