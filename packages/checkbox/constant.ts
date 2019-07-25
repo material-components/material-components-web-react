@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,36 +19,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-import React from 'react';
 
-import {CSS_CLASSES} from './constant';
+import {cssClasses} from '@material/checkbox/constants';
 
-export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
-  checked: boolean;
-  disabled: boolean;
-  id?: string;
-  rippleActivatorRef: React.RefObject<HTMLInputElement>;
-  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
-}
+const CSS_CLASSES = {
+  ...cssClasses,
+};
 
-export class NativeControl extends React.Component<NativeControlProps, {}> {
-  static defaultProps: Partial<NativeControlProps> = {
-    checked: false,
-    disabled: false,
-    onChange: () => {},
-  };
-
-  render() {
-    const {rippleActivatorRef, ...otherProps} = this.props;
-    return (
-      <input
-        type='checkbox'
-        className={CSS_CLASSES.NATIVE_CONTROL}
-        ref={rippleActivatorRef}
-        {...otherProps}
-      />
-    );
-  }
-}
-
-export default NativeControl;
+export {CSS_CLASSES};

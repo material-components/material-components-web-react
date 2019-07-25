@@ -24,7 +24,6 @@ import React from 'react';
 import classnames from 'classnames';
 import {MDCCheckboxFoundation} from '@material/checkbox/foundation';
 import {MDCCheckboxAdapter} from '@material/checkbox/adapter';
-import {cssClasses} from '@material/checkbox/constants';
 import {
   withRipple,
   InjectedProps,
@@ -32,6 +31,7 @@ import {
   RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
 
+import {CSS_CLASSES} from './constant';
 import NativeControl from './NativeControl';
 
 export interface CheckboxProps
@@ -128,9 +128,9 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const {classList} = this.state;
     const {className} = this.props;
     return classnames(
-      'mdc-checkbox',
+      CSS_CLASSES.ROOT,
       Array.from(classList),
-      this.state.disabled ? cssClasses.DISABLED : null,
+      this.state.disabled ? CSS_CLASSES.DISABLED : null,
       className
     );
   }
@@ -214,19 +214,19 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           onChange={this.onChange}
           rippleActivatorRef={this.inputElement}
         />
-        <div className='mdc-checkbox__background'>
+        <div className={CSS_CLASSES.BACKGROUND}>
           <svg
-            className='mdc-checkbox__checkmark'
+            className={CSS_CLASSES.CHECKMARK}
             viewBox='0 0 24 24'
             focusable='false'
           >
             <path
-              className='mdc-checkbox__checkmark-path'
+              className={CSS_CLASSES.CHECKMARK_PATH}
               fill='none'
               d='M1.73,12.91 8.1,19.28 22.79,4.59'
             />
           </svg>
-          <div className='mdc-checkbox__mixedmark' />
+          <div className={CSS_CLASSES.MIXEDMARK} />
         </div>
       </div>
     );
