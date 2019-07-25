@@ -39,10 +39,7 @@ const DrawerHeader: React.FunctionComponent<DrawerHeaderProps> = ({
   return (
     // https://github.com/Microsoft/TypeScript/issues/28892
     // @ts-ignore
-    <Tag
-      className={classnames(CSS_CLASSES.HEADER, className)}
-      {...otherProps}
-    >
+    <Tag className={classnames(CSS_CLASSES.HEADER, className)} {...otherProps}>
       {children}
     </Tag>
   );

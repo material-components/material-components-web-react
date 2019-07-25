@@ -11,7 +11,7 @@ import Dialog, {
   DialogButton,
 } from '../../../packages/dialog';
 import {isScrollable, areTopsMisaligned} from '@material/dialog/util';
-import {cssClasses, LAYOUT_EVENTS} from '../../../packages/dialog/constants';
+import {CSS_CLASSES, LAYOUT_EVENTS} from '../../../packages/dialog/constant';
 import {coerceForTesting} from '../helpers/types';
 import {FocusTrap} from 'focus-trap';
 
@@ -195,7 +195,7 @@ test('component has aria-modal set to true', () => {
 test('classNames adds classes', () => {
   const wrapper = shallow<Dialog>(<Dialog className='test-class-name' />);
   assert.isTrue(wrapper.hasClass('test-class-name'));
-  assert.isTrue(wrapper.hasClass(cssClasses.BASE));
+  assert.isTrue(wrapper.hasClass(CSS_CLASSES.ROOT));
 });
 
 test('#adapter.addClass should update state with new className', () => {
@@ -344,7 +344,7 @@ test('#adapter.getActionFromEvent returns null when attribute is not present', (
   assert.isNull(action);
 });
 
-test(`#adapter.clickDefaultButton invokes click() on button matching ${cssClasses.DEFAULT_BUTTON}`, () => {
+test(`#adapter.clickDefaultButton invokes click() on button matching ${CSS_CLASSES.DEFAULT_BUTTON}`, () => {
   const wrapper = mount<Dialog>(
     <Dialog>
       <DialogContent>
@@ -365,7 +365,7 @@ test(`#adapter.clickDefaultButton invokes click() on button matching ${cssClasse
   td.verify(defaultButton.click(), {times: 1});
 });
 
-test(`#adapter.clickDefaultButton does nothing if no button matches ${cssClasses.DEFAULT_BUTTON}`, () => {
+test(`#adapter.clickDefaultButton does nothing if no button matches ${CSS_CLASSES.DEFAULT_BUTTON}`, () => {
   const wrapper = mount<Dialog>(DialogStub);
   const buttons = wrapper.instance().buttons!;
   buttons.map(
@@ -494,7 +494,7 @@ test('#handleClosing removes handler for LAYOUT_EVENTS to window', () => {
   );
   wrapper.instance().handleOpening();
 
-  LAYOUT_EVENTS.forEach((eventType) => {
+  LAYOUT_EVENTS.forEach((eventType: any) => {
     const evt = new KeyboardEvent(eventType);
     window.dispatchEvent(evt);
     // @ts-ignore expected 0 arguments but got 1
@@ -503,7 +503,7 @@ test('#handleClosing removes handler for LAYOUT_EVENTS to window', () => {
 
   wrapper.instance().handleClosing('close');
 
-  LAYOUT_EVENTS.forEach((eventType) => {
+  LAYOUT_EVENTS.forEach((eventType: any) => {
     const evt = new Event(eventType);
     window.dispatchEvent(evt);
     // @ts-ignore expected 0 arguments but got 1
@@ -536,7 +536,7 @@ test('#renderContainer renders container if children present', () => {
   const container = wrapper.instance().renderContainer(children);
 
   assert.isDefined(container);
-  assert.equal(container!.props.className, cssClasses.CONTAINER);
+  assert.equal(container!.props.className, CSS_CLASSES.CONTAINER);
   children.forEach((child: ChildTypes, i: number) =>
     td.verify(wrapper.instance().renderChild(child, i), {times: 1})
   );
@@ -588,7 +588,7 @@ test('#setId will set labelledby and a id on DialogTitle if not present', () => 
   const dialog = wrapper.instance().dialogElement.current;
 
   const labelledby = dialog!.getAttribute('aria-labelledby');
-  const title = dialog!.getElementsByClassName(cssClasses.TITLE)[0];
+  const title = dialog!.getElementsByClassName(CSS_CLASSES.TITLE)[0];
 
   assert.equal(labelledby, title.id);
 });
@@ -602,7 +602,7 @@ test('#setId will set labelledby and from a custom DialogTitle', () => {
   );
   const dialog = wrapper.instance().dialogElement.current;
   const labelledby = dialog!.getAttribute('aria-labelledby');
-  const title = dialog!.getElementsByClassName(cssClasses.TITLE)[0];
+  const title = dialog!.getElementsByClassName(CSS_CLASSES.TITLE)[0];
 
   assert.equal(labelledby, customId);
   assert.equal(labelledby, title.id);
@@ -672,7 +672,7 @@ test('Dialog closes when scrim is clicked', () => {
   const wrapper = mount<Dialog>(<Dialog open={true} />);
   assert.isTrue(wrapper.instance().foundation.isOpen());
 
-  wrapper.find(`.${cssClasses.SCRIM}`).simulate('click');
+  wrapper.find(`.${CSS_CLASSES.SCRIM}`).simulate('click');
   assert.isFalse(wrapper.instance().foundation.isOpen());
 });
 
@@ -680,6 +680,6 @@ test('Dialog does not close when scrim is clicked if scrimClickAction set to emp
   const wrapper = mount<Dialog>(<Dialog open scrimClickAction={''} />);
   assert.isTrue(wrapper.instance().foundation.isOpen());
 
-  wrapper.find(`.${cssClasses.SCRIM}`).simulate('click');
+  wrapper.find(`.${CSS_CLASSES.SCRIM}`).simulate('click');
   assert.isTrue(wrapper.instance().foundation.isOpen());
 });

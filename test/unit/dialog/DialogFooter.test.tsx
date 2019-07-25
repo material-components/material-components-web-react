@@ -2,7 +2,7 @@ import React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import {DialogFooter, DialogButton} from '../../../packages/dialog';
-import {cssClasses} from '../../../packages/dialog/constants';
+import {CSS_CLASSES} from '../../../packages/dialog/constant';
 
 suite('DialogFooter');
 
@@ -18,13 +18,13 @@ test('renders a DialogFooter with custom tag', () => {
 
 test('redners a DialogFooter with the default className', () => {
   const wrapper = shallow(<DialogFooter />);
-  assert.isTrue(wrapper.hasClass(cssClasses.ACTIONS));
+  assert.isTrue(wrapper.hasClass(CSS_CLASSES.ACTIONS));
 });
 
 test('props.className adds classes', () => {
   const wrapper = shallow(<DialogFooter className='test-class' />);
   assert.isTrue(wrapper.hasClass('test-class'));
-  assert.isTrue(wrapper.hasClass(cssClasses.ACTIONS));
+  assert.isTrue(wrapper.hasClass(CSS_CLASSES.ACTIONS));
 });
 
 test('children are added correctly', () => {

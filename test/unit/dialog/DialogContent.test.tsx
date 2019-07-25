@@ -2,7 +2,7 @@ import React from 'react';
 import {assert} from 'chai';
 import {shallow} from 'enzyme';
 import {DialogContent} from '../../../packages/dialog';
-import {cssClasses} from '../../../packages/dialog/constants';
+import {CSS_CLASSES} from '../../../packages/dialog/constant';
 
 suite('DialogContent');
 
@@ -18,13 +18,13 @@ test('renders a DialogContent with custom tag', () => {
 
 test('redners a DialogContent with the default className', () => {
   const wrapper = shallow(<DialogContent />);
-  assert.isTrue(wrapper.hasClass(cssClasses.CONTENT));
+  assert.isTrue(wrapper.hasClass(CSS_CLASSES.CONTENT));
 });
 
 test('props.className adds classes', () => {
   const wrapper = shallow(<DialogContent className='test-class' />);
   assert.isTrue(wrapper.hasClass('test-class'));
-  assert.isTrue(wrapper.hasClass(cssClasses.CONTENT));
+  assert.isTrue(wrapper.hasClass(CSS_CLASSES.CONTENT));
 });
 
 test('prop.id adds id', () => {
