@@ -30,7 +30,7 @@ import {
 import {MDCChipFoundation} from '@material/chips/chip/foundation';
 import {MDCChipAdapter} from '@material/chips/chip/adapter';
 
-import {CSS_CLASSES} from './constant';
+import {CSS_CLASSES} from './constants';
 
 export interface ChipProps extends InjectedProps<HTMLDivElement> {
   id?: string;

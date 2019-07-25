@@ -23,7 +23,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Button, {ButtonProps} from '@material/react-button';
 
-import {CSS_CLASSES} from './constant';
+import {CSS_CLASSES} from './constants';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;

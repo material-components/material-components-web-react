@@ -29,7 +29,7 @@ import Actions from './Actions';
 import PrimaryContent from './PrimaryContent';
 import Media from './Media';
 
-import {CSS_CLASSES} from './constant';
+import {CSS_CLASSES} from './constants';
 
 export interface CardProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;

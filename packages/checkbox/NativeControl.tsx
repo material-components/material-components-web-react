@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 import React from 'react';
 
-import {CSS_CLASSES} from './constant';
+import {CSS_CLASSES} from './constants';
 
 export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
   checked: boolean;

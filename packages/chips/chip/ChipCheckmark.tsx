@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 import React from 'react';
-import {CSS_CLASSES} from './constant';
+import {CSS_CLASSES} from './constants';
 
 export default class ChipCheckmark extends React.Component<{}, {}> {
   width: number = 0;

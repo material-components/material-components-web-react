@@ -23,7 +23,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import {CSS_CLASSES, DEVICE_TYPE} from './constant';
+import {CSS_CLASSES, DEVICE_TYPE} from './constants';
 
 export type TwelveColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 export type FourColumn = 1 | 2 | 3 | 4;

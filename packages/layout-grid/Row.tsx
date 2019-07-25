@@ -23,7 +23,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import {CSS_CLASSES} from './constant';
+import {CSS_CLASSES} from './constants';
 
 export interface RowProps<T> extends React.HTMLProps<T> {
   className?: string;

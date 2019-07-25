@@ -24,7 +24,7 @@ import {isElement} from 'react-is';
 import classnames from 'classnames';
 import {MDCChipSetFoundation} from '@material/chips/chip-set/foundation';
 
-import {CSS_CLASSES} from './constant';
+import {CSS_CLASSES} from './constants';
 import {ChipProps} from '../chip/Chip';
 import ChipCheckmark from '../chip/ChipCheckmark';
 

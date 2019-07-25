@@ -29,7 +29,7 @@ import {
   RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
 
-import {CSS_CLASSES} from './constant';
+import {CSS_CLASSES} from './constants';
 
 export interface FabProps
   extends InjectedProps<HTMLButtonElement>,

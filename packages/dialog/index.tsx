@@ -37,7 +37,7 @@ import DialogFooter, {DialogFooterProps} from './DialogFooter';
 import DialogTitle, {DialogTitleProps} from './DialogTitle';
 import DialogButton from './DialogButton';
 
-import {CSS_CLASSES, LAYOUT_EVENTS, STRINGS} from './constant';
+import {CSS_CLASSES, LAYOUT_EVENTS, STRINGS} from './constants';
 import {FocusTrap} from 'focus-trap';
 
 export type ChildTypes =

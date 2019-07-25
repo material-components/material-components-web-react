@@ -11,7 +11,7 @@ import Dialog, {
   DialogButton,
 } from '../../../packages/dialog';
 import {isScrollable, areTopsMisaligned} from '@material/dialog/util';
-import {CSS_CLASSES, LAYOUT_EVENTS} from '../../../packages/dialog/constant';
+import {CSS_CLASSES, LAYOUT_EVENTS} from '../../../packages/dialog/constants';
 import {coerceForTesting} from '../helpers/types';
 import {FocusTrap} from 'focus-trap';
 
