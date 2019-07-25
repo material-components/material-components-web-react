@@ -23,8 +23,10 @@ import React from 'react';
 import {isElement} from 'react-is';
 import classnames from 'classnames';
 import {MDCChipSetFoundation} from '@material/chips/chip-set/foundation';
-import ChipCheckmark from './ChipCheckmark';
-import {ChipProps} from './Chip'; // eslint-disable-line @typescript-eslint/no-unused-vars
+
+import {CSS_CLASSES} from './constant';
+import {ChipProps} from '../Chip';
+import ChipCheckmark from '../ChipCheckmark';
 
 type ChipType = React.ReactElement<ChipProps>;
 
@@ -91,10 +93,10 @@ export default class ChipSet extends React.Component<
 
   get classes() {
     const {className, filter, choice, input} = this.props;
-    return classnames('mdc-chip-set', className, {
-      'mdc-chip-set--filter': filter,
-      'mdc-chip-set--choice': choice,
-      'mdc-chip-set--input': input,
+    return classnames(CSS_CLASSES.ROOT, className, {
+      [CSS_CLASSES.FILTER]: filter,
+      [CSS_CLASSES.CHOICE]: choice,
+      [CSS_CLASSES.INPUT]: input,
     });
   }
 

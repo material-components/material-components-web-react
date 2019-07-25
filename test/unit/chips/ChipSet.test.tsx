@@ -2,7 +2,7 @@ import React from 'react';
 import {assert} from 'chai';
 import td from 'testdouble';
 import {shallow, mount} from 'enzyme';
-import ChipSet from '../../../packages/chips/ChipSet';
+import ChipSet from '../../../packages/chips/chip-set/ChipSet';
 import {Chip, ChipProps} from '../../../packages/chips/index'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import ChipCheckmark from '../../../packages/chips/ChipCheckmark';
 import {coerceForTesting} from '../helpers/types';

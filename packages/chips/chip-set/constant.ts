@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Chip, {ChipProps} from './Chip';
-import ChipCheckmark from './ChipCheckmark';
-import ChipSet, {ChipSetProps} from './chip-set/ChipSet';
+import {cssClasses} from '@material/chips/chip-set/constants';
 
-export {Chip, ChipCheckmark, ChipSet, ChipSetProps, ChipProps};
+const CSS_CLASSES = {
+  ...cssClasses,
+  ROOT: 'mdc-chip-set',
+  INPUT: 'mdc-chip-set--input',
+};
+
+export {CSS_CLASSES};
