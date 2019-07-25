@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React, {FormEvent} from 'react';
+import React from 'react';
+import Router from 'next/router';
 
 import Button from '@material/react-button';
 import TextField, {Input} from '@material/react-text-field';
@@ -19,22 +20,39 @@ export default class SearchPage extends React.Component {
       clearInterval(timeoutKey);
       this.setState({timeoutKey: null});
     }
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       this.setState({
         timeoutKey: setTimeout(() => {
           this.setState({timeoutKey: null});
         }, 2000),
       });
-    }, 0);
+    });
   }
 
   search() {
     if (this.state.keyword) {
-      location.href = `/search-results/${this.state.keyword}`;
+      Router
+        .push({pathname: `/search-results/${this.state.keyword}`})
+        .catch(console.error);
     } else {
       this.notifyEmpty();
     }
   }
+
+  clickSearch = () => {
+    this.search();
+  };
+
+  enterSearch = (e: React.KeyboardEvent) => {
+    if (e.keyCode === 13) {
+      this.search();
+    }
+  };
+
+  syncKeyword = (e: React.FormEvent) => {
+    const target = e.target as HTMLInputElement;
+    this.setState({keyword: target.value});
+  };
 
   render() {
     return (
@@ -62,11 +80,8 @@ export default class SearchPage extends React.Component {
             >
               <Input
                 value={this.state.keyword}
-                onChange={({target}: FormEvent) => {
-                  this.setState({
-                    keyword: (target as HTMLInputElement).value,
-                  });
-                }}
+                onKeyDown={this.enterSearch}
+                onChange={this.syncKeyword}
               />
             </TextField>
           </div>
@@ -74,7 +89,7 @@ export default class SearchPage extends React.Component {
             <Button
               raised
               className='search__middle__button-wrapper__search-button'
-              onClick={() => this.search()}
+              onClick={this.clickSearch}
             >
               Google Search
             </Button>
