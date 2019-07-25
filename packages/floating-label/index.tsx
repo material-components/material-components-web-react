@@ -24,7 +24,8 @@ import React from 'react';
 import classnames from 'classnames';
 import {MDCFloatingLabelFoundation} from '@material/floating-label/foundation';
 import {MDCFloatingLabelAdapter} from '@material/floating-label/adapter';
-import {cssClasses} from '@material/floating-label/constants';
+
+import {CSS_CLASSES} from './constants';
 
 export interface FloatingLabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement> {
@@ -82,7 +83,7 @@ export default class FloatingLabel extends React.Component<
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;
-    return classnames(cssClasses.ROOT, Array.from(classList), className);
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className);
   }
 
   get adapter(): MDCFloatingLabelAdapter {
@@ -120,7 +121,7 @@ export default class FloatingLabel extends React.Component<
   };
 
   onShakeEnd = () => {
-    this.removeClassFromClassList(cssClasses.LABEL_SHAKE);
+    this.removeClassFromClassList(CSS_CLASSES.LABEL_SHAKE);
   };
 
   render() {
