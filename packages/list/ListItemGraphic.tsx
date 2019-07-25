@@ -23,6 +23,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import {CSS_CLASSES} from './constants';
+
 export interface ListItemGraphicProps {
   className?: string;
   tabIndex?: number;
@@ -37,7 +39,7 @@ const ListItemGraphic: React.FunctionComponent<ListItemGraphicProps> = ({
   ...otherProps
 }) => {
   const graphicProps = {
-    className: classnames('mdc-list-item__graphic', className),
+    className: classnames(CSS_CLASSES.ITEM_GRAPHIC, className),
     tabIndex: tabIndex !== undefined ? tabIndex : -1,
     ...otherProps,
   };

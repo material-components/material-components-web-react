@@ -23,6 +23,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import {CSS_CLASSES} from './constants';
+
 export interface ListItemMetaProps {
   className?: string;
   tabIndex?: number;
@@ -44,7 +46,7 @@ const ListItemMeta: React.FunctionComponent<ListItemMetaProps> = ({
   }
   const metaProps = {
     className: classnames(
-      'mdc-list-item__meta',
+      CSS_CLASSES.ITEM_META,
       className,
       metaElement.props.className
     ),

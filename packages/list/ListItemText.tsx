@@ -23,6 +23,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import {CSS_CLASSES} from './constants';
+
 export interface ListItemTextProps {
   tabIndex?: number;
   className?: string;
@@ -67,18 +69,18 @@ const ListItemText: React.FunctionComponent<ListItemTextProps> = ({
   if (!secondaryText) {
     return renderText(
       primaryText,
-      classnames('mdc-list-item__text', className)
+      classnames(CSS_CLASSES.ITEM_TEXT, className)
     );
   }
 
   return (
     <span
-      className={classnames('mdc-list-item__text', className)}
+      className={classnames(CSS_CLASSES.ITEM_TEXT, className)}
       tabIndex={tabIndex !== undefined ? tabIndex : -1}
       {...otherProps}
     >
-      {renderText(primaryText, 'mdc-list-item__primary-text')}
-      {renderText(secondaryText, 'mdc-list-item__secondary-text')}
+      {renderText(primaryText, CSS_CLASSES.ITEM_PRIMARY_TEXT)}
+      {renderText(secondaryText, CSS_CLASSES.ITEM_SECONDARY_TEXT)}
     </span>
   );
 };

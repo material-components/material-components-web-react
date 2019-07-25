@@ -28,7 +28,6 @@ import {
   MDCModalDrawerFoundation,
   util,
 } from '@material/drawer';
-import {MDCListFoundation} from '@material/list/foundation';
 
 import DrawerHeader from './Header';
 import DrawerContent from './Content';
@@ -37,7 +36,7 @@ import DrawerTitle from './Title';
 import DrawerAppContent from './AppContent';
 
 import {CSS_CLASSES} from './constants';
-const {cssClasses: listCssClasses} = MDCListFoundation;
+import {CSS_CLASSES as LIST_CSS_CLASSES} from '../list/constants';
 
 type RefCallback<T> = (node: T) => void;
 
@@ -172,7 +171,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
         const drawerElement = this.drawerElement && this.drawerElement.current;
         if (!drawerElement) return;
         const activeNavItemEl = drawerElement.querySelector(
-          `.${listCssClasses.LIST_ITEM_ACTIVATED_CLASS}`
+          `.${LIST_CSS_CLASSES.ITEM_ACTIVATED}`
         ) as HTMLElement | null;
         if (activeNavItemEl) {
           activeNavItemEl.focus();
