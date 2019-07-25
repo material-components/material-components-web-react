@@ -22,6 +22,7 @@
 
 import React from 'react';
 import classnames from 'classnames';
+
 import {
   withRipple,
   InjectedProps,
@@ -31,7 +32,10 @@ import {
 import {MDCIconButtonToggleAdapter} from '@material/icon-button/adapter';
 import {MDCIconButtonToggleFoundation} from '@material/icon-button/foundation';
 import {MDCIconButtonToggleEventDetail} from '@material/icon-button/types';
+
+import {CSS_CLASSES} from './constants';
 import IconToggle from './IconToggle';
+
 const ARIA_PRESSED = 'aria-pressed';
 
 interface ElementAttributes {
@@ -40,6 +44,7 @@ interface ElementAttributes {
 }
 
 type IconButtonTypes = HTMLButtonElement | HTMLAnchorElement;
+
 export interface IconButtonBaseProps extends ElementAttributes {
   handleChange?: (evt: MDCIconButtonToggleEventDetail) => void;
   isLink?: boolean;
@@ -85,7 +90,7 @@ class IconButtonBase<T extends IconButtonTypes> extends React.Component<
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;
-    return classnames('mdc-icon-button', Array.from(classList), className);
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className);
   }
 
   get adapter(): MDCIconButtonToggleAdapter {
