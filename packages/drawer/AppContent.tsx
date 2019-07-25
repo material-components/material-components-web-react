@@ -23,6 +23,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import {CSS_CLASSES} from './constants';
+
 export interface DrawerAppContentProps {
   tag?: string;
   className?: string;
@@ -38,7 +40,7 @@ const DrawerAppContent: React.FunctionComponent<DrawerAppContentProps> = ({
     // https://github.com/Microsoft/TypeScript/issues/28892
     // @ts-ignore
     <Tag
-      className={classnames('mdc-drawer-app-content', className)}
+      className={classnames(CSS_CLASSES.APP_CONTENT, className)}
       {...otherProps}
     >
       {children}

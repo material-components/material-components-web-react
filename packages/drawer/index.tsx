@@ -22,19 +22,21 @@
 
 import React from 'react';
 import classnames from 'classnames';
+import {FocusTrap} from 'focus-trap';
 import {
   MDCDismissibleDrawerFoundation,
   MDCModalDrawerFoundation,
   util,
 } from '@material/drawer';
 import {MDCListFoundation} from '@material/list/foundation';
+
 import DrawerHeader from './Header';
 import DrawerContent from './Content';
 import DrawerSubtitle from './Subtitle';
 import DrawerTitle from './Title';
 import DrawerAppContent from './AppContent';
-import {FocusTrap} from 'focus-trap';
 
+import {CSS_CLASSES} from './constants';
 const {cssClasses: listCssClasses} = MDCListFoundation;
 
 type RefCallback<T> = (node: T) => void;
@@ -130,9 +132,9 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
   get classes() {
     const {classList} = this.state;
     const {className, dismissible, modal} = this.props;
-    return classnames('mdc-drawer', Array.from(classList), className, {
-      'mdc-drawer--dismissible': dismissible,
-      'mdc-drawer--modal': modal,
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className, {
+      [CSS_CLASSES.DISMISSIBLE]: dismissible,
+      [CSS_CLASSES.MODAL]: modal,
     });
   }
 
@@ -260,7 +262,7 @@ class Drawer extends React.Component<DrawerProps, DrawerState> {
   renderScrim() {
     return (
       <div
-        className='mdc-drawer-scrim'
+        className={CSS_CLASSES.SCRIM}
         onClick={() =>
           (this.foundation as MDCModalDrawerFoundation).handleScrimClick()
         }

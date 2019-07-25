@@ -23,6 +23,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import {CSS_CLASSES} from './constants';
+
 export interface DrawerHeaderProps {
   tag?: string;
   className?: string;
@@ -38,7 +40,7 @@ const DrawerHeader: React.FunctionComponent<DrawerHeaderProps> = ({
     // https://github.com/Microsoft/TypeScript/issues/28892
     // @ts-ignore
     <Tag
-      className={classnames('mdc-drawer__header', className)}
+      className={classnames(CSS_CLASSES.HEADER, className)}
       {...otherProps}
     >
       {children}

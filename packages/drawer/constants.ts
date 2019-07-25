@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,31 +18,17 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
+import {cssClasses} from '@material/drawer/constants';
 
-import {CSS_CLASSES} from './constants';
-
-export interface DrawerTitleProps {
-  tag?: string;
-  className?: string;
-}
-
-const DrawerTitle: React.FunctionComponent<DrawerTitleProps> = ({
-  tag: Tag = 'h3',
-  children,
-  className = '',
-  ...otherProps
-}) => {
-  return (
-    // https://github.com/Microsoft/TypeScript/issues/28892
-    // @ts-ignore
-    <Tag className={classnames(CSS_CLASSES.TITLE, className)} {...otherProps}>
-      {children}
-    </Tag>
-  );
+const CSS_CLASSES = {
+  ...cssClasses,
+  APP_CONTENT: 'mdc-drawer-app-content',
+  CONTENT: 'mdc-drawer__content',
+  HEADER: 'mdc-drawer__header',
+  SCRIM: 'mdc-drawer-scrim',
+  SUBTITLE: 'mdc-drawer__subtitle',
+  TITLE: 'mdc-drawer__title',
 };
 
-export default DrawerTitle;
+export {CSS_CLASSES};
