@@ -21,8 +21,9 @@
 // THE SOFTWARE.
 import React from 'react';
 import classnames from 'classnames';
-import {cssClasses} from './constants';
 import Button, {ButtonProps} from '@material/react-button';
+
+import {CSS_CLASSES} from './constants';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 type ButtonTypes = HTMLAnchorElement | HTMLButtonElement;
@@ -44,8 +45,8 @@ const DialogButton: <T extends ButtonTypes>(
 }) => (
   // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
   <Button
-    className={classnames(className, cssClasses.BUTTON, {
-      [cssClasses.DEFAULT_BUTTON]: isDefault,
+    className={classnames(className, CSS_CLASSES.BUTTON, {
+      [CSS_CLASSES.DEFAULT_BUTTON]: isDefault,
     })}
     data-mdc-dialog-action={action}
     {...otherProps}

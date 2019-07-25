@@ -21,7 +21,8 @@
 // THE SOFTWARE.
 import React from 'react';
 import classnames from 'classnames';
-import {cssClasses} from './constants';
+
+import {CSS_CLASSES} from './constants';
 
 export interface DialogContentProps<T> extends React.HTMLProps<T> {
   className?: string;
@@ -38,7 +39,7 @@ const DialogContent: <T extends HTMLElement = HTMLDivElement>(
   ...otherProps
 }) => (
   // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-  <Tag className={classnames(className, cssClasses.CONTENT)} {...otherProps}>
+  <Tag className={classnames(className, CSS_CLASSES.CONTENT)} {...otherProps}>
     {children}
   </Tag>
 );

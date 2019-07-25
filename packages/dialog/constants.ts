@@ -18,19 +18,24 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-const BASE = 'mdc-dialog';
-const cssClasses = {
-  BASE,
-  CONTAINER: `${BASE}__container`,
-  SURFACE: `${BASE}__surface`,
-  TITLE: `${BASE}__title`,
-  CONTENT: `${BASE}__content`,
-  ACTIONS: `${BASE}__actions`,
-  BUTTON: `${BASE}__button`,
-  DEFAULT_BUTTON: `${BASE}__button--default`,
-  SCRIM: `${BASE}__scrim`,
+
+import {cssClasses, strings} from '@material/dialog/constants';
+
+const CSS_CLASSES = {
+  ...cssClasses,
+  ACTIONS: 'mdc-dialog__actions',
+  BUTTON: 'mdc-dialog__button',
+  CONTAINER: 'mdc-dialog__container',
+  CONTENT: 'mdc-dialog__content',
+  DEFAULT_BUTTON: 'mdc-dialog__button--default',
+  ROOT: 'mdc-dialog',
+  SCRIM: 'mdc-dialog__scrim',
+  SURFACE: 'mdc-dialog__surface',
+  TITLE: 'mdc-dialog__title',
 };
 
 const LAYOUT_EVENTS = ['resize', 'orientationchange'];
 
-export {cssClasses, LAYOUT_EVENTS};
+const STRINGS = {...strings};
+
+export {CSS_CLASSES, LAYOUT_EVENTS, STRINGS};

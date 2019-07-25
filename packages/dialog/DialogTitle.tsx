@@ -21,7 +21,8 @@
 // THE SOFTWARE.
 import React from 'react';
 import classnames from 'classnames';
-import {cssClasses} from './constants';
+
+import {CSS_CLASSES} from './constants';
 
 export interface DialogTitleProps<T> extends React.HTMLProps<T> {
   className?: string;
@@ -38,7 +39,7 @@ const DialogTitle: <T extends HTMLElement = HTMLHeadingElement>(
   ...otherProps
 }) => (
   // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
-  <Tag className={classnames(className, cssClasses.TITLE)} {...otherProps}>
+  <Tag className={classnames(className, CSS_CLASSES.TITLE)} {...otherProps}>
     {children}
   </Tag>
 );

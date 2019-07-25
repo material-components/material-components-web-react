@@ -22,8 +22,6 @@
 
 import {cssClasses} from '@material/checkbox/constants';
 
-const CSS_CLASSES = {
-  ...cssClasses,
-};
+const CSS_CLASSES = {...cssClasses};
 
 export {CSS_CLASSES};

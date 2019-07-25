@@ -30,15 +30,14 @@ import {
   isScrollable,
   areTopsMisaligned,
 } from '@material/dialog/util';
-import {strings} from '@material/dialog/constants';
 import {ponyfill} from '@material/dom';
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import DialogContent, {DialogContentProps} from './DialogContent';
 import DialogFooter, {DialogFooterProps} from './DialogFooter';
 import DialogTitle, {DialogTitleProps} from './DialogTitle';
-/* eslint-enable @typescript-eslint/no-unused-vars */
 import DialogButton from './DialogButton';
-import {cssClasses, LAYOUT_EVENTS} from './constants';
+
+import {CSS_CLASSES, LAYOUT_EVENTS, STRINGS} from './constants';
 import {FocusTrap} from 'focus-trap';
 
 export type ChildTypes =
@@ -105,8 +104,8 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
     id: 'mdc-dialog',
     open: false,
     role: 'alertdialog',
-    escapeKeyAction: strings.CLOSE_ACTION,
-    scrimClickAction: strings.CLOSE_ACTION,
+    escapeKeyAction: STRINGS.CLOSE_ACTION,
+    scrimClickAction: STRINGS.CLOSE_ACTION,
   };
 
   state: DialogState = {classList: new Set()};
@@ -171,14 +170,14 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   get classes(): string {
     const {classList} = this.state;
     const {className} = this.props;
-    return classnames(cssClasses.BASE, Array.from(classList), className);
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className);
   }
 
   get buttons(): HTMLButtonElement[] {
     const buttons =
       this.dialogElement.current &&
       [].slice.call(
-        this.dialogElement.current.getElementsByClassName(cssClasses.BUTTON)
+        this.dialogElement.current.getElementsByClassName(CSS_CLASSES.BUTTON)
       );
     return buttons ? buttons : [];
   }
@@ -186,14 +185,14 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
   get content(): HTMLElement | null {
     return (
       this.dialogElement.current &&
-      this.dialogElement.current.querySelector(`.${cssClasses.CONTENT}`)
+      this.dialogElement.current.querySelector(`.${CSS_CLASSES.CONTENT}`)
     );
   }
 
   get defaultButton(): HTMLButtonElement | null {
     return (
       this.dialogElement.current &&
-      this.dialogElement.current.querySelector(`.${cssClasses.DEFAULT_BUTTON}`)
+      this.dialogElement.current.querySelector(`.${CSS_CLASSES.DEFAULT_BUTTON}`)
     );
   }
 
@@ -332,7 +331,7 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
         ref={this.dialogElement}
       >
         {container}
-        <div className={cssClasses.SCRIM} />
+        <div className={CSS_CLASSES.SCRIM} />
       </Tag>
     );
   }
@@ -343,8 +342,8 @@ class Dialog<T extends HTMLElement = HTMLElement> extends React.Component<
     !children ? (
       undefined
     ) : (
-      <div className={cssClasses.CONTAINER}>
-        <div className={cssClasses.SURFACE}>
+      <div className={CSS_CLASSES.CONTAINER}>
+        <div className={CSS_CLASSES.SURFACE}>
           {React.Children.map(children as ChildTypes[], this.renderChild)}
         </div>
       </div>
