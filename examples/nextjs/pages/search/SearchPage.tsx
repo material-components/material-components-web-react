@@ -31,9 +31,9 @@ export default class SearchPage extends React.Component {
 
   search() {
     if (this.state.keyword) {
-      Router
-        .push({pathname: `/search-results/${this.state.keyword}`})
-        .catch(console.error);
+      Router.push({pathname: `/search-results/${this.state.keyword}`}).catch(
+        console.error
+      );
     } else {
       this.notifyEmpty();
     }
