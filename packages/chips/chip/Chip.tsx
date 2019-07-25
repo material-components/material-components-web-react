@@ -30,6 +30,8 @@ import {
 import {MDCChipFoundation} from '@material/chips/chip/foundation';
 import {MDCChipAdapter} from '@material/chips/chip/adapter';
 
+import {CSS_CLASSES} from './constant';
+
 export interface ChipProps extends InjectedProps<HTMLDivElement> {
   id?: string;
   label?: string;
@@ -123,7 +125,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;
-    return classnames('mdc-chip', Array.from(classList), className);
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className);
   }
 
   get adapter(): MDCChipAdapter {
@@ -241,8 +243,8 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       className: classnames(
         className,
         Array.from(leadingIconClassList),
-        'mdc-chip__icon',
-        'mdc-chip__icon--leading'
+        CSS_CLASSES.ICON,
+        CSS_CLASSES.ICON_LEADING
       ),
       ...otherProps,
     };
@@ -254,8 +256,8 @@ export class Chip extends React.Component<ChipProps, ChipState> {
     const props = {
       className: classnames(
         className,
-        'mdc-chip__icon',
-        'mdc-chip__icon--trailing'
+        CSS_CLASSES.ICON,
+        CSS_CLASSES.ICON_TRAILING
       ),
       onClick: this.handleTrailingIconClick,
       onKeyDown: this.handleTrailingIconClick,
@@ -302,7 +304,7 @@ export class Chip extends React.Component<ChipProps, ChipState> {
       >
         {leadingIcon && this.renderLeadingIcon(leadingIcon)}
         {chipCheckmark}
-        <div className='mdc-chip__text'>{label}</div>
+        <div className={CSS_CLASSES.TEXT}>{label}</div>
         {trailingIcon && this.renderTrailingIcon(trailingIcon)}
       </div>
     );

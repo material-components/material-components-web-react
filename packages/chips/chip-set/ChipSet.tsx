@@ -25,8 +25,8 @@ import classnames from 'classnames';
 import {MDCChipSetFoundation} from '@material/chips/chip-set/foundation';
 
 import {CSS_CLASSES} from './constant';
-import {ChipProps} from '../Chip';
-import ChipCheckmark from '../ChipCheckmark';
+import {ChipProps} from '../chip/Chip';
+import ChipCheckmark from '../chip/ChipCheckmark';
 
 type ChipType = React.ReactElement<ChipProps>;
 

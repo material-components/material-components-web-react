@@ -1,7 +1,7 @@
 import React from 'react';
 import {assert} from 'chai';
 import {mount} from 'enzyme';
-import ChipCheckmark from '../../../packages/chips/ChipCheckmark';
+import ChipCheckmark from '../../../packages/chips/chip/ChipCheckmark';
 
 suite('ChipCheckmark');
 

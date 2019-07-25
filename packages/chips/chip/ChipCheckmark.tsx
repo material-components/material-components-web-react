@@ -19,9 +19,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+import React from 'react';
+import {CSS_CLASSES} from './constant';
 
-import Chip, {ChipProps} from './chip/Chip';
-import ChipCheckmark from './chip/ChipCheckmark';
-import ChipSet, {ChipSetProps} from './chip-set/ChipSet';
+export default class ChipCheckmark extends React.Component<{}, {}> {
+  width: number = 0;
 
-export {Chip, ChipCheckmark, ChipSet, ChipSetProps, ChipProps};
+  init = (element: HTMLDivElement) => {
+    if (!element) {
+      return;
+    }
+    // The checkmark's width may initially be set to 0, so use the checkmark's height as a proxy since the
+    // checkmark should always be square.
+    this.width = element.getBoundingClientRect().height;
+  };
+
+  render() {
+    return (
+      <div className={CSS_CLASSES.CHECKMARK} ref={this.init}>
+        <svg
+          className={CSS_CLASSES.CHECKMARK_SVG}
+          viewBox='-2 -3 30 30'
+          focusable='false'
+        >
+          <path
+            className={CSS_CLASSES.CHECKMARK_PATH}
+            fill='none'
+            stroke='black'
+            d='M1.73,12.91 8.1,19.28 22.79,4.59'
+          />
+        </svg>
+      </div>
+    );
+  }
+}

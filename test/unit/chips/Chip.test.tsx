@@ -2,8 +2,8 @@ import React from 'react';
 import {assert} from 'chai';
 import {mount, shallow} from 'enzyme';
 import td from 'testdouble';
-import {Chip} from '../../../packages/chips/Chip';
-import ChipCheckmark from '../../../packages/chips/ChipCheckmark';
+import {Chip} from '../../../packages/chips/chip/Chip';
+import ChipCheckmark from '../../../packages/chips/chip/ChipCheckmark';
 import {coerceForTesting} from '../helpers/types';
 import {MDCChipAdapter} from '@material/chips/chip/adapter';
 
