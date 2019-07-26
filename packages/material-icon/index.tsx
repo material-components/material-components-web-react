@@ -29,6 +29,8 @@ import {
   RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
 
+import {CSS_CLASSES} from './constants';
+
 export interface MaterialIconDefaultProps
   extends React.HTMLAttributes<HTMLElement> {
   icon?: string;
@@ -49,8 +51,8 @@ const MaterialIconDefault: React.FunctionComponent<MaterialIconProps> = ({
   unbounded, // eslint-disable-line @typescript-eslint/no-unused-vars
   ...otherProps
 }) => {
-  const classes = classnames('material-icons', className, {
-    'material-icons--ripple-surface': hasRipple,
+  const classes = classnames(CSS_CLASSES.ROOT, className, {
+    [CSS_CLASSES.RIPPLE_SURFACE]: hasRipple,
   });
   return (
     <i className={classes} ref={initRipple} {...otherProps}>
