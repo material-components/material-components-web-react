@@ -30,6 +30,8 @@ import {
   // @ts-ignore TODO(issues/955) Remove once possible
   RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
+
+import {CSS_CLASSES} from './constants';
 import NativeControl, {NativeControlProps} from './NativeControl'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface RadioProps
@@ -115,7 +117,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
   get classes() {
     const {classList} = this.state;
     const {className} = this.props;
-    return classnames('mdc-radio', Array.from(classList), className);
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className);
   }
 
   get adapter(): MDCRadioAdapter {
@@ -151,9 +153,9 @@ class Radio extends React.Component<RadioProps, RadioState> {
       <div className={classnames('mdc-form-field', wrapperClasses)}>
         <div className={this.classes} ref={this.radioElement} {...otherProps}>
           {this.renderNativeControl()}
-          <div className='mdc-radio__background'>
-            <div className='mdc-radio__outer-circle' />
-            <div className='mdc-radio__inner-circle' />
+          <div className={CSS_CLASSES.BACKGROUND}>
+            <div className={CSS_CLASSES.OUTER_CIRCLE} />
+            <div className={CSS_CLASSES.INNER_CIRCLE} />
           </div>
         </div>
         {label ? <label htmlFor={nativeControlId}>{label}</label> : null}

@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,31 +18,15 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
+import {cssClasses} from '@material/radio/constants';
 
-import {CSS_CLASSES} from './constants';
-
-export interface NativeControlProps extends React.HTMLProps<HTMLInputElement> {
-  className?: string;
-  rippleActivatorRef?: React.RefObject<HTMLInputElement>;
-}
-
-const NativeControl: React.FunctionComponent<NativeControlProps> = ({
-  rippleActivatorRef,
-  className = '',
-  ...otherProps
-}) => {
-  return (
-    <input
-      type='radio'
-      className={classnames(CSS_CLASSES.NATIVE_CONTROL, className)}
-      ref={rippleActivatorRef}
-      {...otherProps}
-    />
-  );
+const CSS_CLASSES = {
+  ...cssClasses,
+  BACKGROUND: 'mdc-radio__background',
+  INNER_CIRCLE: 'mdc-radio__inner-circle',
+  NATIVE_CONTROL: 'mdc-radio__native-control',
+  OUTER_CIRCLE: 'mdc-radio__outer-circle',
 };
 
-export default NativeControl;
+export {CSS_CLASSES};
