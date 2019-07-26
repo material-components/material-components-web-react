@@ -25,6 +25,8 @@ import classnames from 'classnames';
 import {MDCSelectHelperTextAdapter} from '@material/select/helper-text/adapter';
 import {MDCSelectHelperTextFoundation} from '@material/select/helper-text/foundation';
 
+import {CSS_CLASSES} from './constants';
+
 export interface SelectHelperTextProps
   extends React.HTMLProps<HTMLParagraphElement> {
   persistent?: boolean;
@@ -72,14 +74,9 @@ export class SelectHelperText extends React.Component<
   get classes() {
     const {className, persistent} = this.props;
     const {classList} = this.state;
-    return classnames(
-      'mdc-select-helper-text',
-      Array.from(classList),
-      className,
-      {
-        'mdc-select-helper-text--persistent': persistent,
-      }
-    );
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className, {
+      [CSS_CLASSES.PERSISTENT]: persistent,
+    });
   }
 
   get adapter(): MDCSelectHelperTextAdapter {

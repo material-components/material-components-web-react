@@ -25,6 +25,8 @@ import classnames from 'classnames';
 import {MDCSelectIconAdapter} from '@material/select/icon/adapter';
 import {MDCSelectIconFoundation} from '@material/select/icon/foundation';
 
+import {CSS_CLASSES} from './constants';
+
 export interface SelectIconProps extends React.HTMLProps<HTMLElement> {
   setIconFoundation?: (foundation?: MDCSelectIconFoundation) => void;
   tag?: keyof React.ReactHTML;
@@ -94,7 +96,7 @@ export class SelectIcon extends React.Component<
         this.setState((prevState) => ({...prevState, [attr]: null}));
       },
       setContent: () => {
-        // not implmenting because developer should would never call `setContent()`
+        // not implementing because developer should would never call `setContent()`
       },
       // the adapter methods below are effectively useless since React
       // handles events and width differently
@@ -116,7 +118,7 @@ export class SelectIcon extends React.Component<
     return (
       // @ts-ignore  https://github.com/Microsoft/TypeScript/issues/28892
       <Tag
-        className={classnames('mdc-select__icon', className)}
+        className={classnames(CSS_CLASSES.ROOT, className)}
         role={role}
         tabIndex={tabIndex}
         {...otherProps}

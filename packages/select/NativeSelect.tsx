@@ -22,7 +22,9 @@
 
 import React from 'react';
 import classnames from 'classnames';
+
 import {CommonSelectProps} from './BaseSelect';
+import {CSS_CLASSES} from './constants';
 
 type RefCallback<T> = (node: T | null) => void;
 
@@ -50,7 +52,7 @@ export default class NativeSelect extends React.Component<
   };
 
   get classes() {
-    return classnames('mdc-select__native-control', this.props.className);
+    return classnames(CSS_CLASSES.NATIVE_CONTROL, this.props.className);
   }
 
   attachRef = (node: HTMLSelectElement | null) => {

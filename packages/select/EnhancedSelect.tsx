@@ -21,11 +21,14 @@
 // THE SOFTWARE.
 
 import React from 'react';
-import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
 import Menu, {MenuList} from '@material/react-menu';
+import MDCSelectFoundation from '@material/select/foundation';
+import {MDCMenuSurfaceFoundation} from '@material/menu-surface/foundation';
+
 import {OptionProps} from './Option'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {CommonSelectProps} from './BaseSelect';
-import MDCSelectFoundation from '@material/select/foundation';
+
+import {CSS_CLASSES} from './constants';
 
 const {Corner} = MDCMenuSurfaceFoundation;
 const TRUE = 'true';
@@ -187,7 +190,7 @@ export default class EnhancedSelect extends React.Component<
           value={selectedValue}
         />
         <div
-          className='mdc-select__selected-text'
+          className={CSS_CLASSES.SELECTED_TEXT}
           {...selectedTextAttrs}
           ref={this.selectedTextEl}
           tabIndex={disabled ? -1 : 0}
@@ -201,7 +204,7 @@ export default class EnhancedSelect extends React.Component<
           {selectedItem ? (selectedItem as Element).textContent!.trim() : ''}
         </div>
         <Menu
-          className='mdc-select__menu'
+          className={CSS_CLASSES.MENU}
           onClose={this.handleMenuClose}
           onOpen={this.handleMenuOpen}
           open={open}

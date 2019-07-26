@@ -30,13 +30,12 @@ import NotchedOutline from '@material/react-notched-outline';
 import MDCSelectHelperTextFoundation from '@material/select/helper-text/foundation';
 import MDCSelectIconFoundation from '@material/select/icon/foundation';
 
+import {CSS_CLASSES} from './constants';
 import {BaseSelect, BaseSelectProps} from './BaseSelect';
 import {EnhancedChild} from './EnhancedSelect'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import Option, {OptionProps} from './Option'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import {SelectHelperTextProps} from './helper-text/index';
 import {SelectIconProps} from './icon/index';
-
-const {cssClasses} = MDCSelectFoundation;
 
 type SelectOptionsType = (string | React.HTMLProps<HTMLOptionElement>)[];
 type NativeChild = React.ReactElement<OptionProps<HTMLElement>>;
@@ -170,11 +169,11 @@ export default class Select<
   get classes() {
     const {classList, disabled} = this.state;
     const {className, leadingIcon, required, outlined} = this.props;
-    return classnames('mdc-select', Array.from(classList), className, {
-      'mdc-select--outlined': outlined,
-      'mdc-select--disabled': disabled,
-      'mdc-select--required': required,
-      'mdc-select--with-leading-icon': leadingIcon,
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className, {
+      [CSS_CLASSES.OUTLINED]: outlined,
+      [CSS_CLASSES.DISABLED]: disabled,
+      [CSS_CLASSES.REQUIRED]: required,
+      [CSS_CLASSES.WITH_LEADING_ICON]: leadingIcon,
     });
   }
 
@@ -306,9 +305,9 @@ export default class Select<
 
   setValidClasses = (isValid: boolean) => {
     if (isValid) {
-      this.removeClass(cssClasses.INVALID);
+      this.removeClass(CSS_CLASSES.INVALID);
     } else {
-      this.addClass(cssClasses.INVALID);
+      this.addClass(CSS_CLASSES.INVALID);
     }
   };
 
@@ -330,7 +329,7 @@ export default class Select<
       <React.Fragment>
         <div className={this.classes} ref={this.state.selectElement}>
           {this.renderIcon()}
-          <i className='mdc-select__dropdown-icon' />
+          <i className={CSS_CLASSES.DROPDOWN_ICON} />
           {this.renderSelect()}
           {this.props.outlined ? null : this.renderLabel()}
           {this.props.outlined

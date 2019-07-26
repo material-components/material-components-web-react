@@ -21,13 +21,14 @@
 // THE SOFTWARE.
 
 import React from 'react';
+import {MDCSelectFoundation} from '@material/select/foundation';
+
 import NativeSelect, {
   NativeSelectProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from './NativeSelect';
 import EnhancedSelect, {
   EnhancedSelectProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from './EnhancedSelect';
-import {MDCSelectFoundation} from '@material/select/foundation';
 
 export type BaseSelectProps<T extends HTMLElement> = T extends HTMLSelectElement
   ? NativeSelectProps
