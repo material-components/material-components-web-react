@@ -21,8 +21,6 @@
 
 import {cssClasses} from '@material/menu-surface/constants';
 
-const CSS_CLASSES = {
-  ...cssClasses,
-};
+const CSS_CLASSES = {...cssClasses};
 
 export {CSS_CLASSES};
