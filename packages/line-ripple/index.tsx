@@ -25,6 +25,8 @@ import classnames from 'classnames';
 import {MDCLineRippleFoundation} from '@material/line-ripple/foundation';
 import {MDCLineRippleAdapter} from '@material/line-ripple/adapter';
 
+import {CSS_CLASSES} from './constants';
+
 export interface LineRippleProps extends React.HTMLProps<HTMLDivElement> {
   className?: string;
   active?: boolean;
@@ -106,7 +108,7 @@ export default class LineRipple extends React.Component<
   get classes() {
     const {className} = this.props;
     const {classList} = this.state;
-    return classnames('mdc-line-ripple', Array.from(classList), className);
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className);
   }
 
   setStyle = (varName: string, value: string) => {
