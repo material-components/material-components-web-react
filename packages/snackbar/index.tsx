@@ -26,6 +26,8 @@ import classnames from 'classnames';
 import {MDCSnackbarFoundation} from '@material/snackbar/foundation';
 import {MDCSnackbarAdapter} from '@material/snackbar/adapter';
 
+import {CSS_CLASSES} from './constants';
+
 export interface Props {
   message: string;
   className?: string;
@@ -61,11 +63,11 @@ export class Snackbar extends React.Component<Props, State> {
     const {timeoutMs, closeOnEscape, leading, stacked} = this.props;
     const classes = new Set<string>();
     if (leading) {
-      classes.add('mdc-snackbar--leading');
+      classes.add(CSS_CLASSES.LEADING);
     }
 
     if (stacked) {
-      classes.add('mdc-snackbar--stacked');
+      classes.add(CSS_CLASSES.STACKED);
     }
 
     this.state = {
@@ -167,23 +169,23 @@ export class Snackbar extends React.Component<Props, State> {
   get classes() {
     return classnames(
       this.props.className,
-      'mdc-snackbar',
+      CSS_CLASSES.ROOT,
       ...Array.from(this.state.classes)
     );
   }
   render() {
     return (
       <div className={this.classes} onKeyDown={this.handleKeyDown}>
-        <div className='mdc-snackbar__surface'>
-          <div className='mdc-snackbar__label' role='status' aria-live='polite'>
+        <div className={CSS_CLASSES.SURFACE}>
+          <div className={CSS_CLASSES.LABEL} role='status' aria-live='polite'>
             {this.props.message}
           </div>
           {this.props.actionText ? (
-            <div className='mdc-snackbar__actions'>
+            <div className={CSS_CLASSES.ACTIONS}>
               <button
                 type='button'
                 onClick={this.handleActionClick}
-                className='mdc-button mdc-snackbar__action'
+                className={classnames('mdc-button', CSS_CLASSES.ACTION)}
               >
                 {this.props.actionText}
               </button>
