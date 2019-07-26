@@ -28,6 +28,8 @@ import {MDCMenuSurfaceAdapter} from '@material/menu-surface/adapter';
 import {Corner} from '@material/menu-surface/index';
 import {MDCMenuDistance} from '@material/menu-surface/types';
 
+import {CSS_CLASSES} from './constants';
+
 export interface MenuSurfaceProps extends React.HTMLProps<HTMLDivElement> {
   anchorElement?: HTMLElement;
   anchorCorner?: number;
@@ -176,8 +178,8 @@ class MenuSurface extends React.Component<MenuSurfaceProps, MenuSurfaceState> {
   get classes(): string {
     const {fixed, className} = this.props;
     const {classList} = this.state;
-    return classnames('mdc-menu-surface', Array.from(classList), className, {
-      'mdc-menu-surface--fixed': fixed,
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className, {
+      [CSS_CLASSES.FIXED]: fixed,
     });
   }
 
