@@ -29,8 +29,8 @@ import {
   // @ts-ignore TODO(issues/955) Remove once possible
   RippledComponentProps, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from '@material/react-ripple';
-import {MDCListFoundation} from '@material/list/foundation';
 
+import {CSS_CLASSES, STRINGS} from './constants';
 import {ListItemContext, ListItemContextShape} from './index';
 
 export interface ListItemProps<T extends HTMLElement = HTMLElement>
@@ -82,13 +82,11 @@ export class ListItemBase<
     if (this.listItemElement.current) {
       const listElement = closest(
         this.listItemElement.current,
-        `.${MDCListFoundation.cssClasses.ROOT}`
+        `.${CSS_CLASSES.ROOT}`
       );
       if (!listElement) return [];
       return [].slice.call(
-        listElement.querySelectorAll(
-          MDCListFoundation.strings.ENABLED_ITEMS_SELECTOR
-        )
+        listElement.querySelectorAll(STRINGS.ENABLED_ITEMS_SELECTOR)
       );
     }
     return [];
@@ -127,10 +125,10 @@ export class ListItemBase<
       const index = this.getIndex(this.listItemElement.current);
       classesFromList = getClassNamesFromList!()[index];
     }
-    return classnames('mdc-list-item', className, classesFromList, {
-      [MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS]: activated,
-      [MDCListFoundation.cssClasses.LIST_ITEM_SELECTED_CLASS]: selected,
-      'mdc-list-item--disabled': disabled,
+    return classnames(CSS_CLASSES.ITEM, className, classesFromList, {
+      [CSS_CLASSES.ITEM_ACTIVATED]: activated,
+      [CSS_CLASSES.ITEM_SELECTED]: selected,
+      [CSS_CLASSES.ITEM_DISABLED]: disabled,
     });
   }
 

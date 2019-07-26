@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2018 Google, Inc.
+// Copyright (c) 2019 Google, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,31 +18,29 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
 
-import React from 'react';
-import classnames from 'classnames';
+import {cssClasses, strings} from '@material/list/constants';
 
-import {CSS_CLASSES} from './constants';
-
-export interface ListGroupProps extends React.HTMLProps<HTMLElement> {
-  className?: string;
-  tag?: string;
-}
-
-const ListGroup: React.FunctionComponent<ListGroupProps> = ({
-  tag: Tag = 'div',
-  className = '',
-  children,
-  ...otherProps
-}) => {
-  return (
-    // https://github.com/Microsoft/TypeScript/issues/28892
-    // @ts-ignore
-    <Tag className={classnames(CSS_CLASSES.GROUP, className)} {...otherProps}>
-      {children}
-    </Tag>
-  );
+const CSS_CLASSES = {
+  ...cssClasses,
+  AVATAR_LIST: 'mdc-list--avatar-list',
+  DENSE: 'mdc-list--dense',
+  DIVIDER: 'mdc-list-divider',
+  GROUP: 'mdc-list-group',
+  GROUP_SUBHEADER: 'mdc-list-group__subheader',
+  ITEM: 'mdc-list-item',
+  ITEM_ACTIVATED: cssClasses.LIST_ITEM_ACTIVATED_CLASS,
+  ITEM_DISABLED: 'mdc-list-item--disabled',
+  ITEM_GRAPHIC: 'mdc-list-item__graphic',
+  ITEM_META: 'mdc-list-item__meta',
+  ITEM_PRIMARY_TEXT: 'mdc-list-item__primary-text',
+  ITEM_SECONDARY_TEXT: 'mdc-list-item__secondary-text',
+  ITEM_TEXT: 'mdc-list-item__text',
+  ITEM_SELECTED: cssClasses.LIST_ITEM_SELECTED_CLASS,
+  NON_INTERACTIVE: 'mdc-list--non-interactive',
+  TWO_LINE: 'mdc-list--two-line',
 };
 
-export default ListGroup;
+const STRINGS = {...strings};
+
+export {CSS_CLASSES, STRINGS};

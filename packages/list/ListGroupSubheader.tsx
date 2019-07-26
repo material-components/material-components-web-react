@@ -22,6 +22,9 @@
 
 import React from 'react';
 import classnames from 'classnames';
+
+import {CSS_CLASSES} from './constants';
+
 export interface ListGroupSubheaderProps extends React.HTMLProps<HTMLElement> {
   className?: string;
   tag?: string;
@@ -37,7 +40,7 @@ const ListGroupSubheader: React.FunctionComponent<ListGroupSubheaderProps> = ({
     // https://github.com/Microsoft/TypeScript/issues/28892
     // @ts-ignore
     <Tag
-      className={classnames('mdc-list-group__subheader', className)}
+      className={classnames(CSS_CLASSES.GROUP_SUBHEADER, className)}
       {...otherProps}
     >
       {children}

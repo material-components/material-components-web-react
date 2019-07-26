@@ -28,6 +28,7 @@ import {MDCListAdapter} from '@material/list/adapter';
 // @ts-ignore @types cannot be used on dist files
 import memoizeOne from 'memoize-one/dist/memoize-one.cjs.js';
 
+import {CSS_CLASSES} from './constants';
 import ListItem, {ListItemProps} from './ListItem'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import ListItemGraphic from './ListItemGraphic';
 import ListItemText from './ListItemText';
@@ -205,11 +206,11 @@ export default class List extends React.Component<ListProps, ListState> {
 
   get classes() {
     const {className, nonInteractive, dense, avatarList, twoLine} = this.props;
-    return classnames('mdc-list', className, {
-      'mdc-list--non-interactive': nonInteractive,
-      'mdc-list--dense': dense,
-      'mdc-list--avatar-list': avatarList,
-      'mdc-list--two-line': twoLine,
+    return classnames(CSS_CLASSES.ROOT, className, {
+      [CSS_CLASSES.NON_INTERACTIVE]: nonInteractive,
+      [CSS_CLASSES.DENSE]: dense,
+      [CSS_CLASSES.AVATAR_LIST]: avatarList,
+      [CSS_CLASSES.TWO_LINE]: twoLine,
     });
   }
 
