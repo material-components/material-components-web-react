@@ -25,6 +25,8 @@ import React from 'react';
 import {MDCLinearProgressFoundation} from '@material/linear-progress/foundation';
 import {MDCLinearProgressAdapter} from '@material/linear-progress/adapter';
 
+import {CSS_CLASSES} from './constants';
+
 export interface LinearProgressProps<T> extends React.HTMLProps<T> {
   buffer?: number;
   bufferingDots?: boolean;
@@ -151,9 +153,9 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
   get classes() {
     const {className, indeterminate, reversed} = this.props;
     const {classList} = this.state;
-    return classnames('mdc-linear-progress', Array.from(classList), className, {
-      'mdc-linear-progress--indeterminate': indeterminate,
-      'mdc-linear-progress--reversed': reversed,
+    return classnames(CSS_CLASSES.ROOT, Array.from(classList), className, {
+      [CSS_CLASSES.INDETERMINATE]: indeterminate,
+      [CSS_CLASSES.REVERSED_CLASS]: reversed,
     });
   }
 
@@ -175,18 +177,16 @@ class LinearProgress<T extends {} = HTMLDivElement> extends React.Component<
       // https://github.com/Microsoft/TypeScript/issues/28892
       // @ts-ignore
       <Tag className={this.classes} role='progressbar' {...otherProps}>
-        {bufferingDots && (
-          <div className='mdc-linear-progress__buffering-dots' />
-        )}
-        <div className='mdc-linear-progress__buffer' ref={this.bufferElement} />
+        {bufferingDots && <div className={CSS_CLASSES.BUFFERING_DOTS} />}
+        <div className={CSS_CLASSES.BUFFER} ref={this.bufferElement} />
         <div
-          className='mdc-linear-progress__bar mdc-linear-progress__primary-bar'
+          className={classnames(CSS_CLASSES.BAR, CSS_CLASSES.PRIMARY_BAR)}
           ref={this.primaryBarElement}
         >
-          <span className='mdc-linear-progress__bar-inner' />
+          <span className={CSS_CLASSES.BAR_INNER} />
         </div>
-        <div className='mdc-linear-progress__bar mdc-linear-progress__secondary-bar'>
-          <span className='mdc-linear-progress__bar-inner' />
+        <div className={classnames(CSS_CLASSES.BAR, CSS_CLASSES.SECONDARY_BAR)}>
+          <span className={CSS_CLASSES.BAR_INNER} />
         </div>
       </Tag>
     );
