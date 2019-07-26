@@ -25,10 +25,10 @@ import classnames from 'classnames';
 import {MDCMenuFoundation} from '@material/menu/foundation';
 import {MDCMenuAdapter} from '@material/menu/adapter';
 import MenuSurface, {MenuSurfaceProps} from '@material/react-menu-surface';
+
+import {CSS_CLASSES} from './constants';
 import MenuList, {MenuListProps} from './MenuList';
 import MenuListItem from './MenuListItem';
-
-const {cssClasses} = MDCMenuFoundation;
 
 export interface MenuProps extends MenuSurfaceProps {
   children: React.ReactElement<MenuList>;
@@ -117,7 +117,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       getParentElement: (element) => element.parentElement,
       getSelectedElementIndex: (selectionGroup) => {
         const selectedListItem = selectionGroup.querySelector(
-          `.${cssClasses.MENU_SELECTED_LIST_ITEM}`
+          `.${CSS_CLASSES.ITEM_SELECTED}`
         );
         return selectedListItem
           ? this.listElements.indexOf(selectedListItem)
@@ -158,7 +158,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
       <MenuSurface
         tabIndex={-1}
         open={this.state.open}
-        className={classnames('mdc-menu', className)}
+        className={classnames(CSS_CLASSES.ROOT, className)}
         onKeyDown={this.handleKeyDown}
         onOpen={this.handleOpen}
         {...otherProps}
