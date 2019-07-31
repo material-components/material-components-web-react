@@ -26,7 +26,7 @@ import {MDCTextFieldHelperTextFoundation} from '@material/textfield/helper-text/
 
 const cssClasses = MDCTextFieldHelperTextFoundation.cssClasses;
 
-export interface HelperTextProps {
+export interface HelperTextProps extends React.HTMLProps<HTMLParagraphElement> {
   'aria-hidden'?: boolean;
   children: React.ReactNode;
   className?: string;
@@ -135,13 +135,29 @@ export default class HelperText extends React.Component<
   }
 
   render() {
+    const {
+      children,
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      'aria-hidden': ariaHidden,
+      className,
+      isValid,
+      isValidationMessage,
+      persistent,
+      role,
+      showToScreenReader,
+      validation,
+      /* eslint-enable @typescript-eslint/no-unused-vars */
+      ...otherProps
+    } = this.props;
+
     return (
       <p
         className={this.classes}
         role={this.state.role}
         aria-hidden={this.state['aria-hidden']}
+        {...otherProps}
       >
-        {this.props.children}
+        {children}
       </p>
     );
   }

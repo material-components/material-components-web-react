@@ -74,6 +74,14 @@ test('sets validity to false if props.isValid is initially false', () => {
   );
   assert.equal(wrapper.state().role, undefined);
 });
+
+test('spreads other props onto paragraph element', () => {
+  const wrapper = shallow<HelperText>(
+    <HelperText id='description'>Helper Text</HelperText>
+  );
+  assert.equal(wrapper.find('p').prop('id'), 'description');
+});
+
 test(
   '#componentDidUpdate calls #foundation.showToScreenReader if ' +
     'props.showToScreenReader updates',
