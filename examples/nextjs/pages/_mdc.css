@@ -1,0 +1,16 @@
+:root {
+  --mdc-theme-primary: #DFE1E5;
+  --mdc-theme-on-primary: #5F6368;
+}
+
+.mdc-notched-outline {
+  box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
+}
+
+.mdc-notched-outline__leading,
+.mdc-notched-outline__trailing {
+  border-color: white!important;
+}
+
+@import '~@material/react-button/dist/button.min.css';
+@import '~@material/react-text-field/dist/text-field.min.css';
