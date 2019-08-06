@@ -40,7 +40,7 @@ const ListItemMeta: React.FunctionComponent<ListItemMetaProps> = ({
   if (typeof meta === 'string') {
     metaElement = <span>{meta}</span>;
   } else {
-    metaElement = meta;
+    metaElement = <div>{meta}</div>;
   }
   const metaProps = {
     className: classnames(
