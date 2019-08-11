@@ -130,28 +130,30 @@ class Slider extends React.Component<SliderProps, SliderState> {
       // React handles events differently:
       registerInteractionHandler: () => undefined,
       deregisterInteractionHandler: () => undefined,
-      registerThumbContainerInteractionHandler: (
-        evtType: EventType,
-        handler: SpecificEventListener<EventType>
+      registerThumbContainerInteractionHandler: <K extends EventType>(
+        evtType: K,
+        handler: SpecificEventListener<K>
       ) => {
         if (evtType === this.transitionendEvtName) {
           this.onThumbEnd = handler as () => void;
         }
       },
-      deregisterThumbContainerInteractionHandler: (evtType: EventType) => {
+      deregisterThumbContainerInteractionHandler: <K extends EventType>(
+        evtType: K
+      ) => {
         if (evtType === this.transitionendEvtName) {
           this.onThumbEnd = undefined;
         }
       },
-      registerBodyInteractionHandler: (
-        evtType: EventType,
-        handler: SpecificEventListener<EventType>
+      registerBodyInteractionHandler: <K extends EventType>(
+        evtType: K,
+        handler: SpecificEventListener<K>
       ) => {
         document.body.addEventListener(evtType, handler);
       },
-      deregisterBodyInteractionHandler: (
-        evtType: EventType,
-        handler: SpecificEventListener<EventType>
+      deregisterBodyInteractionHandler: <K extends EventType>(
+        evtType: K,
+        handler: SpecificEventListener<K>
       ) => {
         document.body.removeEventListener(evtType, handler);
       },
@@ -201,10 +203,8 @@ class Slider extends React.Component<SliderProps, SliderState> {
           const last = markerStyles.length - 1;
           markerStyles = markerStyles.slice();
           const clone = Object.assign({}, markerStyles[last]);
-          // we need to cast prop from string (interface requirement) to React.CSSProperties;
-          const typedProp = propertyName as keyof React.CSSProperties;
-          // https://github.com/Microsoft/TypeScript/issues/11914
-          clone[typedProp] = value;
+          // @ts-ignore CSS values now strongly typed
+          clone[propertyName as keyof React.CSSProperties] = value;
           markerStyles[last] = clone;
           return {markerStyles};
         });
@@ -316,7 +316,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
         onPointerDown={this.onDown}
         onTouchStart={this.onDown}
         onKeyDown={this.onKeyDown}
-        {...otherProps as React.HTMLProps<HTMLDivElement>}
+        {...(otherProps as React.HTMLProps<HTMLDivElement>)}
       >
         <div className='mdc-slider__track-container'>
           <div className='mdc-slider__track' style={trackStyleProperty} />

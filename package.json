@@ -87,6 +87,7 @@
     "@material/radio": "^1.1.0",
     "@material/ripple": "^1.0.0",
     "@material/select": "^1.1.1",
+    "@material/slider": "^2.3.0",
     "@material/snackbar": "^1.0.0",
     "@material/tab": "^1.0.0",
     "@material/tab-bar": "^1.0.0",
