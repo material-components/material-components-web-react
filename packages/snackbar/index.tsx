@@ -32,6 +32,7 @@ export interface Props {
   timeoutMs?: number;
   closeOnEscape?: boolean;
   actionText?: string;
+  dismissible?: boolean;
   leading?: boolean;
   stacked?: boolean;
   open?: boolean;
@@ -54,6 +55,7 @@ export class Snackbar extends React.Component<Props, State> {
     open: true,
     stacked: false,
     leading: false,
+    dismissible: false,
   };
 
   constructor(props: Props) {
@@ -145,6 +147,9 @@ export class Snackbar extends React.Component<Props, State> {
   handleActionClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     this.foundation.handleActionButtonClick(e.nativeEvent);
   };
+  handleDismissClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    this.foundation.handleActionIconClick(e.nativeEvent);
+  };
   componentDidMount() {
     this.foundation.init();
     if (this.props.open) {
@@ -178,15 +183,26 @@ export class Snackbar extends React.Component<Props, State> {
           <div className='mdc-snackbar__label' role='status' aria-live='polite'>
             {this.props.message}
           </div>
-          {this.props.actionText ? (
+          {this.props.actionText || this.props.dismissible ? (
             <div className='mdc-snackbar__actions'>
-              <button
-                type='button'
-                onClick={this.handleActionClick}
-                className='mdc-button mdc-snackbar__action'
-              >
-                {this.props.actionText}
-              </button>
+              {this.props.actionText ? (
+                <button
+                  type='button'
+                  onClick={this.handleActionClick}
+                  className='mdc-button mdc-snackbar__action'
+                >
+                  {this.props.actionText}
+                </button>
+              ) : null}
+              {this.props.dismissible ? (
+                <button
+                  className='mdc-icon-button mdc-snackbar__dismiss material-icons'
+                  title='Dismiss'
+                  onClick={this.handleDismissClick}
+                >
+                  close
+                </button>
+              ) : null}
             </div>
           ) : null}
         </div>

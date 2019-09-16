@@ -20,6 +20,7 @@ class ProgramaticSnackbar extends React.Component {
           message='Example'
           actionText='action'
           open={this.state.isOpen}
+          dismissible={true}
           onClose={() => this.setState({isOpen: false})}
         />
       </React.Fragment>
@@ -40,6 +41,9 @@ const SnackbarScreenshotTest = () => {
       </div>
       <div className='snackbar-container'>
         <Snackbar message='Example' stacked={true} actionText='action' />
+      </div>
+      <div className='snackbar-container'>
+        <Snackbar message='Example' dismissible={true} actionText='action' />
       </div>
       <div className='snackbar-container'>
         <ProgramaticSnackbar />
