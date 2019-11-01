@@ -10,7 +10,7 @@
 
 > In order to increase our focus on implementing our core, framework-independent libraries ([MDC-Web](https://github.com/material-components/material-components-web) and [MWC](https://github.com/material-components/material-components-web-components)), we’re passing the Material+React baton back to the community. That means Material Design will no longer be updating and maintaining this repo. We recommend that you switch to another implementation and keep building beautiful, usable apps based on Material Design. Thanks for being part of the project!
 
-MDC React is the official implementation of Google's Material Design Components. It is a wrapper library for [MDC Web](https://github.com/material-components/material-components-web). Please refer to our [MDC Web Catalog](https://material-components.github.io/material-components-web-catalog/#/) to play and interact with the Components.
+MDC React was an official implementation of Google's Material Design components for React. It is a wrapper library for [MDC Web](https://github.com/material-components/material-components-web). Please refer to our [MDC Web Catalog](https://material-components.github.io/material-components-web-catalog/#/) to play and interact with the Components.
 
 ![mpmgq9h6b9x](https://user-images.githubusercontent.com/579873/44939654-d8fdfd80-ad3b-11e8-9b64-6244cb5e6886.png)
 
