@@ -68,6 +68,28 @@ test('renders stacked actions', () => {
   wrapper.unmount();
 });
 
+test('renders dismiss action', () => {
+  const wrapper = shallow(
+    <Snackbar dismissible={true} message='example' actionText='action' />
+  );
+  assert.equal(wrapper.find('.mdc-snackbar__actions').length, 1);
+  assert.equal(wrapper.find('.mdc-snackbar__dismiss').length, 1);
+  wrapper.unmount();
+});
+
+test('dismiss action click closes the snackbar with reason "dismiss"', () => {
+  const wrapper = shallow<Snackbar>(
+    <Snackbar open={true} dismissible={true} message='example' />
+  );
+  const reason = 'dismiss';
+  wrapper.instance().foundation.close = td.func<(reason: string) => void>();
+  wrapper.find('.mdc-snackbar__dismiss').simulate('click', {
+    nativeEvent: {},
+  });
+  td.verify(wrapper.instance().foundation.close(reason), {times: 1});
+  wrapper.unmount();
+});
+
 test('#componentDidUpdate calls foundation.open if props.open is true', () => {
   const wrapper = shallow<Snackbar>(
     <Snackbar open={false} message='example' actionText='action' />
