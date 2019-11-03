@@ -39,6 +39,7 @@ export interface FabProps
   icon?: React.ReactElement<HTMLElement>;
   textLabel?: string;
   className?: string;
+  iconFirst?: boolean;
   initRipple?: React.Ref<HTMLButtonElement>;
   unbounded?: boolean;
 }
@@ -71,6 +72,7 @@ export const Fab: React.FunctionComponent<
   mini = false,
   icon,
   textLabel = '',
+  iconFirst = true,
   className = '',
   initRipple = () => {},
   unbounded, // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -85,8 +87,9 @@ export const Fab: React.FunctionComponent<
 
   return (
     <button className={classes} ref={initRipple} {...otherProps}>
-      <Icon icon={icon} />
+      {iconFirst === true && <Icon icon={icon} />}
       <TextLabel textLabel={textLabel} />
+      {iconFirst === false && <Icon icon={icon} />}
     </button>
   );
 };
