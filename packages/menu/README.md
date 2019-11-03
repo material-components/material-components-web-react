@@ -21,8 +21,8 @@ import '@material/react-menu/index.scss';
 
 with CSS:
 ```js
-import '@material/react-list/dist/menu.css';
-import '@material/react-menu-surface/dist/menu.css';
+import '@material/react-list/dist/list.css';
+import '@material/react-menu-surface/dist/menu-surface.css';
 import '@material/react-menu/dist/menu.css';
 ```
 
