@@ -292,7 +292,7 @@ class MyApp extends Component {
 | checkboxList     | Boolean                                 | Set the list to act as a checkbox list |
 | radioList        | Boolean                                 | Set the list to act as a radio list |
 | selectedIndex    | Number | Array<Number>       | Toggles the selected state of the list item at the given index. Behaves differently for checkboxList and radioList (see sections above for more detail). |
-| handleSelect     | Function(activatedItemIndex: Number, selected: Number | Array<Number>) => void | Callback for handling a list item selection event. `selected` will be an Array,Number> for checkbox lists. |
+| handleSelect     | Function(activatedItemIndex: Number, selected: Number \| Array<Number>) => void | Callback for handling a list item selection event. `selected` will be an Array,Number> for checkbox lists. |
 | orientation | `'vertical'` \| `'horizontal'` | Indicates the list orientation (defaults to `'vertical'`). |
 | tag              | String                                  | Customizes the list tag type (defaults to `'ul'`)                                                                                 |
 
