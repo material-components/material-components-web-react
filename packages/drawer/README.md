@@ -389,7 +389,7 @@ class Drawer extends Component {
         <Drawer
           modal
           open={this.state.open}
-          onClose={this.drawerOnClose}
+          onClose={this.onDrawerClose}
         >
           <List>
             <ListItem onClick={this.onListItemClick}>
