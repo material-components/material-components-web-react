@@ -13,7 +13,7 @@
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2",
     "clean-webpack-plugin": "^3.0.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
     "@material/theme": "^3.0.0",
